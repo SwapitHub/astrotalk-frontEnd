@@ -1,14 +1,14 @@
-import MyWalletHome from "./MyWalletHome";
+// import MyWalletHome from "./MyWalletHome";
 
 
 
-const MyWalletServer = async () => {
+// const MyWalletServer = async () => {
 
-  return (
-    <>
-      <MyWalletHome />
-    </>
-  );
-};
+//   return (
+//     <>
+//       <MyWalletHome />
+//     </>
+//   );
+// };
 
-export default MyWalletServer;
+// export default MyWalletServer;
