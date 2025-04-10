@@ -233,6 +233,8 @@ export default function Chatting({ astrologer }) {
         console.log("Astrologer status updated:", updatedAstrologerData);
       }
 
+
+      
       // update order history
       const updateList = await axios.put(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
