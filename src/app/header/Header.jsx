@@ -1,12 +1,11 @@
 "use client";
-import Link from "next/link";
-import OtpData from "../component/OtpData";
-import { useEffect, useState } from "react";
-import AstroNotification from "../component/AstroNotification";
-import { IoMdNotificationsOutline } from "react-icons/io";
 import axios from "axios";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import UserOtpLoginData from "../component/userOtpLoginData";
+import { useEffect, useState } from "react";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import AstroNotification from "../component/AstroNotification";
+import OtpData from "../component/OtpData";
 
 const Header = () => {
   const router = useRouter();
@@ -16,7 +15,6 @@ const Header = () => {
   const [userDetailData, setUserDetailData] = useState();
   const [astroDetailData, setAstroDetailData] = useState();
 
-console.log(astrologerPhone,astroDetailData);
 
   const [userMobile, setUserMobile] = useState(null);
 
