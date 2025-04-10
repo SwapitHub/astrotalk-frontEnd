@@ -10,12 +10,22 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
 
 const ChatWithAstrologer = () => {
   const [showAstrologer, setShowAstrologer] = useState();
-  const userIds = localStorage.getItem("userIds");
-  const userMobile = Math.round(localStorage.getItem("userMobile"));
+ 
   const [showRecharge, setShowRecharge] = useState(false);
   const [userData, setUserData] = useState();
   const [astroMobileNum, setAstroMobileNum] = useState();
+  const [userIds, setUserIds] = useState();
+  const [userMobile, setUserMobile] = useState();
   const router = useRouter();
+
+
+  useEffect(()=>{
+    const userIds = localStorage.getItem("userIds");
+    const userMobile = Math.round(localStorage.getItem("userMobile"));
+    setUserIds(userIds)
+    setUserMobile(userMobile)
+  },[])
+
 
   const fetchData = async () => {
     try {
@@ -32,15 +42,20 @@ const ChatWithAstrologer = () => {
 
   const fetchDataUserDetail = async () => {
     try {
-      const data = await fetchUserLoginDetails(userMobile);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`);
+      const data = await res.json(); // Parse the JSON response
       setUserData(data);
     } catch (error) {
       console.error("Error fetching fetchDataUserDetail:", error);
     }
   };
+  
   useEffect(() => {
-    fetchDataUserDetail();
-  }, []);
+    if (userMobile) {
+      fetchDataUserDetail();
+    }
+  }, [userMobile]);
+  
 
   useEffect(() => {
     if (showRecharge) {

@@ -1,11 +1,25 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import io from "socket.io-client";
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
 
-const ChatButtonUser = ({item, userAmount, astroMobileNum ,setAstroMobileNum, setShowRecharge,showRecharge }) => {
-  const userIds = localStorage.getItem("userIds");
-  const AstrologerNotificationStatus = localStorage.getItem("AstrologerNotificationStatus")
+const ChatButtonUser = ({
+  item,
+  userAmount,
+  astroMobileNum,
+  setAstroMobileNum,
+  setShowRecharge,
+  showRecharge,
+}) => {
+
+  const [userIds, setUserIds] = useState();
+  useEffect(() => {
+    const userIds = localStorage.getItem("userIds");
+    // const AstrologerNotificationStatus = localStorage.getItem(
+    //   "AstrologerNotificationStatus"
+    // );
+    setUserIds(userIds);
+  }, []);
 
   const onChangeId = async (
     astrologerId,
@@ -44,7 +58,7 @@ const ChatButtonUser = ({item, userAmount, astroMobileNum ,setAstroMobileNum, se
         console.error("Navigation failed:", error);
       }
     } else {
-      setShowRecharge(false);  // ✅ Correct way to update state
+      setShowRecharge(false); // ✅ Correct way to update state
       setAstroMobileNum(astroMobileNum); // ✅ Ensure it updates correctly
     }
   };
@@ -67,58 +81,51 @@ const ChatButtonUser = ({item, userAmount, astroMobileNum ,setAstroMobileNum, se
       socket.off("userId-to-astrologer-error");
     };
   }, []);
-  
+
   console.log(item);
   return (
     <>
-     
-            {item.chatStatus == false ? (
-              <div className="astrologer-call-button-ctm">
-                {userAmount >= item.charges * 2 ? (
-                  <a
-                    href={`/chat-with-astrologer/user/${userIds}`}
-                    onClick={() =>
-                      onChangeId(
-                        item._id,
-                        item.mobileNumber,
-                        item.profileImage,
-                        item.name,
-                        item.charges,
-                        item.experience
-                      )
-                    }
-                  >
-                    Chat{" "}
-                  </a>
-                ) : (
-                  <button
-                    onClick={() =>
-                      onChangeId(
-                        item._id,
-                        item.mobileNumber,
-                        item.profileImage,
-                        item.name,
-                        item.charges,
-                        item.experience
-                      )
-                    }
-                  >
-                    chat
-                  </button>
-                )}
-              </div>
-            ) : (
-              <div className="astrologer-call-button-ctm chatStatus-false">
-                <button                
-                >
-                  Chat
-                </button>
-                <span>waiting 5 minutes</span>
-              </div>
-            )}
-          
-        
-    
+      {item.chatStatus == false ? (
+        <div className="astrologer-call-button-ctm">
+          {userAmount >= item.charges * 2 ? (
+            <a
+              href={`/chat-with-astrologer/user/${userIds}`}
+              onClick={() =>
+                onChangeId(
+                  item._id,
+                  item.mobileNumber,
+                  item.profileImage,
+                  item.name,
+                  item.charges,
+                  item.experience
+                )
+              }
+            >
+              Chat{" "}
+            </a>
+          ) : (
+            <button
+              onClick={() =>
+                onChangeId(
+                  item._id,
+                  item.mobileNumber,
+                  item.profileImage,
+                  item.name,
+                  item.charges,
+                  item.experience
+                )
+              }
+            >
+              chat
+            </button>
+          )}
+        </div>
+      ) : (
+        <div className="astrologer-call-button-ctm chatStatus-false">
+          <button>Chat</button>
+          <span>waiting 5 minutes</span>
+        </div>
+      )}
     </>
   );
 };

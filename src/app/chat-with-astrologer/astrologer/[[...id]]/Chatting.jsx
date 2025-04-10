@@ -5,7 +5,10 @@ import axios from "axios";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { useRef } from "react";
-import { fetchAstroProfileDetail, fetchUserLoginDetails } from "@/app/utils/api";
+import {
+  fetchAstroProfileDetail,
+  fetchUserLoginDetails,
+} from "@/app/utils/api";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
   transports: ["websocket"],
@@ -13,28 +16,37 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 });
 
 export default function Chatting({ astrologer }) {
-  const astrologerPhone = localStorage.getItem("astrologer-phone");
-  const totalChatTime = Math.round(localStorage.getItem("totalChatTime"));
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
-
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
   const [message, setMessage] = useState("");
   const [astrologerData, setAstrologerData] = useState("");
   const [messageData, setMessageData] = useState([]);
   const [user, setUser] = useState("");
-  const [showUserData, setShowUserData] = useState("");
-  const astrologerId = localStorage.getItem("astrologerId");
-  const userIds = localStorage.getItem("userIds");
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState();
+  const [showUserData, setShowUserData] = useState("");
+  const [astrologerPhone, setAstrologerPhone] = useState();
+  const [astrologerId, SetAstrologerId] = useState();
+  const [userIds, SetUserIds] = useState();
+  const [totalChatTime, setTotalChatTime] = useState();
+
   useEffect(() => {
     let storedNotification = localStorage.getItem(
       "AstrologerNotificationStatus"
     );
+    const astrologerPhone = localStorage.getItem("astrologer-phone");
+    const astrologerId = localStorage.getItem("astrologerId");
+    const userIds = localStorage.getItem("userIds");
+    const totalChatTime = Math.round(localStorage.getItem("totalChatTime"));
+
     if (storedNotification) {
       setAstrologerNotificationStatus(storedNotification);
     }
+    setAstrologerPhone(astrologerPhone);
+    SetAstrologerId(astrologerId);
+    SetUserIds(userIds);
+    setTotalChatTime(totalChatTime);
   }, []);
 
   const [timeLeft, setTimeLeft] = useState(() => {
@@ -94,18 +106,18 @@ export default function Chatting({ astrologer }) {
   //     });
   // }, []);
 
-   useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const data = await fetchAstroProfileDetail(astrologerPhone);
-          setAstrologerData(data);
-        } catch (error) {
-          console.error("Failed to fetchAstroProfileDetail", error);
-        }
-      };
-  
-      fetchData();
-    }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchAstroProfileDetail(astrologerPhone);
+        setAstrologerData(data);
+      } catch (error) {
+        console.error("Failed to fetchAstroProfileDetail", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // message detail api
   const fetchMessages = async () => {
@@ -233,18 +245,15 @@ export default function Chatting({ astrologer }) {
         console.log("Astrologer status updated:", updatedAstrologerData);
       }
 
-
-      
       // update order history
       const updateList = await axios.put(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
         {
           mobileNumber: astrologerData.mobileNumber,
-          chatStatus: false
+          chatStatus: false,
         }
       );
       console.log(updateList);
-
     } catch (error) {
       console.error(
         "Failed to update astrologer status:",

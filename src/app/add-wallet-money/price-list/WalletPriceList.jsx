@@ -6,7 +6,15 @@ import React, { useEffect, useState } from "react";
 const WalletPriceList = () => {
   const [denominationList, setDenominationList] = useState([]);
   const [userData, setUserData] = useState();
-  const userMobile = Math.round(localStorage.getItem("userMobile"));
+
+  const [userMobile, setUserMobile] = useState(null);
+
+  useEffect(() => {
+    const userMobile = Math.round(localStorage.getItem("userMobile"));
+    setUserMobile(userMobile);
+  }, []);
+
+
 
   useEffect(() => {
     axios

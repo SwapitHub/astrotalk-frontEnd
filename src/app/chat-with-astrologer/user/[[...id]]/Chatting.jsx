@@ -12,33 +12,38 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 });
 
 export default function Chatting() {
-  const totalChatTime = Math.round(localStorage.getItem("totalChatTime"));
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
-  console.log(actualChargeUserChat);
 
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
   const [message, setMessage] = useState("");
   const [messageData, setMessageData] = useState([]);
-  const [user, setUser] = useState("");
   const [astrologerData, setAstrologerData] = useState("");
   const [showUserData, setShowUserData] = useState();
-  const astrologerId = localStorage.getItem("astrologerId");
-  const userIds = localStorage.getItem("userIds");
-  const userMobile = Math.round(localStorage.getItem("userMobile"));
-  // const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
-  useState();
-  const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
-    useState(null);
+  
+  const [astrologerNotificationStatus, setAstrologerNotificationStatus] = useState(null);
   const mobileRef = useRef(null);
+  const [astrologerId, SetAstrologerId] = useState();
+  const [userIds, SetUserIds] = useState();
+  const [totalChatTime, setTotalChatTime] = useState();
+  const [userMobile, setUserMobile] = useState();
 
   useEffect(() => {
-    const storedNotification = localStorage.getItem(
+    let storedNotification = localStorage.getItem(
       "AstrologerNotificationStatus"
     );
+    const astrologerId = localStorage.getItem("astrologerId");
+    const userIds = localStorage.getItem("userIds");
+    const totalChatTime = Math.round(localStorage.getItem("totalChatTime"));
+    const userMobile = Math.round(localStorage.getItem("userMobile"));
+
     if (storedNotification) {
       setAstrologerNotificationStatus(storedNotification);
     }
+    SetAstrologerId(astrologerId);
+    SetUserIds(userIds);
+    setTotalChatTime(totalChatTime);
+    setUserMobile(userMobile);
   }, []);
 
   const [timeLeft, setTimeLeft] = useState(() => {

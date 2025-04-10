@@ -4,20 +4,25 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const MyWallet = () => {
-  const userPhone = Math.round(localStorage.getItem("userMobile"));
-  const userIds = localStorage.getItem("userIds")
   const [userData, setUserData] = useState();
   const [WalletTransactionData, setWalletTransactionData] = useState([]);
-console.log(userData);
-
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
- 
+  const [userPhone, setUserPhone] = useState();
+  const [userIds, setUserIds] = useState();
+
+  useEffect(() => {
+    const userPhone = Math.round(localStorage.getItem("userMobile"));
+    const userIds = localStorage.getItem("userIds");
+
+    setUserPhone(userPhone);
+    setUserIds(userIds);
+  }, []);
 
   const fetchTransactions = async (pageNumber) => {
-    let limit=4
+    let limit = 4;
     try {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/chat/WalletTransactionData?type=user&user_id=${userIds}&page=${pageNumber}&limit=${limit}`
@@ -25,7 +30,7 @@ console.log(userData);
 
       setWalletTransactionData(res.data.transactions);
       setPage(res.data.page);
-      setTotalPages(Math.ceil(res.data.totalTransactions / limit)); 
+      setTotalPages(Math.ceil(res.data.totalTransactions / limit));
       setHasNextPage(res.data.hasNextPage);
       setHasPrevPage(res.data.hasPrevPage);
     } catch (err) {
@@ -37,7 +42,7 @@ console.log(userData);
     if (userIds) {
       fetchTransactions(page);
     }
-  }, [page,userIds]); 
+  }, [page, userIds]);
 
   useEffect(() => {
     axios
@@ -135,17 +140,17 @@ console.log(userData);
           </tbody>
         </table>
         <div style={{ marginTop: "10px" }}>
-        <button onClick={() => setPage(page - 1)} disabled={!hasPrevPage}>
-          Previous
-        </button>
-        <span>
-          {" "}
-          Page {page} of {totalPages}{" "}
-        </span>
-        <button onClick={() => setPage(page + 1)} disabled={!hasNextPage}>
-          Next
-        </button>
-      </div>
+          <button onClick={() => setPage(page - 1)} disabled={!hasPrevPage}>
+            Previous
+          </button>
+          <span>
+            {" "}
+            Page {page} of {totalPages}{" "}
+          </span>
+          <button onClick={() => setPage(page + 1)} disabled={!hasNextPage}>
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
 const { createSlice, nanoid, current } = require("@reduxjs/toolkit");
 
-const initialState = {
-  chatStartStatus: JSON.parse(localStorage.getItem("emp")) || [],
-};
+// const initialState = {
+//   chatStartStatus: JSON.parse(localStorage.getItem("emp")) || [],
+// };
 
 const Slice = createSlice({
   name: "addEmployeeSlice",

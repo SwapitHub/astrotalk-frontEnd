@@ -1,11 +1,10 @@
-// import Payment from "./Payment"
+import Payment from "./Payment";
 
-// const PaymentServer = ({searchParams}) => {
-//     const pmtId = searchParams?.pmt
-    
-//   return (
-//     <Payment pmtId={pmtId}/>
-//   )
-// }
+const PaymentServer = async ({ searchParams }) => {
+  const params = await searchParams;
+  const pmtId = params.pmt;
 
-// export default PaymentServer
+  return <Payment pmtId={pmtId} />;
+};
+
+export default PaymentServer;

@@ -10,7 +10,7 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
   const [otpSent, setOtpSent] = useState(false);
   const [message, setMessage] = useState("");
   const [timeOtpMessage, setTimeOtpMessage] = useState("");
-  const localAstroMobile = localStorage.getItem("astrologer-phone");
+  // const localAstroMobile = localStorage.getItem("astrologer-phone");
   const [pendingData, setPendingData] = useState([]);
 
   useEffect(() => {

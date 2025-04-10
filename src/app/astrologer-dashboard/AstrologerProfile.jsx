@@ -6,19 +6,24 @@ import { toast } from "react-toastify";
 import { validateAstrologerForm } from "../component/FormValidation";
 import { fetchAstroDetail } from "../utils/api";
 
-const AstrologerProfile = ({ setSuccessMessageProfile, successMessageProfile }) => {
-  const astrologerPhone = localStorage.getItem("astrologer-phone");
+const AstrologerProfile = ({
+  setSuccessMessageProfile,
+  successMessageProfile,
+}) => {
   const [registrationDetail, setRegistrationDetail] = useState();
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState();
+  const [astrologerPhone, setAstrologerPhone] = useState();
 
-  console.log(successMessageProfile);
-  const astrLoginStatus = localStorage.getItem("astrLoginStatus");
   useEffect(() => {
+    const astrLoginStatus = localStorage.getItem("astrLoginStatus");
+    const astrologerPhone = localStorage.getItem("astrologer-phone");
+
     if (astrLoginStatus) {
       setSuccessMessage(astrLoginStatus);
     }
-  }, [astrLoginStatus]);
+    setAstrologerPhone(astrologerPhone);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {

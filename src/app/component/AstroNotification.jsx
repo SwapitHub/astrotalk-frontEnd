@@ -10,19 +10,19 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 });
 
 const AstroNotification = () => {
-  const [astrologerPhone, setAstrologerPhone] = useState(
-    localStorage.getItem("astrologer-phone")
-  );
+  const [astrologerPhone, setAstrologerPhone] = useState();
   const [updateNotification, setUpdateNotification] = useState(null);
 
   const matchAstrologerMobile =
   astrologerPhone === updateNotification?.mobileNumber;
 
   useEffect(() => {
+    const astrologerPhone = localStorage.getItem("astrologer-phone")
     const storedNotification = localStorage.getItem("new-notification");
     if (storedNotification) {
       setUpdateNotification(JSON.parse(storedNotification));
     }
+    setAstrologerPhone(astrologerPhone)
   }, []);
 
   useEffect(() => {

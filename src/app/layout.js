@@ -9,7 +9,7 @@ export default function RootLayout({ children }) {
       <body>
        
           <ToastWrapper>
-            {/* <Header /> */}
+            <Header />
             {children}
           </ToastWrapper>
         
