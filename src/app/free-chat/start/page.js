@@ -7,7 +7,6 @@ const StartUserName = () => {
   const [dateOfBirthAvailable, setDateOfBirthAvailable] = useState("no");
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
   const [errors, setErrors] = useState({});
-console.log(errors);
 
   const handleUserSignUpData = async () => {
     const validationErrors = validateAstrologerForm('user');
@@ -38,9 +37,9 @@ console.log(errors);
       <section className="astrologer-registration-bg">
         <div className="container">
           <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
-            {otpPopUpDisplay && (
+            {/* {otpPopUpDisplay && (
               <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
-            )}
+            )} */}
           </div>
           <div className="user-login-and-uder-reg-bg">
             <div className="user-reg-ctm">

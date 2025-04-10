@@ -35,10 +35,10 @@ const MyWalletHome = () => {
             {transactionBtn=="Wallet" &&
                 <MyWallet/>               
             }
-            {
+            {/* {
                  transactionBtn == "PaymentLogs" && 
                  <MyWalletPaymentLog/>
-            }
+            } */}
           </div>
         </div>
       </div>

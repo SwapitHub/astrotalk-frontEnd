@@ -117,9 +117,9 @@ console.log(astrologerPhone,astroDetailData);
   return (
     <header className="wedding-header">
       <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
-        {otpPopUpDisplay && (
+        {/* {otpPopUpDisplay && (
           <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
-        )}
+        )} */}
       </div>
       <div className="container">
         <div className="inner-header-sec ctm-flex-row ctm-align-items-center ctm-justify-content-between">
