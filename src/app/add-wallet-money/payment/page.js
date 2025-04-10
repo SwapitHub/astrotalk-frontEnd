@@ -1,11 +1,11 @@
-import Payment from "./Payment"
+// import Payment from "./Payment"
 
-const PaymentServer = ({searchParams}) => {
-    const pmtId = searchParams.pmt
+// const PaymentServer = ({searchParams}) => {
+//     const pmtId = searchParams?.pmt
     
-  return (
-    <Payment pmtId={pmtId}/>
-  )
-}
+//   return (
+//     <Payment pmtId={pmtId}/>
+//   )
+// }
 
-export default PaymentServer
+// export default PaymentServer
