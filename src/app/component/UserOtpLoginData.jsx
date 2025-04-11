@@ -14,7 +14,7 @@ function UserOtpLoginData({ setOtpPopUpDisplay }) {
 
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login`)
+      .get(`https://astrotalk-m3gl.onrender.com/auth/user-login`)
       .then((response) => {
         setUserLoginData(response.data);
       })
@@ -26,7 +26,7 @@ function UserOtpLoginData({ setOtpPopUpDisplay }) {
   const sendOtp = async () => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/send-otp`,
+        `https://astrotalk-m3gl.onrender.com/send-otp`,
         {
           phone: phone,
         }
@@ -67,7 +67,7 @@ console.log(formData);
 
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/verify-otp`,
+        `https://astrotalk-m3gl.onrender.com/verify-otp`,
         {
           phone: phone,
           otp: otp,
@@ -82,7 +82,7 @@ console.log(formData);
       if (!userMatch) {
         if (response.status == 200) {
           const userLoginRes = await axios.post(
-            `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login`,
+            `https://astrotalk-m3gl.onrender.com/auth/user-login`,
             {
               name: formData.first_name,
               gender: formData.gender,
@@ -107,7 +107,7 @@ console.log(formData);
       } else {
         try {
           const response = await axios.put(
-            `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${phone}`,
+            `https://astrotalk-m3gl.onrender.com/auth/update-user/${phone}`,
             {
               name: formData.first_name,
               gender: formData.gender,

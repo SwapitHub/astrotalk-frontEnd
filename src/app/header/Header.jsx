@@ -42,7 +42,7 @@ console.log(astrologerPhone);
     if (astrologerPhone && !isNaN(astrologerPhone)) {
       axios
         .get(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${Math.round(astrologerPhone)}`
+          `https://astrotalk-m3gl.onrender.com/astrologer-businessProfile/${Math.round(astrologerPhone)}`
         )
         .then((response) => {
           setAstroDetailData(response?.data);
@@ -54,7 +54,7 @@ console.log(astrologerPhone);
   }, [astrologerPhone]);
   
 
-  
+
   useEffect(() => {
     if(userMobile){
         axios
@@ -91,7 +91,7 @@ console.log(astrologerPhone);
   const astroLogerLogout = async () => {
     try {
       const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-status-by-mobile/${astrologerPhone}`,
+        `https://astrotalk-m3gl.onrender.com/update-astro-status-by-mobile/${astrologerPhone}`,
         {
           profileStatus: false,
         }
@@ -107,7 +107,7 @@ console.log(astrologerPhone);
       console.log(response);
       // update order history
       const updateList = await axios.put(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
+        `https://astrotalk-m3gl.onrender.com/userId-to-astrologer-astro-list-update`,
         {
           mobileNumber: astrologerPhone,
           profileStatus: false,
