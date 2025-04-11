@@ -23,6 +23,8 @@ function UserOtpLoginData({ setOtpPopUpDisplay }) {
       });
   }, []);
 
+ 
+  
   const sendOtp = async () => {
     try {
       const response = await axios.post(
