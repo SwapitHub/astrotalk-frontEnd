@@ -1,13 +1,12 @@
 "use client";
-import Link from "next/link";
-import OtpData from "../component/OtpData";
-import { useContext, useEffect, useState } from "react";
-import AstroNotification from "../component/AstroNotification";
-import { IoMdNotificationsOutline } from "react-icons/io";
 import axios from "axios";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import AstroNotification from "../component/AstroNotification";
+import OtpData from "../component/OtpData";
 import UserOtpLoginData from "../component/UserOtpLoginData";
-import { UserContext } from "../context/UserContext";
 
 const Header = () => {
   const router = useRouter();
@@ -18,7 +17,8 @@ const Header = () => {
   const [userMobile, setUserMobile] = useState(null);
   const [astrologerPhone, setAstrologerPhone] = useState();
 
-  const  baseUrl  = useContext(UserContext);
+//   const  process.env.NEXT_PUBLIC_WEBSITE_URL  = useContext(UserContext);
+// console.log(process.env.NEXT_PUBLIC_WEBSITE_URL);
 
   useEffect(() => {
     const astrologerPhone = localStorage.getItem("astrologer-phone");
@@ -40,11 +40,12 @@ const Header = () => {
       window.removeEventListener("storageUserMobile", fetchUserMobile);
     };
   }, []);
+
   useEffect(() => {
     if (astrologerPhone && !isNaN(astrologerPhone)) {
       axios
         .get(
-          `${baseUrl}/astrologer-businessProfile/${Math.round(astrologerPhone)}`
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${Math.round(astrologerPhone)}`
         )
         .then((response) => {
           setAstroDetailData(response?.data);
@@ -90,7 +91,7 @@ const Header = () => {
   const astroLogerLogout = async () => {
     try {
       const response = await axios.put(
-        `${baseUrl}/update-astro-status-by-mobile/${astrologerPhone}`,
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-status-by-mobile/${astrologerPhone}`,
         {
           profileStatus: false,
         }
@@ -106,7 +107,7 @@ const Header = () => {
       console.log(response);
       // update order history
       const updateList = await axios.put(
-        `${baseUrl}/userId-to-astrologer-astro-list-update`,
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
         {
           mobileNumber: astrologerPhone,
           profileStatus: false,
