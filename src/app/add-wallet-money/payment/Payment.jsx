@@ -7,7 +7,8 @@ const Payment = ({ pmtId }) => {
   const [priceDetail, setPriceDetail] = useState();
 
   useEffect(() => {
-    axios
+    if(pmtId){
+      axios
       .get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/denomination-admin-detail/${pmtId}`
       )
@@ -17,6 +18,8 @@ const Payment = ({ pmtId }) => {
       .catch((err) => {
         console.log("price detail api not work", err);
       });
+    }
+   
   }, [pmtId]);
 
   const priceNumber = Math.round(parseInt(priceDetail?.data?.amount) || 0);

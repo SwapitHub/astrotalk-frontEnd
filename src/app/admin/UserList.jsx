@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-import { fetchUserList } from "../utils/api";
 
 const UserList = () => {
   const [userMainData, setUserMainData] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchUserList();
+        const data = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login`);
         setUserMainData(data);
       } catch (error) {
         console.error("Failed to fetch user list", error);

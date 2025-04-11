@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
 import UserRecharge from "../component/UserRechargePopUp";
-import { fetchAstrologerProfile } from "../utils/api";
+
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
 
 const ChatWithAstrologer = () => {
@@ -25,10 +25,9 @@ const ChatWithAstrologer = () => {
     setUserMobile(userMobile)
   },[])
 
-
   const fetchData = async () => {
     try {
-      const data = await fetchAstrologerProfile();
+      const data = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile`);
       setShowAstrologer(data);
     } catch (error) {
       console.error("Error fetching astrologer profile:", error);

@@ -1,14 +1,13 @@
 "use client"
 import { useEffect, useState } from "react";
-import { fetchAstroStatusList } from "../utils/api";
 
 function AstroLogerList() {
     const [pendingData, setPendingData] = useState([]);
-  
+
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const data = await fetchAstroStatusList();
+          const data = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-list?astroStatus=true`);
           setPendingData(data);
         } catch (error) {
           console.error("Failed to fetch astrologer list", error);

@@ -1,14 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
-import io from "socket.io-client";
 import axios from "axios";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { useRef } from "react";
-import {
-  fetchAstroProfileDetail,
-  fetchUserLoginDetails,
-} from "@/app/utils/api";
+import io from "socket.io-client";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
   transports: ["websocket"],
@@ -83,7 +78,7 @@ export default function Chatting({ astrologer }) {
 
   const fetchDataUserDetail = async () => {
     try {
-      const data = await fetchUserLoginDetails(userIds);
+      const data = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`);
       setShowUserData(data);
     } catch (error) {
       console.error("Error fetching fetchDataUserDetail:", error);
@@ -109,7 +104,7 @@ export default function Chatting({ astrologer }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchAstroProfileDetail(astrologerPhone);
+        const data = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerPhone}`);
         setAstrologerData(data);
       } catch (error) {
         console.error("Failed to fetchAstroProfileDetail", error);

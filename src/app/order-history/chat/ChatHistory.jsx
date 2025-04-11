@@ -1,13 +1,10 @@
 "use client";
 import DeleteChatPopUp from "@/app/component/DeleteChatPopUp";
 import UserRecharge from "@/app/component/UserRechargePopUp";
-import { fetchUserLoginDetails } from "@/app/utils/api";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroll-component";
 import io from "socket.io-client";
@@ -78,7 +75,7 @@ const ChatHistory = () => {
 
   const fetchDataUserDetail = async () => {
     try {
-      const data = await fetchUserLoginDetails(userMobile);
+      const data = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`);
       setUserData(data);
     } catch (error) {
       console.error("Error fetching fetchDataUserDetail:", error);

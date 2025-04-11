@@ -28,7 +28,7 @@ const AstrologerProfile = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchAstroDetail(astrologerPhone);
+        const data = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-detail/${astrologerPhone}`)
         setRegistrationDetail(data);
       } catch (error) {
         console.error("Failed to fetchAstroDetail", error);
