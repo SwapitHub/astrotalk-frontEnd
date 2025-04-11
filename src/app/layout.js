@@ -1,7 +1,7 @@
 import "./globals.css";
-import Header from "./header/Header";
 import "react-toastify/dist/ReactToastify.css";
 import ToastWrapper from "./ToastWrapper";
+import HeaderServer from "./header/pages";
 
 export default function RootLayout({ children }) {
   return (
@@ -9,7 +9,7 @@ export default function RootLayout({ children }) {
       <body>
        
           <ToastWrapper>
-            {/* <Header /> */}
+            <HeaderServer />
             {children}
           </ToastWrapper>
         
