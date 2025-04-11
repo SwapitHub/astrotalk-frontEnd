@@ -1,11 +1,11 @@
 "use client";
 import { validateAstrologerForm } from "@/app/component/FormValidation";
-import UserOtpLoginData from "@/app/component/userOtpLoginData";
+import UserOtpLoginData from "@/app/component/UserOtpLoginData";
 import { useState } from "react";
 
 const StartUserName = () => {
   const [dateOfBirthAvailable, setDateOfBirthAvailable] = useState("no");
-  const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
+  const [otpPopUpDisplays, setOtpPopUpDisplays] = useState(false);
   const [errors, setErrors] = useState({});
 console.log(errors);
 
@@ -29,7 +29,7 @@ console.log(errors);
       languages: document.getElementById("language").value.trim(),
     };
     if (formData) {
-      setOtpPopUpDisplay(true);
+      setOtpPopUpDisplays(true);
     }
   };
 
@@ -37,9 +37,9 @@ console.log(errors);
     <>
       <section className="astrologer-registration-bg">
         <div className="container">
-          <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
-            {otpPopUpDisplay && (
-              <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
+          <div className={otpPopUpDisplays == true && `outer-send-otp-main`}>
+            {otpPopUpDisplays && (
+              <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplays} />
             )}
           </div>
           <div className="user-login-and-uder-reg-bg">
