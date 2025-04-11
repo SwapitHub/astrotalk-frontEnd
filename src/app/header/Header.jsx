@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
 import OtpData from "../component/OtpData";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AstroNotification from "../component/AstroNotification";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import UserOtpLoginData from "../component/UserOtpLoginData";
+import { UserContext } from "../context/UserContext";
 
 const Header = () => {
   const router = useRouter();
@@ -16,13 +17,14 @@ const Header = () => {
   const [astroDetailData, setAstroDetailData] = useState();
   const [userMobile, setUserMobile] = useState(null);
   const [astrologerPhone, setAstrologerPhone] = useState();
-console.log(astrologerPhone);
+
+  const  baseUrl  = useContext(UserContext);
 
   useEffect(() => {
     const astrologerPhone = localStorage.getItem("astrologer-phone");
     setAstrologerPhone(astrologerPhone);
   }, []);
-  
+
   useEffect(() => {
     const fetchUserMobile = () => {
       const storedUserMob = localStorage.getItem("userMobile");
@@ -42,7 +44,7 @@ console.log(astrologerPhone);
     if (astrologerPhone && !isNaN(astrologerPhone)) {
       axios
         .get(
-          `https://astrotalk-m3gl.onrender.com/astrologer-businessProfile/${Math.round(astrologerPhone)}`
+          `${baseUrl}/astrologer-businessProfile/${Math.round(astrologerPhone)}`
         )
         .then((response) => {
           setAstroDetailData(response?.data);
@@ -52,12 +54,10 @@ console.log(astrologerPhone);
         });
     }
   }, [astrologerPhone]);
-  
-
 
   useEffect(() => {
-    if(userMobile){
-        axios
+    if (userMobile) {
+      axios
         .get(
           `${
             process.env.NEXT_PUBLIC_WEBSITE_URL
@@ -70,7 +70,6 @@ console.log(astrologerPhone);
           console.log(error, "user detail api error");
         });
     }
-    
   }, [userMobile]);
 
   const handleOtpPop = () => {
@@ -91,7 +90,7 @@ console.log(astrologerPhone);
   const astroLogerLogout = async () => {
     try {
       const response = await axios.put(
-        `https://astrotalk-m3gl.onrender.com/update-astro-status-by-mobile/${astrologerPhone}`,
+        `${baseUrl}/update-astro-status-by-mobile/${astrologerPhone}`,
         {
           profileStatus: false,
         }
@@ -107,7 +106,7 @@ console.log(astrologerPhone);
       console.log(response);
       // update order history
       const updateList = await axios.put(
-        `https://astrotalk-m3gl.onrender.com/userId-to-astrologer-astro-list-update`,
+        `${baseUrl}/userId-to-astrologer-astro-list-update`,
         {
           mobileNumber: astrologerPhone,
           profileStatus: false,
