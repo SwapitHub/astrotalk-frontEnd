@@ -1,11 +1,10 @@
 "use client";
-import axios from "axios";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
 import UserRecharge from "../component/UserRechargePopUp";
-import Link from "next/link";
-import { fetchAstrologerProfile, fetchUserLoginDetails } from "../utils/api";
+import { fetchAstrologerProfile } from "../utils/api";
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
 
 const ChatWithAstrologer = () => {
