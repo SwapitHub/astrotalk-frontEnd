@@ -1,31 +1,30 @@
-import Chatting from "./Chatting";
+import Chatting from "../Chatting";
 
-// const fetchChatAstrologerData = async (astrologerId) => {
-//   try {
-//     const response = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerId}`, {
-//       cache: "no-store", // Ensure fresh data is fetched
-//     });
+const fetchChatAstrologerData = async (astrologerId) => {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerId}`, {
+      cache: "no-store",
+    });
 
-//     if (!response.ok) {
-//       throw new Error("Failed to fetch astrologer data");
-//     }
+    if (!response.ok) {
+      throw new Error("Failed to fetch astrologer data");
+    }
 
-//     return await response.json();
-//   } catch (error) {
-//     console.error("Error fetching astrologer data:", error);
-//     return null; // Return null or handle errors gracefully
-//   }
-// };
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching astrologer data:", error);
+    return null;
+  }
+};
 
-const ChattingServer = async () => {
-  // const id = Array.isArray(params.id) ? params.id[0] : params.id; // Handle dynamic routing properly
+const ChattingServer = async (props) => {
+  const { id } = await props.params; // ✅ Await the params object
 
-
-  // const astrologer = await fetchChatAstrologerData(id);
+  const astrologer = await fetchChatAstrologerData(id);
 
   return (
     <>
-      <Chatting  />
+      <Chatting astrologer={astrologer} />
     </>
   );
 };
