@@ -1,11 +1,12 @@
 "use client";
-import { useState } from "react";
-import AdminDashBoardData from "./AdminDashBoardData";
-import AdminWallet from "./AdminWallet";
+import React, { useEffect, useState } from "react";
 import AstroLogerList from "./AstroLogerList";
+import AdminDashBoardData from "./AdminDashBoardData";
+import axios from "axios";
 import AstrologerPendingList from "./AstrologerPendingList";
-import Denomination from "./Denomination";
 import UserList from "./UserList";
+import Denomination from "./Denomination";
+import AdminWallet from "./AdminWallet";
 
 const AdminHome = () => {
   const [updateButton, setUpdateButton] = useState(1);

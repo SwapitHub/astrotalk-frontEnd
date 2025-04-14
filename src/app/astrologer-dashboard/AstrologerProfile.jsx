@@ -4,46 +4,32 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { validateAstrologerForm } from "../component/FormValidation";
-import { fetchAstroDetail } from "../utils/api";
+import secureLocalStorage from "react-secure-storage";
 
-const AstrologerProfile = ({
-  setSuccessMessageProfile,
-  successMessageProfile,
-}) => {
+const AstrologerProfile = ({ setSuccessMessageProfile }) => {
+  const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
   const [registrationDetail, setRegistrationDetail] = useState();
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState();
-  const [astrologerPhone, setAstrologerPhone] = useState();
 
   useEffect(() => {
-    const astrLoginStatus = localStorage.getItem("astrLoginStatus");
-    const astrologerPhone = localStorage.getItem("astrologer-phone");
-
-    if (astrLoginStatus) {
-      setSuccessMessage(astrLoginStatus);
-    }
-    setAstrologerPhone(astrologerPhone);
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-detail/${astrologerPhone}`
+      )
+      .then((res) => {
+        setRegistrationDetail(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-detail/${astrologerPhone}`)
-        setRegistrationDetail(data);
-      } catch (error) {
-        console.error("Failed to fetchAstroDetail", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   const handleBusinessProfile = async () => {
-    const validationErrors = validateAstrologerForm("astroProfile");
+    const validationErrors = validateAstrologerForm('astroProfile');
     console.log(validationErrors);
-
+    
     setErrors(validationErrors);
-
+    
     if (Object.keys(validationErrors).length > 0) {
       return;
     }
@@ -99,8 +85,7 @@ const AstrologerProfile = ({
         // setSuccessMessage(response.data.message)
         console.log("Form reset successfully.");
         setSuccessMessageProfile(response.data);
-        // setSuccessMessage(response.data.message)
-        localStorage.setItem("astrLoginStatus", "0");
+        setSuccessMessage(response.data.message)
         toast.success("Profile Completed Successfully", {
           position: "top-right",
         });
@@ -116,15 +101,15 @@ const AstrologerProfile = ({
     }
   };
 
-  const handleBusinessProfileUpdate = async () => {
+
+  const handleBusinessProfileUpdate = async () =>{
     console.log("prifile update");
-  };
+    
+  }
   return (
     <div className="container">
       <div className="astrologer-registration-form">
-        {!successMessage && (
-          <h2>Please Complete the Profile then you connect the user.</h2>
-        )}
+        <h2>Please Complete the Profile then you connect the user.</h2>
         <form action="">
           <div className="user-profile-pick-main">
             <div className="user-profile-pick">
@@ -308,15 +293,15 @@ const AstrologerProfile = ({
           </div>
 
           <div className="reg-sumbit-button">
-            {successMessage == 2 && successMessageProfile == undefined ? (
-              <button type="button" onClick={handleBusinessProfileUpdate}>
-                Update Profile
-              </button>
-            ) : (
-              <button type="button" onClick={handleBusinessProfile}>
-                Submit
-              </button>
-            )}
+            {successMessage!=="success" ? 
+            <button type="button" onClick={handleBusinessProfile}>
+              Submit
+            </button>  
+            :
+            <button type="button" onClick={handleBusinessProfileUpdate}>
+             Update Profile
+            </button>
+            }
           </div>
         </form>
       </div>

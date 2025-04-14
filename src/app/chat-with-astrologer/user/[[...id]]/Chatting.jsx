@@ -5,6 +5,7 @@ import axios from "axios";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { useRef } from "react";
+import secureLocalStorage from "react-secure-storage";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
   transports: ["websocket"],
@@ -12,42 +13,35 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 });
 
 export default function Chatting() {
+  const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
+  console.log(actualChargeUserChat);
 
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
   const [message, setMessage] = useState("");
   const [messageData, setMessageData] = useState([]);
+  const [user, setUser] = useState("");
   const [astrologerData, setAstrologerData] = useState("");
   const [showUserData, setShowUserData] = useState();
-  
-  const [astrologerNotificationStatus, setAstrologerNotificationStatus] = useState(null);
-  const mobileRef = useRef(null);
-  const [astrologerId, SetAstrologerId] = useState();
-  const [userIds, SetUserIds] = useState();
-  const [totalChatTime, setTotalChatTime] = useState();
-  const [userMobile, setUserMobile] = useState();
+  const astrologerId = secureLocalStorage.getItem("astrologerId");
+  const userIds = secureLocalStorage.getItem("userIds");
+  const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
+  // const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
+    useState();
+    const [astroMobileUpdate, setAstroMobileUpdate] = useState(null);
+    const [astrologerNotificationStatus, setAstrologerNotificationStatus] = useState(null);
+    const mobileRef = useRef(null);
 
-  useEffect(() => {
-    let storedNotification = localStorage.getItem(
-      "AstrologerNotificationStatus"
-    );
-    const astrologerId = localStorage.getItem("astrologerId");
-    const userIds = localStorage.getItem("userIds");
-    const totalChatTime = Math.round(localStorage.getItem("totalChatTime"));
-    const userMobile = Math.round(localStorage.getItem("userMobile"));
-
-    if (storedNotification) {
-      setAstrologerNotificationStatus(storedNotification);
-    }
-    SetAstrologerId(astrologerId);
-    SetUserIds(userIds);
-    setTotalChatTime(totalChatTime);
-    setUserMobile(userMobile);
-  }, []);
+    useEffect(() => {
+      const storedNotification = secureLocalStorage.getItem("AstrologerNotificationStatus");
+      if (storedNotification) {
+        setAstrologerNotificationStatus(storedNotification);
+      }
+    }, []);
 
   const [timeLeft, setTimeLeft] = useState(() => {
-    const storedTime = localStorage.getItem("chatTimeLeft");
+    const storedTime = secureLocalStorage.getItem("chatTimeLeft");
     if (storedTime) {
       return parseInt(storedTime, 10);
     }
@@ -63,9 +57,7 @@ export default function Chatting() {
       mobileRef.current = astrologerData.mobileNumber;
     }
 
-    const storedNotification = localStorage.getItem(
-      "AstrologerNotificationStatus"
-    );
+    const storedNotification = secureLocalStorage.getItem("AstrologerNotificationStatus");
     if (storedNotification) {
       setAstrologerNotificationStatus(storedNotification);
     }
@@ -77,16 +69,17 @@ export default function Chatting() {
     const handleNewNotification = (data) => {
       console.log("Received data:", data);
 
+
       // Ensure the comparison is with the latest astrologer mobile number
       if (data.astrologerData?.mobileNumber === mobileRef.current) {
         console.log("Updating notification status...");
-
+        
         const newStatus = data.astrologerData.chatStatus;
-
+        
         // Ensure state actually changes
         setAstrologerNotificationStatus((prevStatus) => {
           if (prevStatus !== newStatus) {
-            localStorage.setItem("AstrologerNotificationStatus", newStatus);
+            secureLocalStorage.setItem("AstrologerNotificationStatus", newStatus);
             return newStatus;
           }
           return prevStatus;
@@ -95,16 +88,10 @@ export default function Chatting() {
     };
 
     socket.on("connect", () => console.log("Connected to socket.io server"));
-    socket.on(
-      "astrologer-data-received-new-notification",
-      handleNewNotification
-    );
+    socket.on("astrologer-data-received-new-notification", handleNewNotification);
 
     return () => {
-      socket.off(
-        "astrologer-data-received-new-notification",
-        handleNewNotification
-      );
+      socket.off("astrologer-data-received-new-notification", handleNewNotification);
     };
   }, [socket, astrologerData]); // Added astrologerData dependency
 
@@ -141,8 +128,7 @@ export default function Chatting() {
   // Scroll to the bottom when messages change
   useEffect(() => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop =
-        chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [message]);
   // auto send message first time user to astrologer
@@ -167,6 +153,7 @@ export default function Chatting() {
       socket.emit("sendMessage", newMessage);
       setMessage(""); // Clear the input field
       scrollToBottom();
+
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -237,9 +224,9 @@ export default function Chatting() {
           position: "top-right",
         });
 
-        // Update state and localStorage
+        // Update state and secureLocalStorage
         setTimeLeft(null);
-        localStorage.removeItem("chatTimeLeft");
+        secureLocalStorage.removeItem("chatTimeLeft");
 
         const updatedAstrologerData = response.data.updatedProfile;
         socket.emit("astrologer-chat-status", updatedAstrologerData);
@@ -258,8 +245,8 @@ export default function Chatting() {
         socket.emit("chat-timeLeft-update", newUserDetail);
         console.log("newUserDetail=====", newUserDetail);
 
-        // Update AstrologerNotificationStatus in localStorage and state
-        localStorage.setItem(
+        // Update AstrologerNotificationStatus in secureLocalStorage and state
+        secureLocalStorage.setItem(
           "AstrologerNotificationStatus",
           updatedAstrologerData.chatStatus
         );
@@ -267,15 +254,6 @@ export default function Chatting() {
 
         console.log("Astrologer status updated:", updatedAstrologerData);
       }
-// update order history
-      const updateList = await axios.put(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
-        {
-          mobileNumber:astrologerData.mobileNumber,
-          chatStatus: false
-        }
-      );
-      console.log(updateList);
     } catch (error) {
       console.error(
         "Failed to update astrologer status:",
@@ -297,8 +275,8 @@ export default function Chatting() {
         intervalRef.current = setInterval(() => {
           setTimeLeft((prevTime) => {
             const newTime = prevTime + 1;
-            localStorage.setItem("chatTimeLeft", newTime.toString());
-            localStorage.setItem("totalChatTime", newTime.toString());
+            secureLocalStorage.setItem("chatTimeLeft", newTime.toString());
+            secureLocalStorage.setItem("totalChatTime", newTime.toString());
             return newTime;
           });
         }, 1000);
@@ -311,7 +289,7 @@ export default function Chatting() {
       }, 100);
     } else {
       setTimeLeft(null);
-      localStorage.removeItem("chatTimeLeft");
+      secureLocalStorage.removeItem("chatTimeLeft");
       clearTimeout(timeoutRef.current);
       clearInterval(intervalRef.current);
       const newUserDetail = {
@@ -327,7 +305,7 @@ export default function Chatting() {
   let userTotalAmount = showUserData?.totalAmount;
   let astroChatPricePerMinute = Math.round(astrologerData.charges);
   let totalTimeSecond = (userTotalAmount / astroChatPricePerMinute) * 60;
-  console.log(totalChatTime);
+console.log(totalChatTime);
 
   useEffect(() => {
     if (totalChatTime > 0) {
@@ -350,11 +328,11 @@ export default function Chatting() {
   const intervals = Math.ceil(totalChatTime / 60);
   const totalChatPrice = Math.min(intervals * astroChatPricePerMinute);
   const remainingBalance = userTotalAmount - totalChatPrice;
-  const handleEndChatClick = () => {
-    setActualChargeUserChat(totalChatPrice);
-    endChatStatus();
-  };
-
+   const handleEndChatClick = () => {   
+     setActualChargeUserChat(totalChatPrice);
+     endChatStatus();
+   };
+ 
   //  useEffect(()=>{
   //    setActualChargeUserChat(totalChatPrice);
   //  },[totalChatPrice])
@@ -391,21 +369,17 @@ export default function Chatting() {
             </div>
           </div>
 
-          <div
-            ref={chatContainerRef}
-            className="uder-and-astro-chat-bg chat-container"
-          >
+          <div ref={chatContainerRef}  className="uder-and-astro-chat-bg chat-container">
             <div className="inner-uder-and-astro-chat">
-              <div className="chat-box">
+              <div  className="chat-box">
                 {messageData.map((msg, index) => (
                   <div
                     key={index}
                     className={`
-                     ${
-                       msg.user === showUserData?.name
-                         ? "message outgoing"
-                         : "message incoming"
-                     }`}
+                     ${ msg.user === showUserData?.name
+                        ? "message outgoing"
+                        : "message incoming"}`
+                    }
                   >
                     {/* <h4>{msg.user}</h4> */}
                     <p>{msg.message}</p>

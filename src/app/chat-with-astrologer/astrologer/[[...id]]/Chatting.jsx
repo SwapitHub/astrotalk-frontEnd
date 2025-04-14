@@ -1,9 +1,11 @@
 "use client";
+import { useEffect, useState } from "react";
+import io from "socket.io-client";
 import axios from "axios";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import io from "socket.io-client";
+import { useRef } from "react";
+import secureLocalStorage from "react-secure-storage";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
   transports: ["websocket"],
@@ -11,42 +13,33 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 });
 
 export default function Chatting({ astrologer }) {
+  const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
+  const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
+
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
   const [message, setMessage] = useState("");
   const [astrologerData, setAstrologerData] = useState("");
   const [messageData, setMessageData] = useState([]);
   const [user, setUser] = useState("");
+  const [showUserData, setShowUserData] = useState("");
+  const astrologerId = secureLocalStorage.getItem("astrologerId");
+  const userIds = secureLocalStorage.getItem("userIds");
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState();
-  const [showUserData, setShowUserData] = useState("");
-  const [astrologerPhone, setAstrologerPhone] = useState();
-  const [astrologerId, SetAstrologerId] = useState();
-  const [userIds, SetUserIds] = useState();
-  const [totalChatTime, setTotalChatTime] = useState();
-
   useEffect(() => {
-    let storedNotification = localStorage.getItem(
+    let storedNotification = secureLocalStorage.getItem(
       "AstrologerNotificationStatus"
     );
-    const astrologerPhone = localStorage.getItem("astrologer-phone");
-    const astrologerId = localStorage.getItem("astrologerId");
-    const userIds = localStorage.getItem("userIds");
-    const totalChatTime = Math.round(localStorage.getItem("totalChatTime"));
-
     if (storedNotification) {
       setAstrologerNotificationStatus(storedNotification);
     }
-    setAstrologerPhone(astrologerPhone);
-    SetAstrologerId(astrologerId);
-    SetUserIds(userIds);
-    setTotalChatTime(totalChatTime);
   }, []);
 
   const [timeLeft, setTimeLeft] = useState(() => {
-    // Initialize timeLeft from localStorage or set to a default value
-    const storedTime = localStorage.getItem("chatTimeLeft");
+    // Initialize timeLeft from secureLocalStorage or set to a default value
+    const storedTime = secureLocalStorage.getItem("chatTimeLeft");
     return storedTime
       ? parseInt(storedTime, 10)
       : astrologerNotificationStatus == false
@@ -61,13 +54,14 @@ export default function Chatting({ astrologer }) {
 
     socket.on("astrologer-data-received-new-notification", (data) => {
       console.log("New notification received:", data);
-      if (data.astrologerData.mobileNumber == astrologerPhone) {
-        localStorage.setItem(
-          "AstrologerNotificationStatus",
-          data.astrologerData.chatStatus
-        );
-        setAstrologerNotificationStatus(data.astrologerData.chatStatus);
-      }
+if(data.astrologerData.mobileNumber==astrologerPhone){
+  secureLocalStorage.setItem(
+    "AstrologerNotificationStatus",
+    data.astrologerData.chatStatus
+  );
+  setAstrologerNotificationStatus(data.astrologerData.chatStatus);
+}
+     
     });
 
     return () => {
@@ -76,42 +70,29 @@ export default function Chatting({ astrologer }) {
     };
   }, []);
 
-  const fetchDataUserDetail = async () => {
-    try {
-      const data = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`);
-      setShowUserData(data);
-    } catch (error) {
-      console.error("Error fetching fetchDataUserDetail:", error);
-    }
-  };
   useEffect(() => {
-    fetchDataUserDetail();
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userIds}`
+      )
+      .then((response) => {
+        setShowUserData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
-
-  // useEffect(() => {
-  //   axios
-  //     .get(
-  //       `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerPhone}`
-  //     )
-  //     .then((response) => {
-  //       setAstrologerData(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
-
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerPhone}`);
-        setAstrologerData(data);
-      } catch (error) {
-        console.error("Failed to fetchAstroProfileDetail", error);
-      }
-    };
-
-    fetchData();
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerPhone}`
+      )
+      .then((response) => {
+        setAstrologerData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   // message detail api
@@ -126,13 +107,13 @@ export default function Chatting({ astrologer }) {
     }
   };
 
+
   const chatContainerRef = useRef(null);
 
   // Scroll to the bottom when messages change
   useEffect(() => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop =
-        chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [message]);
   // auto send message first time user to astrologer
@@ -174,7 +155,7 @@ export default function Chatting({ astrologer }) {
   };
 
   useEffect(() => {
-    setUser(astrologer?.name);
+    setUser(astrologer.name);
     socket.emit("joinChat", { userIds, astrologerId });
     fetchMessages();
     socket.on("receiveMessage", (msg) => {
@@ -209,9 +190,9 @@ export default function Chatting({ astrologer }) {
           position: "top-right",
         });
 
-        // Update state and localStorage
+        // Update state and secureLocalStorage
         setTimeLeft(null);
-        localStorage.removeItem("chatTimeLeft");
+        secureLocalStorage.removeItem("chatTimeLeft");
 
         const updatedAstrologerData = response.data.updatedProfile;
         socket.emit("astrologer-chat-status", updatedAstrologerData);
@@ -230,8 +211,8 @@ export default function Chatting({ astrologer }) {
         socket.emit("chat-timeLeft-update", newUserDetail);
         console.log(newUserDetail);
 
-        // Update AstrologerNotificationStatus in localStorage and state
-        localStorage.setItem(
+        // Update AstrologerNotificationStatus in secureLocalStorage and state
+        secureLocalStorage.setItem(
           "AstrologerNotificationStatus",
           updatedAstrologerData.chatStatus
         );
@@ -239,16 +220,6 @@ export default function Chatting({ astrologer }) {
 
         console.log("Astrologer status updated:", updatedAstrologerData);
       }
-
-      // update order history
-      const updateList = await axios.put(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
-        {
-          mobileNumber: astrologerData.mobileNumber,
-          chatStatus: false,
-        }
-      );
-      console.log(updateList);
     } catch (error) {
       console.error(
         "Failed to update astrologer status:",
@@ -270,8 +241,8 @@ export default function Chatting({ astrologer }) {
         intervalRef.current = setInterval(() => {
           setTimeLeft((prevTime) => {
             const newTime = prevTime + 1;
-            localStorage.setItem("chatTimeLeft", newTime.toString());
-            localStorage.setItem("totalChatTime", newTime.toString());
+            secureLocalStorage.setItem("chatTimeLeft", newTime.toString());
+            secureLocalStorage.setItem("totalChatTime", newTime.toString());
             return newTime;
           });
         }, 1000);
@@ -284,7 +255,7 @@ export default function Chatting({ astrologer }) {
       }, 100);
     } else {
       setTimeLeft(null);
-      localStorage.removeItem("chatTimeLeft");
+      secureLocalStorage.removeItem("chatTimeLeft");
       clearTimeout(timeoutRef.current);
       clearInterval(intervalRef.current);
       const newUserDetail = {
@@ -296,34 +267,35 @@ export default function Chatting({ astrologer }) {
     }
   }, [astrologerNotificationStatus]);
 
-  // if user balance is over then cut the automatic call start
-  let userTotalAmount = showUserData?.totalAmount;
-  let astroChatPricePerMinute = Math.round(astrologerData.charges);
-  let totalTimeSecond = (userTotalAmount / astroChatPricePerMinute) * 60;
-  console.log(totalChatTime);
+ // if user balance is over then cut the automatic call start
+ let userTotalAmount = showUserData?.totalAmount;
+ let astroChatPricePerMinute = Math.round(astrologerData.charges);
+ let totalTimeSecond = (userTotalAmount / astroChatPricePerMinute) * 60;
+console.log(totalChatTime);
 
-  useEffect(() => {
-    if (totalChatTime > 0) {
-      const maxAffordableTime = Math.floor(
-        (userTotalAmount / astroChatPricePerMinute) * 60 - 1
-      );
+ useEffect(() => {
+   if (totalChatTime > 0) {
+     const maxAffordableTime = Math.floor(
+       (userTotalAmount / astroChatPricePerMinute) * 60 - 1
+     );
 
-      if (totalChatTime >= maxAffordableTime) {
-        const remainingBalance = 0;
-        console.log(totalChatTime, userTotalAmount, maxAffordableTime);
-        setActualChargeUserChat(userTotalAmount);
+     if (totalChatTime >= maxAffordableTime) {
+       const remainingBalance = 0;
+       console.log(totalChatTime, userTotalAmount, maxAffordableTime);
+       setActualChargeUserChat(userTotalAmount);
 
-        endChatStatus();
-        console.log("Automatically ending chat due to balance exhaustion...");
-      }
-    }
-  }, [totalChatTime, userTotalAmount, astroChatPricePerMinute]);
-  // if user balance is over then cut the automatic call End
+       endChatStatus();
+       console.log("Automatically ending chat due to balance exhaustion...");
+     }
+   }
+ }, [totalChatTime, userTotalAmount, astroChatPricePerMinute]);
+ // if user balance is over then cut the automatic call End
 
-  const intervals = Math.ceil(totalChatTime / 60);
-  const totalChatPrice = Math.min(intervals * astroChatPricePerMinute);
-  const remainingBalance = userTotalAmount - totalChatPrice;
-  const handleEndChatClick = () => {
+ 
+ const intervals = Math.ceil(totalChatTime / 60);
+ const totalChatPrice = Math.min(intervals * astroChatPricePerMinute);
+ const remainingBalance = userTotalAmount - totalChatPrice;
+  const handleEndChatClick = () => {   
     setActualChargeUserChat(totalChatPrice);
     endChatStatus();
   };
@@ -331,6 +303,7 @@ export default function Chatting({ astrologer }) {
   // useEffect(()=>{
   //   setActualChargeUserChat(totalChatPrice);
   // },[totalChatPrice])
+
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
@@ -361,10 +334,7 @@ export default function Chatting({ astrologer }) {
             </div>
           </div>
 
-          <div
-            ref={chatContainerRef}
-            className="uder-and-astro-chat-bg chat-container"
-          >
+          <div ref={chatContainerRef} className="uder-and-astro-chat-bg chat-container">
             <div className="inner-uder-and-astro-chat">
               <div className="chat-box">
                 {messageData.map((msg, index) => (

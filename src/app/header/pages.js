@@ -1,8 +1,8 @@
-import Header from './Header'
+import Header from "./Header"
 
 const HeaderServer = () => {
   return (
-   <Header/>
+    <Header/>
   )
 }
 

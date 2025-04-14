@@ -1,21 +1,20 @@
 "use client"
-import { useEffect, useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 function AstroLogerList() {
     const [pendingData, setPendingData] = useState([]);
-
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const data = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-list?astroStatus=true`);
-          setPendingData(data);
-        } catch (error) {
-          console.error("Failed to fetch astrologer list", error);
-        }
-      };
   
-      fetchData();
-    }, []);
+    useEffect(() => {
+      axios
+      .get(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-list?astroStatus=true`)
+      .then((response) => {
+          setPendingData(response.data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
 
   

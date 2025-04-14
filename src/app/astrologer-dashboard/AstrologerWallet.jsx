@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import secureLocalStorage from "react-secure-storage";
 
 function AstrologerWallet() {
   const [walletAdminData, setWalletAdminData] = useState([]);
@@ -9,13 +10,7 @@ function AstrologerWallet() {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
   const [totalAvailableBalance, setTotalAvailableBalance] = useState();
-  const [astrologerPhone, setAstrologerPhone] = useState();
-
-    
-  useEffect(()=>{
-  const astrologerPhone = typeof window !== "undefined" ? localStorage.getItem("astrologer-phone") : null;
-   setAstrologerPhone(astrologerPhone)
-},[])
+  const astrologerPhone = typeof window !== "undefined" ? secureLocalStorage.getItem("astrologer-phone") : null;
 
   const fetchTransactions = async (pageNumber) => {
     try {

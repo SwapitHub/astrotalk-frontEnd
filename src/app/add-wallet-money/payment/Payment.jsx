@@ -19,7 +19,7 @@ const Payment = ({ pmtId }) => {
         console.log("price detail api not work", err);
       });
     }
-   
+    
   }, [pmtId]);
 
   const priceNumber = Math.round(parseInt(priceDetail?.data?.amount) || 0);

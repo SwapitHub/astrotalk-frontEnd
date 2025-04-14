@@ -1,19 +1,15 @@
 "use client";
+import React, { useState } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { useRazorpay } from "react-razorpay";
 import { toast } from "react-toastify";
+import secureLocalStorage from "react-secure-storage";
 
-const RazorpayPayment = ({ totalFinalPrice, extraAmount, totalAmount }) => {
+const RazorpayPayment = ({ totalFinalPrice, extraAmount,totalAmount }) => {
   const { error, isLoading, Razorpay } = useRazorpay();
+  const userMobile = secureLocalStorage.getItem("userMobile");
 
   const [loading, setLoading] = useState(false);
-  const [userMobile, setUserMobile] = useState();
-
-  useEffect(() => {
-    const userMobile = localStorage.getItem("userMobile");
-    setUserMobile(userMobile);
-  }, []);
 
   const handlePayment = async () => {
     try {

@@ -1,59 +1,51 @@
 "use client";
-import Link from "next/link";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
 import UserRecharge from "../component/UserRechargePopUp";
-
+import Link from "next/link";
+import secureLocalStorage from "react-secure-storage";
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
 
 const ChatWithAstrologer = () => {
   const [showAstrologer, setShowAstrologer] = useState();
- 
+  const userIds = secureLocalStorage.getItem("userIds");
+  const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
   const [showRecharge, setShowRecharge] = useState(false);
   const [userData, setUserData] = useState();
   const [astroMobileNum, setAstroMobileNum] = useState();
-  const [userIds, setUserIds] = useState();
-  const [userMobile, setUserMobile] = useState();
   const router = useRouter();
 
-
-  useEffect(()=>{
-    const userIds = localStorage.getItem("userIds");
-    const userMobile = Math.round(localStorage.getItem("userMobile"));
-    setUserIds(userIds)
-    setUserMobile(userMobile)
-  },[])
-
-  const fetchData = async () => {
-    try {
-      const data = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile`);
-      setShowAstrologer(data);
-    } catch (error) {
-      console.error("Error fetching astrologer profile:", error);
-    }
+  const fetchData = () => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile`)
+      .then((res) => {
+        setShowAstrologer(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
-
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [userData]);
 
-  const fetchDataUserDetail = async () => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`);
-      const data = await res.json(); // Parse the JSON response
-      setUserData(data);
-    } catch (error) {
-      console.error("Error fetching fetchDataUserDetail:", error);
-    }
-  };
-  
   useEffect(() => {
-    if (userMobile) {
-      fetchDataUserDetail();
+    if(userMobile){
+      axios
+      .get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
+      )
+      .then((res) => {
+        setUserData(res.data);
+      })
+      .catch((err) => {
+        console.log(err, "user login api error");
+      });
     }
+    
   }, [userMobile]);
-  
 
   useEffect(() => {
     if (showRecharge) {
@@ -71,8 +63,7 @@ const ChatWithAstrologer = () => {
     profileImage,
     astroName,
     astroCharge,
-    astroExperience,
-    profileStatus
+    astroExperience
   ) => {
     if (userAmount >= astroCharge * 2) {
       try {
@@ -80,7 +71,7 @@ const ChatWithAstrologer = () => {
         // await router.push(`/chat-with-astrologer/user/${userIds}`);
 
         // This code will run after the navigation is complete
-        localStorage.setItem("astrologerId", astrologerId);
+        secureLocalStorage.setItem("astrologerId", astrologerId);
 
         const messageId = {
           userIdToAst: userIds,
@@ -96,9 +87,7 @@ const ChatWithAstrologer = () => {
           chatDeduction: "0",
           DeleteOrderHistoryStatus: true, 
           chatStatus: true,
-          profileStatus: profileStatus
         };
-console.log("messageId", messageId, profileStatus);
 
         socket.emit("userId-to-astrologer", messageId);
       } catch (error) {
@@ -289,8 +278,7 @@ console.log("messageId", messageId, profileStatus);
                                     item.profileImage,
                                     item.name,
                                     item.charges,
-                                    item.experience,
-                                    item.profileStatus
+                                    item.experience
                                   )
                                 }
                               >
@@ -305,8 +293,7 @@ console.log("messageId", messageId, profileStatus);
                                     item.profileImage,
                                     item.name,
                                     item.charges,
-                                    item.experience,
-                                    item.profileStatus
+                                    item.experience
                                   )
                                 }
                               >

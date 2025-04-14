@@ -1,11 +1,12 @@
 "use client";
-import axios from "axios";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import AstroNotification from "../component/AstroNotification";
 import OtpData from "../component/OtpData";
+import { useEffect, useState } from "react";
+import AstroNotification from "../component/AstroNotification";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import secureLocalStorage from "react-secure-storage";
 import UserOtpLoginData from "../component/UserOtpLoginData";
 
 const Header = () => {
@@ -14,20 +15,20 @@ const Header = () => {
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
   const [userDetailData, setUserDetailData] = useState();
   const [astroDetailData, setAstroDetailData] = useState();
-  const [userMobile, setUserMobile] = useState(null);
   const [astrologerPhone, setAstrologerPhone] = useState();
 
-//   const  process.env.NEXT_PUBLIC_WEBSITE_URL  = useContext(UserContext);
-// console.log(process.env.NEXT_PUBLIC_WEBSITE_URL);
+// console.log(astrologerPhone,astroDetailData);
+  const [userMobile, setUserMobile] = useState();
+  console.log(userDetailData,userMobile);
 
-  useEffect(() => {
-    const astrologerPhone = localStorage.getItem("astrologer-phone");
-    setAstrologerPhone(astrologerPhone);
-  }, []);
+  useEffect(()=>{
+    const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
+  setAstrologerPhone(astrologerPhone)
+},[])
 
   useEffect(() => {
     const fetchUserMobile = () => {
-      const storedUserMob = localStorage.getItem("userMobile");
+      const storedUserMob = secureLocalStorage.getItem("userMobile");
       setUserMobile(storedUserMob);
     };
 
@@ -41,37 +42,40 @@ const Header = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (astrologerPhone && !isNaN(astrologerPhone)) {
-      axios
-        .get(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${Math.round(astrologerPhone)}`
-        )
-        .then((response) => {
-          setAstroDetailData(response?.data);
-        })
-        .catch((error) => {
-          console.log(error, "user detail api error");
-        });
+useEffect(() => {
+  const fetchAstroDetailData = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${Math.round(astrologerPhone)}`
+      );
+      setAstroDetailData(response?.data);
+    } catch (error) {
+      console.log(error, "user detail api error");
     }
-  }, [astrologerPhone]);
+  };
 
-  useEffect(() => {
-    if (userMobile) {
-      axios
-        .get(
-          `${
-            process.env.NEXT_PUBLIC_WEBSITE_URL
-          }/auth/user-login-detail/${Math.round(userMobile)}`
-        )
-        .then((response) => {
-          setUserDetailData(response?.data);
-        })
-        .catch((error) => {
-          console.log(error, "user detail api error");
-        });
+  if(astrologerPhone){
+
+    fetchAstroDetailData();
+  }
+}, [astrologerPhone]);
+
+useEffect(() => {
+  const fetchUserDetailData = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${Math.round(userMobile)}`
+      );
+      setUserDetailData(response?.data);
+    } catch (error) {
+      console.log(error, "user detail api error");
     }
-  }, [userMobile]);
+  };
+if(userMobile){
+
+  fetchUserDetailData();
+}
+}, [userMobile]);
 
   const handleOtpPop = () => {
     if (!astrologerPhone) {
@@ -81,10 +85,10 @@ const Header = () => {
 
   const userLogout = () => {
     window.dispatchEvent(new Event(""));
-    localStorage.removeItem("userIds");
-    localStorage.removeItem("userMobile");
-    localStorage.removeItem("astrologerId");
-    localStorage.removeItem("AstrologerNotificationStatus");
+    secureLocalStorage.removeItem("userIds");
+    secureLocalStorage.removeItem("userMobile");
+    secureLocalStorage.removeItem("astrologerId");
+    secureLocalStorage.removeItem("AstrologerNotificationStatus");
     setUserMobile(null);
   };
 
@@ -97,24 +101,11 @@ const Header = () => {
         }
       );
       if (response.data.message == "Success") {
-        localStorage.removeItem("astrologer-phone");
-        localStorage.setItem("astrLoginStatus", "1");
-
+        secureLocalStorage.removeItem("astrologer-phone");
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       }
-      console.log(response);
-      // update order history
-      const updateList = await axios.put(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
-        {
-          mobileNumber: astrologerPhone,
-          profileStatus: false,
-        }
-      );
-      console.log(updateList);
-
       console.log("Astrologer status updated:", response.data);
     } catch (error) {
       console.error(
@@ -137,27 +128,26 @@ const Header = () => {
       <div className="container">
         <div className="inner-header-sec ctm-flex-row ctm-align-items-center ctm-justify-content-between">
           <div className="header-left-logo">
-            <Link href="/" title="WeddingByte">
+            <Link
+              href="/"
+              title="WeddingByte"
+            >
               <img src="/astrotalk-logo.webp" alt="WeddingByte" />
             </Link>
           </div>
-          {!astrologerPhone && (
+           {!astrologerPhone && (
             <nav className="navbar">
               <ul>
                 <li>
                   <Link
-                    href={`${
-                      userMobile ? "/chat-with-astrologer" : "/free-chat"
-                    }`}
+                    href={`${userMobile ? "/chat-with-astrologer" : "/free-chat"}`}
                   >
                     Chat Now
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href={`${
-                      !userMobile ? "/free-chat" : "/chat-with-astrologer"
-                    }`}
+                    href={`${!userMobile ? "/free-chat" : "/chat-with-astrologer"}`}
                   >
                     Chat with Astrologer
                   </Link>
@@ -182,44 +172,29 @@ const Header = () => {
                   <Link href="/signup">Astrologer Registration</Link>
                 </li>
                 <li>
-                  <Link href="/admin">Admin</Link>
+                  <Link href="/super-admin">Super Admin</Link>
                 </li>
               </ul>
             </nav>
-          )}
+          )} 
           {astrologerPhone && (
             <>
-              <IoMdNotificationsOutline />
-
-              <AstroNotification />
+               <IoMdNotificationsOutline /> 
+              <AstroNotification astrologerPhone={astrologerPhone}/>
             </>
           )}
 
-          {astrologerPhone || userMobile ? (
+           {astrologerPhone || userMobile ? (
             <div className="header-right-profil-icon">
               <div className="user-dashboard-profile ctm-text-end">
                 <div className="user-dashboard-profile-main-pro">
                   <Link href="#" title="dashboard">
-                    <img
-                      src={
-                        astroDetailData
-                          ? `/images/${astroDetailData?.profileImage}`
-                          : `/user-profile-icon.jpg`
-                      }
-                      alt="user-profile"
-                    />
+                  <img src={astroDetailData ? `/images/${astroDetailData?.profileImage}` :`/user-profile-icon.jpg`} alt="user-profile" />
                   </Link>
                   <div className="user-dashboard-profile-menu">
                     <div className="user-inner-dashbord-pic">
                       <Link href="#" title="Profile">
-                        <img
-                          src={
-                            astroDetailData
-                              ? `/images/${astroDetailData?.profileImage}`
-                              : `/user-profile-icon.jpg`
-                          }
-                          alt="user-profile"
-                        />
+                        <img src={astroDetailData ? `/images/${astroDetailData?.profileImage}` :`/user-profile-icon.jpg`} alt="user-profile" />
                       </Link>
                       <div className="user-inner-dashbord-content">
                         <h5>
@@ -228,7 +203,7 @@ const Header = () => {
                             : `${userDetailData?.name}`}
                         </h5>
                         <Link href="#" title="Number">
-                          {astrologerPhone
+                        {astrologerPhone
                             ? `${astroDetailData?.mobileNumber}`
                             : `${userDetailData?.phone}`}
                         </Link>
@@ -275,7 +250,7 @@ const Header = () => {
             </div>
           ) : (
             <button onClick={handelUserLogin}>User Login</button>
-          )}
+          )} 
         </div>
       </div>
     </header>

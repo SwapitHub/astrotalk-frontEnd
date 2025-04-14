@@ -1,7 +1,6 @@
 import Chatting from "./Chatting";
 
 const fetchChatAstrologerData = async (astrologerId) => {
-
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerId}`, {
       cache: "no-store", // Ensure fresh data is fetched

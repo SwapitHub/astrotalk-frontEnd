@@ -1,5 +1,7 @@
 import axios from "axios";
+import secureLocalStorage from "react-secure-storage";
 const API_BASE_URL = process.env.NEXT_PUBLIC_WEBSITE_URL;
+const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
 
 // Common GET request function
 const getRequest = async (endpoint) => {
@@ -26,10 +28,6 @@ const postRequest = async (endpoint, data) => {
 
 // Define specific API calls using the common functions
 export const fetchAstrologerProfile = () => getRequest("/astrologer-businessProfile");
-export const fetchUserLoginDetails = (userMobile) => getRequest(`/auth/user-login-detail/${userMobile}`);
-export const fetchAstroStatusList = async () => getRequest(`/auth/astrologer-list?astroStatus=true`);
-export const fetchUserList = async () => getRequest(`/auth/user-login`);
-export const fetchAstroProfileDetail = async (astrologerPhone) => getRequest(`/astrologer-businessProfile/${astrologerPhone}`);
-export const fetchAstroDetail = async (astrologerPhone) => getRequest(`/auth/astrologer-detail/${astrologerPhone}`);
+export const fetchUserLoginDetails = () => getRequest(`/auth/user-login-detail/${userMobile}`);
 export const createBooking = (bookingData) => postRequest("/bookings", bookingData);
-
+export const updateProfile = (userId, profileData) => postRequest(`/users/${userId}/update`, profileData);

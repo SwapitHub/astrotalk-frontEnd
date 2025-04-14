@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import secureLocalStorage from "react-secure-storage";
 
 const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
   const router = useRouter();
@@ -10,7 +11,7 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
   const [otpSent, setOtpSent] = useState(false);
   const [message, setMessage] = useState("");
   const [timeOtpMessage, setTimeOtpMessage] = useState("");
-  // const localAstroMobile = localStorage.getItem("astrologer-phone");
+  const localAstroMobile = secureLocalStorage.getItem("astrologer-phone");
   const [pendingData, setPendingData] = useState([]);
 
   useEffect(() => {
@@ -75,9 +76,7 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
         router.push("/astrologer-dashboard");
         setOtpPopUpDisplayAstro(false);
         setOtpSent(false);
-        localStorage.setItem("astrologer-phone", phone);
-        localStorage.setItem("astrLoginStatus", "2");
-
+        secureLocalStorage.setItem("astrologer-phone", phone);
         try {
           const response = await axios.put(
             `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-status-by-mobile/${phone}`,
@@ -86,23 +85,11 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
               chatStatus: false,
             }
           );
-          console.log(response);
-          // update order history
-         const updateList= await axios.put(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
-          {
-            mobileNumber: phone,
-            profileStatus: true
-          }
-        );
-        console.log(updateList);
           if (response.data.message == "Success") {
             setTimeout(() => {
               window.location.reload();
             }, 2000);
           }
-
-          
           console.log("Astrologer status updated:", response.data);
         } catch (error) {
           console.error(
