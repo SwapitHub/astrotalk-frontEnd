@@ -6,23 +6,28 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { useRef } from "react";
 import secureLocalStorage from "react-secure-storage";
+import { useParams } from "next/navigation";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
   transports: ["websocket"],
   reconnection: true,
 });
 
-export default function Chatting({ astrologer }) {
+export default function Chatting() {
   const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
-
+  const params = useParams();
+  const astrologerIdPram = params?.id[0];
+  console.log(params.id[0]);
+  
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
   const [message, setMessage] = useState("");
   const [astrologerData, setAstrologerData] = useState("");
   const [messageData, setMessageData] = useState([]);
   const [user, setUser] = useState("");
+  const [astrologer, setAstrologer] = useState("");
   const [showUserData, setShowUserData] = useState("");
   const astrologerId = secureLocalStorage.getItem("astrologerId");
   const userIds = secureLocalStorage.getItem("userIds");
@@ -70,6 +75,30 @@ if(data.astrologerData.mobileNumber==astrologerPhone){
       socket.disconnect();
     };
   }, []);
+
+  const fetchChatAstrologerData = async (astrologerIdPram) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerIdPram}`, {
+        cache: "no-store", // Prevent caching
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch astrologer data");
+      }
+  
+      const data = await response.json();
+      setAstrologer(data); // Set actual JSON data
+      return data;
+    } catch (error) {
+      console.error("Error fetching astrologer data:", error);
+      return null;
+    }
+  };
+  useEffect(() => {
+    fetchChatAstrologerData(astrologerIdPram);
+  }, [astrologerIdPram]);
+  
+
 
   useEffect(() => {
     axios
@@ -272,7 +301,6 @@ if(data.astrologerData.mobileNumber==astrologerPhone){
  let userTotalAmount = showUserData?.totalAmount;
  let astroChatPricePerMinute = Math.round(astrologerData.charges);
  let totalTimeSecond = (userTotalAmount / astroChatPricePerMinute) * 60;
-console.log(totalChatTime);
 
  useEffect(() => {
    if (totalChatTime > 0) {
