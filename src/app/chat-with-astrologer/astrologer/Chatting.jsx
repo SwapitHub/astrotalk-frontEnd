@@ -23,7 +23,6 @@ export default function Chatting({astrologer}) {
   const [astrologerData, setAstrologerData] = useState("");
   const [messageData, setMessageData] = useState([]);
   const [user, setUser] = useState("");
-  // const [astrologer, setAstrologer] = useState("");
   const [showUserData, setShowUserData] = useState("");
   const astrologerId = secureLocalStorage.getItem("astrologerId");
   const userIds = secureLocalStorage.getItem("userIds");
@@ -71,28 +70,6 @@ if(data.astrologerData.mobileNumber==astrologerPhone){
       socket.disconnect();
     };
   }, []);
-
-//   const fetchChatAstrologerData = async (astrologerId, setAstrologer) => {
-//     try {
-//       const response = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerId}`, {
-//         cache: "no-store", // Prevent caching
-//       });
-  
-//       if (!response.ok) {
-//         throw new Error("Failed to fetch astrologer data");
-//       }
-  
-//       const data = await response.json();
-//       setAstrologer(data); // Set actual JSON data
-//       return data;
-//     } catch (error) {
-//       console.error("Error fetching astrologer data:", error);
-//       return null;
-//     }
-//   };
-//   useEffect(() => {
-//   fetchChatAstrologerData(astrologerId, setAstrologer);
-// }, [astrologerId]);
 
 
 

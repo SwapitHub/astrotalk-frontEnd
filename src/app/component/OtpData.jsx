@@ -77,8 +77,6 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
         setOtpPopUpDisplayAstro(false);
         setOtpSent(false);
         secureLocalStorage.setItem("astrologer-phone", phone);
-        console.log(phone);
-        
         try {
           const response = await axios.put(
             `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-status-by-mobile/${phone}`,
