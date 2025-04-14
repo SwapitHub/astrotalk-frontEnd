@@ -68,7 +68,7 @@ export const validateAstrologerForm = (formType) => {
     const Experience = document.getElementById("Experience")?.value.trim();
     const Charges = document.getElementById("Charges")?.value.trim();
     // const minute = document.getElementById("minute")?.value.trim();
-    const imagePic = document.getElementById("image")?.value.trim();
+    // const imagePic = document.getElementById("image")?.value.trim();
 
 if (!professions || professions === "Please select profession") {
     errors.professions = "Please select profession";
@@ -83,9 +83,9 @@ if (!professions || professions === "Please select profession") {
     // if(!minute){
     //     errors.minute = "Minute is required";
     // }
-    if(!imagePic){
-        errors.imagePic = "Image is required";
-    }
+    // if(!imagePic){
+    //     errors.imagePic = "Image is required";
+    // }
     
   }
   
