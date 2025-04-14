@@ -28,6 +28,7 @@ export default function Chatting({ astrologer }) {
   const userIds = secureLocalStorage.getItem("userIds");
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState();
+    
   useEffect(() => {
     let storedNotification = secureLocalStorage.getItem(
       "AstrologerNotificationStatus"
