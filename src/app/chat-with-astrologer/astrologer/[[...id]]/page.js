@@ -18,7 +18,7 @@ const fetchChatAstrologerData = async (astrologerId) => {
 };
 
 const ChattingServer = async (props) => {
-  const { id } = await props.params; // ✅ Await the params object
+  const { id } = await props.params; 
 
   const astrologer = await fetchChatAstrologerData(id);
 
