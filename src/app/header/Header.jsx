@@ -189,12 +189,12 @@ if(userMobile){
               <div className="user-dashboard-profile ctm-text-end">
                 <div className="user-dashboard-profile-main-pro">
                   <Link href="#" title="dashboard">
-                  <img src={astroDetailData ? `/images/${astroDetailData?.profileImage}` :`/user-profile-icon.jpg`} alt="user-profile" />
+                  <img src={astroDetailData ? `${astroDetailData?.profileImage}` :`/user-profile-icon.jpg`} alt="user-profile" />
                   </Link>
                   <div className="user-dashboard-profile-menu">
                     <div className="user-inner-dashbord-pic">
                       <Link href="#" title="Profile">
-                        <img src={astroDetailData ? `/images/${astroDetailData?.profileImage}` :`/user-profile-icon.jpg`} alt="user-profile" />
+                        <img src={astroDetailData ? `${astroDetailData?.profileImage}` :`/user-profile-icon.jpg`} alt="user-profile" />
                       </Link>
                       <div className="user-inner-dashbord-content">
                         <h5>
