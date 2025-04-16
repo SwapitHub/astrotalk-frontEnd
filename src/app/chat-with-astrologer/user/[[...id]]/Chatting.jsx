@@ -346,7 +346,7 @@ console.log(totalChatTime);
           <div className="inner-chat-top-header ctm-flex-row ctm-justify-content-between ctm-align-items-center">
             <div className="chat-left-logo ctm-flex-row ctm-align-items-center">
               <div className="header-chat-logo">
-                
+                fjhdjfhdjfhdfjd
                 <a href="#" title="header-logo">
                   <img
                     src={`${astrologerData.profileImage}`}

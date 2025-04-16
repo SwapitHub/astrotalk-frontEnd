@@ -172,7 +172,7 @@ if(userMobile){
                   <Link href="/signup">Astrologer Registration</Link>
                 </li>
                 <li>
-                  <Link href="/admin">Admin</Link>
+                  <Link href="/admin">Admin</Link>eqweqewqweqweqweqw
                 </li>
               </ul>
             </nav>
