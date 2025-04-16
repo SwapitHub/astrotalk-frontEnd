@@ -206,13 +206,13 @@ const ChatWithAstrologer = () => {
                     <div className="inner-astrologer-detail" key={item.id}>
                       <div className="astrologer-list-left">
                         <div className="astrologer-profile">
-                          {/* <a href="#" title="Shriniwas">
+                          <a href="#" title="Shriniwas">
                             {" "}
                             <img
-                              src={`./images/${item?.profileImage}`}
+                              src={`${item?.profileImage}`}
                               alt="Sauvikh"
                             />
-                          </a> */}
+                          </a>
                         </div>
                         <div className="five-star-rating">
                           <ul>

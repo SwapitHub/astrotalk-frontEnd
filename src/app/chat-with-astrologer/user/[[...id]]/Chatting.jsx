@@ -348,7 +348,7 @@ console.log(totalChatTime);
               <div className="header-chat-logo">
                 <a href="#" title="header-logo">
                   <img
-                    src={`/images/${astrologerData.profileImage}`}
+                    src={`${astrologerData.profileImage}`}
                     alt="Chat"
                   />
                 </a>
