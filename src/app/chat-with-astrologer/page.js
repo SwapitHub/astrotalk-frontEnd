@@ -6,7 +6,17 @@ import io from "socket.io-client";
 import UserRecharge from "../component/UserRechargePopUp";
 import Link from "next/link";
 import secureLocalStorage from "react-secure-storage";
-const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
+// const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
+const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
+  reconnection: true,
+  reconnectionAttempts: Infinity,
+  reconnectionDelay: 1000,
+  reconnectionDelayMax: 5000,
+  timeout: 20000,
+  transports: ['websocket', 'polling'],
+  withCredentials: true,
+  autoConnect: true
+});
 
 const ChatWithAstrologer = () => {
   const [showAstrologer, setShowAstrologer] = useState();
@@ -65,6 +75,10 @@ const ChatWithAstrologer = () => {
     astroCharge,
     astroExperience
   ) => {
+    if (!userIds) {
+      console.error("userIds is undefined!");
+      return;
+    }
     if (userAmount >= astroCharge * 2) {
       try {
         // Navigate to the chat page
