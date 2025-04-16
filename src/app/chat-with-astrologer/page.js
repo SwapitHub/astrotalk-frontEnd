@@ -7,7 +7,7 @@ import UserRecharge from "../component/UserRechargePopUp";
 import Link from "next/link";
 import secureLocalStorage from "react-secure-storage";
 // const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
-const socket = io('https://astrotalk-backend.onrender.com', {
+const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   withCredentials: true,
   reconnection: true,
   reconnectionAttempts: 5,
@@ -71,7 +71,7 @@ const ChatWithAstrologer = () => {
   const onChangeId = async (
     astrologerId,
     mobileNumber,
-    profileImage,
+    // profileImage,
     astroName,
     astroCharge,
     astroExperience
@@ -92,7 +92,7 @@ const ChatWithAstrologer = () => {
           userIdToAst: userIds,
           astrologerIdToAst: astrologerId,
           mobileNumber: mobileNumber,
-          profileImage: profileImage,
+          // profileImage: profileImage,
           astroName: astroName,
           astroCharges: astroCharge,
           astroExperience: astroExperience,
@@ -206,13 +206,13 @@ const ChatWithAstrologer = () => {
                     <div className="inner-astrologer-detail" key={item.id}>
                       <div className="astrologer-list-left">
                         <div className="astrologer-profile">
-                          <a href="#" title="Shriniwas">
+                          {/* <a href="#" title="Shriniwas">
                             {" "}
                             <img
                               src={`./images/${item?.profileImage}`}
                               alt="Sauvikh"
                             />
-                          </a>
+                          </a> */}
                         </div>
                         <div className="five-star-rating">
                           <ul>
@@ -290,7 +290,7 @@ const ChatWithAstrologer = () => {
                                   onChangeId(
                                     item._id,
                                     item.mobileNumber,
-                                    item.profileImage,
+                                    // item.profileImage,
                                     item.name,
                                     item.charges,
                                     item.experience
@@ -305,7 +305,7 @@ const ChatWithAstrologer = () => {
                                   onChangeId(
                                     item._id,
                                     item.mobileNumber,
-                                    item.profileImage,
+                                    // item.profileImage,
                                     item.name,
                                     item.charges,
                                     item.experience

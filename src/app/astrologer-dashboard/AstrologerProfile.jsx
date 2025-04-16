@@ -24,60 +24,80 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
         console.log(error);
       });
   }, []);
+
+  
   const handleBusinessProfile = async () => {
     const validationErrors = validateAstrologerForm("astroProfile");
+    console.log(validationErrors);
+
     setErrors(validationErrors);
-  
+
     if (Object.keys(validationErrors).length > 0) {
       return;
     }
-  
-    const profileData = {
-      name: document.getElementById("fname").value,
-      profession: document.getElementById("profession").value,
-      languages: document.getElementById("language").value,
-      experience: document.getElementById("Experience")?.value || "",
-      charges: document.getElementById("Charges").value,
-      Description: document.getElementById("description").value,
-      mobileNumber: document.getElementById("mobileNumber").value,
-      profileStatus: true,
-      chatStatus: false,
-    };
-  
-    console.log("Submitting data:", profileData);
-  
+
+    const formData = new FormData();
+    formData.append("name", document.getElementById("fname").value);
+    formData.append("profession", document.getElementById("profession").value);
+    formData.append("languages", document.getElementById("language").value);
+    formData.append(
+      "experience",
+      document.getElementById("Experience")?.value || ""
+    );
+    formData.append("charges", document.getElementById("Charges").value);
+    formData.append(
+      "Description",
+      document.getElementById("description").value
+    );
+    // formData.append("minute", document.getElementById("minute").value);
+    formData.append(
+      "mobileNumber",
+      document.getElementById("mobileNumber").value
+    );
+    formData.append("profileStatus", true);
+    formData.append("chatStatus", false);
+
+    // Append the image file
+    const imageFile = document.getElementById("image").files[0];
+    if (!imageFile) {
+      console.warn("Image file is required.");
+      return;
+    }
+    formData.append("image", imageFile);
+
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile`,
-        profileData,
+        formData,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
         }
       );
-  
       if (response.data.message === "success") {
-        // Clear form inputs
-        document.getElementById("fname").value = "";
+        // document.getElementById("fname").value = "";
         document.getElementById("profession").value = "";
-        document.getElementById("language").value = "";
+        // document.getElementById("language").value = "";
         document.getElementById("Experience").value = "";
-        document.getElementById("Charges").value = "";
         document.getElementById("description").value = "";
-        document.getElementById("mobileNumber").value = "";
-  
+        document.getElementById("Charges").value = "";
+        // document.getElementById("minute").value = "";
+        // document.getElementById("mobileNumber").value = "";
+        // setSuccessMessage(response.data.message)
+        console.log("Form reset successfully.");
         setSuccessMessageProfile(response.data);
-        setSuccessMessage(response.data.message);
-  
+        // setSuccessMessage(response.data.message)
+        localStorage.setItem("astrLoginStatus", "0");
         toast.success("Profile Completed Successfully", {
           position: "top-right",
         });
       }
-  
+
+      // fetchDataBusinessProfile();
       console.log("Registration successful:", response.data);
     } catch (error) {
-      console.error(
+      console.log(
         "Error in registration:",
         error.response?.data?.message || error.message
       );
@@ -105,7 +125,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
               </a>
             </div>
             <div className="add-profile-content">
-              {/* <div className="inner-form-filed-sec full">
+              <div className="inner-form-filed-sec full">
                 <div className="label-content">
                   <label htmlFor="image">
                     Upload Image <span>(छवि अपलोड करें)</span>
@@ -119,7 +139,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
                   className="common-input-filed"
                 />
                 {errors.imagePic && <p className="error">{errors.imagePic}</p>}
-              </div> */}
+              </div>
             </div>
           </div>
 
