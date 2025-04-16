@@ -7,15 +7,16 @@ import UserRecharge from "../component/UserRechargePopUp";
 import Link from "next/link";
 import secureLocalStorage from "react-secure-storage";
 // const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
-const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
+const socket = io('https://astrotalk-backend.onrender.com', {
+  withCredentials: true,
   reconnection: true,
-  reconnectionAttempts: Infinity,
+  reconnectionAttempts: 5,
   reconnectionDelay: 1000,
   reconnectionDelayMax: 5000,
   timeout: 20000,
-  transports: ['websocket', 'polling'],
-  withCredentials: true,
-  autoConnect: true
+  transports: ['websocket'], // Try WebSocket first
+  autoConnect: true,
+  forceNew: true
 });
 
 const ChatWithAstrologer = () => {
