@@ -2156,7 +2156,7 @@ section.chat-top-header .container{
     color: #bf2554;
 }
 
-.ctm-color-red {
+.ctm-color-red, .error-message {
     color: #ff0000;
 }
 
@@ -2475,6 +2475,63 @@ body.user-recharge:before {
 }
 p.error {
     color: red;
+}
+
+.man-input-filed-sec {
+    max-width: 480px;
+    margin: 0 auto;
+    font-family: Poppins, sans-serif;
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 0 20px 1px #666;
+    background-color: #fff;
+    overflow: hidden;
+    padding: 20px;
+    width: 100%;
+}
+
+.admin-detail-popup label:first-child {
+    margin-top: 0;
+}
+
+.admin-detail-popup label {
+    font-size: 15px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    color: #000;     display: block;
+}
+.admin-detail-popup input {
+    border-radius: 5px;
+    width: 100%;
+    color: #232323;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: normal;
+    outline-style: none;
+    padding: 10px;
+    box-shadow: none !important;
+    background: transparent !important;
+    border: 1px solid #d9d9d9;
+    height: 40px;
+}
+.admin-detail-popup button {
+    background-color: #bf2554;
+    color: #fff;
+    border: none;
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: normal;
+    font-size: 16px;
+}
+body.admin-popup .outer-send-otp-main {
+    display:flex !important;
+}
+.outer-send-otp-main {
+    display: none;
 }
 /*========================26-march-2025====================*/
 
