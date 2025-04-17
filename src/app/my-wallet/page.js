@@ -1,4 +1,4 @@
-// import MyWalletHome from "./MyWalletHome";
+import MyWalletHome from "./MyWalletHome";
 
 
 
@@ -6,8 +6,7 @@ const MyWalletServer = async () => {
 
   return (
     <>
-      {/* <MyWalletHome /> */}
-      jgjhghjghg
+      <MyWalletHome />
     </>
   );
 };

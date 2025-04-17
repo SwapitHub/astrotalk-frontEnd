@@ -120,11 +120,8 @@ if(userMobile){
       );
     }
   };
-  useEffect(() => {
-    if (!admin_id) {
-      router.push("/admin");
-    }
-  }, [admin_id, router, otpPopUpDisplay]);
+  
+
   const handelUserLogin = () => {
     setOtpPopUpDisplay(true);
   };
