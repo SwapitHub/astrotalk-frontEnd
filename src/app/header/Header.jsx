@@ -171,9 +171,9 @@ if(userMobile){
                 <li>
                   <Link href="/signup">Astrologer Registration</Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link href="/admin">Admin</Link>
-                </li>
+                </li> */}
               </ul>
             </nav>
           )} 
