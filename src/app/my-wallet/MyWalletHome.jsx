@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
 import MyWallet from "./MyWallet";
-import MyWalletPaymentLog from "./myWalletPaymentLog";
+// import MyWalletPaymentLog from "./myWalletPaymentLog";
 
 const MyWalletHome = () => {
     const [transactionBtn, setTransactionBtn] = useState("Wallet")
@@ -35,10 +35,10 @@ const MyWalletHome = () => {
             {transactionBtn=="Wallet" &&
                 <MyWallet/>               
             }
-            {
+            {/* {
                  transactionBtn == "PaymentLogs" && 
                  <MyWalletPaymentLog/>
-            }
+            } */}
           </div>
         </div>
       </div>
