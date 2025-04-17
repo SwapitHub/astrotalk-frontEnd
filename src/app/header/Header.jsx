@@ -16,10 +16,16 @@ const Header = () => {
   const [userDetailData, setUserDetailData] = useState();
   const [astroDetailData, setAstroDetailData] = useState();
   const [astrologerPhone, setAstrologerPhone] = useState();
+  const [admin_id, setAdmin_id] = useState();
 
 // console.log(astrologerPhone,astroDetailData);
   const [userMobile, setUserMobile] = useState();
   console.log(userDetailData,userMobile);
+
+useEffect(()=>{
+  const admin_id = secureLocalStorage.getItem("admin_id");
+  setAdmin_id(admin_id)
+},[admin_id])
 
   useEffect(()=>{
     const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
@@ -114,10 +120,18 @@ if(userMobile){
       );
     }
   };
-
+  useEffect(() => {
+    if (!admin_id) {
+      router.push("/admin");
+    }
+  }, [admin_id, router, otpPopUpDisplay]);
   const handelUserLogin = () => {
     setOtpPopUpDisplay(true);
   };
+  const handleAdminLogOut = ()=>{
+   secureLocalStorage.removeItem("admin_id");
+   return  router.push("/admin")
+  }
   return (
     <header className="wedding-header">
       <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
@@ -248,7 +262,7 @@ if(userMobile){
                 </div>
               </div>
             </div>
-          ) : (
+          ) : admin_id ? <button onClick={handleAdminLogOut}>Log out admin</button> :(
             <button onClick={handelUserLogin}>User Login</button>
           )} 
         </div>

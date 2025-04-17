@@ -2156,7 +2156,7 @@ section.chat-top-header .container{
     color: #bf2554;
 }
 
-.ctm-color-red, .error-message {
+.ctm-color-red {
     color: #ff0000;
 }
 
@@ -2473,11 +2473,13 @@ body.user-recharge:before {
 .dashboard-inner {
     padding-top: 50px;
 }
-p.error {
+p.error, .error-message {
     color: red;
 }
 
-.man-input-filed-sec {
+
+
+.admin-popup-main .man-input-filed-sec {
     max-width: 480px;
     margin: 0 auto;
     font-family: Poppins, sans-serif;
@@ -2490,17 +2492,19 @@ p.error {
     width: 100%;
 }
 
-.admin-detail-popup label:first-child {
+.admin-popup-main .admin-detail-popup label:first-child {
     margin-top: 0;
 }
 
-.admin-detail-popup label {
+.admin-popup-main .admin-detail-popup label {
     font-size: 15px;
     margin-bottom: 10px;
     margin-top: 10px;
-    color: #000;     display: block;
+    color: #000;
+    padding: 5px 0;
+    display: inline-block;
 }
-.admin-detail-popup input {
+.admin-popup-main .admin-detail-popup input {
     border-radius: 5px;
     width: 100%;
     color: #232323;
@@ -2514,7 +2518,7 @@ p.error {
     border: 1px solid #d9d9d9;
     height: 40px;
 }
-.admin-detail-popup button {
+.admin-popup-main .admin-detail-popup button {
     background-color: #bf2554;
     color: #fff;
     border: none;
@@ -2527,11 +2531,10 @@ p.error {
     font-weight: normal;
     font-size: 16px;
 }
-body.admin-popup .outer-send-otp-main {
-    display:flex !important;
-}
-.outer-send-otp-main {
-    display: none;
+.admin-popup-main .admin-popup-outer-inner{
+    max-width: 40%;
+    margin: 0 auto;
+    padding-top: 27px;
 }
 /*========================26-march-2025====================*/
 
