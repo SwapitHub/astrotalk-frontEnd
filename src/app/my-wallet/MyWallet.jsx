@@ -59,8 +59,10 @@ useEffect(()=>{
         console.log("Error login detail api", error);
       }
     };
-  
-    fetchUserLoginDetail();
+  if(userPhone){
+
+      fetchUserLoginDetail();
+  }
   }, [userPhone]);
   return (
     <div

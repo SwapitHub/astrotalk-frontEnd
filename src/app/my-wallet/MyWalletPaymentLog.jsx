@@ -1,29 +1,26 @@
 "use client";
-import axios from "axios";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import secureLocalStorage from "react-secure-storage";
 
 const MyWalletPaymentLog = ()  => {
-  const userPhone = Math.round(secureLocalStorage.getItem("userMobile"));
-  const [userData, setUserData] = useState();
-console.log(userPhone);
+//   const userPhone = Math.round(secureLocalStorage.getItem("userMobile"));
+//   const [userData, setUserData] = useState();
+// console.log(userPhone);
 
-useEffect(() => {
-  const fetchOrderUserList = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/create-order-user-list/${userPhone}`
-      );
-      console.log(response);
-      setUserData(response.data);
-    } catch (error) {
-      console.log("Error login detail api", error);
-    }
-  };
+// useEffect(() => {
+//   const fetchOrderUserList = async () => {
+//     try {
+//       const response = await axios.get(
+//         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/create-order-user-list/${userPhone}`
+//       );
+//       console.log(response);
+//       setUserData(response.data);
+//     } catch (error) {
+//       console.log("Error login detail api", error);
+//     }
+//   };
 
-  fetchOrderUserList();
-}, [userPhone]);
+//   fetchOrderUserList();
+// }, [userPhone]);
 
   return (
     <div
@@ -76,7 +73,7 @@ useEffect(() => {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
+          {/* <tbody>
             {userData?.map((item) => {
               return (
                 <>
@@ -99,7 +96,7 @@ useEffect(() => {
                 </>
               );
             })}
-          </tbody>
+          </tbody> */}
         </table>
       </div>
     </div>
