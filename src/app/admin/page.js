@@ -34,6 +34,7 @@ const Admin = () => {
       if (admin?.email === email && admin?.password === password) {
         secureLocalStorage.setItem("admin_id", admin._id);
         router.push("/admin/dashboard");
+        window.dispatchEvent(new Event("admin_id_updated"));
       } else {
         setError("Invalid email or password");
       }

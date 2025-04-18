@@ -88,6 +88,15 @@ console.log(response);
         //   window.location.reload();
         // }, 300);
       }
+          // update order history page api
+          // const updateList = await axios.put(
+          //   `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
+          //   {
+          //     mobileNumber: astrologerPhone,
+          //     chatStatus: true
+          //   }
+          // );
+          // console.log("update order history",updateList);
     } catch (error) {
       console.error(
         "Failed to update astrologer status:",

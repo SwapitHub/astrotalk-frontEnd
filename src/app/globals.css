@@ -1044,7 +1044,6 @@ section.talk-to-astrologer-bg {
 }
 
 .astrologer-list-right {
-    width: 25%;
     position: relative;
 }
 .astrologer-profile a{
@@ -1139,12 +1138,6 @@ section.talk-to-astrologer-bg {
     background-color: #28ba51;
     color: #fff;
     transition: 0.3s ease-in-out;
-}
-
-.astrologer-call-button-ctm {
-    position: absolute;
-    bottom: 0;
-    right: 0;
 }
 
 .Verified-Sticker-icon {
@@ -2346,11 +2339,6 @@ table, th, td {
 .order-id-sec ul .images{
     width: 20%;
 }
-.order-id-sec ul li a {
-    position: absolute;
-    top: 0;
-    right: 0;
-}
 
 .inner-ctm-chat-with-astrologer-top a {
     width: 100%;
@@ -2477,7 +2465,69 @@ p.error, .error-message {
     color: red;
 }
 
+/*========================9 April-2025====================*/
 
+.inner-scroll {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 10px;
+    margin-left: -10px;
+    margin-right: -10px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.order-id-sec > ul  > li:first-child {
+    width: calc(70% - 20px);
+}
+.order-id-sec > ul  > li.help-list-button-ctm {
+    width: calc(30% - 10px);
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+}
+.order-id-sec > ul > li.help-list-button-ctm .hide-div-img-text .images img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 100%;
+    object-position: center top;
+}
+.order-id-sec > ul > li.help-list-button-ctm .price {
+    margin-top: 7px;
+}
+.astrologer-call-button-ctm a {
+    color: #13853a;
+    background-color: #fff;
+    border: 1px solid #13853a;
+    font-size: 16px;
+    padding: 3px 0;
+    display: block;
+    border-radius: 8px;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: all .3s ease-in-out;
+    outline: none;
+    float: none;
+    width: 100%;
+    margin-bottom: 0;
+    font-weight: 500;
+    text-align: center;
+    padding: 5px 15px;
+    margin-top: 10px;
+}
+.order-id-sec > ul > li.help-list-button-ctm .price, .order-id-sec > ul > li.help-list-button-ctm .images {
+    text-align: center;
+}
+.order-id-sec ul li.help-list-button-ctm {
+    position: absolute;
+    right: 0;
+    top: 10px;
+}
+
+/*========================9 April-2025====================*/
 
 .admin-popup-main .man-input-filed-sec {
     max-width: 480px;

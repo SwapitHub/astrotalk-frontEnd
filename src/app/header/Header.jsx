@@ -16,21 +16,32 @@ const Header = () => {
   const [userDetailData, setUserDetailData] = useState();
   const [astroDetailData, setAstroDetailData] = useState();
   const [astrologerPhone, setAstrologerPhone] = useState();
-  const [admin_id, setAdmin_id] = useState();
+  const [admin_id, setAdmin_id] = useState(() =>
+    secureLocalStorage.getItem("admin_id")
+  );
 
-// console.log(astrologerPhone,astroDetailData);
+  // console.log(astrologerPhone,astroDetailData);
   const [userMobile, setUserMobile] = useState();
-  console.log(userDetailData,userMobile);
+  console.log(admin_id);
 
-useEffect(()=>{
-  const admin_id = secureLocalStorage.getItem("admin_id");
-  setAdmin_id(admin_id)
-},[admin_id])
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const updatedId = secureLocalStorage.getItem("admin_id");
+      setAdmin_id(updatedId);
+    };
 
-  useEffect(()=>{
+    window.addEventListener("admin_id_updated", handleStorageChange);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("admin_id_updated", handleStorageChange);
+    };
+  }, []);
+
+  useEffect(() => {
     const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
-  setAstrologerPhone(astrologerPhone)
-},[])
+    setAstrologerPhone(astrologerPhone);
+  }, []);
 
   useEffect(() => {
     const fetchUserMobile = () => {
@@ -48,40 +59,42 @@ useEffect(()=>{
     };
   }, []);
 
-useEffect(() => {
-  const fetchAstroDetailData = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${Math.round(astrologerPhone)}`
-      );
-      setAstroDetailData(response?.data);
-    } catch (error) {
-      console.log(error, "user detail api error");
+  useEffect(() => {
+    const fetchAstroDetailData = async () => {
+      try {
+        const response = await axios.get(
+          `${
+            process.env.NEXT_PUBLIC_WEBSITE_URL
+          }/astrologer-businessProfile/${Math.round(astrologerPhone)}`
+        );
+        setAstroDetailData(response?.data);
+      } catch (error) {
+        console.log(error, "user detail api error");
+      }
+    };
+
+    if (astrologerPhone) {
+      fetchAstroDetailData();
     }
-  };
+  }, [astrologerPhone]);
 
-  if(astrologerPhone){
-
-    fetchAstroDetailData();
-  }
-}, [astrologerPhone]);
-
-useEffect(() => {
-  const fetchUserDetailData = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${Math.round(userMobile)}`
-      );
-      setUserDetailData(response?.data);
-    } catch (error) {
-      console.log(error, "user detail api error");
+  useEffect(() => {
+    const fetchUserDetailData = async () => {
+      try {
+        const response = await axios.get(
+          `${
+            process.env.NEXT_PUBLIC_WEBSITE_URL
+          }/auth/user-login-detail/${Math.round(userMobile)}`
+        );
+        setUserDetailData(response?.data);
+      } catch (error) {
+        console.log(error, "user detail api error");
+      }
+    };
+    if (userMobile) {
+      fetchUserDetailData();
     }
-  };
-if(userMobile){
-
-  fetchUserDetailData();
-}
-}, [userMobile]);
+  }, [userMobile]);
 
   const handleOtpPop = () => {
     if (!astrologerPhone) {
@@ -113,6 +126,15 @@ if(userMobile){
         }, 2000);
       }
       console.log("Astrologer status updated:", response.data);
+      // update order history
+      const updateList = await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
+        {
+          mobileNumber: astrologerPhone,
+          profileStatus: false
+        }
+      );
+      console.log("update order history",updateList);
     } catch (error) {
       console.error(
         "Failed to update astrologer status:",
@@ -120,15 +142,20 @@ if(userMobile){
       );
     }
   };
-  
 
   const handelUserLogin = () => {
     setOtpPopUpDisplay(true);
   };
-  const handleAdminLogOut = ()=>{
-   secureLocalStorage.removeItem("admin_id");
-   return  router.push("/admin")
-  }
+  const handleAdminLogOut = () => {
+    secureLocalStorage.removeItem("admin_id");
+
+    // Notify other parts of the app
+    window.dispatchEvent(new Event("admin_id_updated"));
+
+    // Redirect
+    router.push("/admin");
+  };
+
   return (
     <header className="wedding-header">
       <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
@@ -139,26 +166,27 @@ if(userMobile){
       <div className="container">
         <div className="inner-header-sec ctm-flex-row ctm-align-items-center ctm-justify-content-between">
           <div className="header-left-logo">
-            <Link
-              href="/"
-              title="WeddingByte"
-            >
+            <Link href="/" title="WeddingByte">
               <img src="/astrotalk-logo.webp" alt="WeddingByte" />
             </Link>
           </div>
-           {!astrologerPhone && (
+          {!astrologerPhone && (
             <nav className="navbar">
               <ul>
                 <li>
                   <Link
-                    href={`${userMobile ? "/chat-with-astrologer" : "/free-chat"}`}
+                    href={`${
+                      userMobile ? "/chat-with-astrologer" : "/free-chat"
+                    }`}
                   >
                     Chat Now
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href={`${!userMobile ? "/free-chat" : "/chat-with-astrologer"}`}
+                    href={`${
+                      !userMobile ? "/free-chat" : "/chat-with-astrologer"
+                    }`}
                   >
                     Chat with Astrologer
                   </Link>
@@ -187,25 +215,41 @@ if(userMobile){
                 </li> */}
               </ul>
             </nav>
-          )} 
+          )}
           {astrologerPhone && (
             <>
-               <IoMdNotificationsOutline /> 
-              <AstroNotification astrologerPhone={astrologerPhone}/>
+              <IoMdNotificationsOutline />
+              <AstroNotification astrologerPhone={astrologerPhone} />
             </>
           )}
 
-           {astrologerPhone || userMobile ? (
+          {admin_id ? (
+            <button onClick={handleAdminLogOut}>Log out admin</button>
+          ) : astrologerPhone || userMobile ? (
             <div className="header-right-profil-icon">
               <div className="user-dashboard-profile ctm-text-end">
                 <div className="user-dashboard-profile-main-pro">
                   <Link href="#" title="dashboard">
-                  <img src={astroDetailData ? `${astroDetailData?.profileImage}` :`/user-profile-icon.jpg`} alt="user-profile" />
+                    <img
+                      src={
+                        astroDetailData
+                          ? `${astroDetailData?.profileImage}`
+                          : `/user-profile-icon.jpg`
+                      }
+                      alt="user-profile"
+                    />
                   </Link>
                   <div className="user-dashboard-profile-menu">
                     <div className="user-inner-dashbord-pic">
                       <Link href="#" title="Profile">
-                        <img src={astroDetailData ? `${astroDetailData?.profileImage}` :`/user-profile-icon.jpg`} alt="user-profile" />
+                        <img
+                          src={
+                            astroDetailData
+                              ? `${astroDetailData?.profileImage}`
+                              : `/user-profile-icon.jpg`
+                          }
+                          alt="user-profile"
+                        />
                       </Link>
                       <div className="user-inner-dashbord-content">
                         <h5>
@@ -214,7 +258,7 @@ if(userMobile){
                             : `${userDetailData?.name}`}
                         </h5>
                         <Link href="#" title="Number">
-                        {astrologerPhone
+                          {astrologerPhone
                             ? `${astroDetailData?.mobileNumber}`
                             : `${userDetailData?.phone}`}
                         </Link>
@@ -222,27 +266,34 @@ if(userMobile){
                     </div>
                     <div className="user-dashboard-profile-drop-down-menu">
                       <ul>
-                        <li>
-                          <Link href="/notification" title="notification">
-                            Notification
-                          </Link>
-                        </li>
-                        <li>
-                          <Link href="/my-wallet" title="Wallet Transactions">
-                            Wallet Transactions{" "}
-                            <span className="amount-ctm-content">
-                              &#8377; 0
-                            </span>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            href="/order-history/report"
-                            title="order history"
-                          >
-                            Order History
-                          </Link>
-                        </li>
+                        {!astrologerPhone && (
+                          <>
+                            <li>
+                              <Link href="/notification" title="notification">
+                                Notification
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                href="/my-wallet"
+                                title="Wallet Transactions"
+                              >
+                                Wallet Transactions{" "}
+                                <span className="amount-ctm-content">
+                                  &#8377; 0
+                                </span>
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                href="/order-history/report"
+                                title="order history"
+                              >
+                                Order History
+                              </Link>
+                            </li>
+                          </>
+                        )}
                         <li>
                           <Link
                             href={`${astrologerPhone ? "/" : "/"}`}
@@ -259,9 +310,9 @@ if(userMobile){
                 </div>
               </div>
             </div>
-          ) : admin_id ? <button onClick={handleAdminLogOut}>Log out admin</button> :(
+          ) : (
             <button onClick={handelUserLogin}>User Login</button>
-          )} 
+          )}
         </div>
       </div>
     </header>

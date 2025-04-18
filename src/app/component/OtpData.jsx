@@ -85,6 +85,16 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
               chatStatus: false,
             }
           );
+          // update order history
+          const updateList = await axios.put(
+            `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
+            {
+              mobileNumber: phone,
+              profileStatus: true,
+            }
+          );
+          console.log("update order history", updateList);
+
           if (response.data.message == "Success") {
             setTimeout(() => {
               window.location.reload();

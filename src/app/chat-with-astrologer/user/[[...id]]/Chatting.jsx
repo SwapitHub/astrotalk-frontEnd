@@ -6,6 +6,7 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { useRef } from "react";
 import secureLocalStorage from "react-secure-storage";
+import EndChatPopUp from "@/app/component/EndChatPopUp";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
   transports: ["websocket"],
@@ -15,7 +16,7 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 export default function Chatting() {
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
-  console.log(actualChargeUserChat);
+  const [showEndChat, setShowEndChat] = useState(false);
 
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
@@ -220,7 +221,7 @@ export default function Chatting() {
       );
 
       if (response.data.message === "Success") {
-        toast.error("Call Rejected", {
+        toast.error("End Chat Successfully", {
           position: "top-right",
         });
 
@@ -254,6 +255,16 @@ export default function Chatting() {
 
         console.log("Astrologer status updated:", updatedAstrologerData);
       }
+       // update order history
+       const updateList = await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
+        {
+          mobileNumber: astrologerData.mobileNumber,
+          chatStatus: false,
+        }
+      );
+      console.log("update hist",updateList);
+
     } catch (error) {
       console.error(
         "Failed to update astrologer status:",
@@ -328,18 +339,26 @@ console.log(totalChatTime);
   const intervals = Math.ceil(totalChatTime / 60);
   const totalChatPrice = Math.min(intervals * astroChatPricePerMinute);
   const remainingBalance = userTotalAmount - totalChatPrice;
+
    const handleEndChatClick = () => {   
      setActualChargeUserChat(totalChatPrice);
-     endChatStatus();
+     setShowEndChat(true)
    };
  
   //  useEffect(()=>{
   //    setActualChargeUserChat(totalChatPrice);
   //  },[totalChatPrice])
-
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
   return (
+    <>
+    {showEndChat && (
+  <EndChatPopUp
+    setShowEndChat={setShowEndChat}
+    onCloseEndChat={endChatStatus} // pass function, not result
+  />
+)}
+
     <section className="chat-top-header">
       <div className="container">
         <div className="chat-top-header-main">
@@ -414,5 +433,6 @@ console.log(totalChatTime);
         </div>
       </div>
     </section>
+    </>
   );
 }
