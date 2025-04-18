@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import Link from "next/link";
+import { useRef } from "react";
 import { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 import io from "socket.io-client";
@@ -15,7 +16,7 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 const AstroNotification = ({ astrologerPhone }) => {
   const [updateNotification, setUpdateNotification] = useState();
   const [loading, setLoading] = useState(false);
-
+  const notificationRemovedRef = useRef(false); // In-memory flag
   console.log(astrologerPhone, updateNotification);
 
   const matchAstrologerMobile = astrologerPhone === updateNotification?.mobileNumber;
@@ -73,13 +74,13 @@ console.log(response);
         socket.emit("astrologer-chat-status", astrologerData);
 
          // ✅ Check if notification was already removed
-      const notificationRemoved = secureLocalStorage.getItem("notificationRemoved");
 
-      if (!notificationRemoved) {
+      if (!notificationRemovedRef.current) {
         secureLocalStorage.removeItem("new-notification");
-        secureLocalStorage.setItem("notificationRemoved", true); // mark as removed
         setUpdateNotification(null);
+        notificationRemovedRef.current = true; // block future removals
       }
+
 
         if(astrologerData.mobileNumber==astrologerPhone){
           console.log(astrologerData.chatStatus);
