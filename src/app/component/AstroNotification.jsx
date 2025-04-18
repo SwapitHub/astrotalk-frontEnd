@@ -70,10 +70,11 @@ const AstroNotification = ({ astrologerPhone }) => {
         }
       );
       console.log(response.status);
+      secureLocalStorage.removeItem("new-notification-store");
 
       if (response.status == 200) {
         console.log(response.status == 200);
-      secureLocalStorage.removeItem("new-notification-store");
+
         setUpdateNotification(null);
         const astrologerData = response.data.updatedProfile;
         socket.emit("astrologer-chat-status", astrologerData);        
