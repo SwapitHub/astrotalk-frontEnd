@@ -13,7 +13,7 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 });
 
 const AstroNotification = ({ astrologerPhone }) => {
-  const [updateNotification, setUpdateNotification] = useState(null);
+  const [updateNotification, setUpdateNotification] = useState();
   const [loading, setLoading] = useState(false);
 
   console.log(astrologerPhone, updateNotification);
@@ -72,8 +72,15 @@ console.log(response);
         const astrologerData = response.data.updatedProfile;
         socket.emit("astrologer-chat-status", astrologerData);
 
-        setUpdateNotification(null);
+         // ✅ Check if notification was already removed
+      const notificationRemoved = secureLocalStorage.getItem("notificationRemoved");
+
+      if (!notificationRemoved) {
         secureLocalStorage.removeItem("new-notification");
+        secureLocalStorage.setItem("notificationRemoved", true); // mark as removed
+        setUpdateNotification(null);
+      }
+
         if(astrologerData.mobileNumber==astrologerPhone){
           console.log(astrologerData.chatStatus);
           
