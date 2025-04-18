@@ -2,7 +2,6 @@
 
 import axios from "axios";
 import Link from "next/link";
-import { useRef } from "react";
 import { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 import io from "socket.io-client";
@@ -16,10 +15,11 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 const AstroNotification = ({ astrologerPhone }) => {
   const [updateNotification, setUpdateNotification] = useState();
   const [loading, setLoading] = useState(false);
-  const notificationRemovedRef = useRef(false); // In-memory flag
+
   console.log(astrologerPhone, updateNotification);
 
-  const matchAstrologerMobile = astrologerPhone === updateNotification?.mobileNumber;
+  const matchAstrologerMobile =
+    astrologerPhone === updateNotification?.mobileNumber;
 
   // Fetch and set initial notification data from secureLocalStorage
   useEffect(() => {
@@ -43,7 +43,9 @@ const AstroNotification = ({ astrologerPhone }) => {
         secureLocalStorage.setItem("new-notification", JSON.stringify(data));
         setUpdateNotification(data);
       } else {
-        console.warn("Notification data does not match astrologer phone number");
+        console.warn(
+          "Notification data does not match astrologer phone number"
+        );
       }
     });
 
@@ -67,44 +69,40 @@ const AstroNotification = ({ astrologerPhone }) => {
           chatStatus: true,
         }
       );
-console.log(response);
+      console.log(response.status
+      );
 
-      if (response.data.message === "Success") {
+      if (response.status == 200) {
+        console.log(response.status == 200);
+        setUpdateNotification(null);
+        secureLocalStorage.removeItem("new-notification");
         const astrologerData = response.data.updatedProfile;
         socket.emit("astrologer-chat-status", astrologerData);
 
-         // ✅ Check if notification was already removed
+        
 
-      if (!notificationRemovedRef.current) {
-        secureLocalStorage.removeItem("new-notification");
-        setUpdateNotification(null);
-        notificationRemovedRef.current = true; // block future removals
-      }
-
-
-        if(astrologerData.mobileNumber==astrologerPhone){
+        if (astrologerData.mobileNumber == astrologerPhone) {
           console.log(astrologerData.chatStatus);
-          
+
           secureLocalStorage.setItem(
             "AstrologerNotificationStatus",
             astrologerData.chatStatus
           );
         }
-       
 
         // setTimeout(() => {
         //   window.location.reload();
         // }, 300);
       }
-          // update order history page api
-          // const updateList = await axios.put(
-          //   `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
-          //   {
-          //     mobileNumber: astrologerPhone,
-          //     chatStatus: true
-          //   }
-          // );
-          // console.log("update order history",updateList);
+      // update order history page api
+      // const updateList = await axios.put(
+      //   `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
+      //   {
+      //     mobileNumber: astrologerPhone,
+      //     chatStatus: true
+      //   }
+      // );
+      // console.log("update order history",updateList);
     } catch (error) {
       console.error(
         "Failed to update astrologer status:",
@@ -125,13 +123,25 @@ console.log(response);
         <div className="notification-astro">
           <div className="notification-box">
             <h4>New Chat Request</h4>
-            <p><strong>Name of User:</strong> {updateNotification.name}</p>
-            <p><strong>Date of Birth:</strong> {updateNotification.dateOfBirth}</p>
-            <p><strong>Place of Birth:</strong> {updateNotification.placeOfBirth}</p>
+            <p>
+              <strong>Name of User:</strong> {updateNotification.name}
+            </p>
+            <p>
+              <strong>Date of Birth:</strong> {updateNotification.dateOfBirth}
+            </p>
+            <p>
+              <strong>Place of Birth:</strong> {updateNotification.placeOfBirth}
+            </p>
             <button onClick={UpdateRemoveData}>Dismiss</button>
             <a
               href={`/chat-with-astrologer/astrologer/${updateNotification.astrologerId}`}
-              onClick={() => onChangeId(updateNotification.astrologerId, updateNotification.userId)}
+              // href="#"
+              onClick={() =>
+                onChangeId(
+                  updateNotification.astrologerId,
+                  updateNotification.userId
+                )
+              }
             >
               Chat
             </a>
