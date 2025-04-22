@@ -200,6 +200,8 @@ const ChatWithAstrologer = () => {
 
           <div className="all-list-talk-to-astrologer">
             {showAstrologer?.map((item) => {
+              console.log("=========",item);
+              
               return (
                 <>
                   {item.profileStatus == true && (
@@ -244,11 +246,24 @@ const ChatWithAstrologer = () => {
                               {item.name}
                             </a>
                           </h5>
-                          <p>{item.profession}</p>
+                          <p>{item.professions.map((item)=>{
+                            return(
+                              <span>
+                              {item}
+                              
+                              </span>
+                            )
+                          })}</p>
                         </div>
                         <div className="talk-to-language">
                           <p>
-                            <span>{item.languages}</span>
+                           {item.languages.map((item)=>{
+                              return(
+                                <span>
+                                  {item}
+                                </span>
+                              )
+                            })}
                           </p>
                         </div>
                         <div className="exp-year-sec">

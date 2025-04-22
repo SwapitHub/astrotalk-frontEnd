@@ -11,6 +11,10 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
   const [registrationDetail, setRegistrationDetail] = useState();
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState();
+  const [professionsList, setProfessionsList] = useState([]);
+  const astrologerLoginUpdate = secureLocalStorage.getItem("astrologerLoginUpdate")
+  const [astrologerData, setAstrologerData] = useState("");
+console.log(astrologerData);
 
   useEffect(() => {
     axios
@@ -25,21 +29,15 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
       });
   }, []);
 
-  
   const handleBusinessProfile = async () => {
     const validationErrors = validateAstrologerForm("astroProfile");
-    console.log(validationErrors);
-
     setErrors(validationErrors);
-
-    if (Object.keys(validationErrors).length > 0) {
-      return;
-    }
+    if (Object.keys(validationErrors).length > 0) return;
 
     const formData = new FormData();
+
+    // Basic fields
     formData.append("name", document.getElementById("fname").value);
-    formData.append("profession", document.getElementById("profession").value);
-    formData.append("languages", document.getElementById("language").value);
     formData.append(
       "experience",
       document.getElementById("Experience")?.value || ""
@@ -49,7 +47,6 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
       "Description",
       document.getElementById("description").value
     );
-    // formData.append("minute", document.getElementById("minute").value);
     formData.append(
       "mobileNumber",
       document.getElementById("mobileNumber").value
@@ -57,59 +54,98 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
     formData.append("profileStatus", true);
     formData.append("chatStatus", false);
 
-    // Append the image file
+    // Helper to get selected checkbox values
+    const getSelectedValues = (name) => {
+      return Array.from(
+        document.querySelectorAll(`input[name="${name}"]:checked`)
+      ).map((input) => input.value);
+    };
+
+    // Append selected languages and professions
+    const selectedLanguages = getSelectedValues("languages");
+    const selectedProfessions = getSelectedValues("profession");
+
+    // ✅ Append as JSON strings
+    formData.append("languages", JSON.stringify(selectedLanguages));
+    formData.append("professions", JSON.stringify(selectedProfessions));
+
+    // Append image
     const imageFile = document.getElementById("image").files[0];
-    if (!imageFile) {
-      console.warn("Image file is required.");
-      return;
+    if (imageFile) {
+      formData.append("image", imageFile);
     }
-    formData.append("image", imageFile);
 
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile`,
         formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
+
       if (response.data.message === "success") {
-        // document.getElementById("fname").value = "";
-        document.getElementById("profession").value = "";
-        // document.getElementById("language").value = "";
-        document.getElementById("Experience").value = "";
-        document.getElementById("description").value = "";
-        document.getElementById("Charges").value = "";
-        // document.getElementById("minute").value = "";
-        // document.getElementById("mobileNumber").value = "";
-        // setSuccessMessage(response.data.message)
-        console.log("Form reset successfully.");
+        // Reset only needed fields
+        ["Experience", "Charges", "description", "image"].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) el.value = "";
+        });
+
+        // Uncheck checkboxes
+        ["profession", "languages"].forEach((name) => {
+          document
+            .querySelectorAll(`input[name="${name}"]`)
+            .forEach((el) => (el.checked = false));
+        });
+
         setSuccessMessageProfile(response.data);
-        // setSuccessMessage(response.data.message)
-        localStorage.setItem("astrLoginStatus", "0");
+        secureLocalStorage.setItem("astrLoginStatus", "0");
+
         toast.success("Profile Completed Successfully", {
           position: "top-right",
         });
+
       }
 
-      // fetchDataBusinessProfile();
       console.log("Registration successful:", response.data);
     } catch (error) {
-      console.log(
+      console.error(
         "Error in registration:",
         error.response?.data?.message || error.message
       );
     }
   };
-  
 
+  useEffect(() => {
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerPhone}`
+      )
+      .then((response) => {
+        setAstrologerData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
-  const handleBusinessProfileUpdate = async () =>{
+ 
+
+  const fetchProfessionsList = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/add-Profession-astrologer`
+      );
+      setProfessionsList(response.data);
+    } catch (error) {
+      console.error("Fetch professions list error:", error);
+    }
+  };
+  useEffect(() => {
+    fetchProfessionsList();
+  }, []);
+
+  const handleBusinessProfileUpdate = async () => {
     console.log("prifile update");
-    
-  }
+  };
   return (
     <div className="container">
       <div className="astrologer-registration-form">
@@ -164,28 +200,26 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
             <div className="inner-form-filed-sec">
               <div className="label-content">
                 <label>
-                  profession <span>पेशा</span>
+                  Profession <span>पेशा</span>
                 </label>
               </div>
               <div className="man-input-filed-sec">
-                <select
-                  name="profession"
-                  id="profession"
-                  className="common-input-filed"
-                >
-                  <option value="Please select profession">
-                    Please select profession
-                  </option>
-                  <option value="Numerology">Numerology</option>
-                  <option value="Vastu">Vastu</option>
-                  <option value="Tarot">Tarot</option>
-                  <option value="Life Coach">Life Coach</option>
-                </select>
+                {professionsList?.map((item) => (
+                  <label key={item._id}>
+                    <input
+                      type="checkbox"
+                      name="profession"
+                      value={item.professions}
+                    />
+                    {item.professions}
+                  </label>
+                ))}
                 {errors.professions && (
                   <p className="error">{errors.professions}</p>
                 )}
               </div>
             </div>
+
             <div className="inner-form-filed-sec">
               <div className="label-content">
                 <label for="Languages">
@@ -193,20 +227,20 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
                 </label>
               </div>
               <div className="man-input-filed-sec">
-                <select
-                  name="language"
-                  id="language"
-                  className="common-input-filed"
-                  value={registrationDetail?.languages}
-                >
-                  <option value="select language">
-                    Please select language
-                  </option>
-                  <option value="English">English</option>
-                  <option value="Hindi">Hindi</option>
-                  <option value="Bengali">Bengali</option>
-                  <option value="Assamese">Assamese</option>
-                </select>
+                {registrationDetail?.languages.map((lang) => {
+                  return (
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="languages"
+                        value={lang}
+                        id="languages"
+                        // onChange={handleLanguageCheckboxChange}
+                      />
+                      {lang}
+                    </label>
+                  );
+                })}
                 {errors.languages && (
                   <p className="error">{errors.languages}</p>
                 )}
@@ -297,15 +331,15 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
           </div>
 
           <div className="reg-sumbit-button">
-            {successMessage!=="success" ? 
-            <button type="button" onClick={handleBusinessProfile}>
-              Submit
-            </button>  
-            :
-            <button type="button" onClick={handleBusinessProfileUpdate}>
-             Update Profile
-            </button>
-            }
+            {astrologerData?.profileStatus !== true ? (
+              <button type="button" onClick={handleBusinessProfile}>
+                Submit
+              </button>
+            ) : (
+              <button type="button" onClick={handleBusinessProfileUpdate}>
+                Update Profile
+              </button>
+            )}
           </div>
         </form>
       </div>

@@ -3,23 +3,26 @@ export const validateAstrologerForm = (formType) => {
 
   // Common fields for all forms
   const firstName = document.getElementById("fname")?.value.trim();
-  const languages = document.getElementById("language")?.value;
 
   if (!firstName) errors.firstName = "Name is required";
-  
-  if (!languages || languages === "select language") {
-    errors.languages = "Please select a language";
-  }
 
   // Form-specific validations
   if (formType === "astrologer") {
+    // ✅ Collect multiple checked languages
+
     // Astrologer registration specific fields
     const dateOfBirth = document.getElementById("birthday")?.value;
     const skills = document.getElementById("Skills")?.value;
     const deviceUse = document.getElementById("deviceUse")?.value;
     const email = document.getElementById("emails")?.value.trim();
-    const gender = document.querySelector('input[name="gender"]:checked')?.value;
+    const gender = document.querySelector(
+      'input[name="gender"]:checked'
+    )?.value;
     const mobileNumber = document.getElementById("mobileNumber")?.value.trim();
+
+    const selectedLanguages = Array.from(
+      document.querySelectorAll('input[name="languages"]:checked')
+    ).map((input) => input.value);
 
     if (!dateOfBirth) {
       errors.dateOfBirth = "Date of Birth is required";
@@ -46,7 +49,9 @@ export const validateAstrologerForm = (formType) => {
     if (!skills || skills === "Please Select Option") {
       errors.skills = "Please select a skill";
     }
-
+    if (!selectedLanguages || selectedLanguages.length <= 0) {
+      errors.languages = "Please select at least one language";
+    }
     if (!deviceUse || deviceUse === "select device") {
       errors.deviceUse = "Please select a device";
     }
@@ -59,40 +64,54 @@ export const validateAstrologerForm = (formType) => {
       errors.mobileNumber = "Valid 10-digit mobile number is required";
     }
     if (!gender) {
-        errors.gender = "Gender is required";
-      }
-  }
-  
-  else if(formType === "astroProfile"){
-    const professions = document.getElementById("profession")?.value;
+      errors.gender = "Gender is required";
+    }
+  } else if (formType === "astroProfile") {
+    const professions =    Array.from(
+      document.querySelectorAll('input[name="profession"]:checked')
+    ).map((input) => input.value);
+
     const Experience = document.getElementById("Experience")?.value.trim();
     const Charges = document.getElementById("Charges")?.value.trim();
     // const minute = document.getElementById("minute")?.value.trim();
     const imagePic = document.getElementById("image")?.value.trim();
 
-if (!professions || professions === "Please select profession") {
-    errors.professions = "Please select profession";
-  }
-    
-    if(!Experience){
-        errors.Experience = "Experience is required";
+    const selectedLanguages = Array.from(
+      document.querySelectorAll('input[name="languages"]:checked')
+    ).map((input) => input.value);
+
+  
+
+    if (!selectedLanguages || selectedLanguages.length <= 0) {
+      errors.languages = "Please select at least one language";
     }
-    if(!Charges){
-        errors.Charges = "Charges is required";
+
+
+    if (!professions ||  professions.length <= 0) {
+      errors.professions = "Please select at least one profession";
+    }
+
+    if (!Experience) {
+      errors.Experience = "Experience is required";
+    }
+    if (!Charges) {
+      errors.Charges = "Charges is required";
     }
     // if(!minute){
     //     errors.minute = "Minute is required";
     // }
-    if(!imagePic){
-        errors.imagePic = "Image is required";
+    if (!imagePic) {
+      errors.imagePic = "Image is required";
     }
-    
-  }
-  
-  else if (formType === "user") {
+  } else if (formType === "user") {
     const dateOfBirthAny = document.getElementById("birthdayany")?.value;
-    const gender = document.querySelector('input[name="gender"]:checked')?.value;
-
+    const gender = document.querySelector(
+      'input[name="gender"]:checked'
+    )?.value;
+    const languages = document.getElementById("language")?.value;
+    if (!languages || languages === "select language") {
+      errors.languages = "Please select a language";
+    }
     if (!dateOfBirthAny) {
       errors.dateOfBirthAnys = "Date of Birth is required";
     }
@@ -101,8 +120,8 @@ if (!professions || professions === "Please select profession") {
       errors.placeOfBorn = "Place of birth is required";
     }
     if (!gender) {
-        errors.gender = "Gender is required";
-      }
+      errors.gender = "Gender is required";
+    }
   }
 
   return errors;

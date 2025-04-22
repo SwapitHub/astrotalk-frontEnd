@@ -8,6 +8,9 @@ import Denomination from "./Denomination";
 import UserList from "./UserList";
 import {  useRouter } from "next/navigation";
 import secureLocalStorage from "react-secure-storage";
+import SideSetting from "./AddLanguage";
+import AddLanguage from "./AddLanguage";
+import AddProfession from "./AddProfession";
 
 const AdminHome = () => {
  const router = useRouter()
@@ -17,13 +20,22 @@ const admin_id = secureLocalStorage.getItem("admin_id");
   const [updateButton, setUpdateButton] = useState(1);
   const [astroListToggle, setAstroListToggle] = useState(false);
   const [adminWalletToggle, setAdminWalletToggle] = useState(false);
+  const [adminSideSettingToggle, setAdminSideSettingToggle] = useState(false);
 
   useEffect(()=>{
     if(!admin_id){
       router.push("/")
     }
   },[admin_id])
+  const handleAdminLogOut = () => {
+    secureLocalStorage.removeItem("admin_id");
 
+    // Notify other parts of the app
+    window.dispatchEvent(new Event("admin_id_updated"));
+
+    // Redirect
+    router.push("/admin");
+  };
   
   return (
     <div className="container">
@@ -142,6 +154,45 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                 >
                   Denomination
                 </a>
+              </li>  
+              <li>
+                <a
+                  href="#"
+                  title="menu"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setAdminSideSettingToggle(!adminSideSettingToggle);
+                  }}
+                >
+                 Side Setting
+                </a>
+                {adminSideSettingToggle && (
+                  <ul>
+                    <li>
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setUpdateButton("language");
+                        }}
+                      >
+                        Add Languages
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setUpdateButton("profession");
+                        }}
+                      >
+                        Add Profession
+                      </a>
+                    </li>
+                   
+                  </ul>
+                )}
               </li>
               <li>
                 <a
@@ -191,6 +242,11 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                   user List
                 </a>
               </li>
+              <li>
+              {admin_id && (
+            <button onClick={handleAdminLogOut}>Log out admin</button>
+          )}
+              </li>
             </ul>
           </div>
           <div className="dashboard-right-content">
@@ -200,6 +256,8 @@ const admin_id = secureLocalStorage.getItem("admin_id");
             {updateButton == "pending" && <AstrologerPendingList />}
             {updateButton == 7 && <UserList />}
             {updateButton == 3 && <Denomination />}
+            {updateButton == "language" && <AddLanguage />}
+            {updateButton == "profession" && <AddProfession />}
             {(updateButton == "user" ||
               updateButton == "astrologer" ||
               updateButton == "admin") && (

@@ -2,9 +2,12 @@ import Chatting from "../Chatting";
 
 const fetchChatAstrologerData = async (astrologerId) => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerId}`, {
-      cache: "no-store",
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerId}`,
+      {
+        cache: "no-store",
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Failed to fetch astrologer data");
@@ -18,7 +21,7 @@ const fetchChatAstrologerData = async (astrologerId) => {
 };
 
 const ChattingServer = async (props) => {
-  const { id } = await props.params; 
+  const { id } = await props.params;
 
   const astrologer = await fetchChatAstrologerData(id);
 

@@ -29,17 +29,20 @@ export default function Chatting() {
   const userIds = secureLocalStorage.getItem("userIds");
   const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
   // const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
-    useState();
-    const [astroMobileUpdate, setAstroMobileUpdate] = useState(null);
-    const [astrologerNotificationStatus, setAstrologerNotificationStatus] = useState(null);
-    const mobileRef = useRef(null);
+  useState();
+  const [astroMobileUpdate, setAstroMobileUpdate] = useState(null);
+  const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
+    useState(null);
+  const mobileRef = useRef(null);
 
-    useEffect(() => {
-      const storedNotification = secureLocalStorage.getItem("AstrologerNotificationStatus");
-      if (storedNotification) {
-        setAstrologerNotificationStatus(storedNotification);
-      }
-    }, []);
+  useEffect(() => {
+    const storedNotification = secureLocalStorage.getItem(
+      "AstrologerNotificationStatus"
+    );
+    if (storedNotification) {
+      setAstrologerNotificationStatus(storedNotification);
+    }
+  }, []);
 
   const [timeLeft, setTimeLeft] = useState(() => {
     const storedTime = secureLocalStorage.getItem("chatTimeLeft");
@@ -58,7 +61,9 @@ export default function Chatting() {
       mobileRef.current = astrologerData.mobileNumber;
     }
 
-    const storedNotification = secureLocalStorage.getItem("AstrologerNotificationStatus");
+    const storedNotification = secureLocalStorage.getItem(
+      "AstrologerNotificationStatus"
+    );
     if (storedNotification) {
       setAstrologerNotificationStatus(storedNotification);
     }
@@ -70,17 +75,19 @@ export default function Chatting() {
     const handleNewNotification = (data) => {
       console.log("Received data:", data);
 
-
       // Ensure the comparison is with the latest astrologer mobile number
       if (data.astrologerData?.mobileNumber === mobileRef.current) {
         console.log("Updating notification status...");
-        
+
         const newStatus = data.astrologerData.chatStatus;
-        
+
         // Ensure state actually changes
         setAstrologerNotificationStatus((prevStatus) => {
           if (prevStatus !== newStatus) {
-            secureLocalStorage.setItem("AstrologerNotificationStatus", newStatus);
+            secureLocalStorage.setItem(
+              "AstrologerNotificationStatus",
+              newStatus
+            );
             return newStatus;
           }
           return prevStatus;
@@ -89,10 +96,16 @@ export default function Chatting() {
     };
 
     socket.on("connect", () => console.log("Connected to socket.io server"));
-    socket.on("astrologer-data-received-new-notification", handleNewNotification);
+    socket.on(
+      "astrologer-data-received-new-notification",
+      handleNewNotification
+    );
 
     return () => {
-      socket.off("astrologer-data-received-new-notification", handleNewNotification);
+      socket.off(
+        "astrologer-data-received-new-notification",
+        handleNewNotification
+      );
     };
   }, [socket, astrologerData]); // Added astrologerData dependency
 
@@ -129,7 +142,8 @@ export default function Chatting() {
   // Scroll to the bottom when messages change
   useEffect(() => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
     }
   }, [message]);
   // auto send message first time user to astrologer
@@ -154,7 +168,6 @@ export default function Chatting() {
       socket.emit("sendMessage", newMessage);
       setMessage(""); // Clear the input field
       scrollToBottom();
-
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -255,16 +268,15 @@ export default function Chatting() {
 
         console.log("Astrologer status updated:", updatedAstrologerData);
       }
-       // update order history
-       const updateList = await axios.put(
+      // update order history
+      const updateList = await axios.put(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
         {
           mobileNumber: astrologerData.mobileNumber,
           chatStatus: false,
         }
       );
-      console.log("update hist",updateList);
-
+      console.log("update hist", updateList);
     } catch (error) {
       console.error(
         "Failed to update astrologer status:",
@@ -316,7 +328,7 @@ export default function Chatting() {
   let userTotalAmount = showUserData?.totalAmount;
   let astroChatPricePerMinute = Math.round(astrologerData.charges);
   let totalTimeSecond = (userTotalAmount / astroChatPricePerMinute) * 60;
-console.log(totalChatTime);
+  console.log(totalChatTime);
 
   useEffect(() => {
     if (totalChatTime > 0) {
@@ -340,11 +352,11 @@ console.log(totalChatTime);
   const totalChatPrice = Math.min(intervals * astroChatPricePerMinute);
   const remainingBalance = userTotalAmount - totalChatPrice;
 
-   const handleEndChatClick = () => {   
-     setActualChargeUserChat(totalChatPrice);
-     setShowEndChat(true)
-   };
- 
+  const handleEndChatClick = () => {
+    setActualChargeUserChat(totalChatPrice);
+    setShowEndChat(true);
+  };
+
   //  useEffect(()=>{
   //    setActualChargeUserChat(totalChatPrice);
   //  },[totalChatPrice])
@@ -352,87 +364,87 @@ console.log(totalChatTime);
   const seconds = timeLeft % 60;
   return (
     <>
-    {showEndChat && (
-  <EndChatPopUp
-    setShowEndChat={setShowEndChat}
-    onCloseEndChat={endChatStatus} // pass function, not result
-  />
-)}
+      {showEndChat && (
+        <EndChatPopUp
+          setShowEndChat={setShowEndChat}
+          onCloseEndChat={endChatStatus} // pass function, not result
+        />
+      )}
 
-    <section className="chat-top-header">
-      <div className="container">
-        <div className="chat-top-header-main">
-          <div className="inner-chat-top-header ctm-flex-row ctm-justify-content-between ctm-align-items-center">
-            <div className="chat-left-logo ctm-flex-row ctm-align-items-center">
-              <div className="header-chat-logo">
-               
-                <a href="#" title="header-logo">
-                  <img
-                    src={`${astrologerData.profileImage}`}
-                    alt="Chat"
-                  />
-                </a>
+      <section className="chat-top-header">
+        <div className="container">
+          <div className="chat-top-header-main">
+            <div className="inner-chat-top-header ctm-flex-row ctm-justify-content-between ctm-align-items-center">
+              <div className="chat-left-logo ctm-flex-row ctm-align-items-center">
+                <div className="header-chat-logo">
+                  <a href="#" title="header-logo">
+                    <img src={`${astrologerData.profileImage}`} alt="Chat" />
+                  </a>
+                </div>
+                <div className="header-chat-content">
+                  <h4>Astrologer</h4>
+                  <p>
+                    <span>
+                      Balance {minutes}:{seconds < 10 ? `0${seconds}` : seconds}{" "}
+                    </span>
+                  </p>
+                  {/* <p>Chat in progress from </p> */}
+                  <h2>{astrologerData.name}</h2>
+                </div>
               </div>
-              <div className="header-chat-content">
-                <h4>Astrologer</h4>
-                <p>
-                  <span>
-                    Balance {minutes}:{seconds < 10 ? `0${seconds}` : seconds}{" "}
-                  </span>
-                </p>
-                {/* <p>Chat in progress from </p> */}
-                <h2>{astrologerData.name}</h2>
+              <div className="chat-right-end-btn">
+                <button onClick={handleEndChatClick}>End</button>
               </div>
             </div>
-            <div className="chat-right-end-btn">
-              <button onClick={handleEndChatClick}>End</button>
-            </div>
-          </div>
 
-          <div ref={chatContainerRef}  className="uder-and-astro-chat-bg chat-container">
-            <div className="inner-uder-and-astro-chat">
-              <div  className="chat-box">
-                {messageData.map((msg, index) => (
-                  <div
-                    key={index}
-                    className={`
-                     ${ msg.user === showUserData?.name
-                        ? "message outgoing"
-                        : "message incoming"}`
-                    }
-                  >
-                    {/* <h4>{msg.user}</h4> */}
-                    <p>{msg.message}</p>
-                    <p>{msg.time}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          {timeLeft !== 0 ? (
-            <div className="send-input-button ctm-flex-row ctm-align-items-center ctm-justify-content-between">
-              <div className="chat-input-box-main ctm-flex-row ctm-align-items-center ctm-justify-content-between">
-                <div className="chat-input">
-                  <input
-                    type="text"
-                    placeholder="Type a message"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                  />
-                  <button onClick={sendMessage}>Send</button>
+            <div
+              ref={chatContainerRef}
+              className="uder-and-astro-chat-bg chat-container"
+            >
+              <div className="inner-uder-and-astro-chat">
+                <div className="chat-box">
+                  {messageData.map((msg, index) => (
+                    <div
+                      key={index}
+                      className={`
+                     ${
+                       msg.user === showUserData?.name
+                         ? "message outgoing"
+                         : "message incoming"
+                     }`}
+                    >
+                      {/* <h4>{msg.user}</h4> */}
+                      <p>{msg.message}</p>
+                      <p>{msg.time}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
-          ) : (
-            <div>
-              please recharge then continue chatting{" "}
-              <Link href="#">Continue Chat</Link>
-            </div>
-          )}
+            {timeLeft !== 0 ? (
+              <div className="send-input-button ctm-flex-row ctm-align-items-center ctm-justify-content-between">
+                <div className="chat-input-box-main ctm-flex-row ctm-align-items-center ctm-justify-content-between">
+                  <div className="chat-input">
+                    <input
+                      type="text"
+                      placeholder="Type a message"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                    />
+                    <button onClick={sendMessage}>Send</button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div>
+                please recharge then continue chatting{" "}
+                <Link href="#">Continue Chat</Link>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
     </>
   );
 }

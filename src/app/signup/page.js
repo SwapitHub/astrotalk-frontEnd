@@ -1,39 +1,45 @@
 "use client";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { validateAstrologerForm } from "../component/FormValidation";
 
 const AstrologerRegistration = () => {
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
-console.log(errors);
+  const [languageListData, setLanguageListData] = useState([]);
 
   const handleSubmitSignup = async () => {
-    const validationErrors = validateAstrologerForm('astrologer');
-    console.log(validationErrors);
-    
+    const validationErrors = validateAstrologerForm("astrologer");
     setErrors(validationErrors);
-    
+  
     if (Object.keys(validationErrors).length > 0) {
       return;
     }
-
+  
+    // ✅ Collect multiple checked languages
+    const selectedLanguages = Array.from(
+      document.querySelectorAll('input[name="languages"]:checked')
+    ).map((input) => input.value);
+  
     const formData = {
       first_name: document.getElementById("fname").value,
       date_of_birth: document.getElementById("birthday").value,
       gender: document.querySelector('input[name="gender"]:checked')?.value,
-      languages: document.getElementById("language").value,
+      languages: selectedLanguages,
       skills: document.getElementById("Skills")?.value || "",
       deviceUse: document.getElementById("deviceUse").value,
       email: document.getElementById("emails").value,
       mobileNumber: document.getElementById("mobileNumber").value,
     };
-
+  
+    console.log(formData); // Check the array of languages
+  
+    // Basic required field validation
     if (
       !formData.first_name ||
       !formData.date_of_birth ||
-      !formData.languages ||
+      formData.languages.length === 0 ||
       !formData.skills ||
       !formData.deviceUse ||
       !formData.email ||
@@ -42,7 +48,7 @@ console.log(errors);
       console.warn("All form fields are required.");
       return;
     }
-
+  
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-registration`,
@@ -50,7 +56,7 @@ console.log(errors);
           name: formData.first_name,
           dateOfBirth: formData.date_of_birth,
           gender: formData.gender,
-          languages: formData.languages,
+          languages: formData.languages, // ✅ Array of languages
           skills: formData.skills,
           deviceUse: formData.deviceUse,
           email: formData.email,
@@ -58,7 +64,9 @@ console.log(errors);
           astroStatus: false,
         }
       );
+  
       if (response.data.message === "success") {
+        // Reset fields
         document.getElementById("fname").value = "";
         document.getElementById("birthday").value = "";
         document.getElementById("emails").value = "";
@@ -66,18 +74,38 @@ console.log(errors);
         document.querySelectorAll('input[name="gender"]').forEach((radio) => {
           radio.checked = false;
         });
+        document.querySelectorAll('input[name="languages"]').forEach((checkbox) => {
+          checkbox.checked = false;
+        });
         setSuccessMessage(response.data.message);
         console.log("Form reset successfully.");
       }
-
+  
       console.log("Registration successful:", response.data);
-    } catch (error) {
+    } 
+    catch (error) {
       toast.error("Email or mobile number already registered", {
         position: "top-right",
       });
       console.log("Error in registration api");
     }
   };
+  
+
+  const fetchLanguageList = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/add-Language-astrologer`
+      );
+      setLanguageListData(response.data);
+    } catch (error) {
+      console.error("Fetch language list error:", error);
+    } finally {
+    }
+  };
+  useEffect(() => {
+    fetchLanguageList();
+  }, []);
   return (
     <>
       {successMessage == "success" ? (
@@ -213,19 +241,21 @@ console.log(errors);
                       </label>
                     </div>
                     <div className="man-input-filed-sec">
-                      <select
-                        name="language"
-                        id="language"
-                        className="common-input-filed"
-                      >
-                        <option value="select language">
-                          Please select language
-                        </option>
-                        <option value="English">English</option>
-                        <option value="Hindi">Hindi</option>
-                        <option value="Bengali">Bengali</option>
-                        <option value="Assamese">Assamese</option>
-                      </select>
+                      {languageListData?.map((lang) => {
+
+                        return (
+                          <label key={lang._id}>
+                            <input
+                              type="checkbox"
+                              name="languages"
+                              value={lang.languages}
+                              id="languages"
+                              // onChange={handleLanguageCheckboxChange}
+                            />
+                            {lang.languages}
+                          </label>
+                        );
+                      })}
                       {errors.languages && (
                         <p className="error">{errors.languages}</p>
                       )}

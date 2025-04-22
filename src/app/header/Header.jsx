@@ -170,7 +170,7 @@ const Header = () => {
               <img src="/astrotalk-logo.webp" alt="WeddingByte" />
             </Link>
           </div>
-          {!astrologerPhone && (
+          {!(admin_id || astrologerPhone) && (
             <nav className="navbar">
               <ul>
                 <li>
