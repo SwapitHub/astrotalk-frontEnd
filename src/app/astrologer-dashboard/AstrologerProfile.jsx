@@ -12,9 +12,12 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState();
   const [professionsList, setProfessionsList] = useState([]);
-  const astrologerLoginUpdate = secureLocalStorage.getItem("astrologerLoginUpdate")
+  const [languageListData, setLanguageListData] = useState([]);
+
+  const astrologerLoginUpdate = secureLocalStorage.getItem(
+    "astrologerLoginUpdate"
+  );
   const [astrologerData, setAstrologerData] = useState("");
-console.log(astrologerData);
 
   useEffect(() => {
     axios
@@ -103,6 +106,7 @@ console.log(astrologerData);
           position: "top-right",
         });
 
+        window.location.reload();
       }
 
       console.log("Registration successful:", response.data);
@@ -125,9 +129,19 @@ console.log(astrologerData);
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [astrologerPhone]);
 
- 
+  const fetchLanguageList = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/add-Language-astrologer`
+      );
+      setLanguageListData(response.data);
+    } catch (error) {
+      console.error("Fetch language list error:", error);
+    } finally {
+    }
+  };
 
   const fetchProfessionsList = async () => {
     try {
@@ -141,15 +155,77 @@ console.log(astrologerData);
   };
   useEffect(() => {
     fetchProfessionsList();
+    fetchLanguageList();
   }, []);
 
-  const handleBusinessProfileUpdate = async () => {
-    console.log("prifile update");
+  const handleBusinessProfileUpdate = async (mobileNumber) => {
+    const formData = new FormData();
+
+    // Basic fields
+    formData.append("name", document.getElementById("fname").value);
+    formData.append(
+      "experience",
+      document.getElementById("Experience")?.value || ""
+    );
+    formData.append("charges", document.getElementById("Charges").value);
+    formData.append(
+      "Description",
+      document.getElementById("description").value
+    );
+
+    // Helper to get selected checkbox values
+    const getSelectedValues = (name) => {
+      return Array.from(
+        document.querySelectorAll(`input[name="${name}"]:checked`)
+      ).map((input) => input.value);
+    };
+
+    // Selected arrays
+    const selectedLanguages = getSelectedValues("languages");
+    const selectedProfessions = getSelectedValues("profession");
+
+    // ✅ Append as JSON strings
+    formData.append("languages", JSON.stringify(selectedLanguages));
+    formData.append("professions", JSON.stringify(selectedProfessions));
+
+    // ✅ Image is optional
+    const imageFile = document.getElementById("image")?.files?.[0];
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+
+    try {
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile-update/${mobileNumber}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (response.data.message == "success") {
+        toast.success("Profile Completed Successfully", {
+          position: "top-right",
+        });
+
+        window.location.reload();
+      }
+
+      console.log("Profile update response:", response.data);
+      // Show success toast or UI update here
+    } catch (err) {
+      console.error("Update failed:", err);
+      // Show error toast or UI feedback here
+    }
   };
+
   return (
     <div className="container">
       <div className="astrologer-registration-form">
-        <h2>Please Complete the Profile then you connect the user.</h2>
+        {astrologerData?.profileStatus !== true && (
+          <h2>Please Complete the Profile then you connect the user.</h2>
+        )}
         <form action="">
           <div className="user-profile-pick-main">
             <div className="user-profile-pick">
@@ -192,7 +268,9 @@ console.log(astrologerData);
                 name="fname"
                 className="common-input-filed"
                 placeholder="Please enter your name here"
-                value={registrationDetail?.name}
+                {...(astrologerData?.profileStatus !== true && {
+                  value: registrationDetail?.name,
+                })}
               />
               {errors.firstName && <p className="error">{errors.firstName}</p>}
             </div>
@@ -227,17 +305,17 @@ console.log(astrologerData);
                 </label>
               </div>
               <div className="man-input-filed-sec">
-                {registrationDetail?.languages.map((lang) => {
+                {languageListData?.map((lang) => {
                   return (
-                    <label>
+                    <label key={lang._id}>
                       <input
                         type="checkbox"
                         name="languages"
-                        value={lang}
+                        value={lang.languages}
                         id="languages"
                         // onChange={handleLanguageCheckboxChange}
                       />
-                      {lang}
+                      {lang.languages}
                     </label>
                   );
                 })}
@@ -336,7 +414,12 @@ console.log(astrologerData);
                 Submit
               </button>
             ) : (
-              <button type="button" onClick={handleBusinessProfileUpdate}>
+              <button
+                type="button"
+                onClick={() => {
+                  handleBusinessProfileUpdate(registrationDetail?.mobileNumber);
+                }}
+              >
                 Update Profile
               </button>
             )}
