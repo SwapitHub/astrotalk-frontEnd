@@ -14,9 +14,9 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   reconnectionDelay: 1000,
   reconnectionDelayMax: 5000,
   timeout: 20000,
-  transports: ['websocket'], // Try WebSocket first
+  transports: ["websocket"], // Try WebSocket first
   autoConnect: true,
-  forceNew: true
+  forceNew: true,
 });
 
 const ChatWithAstrologer = () => {
@@ -27,6 +27,7 @@ const ChatWithAstrologer = () => {
   const [userData, setUserData] = useState();
   const [astroMobileNum, setAstroMobileNum] = useState();
   const router = useRouter();
+  console.log(userData);
 
   const fetchData = () => {
     axios
@@ -43,19 +44,18 @@ const ChatWithAstrologer = () => {
   }, [userData]);
 
   useEffect(() => {
-    if(userMobile){
+    if (userMobile) {
       axios
-      .get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
-      )
-      .then((res) => {
-        setUserData(res.data);
-      })
-      .catch((err) => {
-        console.log(err, "user login api error");
-      });
+        .get(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
+        )
+        .then((res) => {
+          setUserData(res.data);
+        })
+        .catch((err) => {
+          console.log(err, "user login api error");
+        });
     }
-    
   }, [userMobile]);
 
   useEffect(() => {
@@ -100,8 +100,12 @@ const ChatWithAstrologer = () => {
           chatType: "free",
           chatDuration: "0 min",
           chatDeduction: "0",
-          DeleteOrderHistoryStatus: true, 
+          DeleteOrderHistoryStatus: true,
           chatStatus: true,
+          userName: userData?.name,
+          userDateOfBirth: userData?.dateOfBirth,
+          userPlaceOfBorn: userData?.placeOfBorn,
+          userBornTime: userData?.reUseDateOfBirth,
         };
 
         socket.emit("userId-to-astrologer", messageId);
@@ -157,7 +161,11 @@ const ChatWithAstrologer = () => {
             <div className="talk-to-astrologer-right-content">
               <div className="inner-talk-to-astrologer-right-content">
                 <div className="recharge-btm">
-                  <Link href="/add-wallet-money/price-list" title="Recharge" className="recharge-button">
+                  <Link
+                    href="/add-wallet-money/price-list"
+                    title="Recharge"
+                    className="recharge-button"
+                  >
                     Recharge
                   </Link>
                 </div>
@@ -200,8 +208,8 @@ const ChatWithAstrologer = () => {
 
           <div className="all-list-talk-to-astrologer">
             {showAstrologer?.map((item) => {
-              console.log("=========",item);
-              
+              console.log("=========", item);
+
               return (
                 <>
                   {item.profileStatus == true && (
@@ -210,10 +218,7 @@ const ChatWithAstrologer = () => {
                         <div className="astrologer-profile">
                           <a href="#" title="Shriniwas">
                             {" "}
-                            <img
-                              src={`${item?.profileImage}`}
-                              alt="Sauvikh"
-                            />
+                            <img src={`${item?.profileImage}`} alt="Sauvikh" />
                           </a>
                         </div>
                         <div className="five-star-rating">
@@ -246,23 +251,16 @@ const ChatWithAstrologer = () => {
                               {item.name}
                             </a>
                           </h5>
-                          <p>{item.professions.map((item)=>{
-                            return(
-                              <span>
-                              {item}
-                              
-                              </span>
-                            )
-                          })}</p>
+                          <p>
+                            {item.professions.map((item) => {
+                              return <span>{item}</span>;
+                            })}
+                          </p>
                         </div>
                         <div className="talk-to-language">
                           <p>
-                           {item.languages.map((item)=>{
-                              return(
-                                <span>
-                                  {item}
-                                </span>
-                              )
+                            {item.languages.map((item) => {
+                              return <span>{item}</span>;
                             })}
                           </p>
                         </div>
@@ -282,8 +280,7 @@ const ChatWithAstrologer = () => {
                               {/* <span className="ctm-carly-breaks">
                                 {item.minute}
                               </span> */}
-                              <span className="ctm-carly-breaks">/</span> 
-                              {" "} min
+                              <span className="ctm-carly-breaks">/</span> min
                             </span>
                           </p>
                         </div>

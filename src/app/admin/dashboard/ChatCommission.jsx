@@ -22,7 +22,7 @@ const ChatCommission = () => {
       ?.value.trim();
 
     if (!AdminCommission) {
-      toast.warning("Please enter a AdminCommission name.", {
+      toast.warning("Please enter a AdminCommission Price.", {
         position: "top-right",
       });
       return;

@@ -28,6 +28,8 @@ console.log(errors);
       placeOfBorn: document.getElementById("searchAddress").value.trim(),
       languages: document.getElementById("language").value.trim(),
     };
+    console.log(formData);
+    
     if (formData) {
       setOtpPopUpDisplays(true);
     }
@@ -124,7 +126,7 @@ console.log(errors);
                         )}
                       </div>
                     </div>
-                    {/* <div className="inner-form-filed-sec">
+                    <div className="inner-form-filed-sec">
                       <div className="label-content">
                         <label for="Gender">
                           Do you know your time of birth?
@@ -154,7 +156,7 @@ console.log(errors);
                       {dateOfBirthAvailable == "yes" && (
                         <div className="man-input-filed-sec know-your-time">
                           <input
-                            type="date"
+                            type="time"
                             id="birthdayReUse"
                             name="birthdaytime"
                             className="common-input-filed"
@@ -162,7 +164,7 @@ console.log(errors);
                           />
                         </div>
                       )}
-                    </div> */}
+                    </div>
 
                     <div className="inner-form-filed-sec you-born-ctm-filed">
                       <div className="label-content">
