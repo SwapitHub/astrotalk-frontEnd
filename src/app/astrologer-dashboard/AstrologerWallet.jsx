@@ -10,10 +10,12 @@ function AstrologerWallet() {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
   const [totalAvailableBalance, setTotalAvailableBalance] = useState();
+  const [loading, setLoading] = useState(false)
   const astrologerPhone = typeof window !== "undefined" ? secureLocalStorage.getItem("astrologer-phone") : null;
 
   const fetchTransactions = async (pageNumber) => {
     try {
+      setLoading(true)
       const { data } = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/chat/transaction-data-astroLoger/${astrologerPhone}?page=${pageNumber}&limit=6`
       );
@@ -27,6 +29,9 @@ function AstrologerWallet() {
     } catch (error) {
       console.error("Error fetching transactions:", error);
     }
+    finally{
+      setLoading(false)
+    }
   };
 
   useEffect(() => {
@@ -38,9 +43,9 @@ function AstrologerWallet() {
   return (
     <div>
       <p>
-        Available balance: <span>₹ {totalAvailableBalance || 0}</span>
+        Available balance: <span>₹ {Math.round(totalAvailableBalance) || 0}</span>
       </p>
-
+{loading ? <p>Loading Data</p> : 
       <table>
         <thead>
           <tr>
@@ -58,7 +63,7 @@ function AstrologerWallet() {
               <tr key={item._id}>
                 <td>{item._id}</td>
                 <td>{item.userName || "N/A"}</td>
-                <td>{item.availableBalance}</td>
+                <td>{Math.round(item.availableBalance)}</td>
                 <td>{item.transactionAmount}</td>
                 <td>{item.description || "No Description"}</td>
                 <td>{new Date(item.createdAt).toLocaleString()}</td>
@@ -71,13 +76,13 @@ function AstrologerWallet() {
           )}
         </tbody>
       </table>
-
+}
       <div>
-        <button onClick={() => setPage(page - 1)} disabled={!hasPrevPage}>
+        <button onClick={() => setPage(page - 1)} disabled={!hasPrevPage || loading}>
           Previous
         </button>
         <span> Page {page} of {totalPages} </span>
-        <button onClick={() => setPage(page + 1)} disabled={!hasNextPage}>
+        <button onClick={() => setPage(page + 1)} disabled={!hasNextPage || loading}>
           Next
         </button>
       </div>

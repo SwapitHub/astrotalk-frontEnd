@@ -64,14 +64,14 @@ const AddProfessions = () => {
   }, []);
 
   return (
-    <div className="AddProfessions">
-      <div className="professions-add-data">
+    <div className="AddProfessions AddLanguage">
+      <div className="language-add-data">
         <h2>Add a New Profession</h2>
         <input type="text" placeholder="Profession Name" id="profession" />
         <button onClick={handleSubmitAddProfession}>Add Profession</button>
       </div>
 
-      <div className="professions-list">
+      <div className="language-list">
         <h2>Available Professions</h2>
         {loading ? (
           <p>Loading...</p>
@@ -80,7 +80,7 @@ const AddProfessions = () => {
             {professionsList.map((item) => (
               <li key={item._id}>
                 {item.professions}
-                <button onClick={() => deleteProfession(item._id)} style={{ marginLeft: "10px" }}>
+                <button onClick={() => deleteProfession(item._id)}>
                   Remove
                 </button>
               </li>

@@ -13,7 +13,7 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
   reconnection: true,
 });
 
-export default function Chatting() {
+export default function Chatting(AdminCommissionData) {
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
   const [showEndChat, setShowEndChat] = useState(false);
@@ -255,6 +255,7 @@ export default function Chatting() {
           astroMobile: astrologerData.mobileNumber,
           astrologerId: astrologerId,
           actualChargeUserChat: actualChargeUserChat,
+          updateAdminCommission : AdminCommissionData
         };
         socket.emit("chat-timeLeft-update", newUserDetail);
         console.log("newUserDetail=====", newUserDetail);

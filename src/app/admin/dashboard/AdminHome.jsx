@@ -11,6 +11,8 @@ import secureLocalStorage from "react-secure-storage";
 import SideSetting from "./AddLanguage";
 import AddLanguage from "./AddLanguage";
 import AddProfession from "./AddProfession";
+import ChatCommission from "./ChatCommission";
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
 const AdminHome = () => {
  const router = useRouter()
@@ -65,7 +67,7 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                     setAstroListToggle(!astroListToggle);
                   }}
                 >
-                  Astrologer List
+                  Astrologer List <span><MdOutlineKeyboardArrowRight /></span>
                 </a>
                 {astroListToggle && (
                   <ul>
@@ -103,7 +105,7 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                     setAdminWalletToggle(!adminWalletToggle);
                   }}
                 >
-                  Wallet
+                  Wallet <span><MdOutlineKeyboardArrowRight /></span>
                 </a>
                 {adminWalletToggle && (
                   <ul>
@@ -164,7 +166,7 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                     setAdminSideSettingToggle(!adminSideSettingToggle);
                   }}
                 >
-                 Side Setting
+                 Site Setting <span><MdOutlineKeyboardArrowRight /></span>
                 </a>
                 {adminSideSettingToggle && (
                   <ul>
@@ -190,7 +192,17 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                         Add Profession
                       </a>
                     </li>
-                   
+                    <li>
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setUpdateButton("ChatCommission");
+                        }}
+                      >
+                        Chat Commission
+                      </a>
+                    </li>
                   </ul>
                 )}
               </li>
@@ -258,6 +270,7 @@ const admin_id = secureLocalStorage.getItem("admin_id");
             {updateButton == 3 && <Denomination />}
             {updateButton == "language" && <AddLanguage />}
             {updateButton == "profession" && <AddProfession />}
+            {updateButton == "ChatCommission" && <ChatCommission />}
             {(updateButton == "user" ||
               updateButton == "astrologer" ||
               updateButton == "admin") && (

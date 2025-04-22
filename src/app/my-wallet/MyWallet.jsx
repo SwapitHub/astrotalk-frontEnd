@@ -8,8 +8,7 @@ const MyWallet = () => {
 
   const [userData, setUserData] = useState();
   const [WalletTransactionData, setWalletTransactionData] = useState([]);
-console.log(userData);
-
+const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
@@ -28,6 +27,7 @@ useEffect(()=>{
   const fetchTransactions = async (pageNumber) => {
     let limit=4
     try {
+      setLoading(true)
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/chat/WalletTransactionData?type=user&user_id=${userIds}&page=${pageNumber}&limit=${limit}`
       );
@@ -39,6 +39,9 @@ useEffect(()=>{
       setHasPrevPage(res.data.hasPrevPage);
     } catch (err) {
       console.log(err, "admin wallet api error");
+    }
+    finally{
+      setLoading(false)
     }
   };
 
@@ -104,6 +107,7 @@ useEffect(()=>{
         </div>
       </div>
       <div className="my-wallet-table-sec">
+        {loading ? <p>Loading data...</p> : 
         <table>
           <thead>
             <tr>
@@ -147,15 +151,16 @@ useEffect(()=>{
             })}
           </tbody>
         </table>
+}
         <div style={{ marginTop: "10px" }}>
-        <button onClick={() => setPage(page - 1)} disabled={!hasPrevPage}>
+        <button onClick={() => setPage(page - 1)} disabled={!hasPrevPage || loading}>
           Previous
         </button>
         <span>
           {" "}
           Page {page} of {totalPages}{" "}
         </span>
-        <button onClick={() => setPage(page + 1)} disabled={!hasNextPage}>
+        <button onClick={() => setPage(page + 1)} disabled={!hasNextPage || loading}>
           Next
         </button>
       </div>
