@@ -59,7 +59,6 @@ const AstroNotification = ({ astrologerPhone }) => {
   const onChangeId = async (astrologerId, userId) => {
     secureLocalStorage.setItem("userIds", userId);
     secureLocalStorage.setItem("astrologerId", astrologerId);
-    secureLocalStorage.removeItem("new-notification-store");
 
     try {
       // await router.push(`/chat-with-astrologer/astrologer/${astrologerId}`);
@@ -71,6 +70,7 @@ const AstroNotification = ({ astrologerPhone }) => {
         }
       );
       console.log(response.status);
+      secureLocalStorage.removeItem("new-notification-store");
 
       if (response.status == 200) {
         console.log(response.status == 200);
