@@ -1,4 +1,5 @@
 "use client";
+import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
@@ -102,6 +103,7 @@ const ChatCommission = () => {
         />
         <button
           disabled={disableButton}
+          className={disableButton && "disable"}
           onClick={handleSubmitAddAdminCommission}
         >
           Add AdminCommission
@@ -111,7 +113,7 @@ const ChatCommission = () => {
       <div className="language-list">
         <h2>Available AdminCommissions</h2>
         {loading ? (
-          <p>Loading...</p>
+           <Loader/>
         ) : (
           <ul>
             {chatCommission.map((item) => (

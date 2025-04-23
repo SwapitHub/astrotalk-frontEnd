@@ -24,6 +24,8 @@ const Header = () => {
   const [userMobile, setUserMobile] = useState();
   console.log(admin_id);
 
+
+  
   useEffect(() => {
     const handleStorageChange = () => {
       const updatedId = secureLocalStorage.getItem("admin_id");
@@ -131,10 +133,10 @@ const Header = () => {
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
         {
           mobileNumber: astrologerPhone,
-          profileStatus: false
+          profileStatus: false,
         }
       );
-      console.log("update order history",updateList);
+      console.log("update order history", updateList);
     } catch (error) {
       console.error(
         "Failed to update astrologer status:",
@@ -146,6 +148,9 @@ const Header = () => {
   const handelUserLogin = () => {
     setOtpPopUpDisplay(true);
   };
+
+
+  
   const handleAdminLogOut = () => {
     secureLocalStorage.removeItem("admin_id");
 

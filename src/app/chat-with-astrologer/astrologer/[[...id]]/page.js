@@ -45,7 +45,6 @@ const ChattingServer = async (props) => {
 
   const astrologer = await fetchChatAstrologerData(id);
   const AdminCommissionData = await fetchAdminCommissionData();
-console.log("AdminCommissionData",AdminCommissionData[0].AdminCommissions);
 
   return (
     <>

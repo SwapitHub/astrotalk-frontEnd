@@ -1,4 +1,5 @@
 "use client";
+import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
@@ -39,6 +40,7 @@ function AdminWallet({ updateButton }) {
 
   return (
     <div className="admin-wallet-main">
+       {/* <Loader/> */}
       {updateButton === "admin" && (
         <p>
           <strong>Available balance: </strong>
@@ -46,7 +48,7 @@ function AdminWallet({ updateButton }) {
         </p>
       )}
       {loading ? (
-        <p>Loading data...</p>
+       <Loader/>
       ) : (
         <table border="1">
           <thead>
@@ -77,6 +79,8 @@ function AdminWallet({ updateButton }) {
         <button
           onClick={() => setPage(page - 1)}
           disabled={!hasPrevPage || loading}
+          className={!hasPrevPage && "disable"}
+
         >
           Previous
         </button>
@@ -87,6 +91,7 @@ function AdminWallet({ updateButton }) {
         <button
           onClick={() => setPage(page + 1)}
           disabled={!hasNextPage || loading}
+          className={!hasNextPage && "disable"}
         >
           Next
         </button>

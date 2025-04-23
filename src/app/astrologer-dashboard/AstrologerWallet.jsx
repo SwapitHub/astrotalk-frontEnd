@@ -2,6 +2,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
+import Loader from "../component/Loader";
 
 function AstrologerWallet() {
   const [walletAdminData, setWalletAdminData] = useState([]);
@@ -42,10 +43,11 @@ function AstrologerWallet() {
 
   return (
     <div>
+      <Loader/>
       <p>
         Available balance: <span>₹ {Math.round(totalAvailableBalance) || 0}</span>
       </p>
-{loading ? <p>Loading Data</p> : 
+{loading ?  <Loader/> : 
       <table>
         <thead>
           <tr>
@@ -78,11 +80,17 @@ function AstrologerWallet() {
       </table>
 }
       <div>
-        <button onClick={() => setPage(page - 1)} disabled={!hasPrevPage || loading}>
+        <button onClick={() => setPage(page - 1)} disabled={!hasPrevPage || loading} 
+          className={!hasPrevPage && "disable"}
+          
+          >
           Previous
         </button>
         <span> Page {page} of {totalPages} </span>
-        <button onClick={() => setPage(page + 1)} disabled={!hasNextPage || loading}>
+        <button onClick={() => setPage(page + 1)} disabled={!hasNextPage || loading}
+          className={!hasNextPage && "disable"}
+          
+          >
           Next
         </button>
       </div>

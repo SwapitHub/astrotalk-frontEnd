@@ -1,4 +1,5 @@
 "use client";
+import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -80,7 +81,7 @@ const AddLanguage = () => {
       <div className="language-list">
         <h2>Available Languages</h2>
         {loading ? (
-          <p>Loading...</p>
+           <Loader/>
         ) : (
           <ul>
             {languageListData.map((item) => (

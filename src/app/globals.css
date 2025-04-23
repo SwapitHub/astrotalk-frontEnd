@@ -2659,6 +2659,45 @@ p.error, .error-message {
 	justify-content: space-between;
 	align-items: center;
 }
+.admin-wallet-inner {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    align-items: center;
+  }
+  button.disable {
+    cursor: unset;
+    opacity: 0.5;
+}
+* {
+    margin:0px;
+  }
+  .loader {
+    width:100vw;
+    height:100vh;
+    background-color: #383737;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+position: absolute;
+  }
+  .bullet {
+      width: 25px;
+      height: 25px;
+      background-color: orchid;
+      margin-left: 5px;
+      border-radius: 50%;
+      margin-top: calc(50px - 12.5px);
+      animation: loading 0.9s infinite alternate;
+  }
+  .two {animation-delay: 0.3s;}
+  .three {animation-delay: 0.6s;}
+  @keyframes loading {
+    to {
+      opacity: 0.3;
+      transform: translateY(-25px);
+    }
+  }
 /*========================26-april-2025====================*/
 
 

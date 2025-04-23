@@ -3,6 +3,7 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
+import Loader from "../component/Loader";
 
 const MyWallet = () => {
 
@@ -107,7 +108,7 @@ useEffect(()=>{
         </div>
       </div>
       <div className="my-wallet-table-sec">
-        {loading ? <p>Loading data...</p> : 
+        {loading ?  <Loader/> : 
         <table>
           <thead>
             <tr>
@@ -153,14 +154,20 @@ useEffect(()=>{
         </table>
 }
         <div style={{ marginTop: "10px" }}>
-        <button onClick={() => setPage(page - 1)} disabled={!hasPrevPage || loading}>
+        <button onClick={() => setPage(page - 1)} disabled={!hasPrevPage || loading}
+          className={!hasPrevPage && "disable"}
+          
+          >
           Previous
         </button>
         <span>
           {" "}
           Page {page} of {totalPages}{" "}
         </span>
-        <button onClick={() => setPage(page + 1)} disabled={!hasNextPage || loading}>
+        <button onClick={() => setPage(page + 1)} disabled={!hasNextPage || loading}
+          className={!hasNextPage && "disable"}
+          
+          >
           Next
         </button>
       </div>

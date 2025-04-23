@@ -23,7 +23,6 @@ const fetchAdminCommissionData = async () => {
 const ChattingServer = async () => {
  
   const AdminCommissionData = await fetchAdminCommissionData();
-console.log("AdminCommissionData",AdminCommissionData[0].AdminCommissions);
   return (
     <>
       <Chatting AdminCommissionData={AdminCommissionData[0].AdminCommissions}/>
