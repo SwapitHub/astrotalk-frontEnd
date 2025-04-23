@@ -379,7 +379,7 @@ console.log(totalChatTime);
               </div>
             </div>
           </div>
-          {timeLeft !== 0 ? (
+          {timeLeft ? (
             <div className="send-input-button ctm-flex-row ctm-align-items-center ctm-justify-content-between">
               <div className="chat-input-box-main ctm-flex-row ctm-align-items-center ctm-justify-content-between">
                 <div className="chat-input">
@@ -395,10 +395,8 @@ console.log(totalChatTime);
               </div>
             </div>
           ) : (
-            <div>
-              please recharge then continue chatting{" "}
-              <Link href="#">Continue Chat</Link>
-            </div>
+            <div className="chat-end-text send-input-button">You have exhausted your chat time!</div>
+
           )}
         </div>
       </div>

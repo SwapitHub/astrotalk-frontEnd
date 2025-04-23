@@ -213,135 +213,132 @@ const ChatWithAstrologer = () => {
               return (
                 <>
                   {item.profileStatus == true && (
-                    <div className="inner-astrologer-detail" key={item.id}>
-                      <div className="astrologer-list-left">
-                        <div className="astrologer-profile">
-                          <a href="#" title="Shriniwas">
-                            {" "}
+                    
+                      <div className="inner-astrologer-detail">
+<a href={`/best-astrologer/${item?.name}`} key={item.id}>
+                        <div className="astrologer-list-left">
+                          <div className="astrologer-profile">
                             <img src={`${item?.profileImage}`} alt="Sauvikh" />
-                          </a>
+                          </div>
+                          <div className="five-star-rating">
+                            <ul>
+                              <li>
+                                <i className="fa-solid fa-star"></i>
+                              </li>
+                              <li>
+                                <i className="fa-solid fa-star"></i>
+                              </li>
+                              <li>
+                                <i className="fa-solid fa-star"></i>
+                              </li>
+                              <li>
+                                <i className="fa-solid fa-star"></i>
+                              </li>
+                              <li>
+                                <i className="fa-solid fa-star"></i>
+                              </li>
+                            </ul>
+                          </div>
+                          <div className="talk-to-total-orders">
+                            <p> 3673 orders</p>
+                          </div>
                         </div>
-                        <div className="five-star-rating">
-                          <ul>
-                            <li>
-                              <i className="fa-solid fa-star"></i>
-                            </li>
-                            <li>
-                              <i className="fa-solid fa-star"></i>
-                            </li>
-                            <li>
-                              <i className="fa-solid fa-star"></i>
-                            </li>
-                            <li>
-                              <i className="fa-solid fa-star"></i>
-                            </li>
-                            <li>
-                              <i className="fa-solid fa-star"></i>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="talk-to-total-orders">
-                          <p> 3673 orders</p>
-                        </div>
-                      </div>
-                      <div className="astrologer-list-center">
-                        <div className="talk-to-name-sec">
-                          <h5>
-                            <a href="#" title="Shriniwas">
-                              {item.name}
-                            </a>
-                          </h5>
-                          <p>
-                            {item.professions.map((item) => {
-                              return <span>{item}</span>;
-                            })}
-                          </p>
-                        </div>
-                        <div className="talk-to-language">
-                          <p>
-                            {item.languages.map((item) => {
-                              return <span>{item}</span>;
-                            })}
-                          </p>
-                        </div>
-                        <div className="exp-year-sec">
-                          <p>
-                            Exp:{" "}
-                            <span className="ctm-carly-breaks">
-                              {item.experience}
-                            </span>{" "}
-                            Years
-                          </p>
-                        </div>
-                        <div className="talk-to-time-sec">
-                          <p>
-                            ₹ {item.charges}{" "}
-                            <span>
-                              {/* <span className="ctm-carly-breaks">
+                        <div className="astrologer-list-center">
+                          <div className="talk-to-name-sec">
+                            <h5>{item.name}</h5>
+                            <p>
+                              {item.professions.map((item) => {
+                                return <span>{item}</span>;
+                              })}
+                            </p>
+                          </div>
+                          <div className="talk-to-language">
+                            <p>
+                              {item.languages.map((item) => {
+                                return <span>{item}</span>;
+                              })}
+                            </p>
+                          </div>
+                          <div className="exp-year-sec">
+                            <p>
+                              Exp:{" "}
+                              <span className="ctm-carly-breaks">
+                                {item.experience}
+                              </span>{" "}
+                              Years
+                            </p>
+                          </div>
+                          <div className="talk-to-time-sec">
+                            <p>
+                              ₹ {item.charges}{" "}
+                              <span>
+                                {/* <span className="ctm-carly-breaks">
                                 {item.minute}
                               </span> */}
-                              <span className="ctm-carly-breaks">/</span> min
-                            </span>
-                          </p>
+                                <span className="ctm-carly-breaks">/</span> min
+                              </span>
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                      <div className="astrologer-list-right">
-                        <div className="Verified-Sticker-icon">
-                          <img
-                            src="./Verified-Sticker.png"
-                            alt="Verified Sticker"
-                          />
-                        </div>
+                        <div className="astrologer-list-right">
+                          <div className="Verified-Sticker-icon">
+                            <img
+                              src="./Verified-Sticker.png"
+                              alt="Verified Sticker"
+                            />
+                          </div>
 
-                        {item.chatStatus == false ? (
-                          <div className="astrologer-call-button-ctm">
-                            {userAmount >= item.charges * 2 ? (
-                              <a
-                                href={`/chat-with-astrologer/user/${userIds}`}
-                                onClick={() =>
-                                  onChangeId(
-                                    item._id,
-                                    item.mobileNumber,
-                                    // item.profileImage,
-                                    item.name,
-                                    item.charges,
-                                    item.experience
-                                  )
-                                }
-                              >
-                                Chat{" "}
-                              </a>
-                            ) : (
+                          {item.chatStatus == false ? (
+                            <div className="astrologer-call-button-ctm">
+                              {userAmount >= item.charges * 2 ? (
+                                <a
+                                  href={`/chat-with-astrologer/user/${userIds}`}
+                                  onClick={() =>
+                                    onChangeId(
+                                      item._id,
+                                      item.mobileNumber,
+                                      // item.profileImage,
+                                      item.name,
+                                      item.charges,
+                                      item.experience
+                                    )
+                                  }
+                                >
+                                  Chat{" "}
+                                </a>
+                              ) : (
+                                <a href="#"
+                                  onClick={() =>
+                                    onChangeId(
+                                      item._id,
+                                      item.mobileNumber,
+                                      // item.profileImage,
+                                      item.name,
+                                      item.charges,
+                                      item.experience
+                                    )
+                                  }
+                                >
+                                  chat
+                                </a>
+                              )}
+                            </div>
+                          ) : (
+                            <div className="astrologer-call-button-ctm chatStatus-false">
                               <button
-                                onClick={() =>
-                                  onChangeId(
-                                    item._id,
-                                    item.mobileNumber,
-                                    // item.profileImage,
-                                    item.name,
-                                    item.charges,
-                                    item.experience
-                                  )
-                                }
+                              // onClick={() =>
+                              //   onChangeId(item._id, item.mobileNumber)
+                              // }
                               >
-                                chat
+                                Chat
                               </button>
-                            )}
-                          </div>
-                        ) : (
-                          <div className="astrologer-call-button-ctm chatStatus-false">
-                            <button
-                            // onClick={() =>
-                            //   onChangeId(item._id, item.mobileNumber)
-                            // }
-                            >
-                              Chat
-                            </button>
-                            <span>waiting 5 minutes</span>
-                          </div>
-                        )}
+                              <span>waiting 5 minutes</span>
+                            </div>
+                          )}
+                        </div>
+                        </a>
                       </div>
-                    </div>
+                   
                   )}
                 </>
               );

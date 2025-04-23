@@ -1,20 +1,73 @@
 "use client";
 import { validateAstrologerForm } from "@/app/component/FormValidation";
 import UserOtpLoginData from "@/app/component/UserOtpLoginData";
-import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import secureLocalStorage from "react-secure-storage";
 
 const StartUserName = () => {
+  const router = useRouter()
   const [dateOfBirthAvailable, setDateOfBirthAvailable] = useState("no");
   const [otpPopUpDisplays, setOtpPopUpDisplays] = useState(false);
+  const [datePhoneAvailable, setDatePhoneAvailable] = useState();
   const [errors, setErrors] = useState({});
-console.log(errors);
+  const [userMobile, setUserMobile] = useState();
+  console.log(errors);
+console.log(datePhoneAvailable,userMobile);
+
+useEffect(() => {
+  const fetchUserDetail = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
+      );
+      setDatePhoneAvailable(response.data);
+      console.log("API response:", response);
+    } catch (err) {
+      console.error("user detail api error:", err);
+    }
+  };
+
+  if (userMobile) {
+    fetchUserDetail();
+  }
+}, [userMobile]);
+
+  
+ 
+
+
+// Watch for userMobile updates
+useEffect(() => {
+  const storedMobile = secureLocalStorage.getItem("userMobile");
+  if (storedMobile) {
+    setUserMobile(Math.round(storedMobile));
+  }
+
+  const handleStorageChange = () => {
+    const updatedMobile = secureLocalStorage.getItem("userMobile");
+    if (updatedMobile) {
+      setUserMobile(updatedMobile);
+      // fetchUserDetail();
+    }
+  };
+
+  window.addEventListener("userMobileUpdated", handleStorageChange);
+
+  return () => {
+    window.removeEventListener("userMobileUpdated", handleStorageChange);
+  };
+}, []);
+
+
 
   const handleUserSignUpData = async () => {
-    const validationErrors = validateAstrologerForm('user');
+    const validationErrors = validateAstrologerForm("user");
     console.log(validationErrors);
-    
+
     setErrors(validationErrors);
-    
+
     if (Object.keys(validationErrors).length > 0) {
       return;
     }
@@ -29,10 +82,42 @@ console.log(errors);
       languages: document.getElementById("language").value.trim(),
     };
     console.log(formData);
-    
-    if (formData) {
-      setOtpPopUpDisplays(true);
+
+    if (!formData) return;
+
+const phone = datePhoneAvailable?.phone;
+
+if (phone) {
+  try {
+    const response = await axios.put(
+      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${phone}`,
+      {
+        name: formData.first_name,
+        gender: formData.gender,
+        dateOfBirth: formData.date_of_birth,
+        reUseDateOfBirth: formData.re_use_date_of_birth || "",
+        placeOfBorn: formData.placeOfBorn,
+        language: formData.languages,
+        // totalAmount: 0, // if needed
+      }
+    );
+
+    console.log("response", response.data);
+
+    if (response.data.message === "success") {
+      secureLocalStorage.setItem("userIds", response.data.user._id);
+      window.dispatchEvent(new Event("userMobileUpdated"));
+      router.push("/chat-with-astrologer");
     }
+
+    console.log("User Updated:", response.data);
+  } catch (err) {
+    console.error("Error updating user:", err);
+  }
+} else {
+  setOtpPopUpDisplays(true);
+}
+
   };
 
   return (

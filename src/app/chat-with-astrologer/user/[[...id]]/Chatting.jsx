@@ -34,6 +34,7 @@ export default function Chatting(AdminCommissionData) {
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(null);
   const mobileRef = useRef(null);
+  console.log(astrologerData);
 
   useEffect(() => {
     const storedNotification = secureLocalStorage.getItem(
@@ -255,7 +256,7 @@ export default function Chatting(AdminCommissionData) {
           astroMobile: astrologerData.mobileNumber,
           astrologerId: astrologerId,
           actualChargeUserChat: actualChargeUserChat,
-          updateAdminCommission : AdminCommissionData
+          updateAdminCommission: AdminCommissionData,
         };
         socket.emit("chat-timeLeft-update", newUserDetail);
         console.log("newUserDetail=====", newUserDetail);
@@ -422,7 +423,7 @@ export default function Chatting(AdminCommissionData) {
                 </div>
               </div>
             </div>
-            {timeLeft !== 0 ? (
+            {timeLeft ? (
               <div className="send-input-button ctm-flex-row ctm-align-items-center ctm-justify-content-between">
                 <div className="chat-input-box-main ctm-flex-row ctm-align-items-center ctm-justify-content-between">
                   <div className="chat-input">
@@ -438,9 +439,31 @@ export default function Chatting(AdminCommissionData) {
                 </div>
               </div>
             ) : (
-              <div>
-                please recharge then continue chatting{" "}
-                <Link href="#">Continue Chat</Link>
+              <div className="send-input-button">
+                {showUserData?.totalAmount == 0 ? (
+                  <div className="extra-message-box">
+                    <div className="chat-popup-container">
+                      <div className="chat-popup-header">
+                        <div className="image">
+                          <img src="" alt="" />
+                        </div>
+                        <div className="text">
+                          {" "}
+                          Hi {showUserData?.name}, lets continue this chat at
+                          price of ₹ {astrologerData?.charges}.0/min{" "}
+                        </div>
+                      </div>
+                      <div className="chat-popup-footer">
+                        <Link href="/add-wallet-money/price-list">
+                          Continue
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="chat-end-text">You have exhausted your chat time!</div>
+                )}
+                {/* <Link href="#">Continue Chat</Link> */}
               </div>
             )}
           </div>

@@ -67,6 +67,8 @@ function UserOtpLoginData({ setOtpPopUpDisplay }) {
 console.log(formData);
 
     try {
+      console.log("jhjhkjhkjhkjhkj");
+      
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/verify-otp`,
         {
@@ -79,6 +81,7 @@ console.log(formData);
       let userMatch = userLoginData.find((item) => {
         return item.phone == phone;
       });
+console.log("jhjhkjhkjhkjhkj",userMatch);
 
       if (!userMatch) {
         if (response.status == 200) {
@@ -101,8 +104,10 @@ console.log(formData);
             secureLocalStorage.setItem("userIds", userLoginRes.data.user._id);
             secureLocalStorage.setItem("userMobile", phone);
             console.log("User login successful, User ID:", phone);
-            window.dispatchEvent(new Event("storageUserMobile"));
-            router.push("/chat-with-astrologer");
+            window.dispatchEvent(new Event("userMobileUpdated"));
+            router.push(formData.first_name ? "/chat-with-astrologer" : "/free-chat/start");
+            console.log(formData);
+            
           }
         }
       } else {
@@ -110,20 +115,22 @@ console.log(formData);
           const response = await axios.put(
             `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${phone}`,
             {
-              name: formData.first_name,
-              gender: formData.gender,
-              dateOfBirth: formData.date_of_birth,
-              reUseDateOfBirth: formData.re_use_date_of_birth,
-              placeOfBorn: formData.placeOfBorn,
-              language: formData.languages,
+              name: userMatch.name,
+              gender: userMatch.gender,
+              dateOfBirth: userMatch.dateOfBirth,
+              reUseDateOfBirth: userMatch.re_use_date_of_birth?userMatch.re_use_date_of_birth:"",
+              placeOfBorn: userMatch.placeOfBorn,
+              language: userMatch.language,
               // totalAmount: 0,
             }
           );
+          console.log("response",response.data);
+          
           if (response.data.message == "success") {
             setOtpPopUpDisplay(false);
             secureLocalStorage.setItem("userIds", response.data.user._id);
             secureLocalStorage.setItem("userMobile", phone);
-            window.dispatchEvent(new Event("storageUserMobile"));
+            window.dispatchEvent(new Event("userMobileUpdated"));
             router.push("/chat-with-astrologer");
           }
           console.log("User Updated:", response.data);
@@ -136,6 +143,8 @@ console.log(formData);
       }
     } catch (error) {
       setMessage("Invalid OTP or login formData");
+      console.log("Invalid OTP or login formData");
+      
     }
   };
 

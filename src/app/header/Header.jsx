@@ -22,10 +22,8 @@ const Header = () => {
 
   // console.log(astrologerPhone,astroDetailData);
   const [userMobile, setUserMobile] = useState();
-  console.log(admin_id);
+  console.log(admin_id,userMobile);
 
-
-  
   useEffect(() => {
     const handleStorageChange = () => {
       const updatedId = secureLocalStorage.getItem("admin_id");
@@ -45,21 +43,27 @@ const Header = () => {
     setAstrologerPhone(astrologerPhone);
   }, []);
 
-  useEffect(() => {
-    const fetchUserMobile = () => {
-      const storedUserMob = secureLocalStorage.getItem("userMobile");
-      setUserMobile(storedUserMob);
-    };
+  // Watch for userMobile updates
+useEffect(() => {
+  const storedMobile = secureLocalStorage.getItem("userMobile");
+  if (storedMobile) {
+    setUserMobile(Math.round(storedMobile));
+  }
 
-    fetchUserMobile();
+  const handleStorageChange = () => {
+    const updatedMobile = secureLocalStorage.getItem("userMobile");
+    if (updatedMobile) {
+      setUserMobile((updatedMobile));
+      // fetchUserDetail();
+    }
+  };
 
-    // Listen for storage changes
-    window.addEventListener("storageUserMobile", fetchUserMobile);
+  window.addEventListener("userMobileUpdated", handleStorageChange);
 
-    return () => {
-      window.removeEventListener("storageUserMobile", fetchUserMobile);
-    };
-  }, []);
+  return () => {
+    window.removeEventListener("userMobileUpdated", handleStorageChange);
+  };
+}, []);
 
   useEffect(() => {
     const fetchAstroDetailData = async () => {
@@ -81,20 +85,20 @@ const Header = () => {
   }, [astrologerPhone]);
 
   useEffect(() => {
-    const fetchUserDetailData = async () => {
+    const fetchUserDetail = async () => {
       try {
         const response = await axios.get(
-          `${
-            process.env.NEXT_PUBLIC_WEBSITE_URL
-          }/auth/user-login-detail/${Math.round(userMobile)}`
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
         );
-        setUserDetailData(response?.data);
-      } catch (error) {
-        console.log(error, "user detail api error");
+        setUserDetailData(response.data);
+        console.log("API response:", response);
+      } catch (err) {
+        console.error("user detail api error:", err);
       }
     };
+  
     if (userMobile) {
-      fetchUserDetailData();
+      fetchUserDetail();
     }
   }, [userMobile]);
 
@@ -148,9 +152,6 @@ const Header = () => {
   const handelUserLogin = () => {
     setOtpPopUpDisplay(true);
   };
-
-
-  
   const handleAdminLogOut = () => {
     secureLocalStorage.removeItem("admin_id");
 
@@ -291,7 +292,7 @@ const Header = () => {
                             </li>
                             <li>
                               <Link
-                                href="/order-history/report"
+                                href="/order-history/chat"
                                 title="order history"
                               >
                                 Order History
