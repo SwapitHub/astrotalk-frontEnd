@@ -42,8 +42,7 @@ function AstrologerWallet() {
   }, [page, astrologerPhone]);
 
   return (
-    <div>
-      <Loader/>
+    <div className="admin-wallet-main">
       <p>
         Available balance: <span>₹ {Math.round(totalAvailableBalance) || 0}</span>
       </p>
@@ -79,7 +78,7 @@ function AstrologerWallet() {
         </tbody>
       </table>
 }
-      <div>
+      <div className="admin-wallet-inner">
         <button onClick={() => setPage(page - 1)} disabled={!hasPrevPage || loading} 
           className={!hasPrevPage && "disable"}
           
