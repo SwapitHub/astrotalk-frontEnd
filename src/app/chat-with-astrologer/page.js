@@ -1,11 +1,13 @@
 "use client";
 import axios from "axios";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import io from "socket.io-client";
 import UserRecharge from "../component/UserRechargePopUp";
 import Link from "next/link";
 import secureLocalStorage from "react-secure-storage";
+import Loader from "../component/Loader";
+import SortByFilter from "../component/SortByFilter";
+import MultiFilters from "../component/MultiFilters";
 // const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   withCredentials: true,
@@ -20,28 +22,50 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
 });
 
 const ChatWithAstrologer = () => {
-  const [showAstrologer, setShowAstrologer] = useState();
+  const [showAstrologer, setShowAstrologer] = useState(null);
   const userIds = secureLocalStorage.getItem("userIds");
   const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
   const [showRecharge, setShowRecharge] = useState(false);
   const [userData, setUserData] = useState();
   const [astroMobileNum, setAstroMobileNum] = useState();
-  const router = useRouter();
-  console.log(userData);
+  const [searchName, setSearchName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [sortFilterStatus, setSortFilterStatus] = useState(false);
+  const [multiFilterStatus, setMultiFilterStatus] = useState(false);
+  const [sortFilterCharges, setSortFilterCharges] = useState();
+  console.log(sortFilterCharges);
 
-  const fetchData = () => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile`)
-      .then((res) => {
-        setShowAstrologer(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // Memoize the fetch function to prevent unnecessary recreations
+  const fetchData = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile?name=${searchName}&sortby=${sortFilterCharges}&page=1&limit=5`
+      );
+      setShowAstrologer(response.data.profiles);
+    } catch (err) {
+      setError(err);
+      console.error("Error fetching astrologers:", err);
+      setShowAstrologer(null);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [searchName, sortFilterCharges]);
+
   useEffect(() => {
-    fetchData();
-  }, [userData]);
+    const timerId = setTimeout(() => {
+      fetchData();
+    }, 500);
+
+    return () => clearTimeout(timerId);
+  }, [searchName, fetchData, sortFilterCharges]);
+
+  const handleSearchChange = (e) => {
+    setSearchName(e.target.value);
+  };
 
   useEffect(() => {
     if (userMobile) {
@@ -136,6 +160,13 @@ const ChatWithAstrologer = () => {
       socket.off("userId-to-astrologer-error");
     };
   }, []);
+  useEffect(() => {
+    if (sortFilterStatus || multiFilterStatus) {
+      document.body.classList.add("user-filter-popup");
+    } else {
+      document.body.classList.remove("user-filter-popup");
+    }
+  }, [sortFilterStatus , multiFilterStatus]);
   return (
     <>
       {showRecharge && (
@@ -143,6 +174,32 @@ const ChatWithAstrologer = () => {
           setShowRecharge={setShowRecharge}
           astroMobileNum={astroMobileNum}
         />
+      )}
+
+      {sortFilterStatus && (
+        <SortByFilter
+          setSortFilterStatus={setSortFilterStatus}
+          setSortFilterCharges={setSortFilterCharges}
+          sortFilterCharges={sortFilterCharges}
+        />
+      )}
+
+{multiFilterStatus && (
+      <MultiFilters
+      setMultiFilterStatus={setMultiFilterStatus}
+      />
+)}
+
+      {isLoading && <Loader />}
+      {error && <p className="error">Error fetching data</p>}
+
+      {/* Show nothing by default (showAstrologer === null) */}
+      {showAstrologer === null ? null : showAstrologer?.length > 0 ? (
+        showAstrologer.map((astrologer) => (
+          <div key={astrologer.id}>{/* Render astrologer */}</div>
+        ))
+      ) : (
+        <p>No results found</p>
       )}
 
       <section className="talk-to-astrologer-bg">
@@ -170,30 +227,36 @@ const ChatWithAstrologer = () => {
                   </Link>
                 </div>
                 <div className="filter-button">
-                  <a href="#" title="Recharge" className="filter-btn-ctm">
+                  <button className="filter-btn-ctm" onClick={()=>{setMultiFilterStatus(true)}}>
                     <i
                       _ngcontent-serverapp-c100=""
                       className="fa fa-filter"
                     ></i>
                     Filter
-                  </a>
+                  </button>
                 </div>
                 <div className="filter-button">
-                  <a href="#" title="Recharge" className="sort-btn-ctm">
+                  <button
+                    className="sort-btn-ctm"
+                    onClick={() => setSortFilterStatus(true)}
+                  >
                     <i
                       _ngcontent-serverapp-c100=""
                       className="fa fa-sort-amount-desc"
                     ></i>{" "}
                     Sort by{" "}
-                  </a>
+                  </button>
                 </div>
                 <div className="filter-button search-box-top-btn">
                   <div className="search-box-filed">
                     <input
                       type="search"
-                      id="gsearch"
-                      name="gsearch"
+                      id="astrologer-search"
+                      name="astrologer-search"
                       placeholder="Search name..."
+                      value={searchName}
+                      onChange={handleSearchChange}
+                      aria-label="Search astrologers by name"
                     />
                   </div>
                   <div className="search-button-filed">
@@ -208,14 +271,11 @@ const ChatWithAstrologer = () => {
 
           <div className="all-list-talk-to-astrologer">
             {showAstrologer?.map((item) => {
-              console.log("=========", item);
-
               return (
                 <>
                   {item.profileStatus == true && (
-                    
-                      <div className="inner-astrologer-detail">
-<a href={`/best-astrologer/${item?.name}`} key={item.id}>
+                    <div className="inner-astrologer-detail">
+                      <a href={`/best-astrologer/${item?.name}`} key={item.id}>
                         <div className="astrologer-list-left">
                           <div className="astrologer-profile">
                             <img src={`${item?.profileImage}`} alt="Sauvikh" />
@@ -307,7 +367,8 @@ const ChatWithAstrologer = () => {
                                   Chat{" "}
                                 </a>
                               ) : (
-                                <a href="#"
+                                <a
+                                  href="#"
                                   onClick={() =>
                                     onChangeId(
                                       item._id,
@@ -336,9 +397,8 @@ const ChatWithAstrologer = () => {
                             </div>
                           )}
                         </div>
-                        </a>
-                      </div>
-                   
+                      </a>
+                    </div>
                   )}
                 </>
               );

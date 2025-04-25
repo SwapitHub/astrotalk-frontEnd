@@ -46,7 +46,7 @@ const admin_id = secureLocalStorage.getItem("admin_id");
         <div className="dashboard-inner">
           <div className="dashboard-left-dashboard">
             <ul>
-              <li>
+              <li className={updateButton==1?"active" : ""}>
                 <a
                   href="#"
                   title="menu"
@@ -71,7 +71,7 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                 </a>
                 {astroListToggle && (
                   <ul>
-                    <li>
+                    <li className={updateButton=="active"?"active" : ""}>
                       <a
                         href="#"
                         onClick={(e) => {
@@ -82,7 +82,7 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                         Active
                       </a>
                     </li>
-                    <li>
+                    <li className={updateButton=="pending"?"active" : ""}>
                       <a
                         href="#"
                         onClick={(e) => {
@@ -109,7 +109,7 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                 </a>
                 {adminWalletToggle && (
                   <ul>
-                    <li>
+                    <li className={updateButton=="admin"?"active" : ""}>
                       <a
                         href="#"
                         onClick={(e) => {
@@ -120,7 +120,7 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                         Admin
                       </a>
                     </li>
-                    <li>
+                    <li className={updateButton=="astrologer"?"active" : ""}>
                       <a
                         href="#"
                         onClick={(e) => {
@@ -131,7 +131,7 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                         Astrologer
                       </a>
                     </li>
-                    <li>
+                    <li className={updateButton=="user"?"active" : ""}>
                       <a
                         href="#"
                         onClick={(e) => {
@@ -145,7 +145,7 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                   </ul>
                 )}
               </li>
-              <li>
+              <li className={updateButton==3?"active" : ""}>
                 <a
                   href="#"
                   title="menu"
@@ -170,7 +170,7 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                 </a>
                 {adminSideSettingToggle && (
                   <ul>
-                    <li>
+                    <li className={updateButton=="language"?"active" : ""}>
                       <a
                         href="#"
                         onClick={(e) => {
@@ -181,7 +181,7 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                         Add Languages
                       </a>
                     </li>
-                    <li>
+                    <li className={updateButton=="profession"?"active" : ""}>
                       <a
                         href="#"
                         onClick={(e) => {
@@ -192,7 +192,7 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                         Add Profession
                       </a>
                     </li>
-                    <li>
+                    <li  className={updateButton=="ChatCommission"?"active" : ""}>
                       <a
                         href="#"
                         onClick={(e) => {
@@ -206,7 +206,7 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                   </ul>
                 )}
               </li>
-              <li>
+              <li  className={updateButton==4?"active" : ""}>
                 <a
                   href="#"
                   title="menu"
@@ -218,7 +218,7 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                   Gallery
                 </a>
               </li>
-              <li>
+              <li  className={updateButton==5?"active" : ""}>
                 <a
                   href="#"
                   title="menu"
@@ -230,7 +230,7 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                   My Review
                 </a>
               </li>
-              <li>
+              <li className={updateButton==6?"active" : ""}>
                 <a
                   href="#"
                   title="menu"
@@ -242,7 +242,7 @@ const admin_id = secureLocalStorage.getItem("admin_id");
                   Id Proof
                 </a>
               </li>
-              <li>
+              <li className={updateButton==7 ? "active" : ""}>
                 <a
                   href="#"
                   title="menu"

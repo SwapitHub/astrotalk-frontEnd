@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 import io from "socket.io-client";
+import UserRecharge from "../component/UserRechargePopUp";
 
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   withCredentials: true,
@@ -15,31 +16,15 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   autoConnect: true,
   forceNew: true,
 });
-export const AstrologerDetail = () => {
-  const astrologerId = secureLocalStorage.getItem("astrologerId");
+export const AstrologerDetail = ({astrologerData}) => {
   const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
   const userIds = secureLocalStorage.getItem("userIds");
-
+  const [showRecharge, setShowRecharge] = useState(false);
+    const [astroMobileNum, setAstroMobileNum] = useState();
+  
   const [userData, setUserData] = useState();
 
-  const [astrologerData, setAstrologerData] = useState("");
-
-  useEffect(() => {
-    const fetchAstrologerData = () => {
-      axios
-        .get(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerId}`
-        )
-        .then((response) => {
-          setAstrologerData(response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching astrologer data:", error);
-        });
-    };
-
-    fetchAstrologerData();
-  }, [astrologerId]);
+  
 
   useEffect(() => {
     if (userMobile) {
@@ -126,8 +111,22 @@ export const AstrologerDetail = () => {
       socket.off("userId-to-astrologer-error");
     };
   }, []);
-
+  useEffect(() => {
+    if (showRecharge) {
+      document.body.classList.add("user-recharge");
+    } else {
+      document.body.classList.remove("user-recharge");
+    }
+  }, [showRecharge]);
   return (
+    <>
+      {showRecharge && (
+        <UserRecharge
+          setShowRecharge={setShowRecharge}
+          astroMobileNum={astroMobileNum}
+        />
+      )}
+   
     <div className="container">
       <div className="astrologer_profile_Section">
         <div className="breadcrumb">
@@ -546,5 +545,6 @@ export const AstrologerDetail = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
