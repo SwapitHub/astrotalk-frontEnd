@@ -9,7 +9,7 @@ import Loader from "../component/Loader";
 import SortByFilter from "../component/SortByFilter";
 import MultiFilters from "../component/MultiFilters";
 import { IoStar } from "react-icons/io5";
-import { FaSortAmountDownAlt, FaFilter, FaSearch  } from "react-icons/fa";
+import { FaSortAmountDownAlt, FaFilter, FaSearch } from "react-icons/fa";
 // const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   withCredentials: true,
@@ -36,7 +36,8 @@ const ChatWithAstrologer = () => {
   const [sortFilterStatus, setSortFilterStatus] = useState(false);
   const [multiFilterStatus, setMultiFilterStatus] = useState(false);
   const [sortFilterCharges, setSortFilterCharges] = useState();
-  console.log(sortFilterCharges);
+  const [multiFilter, setMultiFilter] = useState();
+  console.log(multiFilter);
 
   // Memoize the fetch function to prevent unnecessary recreations
   const fetchData = useCallback(async () => {
@@ -45,7 +46,7 @@ const ChatWithAstrologer = () => {
 
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile?name=${searchName}&sortby=${sortFilterCharges}&page=1&limit=5`
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile?name=${searchName}&sortby=${sortFilterCharges}&page=1&limit=5&${multiFilter}`
       );
       setShowAstrologer(response.data.profiles);
     } catch (err) {
@@ -55,7 +56,7 @@ const ChatWithAstrologer = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [searchName, sortFilterCharges]);
+  }, [searchName, sortFilterCharges, multiFilter]);
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -63,7 +64,7 @@ const ChatWithAstrologer = () => {
     }, 500);
 
     return () => clearTimeout(timerId);
-  }, [searchName, fetchData, sortFilterCharges]);
+  }, [searchName, fetchData, sortFilterCharges, multiFilter]);
 
   const handleSearchChange = (e) => {
     setSearchName(e.target.value);
@@ -168,7 +169,7 @@ const ChatWithAstrologer = () => {
     } else {
       document.body.classList.remove("user-filter-popup");
     }
-  }, [sortFilterStatus , multiFilterStatus]);
+  }, [sortFilterStatus, multiFilterStatus]);
   return (
     <>
       {showRecharge && (
@@ -186,11 +187,12 @@ const ChatWithAstrologer = () => {
         />
       )}
 
-{multiFilterStatus && (
-      <MultiFilters
-      setMultiFilterStatus={setMultiFilterStatus}
-      />
-)}
+      {multiFilterStatus && (
+        <MultiFilters setMultiFilterStatus={setMultiFilterStatus}
+        setMultiFilter={setMultiFilter}
+        multiFilter={multiFilter}
+        />
+      )}
 
       {isLoading && <Loader />}
       {error && <p className="error">Error fetching data</p>}
@@ -229,8 +231,13 @@ const ChatWithAstrologer = () => {
                   </Link>
                 </div>
                 <div className="filter-button">
-                  <button className="filter-btn-ctm" onClick={()=>{setMultiFilterStatus(true)}}>
-                  <FaFilter />
+                  <button
+                    className="filter-btn-ctm"
+                    onClick={() => {
+                      setMultiFilterStatus(true);
+                    }}
+                  >
+                    <FaFilter />
                     Filter
                   </button>
                 </div>
@@ -239,8 +246,7 @@ const ChatWithAstrologer = () => {
                     className="sort-btn-ctm"
                     onClick={() => setSortFilterStatus(true)}
                   >
-                   <FaSortAmountDownAlt />{" "}
-                    Sort by{" "}
+                    <FaSortAmountDownAlt /> Sort by{" "}
                   </button>
                 </div>
                 <div className="filter-button search-box-top-btn">
@@ -257,7 +263,7 @@ const ChatWithAstrologer = () => {
                   </div>
                   <div className="search-button-filed">
                     <button type="submit">
-                    <FaSearch />
+                      <FaSearch />
                     </button>
                   </div>
                 </div>
@@ -279,19 +285,19 @@ const ChatWithAstrologer = () => {
                           <div className="five-star-rating">
                             <ul>
                               <li>
-                              <IoStar />
+                                <IoStar />
                               </li>
                               <li>
-                              <IoStar />
+                                <IoStar />
                               </li>
                               <li>
-                              <IoStar />
+                                <IoStar />
                               </li>
                               <li>
-                              <IoStar />
+                                <IoStar />
                               </li>
                               <li>
-                              <IoStar />
+                                <IoStar />
                               </li>
                             </ul>
                           </div>

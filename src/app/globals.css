@@ -3452,6 +3452,176 @@ li.active a {
 }
 /* 24-04-2025 */
 
+/* 25-04-2025 */
+.user-filter-popup .filter-modal, .user-filter-popup .sort-modal {
+	padding: 0px;
+}
+.filter-outer {
+    display: flex;
+    justify-content: space-between;
+}
+.filter-tabs {
+    width: 35%;
+}
+nav.navbar ul li a {
+    color: inherit;
+}
+.heading-button span {
+    font-family: Poppins, serif !important;
+	font-size: 18px;
+}
+.filter-button button {
+    padding: 8.5px 7px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 14px;
+}
+.recharge-button {
+    padding: 8.5px 30px;
+    font-size: 14px;
+}
+.talk-to-name-sec h5 {
+    font-size: 16px;
+}
+.inner-astrologer-detail {
+    padding: 0;
+}
+.astrologer-profile {
+    height: auto;
+}
+.five-star-rating ul li svg {
+    width: 12px;
+    fill: goldenrod;
+}
+.five-star-rating ul {
+    gap: 2px;
+}
+.talk-to-total-orders p {
+    font-size: 12px;
+    margin-top: 0;
+}
+.astrologer-list-left {
+    width: 70px;
+}
+.astrologer-list-center {
+    width: calc(100% - 162px);
+	padding: 0px 10px;
+}
+.inner-astrologer-detail > a {
+    width: 100%;
+}
+.inner-form-filed-sec label span, span.ctm-carly-breaks {
+    font-family: inherit;
+}
+.talk-to-time-sec p {
+    color: #bf2554;
+}
+.astrologer-list-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+ 
+.search-box-top-btn input {
+    padding: 5px 12px;
+    font-size: 15px;
+    font-family: inherit;
+}
+.filter-modal .main-recharge-popup {
+    padding: 0px;
+}
+.filter-header {
+    padding: 15px 20px;
+}
+.filter-header span {
+    font-weight: 500;
+}
+.user-filter-popup .filter-header > button,
+.user-filter-popup .sort-header > button {
+    width: 28px;
+    height: 28px;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .5);
+    padding: 3px 0px 0px;
+}
+.tab-btn {
+    transition: all 0.3s;
+    font-size: 14px;
+}
+.tab-btn.active {
+    font-weight: 700;
+    border-left: 4px solid #bf2554;
+}
+.filter-footer {
+    border-top: 1px solid #d5d5d5;
+    padding: 15px;
+}
+.filter-content {
+    min-height: 45vh;
+	padding-right: 10px;
+}
+.inner-clear-button {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+    gap: 20px;
+}
+ 
+.inner-clear-button > * {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    color: #bf2554;
+    font-weight: 500;
+    font-size: 15px;
+}
+.filter-content .tab-pane {
+    text-align: left;
+}
+.filter-content .tab-pane label span:before {
+    width: 16px;
+    height: 16px;
+    top: 1.5px;
+    border: 2px solid #bf2554;
+}
+.filter-content .tab-pane label input:checked + span:before {
+    background-color: #bf2554;
+}
+.filter-content .tab-pane label span:after {
+    left: 5px;
+    top: 8px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    width: 8px;
+    height: 3px;
+}
+.filter-footer button {
+    display: inline-block;
+    padding: 0 10px;
+    appearance: none;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background-color: transparent;
+    color: #bf2554;
+    font-size: 15px;
+    font-weight: 500;
+}
+.filter-footer button.apply-button {
+    border-color: #bf2554;
+    background-color: #bf2554;
+    color: #fff;
+    padding: 8px 25px;
+}
+.filter-content .tab-pane label > p {
+    font-size: 14px;
+}
+/* 25-04-2025 */
+
 /* ================== @ Media Css Start Here ================== */
 @media (max-width:1199px) {
     .astrologer {

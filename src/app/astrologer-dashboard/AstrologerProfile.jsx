@@ -394,7 +394,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
                 <input type="radio"  name="country" value="India" />
                 <label htmlFor="Male">India</label>
 
-                <input type="radio"  name="country" value="Outside India" />
+                <input type="radio"  name="country" value="Outside_India" />
                 <label htmlFor="Female">Outside India</label>
 
                 

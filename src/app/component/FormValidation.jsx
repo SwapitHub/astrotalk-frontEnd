@@ -123,11 +123,30 @@ export const validateAstrologerForm = (formType) => {
       errors.gender = "Gender is required";
     }
   }else{
-    const country = document.querySelector('input[name="india"]:checked')?.value
+    const country = document.querySelector('input[name="country"]:checked')?.value
     const gender =  document.querySelector('input[name="gender"]:checked')?.value
     const Offer =  document.querySelector('input[name="Offer"]:checked')?.value
     const top_astrologer =  document.querySelector('input[name="top_astrologer"]:checked')?.value
+    const professions =    Array.from(
+      document.querySelectorAll('input[name="professions"]:checked')
+    ).map((input) => input.value);
+
   
+
+    const selectedLanguages = Array.from(
+      document.querySelectorAll('input[name="languages"]:checked')
+    ).map((input) => input.value);
+
+  
+
+    if (!selectedLanguages || selectedLanguages.length <= 0) {
+      errors.languages = "Please select at least one language";
+    }
+
+
+    if (!professions ||  professions.length <= 0) {
+      errors.professions = "Please select at least one Skill";
+    }
   
     if (!country) errors.country = "Must select at least one Country";
     if (!gender) errors.gender = "Must select at least one Gender";
