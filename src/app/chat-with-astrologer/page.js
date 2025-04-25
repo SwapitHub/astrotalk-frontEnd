@@ -8,6 +8,7 @@ import secureLocalStorage from "react-secure-storage";
 import Loader from "../component/Loader";
 import SortByFilter from "../component/SortByFilter";
 import MultiFilters from "../component/MultiFilters";
+import { IoStar } from "react-icons/io5";
 // const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   withCredentials: true,
@@ -283,19 +284,19 @@ const ChatWithAstrologer = () => {
                           <div className="five-star-rating">
                             <ul>
                               <li>
-                                <i className="fa-solid fa-star"></i>
+                              <IoStar />
                               </li>
                               <li>
-                                <i className="fa-solid fa-star"></i>
+                              <IoStar />
                               </li>
                               <li>
-                                <i className="fa-solid fa-star"></i>
+                              <IoStar />
                               </li>
                               <li>
-                                <i className="fa-solid fa-star"></i>
+                              <IoStar />
                               </li>
                               <li>
-                                <i className="fa-solid fa-star"></i>
+                              <IoStar />
                               </li>
                             </ul>
                           </div>

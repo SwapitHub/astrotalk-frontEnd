@@ -1,13 +1,59 @@
 "use client";
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { validateAstrologerForm } from "./FormValidation";
+import { toast } from "react-toastify";
 
 const MultiFilters = ({ setMultiFilterStatus }) => {
   const [activeTab, setActiveTab] = useState("skill");
+  const [professionsList, setProfessionsList] = useState([]);
+  const [languageListData, setLanguageListData] = useState([]);
+  const [errors, setErrors] = useState({});
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
+  const fetchLanguageList = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/add-Language-astrologer`
+      );
+      setLanguageListData(response.data);
+    } catch (error) {
+      console.error("Fetch language list error:", error);
+    } finally {
+    }
+  };
+
+  const fetchProfessionsList = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/add-Profession-astrologer`
+      );
+      setProfessionsList(response.data);
+    } catch (error) {
+      console.error("Fetch professions list error:", error);
+    }
+  };
+  useEffect(() => {
+    fetchProfessionsList();
+    fetchLanguageList();
+    if (errors.languages || errors.professions || errors.gender || errors.country ||errors.Offer || errors.top_astrologer) {
+      toast.error(
+        `${errors.languages || errors.professions || errors.gender || errors.country || errors.Offer || errors.top_astrologer}`,
+        {
+          position: "bottom-left",
+        }
+      );
+    }
+  }, [errors]);
+
+  const onchangeApplyBtn = () => {
+    const validationErrors = validateAstrologerForm("astroProfile");
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length > 0) return;
+  };
   return (
     <div className="filter-modal">
       <div className="main-recharge-popup">
@@ -51,12 +97,16 @@ const MultiFilters = ({ setMultiFilterStatus }) => {
                   <button>Select All </button>
                   <button>Clear All </button>
                 </div>
-                <label>
-                  <input type="checkbox" /> <span>Tarot</span>
-                </label>
-                <label>
-                  <input type="checkbox" /> <span>Vedic</span>
-                </label>
+                {professionsList?.map((item) => (
+                  <label key={item._id}>
+                    <input
+                      type="checkbox"
+                      name="profession"
+                      value={item.professions}
+                    />
+                    <span>{item.professions}</span>
+                  </label>
+                ))}
               </div>
 
               <div
@@ -65,20 +115,20 @@ const MultiFilters = ({ setMultiFilterStatus }) => {
                 }`}
                 id="language"
               >
-                {[
-                  "English",
-                  "Hindi",
-                  "Bengali",
-                  "Gujarati",
-                  "Kannada",
-                  "Malayalam",
-                  "Marathi",
-                  "Punjabi",
-                ].map((lang) => (
-                  <label key={lang}>
-                    <input type="checkbox" /> <span>{lang}</span>
-                  </label>
-                ))}
+                {languageListData?.map((lang) => {
+                  return (
+                    <label key={lang._id}>
+                      <input
+                        type="checkbox"
+                        name="languages"
+                        value={lang.languages}
+                        id="languages"
+                        // onChange={handleLanguageCheckboxChange}
+                      />
+                      <span>{lang.languages}</span>
+                    </label>
+                  );
+                })}
               </div>
 
               <div
@@ -86,10 +136,17 @@ const MultiFilters = ({ setMultiFilterStatus }) => {
                 id="gender"
               >
                 <label>
-                  <input type="checkbox" name="gender" /> <span>Male</span>
+                  <input type="checkbox" id="Male" name="gender" value="Male" />{" "}
+                  <span>Male</span>
                 </label>
                 <label>
-                  <input type="checkbox" name="gender" /> <span>Female</span>
+                  <input
+                    type="checkbox"
+                    name="gender"
+                    id="Female"
+                    value="Female"
+                  />{" "}
+                  <span>Female</span>
                 </label>
               </div>
 
@@ -100,10 +157,10 @@ const MultiFilters = ({ setMultiFilterStatus }) => {
                 id="country"
               >
                 <label>
-                  <input type="checkbox" /> <span>India</span>
+                  <input type="checkbox" id="India" name="india"/> <span>India</span>
                 </label>
                 <label>
-                  <input type="checkbox" /> <span>USA</span>
+                  <input type="checkbox" id="Outside_india" name="india"/> <span>Outside India</span>
                 </label>
               </div>
 
@@ -112,10 +169,10 @@ const MultiFilters = ({ setMultiFilterStatus }) => {
                 id="offer"
               >
                 <label>
-                  <input type="checkbox" /> <span>Discount</span>
+                  <input type="checkbox" name="Offer"/> <span>Active</span>
                 </label>
                 <label>
-                  <input type="checkbox" /> <span>First Call Free</span>
+                  <input type="checkbox" name="Offer"/> <span>Not Active</span>
                 </label>
               </div>
 
@@ -125,14 +182,39 @@ const MultiFilters = ({ setMultiFilterStatus }) => {
                 }`}
                 id="top"
               >
-                <label>⭐ Top Rated Astrologers</label>
+                <label>
+                  <input type="checkbox" name="top_astrologer"/> <span>Celebrity</span>
+                  <p>
+                    They have the highest fan following & people are crazy about
+                    them
+                  </p>
+                </label>
+                <label>
+                  <input type="checkbox"  name="top_astrologer"/> <span>Top Choice</span>
+                  <p>
+                    If you talk to them once, you are their customer for life
+                  </p>
+                </label>
+                <label>
+                  <input type="checkbox" name="top_astrologer"/> <span>Rising Star</span>
+                  <p>They are high in demand & have strong customer loyalty</p>
+                </label>
+                <label>
+                  <input type="checkbox" name="top_astrologer"/> <span>All</span>
+                  <p>
+                    It includes all verified astrologers, hired after 5 rounds
+                    of interviews
+                  </p>
+                </label>
               </div>
             </div>
           </div>
 
           <div className="filter-footer">
             <button>Reset</button>
-            <button className="apply-button">Apply</button>
+            <button className="apply-button" onClick={onchangeApplyBtn}>
+              Apply
+            </button>
           </div>
         </div>
       </div>

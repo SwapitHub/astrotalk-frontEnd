@@ -39,7 +39,13 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
 
     const formData = new FormData();
 
-    // Basic fields
+    // Basic fields   
+    formData.append("gender", document.querySelectorAll('input[name="gender"]').forEach((radio) => {
+      radio.checked = false;
+    }));
+    formData.append("country", document.querySelectorAll('input[name="country"]').forEach((radio) => {
+      radio.checked = false;
+    }));
     formData.append("name", document.getElementById("fname").value);
     formData.append(
       "experience",
@@ -162,6 +168,12 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
     const formData = new FormData();
 
     // Basic fields
+    formData.append("gender", document.querySelectorAll('input[name="gender"]').forEach((radio) => {
+      radio.checked = false;
+    }));
+    formData.append("country", document.querySelectorAll('input[name="country"]').forEach((radio) => {
+      radio.checked = false;
+    }));
     formData.append("name", document.getElementById("fname").value);
     formData.append(
       "experience",
@@ -193,6 +205,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
     if (imageFile) {
       formData.append("image", imageFile);
     }
+console.log(formData);
 
     try {
       const response = await axios.put(
@@ -209,14 +222,13 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
           position: "top-right",
         });
 
-        window.location.reload();
+        // window.location.reload();
       }
 
       console.log("Profile update response:", response.data);
       // Show success toast or UI update here
     } catch (err) {
       console.error("Update failed:", err);
-      // Show error toast or UI feedback here
     }
   };
 
@@ -278,7 +290,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
             <div className="inner-form-filed-sec">
               <div className="label-content">
                 <label>
-                  Profession <span>पेशा</span>
+                  Skills <span>कौशल</span>
                 </label>
               </div>
               <div className="man-input-filed-sec">
@@ -373,6 +385,43 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
               />
               {errors.minute && <p className="error">{errors.minute}</p>}
             </div> */}
+
+            <div className="inner-form-filed-sec">
+              <div className="label-content">
+                <label htmlFor="country">
+                  Country <span>(देश)</span>
+                </label>
+              </div>
+              <div className="man-input-filed-sec input-gender-sec common-input-filed">
+                <input type="radio"  name="country" value="India" />
+                <label htmlFor="Male">India</label>
+
+                <input type="radio"  name="country" value="Outside India" />
+                <label htmlFor="Female">Outside India</label>
+
+                
+                {errors.country && <p className="error">{errors.country}</p>}
+              </div>
+            </div>
+
+            <div className="inner-form-filed-sec">
+              <div className="label-content">
+                <label htmlFor="gender">
+                  Gender <span>(लिंग)</span>
+                </label>
+              </div>
+              <div className="man-input-filed-sec input-gender-sec common-input-filed">
+                <input type="radio" id="Male" name="gender" value="Male" />
+                <label htmlFor="Male">Male</label>
+
+                <input type="radio" id="Female" name="gender" value="Female" />
+                <label htmlFor="Female">Female</label>
+
+                <input type="radio" id="Other" name="gender" value="Other" />
+                <label htmlFor="Other">Other</label>
+                {errors.gender && <p className="error">{errors.gender}</p>}
+              </div>
+            </div>
 
             <div className="inner-form-filed-sec full">
               <div className="label-content">
