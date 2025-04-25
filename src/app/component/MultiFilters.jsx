@@ -101,6 +101,8 @@ const MultiFilters = ({ setMultiFilterStatus, setMultiFilter, multiFilter }) => 
 
     // console.log("Selected selectedProfession:", queryParams.toString());
     setMultiFilter(queryParams.toString())
+
+    setMultiFilterStatus(false)
     const validationErrors = validateAstrologerForm();
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length > 0) return;
