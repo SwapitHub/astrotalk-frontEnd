@@ -9,6 +9,7 @@ import Loader from "../component/Loader";
 import SortByFilter from "../component/SortByFilter";
 import MultiFilters from "../component/MultiFilters";
 import { IoStar } from "react-icons/io5";
+import { FaSortAmountDownAlt, FaFilter, FaSearch  } from "react-icons/fa";
 // const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   withCredentials: true,
@@ -229,10 +230,7 @@ const ChatWithAstrologer = () => {
                 </div>
                 <div className="filter-button">
                   <button className="filter-btn-ctm" onClick={()=>{setMultiFilterStatus(true)}}>
-                    <i
-                      _ngcontent-serverapp-c100=""
-                      className="fa fa-filter"
-                    ></i>
+                  <FaFilter />
                     Filter
                   </button>
                 </div>
@@ -241,10 +239,7 @@ const ChatWithAstrologer = () => {
                     className="sort-btn-ctm"
                     onClick={() => setSortFilterStatus(true)}
                   >
-                    <i
-                      _ngcontent-serverapp-c100=""
-                      className="fa fa-sort-amount-desc"
-                    ></i>{" "}
+                   <FaSortAmountDownAlt />{" "}
                     Sort by{" "}
                   </button>
                 </div>
@@ -262,7 +257,7 @@ const ChatWithAstrologer = () => {
                   </div>
                   <div className="search-button-filed">
                     <button type="submit">
-                      <i className="fa fa-search"></i>
+                    <FaSearch />
                     </button>
                   </div>
                 </div>

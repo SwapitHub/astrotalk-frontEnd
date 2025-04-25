@@ -40,12 +40,12 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
     const formData = new FormData();
 
     // Basic fields   
-    formData.append("gender", document.querySelectorAll('input[name="gender"]').forEach((radio) => {
-      radio.checked = false;
-    }));
-    formData.append("country", document.querySelectorAll('input[name="country"]').forEach((radio) => {
-      radio.checked = false;
-    }));
+    const selectedGender = document.querySelector('input[name="gender"]:checked')?.value || "";
+    const selectedCountry = document.querySelector('input[name="country"]:checked')?.value || "";
+  console.log(selectedGender, selectedCountry);
+  
+    formData.append("gender", selectedGender);
+    formData.append("country", selectedCountry);
     formData.append("name", document.getElementById("fname").value);
     formData.append(
       "experience",
@@ -168,12 +168,11 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
     const formData = new FormData();
 
     // Basic fields
-    formData.append("gender", document.querySelectorAll('input[name="gender"]').forEach((radio) => {
-      radio.checked = false;
-    }));
-    formData.append("country", document.querySelectorAll('input[name="country"]').forEach((radio) => {
-      radio.checked = false;
-    }));
+    const selectedGender = document.querySelector('input[name="gender"]:checked')?.value || "";
+    const selectedCountry = document.querySelector('input[name="country"]:checked')?.value || "";
+  
+    formData.append("gender", selectedGender);
+    formData.append("country", selectedCountry);
     formData.append("name", document.getElementById("fname").value);
     formData.append(
       "experience",
@@ -205,7 +204,6 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
     if (imageFile) {
       formData.append("image", imageFile);
     }
-console.log(formData);
 
     try {
       const response = await axios.put(
@@ -222,7 +220,7 @@ console.log(formData);
           position: "top-right",
         });
 
-        // window.location.reload();
+        window.location.reload();
       }
 
       console.log("Profile update response:", response.data);

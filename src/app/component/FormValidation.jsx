@@ -3,17 +3,8 @@ export const validateAstrologerForm = (formType) => {
 
   // Common fields for all forms
   const firstName = document.getElementById("fname")?.value.trim();
-  const country = document.querySelector('input[name="india"]:checked')?.value
-  const gender =  document.querySelector('input[name="gender"]:checked')?.value
-  const Offer =  document.querySelector('input[name="Offer"]:checked')?.value
-  const top_astrologer =  document.querySelector('input[name="top_astrologer"]:checked')?.value
-
-
   if (!firstName) errors.firstName = "Name is required";
-  if (!country) errors.country = "Must select at least one Country";
-  if (!gender) errors.gender = "Must select at least one Gender";
-  if (!Offer) errors.Offer = "Must select at least one Offer";
-  if (!top_astrologer) errors.top_astrologer = "Must select at least one Top Astrologers";
+ 
 
   // Form-specific validations
   if (formType === "astrologer") {
@@ -131,6 +122,17 @@ export const validateAstrologerForm = (formType) => {
     if (!gender) {
       errors.gender = "Gender is required";
     }
+  }else{
+    const country = document.querySelector('input[name="india"]:checked')?.value
+    const gender =  document.querySelector('input[name="gender"]:checked')?.value
+    const Offer =  document.querySelector('input[name="Offer"]:checked')?.value
+    const top_astrologer =  document.querySelector('input[name="top_astrologer"]:checked')?.value
+  
+  
+    if (!country) errors.country = "Must select at least one Country";
+    if (!gender) errors.gender = "Must select at least one Gender";
+    if (!Offer) errors.Offer = "Must select at least one Offer";
+    if (!top_astrologer) errors.top_astrologer = "Must select at least one Top Astrologers";
   }
 
   return errors;
