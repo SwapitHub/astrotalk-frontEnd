@@ -194,17 +194,7 @@ const ChatWithAstrologer = () => {
         />
       )}
 
-      {isLoading && <Loader />}
-      {error && <p className="error">Error fetching data</p>}
-
-      {/* Show nothing by default (showAstrologer === null) */}
-      {showAstrologer === null ? null : showAstrologer?.length > 0 ? (
-        showAstrologer.map((astrologer) => (
-          <div key={astrologer.id}>{/* Render astrologer */}</div>
-        ))
-      ) : (
-        <p>No results found</p>
-      )}
+   
 
       <section className="talk-to-astrologer-bg">
         <div className="container">
@@ -270,7 +260,17 @@ const ChatWithAstrologer = () => {
               </div>
             </div>
           </div>
+          {isLoading && <Loader />}
+      {error && <p className="error">Error fetching data</p>}
 
+      {/* Show nothing by default (showAstrologer === null) */}
+      {showAstrologer === null ? null : showAstrologer?.length > 0 ? (
+        showAstrologer.map((astrologer) => (
+          <div key={astrologer.id}>{/* Render astrologer */}</div>
+        ))
+      ) : (
+        <p>No results found</p>
+      )}
           <div className="all-list-talk-to-astrologer">
             {showAstrologer?.map((item) => {
               return (
