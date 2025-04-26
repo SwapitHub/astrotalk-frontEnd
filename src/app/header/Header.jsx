@@ -191,7 +191,7 @@ useEffect(() => {
                 <li>
                   <Link
                     href={`${
-                      !userMobile ? "/free-chat" : "/chat-with-astrologer"
+                      "/chat-with-astrologer"
                     }`}
                   >
                     Chat with Astrologer

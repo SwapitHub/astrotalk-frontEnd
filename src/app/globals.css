@@ -1077,11 +1077,7 @@ section.talk-to-astrologer-bg {
 .talk-to-name-sec p {
     color: #616161;
     font-size: 14px;
-    line-height: normal;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+
 }
 
 .talk-to-language {

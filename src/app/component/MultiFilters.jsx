@@ -3,43 +3,108 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { validateAstrologerForm } from "./FormValidation";
 import { toast } from "react-toastify";
+import secureLocalStorage from "react-secure-storage";
 
-const MultiFilters = ({ setMultiFilterStatus, setMultiFilter, multiFilter }) => {
+const MultiFilters = ({
+  setMultiFilterStatus,
+  setFindLanguageListData,
+  findLanguageListData,
+  findSkillsListData,
+  setFindSkillsListData,
+  countryData,
+  setCountryData,
+  genderData,
+  setGenderData,
+  languageListData,
+  skillsListData,
+}) => {
   const [activeTab, setActiveTab] = useState("skill");
-  const [professionsList, setProfessionsList] = useState([]);
-  const [languageListData, setLanguageListData] = useState([]);
+  const [getProfessionsList, setGetProfessionsList] =
+    useState(findSkillsListData);
+  const [getLanguageListData, setGetLanguageListData] =
+    useState(findLanguageListData);
+  const [getGenderListData, setGetGenderListData] = useState(genderData);
+  const [getCountryListData, setGetCountryListData] = useState(countryData);
   const [errors, setErrors] = useState({});
-// console.log(multiFilterLanguage);
+
+  useEffect(() => {
+    
+    const storedLanguages = JSON.parse(
+      secureLocalStorage.getItem("selectedLanguages")
+    );
+    const storedSkills = JSON.parse(secureLocalStorage.getItem("selectedSkills"));
+    const storedGender = JSON.parse(secureLocalStorage.getItem("selectedGender"));
+    const storedCountry = JSON.parse(secureLocalStorage.getItem("selectedCountry"));
+
+    // If no data, first time -> Save default data into secureLocalStorage
+    if (!storedLanguages || !storedSkills || !storedGender || !storedCountry) {
+      const defaultLanguages = languageListData.map((lang) => lang.languages);
+      const defaultSkills = skillsListData.map((skill) => skill.professions);
+      const defaultGender = ["Male", "Female"]; // assuming you have these
+      const defaultCountry = ["India", "Outside_India"]; // assuming you have these
+
+      secureLocalStorage.setItem(
+        "selectedLanguages",
+        JSON.stringify(defaultLanguages)
+      );
+      secureLocalStorage.setItem("selectedSkills", JSON.stringify(defaultSkills));
+      secureLocalStorage.setItem("selectedGender", JSON.stringify(defaultGender));
+      secureLocalStorage.setItem("selectedCountry", JSON.stringify(defaultCountry));
+
+      setGetLanguageListData(defaultLanguages);
+      setGetProfessionsList(defaultSkills);
+      setGetGenderListData(defaultGender);
+      setGetCountryListData(defaultCountry);
+
+      // Also update parent states
+      setFindLanguageListData(defaultLanguages);
+      setFindSkillsListData(defaultSkills);
+      setGenderData(defaultGender);
+      setCountryData(defaultCountry);
+    } else {
+      // If data exists, load from secureLocalStorage
+      setGetLanguageListData(storedLanguages);
+      setGetProfessionsList(storedSkills);
+      setGetGenderListData(storedGender);
+      setGetCountryListData(storedCountry);
+
+      // Also update parent states
+      setFindLanguageListData(storedLanguages);
+      setFindSkillsListData(storedSkills);
+      setGenderData(storedGender);
+      setCountryData(storedCountry);
+    }
+  }, [languageListData, skillsListData]);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
-  const fetchLanguageList = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/add-Language-astrologer`
-      );
-      setLanguageListData(response.data);
-    } catch (error) {
-      console.error("Fetch language list error:", error);
-    } finally {
-    }
+  const onchangeApplyBtn = () => {
+    const validationErrors = validateAstrologerForm();
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length > 0) return;
+
+    secureLocalStorage.setItem(
+      "selectedLanguages",
+      JSON.stringify(getLanguageListData)
+    );
+    secureLocalStorage.setItem("selectedSkills", JSON.stringify(getProfessionsList));
+    secureLocalStorage.setItem("selectedGender", JSON.stringify(getGenderListData));
+    secureLocalStorage.setItem("selectedCountry", JSON.stringify(getCountryListData));
+
+    // Set in parent state also
+    setFindLanguageListData(getLanguageListData);
+    setFindSkillsListData(getProfessionsList);
+    setGenderData(getGenderListData);
+    setCountryData(getCountryListData);
+
+    setTimeout(() => {
+      setMultiFilterStatus(false);
+    }, 500);
   };
 
-  const fetchProfessionsList = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/add-Profession-astrologer`
-      );
-      setProfessionsList(response.data);
-    } catch (error) {
-      console.error("Fetch professions list error:", error);
-    }
-  };
   useEffect(() => {
-    fetchProfessionsList();
-    fetchLanguageList();
     if (
       errors.languages ||
       errors.professions ||
@@ -64,49 +129,45 @@ const MultiFilters = ({ setMultiFilterStatus, setMultiFilter, multiFilter }) => 
     }
   }, [errors]);
 
-  const onchangeApplyBtn = () => {
-    // ✅ Get all checked languages
-    const selectedLanguages = Array.from(
-      document.querySelectorAll('input[name="languages"]:checked')
-    ).map((checkbox) => checkbox.value);
+  const resetFilters = () => {
+    const defaultLanguages = languageListData.map((lang) => lang.languages);
+    const defaultSkills = skillsListData.map((skill) => skill.professions);
+    const defaultGender = ["Male", "Female"];
+    const defaultCountry = ["India", "Outside_India"];
 
-    // ✅ Get selected professions
-    const selectedProfessions = Array.from(
-      document.querySelectorAll('input[name="professions"]:checked')
-    ).map((checkbox) => checkbox.value);
+    // Update local state
+    setGetLanguageListData(defaultLanguages);
+    setGetProfessionsList(defaultSkills);
+    setGetGenderListData(defaultGender);
+    setGetCountryListData(defaultCountry);
 
-    // ✅ Get selected gender(s)
-    const selectedGenders = Array.from(
-      document.querySelectorAll('input[name="gender"]:checked')
-    ).map((checkbox) => checkbox.value);
+    // Update parent state too
+    setFindLanguageListData(defaultLanguages);
+    setFindSkillsListData(defaultSkills);
+    setGenderData(defaultGender);
+    setCountryData(defaultCountry);
 
-    // ✅ Get selected countries
-    const selectedCountries = Array.from(
-      document.querySelectorAll('input[name="country"]:checked')
-    ).map((checkbox) => checkbox.value);
+    // Save into secureLocalStorage
+    secureLocalStorage.setItem("selectedLanguages", JSON.stringify(defaultLanguages));
+    secureLocalStorage.setItem("selectedSkills", JSON.stringify(defaultSkills));
+    secureLocalStorage.setItem("selectedGender", JSON.stringify(defaultGender));
+    secureLocalStorage.setItem("selectedCountry", JSON.stringify(defaultCountry));
 
-    // ✅ Optional: Save to state if needed
-   
-
-    // ✅ Build query string
-    const queryParams = new URLSearchParams();
-    if (selectedLanguages.length)
-      queryParams.append("languages", selectedLanguages.join(","));
-    if (selectedProfessions.length)
-      queryParams.append("professions", selectedProfessions.join(","));
-    if (selectedGenders.length)
-      queryParams.append("gender", selectedGenders.join(","));
-    if (selectedCountries.length)
-      queryParams.append("country", selectedCountries.join(","));
-
-    // console.log("Selected selectedProfession:", queryParams.toString());
-    setMultiFilter(queryParams.toString())
-
-    setMultiFilterStatus(false)
-    const validationErrors = validateAstrologerForm();
-    setErrors(validationErrors);
-    if (Object.keys(validationErrors).length > 0) return;
+    setMultiFilterStatus(false);
   };
+
+  const handleChangeSelectall = () => {
+    const defaultSkills = skillsListData.map((skill) => skill.professions);
+    setGetProfessionsList(defaultSkills);
+    setFindSkillsListData(defaultSkills);
+    secureLocalStorage.setItem("selectedSkills", JSON.stringify(defaultSkills));
+  };
+  const handleChangeClearAll = () => {
+    setGetProfessionsList([]);
+    setFindSkillsListData([]);
+    secureLocalStorage.setItem("selectedSkills", JSON.stringify([]));
+  };
+
   return (
     <div className="filter-modal">
       <div className="main-recharge-popup">
@@ -147,16 +208,31 @@ const MultiFilters = ({ setMultiFilterStatus, setMultiFilter, multiFilter }) => 
                 id="skill"
               >
                 <div className="inner-clear-button">
-                  <button>Select All </button>
-                  <button>Clear All </button>
+                  <button onClick={handleChangeSelectall}>Select All </button>
+                  <button onClick={handleChangeClearAll}>Clear All </button>
                 </div>
-                {professionsList?.map((item) => (
+                {skillsListData?.map((item) => (
                   <label key={item._id}>
                     <input
                       type="checkbox"
                       name="professions"
                       id="professions"
                       value={item.professions}
+                      checked={getProfessionsList.includes(item.professions)}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (e.target.checked) {
+                          setGetProfessionsList((prev) =>
+                            Array.isArray(prev) ? [...prev, value] : [value]
+                          );
+                        } else {
+                          setGetProfessionsList((prev) =>
+                            Array.isArray(prev)
+                              ? prev.filter((l) => l !== value)
+                              : [value]
+                          );
+                        }
+                      }}
                     />
                     <span>{item.professions}</span>
                   </label>
@@ -177,7 +253,21 @@ const MultiFilters = ({ setMultiFilterStatus, setMultiFilter, multiFilter }) => 
                         name="languages"
                         value={lang.languages}
                         id="languages"
-                        // onChange={handleLanguageCheckboxChange}
+                        checked={getLanguageListData.includes(lang.languages)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (e.target.checked) {
+                            setGetLanguageListData((prev) =>
+                              Array.isArray(prev) ? [...prev, value] : [value]
+                            );
+                          } else {
+                            setGetLanguageListData((prev) =>
+                              Array.isArray(prev)
+                                ? prev.filter((l) => l !== value)
+                                : [value]
+                            );
+                          }
+                        }}
                       />
                       <span>{lang.languages}</span>
                     </label>
@@ -189,35 +279,68 @@ const MultiFilters = ({ setMultiFilterStatus, setMultiFilter, multiFilter }) => 
                 className={`tab-pane ${activeTab === "gender" ? "active" : ""}`}
                 id="gender"
               >
-                <label>
-                  <input type="checkbox" id="Male" name="gender" value="Male" />{" "}
-                  <span>Male</span>
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="gender"
-                    id="Female"
-                    value="Female"
-                  />{" "}
-                  <span>Female</span>
-                </label>
+                {["Male", "Female"].map((item) => {
+                  return (
+                    <label key={item}>
+                      <input
+                        type="checkbox"
+                        id="Male"
+                        name="gender"
+                        value={item}
+                        checked={getGenderListData.includes(item)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (e.target.checked) {
+                            setGetGenderListData((prev) =>
+                              Array.isArray(prev) ? [...prev, value] : [value]
+                            );
+                          } else {
+                            setGetGenderListData((prev) =>
+                              Array.isArray(prev)
+                                ? prev.filter((l) => l !== value)
+                                : [value]
+                            );
+                          }
+                        }}
+                      />{" "}
+                      <span>{item}</span>
+                    </label>
+                  );
+                })}
               </div>
 
               <div
                 className={`tab-pane ${
                   activeTab === "country" ? "active" : ""
                 }`}
-               
               >
-                <label>
-                <input type="checkbox" name="country" value="India" />{" "}
-                  <span>India</span>
-                </label>
-                <label>
-                <input type="checkbox" name="country" value="Outside India" />{" "}
-                  <span>Outside India</span>
-                </label>
+                {["India", "Outside_India"].map((item) => {
+                  return (
+                    <label key={item}>
+                      <input
+                        type="checkbox"
+                        name="country"
+                        value={item}
+                        checked={getCountryListData.includes(item)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (e.target.checked) {
+                            setGetCountryListData((prev) =>
+                              Array.isArray(prev) ? [...prev, value] : [value]
+                            );
+                          } else {
+                            setGetCountryListData((prev) =>
+                              Array.isArray(prev)
+                                ? prev.filter((l) => l !== value)
+                                : [value]
+                            );
+                          }
+                        }}
+                      />{" "}
+                      <span>{item}</span>
+                    </label>
+                  );
+                })}
               </div>
 
               <div
@@ -271,8 +394,13 @@ const MultiFilters = ({ setMultiFilterStatus, setMultiFilter, multiFilter }) => 
           </div>
 
           <div className="filter-footer">
-            <button>Reset</button>
-            <button className="apply-button" onClick={()=>{onchangeApplyBtn()}}>
+            <button onClick={resetFilters}>Reset</button>
+            <button
+              className="apply-button"
+              onClick={() => {
+                onchangeApplyBtn();
+              }}
+            >
               Apply
             </button>
           </div>

@@ -2,13 +2,12 @@ export const validateAstrologerForm = (formType) => {
   const errors = {};
 
   // Common fields for all forms
-  const firstName = document.getElementById("fname")?.value.trim();
-  if (!firstName) errors.firstName = "Name is required";
+
  
 
   // Form-specific validations
   if (formType === "astrologer") {
-    // ✅ Collect multiple checked languages
+    const firstName = document.getElementById("fname")?.value.trim();
 
     // Astrologer registration specific fields
     const dateOfBirth = document.getElementById("birthday")?.value;
@@ -46,6 +45,8 @@ export const validateAstrologerForm = (formType) => {
       }
     }
 
+    if (!firstName) errors.firstName = "Name is required";
+
     if (!skills || skills === "Please Select Option") {
       errors.skills = "Please select a skill";
     }
@@ -80,7 +81,8 @@ export const validateAstrologerForm = (formType) => {
       document.querySelectorAll('input[name="languages"]:checked')
     ).map((input) => input.value);
 
-  
+    const firstName = document.getElementById("fname")?.value.trim();
+    if (!firstName) errors.firstName = "Name is required";
 
     if (!selectedLanguages || selectedLanguages.length <= 0) {
       errors.languages = "Please select at least one language";
@@ -108,6 +110,10 @@ export const validateAstrologerForm = (formType) => {
     const gender = document.querySelector(
       'input[name="gender"]:checked'
     )?.value;
+
+    const firstName = document.getElementById("fname")?.value.trim();
+    if (!firstName) errors.firstName = "Name is required";
+
     const languages = document.getElementById("language")?.value;
     if (!languages || languages === "select language") {
       errors.languages = "Please select a language";
@@ -150,8 +156,8 @@ export const validateAstrologerForm = (formType) => {
   
     if (!country) errors.country = "Must select at least one Country";
     if (!gender) errors.gender = "Must select at least one Gender";
-    if (!Offer) errors.Offer = "Must select at least one Offer";
-    if (!top_astrologer) errors.top_astrologer = "Must select at least one Top Astrologers";
+    // if (!Offer) errors.Offer = "Must select at least one Offer";
+    // if (!top_astrologer) errors.top_astrologer = "Must select at least one Top Astrologers";
   }
 
   return errors;
