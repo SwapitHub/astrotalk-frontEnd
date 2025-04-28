@@ -10,6 +10,7 @@ import SortByFilter from "../component/SortByFilter";
 import MultiFilters from "../component/MultiFilters";
 import { IoStar } from "react-icons/io5";
 import { FaSortAmountDownAlt, FaFilter, FaSearch } from "react-icons/fa";
+import UserOtpLoginData from "../component/UserOtpLoginData";
 // const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   withCredentials: true,
@@ -36,6 +37,8 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
   const [sortFilterStatus, setSortFilterStatus] = useState(false);
   const [multiFilterStatus, setMultiFilterStatus] = useState(false);
   const [sortFilterCharges, setSortFilterCharges] = useState();
+  const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
+
   const [multiFilter, setMultiFilter] = useState();
   const [genderData, setGenderData] = useState(
     JSON.parse(secureLocalStorage.getItem("selectedGender")) || []
@@ -198,6 +201,10 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
       document.body.classList.remove("user-filter-popup");
     }
   }, [sortFilterStatus, multiFilterStatus]);
+
+  const handelUserLogin = () => {
+    setOtpPopUpDisplay(true);
+  };
   return (
     <>
       {showRecharge && (
@@ -233,6 +240,12 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
         />
       )}
 
+
+<div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
+        {otpPopUpDisplay && (
+          <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
+        )}
+      </div>
       <section className="talk-to-astrologer-bg">
         <div className="container">
           <div className="inner-talk-to-astrologer">
@@ -408,7 +421,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                                 >
                                   Chat{" "}
                                 </a>
-                              ) : (
+                              ) :  !userMobile || !userIds ? <a href="#" onClick={handelUserLogin}>chat</a> : (
                                 <a
                                   href="#"
                                   onClick={() =>
