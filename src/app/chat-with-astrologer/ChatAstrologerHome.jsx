@@ -11,6 +11,7 @@ import MultiFilters from "../component/MultiFilters";
 import { IoStar } from "react-icons/io5";
 import { FaSortAmountDownAlt, FaFilter, FaSearch } from "react-icons/fa";
 import UserOtpLoginData from "../component/UserOtpLoginData";
+import { useRouter } from "next/navigation";
 // const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   withCredentials: true,
@@ -25,6 +26,7 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
 });
 
 const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
+  const router = useRouter()
   const [showAstrologer, setShowAstrologer] = useState(null);
   const userIds = secureLocalStorage.getItem("userIds");
   const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
@@ -205,6 +207,71 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
   const handelUserLogin = () => {
     setOtpPopUpDisplay(true);
   };
+  
+  const handleUpdateUserDetail = async (e) => {
+    // e.preventDefault(); 
+  
+    try {
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${userMobile}`,
+        {
+          freeChatStatus: false, 
+        }
+      );
+  
+      console.log("User update response:", response.data);
+  
+      if (response.data.message === "success") {
+       
+        showAstrologer.forEach((item) => {
+          if (item.freeChatStatus === true) {
+            sendMessageRequest(item); 
+          }
+        });
+      }
+    } catch (error) {
+      console.error("Update user freeChatStatus error:", error);
+    }
+  };
+  
+  
+  const sendMessageRequest = (item) => {
+    if (!userIds) {
+      console.error("userIds undefined");
+      return;
+    }
+  
+    
+      secureLocalStorage.setItem("astrologerId", item._id); 
+  console.log( item._id);
+  
+      const messageId = {
+        userIdToAst: userIds,
+        astrologerIdToAst: item._id,
+        mobileNumber: item.mobileNumber,
+        astroName: item.name,
+        astroCharges: item.charges,
+        astroExperience: item.experience,
+        chatId: "",
+        chatType: "free",
+        chatDuration: "0 min",
+        chatDeduction: "0",
+        DeleteOrderHistoryStatus: true,
+        chatStatus: true,
+        userName: userData?.name,
+        userDateOfBirth: userData?.dateOfBirth,
+        userPlaceOfBorn: userData?.placeOfBorn,
+        userBornTime: userData?.reUseDateOfBirth,
+      };
+  
+      socket.emit("userId-to-astrologer", messageId); // socket से message भेजना
+  
+      // router.push(`/chat-with-astrologer/user/${userIds}`); 
+     
+  };
+  
+  
+  
   return (
     <>
       {showRecharge && (
@@ -240,8 +307,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
         />
       )}
 
-
-<div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
+      <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
         {otpPopUpDisplay && (
           <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
         )}
@@ -253,6 +319,17 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
               <div className="heading-button">
                 <span>Talk to Astrologer</span>
               </div>
+              {userData?.freeChatStatus == false && (
+                <div className="free-chat-btn">
+                  <a
+                    href={`/chat-with-astrologer/user/${userIds}`}
+                    onClick={handleUpdateUserDetail}
+                  >
+                    Free Chat
+                  </a>
+                </div>
+              )}
+
               <div className="available-bbalance-text">
                 <p>
                   Available Balance:{" "}
@@ -277,7 +354,11 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                   <button
                     className="filter-btn-ctm"
                     onClick={() => {
-                      setMultiFilterStatus(true);
+                      if (!userMobile || !userIds) {
+                        handelUserLogin(); 
+                      } else {
+                        setMultiFilterStatus(true);
+                      }
                     }}
                   >
                     <FaFilter />
@@ -421,7 +502,11 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                                 >
                                   Chat{" "}
                                 </a>
-                              ) :  !userMobile || !userIds ? <a href="#" onClick={handelUserLogin}>chat</a> : (
+                              ) : !userMobile || !userIds ? (
+                                <a href="#" onClick={handelUserLogin}>
+                                  chat
+                                </a>
+                              ) : (
                                 <a
                                   href="#"
                                   onClick={() =>

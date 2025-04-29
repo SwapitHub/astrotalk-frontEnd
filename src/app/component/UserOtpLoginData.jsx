@@ -67,7 +67,7 @@ function UserOtpLoginData({ setOtpPopUpDisplay }) {
 console.log(formData);
 
     try {
-      console.log("jhjhkjhkjhkjhkj");
+      
       
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/verify-otp`,
@@ -81,7 +81,7 @@ console.log(formData);
       let userMatch = userLoginData.find((item) => {
         return item.phone == phone;
       });
-console.log("jhjhkjhkjhkjhkj",userMatch);
+
 
       if (!userMatch) {
         if (response.status == 200) {
@@ -96,6 +96,7 @@ console.log("jhjhkjhkjhkjhkj",userMatch);
               language: formData.languages,
               phone: phone,
               totalAmount: 0,
+              freeChatStatus: true
             }
           );
 
@@ -105,7 +106,7 @@ console.log("jhjhkjhkjhkjhkj",userMatch);
             secureLocalStorage.setItem("userMobile", phone);
             console.log("User login successful, User ID:", phone);
             window.dispatchEvent(new Event("userMobileUpdated"));
-            router.push(formData.first_name ? "/chat-with-astrologer" : "/free-chat/start");
+            router.push(userLoginRes.data.user.freeChatStatus==true ? `/chat-with-astrologer/user/${userLoginRes.data.user._id}`: formData.first_name ? "/chat-with-astrologer" : "/free-chat/start");
             console.log(formData);
             
           }

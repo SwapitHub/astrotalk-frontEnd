@@ -1579,6 +1579,7 @@ span.ctm-carly-breaks {
 .send-otp.man-input-filed-sec p {
     text-align: center;
     padding: 20px;
+    color: red;
 }
 .send-otp .resend-both-col {
     display: flex;

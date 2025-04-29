@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { validateAstrologerForm } from "../component/FormValidation";
 import secureLocalStorage from "react-secure-storage";
 
-const AstrologerProfile = ({ setSuccessMessageProfile }) => {
+const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
   const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
   const [registrationDetail, setRegistrationDetail] = useState();
   const [errors, setErrors] = useState({});
@@ -17,7 +17,6 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
   const astrologerLoginUpdate = secureLocalStorage.getItem(
     "astrologerLoginUpdate"
   );
-  const [astrologerData, setAstrologerData] = useState("");
 
   useEffect(() => {
     axios
@@ -62,6 +61,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
     );
     formData.append("profileStatus", true);
     formData.append("chatStatus", false);
+    formData.append("freeChatStatus", false);
 
     // Helper to get selected checkbox values
     const getSelectedValues = (name) => {
@@ -124,18 +124,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile }) => {
     }
   };
 
-  useEffect(() => {
-    axios
-      .get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerPhone}`
-      )
-      .then((response) => {
-        setAstrologerData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [astrologerPhone]);
+  
 
   const fetchLanguageList = async () => {
     try {

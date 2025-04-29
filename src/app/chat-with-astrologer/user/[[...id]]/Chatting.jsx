@@ -25,7 +25,7 @@ export default function Chatting(AdminCommissionData) {
   const [user, setUser] = useState("");
   const [astrologerData, setAstrologerData] = useState("");
   const [showUserData, setShowUserData] = useState();
-  const astrologerId = secureLocalStorage.getItem("astrologerId");
+  const [astrologerId, setAstrologerId] = useState(secureLocalStorage.getItem("astrologerId"));
   const userIds = secureLocalStorage.getItem("userIds");
   const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
   // const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
@@ -35,6 +35,8 @@ export default function Chatting(AdminCommissionData) {
     useState(null);
   const mobileRef = useRef(null);
   console.log(astrologerData);
+  console.log(astrologerNotificationStatus);
+  console.log(showUserData);
 
   useEffect(() => {
     const storedNotification = secureLocalStorage.getItem(
@@ -74,10 +76,11 @@ export default function Chatting(AdminCommissionData) {
     if (!socket) return;
 
     const handleNewNotification = (data) => {
-      console.log("Received data:", data);
-
+      console.log("Received data:", data.astrologerData);
+      secureLocalStorage.setItem("astrologerId", data.astrologerData?._id);
+      setAstrologerId(data.astrologerData?._id);
       // Ensure the comparison is with the latest astrologer mobile number
-      if (data.astrologerData?.mobileNumber === mobileRef.current) {
+      if ((data.astrologerData?.mobileNumber === mobileRef.current) || (showUserData?.freeChatStatus==false)) {
         console.log("Updating notification status...");
 
         const newStatus = data.astrologerData.chatStatus;
@@ -332,22 +335,22 @@ export default function Chatting(AdminCommissionData) {
   let totalTimeSecond = (userTotalAmount / astroChatPricePerMinute) * 60;
   console.log(totalChatTime);
 
-  useEffect(() => {
-    if (totalChatTime > 0) {
-      const maxAffordableTime = Math.floor(
-        (userTotalAmount / astroChatPricePerMinute) * 60 - 1
-      );
+  // useEffect(() => {
+  //   if (totalChatTime > 0) {
+  //     const maxAffordableTime = Math.floor(
+  //       (userTotalAmount / astroChatPricePerMinute) * 60 - 1
+  //     );
 
-      if (totalChatTime >= maxAffordableTime) {
-        const remainingBalance = 0;
-        console.log(totalChatTime, userTotalAmount, maxAffordableTime);
-        setActualChargeUserChat(userTotalAmount);
+  //     if (totalChatTime >= maxAffordableTime) {
+  //       const remainingBalance = 0;
+  //       console.log(totalChatTime, userTotalAmount, maxAffordableTime);
+  //       setActualChargeUserChat(userTotalAmount);
 
-        endChatStatus();
-        console.log("Automatically ending chat due to balance exhaustion...");
-      }
-    }
-  }, [totalChatTime, userTotalAmount, astroChatPricePerMinute]);
+  //       endChatStatus();
+  //       console.log("Automatically ending chat due to balance exhaustion...");
+  //     }
+  //   }
+  // }, [totalChatTime, userTotalAmount, astroChatPricePerMinute]);
   // if user balance is over then cut the automatic call End
 
   const intervals = Math.ceil(totalChatTime / 60);
@@ -461,7 +464,9 @@ export default function Chatting(AdminCommissionData) {
                     </div>
                   </div>
                 ) : (
-                  <div className="chat-end-text">You have exhausted your chat time!</div>
+                  <div className="chat-end-text">
+                    You have exhausted your chat time!
+                  </div>
                 )}
                 {/* <Link href="#">Continue Chat</Link> */}
               </div>

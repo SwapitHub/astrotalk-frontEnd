@@ -291,22 +291,22 @@ if(data.astrologerData.mobileNumber==astrologerPhone){
  let totalTimeSecond = (userTotalAmount / astroChatPricePerMinute) * 60;
 console.log(totalChatTime);
 
- useEffect(() => {
-   if (totalChatTime > 0) {
-     const maxAffordableTime = Math.floor(
-       (userTotalAmount / astroChatPricePerMinute) * 60 - 1
-     );
+//  useEffect(() => {
+//    if (totalChatTime > 0) {
+//      const maxAffordableTime = Math.floor(
+//        (userTotalAmount / astroChatPricePerMinute) * 60 - 1
+//      );
 
-     if (totalChatTime >= maxAffordableTime) {
-       const remainingBalance = 0;
-       console.log(totalChatTime, userTotalAmount, maxAffordableTime);
-       setActualChargeUserChat(userTotalAmount);
+//      if (totalChatTime >= maxAffordableTime) {
+//        const remainingBalance = 0;
+//        console.log(totalChatTime, userTotalAmount, maxAffordableTime);
+//        setActualChargeUserChat(userTotalAmount);
 
-       endChatStatus();
-       console.log("Automatically ending chat due to balance exhaustion...");
-     }
-   }
- }, [totalChatTime, userTotalAmount, astroChatPricePerMinute]);
+//        endChatStatus();
+//        console.log("Automatically ending chat due to balance exhaustion...");
+//      }
+//    }
+//  }, [totalChatTime, userTotalAmount, astroChatPricePerMinute]);
  // if user balance is over then cut the automatic call End
 
  
