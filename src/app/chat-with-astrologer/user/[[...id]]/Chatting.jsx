@@ -14,7 +14,8 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 });
 
 export default function Chatting(AdminCommissionData) {
-  const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
+  const [totalChatTime, setTotalChatTime] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(null);
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
   const [showEndChat, setShowEndChat] = useState(false);
 
@@ -25,7 +26,7 @@ export default function Chatting(AdminCommissionData) {
   const [user, setUser] = useState("");
   const [astrologerData, setAstrologerData] = useState("");
   const [showUserData, setShowUserData] = useState();
-  const [astrologerId, setAstrologerId] = useState(secureLocalStorage.getItem("astrologerId"));
+  const [astrologerId, setAstrologerId] = useState();
   const userIds = secureLocalStorage.getItem("userIds");
   const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
   // const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
@@ -34,9 +35,23 @@ export default function Chatting(AdminCommissionData) {
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(null);
   const mobileRef = useRef(null);
-  console.log(astrologerData);
-  console.log(astrologerNotificationStatus);
-  console.log(showUserData);
+  // console.log(messageData);
+
+  // console.log(astrologerId, astrologerNotificationStatus);
+
+  useEffect(() => {
+    const id = secureLocalStorage.getItem("astrologerId");
+    if (id) {
+      setAstrologerId(id);
+    }
+  }, []);
+
+  useEffect(() => {
+    const time = secureLocalStorage.getItem("totalChatTime");
+    if (time) {
+      setTotalChatTime(Math.round(time));
+    }
+  }, []);
 
   useEffect(() => {
     const storedNotification = secureLocalStorage.getItem(
@@ -47,19 +62,24 @@ export default function Chatting(AdminCommissionData) {
     }
   }, []);
 
-  const [timeLeft, setTimeLeft] = useState(() => {
-    const storedTime = secureLocalStorage.getItem("chatTimeLeft");
-    if (storedTime) {
-      return parseInt(storedTime, 10);
-    }
-    return astrologerNotificationStatus == false ||
-      astrologerNotificationStatus == "false"
-      ? 0
-      : null;
-  });
-
   useEffect(() => {
-    // Store initial mobile number when astrologerData is available
+    const storedTime = secureLocalStorage.getItem("chatTimeLeft");
+
+    if (storedTime) {
+      setTimeLeft(parseInt(storedTime, 10));
+    } else {
+      if (
+        astrologerNotificationStatus === false ||
+        astrologerNotificationStatus === "false"
+      ) {
+        setTimeLeft(0);
+      } else {
+        setTimeLeft(null);
+      }
+    }
+  }, [astrologerNotificationStatus]);
+
+  useEffect(() => {   
     if (astrologerData?.mobileNumber) {
       mobileRef.current = astrologerData.mobileNumber;
     }
@@ -70,7 +90,7 @@ export default function Chatting(AdminCommissionData) {
     if (storedNotification) {
       setAstrologerNotificationStatus(storedNotification);
     }
-  }, [astrologerData]); // Dependency added to update mobileRef when astrologerData changes
+  }, [astrologerData]); 
 
   useEffect(() => {
     if (!socket) return;
@@ -79,8 +99,13 @@ export default function Chatting(AdminCommissionData) {
       console.log("Received data:", data.astrologerData);
       secureLocalStorage.setItem("astrologerId", data.astrologerData?._id);
       setAstrologerId(data.astrologerData?._id);
+      console.log(data.astrologerData?._id);
+
       // Ensure the comparison is with the latest astrologer mobile number
-      if ((data.astrologerData?.mobileNumber === mobileRef.current) || (showUserData?.freeChatStatus==false)) {
+      if (
+        data.astrologerData?.mobileNumber === mobileRef.current ||
+        showUserData?.freeChatStatus == false
+      ) {
         console.log("Updating notification status...");
 
         const newStatus = data.astrologerData.chatStatus;
@@ -111,7 +136,7 @@ export default function Chatting(AdminCommissionData) {
         handleNewNotification
       );
     };
-  }, [socket, astrologerData]); // Added astrologerData dependency
+  }, [socket, astrologerData]); 
 
   useEffect(() => {
     const fetchAstrologerData = () => {
@@ -149,11 +174,13 @@ export default function Chatting(AdminCommissionData) {
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
     }
-  }, [message]);
+  }, [messageData]); // scroll when new messages arrive
+
   // auto send message first time user to astrologer
 
   const sendMessage = async () => {
     if (!message.trim()) return;
+
     const now = new Date();
     const hours = now.getHours() % 12 || 12;
     const minutes = now.getMinutes().toString().padStart(2, "0");
@@ -189,8 +216,9 @@ export default function Chatting(AdminCommissionData) {
       sendMessage();
     }
   };
+
   useEffect(() => {
-    // setUser(showUserData?.name);
+    if (!astrologerId || !userIds || !socket) return;
 
     socket.emit("joinChat", { userIds, astrologerId });
 
@@ -202,9 +230,8 @@ export default function Chatting(AdminCommissionData) {
 
     return () => {
       socket.off("receiveMessage");
-      socket.disconnect();
     };
-  }, []);
+  }, [astrologerId, userIds, socket]); // Watch these dependencies
 
   useEffect(() => {
     axios
@@ -217,7 +244,7 @@ export default function Chatting(AdminCommissionData) {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [userMobile]);
 
   const endChatStatus = async () => {
     if (actualChargeUserChat == undefined) return;
@@ -333,7 +360,6 @@ export default function Chatting(AdminCommissionData) {
   let userTotalAmount = showUserData?.totalAmount;
   let astroChatPricePerMinute = Math.round(astrologerData.charges);
   let totalTimeSecond = (userTotalAmount / astroChatPricePerMinute) * 60;
-  console.log(totalChatTime);
 
   // useEffect(() => {
   //   if (totalChatTime > 0) {

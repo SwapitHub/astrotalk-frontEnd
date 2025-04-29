@@ -13,9 +13,11 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
   reconnection: true,
 });
 
-export default function Chatting({astrologer, AdminCommissionData}) {
+export default function Chatting({ astrologer, AdminCommissionData }) {
   const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
-  const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
+  const [totalChatTime, setTotalChatTime] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(null);
+
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
   const [showEndChat, setShowEndChat] = useState(false);
 
@@ -30,7 +32,7 @@ export default function Chatting({astrologer, AdminCommissionData}) {
   const userIds = secureLocalStorage.getItem("userIds");
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState();
-    
+
   useEffect(() => {
     let storedNotification = secureLocalStorage.getItem(
       "AstrologerNotificationStatus"
@@ -40,15 +42,29 @@ export default function Chatting({astrologer, AdminCommissionData}) {
     }
   }, []);
 
-  const [timeLeft, setTimeLeft] = useState(() => {
-    // Initialize timeLeft from secureLocalStorage or set to a default value
+  useEffect(() => {
+    const time = secureLocalStorage.getItem("totalChatTime");
+    if (time) {
+      setTotalChatTime(Math.round(time));
+    }
+  }, []);
+
+  useEffect(() => {
     const storedTime = secureLocalStorage.getItem("chatTimeLeft");
-    return storedTime
-      ? parseInt(storedTime, 10)
-      : astrologerNotificationStatus == false
-      ? 0
-      : null;
-  });
+
+    if (storedTime) {
+      setTimeLeft(parseInt(storedTime, 10));
+    } else {
+      if (
+        astrologerNotificationStatus === false ||
+        astrologerNotificationStatus === "false"
+      ) {
+        setTimeLeft(0);
+      } else {
+        setTimeLeft(null);
+      }
+    }
+  }, [astrologerNotificationStatus]);
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -57,14 +73,13 @@ export default function Chatting({astrologer, AdminCommissionData}) {
 
     socket.on("astrologer-data-received-new-notification", (data) => {
       console.log("New notification received:", data);
-if(data.astrologerData.mobileNumber==astrologerPhone){
-  secureLocalStorage.setItem(
-    "AstrologerNotificationStatus",
-    data.astrologerData.chatStatus
-  );
-  setAstrologerNotificationStatus(data.astrologerData.chatStatus);
-}
-     
+      if (data.astrologerData.mobileNumber == astrologerPhone) {
+        secureLocalStorage.setItem(
+          "AstrologerNotificationStatus",
+          data.astrologerData.chatStatus
+        );
+        setAstrologerNotificationStatus(data.astrologerData.chatStatus);
+      }
     });
 
     return () => {
@@ -72,8 +87,6 @@ if(data.astrologerData.mobileNumber==astrologerPhone){
       socket.disconnect();
     };
   }, []);
-
-
 
   useEffect(() => {
     axios
@@ -112,13 +125,13 @@ if(data.astrologerData.mobileNumber==astrologerPhone){
     }
   };
 
-
   const chatContainerRef = useRef(null);
 
   // Scroll to the bottom when messages change
   useEffect(() => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
     }
   }, [message]);
   // auto send message first time user to astrologer
@@ -212,7 +225,7 @@ if(data.astrologerData.mobileNumber==astrologerPhone){
           astroMobile: astrologerData.mobileNumber,
           astrologerId: astrologerId,
           actualChargeUserChat: actualChargeUserChat,
-          updateAdminCommission : AdminCommissionData
+          updateAdminCommission: AdminCommissionData,
         };
         socket.emit("chat-timeLeft-update", newUserDetail);
         console.log(newUserDetail);
@@ -226,17 +239,16 @@ if(data.astrologerData.mobileNumber==astrologerPhone){
 
         console.log("Astrologer status updated:", updatedAstrologerData);
 
-
         console.log(astrologerData.mobileNumber);
-         // update order history
-      const updateList = await axios.put(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
-        {
-          mobileNumber: astrologerData.mobileNumber,
-          chatStatus: false
-        }
-      );
-      console.log("update hist",updateList);
+        // update order history
+        const updateList = await axios.put(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
+          {
+            mobileNumber: astrologerData.mobileNumber,
+            chatStatus: false,
+          }
+        );
+        console.log("update hist", updateList);
       }
     } catch (error) {
       console.error(
@@ -285,123 +297,124 @@ if(data.astrologerData.mobileNumber==astrologerPhone){
     }
   }, [astrologerNotificationStatus]);
 
- // if user balance is over then cut the automatic call start
- let userTotalAmount = showUserData?.totalAmount;
- let astroChatPricePerMinute = Math.round(astrologerData.charges);
- let totalTimeSecond = (userTotalAmount / astroChatPricePerMinute) * 60;
-console.log(totalChatTime);
+  // if user balance is over then cut the automatic call start
+  let userTotalAmount = showUserData?.totalAmount;
+  let astroChatPricePerMinute = Math.round(astrologerData.charges);
+  let totalTimeSecond = (userTotalAmount / astroChatPricePerMinute) * 60;
+  console.log(totalChatTime);
 
-//  useEffect(() => {
-//    if (totalChatTime > 0) {
-//      const maxAffordableTime = Math.floor(
-//        (userTotalAmount / astroChatPricePerMinute) * 60 - 1
-//      );
+  //  useEffect(() => {
+  //    if (totalChatTime > 0) {
+  //      const maxAffordableTime = Math.floor(
+  //        (userTotalAmount / astroChatPricePerMinute) * 60 - 1
+  //      );
 
-//      if (totalChatTime >= maxAffordableTime) {
-//        const remainingBalance = 0;
-//        console.log(totalChatTime, userTotalAmount, maxAffordableTime);
-//        setActualChargeUserChat(userTotalAmount);
+  //      if (totalChatTime >= maxAffordableTime) {
+  //        const remainingBalance = 0;
+  //        console.log(totalChatTime, userTotalAmount, maxAffordableTime);
+  //        setActualChargeUserChat(userTotalAmount);
 
-//        endChatStatus();
-//        console.log("Automatically ending chat due to balance exhaustion...");
-//      }
-//    }
-//  }, [totalChatTime, userTotalAmount, astroChatPricePerMinute]);
- // if user balance is over then cut the automatic call End
+  //        endChatStatus();
+  //        console.log("Automatically ending chat due to balance exhaustion...");
+  //      }
+  //    }
+  //  }, [totalChatTime, userTotalAmount, astroChatPricePerMinute]);
+  // if user balance is over then cut the automatic call End
 
- 
- const intervals = Math.ceil(totalChatTime / 60);
- const totalChatPrice = Math.min(intervals * astroChatPricePerMinute);
- const remainingBalance = userTotalAmount - totalChatPrice;
-  const handleEndChatClick = () => {   
+  const intervals = Math.ceil(totalChatTime / 60);
+  const totalChatPrice = Math.min(intervals * astroChatPricePerMinute);
+  const remainingBalance = userTotalAmount - totalChatPrice;
+  const handleEndChatClick = () => {
     setActualChargeUserChat(totalChatPrice);
-    setShowEndChat(true)
+    setShowEndChat(true);
   };
 
   // useEffect(()=>{
   //   setActualChargeUserChat(totalChatPrice);
   // },[totalChatPrice])
 
-
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
   return (
     <>
-     {showEndChat && (
+      {showEndChat && (
         <EndChatPopUp
           setShowEndChat={setShowEndChat}
           onCloseEndChat={endChatStatus} // pass function, not result
         />
       )}
 
-<section className="chat-top-header">
-      <div className="container">
-        <div className="chat-top-header-main">
-          <div className="inner-chat-top-header ctm-flex-row ctm-justify-content-between ctm-align-items-center">
-            <div className="chat-left-logo ctm-flex-row ctm-align-items-center">
-              <div className="header-chat-logo">
-                <a href="#" title="header-logo">
-                  <img src="/user-profile-icon.jpg" alt="Chat" />
-                </a>
+      <section className="chat-top-header">
+        <div className="container">
+          <div className="chat-top-header-main">
+            <div className="inner-chat-top-header ctm-flex-row ctm-justify-content-between ctm-align-items-center">
+              <div className="chat-left-logo ctm-flex-row ctm-align-items-center">
+                <div className="header-chat-logo">
+                  <a href="#" title="header-logo">
+                    <img src="/user-profile-icon.jpg" alt="Chat" />
+                  </a>
+                </div>
+                <div className="header-chat-content">
+                  <h4>User</h4>
+                  <p>
+                    <span>
+                      Balance {minutes}:{seconds < 10 ? `0${seconds}` : seconds}{" "}
+                    </span>
+                  </p>
+                  {/* <p>Chat in progress from </p> */}
+                  <h2>{showUserData?.name}</h2>
+                </div>
               </div>
-              <div className="header-chat-content">
-                <h4>User</h4>
-                <p>
-                  <span>
-                    Balance {minutes}:{seconds < 10 ? `0${seconds}` : seconds}{" "}
-                  </span>
-                </p>
-                {/* <p>Chat in progress from </p> */}
-                <h2>{showUserData?.name}</h2>
+              <div className="chat-right-end-btn">
+                <button onClick={handleEndChatClick}>End</button>
               </div>
             </div>
-            <div className="chat-right-end-btn">
-              <button onClick={handleEndChatClick}>End</button>
-            </div>
-          </div>
 
-          <div ref={chatContainerRef} className="uder-and-astro-chat-bg chat-container">
-            <div className="inner-uder-and-astro-chat">
-              <div className="chat-box">
-                {messageData.map((msg, index) => (
-                  <div
-                    key={index}
-                    className={
-                      msg.user === user
-                        ? "message outgoing"
-                        : "message incoming"
-                    }
-                  >
-                    <p>{msg.message}</p>
-                    <p>{msg.time}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          {timeLeft ? (
-            <div className="send-input-button ctm-flex-row ctm-align-items-center ctm-justify-content-between">
-              <div className="chat-input-box-main ctm-flex-row ctm-align-items-center ctm-justify-content-between">
-                <div className="chat-input">
-                  <input
-                    type="text"
-                    placeholder="Type a message"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                  />
-                  <button onClick={sendMessage}>Send</button>
+            <div
+              ref={chatContainerRef}
+              className="uder-and-astro-chat-bg chat-container"
+            >
+              <div className="inner-uder-and-astro-chat">
+                <div className="chat-box">
+                  {messageData.map((msg, index) => (
+                    <div
+                      key={index}
+                      className={
+                        msg.user === user
+                          ? "message outgoing"
+                          : "message incoming"
+                      }
+                    >
+                      <p>{msg.message}</p>
+                      <p>{msg.time}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
-          ) : (
-            <div className="chat-end-text send-input-button">You have exhausted your chat time!</div>
-
-          )}
+            {timeLeft ? (
+              <div className="send-input-button ctm-flex-row ctm-align-items-center ctm-justify-content-between">
+                <div className="chat-input-box-main ctm-flex-row ctm-align-items-center ctm-justify-content-between">
+                  <div className="chat-input">
+                    <input
+                      type="text"
+                      placeholder="Type a message"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                    />
+                    <button onClick={sendMessage}>Send</button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="chat-end-text send-input-button">
+                You have exhausted your chat time!
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
     </>
-   
   );
 }

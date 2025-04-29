@@ -3619,6 +3619,195 @@ nav.navbar ul li a {
 }
 /* 25-04-2025 */
 
+/* 29-04-2025 */
+.sort-modal .sort-options label span:before {
+    top: 1.5px;
+    border: 2px solid #bf2554;
+}
+.sort-modal .sort-options label span:after {
+    left: 5px;
+    top: 8px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    width: 8px;
+    height: 3px;
+}
+.sort-modal .sort-options label input:checked+span:before {
+    background-color: #bf2554;
+}
+ 
+/* Payment */
+ 
+.outer-payment {
+    padding: 70px 0px;
+}
+.inner-payment {
+    max-width: 700px;
+    margin: 0 auto;
+}
+.outer-payment h1,
+.payment-coupon {
+    text-align: center;
+}
+.outer-payment table {
+    width: 100%;
+    margin: 20px 0px;
+    border-color: #aeaeae;
+}
+.outer-payment table td {
+    padding: 10px 15px;
+    border-color: #aeaeae;
+}
+.outer-payment table tr:last-child td {
+    font-weight: 700;
+    background-color: #eee;
+}
+.payment-coupon h2 {
+    font-size: 18px;
+    font-weight: normal;
+}
+.payment-coupon button {
+    background-color: #bf2554;
+    border: 0;
+    color: #fff;
+    border-radius: 30px;
+    display: inline-block;
+    padding: 8px 20px;
+    font-size: 15px;
+    line-height: normal;
+    appearance: none;
+    margin: 20px 0px 0px;
+	transition: all 0.3s;
+}
+.payment-coupon button:hover {
+    background-color: #2f2f2f;
+}
+ 
+/* Manage Profile */
+ 
+.astrologer-registration-form {
+    margin: 0;
+    box-shadow: none;
+    background-color: #f2f2f2;
+    border-radius: 0px;
+}
+.common-input-filed {
+    font-family: inherit;
+	height: 42px;
+}
+.astrologer-registration-form .common-input-filed:not([type="file"]):not([type="radio"]):not([type="checkbox"]):not(.man-input-filed-sec) {
+    border: 0px;
+    background-color: #fff !important;
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, .3) !important;
+}
+input[type="file"] {
+    border: 0;
+    padding-inline: 0;
+    padding: 0;
+}
+input::file-selector-button {
+    background-color: transparent;
+    border: 1px solid #2f2f2f;
+    border-radius: 100px;
+    color: #2f2f2f;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    margin-right: 20px;
+    padding: 7px 24px;
+	font-family: Poppins, serif;
+}
+.astrologer-registration-form .man-input-filed-sec {
+    border: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 10px;
+    align-items: center;
+    height: auto;
+}
+.astrologer-registration-form textarea {
+    background-color: #ffffff !important;
+    border: 0px;
+    resize: none;
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, .3) !important;
+}
+.astrologer-registration-form .man-input-filed-sec > * {
+    position: relative;
+    padding-left: 25px;
+}
+.man-input-filed-sec input[type="radio"], .man-input-filed-sec input[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.man-input-filed-sec input[type="radio"] + label::before, .man-input-filed-sec input[type="checkbox"] + span::before {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border: 2px solid #ffffff;
+    left: 0px;
+    top: 2px;
+    background-color: #fff;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, .3);
+    border-radius: 2px;
+}
+.man-input-filed-sec input[type="radio"] + label::before {
+    border-radius: 100%;
+}
+.man-input-filed-sec input[type="checkbox"]:checked + span::after {
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 4px;
+    border-left: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    z-index: 1;
+    left: 4px;
+    top: 7px;
+    transform: rotate(-45deg);
+}
+ 
+.man-input-filed-sec input[type="radio"] + label::after {
+    content: "";
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    left: 6px;
+    top: 8px;
+}
+.man-input-filed-sec input[type="checkbox"]:checked + span::before,
+.man-input-filed-sec input[type="radio"]:checked + label::before {
+    background-color: #bf2554;
+	border-color: #bf2554;
+}
+.dashboard-right-content button:hover {
+    color: #ffffff;
+}
+.user-profile-pick-main {
+    text-align: center;
+    border-bottom: 1px solid #bbb;
+    padding: 0 0 30px;
+}
+.add-profile-content .label-content,
+.astrologer-registration-form h2 {
+    text-align: center;
+}
+.add-profile-content .label-content label {
+    display: inline-block;
+}
+.add-profile-content input[type="file"] {
+    width: auto;
+    max-width: 280px;
+}
+.outer-payment table tr td:last-child {
+    text-align: right;
+}
+/* 29-04-2025 */
 /* ================== @ Media Css Start Here ================== */
 @media (max-width:1199px) {
     .astrologer {
