@@ -38,11 +38,13 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
 
     const formData = new FormData();
 
-    // Basic fields   
-    const selectedGender = document.querySelector('input[name="gender"]:checked')?.value || "";
-    const selectedCountry = document.querySelector('input[name="country"]:checked')?.value || "";
-  console.log(selectedGender, selectedCountry);
-  
+    // Basic fields
+    const selectedGender =
+      document.querySelector('input[name="gender"]:checked')?.value || "";
+    const selectedCountry =
+      document.querySelector('input[name="country"]:checked')?.value || "";
+    console.log(selectedGender, selectedCountry);
+
     formData.append("gender", selectedGender);
     formData.append("country", selectedCountry);
     formData.append("name", document.getElementById("fname").value);
@@ -124,8 +126,6 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
     }
   };
 
-  
-
   const fetchLanguageList = async () => {
     try {
       const response = await axios.get(
@@ -157,9 +157,11 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
     const formData = new FormData();
 
     // Basic fields
-    const selectedGender = document.querySelector('input[name="gender"]:checked')?.value || "";
-    const selectedCountry = document.querySelector('input[name="country"]:checked')?.value || "";
-  
+    const selectedGender =
+      document.querySelector('input[name="gender"]:checked')?.value || "";
+    const selectedCountry =
+      document.querySelector('input[name="country"]:checked')?.value || "";
+
     formData.append("gender", selectedGender);
     formData.append("country", selectedCountry);
     formData.append("name", document.getElementById("fname").value);
@@ -276,6 +278,24 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
 
             <div className="inner-form-filed-sec">
               <div className="label-content">
+                <label for="Name">
+                  Experience <span>अनुभव</span>
+                </label>
+              </div>
+              <input
+                type="text"
+                id="Experience"
+                name="Experience"
+                className="common-input-filed"
+                placeholder="Exp:"
+              />
+              {errors.Experience && (
+                <p className="error">{errors.Experience}</p>
+              )}
+            </div>
+
+            <div className="inner-form-filed-sec">
+              <div className="label-content">
                 <label>
                   Skills <span>कौशल</span>
                 </label>
@@ -288,7 +308,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
                       name="profession"
                       value={item.professions}
                     />
-                    {item.professions}
+                    <span>{item.professions}</span>
                   </label>
                 ))}
                 {errors.professions && (
@@ -314,7 +334,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
                         id="languages"
                         // onChange={handleLanguageCheckboxChange}
                       />
-                      {lang.languages}
+                      <span>{lang.languages}</span>
                     </label>
                   );
                 })}
@@ -322,23 +342,6 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
                   <p className="error">{errors.languages}</p>
                 )}
               </div>
-            </div>
-            <div className="inner-form-filed-sec">
-              <div className="label-content">
-                <label for="Name">
-                  Experience <span>अनुभव</span>
-                </label>
-              </div>
-              <input
-                type="text"
-                id="Experience"
-                name="Experience"
-                className="common-input-filed"
-                placeholder="Exp:"
-              />
-              {errors.Experience && (
-                <p className="error">{errors.Experience}</p>
-              )}
             </div>
 
             <div className="inner-form-filed-sec full">
@@ -380,13 +383,15 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
                 </label>
               </div>
               <div className="man-input-filed-sec input-gender-sec common-input-filed">
-                <input type="radio"  name="country" value="India" />
-                <label htmlFor="Male">India</label>
+                <div className="inner-radio">
+                  <input type="radio" name="country" value="India" />
+                  <label htmlFor="Male">India</label>
+                </div>
 
-                <input type="radio"  name="country" value="Outside_India" />
-                <label htmlFor="Female">Outside India</label>
-
-                
+                <div className="inner-radio">
+                  <input type="radio" name="country" value="Outside_India" />
+                  <label htmlFor="Female">Outside India</label>
+                </div>
                 {errors.country && <p className="error">{errors.country}</p>}
               </div>
             </div>
@@ -398,14 +403,25 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
                 </label>
               </div>
               <div className="man-input-filed-sec input-gender-sec common-input-filed">
-                <input type="radio" id="Male" name="gender" value="Male" />
-                <label htmlFor="Male">Male</label>
+                <div className="inner-radio">
+                  <input type="radio" id="Male" name="gender" value="Male" />
+                  <label htmlFor="Male">Male</label>
+                </div>
+                <div className="inner-radio">
+                  <input
+                    type="radio"
+                    id="Female"
+                    name="gender"
+                    value="Female"
+                  />
+                  <label htmlFor="Female">Female</label>
+                </div>
 
-                <input type="radio" id="Female" name="gender" value="Female" />
-                <label htmlFor="Female">Female</label>
+                <div className="inner-radio">
+                  <input type="radio" id="Other" name="gender" value="Other" />
+                  <label htmlFor="Other">Other</label>
+                </div>
 
-                <input type="radio" id="Other" name="gender" value="Other" />
-                <label htmlFor="Other">Other</label>
                 {errors.gender && <p className="error">{errors.gender}</p>}
               </div>
             </div>

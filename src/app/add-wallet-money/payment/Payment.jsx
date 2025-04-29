@@ -31,7 +31,9 @@ const Payment = ({ pmtId }) => {
 
   return (
     <div className="payment-page">
+      <section className="outer-payment">
       <div className="container">
+        <div className="inner-payment">
         <h1>Payment Details</h1>
         <table>
           <tbody>
@@ -58,7 +60,10 @@ const Payment = ({ pmtId }) => {
           <h2>Apply another coupon</h2>
           <RazorpayPayment totalFinalPrice={totalFinalPrice} extraAmount={Math.round(priceDetail?.data?.extraAmount)} totalAmount={totalAmount}/>
         </div>
+        </div>
       </div>
+      </section>
+      
     </div>
   );
 };
