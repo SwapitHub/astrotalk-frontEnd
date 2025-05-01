@@ -3823,6 +3823,40 @@ input::file-selector-button {
 .man-input-filed-sec.know-your-time {
     margin: 20px 0px 0px;
 }
+.countdown-inner {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+ 
+.timer-sec span {
+    width: 200px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    border: 1px solid;
+    border-radius: 50%;
+    font-size: 56px;
+}
+ 
+
+.countdown-outer {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    background-color: #fff;
+    z-index: 9;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+.countdown-outer h1 {
+    margin: 0 0 10px;
+}
+
 /* 29-04-2025 */
 /* ================== @ Media Css Start Here ================== */
 @media (max-width:1199px) {

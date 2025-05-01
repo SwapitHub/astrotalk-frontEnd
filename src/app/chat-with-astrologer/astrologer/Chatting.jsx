@@ -15,7 +15,7 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 
 export default function Chatting({ astrologer, AdminCommissionData }) {
   const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
-  const [totalChatTime, setTotalChatTime] = useState(null);
+  const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [timeLeft, setTimeLeft] = useState(null);
 
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
@@ -43,12 +43,6 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
     }
   }, []);
 
-  useEffect(() => {
-    const time = secureLocalStorage.getItem("totalChatTime");
-    if (time) {
-      setTotalChatTime(Math.round(time));
-    }
-  }, []);
 
   useEffect(() => {
     const storedTime = secureLocalStorage.getItem("chatTimeLeft");
@@ -325,7 +319,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   console.log(totalChatTime);
 
    useEffect(() => {
-     if (totalChatTime > 0) {
+     if (totalChatTime > 0 && showUserData?.freeChatStatus == false) {
        const maxAffordableTime = Math.floor(
          (userTotalAmount / astroChatPricePerMinute) * 60 - 1
        );

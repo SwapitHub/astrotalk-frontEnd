@@ -12,6 +12,7 @@ import { IoStar } from "react-icons/io5";
 import { FaSortAmountDownAlt, FaFilter, FaSearch } from "react-icons/fa";
 import UserOtpLoginData from "../component/UserOtpLoginData";
 import { useRouter } from "next/navigation";
+import RequestPopUp from "../component/RequestPopUp";
 // const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   withCredentials: true,
@@ -35,6 +36,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
   const [astroMobileNum, setAstroMobileNum] = useState();
   const [searchName, setSearchName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingRequest, setIsLoadingRequest] = useState(false);
   const [error, setError] = useState(null);
   const [sortFilterStatus, setSortFilterStatus] = useState(false);
   const [multiFilterStatus, setMultiFilterStatus] = useState(false);
@@ -207,12 +209,12 @@ console.log(astroMobileNum);
     };
   }, []);
   useEffect(() => {
-    if (sortFilterStatus || multiFilterStatus) {
+    if (sortFilterStatus || multiFilterStatus || isLoadingRequest) {
       document.body.classList.add("user-filter-popup");
     } else {
       document.body.classList.remove("user-filter-popup");
     }
-  }, [sortFilterStatus, multiFilterStatus]);
+  }, [sortFilterStatus, multiFilterStatus, isLoadingRequest]);
 
   const handelUserLogin = () => {
     setOtpPopUpDisplay(true);
@@ -257,7 +259,7 @@ console.log(astroMobileNum);
     secureLocalStorage.setItem("astrologerId", astrologerId);
 
       } else {
-        setIsLoading(true);
+        setIsLoadingRequest(true);
         console.log("No astrologer found. Timer fallback logic can go here.");
         
   
@@ -350,6 +352,10 @@ console.log("astrologers===========",astrologers);
   
   return (
     <>
+    {isLoadingRequest && (   
+    <RequestPopUp/>
+    )
+    }
       {showRecharge && (
         <UserRecharge
           setShowRecharge={setShowRecharge}
