@@ -43,6 +43,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
   const [astrologerId, setAstrologerId] = useState()
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =   useState(null);
 console.log(astrologerNotificationStatus);
+console.log(astroMobileNum);
 
   
   const [requestedFreeChat, setRequestedFreeChat] = useState(false);
@@ -274,18 +275,37 @@ console.log(astrologerNotificationStatus);
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${userMobile}`,
         {
-          freeChatStatus: false,
+          freeChatStatus: true,
         }
       );
-  
+      
+      
       console.log("User update response:", response.data);
   
       if (response.data.message === "success") {
-        showAstrologer.forEach((item) => {
-          if (item.freeChatStatus === true) {
-            sendMessageRequest(item);
-          }
-        });
+        const freeChatResponse = await axios.get(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/free-chat-true`
+        );
+        const astrologers = freeChatResponse.data.data; 
+console.log("astrologers===========",astrologers);
+
+      astrologers.forEach((item) => {
+        console.log(item);        
+
+          const newData =  fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-business-profile/${item?.mobileNumber}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ 
+              requestStatus: true
+            }),
+          });
+
+          sendMessageRequest(item);
+
+        
+      });
       }
     } catch (error) {
       console.error("Update user freeChatStatus error:", error);
@@ -317,9 +337,13 @@ console.log(astrologerNotificationStatus);
       userDateOfBirth: userData?.dateOfBirth,
       userPlaceOfBorn: userData?.placeOfBorn,
       userBornTime: userData?.reUseDateOfBirth,
+      requestStatus: true
     };
+  console.log(messageId);
   
     socket.emit("userId-to-astrologer", messageId);
+    socket.emit("astrologer-chat-requestStatus", { requestStatus: true });
+
   };
   
   
@@ -371,7 +395,7 @@ console.log(astrologerNotificationStatus);
               <div className="heading-button">
                 <span>Talk to Astrologer</span>
               </div>
-              {userData?.freeChatStatus == false && (
+              {userData?.freeChatStatus == true && (
                 <div className="free-chat-btn">
                   <Link
                   // href="#"

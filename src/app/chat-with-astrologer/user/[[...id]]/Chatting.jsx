@@ -274,6 +274,7 @@ export default function Chatting(AdminCommissionData) {
         secureLocalStorage.removeItem("chatTimeLeft");
 
         const updatedAstrologerData = response.data.updatedProfile;
+        
         socket.emit("astrologer-chat-status", updatedAstrologerData);
 
         const newUserDetail = {
@@ -361,22 +362,22 @@ export default function Chatting(AdminCommissionData) {
   let astroChatPricePerMinute = Math.round(astrologerData.charges);
   let totalTimeSecond = (userTotalAmount / astroChatPricePerMinute) * 60;
 
-  // useEffect(() => {
-  //   if (totalChatTime > 0) {
-  //     const maxAffordableTime = Math.floor(
-  //       (userTotalAmount / astroChatPricePerMinute) * 60 - 1
-  //     );
+  useEffect(() => {
+    if (totalChatTime > 0) {
+      const maxAffordableTime = Math.floor(
+        (userTotalAmount / astroChatPricePerMinute) * 60 - 1
+      );
 
-  //     if (totalChatTime >= maxAffordableTime) {
-  //       const remainingBalance = 0;
-  //       console.log(totalChatTime, userTotalAmount, maxAffordableTime);
-  //       setActualChargeUserChat(userTotalAmount);
+      if (totalChatTime >= maxAffordableTime) {
+        const remainingBalance = 0;
+        console.log(totalChatTime, userTotalAmount, maxAffordableTime);
+        setActualChargeUserChat(userTotalAmount);
 
-  //       endChatStatus();
-  //       console.log("Automatically ending chat due to balance exhaustion...");
-  //     }
-  //   }
-  // }, [totalChatTime, userTotalAmount, astroChatPricePerMinute]);
+        endChatStatus();
+        console.log("Automatically ending chat due to balance exhaustion...");
+      }
+    }
+  }, [totalChatTime, userTotalAmount, astroChatPricePerMinute]);
   // if user balance is over then cut the automatic call End
 
   const intervals = Math.ceil(totalChatTime / 60);

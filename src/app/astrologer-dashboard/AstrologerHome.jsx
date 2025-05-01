@@ -42,7 +42,9 @@ const AstrologerHome = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ freeChatStatus: isChecked }),
+        body: JSON.stringify({ 
+          freeChatStatus: isChecked 
+        }),
       });
   
       console.log("freeChatStatus updated to", isChecked);

@@ -32,6 +32,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   const userIds = secureLocalStorage.getItem("userIds");
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState();
+console.log(astrologerId,userIds);
 
   useEffect(() => {
     let storedNotification = secureLocalStorage.getItem(
@@ -184,7 +185,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
       socket.off("receiveMessage"); // Remove the listener
       socket.disconnect();
     };
-  }, []);
+  }, [userIds, astrologerId]);
 
   const endChatStatus = async () => {
     if (actualChargeUserChat == undefined) return;
