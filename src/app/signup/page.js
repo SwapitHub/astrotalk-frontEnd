@@ -208,6 +208,7 @@ const AstrologerRegistration = () => {
                       </label>
                     </div>
                     <div className="man-input-filed-sec input-gender-sec common-input-filed">
+                    <div className="inner-radio">
                       <input
                         type="radio"
                         id="Male"
@@ -215,7 +216,8 @@ const AstrologerRegistration = () => {
                         value="Male"
                       />
                       <label htmlFor="Male">Male</label>
-
+</div>
+<div className="inner-radio">
                       <input
                         type="radio"
                         id="Female"
@@ -223,7 +225,8 @@ const AstrologerRegistration = () => {
                         value="Female"
                       />
                       <label htmlFor="Female">Female</label>
-
+</div>
+<div className="inner-radio">
                       <input
                         type="radio"
                         id="Other"
@@ -231,6 +234,7 @@ const AstrologerRegistration = () => {
                         value="Other"
                       />
                       <label htmlFor="Other">Other</label>
+                      </div>
                       {errors.gender && (
                         <p className="error">{errors.gender}</p>
                       )}
@@ -255,7 +259,10 @@ const AstrologerRegistration = () => {
                               id="languages"
                               // onChange={handleLanguageCheckboxChange}
                             />
+                            <span>
+
                             {lang.languages}
+                            </span>
                           </label>
                         );
                       })}

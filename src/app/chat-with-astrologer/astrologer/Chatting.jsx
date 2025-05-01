@@ -32,7 +32,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   const userIds = secureLocalStorage.getItem("userIds");
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState();
-console.log(astrologerId,userIds);
+// console.log(astrologerId,userIds,showUserData);
 
   useEffect(() => {
     let storedNotification = secureLocalStorage.getItem(
@@ -189,6 +189,17 @@ console.log(astrologerId,userIds);
 
   const endChatStatus = async () => {
     if (actualChargeUserChat == undefined) return;
+
+    if (showUserData?.freeChatStatus == true) {
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${showUserData?.phone}`,
+        {
+          freeChatStatus: false,
+        }
+      );
+      console.log("response", response.data);
+    }
+
     if (
       astrologerNotificationStatus == false ||
       astrologerNotificationStatus == "false"
@@ -228,9 +239,12 @@ console.log(astrologerId,userIds);
           actualChargeUserChat: actualChargeUserChat,
           updateAdminCommission: AdminCommissionData,
         };
-        socket.emit("chat-timeLeft-update", newUserDetail);
-        console.log(newUserDetail);
-
+        // socket.emit("chat-timeLeft-update", newUserDetail);
+        // console.log(newUserDetail);
+        if(showUserData?.freeChatStatus == false){
+          socket.emit("chat-timeLeft-update", newUserDetail);
+          console.log("newUserDetail=====", newUserDetail);
+        }
         // Update AstrologerNotificationStatus in secureLocalStorage and state
         secureLocalStorage.setItem(
           "AstrologerNotificationStatus",
@@ -249,6 +263,8 @@ console.log(astrologerId,userIds);
             chatStatus: false,
           }
         );
+
+       
         console.log("update hist", updateList);
       }
     } catch (error) {
@@ -258,6 +274,10 @@ console.log(astrologerId,userIds);
       );
     }
   };
+
+
+
+
 
   useEffect(() => {
     if (astrologerNotificationStatus == undefined) {
@@ -304,22 +324,22 @@ console.log(astrologerId,userIds);
   let totalTimeSecond = (userTotalAmount / astroChatPricePerMinute) * 60;
   console.log(totalChatTime);
 
-  //  useEffect(() => {
-  //    if (totalChatTime > 0) {
-  //      const maxAffordableTime = Math.floor(
-  //        (userTotalAmount / astroChatPricePerMinute) * 60 - 1
-  //      );
+   useEffect(() => {
+     if (totalChatTime > 0) {
+       const maxAffordableTime = Math.floor(
+         (userTotalAmount / astroChatPricePerMinute) * 60 - 1
+       );
 
-  //      if (totalChatTime >= maxAffordableTime) {
-  //        const remainingBalance = 0;
-  //        console.log(totalChatTime, userTotalAmount, maxAffordableTime);
-  //        setActualChargeUserChat(userTotalAmount);
+       if (totalChatTime >= maxAffordableTime) {
+         const remainingBalance = 0;
+         console.log(totalChatTime, userTotalAmount, maxAffordableTime);
+         setActualChargeUserChat(userTotalAmount);
 
-  //        endChatStatus();
-  //        console.log("Automatically ending chat due to balance exhaustion...");
-  //      }
-  //    }
-  //  }, [totalChatTime, userTotalAmount, astroChatPricePerMinute]);
+         endChatStatus();
+         console.log("Automatically ending chat due to balance exhaustion...");
+       }
+     }
+   }, [totalChatTime, userTotalAmount, astroChatPricePerMinute]);
   // if user balance is over then cut the automatic call End
 
   const intervals = Math.ceil(totalChatTime / 60);

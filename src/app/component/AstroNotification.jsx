@@ -17,7 +17,7 @@ const AstroNotification = ({ astrologerPhone }) => {
   const [updateRequestStatus, setUpdateRequestStatus] = useState();
   const [newRequestNotification, setNewRequestNotification] = useState();
   const [loading, setLoading] = useState(false);
-console.log("newRequestNotification",newRequestNotification);
+  console.log("newRequestNotification", newRequestNotification);
 
   console.log(updateRequestStatus);
   console.log(updateNotification);
@@ -100,7 +100,7 @@ console.log("newRequestNotification",newRequestNotification);
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-status-by-mobile/${astrologerPhone}`,
         {
           chatStatus: true,
-          requestStatus: false
+          requestStatus: false,
         }
       );
       console.log(response);
@@ -108,7 +108,7 @@ console.log("newRequestNotification",newRequestNotification);
 
       if (response.status == 200) {
         console.log(response.status == 200);
-        // setUpdateNotification(null);
+        setUpdateNotification(null);
         const astrologerData = response.data.updatedProfile;
         socket.emit("astrologer-chat-status", astrologerData);
         socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
@@ -165,63 +165,83 @@ console.log("newRequestNotification",newRequestNotification);
     setUpdateNotification(null);
   };
 
-
   useEffect(() => {
     const handleNewRequestStatusNotification = (data) => {
       console.log("📩 astrologer-requestStatus-new-notification:", data);
-          
-        setNewRequestNotification(data.requestStatusData?.requestStatus)
-      
-     
+
+      setNewRequestNotification(data.requestStatusData?.requestStatus);
     };
-  
-    socket.on("astrologer-requestStatus-new-notification", handleNewRequestStatusNotification);
-  
+
+    socket.on(
+      "astrologer-requestStatus-new-notification",
+      handleNewRequestStatusNotification
+    );
+
     // Cleanup listener on unmount
     return () => {
-      socket.off("astrologer-requestStatus-new-notification", handleNewRequestStatusNotification);
+      socket.off(
+        "astrologer-requestStatus-new-notification",
+        handleNewRequestStatusNotification
+      );
     };
   }, []);
-  
+
+  const updateNotificationFreeChat =
+    updateRequestStatus?.some((item) => item.requestStatus === true) &&
+    (newRequestNotification === true || newRequestNotification === undefined);
+
+  const updateNotificationSingleChat =
+    updateNotification && matchAstrologerMobile;
+
+  console.log(
+    "updateNotificationFreeChat",
+    updateNotificationFreeChat,
+    updateNotificationSingleChat
+  );
+
+  //   const shouldShowNotification =
+  // updateNotificationFreeChat === updateNotificationSingleChat
+  //   ? updateNotificationFreeChat
+  //   : updateNotificationSingleChat;
+
+  //   console.log(shouldShowNotification);
 
   return (
     <>
-      {((updateRequestStatus?.some((item) => item.requestStatus === true)) && (newRequestNotification==true || newRequestNotification==undefined))  &&
-        matchAstrologerMobile && (
-          <div className="notification-astro">
-            <div className="notification-box">
-              <h4>New Chat Request</h4>
-              <p>
-                <strong>Name of User:</strong> {updateNotification.userName}
-              </p>
-              <p>
-                <strong>Date of Birth:</strong>{" "}
-                {updateNotification.userDateOfBirth}
-              </p>
-              <p>
-                <strong>Place of Birth:</strong>{" "}
-                {updateNotification.userPlaceOfBorn}
-              </p>
-              <p>
-                <strong>Time of Birth:</strong>{" "}
-                {updateNotification.userBornTime}
-              </p>
-              <button onClick={UpdateRemoveData}>Dismiss</button>
-              <a
-                href={`/chat-with-astrologer/astrologer/${updateNotification.astrologerId}`}
-                // href="#"
-                onClick={() =>
-                  onChangeId(
-                    updateNotification.astrologerId,
-                    updateNotification.userId
-                  )
-                }
-              >
-                Chat
-              </a>
-            </div>
+      {updateNotificationSingleChat && (
+        <div className="notification-astro">
+          <div className="notification-box">
+            <h4>New Chat Request</h4>
+            <p>
+              <strong>Name of User:</strong> {updateNotification.userName}
+            </p>
+            <p>
+              <strong>Date of Birth:</strong>{" "}
+              {updateNotification.userDateOfBirth}
+            </p>
+            <p>
+              <strong>Place of Birth:</strong>{" "}
+              {updateNotification.userPlaceOfBorn}
+            </p>
+            <p>
+              <strong>Time of Birth:</strong> {updateNotification.userBornTime}
+            </p>
+            <button onClick={UpdateRemoveData}>Dismiss</button>
+            <a
+              href={`/chat-with-astrologer/astrologer/${updateNotification.astrologerId}`}
+              // href="#"
+              onClick={() =>
+                onChangeId(
+                  updateNotification.astrologerId,
+                  updateNotification.userId
+                )
+              }
+            >
+              Chat
+            </a>
           </div>
-        )}
+        </div>
+      )}
     </>
   );
 };

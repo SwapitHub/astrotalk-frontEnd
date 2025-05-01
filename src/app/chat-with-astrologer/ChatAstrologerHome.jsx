@@ -519,18 +519,18 @@ console.log("astrologers===========",astrologers);
                         <div className="astrologer-list-center">
                           <div className="talk-to-name-sec">
                             <h5>{item.name}</h5>
-                            <p>
+                            <div className="skills">
                               {item.professions.map((item) => {
                                 return <span>{item}</span>;
                               })}
-                            </p>
+                            </div>
                           </div>
                           <div className="talk-to-language">
-                            <p>
+                           
                               {item.languages.map((item) => {
                                 return <span>{item}</span>;
                               })}
-                            </p>
+                           
                           </div>
                           <div className="exp-year-sec">
                             <p>

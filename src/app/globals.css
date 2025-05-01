@@ -1226,11 +1226,6 @@ section.talk-to-astrologer-bg {
     top: 26px;
     z-index: 1;
 }
-
-.astrologer-registration-bg {
-    margin-top: 20px;
-}
-
 .user-profile-pick {
 
     position: relative;
@@ -1312,8 +1307,8 @@ section.talk-to-astrologer-bg {
     line-height: normal;
     outline-style: none;
     padding: 10px;
-    box-shadow: none !important;
-    background: transparent !important;
+    box-shadow: none;
+    background: transparent;
     border-bottom: 1px solid #d9d9d9;
     border: 1px solid #d9d9d9;
     height: 40px;
@@ -1512,6 +1507,7 @@ span.ctm-carly-breaks {
     padding: 12px 0;
     border-bottom: 1px solid #ccc;
     font-size: 20px;
+    width: 100%;
 }
 .send-otp .number--continious-popup, .enter-otp {
     padding: 0 50px 30px;
@@ -1527,6 +1523,7 @@ span.ctm-carly-breaks {
     opacity: 1;
     transition: .3sease-in-out;
     color: #fff;
+    z-index: 9;
 }
 .send-otp .number--continious-popup > p {
     margin: 0;
@@ -1561,8 +1558,8 @@ span.ctm-carly-breaks {
     line-height: normal;
     outline-style: none;
     padding: 10px;
-    box-shadow: none !important;
-    background: transparent !important;
+    box-shadow: none ;
+    background: transparent;
     border-bottom: 1px solid #d9d9d9;
     border: 1px solid #d9d9d9;
     height: 40px;
@@ -3686,7 +3683,7 @@ nav.navbar ul li a {
 /* Manage Profile */
  
 .astrologer-registration-form {
-    margin: 0;
+    margin: 0 auto;
     box-shadow: none;
     background-color: #f2f2f2;
     border-radius: 0px;
@@ -3695,10 +3692,17 @@ nav.navbar ul li a {
     font-family: inherit;
 	height: 42px;
 }
-.astrologer-registration-form .common-input-filed:not([type="file"]):not([type="radio"]):not([type="checkbox"]):not(.man-input-filed-sec) {
+.common-input-filed:not([type="file"]):not([type="radio"]):not([type="checkbox"]):not(.man-input-filed-sec) {
     border: 0px;
-    background-color: #fff !important;
-	box-shadow: 0px 1px 3px rgba(0, 0, 0, .3) !important;
+    background-color: #fff;
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, .3);
+}
+select.common-input-filed {
+    background-image: linear-gradient(45deg, transparent 50%, gray 50%), linear-gradient(135deg, gray 50%, transparent 50%), linear-gradient(to right, #ccc, #ccc);
+    background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
+    background-size: 5px 5px, 5px 5px, 1px 1.5em;
+    background-repeat: no-repeat;
+    appearance: none;
 }
 input[type="file"] {
     border: 0;
@@ -3717,7 +3721,7 @@ input::file-selector-button {
     padding: 7px 24px;
 	font-family: Poppins, serif;
 }
-.astrologer-registration-form .man-input-filed-sec {
+.man-input-filed-sec {
     border: 0;
     padding: 0;
     display: flex;
@@ -3732,7 +3736,7 @@ input::file-selector-button {
     resize: none;
 	box-shadow: 0px 1px 3px rgba(0, 0, 0, .3) !important;
 }
-.astrologer-registration-form .man-input-filed-sec > * {
+.man-input-filed-sec > * {
     position: relative;
     padding-left: 25px;
 }
@@ -3809,6 +3813,15 @@ input::file-selector-button {
 }
 .outer-payment table tr td:last-child {
     text-align: right;
+}
+.skills,
+.talk-to-language {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 8px;
+}
+.man-input-filed-sec.know-your-time {
+    margin: 20px 0px 0px;
 }
 /* 29-04-2025 */
 /* ================== @ Media Css Start Here ================== */

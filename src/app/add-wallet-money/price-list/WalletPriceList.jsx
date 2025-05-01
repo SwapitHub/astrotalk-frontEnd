@@ -40,7 +40,7 @@ const WalletPriceList = () => {
           <div className="Available-balance-sec">
             <p>Available balance:</p>
             <div className="Walle-amount">
-              <span>₹ {userData?.totalAmount}</span>
+              <span>₹ {userData?.totalAmount || 0}</span>
             </div>
           </div>
         </div>

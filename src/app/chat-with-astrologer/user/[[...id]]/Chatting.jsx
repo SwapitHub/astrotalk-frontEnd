@@ -18,6 +18,7 @@ export default function Chatting(AdminCommissionData) {
   const [timeLeft, setTimeLeft] = useState(null);
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
   const [showEndChat, setShowEndChat] = useState(false);
+console.log(totalChatTime, timeLeft);
 
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
@@ -35,7 +36,7 @@ export default function Chatting(AdminCommissionData) {
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(null);
   const mobileRef = useRef(null);
-  // console.log(messageData);
+  // console.log(showUserData);
 
   // console.log(astrologerId, astrologerNotificationStatus);
 
@@ -79,7 +80,7 @@ export default function Chatting(AdminCommissionData) {
     }
   }, [astrologerNotificationStatus]);
 
-  useEffect(() => {   
+  useEffect(() => {
     if (astrologerData?.mobileNumber) {
       mobileRef.current = astrologerData.mobileNumber;
     }
@@ -90,7 +91,7 @@ export default function Chatting(AdminCommissionData) {
     if (storedNotification) {
       setAstrologerNotificationStatus(storedNotification);
     }
-  }, [astrologerData]); 
+  }, [astrologerData]);
 
   useEffect(() => {
     if (!socket) return;
@@ -136,7 +137,7 @@ export default function Chatting(AdminCommissionData) {
         handleNewNotification
       );
     };
-  }, [socket, astrologerData]); 
+  }, [socket, astrologerData]);
 
   useEffect(() => {
     const fetchAstrologerData = () => {
@@ -249,6 +250,16 @@ export default function Chatting(AdminCommissionData) {
   const endChatStatus = async () => {
     if (actualChargeUserChat == undefined) return;
 
+    if (showUserData?.freeChatStatus == true) {
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${userMobile}`,
+        {
+          freeChatStatus: false,
+        }
+      );
+      console.log("response", response.data);
+    }
+
     if (
       astrologerNotificationStatus == false ||
       astrologerNotificationStatus == "false"
@@ -274,7 +285,7 @@ export default function Chatting(AdminCommissionData) {
         secureLocalStorage.removeItem("chatTimeLeft");
 
         const updatedAstrologerData = response.data.updatedProfile;
-        
+
         socket.emit("astrologer-chat-status", updatedAstrologerData);
 
         const newUserDetail = {
@@ -289,8 +300,11 @@ export default function Chatting(AdminCommissionData) {
           actualChargeUserChat: actualChargeUserChat,
           updateAdminCommission: AdminCommissionData,
         };
-        socket.emit("chat-timeLeft-update", newUserDetail);
-        console.log("newUserDetail=====", newUserDetail);
+        if(showUserData?.freeChatStatus == false){
+          socket.emit("chat-timeLeft-update", newUserDetail);
+          console.log("newUserDetail=====", newUserDetail);
+        }
+        
 
         // Update AstrologerNotificationStatus in secureLocalStorage and state
         secureLocalStorage.setItem(
@@ -300,6 +314,9 @@ export default function Chatting(AdminCommissionData) {
         setAstrologerNotificationStatus(updatedAstrologerData.chatStatus);
 
         console.log("Astrologer status updated:", updatedAstrologerData);
+
+
+        
       }
       // update order history
       const updateList = await axios.put(
@@ -317,6 +334,17 @@ export default function Chatting(AdminCommissionData) {
       );
     }
   };
+
+
+ 
+    
+  useEffect(() => {
+    if (showUserData?.freeChatStatus === true && timeLeft === 120) {
+      endChatStatus();
+      console.log("ended chat==============================================");
+      
+    }
+  }, [showUserData?.freeChatStatus, timeLeft]);
 
   useEffect(() => {
     if (astrologerNotificationStatus == undefined) {
@@ -353,7 +381,7 @@ export default function Chatting(AdminCommissionData) {
         totalChatTime: 0,
       };
       socket.emit("chat-timeLeft-update", newUserDetail);
-      console.log("not working this");
+      console.log("not working this", newUserDetail);
     }
   }, [astrologerNotificationStatus]);
 
@@ -394,6 +422,7 @@ export default function Chatting(AdminCommissionData) {
   //  },[totalChatPrice])
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
+  
   return (
     <>
       {showEndChat && (

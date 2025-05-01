@@ -7,60 +7,54 @@ import { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 
 const StartUserName = () => {
-  const router = useRouter()
+  const router = useRouter();
   const [dateOfBirthAvailable, setDateOfBirthAvailable] = useState("no");
   const [otpPopUpDisplays, setOtpPopUpDisplays] = useState(false);
   const [datePhoneAvailable, setDatePhoneAvailable] = useState();
   const [errors, setErrors] = useState({});
   const [userMobile, setUserMobile] = useState();
   console.log(errors);
-console.log(datePhoneAvailable,userMobile);
+  console.log(datePhoneAvailable, userMobile);
 
-useEffect(() => {
-  const fetchUserDetail = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
-      );
-      setDatePhoneAvailable(response.data);
-      console.log("API response:", response);
-    } catch (err) {
-      console.error("user detail api error:", err);
+  useEffect(() => {
+    const fetchUserDetail = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
+        );
+        setDatePhoneAvailable(response.data);
+        console.log("API response:", response);
+      } catch (err) {
+        console.error("user detail api error:", err);
+      }
+    };
+
+    if (userMobile) {
+      fetchUserDetail();
     }
-  };
+  }, [userMobile]);
 
-  if (userMobile) {
-    fetchUserDetail();
-  }
-}, [userMobile]);
-
-  
- 
-
-
-// Watch for userMobile updates
-useEffect(() => {
-  const storedMobile = secureLocalStorage.getItem("userMobile");
-  if (storedMobile) {
-    setUserMobile(Math.round(storedMobile));
-  }
-
-  const handleStorageChange = () => {
-    const updatedMobile = secureLocalStorage.getItem("userMobile");
-    if (updatedMobile) {
-      setUserMobile(updatedMobile);
-      // fetchUserDetail();
+  // Watch for userMobile updates
+  useEffect(() => {
+    const storedMobile = secureLocalStorage.getItem("userMobile");
+    if (storedMobile) {
+      setUserMobile(Math.round(storedMobile));
     }
-  };
 
-  window.addEventListener("userMobileUpdated", handleStorageChange);
+    const handleStorageChange = () => {
+      const updatedMobile = secureLocalStorage.getItem("userMobile");
+      if (updatedMobile) {
+        setUserMobile(updatedMobile);
+        // fetchUserDetail();
+      }
+    };
 
-  return () => {
-    window.removeEventListener("userMobileUpdated", handleStorageChange);
-  };
-}, []);
+    window.addEventListener("userMobileUpdated", handleStorageChange);
 
-
+    return () => {
+      window.removeEventListener("userMobileUpdated", handleStorageChange);
+    };
+  }, []);
 
   const handleUserSignUpData = async () => {
     const validationErrors = validateAstrologerForm("user");
@@ -85,39 +79,38 @@ useEffect(() => {
 
     if (!formData) return;
 
-const phone = datePhoneAvailable?.phone;
+    const phone = datePhoneAvailable?.phone;
 
-if (phone) {
-  try {
-    const response = await axios.put(
-      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${phone}`,
-      {
-        name: formData.first_name,
-        gender: formData.gender,
-        dateOfBirth: formData.date_of_birth,
-        reUseDateOfBirth: formData.re_use_date_of_birth || "",
-        placeOfBorn: formData.placeOfBorn,
-        language: formData.languages,
-        // totalAmount: 0, // if needed
+    if (phone) {
+      try {
+        const response = await axios.put(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${phone}`,
+          {
+            name: formData.first_name,
+            gender: formData.gender,
+            dateOfBirth: formData.date_of_birth,
+            reUseDateOfBirth: formData.re_use_date_of_birth || "",
+            placeOfBorn: formData.placeOfBorn,
+            language: formData.languages,
+            // totalAmount: 0, // if needed
+          }
+        );
+
+        console.log("response", response.data);
+
+        if (response.data.message === "success") {
+          secureLocalStorage.setItem("userIds", response.data.user._id);
+          window.dispatchEvent(new Event("userMobileUpdated"));
+          router.push("/chat-with-astrologer");
+        }
+
+        console.log("User Updated:", response.data);
+      } catch (err) {
+        console.error("Error updating user:", err);
       }
-    );
-
-    console.log("response", response.data);
-
-    if (response.data.message === "success") {
-      secureLocalStorage.setItem("userIds", response.data.user._id);
-      window.dispatchEvent(new Event("userMobileUpdated"));
-      router.push("/chat-with-astrologer");
+    } else {
+      setOtpPopUpDisplays(true);
     }
-
-    console.log("User Updated:", response.data);
-  } catch (err) {
-    console.error("Error updating user:", err);
-  }
-} else {
-  setOtpPopUpDisplays(true);
-}
-
   };
 
   return (
@@ -164,27 +157,35 @@ if (phone) {
                         </label>
                       </div>
                       <div className="man-input-filed-sec input-gender-sec common-input-filed">
-                        <input
-                          type="radio"
-                          id="Male"
-                          name="gender"
-                          value="Male"
-                        />
-                        <label for="html">Male</label>
-                        <input
-                          type="radio"
-                          id="Female"
-                          name="gender"
-                          value="Female"
-                        />
-                        <label for="css">Female</label>
-                        <input
-                          type="radio"
-                          id="Other"
-                          name="gender"
-                          value="Other"
-                        />
-                        <label for="css">Other</label>
+                        <div className="inner-radio">
+                          <input
+                            type="radio"
+                            id="Male"
+                            name="gender"
+                            value="Male"
+                          />
+                          <label for="html">Male</label>
+                        </div>
+
+                        <div className="inner-radio">
+                          <input
+                            type="radio"
+                            id="Female"
+                            name="gender"
+                            value="Female"
+                          />
+                          <label for="css">Female</label>
+                        </div>
+
+                        <div className="inner-radio">
+                          <input
+                            type="radio"
+                            id="Other"
+                            name="gender"
+                            value="Other"
+                          />
+                          <label for="css">Other</label>
+                        </div>
                         {errors.gender && (
                           <p className="error">{errors.gender}</p>
                         )}
@@ -219,6 +220,7 @@ if (phone) {
                         </label>
                       </div>
                       <div className="man-input-filed-sec input-gender-sec common-input-filed">
+                      <div className="inner-radio">
                         <input
                           type="radio"
                           id="yes"
@@ -228,6 +230,9 @@ if (phone) {
                           onChange={() => setDateOfBirthAvailable("yes")}
                         />
                         <label for="html">Yes</label>
+                        </div>
+
+                        <div className="inner-radio">
                         <input
                           type="radio"
                           id="no"
@@ -237,6 +242,7 @@ if (phone) {
                           onChange={() => setDateOfBirthAvailable("no")}
                         />
                         <label for="css">No</label>
+                        </div>
                       </div>
                       {dateOfBirthAvailable == "yes" && (
                         <div className="man-input-filed-sec know-your-time">
@@ -258,18 +264,19 @@ if (phone) {
                           <span>(आपका जन्म कहां हुआ था?)</span>
                         </label>
                       </div>
-                      <div className="man-input-filed-sec">
-                        <div className="erch-input-filed common-input-filed">
+                      <div className="man-input-filed-sec erch-input-filed">
+                        
                           <input
                             type="search"
                             id="searchAddress"
                             name="gsearch"
                             placeholder="Where were you born"
+                            className="common-input-filed"
                           />
                           <button type="submit" className="ctm-white-color">
                             <i className="fa-solid fa-magnifying-glass"></i>
                           </button>
-                        </div>
+                        
                       </div>
                     </div>
 

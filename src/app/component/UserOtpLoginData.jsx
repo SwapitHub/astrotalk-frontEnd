@@ -99,14 +99,14 @@ console.log(formData);
               freeChatStatus: true
             }
           );
-
+          // userLoginRes.data.user.freeChatStatus==true ? `/chat-with-astrologer/user/${userLoginRes.data.user._id}`:
           if (userLoginRes.status === 200 || userLoginRes.status === 201) {
             setOtpPopUpDisplay(false);
             secureLocalStorage.setItem("userIds", userLoginRes.data.user._id);
             secureLocalStorage.setItem("userMobile", phone);
             console.log("User login successful, User ID:", phone);
             window.dispatchEvent(new Event("userMobileUpdated"));
-            router.push(userLoginRes.data.user.freeChatStatus==true ? `/chat-with-astrologer/user/${userLoginRes.data.user._id}`: formData.first_name ? "/chat-with-astrologer" : "/free-chat/start");
+            router.push(formData.first_name ? "/chat-with-astrologer" : "/free-chat/start");
             console.log(formData);
             
           }
