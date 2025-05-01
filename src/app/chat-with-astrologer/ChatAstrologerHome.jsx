@@ -27,7 +27,7 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
 });
 
 const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
-  const router = useRouter()
+  const router = useRouter();
   const [showAstrologer, setShowAstrologer] = useState(null);
   const userIds = secureLocalStorage.getItem("userIds");
   const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
@@ -36,18 +36,20 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
   const [astroMobileNum, setAstroMobileNum] = useState();
   const [searchName, setSearchName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingRequest, setIsLoadingRequest] = useState(false);
+  const [isLoadingRequest, setIsLoadingRequest] = useState(
+    secureLocalStorage.getItem("IsLoadingRequestStore")
+  );
   const [error, setError] = useState(null);
   const [sortFilterStatus, setSortFilterStatus] = useState(false);
   const [multiFilterStatus, setMultiFilterStatus] = useState(false);
   const [sortFilterCharges, setSortFilterCharges] = useState();
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
-  const [astrologerId, setAstrologerId] = useState()
-  const [astrologerNotificationStatus, setAstrologerNotificationStatus] =   useState(null);
-console.log(astrologerNotificationStatus);
-console.log(astroMobileNum);
+  const [astrologerId, setAstrologerId] = useState();
+  const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
+    useState(null);
+  console.log(astrologerNotificationStatus);
+  console.log(astroMobileNum);
 
-  
   const [requestedFreeChat, setRequestedFreeChat] = useState(false);
   const [multiFilter, setMultiFilter] = useState();
   const [genderData, setGenderData] = useState(
@@ -65,10 +67,8 @@ console.log(astroMobileNum);
     JSON.parse(secureLocalStorage.getItem("selectedLanguages")) || []
   );
 
-
-
   console.log(astrologerId);
-  
+
   // Memoize the fetch function to prevent unnecessary recreations
   const fetchData = useCallback(async () => {
     setIsLoading(true);
@@ -158,6 +158,9 @@ console.log(astroMobileNum);
         // await router.push(`/chat-with-astrologer/user/${userIds}`);
 
         // This code will run after the navigation is complete
+        secureLocalStorage.setItem("IsLoadingRequestStore", true);
+        setIsLoadingRequest(true);
+
         secureLocalStorage.setItem("astrologerId", astrologerId);
 
         const messageId = {
@@ -219,12 +222,10 @@ console.log(astroMobileNum);
   const handelUserLogin = () => {
     setOtpPopUpDisplay(true);
   };
-  
-
 
   useEffect(() => {
     if (!socket) return;
-  
+
     const handleNewNotification = (data) => {
       console.log("Received data:", data.astrologerData);
       const id = data.astrologerData?._id;
@@ -232,47 +233,54 @@ console.log(astroMobileNum);
       const newStatus = data.astrologerData.chatStatus;
       setAstrologerNotificationStatus((prevStatus) => {
         if (prevStatus !== newStatus) {
-          secureLocalStorage.setItem(
-            "AstrologerNotificationStatus",
-            newStatus
-          );
+          secureLocalStorage.setItem("AstrologerNotificationStatus", newStatus);
           return newStatus;
         }
         return prevStatus;
       });
     };
-  
+
     socket.on("connect", () => console.log("Connected to socket.io server"));
-    socket.on("astrologer-data-received-new-notification", handleNewNotification);
-  
+    socket.on(
+      "astrologer-data-received-new-notification",
+      handleNewNotification
+    );
+
     return () => {
-      socket.off("astrologer-data-received-new-notification", handleNewNotification);
+      socket.off(
+        "astrologer-data-received-new-notification",
+        handleNewNotification
+      );
     };
   }, [socket]);
   console.log(astrologerId);
-  
+
   // ✅ Monitor astrologerId and redirect when it updates
   useEffect(() => {
-    if (requestedFreeChat) {
+    if (isLoadingRequest) {
       if (astrologerId) {
         router.push(`/chat-with-astrologer/user/${userIds}`);
-    secureLocalStorage.setItem("astrologerId", astrologerId);
+        secureLocalStorage.setItem("astrologerId", astrologerId);
 
+        secureLocalStorage.setItem("IsLoadingRequestStore", false);
+        setIsLoadingRequest(false);
       } else {
         setIsLoadingRequest(true);
+        secureLocalStorage.setItem("IsLoadingRequestStore", true);
+
         console.log("No astrologer found. Timer fallback logic can go here.");
-        
-  
+
         // return () => clearTimeout(timer);
       }
     }
-  }, [astrologerId, requestedFreeChat]);
-  
+  }, [astrologerId, isLoadingRequest]);
+
   // ✅ Main function that gets called on Free Chat click
   const handleUpdateUserDetail = async (e) => {
     e.preventDefault();
-    setRequestedFreeChat(true); 
-  
+    setIsLoadingRequest(true);
+    secureLocalStorage.setItem("IsLoadingRequestStore", true);
+
     try {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${userMobile}`,
@@ -280,48 +288,48 @@ console.log(astroMobileNum);
           freeChatStatus: true,
         }
       );
-      
-      
+
       console.log("User update response:", response.data);
-  
+
       if (response.data.message === "success") {
         const freeChatResponse = await axios.get(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/free-chat-true`
         );
-        const astrologers = freeChatResponse.data.data; 
-console.log("astrologers===========",astrologers);
+        const astrologers = freeChatResponse.data.data;
+        console.log("astrologers===========", astrologers);
 
-      astrologers.forEach((item) => {
-        console.log(item);        
+        astrologers.forEach((item) => {
+          console.log(item);
 
-          const newData =  fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-business-profile/${item?.mobileNumber}`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ 
-              requestStatus: true
-            }),
-          });
+          const newData = fetch(
+            `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-business-profile/${item?.mobileNumber}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                requestStatus: true,
+              }),
+            }
+          );
 
           sendMessageRequest(item);
-
-        
-      });
+        });
       }
     } catch (error) {
       console.error("Update user freeChatStatus error:", error);
     }
   };
-  
+
   const sendMessageRequest = (item) => {
     if (!userIds) {
       console.error("userIds undefined");
       return;
     }
-  
+
     // secureLocalStorage.setItem("astrologerId", item._id);
-  
+
     const messageId = {
       userIdToAst: userIds,
       astrologerIdToAst: item._id,
@@ -339,23 +347,17 @@ console.log("astrologers===========",astrologers);
       userDateOfBirth: userData?.dateOfBirth,
       userPlaceOfBorn: userData?.placeOfBorn,
       userBornTime: userData?.reUseDateOfBirth,
-      requestStatus: true
+      requestStatus: true,
     };
-  console.log(messageId);
-  
+    console.log(messageId);
+
     socket.emit("userId-to-astrologer", messageId);
     socket.emit("astrologer-chat-requestStatus", { requestStatus: true });
-
   };
-  
-  
-  
+
   return (
     <>
-    {isLoadingRequest && (   
-    <RequestPopUp/>
-    )
-    }
+      {isLoadingRequest && <RequestPopUp />}
       {showRecharge && (
         <UserRecharge
           setShowRecharge={setShowRecharge}
@@ -404,7 +406,7 @@ console.log("astrologers===========",astrologers);
               {userData?.freeChatStatus == true && (
                 <div className="free-chat-btn">
                   <Link
-                  // href="#"
+                    // href="#"
                     href={`/chat-with-astrologer/user/${userIds}`}
                     onClick={handleUpdateUserDetail}
                   >
@@ -426,9 +428,14 @@ console.log("astrologers===========",astrologers);
               <div className="inner-talk-to-astrologer-right-content">
                 <div className="recharge-btm">
                   <Link
-                    href="/add-wallet-money/price-list"
+                    href={`${!userMobile || !userIds ? "#" : `/add-wallet-money/price-list`}`}
                     title="Recharge"
                     className="recharge-button"
+                    onClick={() => {
+                      if (!userMobile || !userIds) {
+                        handelUserLogin();
+                      } 
+                    }}
                   >
                     Recharge
                   </Link>
@@ -438,7 +445,7 @@ console.log("astrologers===========",astrologers);
                     className="filter-btn-ctm"
                     onClick={() => {
                       if (!userMobile || !userIds) {
-                        handelUserLogin(); 
+                        handelUserLogin();
                       } else {
                         setMultiFilterStatus(true);
                       }
@@ -532,11 +539,9 @@ console.log("astrologers===========",astrologers);
                             </div>
                           </div>
                           <div className="talk-to-language">
-                           
-                              {item.languages.map((item) => {
-                                return <span>{item}</span>;
-                              })}
-                           
+                            {item.languages.map((item) => {
+                              return <span>{item}</span>;
+                            })}
                           </div>
                           <div className="exp-year-sec">
                             <p>
@@ -571,7 +576,8 @@ console.log("astrologers===========",astrologers);
                             <div className="astrologer-call-button-ctm">
                               {userAmount >= item.charges * 2 ? (
                                 <Link
-                                  href={`/chat-with-astrologer/user/${userIds}`}
+                                  href="#"
+                                  // href={`/chat-with-astrologer/user/${userIds}`}
                                   onClick={() =>
                                     onChangeId(
                                       item._id,
