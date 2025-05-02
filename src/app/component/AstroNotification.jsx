@@ -192,6 +192,7 @@ const AstroNotification = ({ astrologerPhone }) => {
 
   const updateNotificationSingleChat =
     updateNotification && matchAstrologerMobile;
+console.log("matchAstrologerMobile",matchAstrologerMobile);
 
   console.log(
     "updateNotificationFreeChat",
@@ -199,12 +200,8 @@ const AstroNotification = ({ astrologerPhone }) => {
     updateNotificationSingleChat
   );
 
-  //   const shouldShowNotification =
-  // updateNotificationFreeChat === updateNotificationSingleChat
-  //   ? updateNotificationFreeChat
-  //   : updateNotificationSingleChat;
-
-  //   console.log(shouldShowNotification);
+  
+    
 
   return (
     <>

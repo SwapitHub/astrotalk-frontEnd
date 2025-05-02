@@ -16,7 +16,7 @@ const FreeChat = () => {
             />
           </div>
           <h1>
-            Congratulations you got a<span>Free Chat!</span>{" "}
+            Congratulations you got a <span> Free Chat!</span>{" "}
           </h1>
           <Link href="/free-chat/start">start free chatting</Link>
         </div>

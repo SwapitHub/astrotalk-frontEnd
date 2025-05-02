@@ -18,7 +18,7 @@ export default function Chatting(AdminCommissionData) {
   const [timeLeft, setTimeLeft] = useState(null);
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
   const [showEndChat, setShowEndChat] = useState(false);
-console.log(totalChatTime, timeLeft);
+  console.log(totalChatTime, timeLeft);
 
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
@@ -46,8 +46,6 @@ console.log(totalChatTime, timeLeft);
       setAstrologerId(id);
     }
   }, []);
-
-
 
   useEffect(() => {
     const storedNotification = secureLocalStorage.getItem(
@@ -295,11 +293,10 @@ console.log(totalChatTime, timeLeft);
           actualChargeUserChat: actualChargeUserChat,
           updateAdminCommission: AdminCommissionData,
         };
-        if(showUserData?.freeChatStatus == false){
+        if (showUserData?.freeChatStatus == false) {
           socket.emit("chat-timeLeft-update", newUserDetail);
           console.log("newUserDetail=====", newUserDetail);
         }
-        
 
         // Update AstrologerNotificationStatus in secureLocalStorage and state
         secureLocalStorage.setItem(
@@ -309,9 +306,6 @@ console.log(totalChatTime, timeLeft);
         setAstrologerNotificationStatus(updatedAstrologerData.chatStatus);
 
         console.log("Astrologer status updated:", updatedAstrologerData);
-
-
-        
       }
       // update order history
       const updateList = await axios.put(
@@ -330,14 +324,10 @@ console.log(totalChatTime, timeLeft);
     }
   };
 
-
- 
-    
   useEffect(() => {
     if (showUserData?.freeChatStatus === true && timeLeft === 120) {
       endChatStatus();
       console.log("ended chat==============================================");
-      
     }
   }, [showUserData?.freeChatStatus, timeLeft]);
 
@@ -384,10 +374,10 @@ console.log(totalChatTime, timeLeft);
   let userTotalAmount = showUserData?.totalAmount;
   let astroChatPricePerMinute = Math.round(astrologerData.charges);
   let totalTimeSecond = (userTotalAmount / astroChatPricePerMinute) * 60;
-console.log(showUserData?.freeChatStatus);
+  console.log(showUserData?.freeChatStatus);
 
   useEffect(() => {
-    if (totalChatTime > 0 &&  showUserData?.freeChatStatus == false) {
+    if (totalChatTime > 0 && showUserData?.freeChatStatus == false) {
       const maxAffordableTime = Math.floor(
         (userTotalAmount / astroChatPricePerMinute) * 60 - 1
       );
@@ -418,7 +408,7 @@ console.log(showUserData?.freeChatStatus);
   //  },[totalChatPrice])
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
-  
+
   return (
     <>
       {showEndChat && (
