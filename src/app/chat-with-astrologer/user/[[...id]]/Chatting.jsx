@@ -19,7 +19,7 @@ export default function Chatting(AdminCommissionData) {
   const [timeLeft, setTimeLeft] = useState(null);
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
   const [showEndChat, setShowEndChat] = useState(false);
-    const [showRating, setShowRating] = useState(false);  
+  const [showRating, setShowRating] = useState(false);
 
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
@@ -439,11 +439,10 @@ export default function Chatting(AdminCommissionData) {
 
       {showRating && (
         <RatingPopUp
-        userId={userIds}
-         astrologerId={astrologerId}
-         setShowRating={setShowRating}
-         showUserData={showUserData}
-
+          userId={userIds}
+          astrologerId={astrologerId}
+          setShowRating={setShowRating}
+          showUserData={showUserData}
         />
       )}
 

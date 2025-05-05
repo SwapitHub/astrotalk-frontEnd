@@ -17,6 +17,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [timeLeft, setTimeLeft] = useState(null);
+  const [showRating, setShowRating] = useState(false);
 
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
   const [showEndChat, setShowEndChat] = useState(false);
@@ -356,6 +357,8 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
         <EndChatPopUp
           setShowEndChat={setShowEndChat}
           onCloseEndChat={endChatStatus} // pass function, not result
+          setShowRating={setShowRating}
+
         />
       )}
 

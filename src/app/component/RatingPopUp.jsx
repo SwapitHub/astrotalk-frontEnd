@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const RatingPopUp = ({ userId, astrologerId, setShowRating, showUserData }) => {
   const [selectedRating, setSelectedRating] = useState(0);
@@ -7,16 +8,24 @@ const RatingPopUp = ({ userId, astrologerId, setShowRating, showUserData }) => {
   const [review, setReview] = useState("");
 
   const submitRating = async () => {
-    await axios.post(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/profile-rating`, {
-      userId,
-      astrologerId,
-      userName: showUserData?.name,
-      rating: selectedRating,
-      review,
-    });
-    fetchAverage();
-    setShowRating(false)
-
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/profile-rating`,
+        {
+          userId,
+          astrologerId,
+          userName: showUserData?.name,
+          rating: selectedRating,
+          review,
+        }
+      );
+      fetchAverage();
+      setShowRating(false);
+    } catch {
+      toast.error("Please Select Rating", {
+        position: "top-right",
+      });
+    }
   };
 
   const fetchAverage = async () => {
@@ -29,14 +38,19 @@ const RatingPopUp = ({ userId, astrologerId, setShowRating, showUserData }) => {
 
   useEffect(() => {
     fetchAverage();
-
   }, []);
 
   return (
     <div className="rating-popup">
-    <div className="close-icon">
-      <button onClick={()=>{setShowRating(false)}}>X</button>
-    </div>
+      <div className="close-icon">
+        <button
+          onClick={() => {
+            setShowRating(false);
+          }}
+        >
+          X
+        </button>
+      </div>
       <div className="rating-popup-inner">
         <h4>Average Rating: {averageRating} ⭐</h4>
         <div className="rating-star">

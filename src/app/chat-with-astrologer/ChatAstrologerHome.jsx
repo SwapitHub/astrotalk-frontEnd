@@ -541,7 +541,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                             <ul className="stars">{renderStars(item?.averageRating)}</ul>
                           </div>
                           <div className="talk-to-total-orders">
-                            <p> 3673 orders</p>
+                            <p> {item?.totalOrders} orders</p>
                           </div>
                         </div>
                         <div className="astrologer-list-center">

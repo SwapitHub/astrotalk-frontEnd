@@ -15,6 +15,9 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 const AstroNotification = ({ astrologerPhone }) => {
   const [updateNotification, setUpdateNotification] = useState();
   const [updateRequestStatus, setUpdateRequestStatus] = useState();
+  const [orderCounter, setOrderCounter] = useState(1);
+  console.log(orderCounter);
+
   const [newRequestNotification, setNewRequestNotification] = useState(
     secureLocalStorage.getItem("requestStatusNotifications")
   );
@@ -96,6 +99,17 @@ const AstroNotification = ({ astrologerPhone }) => {
     secureLocalStorage.setItem("astrologerId", astrologerId);
 
     try {
+
+
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/profile-order`,
+        {
+          userId,
+          astrologerId,
+          userName: updateNotification.userName,
+          order: orderCounter,
+        }
+      );
       // await router.push(`/chat-with-astrologer/astrologer/${astrologerId}`);
 
       const response = await axios.put(
@@ -126,6 +140,9 @@ const AstroNotification = ({ astrologerPhone }) => {
           );
         }
 
+      
+
+
         for (const item of updateRequestStatus) {
           console.log(item);
 
@@ -154,7 +171,8 @@ const AstroNotification = ({ astrologerPhone }) => {
             );
           }
         }
-       
+
+     
       }
     } catch (error) {
       console.error(
@@ -170,7 +188,7 @@ const AstroNotification = ({ astrologerPhone }) => {
     socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
     secureLocalStorage.setItem("IsLoadingRequestStore", false);
     secureLocalStorage.removeItem("new-notification-store");
-    setUpdateNotification(null);   
+    setUpdateNotification(null);
   };
 
   useEffect(() => {
