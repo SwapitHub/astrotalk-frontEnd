@@ -3911,7 +3911,24 @@ input::file-selector-button {
     margin: 15px 0px 0px;
     border-radius: 30px;
 }
-
+.enter-otp {
+    margin: 0 auto;
+    text-align: center;
+    padding-inline: 50px;
+}
+.send-otp .left-col-resend p {
+    color: inherit;
+}
+.man-input-filed-sec.send-otp > p {
+    width: 100%;
+    color: green;
+}
+.five-star-rating ul li svg {
+    stroke: #daa520;
+}
+.talk-to-total-orders {
+    text-align: center;
+}
 
 /* End Rating Popup  */
 

@@ -538,7 +538,13 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                             <img src={`${item?.profileImage}`} alt="Sauvikh" />
                           </div>
                           <div className="five-star-rating">
-                            <ul className="stars">{renderStars(item?.averageRating)}</ul>
+                            <ul className="stars">
+                              <li>
+
+                              {renderStars(item?.averageRating)}
+                              </li>
+                              
+                              </ul>
                           </div>
                           <div className="talk-to-total-orders">
                             <p> {item?.totalOrders} orders</p>

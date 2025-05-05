@@ -21,21 +21,21 @@ const RequestPopUp = ({setIsLoadingRequest}) => {
       return () => clearInterval(interval); 
     }, [timer]);
 
-    // const handleUpdateNotification =()=>{
-    //   console.log("jhgjhgjhghg============");
+    const handleUpdateNotification =()=>{
+      // console.log("jhgjhgjhghg============");
       
-    //   socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
-    //   socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
-    //   secureLocalStorage.setItem("IsLoadingRequestStore", false);
-    //   setIsLoadingRequest(false);
+      // socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
+      // socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
+      secureLocalStorage.setItem("IsLoadingRequestStore", false);
+      setIsLoadingRequest(false);
 
-    // }
+    }
 
   return (
     <section className="countdown-outer">
     <div className="container">
         <div className="countdown-inner">
-          {/* <button onClick={handleUpdateNotification}>Close X</button> */}
+          <button onClick={handleUpdateNotification}>Close X</button>
             <div className="countdown-top-cont">
                 <h1>Please wait....</h1>
                 <p>The astrologer will connect with you shortly.</p>

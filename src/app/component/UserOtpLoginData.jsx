@@ -211,6 +211,7 @@ console.log(formData);
           <input
             type="text"
             placeholder="Enter OTP"
+            className="common-input-filed"
             onInput={(e) => {
               e.target.value = e.target.value.replace(/\D/g, "").slice(0, 6);
             }}

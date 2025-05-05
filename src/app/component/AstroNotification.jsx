@@ -101,15 +101,7 @@ const AstroNotification = ({ astrologerPhone }) => {
     try {
 
 
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/profile-order`,
-        {
-          userId,
-          astrologerId,
-          userName: updateNotification.userName,
-          order: orderCounter,
-        }
-      );
+      
       // await router.push(`/chat-with-astrologer/astrologer/${astrologerId}`);
 
       const response = await axios.put(
@@ -140,7 +132,15 @@ const AstroNotification = ({ astrologerPhone }) => {
           );
         }
 
-      
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/profile-order`,
+          {
+            userId,
+            astrologerId,
+            userName: updateNotification.userName,
+            order: orderCounter,
+          }
+        );
 
 
         for (const item of updateRequestStatus) {
@@ -240,33 +240,40 @@ const AstroNotification = ({ astrologerPhone }) => {
     updateNotificationSingleChat
   );
 
-  const shouldShowNotification =
-    (newRequestNotification === true && updateNotificationFreeChat) ||
-    (newRequestNotification === 0 && updateNotificationSingleChat);
-
+  useEffect(() => {
+    const shouldShow =
+      (newRequestNotification === true && updateNotificationFreeChat) ||
+      (newRequestNotification === 0 && updateNotificationSingleChat);
+  
+    secureLocalStorage.setItem("shouldShowNotification", shouldShow);
+  }, [newRequestNotification, updateNotificationFreeChat, updateNotificationSingleChat]);
+  
+  const storedNotification = secureLocalStorage.getItem("shouldShowNotification");
+  console.log(storedNotification);
+  
   return (
     <>
-      {shouldShowNotification && (
+      {storedNotification && (
         <div className="notification-astro">
           <div className="notification-box">
             <h4>New Chat Request</h4>
             <p>
-              <strong>Name of User:</strong> {updateNotification.userName}
+              <strong>Name of User:</strong> {updateNotification?.userName}
             </p>
             <p>
               <strong>Date of Birth:</strong>{" "}
-              {updateNotification.userDateOfBirth}
+              {updateNotification?.userDateOfBirth}
             </p>
             <p>
               <strong>Place of Birth:</strong>{" "}
-              {updateNotification.userPlaceOfBorn}
+              {updateNotification?.userPlaceOfBorn}
             </p>
             <p>
-              <strong>Time of Birth:</strong> {updateNotification.userBornTime}
+              <strong>Time of Birth:</strong> {updateNotification?.userBornTime}
             </p>
             <button onClick={UpdateRemoveData}>Dismiss</button>
             <a
-              href={`/chat-with-astrologer/astrologer/${updateNotification.astrologerId}`}
+              href={`/chat-with-astrologer/astrologer/${updateNotification?.astrologerId}`}
               // href="#"
               onClick={() =>
                 onChangeId(
