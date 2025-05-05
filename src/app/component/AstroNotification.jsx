@@ -99,9 +99,6 @@ const AstroNotification = ({ astrologerPhone }) => {
     secureLocalStorage.setItem("astrologerId", astrologerId);
 
     try {
-
-
-      
       // await router.push(`/chat-with-astrologer/astrologer/${astrologerId}`);
 
       const response = await axios.put(
@@ -112,12 +109,13 @@ const AstroNotification = ({ astrologerPhone }) => {
         }
       );
       console.log(response);
-      secureLocalStorage.removeItem("new-notification-store");
+      secureLocalStorage.removeItem("storedNotification");
 
       if (response.status == 200) {
         console.log(response.status == 200);
         setUpdateNotification(null);
-        secureLocalStorage.removeItem("new-notification-store");
+      secureLocalStorage.removeItem("storedNotification");
+
         const astrologerData = response.data.updatedProfile;
         socket.emit("astrologer-chat-status", astrologerData);
         socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
@@ -141,7 +139,6 @@ const AstroNotification = ({ astrologerPhone }) => {
             order: orderCounter,
           }
         );
-
 
         for (const item of updateRequestStatus) {
           console.log(item);
@@ -171,8 +168,6 @@ const AstroNotification = ({ astrologerPhone }) => {
             );
           }
         }
-
-     
       }
     } catch (error) {
       console.error(
@@ -187,7 +182,7 @@ const AstroNotification = ({ astrologerPhone }) => {
     socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
     socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
     secureLocalStorage.setItem("IsLoadingRequestStore", false);
-    secureLocalStorage.removeItem("new-notification-store");
+    secureLocalStorage.removeItem("storedNotification");
     setUpdateNotification(null);
   };
 
@@ -244,13 +239,19 @@ const AstroNotification = ({ astrologerPhone }) => {
     const shouldShow =
       (newRequestNotification === true && updateNotificationFreeChat) ||
       (newRequestNotification === 0 && updateNotificationSingleChat);
-  
+
     secureLocalStorage.setItem("shouldShowNotification", shouldShow);
-  }, [newRequestNotification, updateNotificationFreeChat, updateNotificationSingleChat]);
-  
-  const storedNotification = secureLocalStorage.getItem("shouldShowNotification");
-  console.log(storedNotification);
-  
+  }, [
+    newRequestNotification,
+    updateNotificationFreeChat,
+    updateNotificationSingleChat,
+  ]);
+
+  const storedNotification = secureLocalStorage.getItem(
+    "shouldShowNotification"
+  );
+  console.log("storedNotification",storedNotification);
+
   return (
     <>
       {storedNotification && (

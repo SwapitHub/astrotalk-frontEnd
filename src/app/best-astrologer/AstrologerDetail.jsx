@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 import io from "socket.io-client";
 import UserRecharge from "../component/UserRechargePopUp";
+import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
+
 
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   withCredentials: true,
@@ -25,6 +27,7 @@ export const AstrologerDetail = ({astrologerData}) => {
   const [userData, setUserData] = useState();
 
   
+
 
   useEffect(() => {
     if (userMobile) {
@@ -118,6 +121,28 @@ export const AstrologerDetail = ({astrologerData}) => {
       document.body.classList.remove("user-recharge");
     }
   }, [showRecharge]);
+
+  const renderStars = (averageRating) => {
+      const stars = [];
+      const fullStars = Math.floor(averageRating);
+      const hasHalfStar =
+        averageRating - fullStars >= 0.25 && averageRating - fullStars < 0.75;
+      const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+  
+      for (let i = 0; i < fullStars; i++) {
+        stars.push(<IoStar key={`full-${i}`} />);
+      }
+  
+      if (hasHalfStar) {
+        stars.push(<IoStarHalf key="half" />);
+      }
+  
+      for (let i = 0; i < emptyStars; i++) {
+        stars.push(<IoStarOutline key={`empty-${i}`} />);
+      }
+  
+      return stars;
+    };
   return (
     <>
       {showRecharge && (
@@ -328,68 +353,13 @@ export const AstrologerDetail = ({astrologerData}) => {
 
               <div className="review">
                 <div className="rating_star">
-                  <div className="ratting_number">4.98</div>
-                  <ngb-rating
-                    _ngcontent-serverapp-c96=""
-                    role="slider"
-                    aria-valuemin="0"
-                    aria-label="Ratting Star"
-                    className="d-inline-flex ratting"
-                    tabindex="0"
-                    aria-valuemax="5"
-                    aria-valuenow="4.98"
-                    aria-valuetext="4.98 out of 5"
-                    aria-disabled="true"
-                  >
-                    <span className="sr-only">(*)</span>
-                    <span>
-                      <span _ngcontent-serverapp-c96="" className="star full">
-                        <span _ngcontent-serverapp-c96="" className="half">
-                          ★
-                        </span>
-                        ★{" "}
-                      </span>
-                    </span>
-                    <span className="sr-only">(*)</span>
-                    <span>
-                      <span _ngcontent-serverapp-c96="" className="star full">
-                        <span _ngcontent-serverapp-c96="" className="half">
-                          ★
-                        </span>
-                        ★{" "}
-                      </span>
-                    </span>
-                    <span className="sr-only">(*)</span>
-                    <span>
-                      <span _ngcontent-serverapp-c96="" className="star full">
-                        <span _ngcontent-serverapp-c96="" className="half">
-                          ★
-                        </span>
-                        ★{" "}
-                      </span>
-                    </span>
-                    <span className="sr-only">(*)</span>
-                    <span>
-                      <span _ngcontent-serverapp-c96="" className="star full">
-                        <span _ngcontent-serverapp-c96="" className="half">
-                          ★
-                        </span>
-                        ★{" "}
-                      </span>
-                    </span>
-                    <span className="sr-only">(*)</span>
-                    <span>
-                      <span _ngcontent-serverapp-c96="" className="star">
-                        <span _ngcontent-serverapp-c96="" className="half">
-                          ★
-                        </span>
-                        ★{" "}
-                      </span>
-                    </span>
-                  </ngb-rating>
+                  <div className="ratting_number">{astrologerData?.averageRating}</div>
+                  <ul className="stars">
+                              <li>{renderStars(astrologerData?.averageRating)}</li>
+                            </ul>
                   <div className="total_view">
                     <i className="fa-solid fa-user"></i>
-                    <span>28093 total </span>
+                    <span>{astrologerData?.totalOrders} total </span>
                   </div>
                 </div>
                 <div className="ratting-review">
@@ -540,6 +510,76 @@ export const AstrologerDetail = ({astrologerData}) => {
             <div className="header_similar_consultants">
               <h2 className="check_similar_text">Check Similar Consultants</h2>
               <i _ngcontent-serverapp-c96="" className="fa fa-info-circle"></i>
+            </div>
+            <div className="reviews-similiar-conslt-outer">
+              <div className="reviews-similiar-conslt-inner">
+                  <h2 className="review-heading">User Reviews</h2>
+                  <div className="sort-filter-rating">
+                    <div className="sort-left">
+                      <h6> Sort By</h6>
+                    </div>
+                    <div className="sort-right">
+                      <div className="sort-radio">
+                        <input type="radio" name="sort" id="helpful_reviews " />
+                        <label for="helpful_reviews">Most helpful</label>
+                      </div>
+                      <div className="sort-radio">
+                        <input type="radio" name="sort" id="recent_reviews" />
+                        <label for="recent_reviews">Most Recent</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="similar-conslt-reviews-sec">
+                    <div className="single-review">
+                      <div className="profile-image-name">
+                        <div className="picture_profile">
+                          <img src="" alt="" />
+                        </div>
+                        <div className="name-text">
+                          <span>Varinder</span>
+                        </div>
+                      </div>
+                      <div className="rating-stars">
+                        <ul class="stars"><li><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M394 480a16 16 0 0 1-9.39-3L256 383.76 127.39 477a16 16 0 0 1-24.55-18.08L153 310.35 23 221.2a16 16 0 0 1 9-29.2h160.38l48.4-148.95a16 16 0 0 1 30.44 0l48.4 149H480a16 16 0 0 1 9.05 29.2L359 310.35l50.13 148.53A16 16 0 0 1 394 480z"></path></svg><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M394 480a16 16 0 0 1-9.39-3L256 383.76 127.39 477a16 16 0 0 1-24.55-18.08L153 310.35 23 221.2a16 16 0 0 1 9-29.2h160.38l48.4-148.95a16 16 0 0 1 30.44 0l48.4 149H480a16 16 0 0 1 9.05 29.2L359 310.35l50.13 148.53A16 16 0 0 1 394 480z"></path></svg><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M394 480a16 16 0 0 1-9.39-3L256 383.76 127.39 477a16 16 0 0 1-24.55-18.08L153 310.35 23 221.2a16 16 0 0 1 9-29.2h160.38l48.4-148.95a16 16 0 0 1 30.44 0l48.4 149H480a16 16 0 0 1 9.05 29.2L359 310.35l50.13 148.53A16 16 0 0 1 394 480z"></path></svg><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M394 480a16 16 0 0 1-9.39-3L256 383.76 127.39 477a16 16 0 0 1-24.55-18.08L153 310.35 23 221.2a16 16 0 0 1 9-29.2h160.38l48.4-148.95a16 16 0 0 1 30.44 0l48.4 149H480a16 16 0 0 1 9.05 29.2L359 310.35l50.13 148.53A16 16 0 0 1 394 480z"></path></svg><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linejoin="round" stroke-width="32" d="M480 208H308L256 48l-52 160H32l140 96-54 160 138-100 138 100-54-160z"></path><path d="M256 48v316L118 464l54-160-140-96h172l52-160z"></path></svg></li></ul>
+                      </div>
+                      <div className="review-content">
+                        <p>thankyou so much mam nice to talk with you over call and gives very positivity. thankyou so much mam</p>
+                      </div>
+                    </div>
+                    <div className="single-review">
+                      <div className="profile-image-name">
+                        <div className="picture_profile">
+                          <img src="" alt />
+                        </div>
+                        <div className="name-text">
+                          <span>Varinder</span>
+                        </div>
+                      </div>
+                      <div className="rating-stars">
+                        <ul class="stars"><li><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M394 480a16 16 0 0 1-9.39-3L256 383.76 127.39 477a16 16 0 0 1-24.55-18.08L153 310.35 23 221.2a16 16 0 0 1 9-29.2h160.38l48.4-148.95a16 16 0 0 1 30.44 0l48.4 149H480a16 16 0 0 1 9.05 29.2L359 310.35l50.13 148.53A16 16 0 0 1 394 480z"></path></svg><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M394 480a16 16 0 0 1-9.39-3L256 383.76 127.39 477a16 16 0 0 1-24.55-18.08L153 310.35 23 221.2a16 16 0 0 1 9-29.2h160.38l48.4-148.95a16 16 0 0 1 30.44 0l48.4 149H480a16 16 0 0 1 9.05 29.2L359 310.35l50.13 148.53A16 16 0 0 1 394 480z"></path></svg><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M394 480a16 16 0 0 1-9.39-3L256 383.76 127.39 477a16 16 0 0 1-24.55-18.08L153 310.35 23 221.2a16 16 0 0 1 9-29.2h160.38l48.4-148.95a16 16 0 0 1 30.44 0l48.4 149H480a16 16 0 0 1 9.05 29.2L359 310.35l50.13 148.53A16 16 0 0 1 394 480z"></path></svg><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M394 480a16 16 0 0 1-9.39-3L256 383.76 127.39 477a16 16 0 0 1-24.55-18.08L153 310.35 23 221.2a16 16 0 0 1 9-29.2h160.38l48.4-148.95a16 16 0 0 1 30.44 0l48.4 149H480a16 16 0 0 1 9.05 29.2L359 310.35l50.13 148.53A16 16 0 0 1 394 480z"></path></svg><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linejoin="round" stroke-width="32" d="M480 208H308L256 48l-52 160H32l140 96-54 160 138-100 138 100-54-160z"></path><path d="M256 48v316L118 464l54-160-140-96h172l52-160z"></path></svg></li></ul>
+                      </div>
+                      <div className="review-content">
+                        <p>thankyou so much mam nice to talk with you over call and gives very positivity. thankyou so much mam</p>
+                      </div>
+                    </div>
+                    <div className="single-review">
+                      <div className="profile-image-name">
+                        <div className="picture_profile">
+                          <img src="" alt />
+                        </div>
+                        <div className="name-text">
+                          <span>Varinder</span>
+                        </div>
+                      </div>
+                      <div className="rating-stars">
+                        <ul class="stars"><li><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M394 480a16 16 0 0 1-9.39-3L256 383.76 127.39 477a16 16 0 0 1-24.55-18.08L153 310.35 23 221.2a16 16 0 0 1 9-29.2h160.38l48.4-148.95a16 16 0 0 1 30.44 0l48.4 149H480a16 16 0 0 1 9.05 29.2L359 310.35l50.13 148.53A16 16 0 0 1 394 480z"></path></svg><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M394 480a16 16 0 0 1-9.39-3L256 383.76 127.39 477a16 16 0 0 1-24.55-18.08L153 310.35 23 221.2a16 16 0 0 1 9-29.2h160.38l48.4-148.95a16 16 0 0 1 30.44 0l48.4 149H480a16 16 0 0 1 9.05 29.2L359 310.35l50.13 148.53A16 16 0 0 1 394 480z"></path></svg><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M394 480a16 16 0 0 1-9.39-3L256 383.76 127.39 477a16 16 0 0 1-24.55-18.08L153 310.35 23 221.2a16 16 0 0 1 9-29.2h160.38l48.4-148.95a16 16 0 0 1 30.44 0l48.4 149H480a16 16 0 0 1 9.05 29.2L359 310.35l50.13 148.53A16 16 0 0 1 394 480z"></path></svg><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M394 480a16 16 0 0 1-9.39-3L256 383.76 127.39 477a16 16 0 0 1-24.55-18.08L153 310.35 23 221.2a16 16 0 0 1 9-29.2h160.38l48.4-148.95a16 16 0 0 1 30.44 0l48.4 149H480a16 16 0 0 1 9.05 29.2L359 310.35l50.13 148.53A16 16 0 0 1 394 480z"></path></svg><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linejoin="round" stroke-width="32" d="M480 208H308L256 48l-52 160H32l140 96-54 160 138-100 138 100-54-160z"></path><path d="M256 48v316L118 464l54-160-140-96h172l52-160z"></path></svg></li></ul>
+                      </div>
+                      <div className="review-content">
+                        <p>thankyou so much mam nice to talk with you over call and gives very positivity. thankyou so much mam</p>
+                      </div>
+                    </div>
+                  </div>
+              </div>
             </div>
           </div>
         </div>

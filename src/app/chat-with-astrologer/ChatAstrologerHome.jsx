@@ -185,8 +185,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
         };
 
         socket.emit("userId-to-astrologer", messageId);
-    socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 0 });
-
+        socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 0 });
       } catch (error) {
         console.error("Navigation failed:", error);
       }
@@ -358,37 +357,33 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     socket.emit("astrologer-chat-requestStatus", { requestStatus: true });
   };
 
-
- 
-
   const renderStars = (averageRating) => {
     const stars = [];
     const fullStars = Math.floor(averageRating);
-    const hasHalfStar = averageRating - fullStars >= 0.25 && averageRating - fullStars < 0.75;
+    const hasHalfStar =
+      averageRating - fullStars >= 0.25 && averageRating - fullStars < 0.75;
     const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-  
+
     for (let i = 0; i < fullStars; i++) {
       stars.push(<IoStar key={`full-${i}`} />);
     }
-  
+
     if (hasHalfStar) {
       stars.push(<IoStarHalf key="half" />);
     }
-  
+
     for (let i = 0; i < emptyStars; i++) {
       stars.push(<IoStarOutline key={`empty-${i}`} />);
     }
-  
+
     return stars;
   };
-  
 
   return (
     <>
-      {isLoadingRequest && <RequestPopUp 
-      setIsLoadingRequest={setIsLoadingRequest}
-      
-      />}
+      {isLoadingRequest && (
+        <RequestPopUp setIsLoadingRequest={setIsLoadingRequest} />
+      )}
       {showRecharge && (
         <UserRecharge
           setShowRecharge={setShowRecharge}
@@ -459,13 +454,17 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
               <div className="inner-talk-to-astrologer-right-content">
                 <div className="recharge-btm">
                   <Link
-                    href={`${!userMobile || !userIds ? "#" : `/add-wallet-money/price-list`}`}
+                    href={`${
+                      !userMobile || !userIds
+                        ? "#"
+                        : `/add-wallet-money/price-list`
+                    }`}
                     title="Recharge"
                     className="recharge-button"
                     onClick={() => {
                       if (!userMobile || !userIds) {
                         handelUserLogin();
-                      } 
+                      }
                     }}
                   >
                     Recharge
@@ -539,12 +538,8 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                           </div>
                           <div className="five-star-rating">
                             <ul className="stars">
-                              <li>
-
-                              {renderStars(item?.averageRating)}
-                              </li>
-                              
-                              </ul>
+                              <li>{renderStars(item?.averageRating)}</li>
+                            </ul>
                           </div>
                           <div className="talk-to-total-orders">
                             <p> {item?.totalOrders} orders</p>

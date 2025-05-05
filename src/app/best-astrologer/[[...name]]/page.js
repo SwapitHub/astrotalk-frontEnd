@@ -26,6 +26,7 @@ const AstroDetailServer = async ({ params }) => {
   const { name } = params;
   const astrologerData = await fetchAstrologerDetailData(name[0]);
 
+
   return (
     <>
       <AstrologerDetail astrologerData={astrologerData} />
