@@ -8,11 +8,12 @@ import secureLocalStorage from "react-secure-storage";
 import Loader from "../component/Loader";
 import SortByFilter from "../component/SortByFilter";
 import MultiFilters from "../component/MultiFilters";
-import { IoStar } from "react-icons/io5";
+import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
 import { FaSortAmountDownAlt, FaFilter, FaSearch } from "react-icons/fa";
 import UserOtpLoginData from "../component/UserOtpLoginData";
 import { useRouter } from "next/navigation";
 import RequestPopUp from "../component/RequestPopUp";
+
 // const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   withCredentials: true,
@@ -184,6 +185,8 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
         };
 
         socket.emit("userId-to-astrologer", messageId);
+    socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 0 });
+
       } catch (error) {
         console.error("Navigation failed:", error);
       }
@@ -355,9 +358,37 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     socket.emit("astrologer-chat-requestStatus", { requestStatus: true });
   };
 
+
+ 
+
+  const renderStars = (averageRating) => {
+    const stars = [];
+    const fullStars = Math.floor(averageRating);
+    const hasHalfStar = averageRating - fullStars >= 0.25 && averageRating - fullStars < 0.75;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+  
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(<IoStar key={`full-${i}`} />);
+    }
+  
+    if (hasHalfStar) {
+      stars.push(<IoStarHalf key="half" />);
+    }
+  
+    for (let i = 0; i < emptyStars; i++) {
+      stars.push(<IoStarOutline key={`empty-${i}`} />);
+    }
+  
+    return stars;
+  };
+  
+
   return (
     <>
-      {isLoadingRequest && <RequestPopUp />}
+      {isLoadingRequest && <RequestPopUp 
+      setIsLoadingRequest={setIsLoadingRequest}
+      
+      />}
       {showRecharge && (
         <UserRecharge
           setShowRecharge={setShowRecharge}
@@ -507,23 +538,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                             <img src={`${item?.profileImage}`} alt="Sauvikh" />
                           </div>
                           <div className="five-star-rating">
-                            <ul>
-                              <li>
-                                <IoStar />
-                              </li>
-                              <li>
-                                <IoStar />
-                              </li>
-                              <li>
-                                <IoStar />
-                              </li>
-                              <li>
-                                <IoStar />
-                              </li>
-                              <li>
-                                <IoStar />
-                              </li>
-                            </ul>
+                            <ul className="stars">{renderStars(item?.averageRating)}</ul>
                           </div>
                           <div className="talk-to-total-orders">
                             <p> 3673 orders</p>

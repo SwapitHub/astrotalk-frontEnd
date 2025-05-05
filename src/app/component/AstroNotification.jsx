@@ -15,7 +15,9 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 const AstroNotification = ({ astrologerPhone }) => {
   const [updateNotification, setUpdateNotification] = useState();
   const [updateRequestStatus, setUpdateRequestStatus] = useState();
-  const [newRequestNotification, setNewRequestNotification] = useState();
+  const [newRequestNotification, setNewRequestNotification] = useState(
+    secureLocalStorage.getItem("requestStatusNotifications")
+  );
   const [loading, setLoading] = useState(false);
   console.log("newRequestNotification", newRequestNotification);
 
@@ -109,9 +111,11 @@ const AstroNotification = ({ astrologerPhone }) => {
       if (response.status == 200) {
         console.log(response.status == 200);
         setUpdateNotification(null);
+        secureLocalStorage.removeItem("new-notification-store");
         const astrologerData = response.data.updatedProfile;
         socket.emit("astrologer-chat-status", astrologerData);
         socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
+        socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
 
         if (astrologerData.mobileNumber == astrologerPhone) {
           console.log(astrologerData.chatStatus);
@@ -150,6 +154,7 @@ const AstroNotification = ({ astrologerPhone }) => {
             );
           }
         }
+       
       }
     } catch (error) {
       console.error(
@@ -161,8 +166,11 @@ const AstroNotification = ({ astrologerPhone }) => {
 
   // Clear notification data from secureLocalStorage
   const UpdateRemoveData = () => {
+    socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
+    socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
+    secureLocalStorage.setItem("IsLoadingRequestStore", false);
     secureLocalStorage.removeItem("new-notification-store");
-    setUpdateNotification(null);
+    setUpdateNotification(null);   
   };
 
   useEffect(() => {
@@ -170,17 +178,31 @@ const AstroNotification = ({ astrologerPhone }) => {
       console.log("📩 astrologer-requestStatus-new-notification:", data);
 
       setNewRequestNotification(data.requestStatusData?.requestStatus);
+      // Optionally save to secureLocalStorage if needed
+      secureLocalStorage.setItem(
+        "requestStatusNotifications",
+        data.requestStatusData?.requestStatus
+      );
     };
 
+    // Add listeners
     socket.on(
       "astrologer-requestStatus-new-notification",
       handleNewRequestStatusNotification
     );
+    socket.on(
+      "astrologer-requestPaidChat-new-notification",
+      handleNewRequestStatusNotification
+    );
 
-    // Cleanup listener on unmount
+    // Clean up both listeners on unmount
     return () => {
       socket.off(
         "astrologer-requestStatus-new-notification",
+        handleNewRequestStatusNotification
+      );
+      socket.off(
+        "astrologer-requestPaidChat-new-notification",
         handleNewRequestStatusNotification
       );
     };
@@ -192,7 +214,7 @@ const AstroNotification = ({ astrologerPhone }) => {
 
   const updateNotificationSingleChat =
     updateNotification && matchAstrologerMobile;
-console.log("matchAstrologerMobile",matchAstrologerMobile);
+  console.log("matchAstrologerMobile", matchAstrologerMobile);
 
   console.log(
     "updateNotificationFreeChat",
@@ -200,12 +222,13 @@ console.log("matchAstrologerMobile",matchAstrologerMobile);
     updateNotificationSingleChat
   );
 
-  
-    
+  const shouldShowNotification =
+    (newRequestNotification === true && updateNotificationFreeChat) ||
+    (newRequestNotification === 0 && updateNotificationSingleChat);
 
   return (
     <>
-      {updateNotificationSingleChat && (
+      {shouldShowNotification && (
         <div className="notification-astro">
           <div className="notification-box">
             <h4>New Chat Request</h4>

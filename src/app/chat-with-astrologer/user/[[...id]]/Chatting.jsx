@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useRef } from "react";
 import secureLocalStorage from "react-secure-storage";
 import EndChatPopUp from "@/app/component/EndChatPopUp";
+import RatingPopUp from "@/app/component/RatingPopUp";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
   transports: ["websocket"],
@@ -18,7 +19,7 @@ export default function Chatting(AdminCommissionData) {
   const [timeLeft, setTimeLeft] = useState(null);
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
   const [showEndChat, setShowEndChat] = useState(false);
-  console.log(totalChatTime, timeLeft);
+    const [showRating, setShowRating] = useState(false);  
 
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
@@ -406,6 +407,23 @@ export default function Chatting(AdminCommissionData) {
   //  useEffect(()=>{
   //    setActualChargeUserChat(totalChatPrice);
   //  },[totalChatPrice])
+
+  console.log(showRating);
+
+  useEffect(() => {
+    const className = "rating-popup-opened";
+
+    if (showRating) {
+      document.body.classList.add(className);
+    } else {
+      document.body.classList.remove(className);
+    }
+
+    return () => {
+      document.body.classList.remove(className);
+    };
+  }, [showRating]);
+
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
 
@@ -415,6 +433,17 @@ export default function Chatting(AdminCommissionData) {
         <EndChatPopUp
           setShowEndChat={setShowEndChat}
           onCloseEndChat={endChatStatus} // pass function, not result
+          setShowRating={setShowRating}
+        />
+      )}
+
+      {showRating && (
+        <RatingPopUp
+        userId={userIds}
+         astrologerId={astrologerId}
+         setShowRating={setShowRating}
+         showUserData={showUserData}
+
         />
       )}
 

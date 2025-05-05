@@ -2,17 +2,20 @@
 
 import { useRouter } from "next/navigation";
 
-const EndChatPopUp = ({ setShowEndChat, onCloseEndChat }) => {
+
+const EndChatPopUp = ({ setShowEndChat, onCloseEndChat, setShowRating }) => {
   const router = useRouter();
   const handleConfirmEndChat = async () => {
     try {
       setShowEndChat(false);
+      setShowRating(true)
       await onCloseEndChat(); // properly wait for the async logic
-      router.push("/"); // redirect to the root route
+      // router.push("/"); // redirect to the root route
     } catch (error) {
       console.error("Error ending chat:", error);
     }
   };
+
 
   return (
     <div className="parent-recharge-popup">

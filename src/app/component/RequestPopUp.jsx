@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react'
+import secureLocalStorage from 'react-secure-storage';
+import io from "socket.io-client";
 
-const RequestPopUp = () => {
+// Initialize socket connection
+const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
+  transports: ["websocket"],
+  reconnection: true,
+});
+
+const RequestPopUp = ({setIsLoadingRequest}) => {
     const [timer, setTimer] = useState(1); 
 
     useEffect(() => {
@@ -13,10 +21,21 @@ const RequestPopUp = () => {
       return () => clearInterval(interval); 
     }, [timer]);
 
+    // const handleUpdateNotification =()=>{
+    //   console.log("jhgjhgjhghg============");
+      
+    //   socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
+    //   socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
+    //   secureLocalStorage.setItem("IsLoadingRequestStore", false);
+    //   setIsLoadingRequest(false);
+
+    // }
+
   return (
     <section className="countdown-outer">
     <div className="container">
         <div className="countdown-inner">
+          {/* <button onClick={handleUpdateNotification}>Close X</button> */}
             <div className="countdown-top-cont">
                 <h1>Please wait....</h1>
                 <p>The astrologer will connect with you shortly.</p>
