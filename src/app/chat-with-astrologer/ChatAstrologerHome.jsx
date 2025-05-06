@@ -68,6 +68,14 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     JSON.parse(secureLocalStorage.getItem("selectedLanguages")) || []
   );
 
+  const [averageRating, setAverageRating] = useState(
+    JSON.parse(secureLocalStorage.getItem("averageRating")) || []
+  );
+
+  const [experienceAstrologer, setExperienceAstrologer] = useState(
+    JSON.parse(secureLocalStorage.getItem("experienceAstrologer")) || []
+  );
+
   console.log(astrologerId);
 
   // Memoize the fetch function to prevent unnecessary recreations
@@ -77,7 +85,11 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
 
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile?name=${searchName}&sortby=${sortFilterCharges}&page=1&limit=10&languages=${findLanguageListData}&professions=${findSkillsListData}&gender=${genderData}&country=${countryData}`
+        `${
+          process.env.NEXT_PUBLIC_WEBSITE_URL
+        }/astrologer-businessProfile?name=${searchName}&sortby=${
+          sortFilterCharges || ""
+        }&page=1&limit=18&languages=${findLanguageListData}&professions=${findSkillsListData}&gender=${genderData}&country=${countryData}&minAverageRating=${averageRating}&experienceLessThan=${experienceAstrologer}`
       );
       setShowAstrologer(response.data.profiles);
     } catch (err) {
@@ -94,6 +106,8 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     findSkillsListData,
     genderData,
     countryData,
+    averageRating,
+    experienceAstrologer,
   ]);
 
   useEffect(() => {
@@ -110,6 +124,8 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     findSkillsListData,
     genderData,
     countryData,
+    averageRating,
+    experienceAstrologer,
   ]);
 
   const handleSearchChange = (e) => {
@@ -414,6 +430,10 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
           setGenderData={setGenderData}
           languageListData={languageListData}
           skillsListData={skillsListData}
+          averageRating={averageRating}
+          setAverageRating={setAverageRating}
+          experienceAstrologer={experienceAstrologer}
+          setExperienceAstrologer={setExperienceAstrologer}
         />
       )}
 
@@ -534,7 +554,10 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                       <a href={`/best-astrologer/${item?.name}`} key={item.id}>
                         <div className="astrologer-list-left">
                           <div className="astrologer-profile">
-                            <img src={`${item?.profileImage}`} alt="Sauvikh" />
+                            <img
+                              src={`${`https://aws.astrotalk.com/consultant_pic/p-106783.jpg`}`}
+                              alt={item?.name}
+                            />
                           </div>
                           <div className="five-star-rating">
                             <ul className="stars">

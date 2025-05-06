@@ -17,6 +17,11 @@ const MultiFilters = ({
   setGenderData,
   languageListData,
   skillsListData,
+  setExperienceAstrologer,
+  experienceAstrologer,
+  setAverageRating,
+  averageRating
+
 }) => {
   const [activeTab, setActiveTab] = useState("skill");
   const [getProfessionsList, setGetProfessionsList] =
@@ -35,14 +40,17 @@ const MultiFilters = ({
     const storedSkills = JSON.parse(secureLocalStorage.getItem("selectedSkills"));
     const storedGender = JSON.parse(secureLocalStorage.getItem("selectedGender"));
     const storedCountry = JSON.parse(secureLocalStorage.getItem("selectedCountry"));
+    const storedRating = JSON.parse(secureLocalStorage.getItem("averageRating"));
+    const storedExperience = JSON.parse(secureLocalStorage.getItem("experienceAstrologer"));
 
     // If no data, first time -> Save default data into secureLocalStorage
-    if (!storedLanguages || !storedSkills || !storedGender || !storedCountry) {
+    if (!storedLanguages || !storedSkills || !storedGender || !storedCountry || !storedRating || !storedExperience) {
       const defaultLanguages = languageListData.map((lang) => lang.languages);
       const defaultSkills = skillsListData.map((skill) => skill.professions);
-      const defaultGender = ["Male", "Female"]; // assuming you have these
-      const defaultCountry = ["India", "Outside_India"]; // assuming you have these
-
+      const defaultGender = ["Male", "Female"]; 
+      const defaultCountry = ["India", "Outside_India"]; 
+      const defaultRating = 0
+      const defaultExperience = 50
       secureLocalStorage.setItem(
         "selectedLanguages",
         JSON.stringify(defaultLanguages)
@@ -50,6 +58,8 @@ const MultiFilters = ({
       secureLocalStorage.setItem("selectedSkills", JSON.stringify(defaultSkills));
       secureLocalStorage.setItem("selectedGender", JSON.stringify(defaultGender));
       secureLocalStorage.setItem("selectedCountry", JSON.stringify(defaultCountry));
+      secureLocalStorage.setItem("averageRating", JSON.stringify(defaultRating));
+      secureLocalStorage.setItem("experienceAstrologer", JSON.stringify(defaultExperience));
 
       setGetLanguageListData(defaultLanguages);
       setGetProfessionsList(defaultSkills);
@@ -354,42 +364,28 @@ const MultiFilters = ({
                   <input type="checkbox" name="Offer" /> <span>Not Active</span>
                 </label>
               </div>
-
-              <div
-                className={`tab-pane ${
-                  activeTab === "top Astrologer" ? "active" : ""
-                }`}
-                id="top"
-              >
-                <label>
-                  <input type="checkbox" name="top_astrologer" />{" "}
-                  <span>Celebrity</span>
-                  <p>
-                    They have the highest fan following & people are crazy about
-                    them
-                  </p>
-                </label>
-                <label>
-                  <input type="checkbox" name="top_astrologer" />{" "}
-                  <span>Top Choice</span>
-                  <p>
-                    If you talk to them once, you are their customer for life
-                  </p>
-                </label>
-                <label>
-                  <input type="checkbox" name="top_astrologer" />{" "}
-                  <span>Rising Star</span>
-                  <p>They are high in demand & have strong customer loyalty</p>
-                </label>
-                <label>
-                  <input type="checkbox" name="top_astrologer" />{" "}
-                  <span>All</span>
-                  <p>
-                    It includes all verified astrologers, hired after 5 rounds
-                    of interviews
-                  </p>
-                </label>
-              </div>
+              {activeTab === "top Astrologer" && (
+                <div className="tab-pane active" id="top">
+                  {[
+                    { value: "4.5", label: "Celebrity", desc: "They have the highest fan following & people are crazy about them" },
+                    { value: "4.7", label: "Top Choice", desc: "If you talk to them once, you are their customer for life" },
+                    { value: "10", label: "Rising Star", desc: "They are high in demand & have strong customer loyalty" },
+                    { value: "", label: "All", desc: "Includes all verified astrologers, hired after 5 rounds of interviews" },
+                  ].map(({ value, label, desc }) => (
+                    <label key={value}>
+                      <input
+                        type="checkbox"
+                        name="top_astrologer"
+                        // value={value}
+                        // checked={getExperienceListData.includes(value)}
+                        // onChange={() => handleTopAstrologerChange(value)}
+                      />
+                      <span>{label}</span>
+                      <p>{desc}</p>
+                    </label>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 

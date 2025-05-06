@@ -157,7 +157,7 @@ export const validateAstrologerForm = (formType) => {
     if (!country) errors.country = "Must select at least one Country";
     if (!gender) errors.gender = "Must select at least one Gender";
     // if (!Offer) errors.Offer = "Must select at least one Offer";
-    // if (!top_astrologer) errors.top_astrologer = "Must select at least one Top Astrologers";
+    if (!top_astrologer) errors.top_astrologer = "Must select at least one Top Astrologers";
   }
 
   return errors;

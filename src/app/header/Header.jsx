@@ -163,12 +163,16 @@ useEffect(() => {
   };
 
   return (
-    <header className="wedding-header">
+    <header className="header">
+      {
+        otpPopUpDisplay == true &&
+      
       <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
         {otpPopUpDisplay && (
           <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
         )}
       </div>
+}
       <div className="container">
         <div className="inner-header-sec ctm-flex-row ctm-align-items-center ctm-justify-content-between">
           <div className="header-left-logo">
