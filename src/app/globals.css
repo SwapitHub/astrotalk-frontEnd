@@ -43,7 +43,6 @@ button {
     font-family: inherit;
 }
 .loader {
-    min-height: calc(100vh - 190px);
     min-height: 450px;
     text-align: center;
     display: flex;
@@ -56,6 +55,15 @@ button {
     background-color: transparent;
     font-size: 0px;
 }
+.talk-to-astrologer-bg .loader {
+    background-color: #ffffff;
+    position: absolute;
+    left: 0px;
+    z-index: 1;
+    width: 100%;
+    top: 100px;
+    min-height: calc(100vh  - 225px);
+}
 
 /* Main Div Flex Start*/
 .ctm-flex-row {
@@ -64,10 +72,8 @@ button {
     flex-wrap: wrap;
     gap: 20px;
 }
-/* Main Div Flex End*/
 
 /* Justify Content Start*/
-
 .ctm-justify-content-center {
     justify-content: center;
 }
@@ -83,7 +89,6 @@ button {
 .ctm-justify-content-around {
     justify-content: space-around;
 }
-/* Justify Content End*/
 
 /* Align Items Start*/
 .ctm-align-items-start {
@@ -98,9 +103,45 @@ button {
 .ctm-align-items-baseline {
     align-self: baseline;
 }
-/* Align Items End*/
+
 
 /*  Header Section */
+.header {
+    padding: 10px 0;
+    box-shadow: 0 0 10px #d7d7d7;
+}
+nav.navbar > ul > li {
+    padding: 3px 20px;
+}
+nav.navbar ul li a {
+    color: inherit;
+}
+.header-left-logo, .header-right-profil-icon {
+    width: calc(11% - 20px);
+}
+nav.navbar {
+    width: calc(78% - 20px);
+}
+nav.navbar ul {
+    justify-content: center;
+    display: flex;
+}
+.header button {
+    display: inline-block;
+    border: 1px solid var(--body_content_color);
+    background-color: var(--body_content_color);
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 15px;
+    cursor: pointer;
+}
+.header button:hover {
+	background-color: transparent;
+	color: var(--body_content_color);
+}
+
+/*  Chat Section */
 .chat-top-header {
   padding: 10px;
   background-color: transparent;
@@ -213,9 +254,7 @@ scrollbar-width: thin;
 scrollbar-color: #ddd #ddd;
 }
 
-/*  Header Section End Here */
-
-/*  Sent Button Bottom Start Here  */
+/*  Sent Button Bottom  */
 .send-input-button {
     background-color: #f0f0f0;
     padding: 14px 20px;
@@ -281,9 +320,8 @@ scrollbar-color: #ddd #ddd;
     align-items: center;
     color: #959b9d;
 }
-/*  Sent Button Bottom End Here  */
 
-/*  Inner Chats Start Here  */
+/*  Inner Chats  */
 .astro-chat {
     background-color: #ffffff;
     padding: 10px 14px;
@@ -315,7 +353,6 @@ scrollbar-color: #ddd #ddd;
     font-size: 13px;
     margin-top: 5px;
 }
-
 /*  Inner Chats End Here  */
 
 .recharge-now-section ul li p {
@@ -394,9 +431,7 @@ scrollbar-color: #ddd #ddd;
     border-radius: 5px;
 }
 
-
 /* Notification popup  */
-
 .notification-astro {
   position: fixed;
   right: 20px;
@@ -426,9 +461,8 @@ scrollbar-color: #ddd #ddd;
 	font-size: 14px;
 	margin-left: 15px;
 }
-/*  Inner Chats End Here  */
 
-/*  Thank You Section Start  */
+/*  Thank You Section  */
 .astrologer-registration-bg {
     padding: 50px 0;
     background-color: #f8f8f8;
@@ -478,9 +512,8 @@ scrollbar-color: #ddd #ddd;
 .thanks-section-content p + p {
     margin-top: 30px;
 }
-/*  Thank You End Here  */
 
-/*  Talk to Astrologer Section Start  */
+/*  Talk to Astrologer Section  */
 
 .talk-to-astrologer-bg {
     padding :50px 0;
@@ -638,10 +671,7 @@ scrollbar-color: #ddd #ddd;
     height: 100px;
 }
 
-/*  Talk to AstrologerYou End Here  */
-
 /* Recharge Popup */
-
 .main-recharge-popup {
     margin: 0 auto;
     text-align: center;
@@ -677,14 +707,11 @@ scrollbar-color: #ddd #ddd;
 }
 .all-list-talk-to-astrologer  {
     margin-top: 30px;
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 .inner-astrologer-detail  {
-    width: calc(100% / 3 - 14px);
-    background-color: #fff;
     box-shadow: 0 0 10px #ccc;
     border-radius: 10px;
     display: flex;
@@ -704,7 +731,7 @@ scrollbar-color: #ddd #ddd;
     width: 70px;
 }
 .astrologer-list-center {
-    width: calc(100% - 162px);
+    width: calc(100% - 145px);
 }
 .astrologer-list-right {
     position: relative;
@@ -803,17 +830,18 @@ scrollbar-color: #ddd #ddd;
 .five-star-rating ul li {
     max-width: max-content;
 }
-.five-star-rating ul li svg {
+.five-star-rating ul li svg,
+.stars li svg {
     width: 12px;
     fill: goldenrod;
+    stroke: goldenrod;
 }
 .talk-to-total-orders p {
     color: #616161;
     font-size: 12px;
 }
 
-/*  Talk to AstrologerYou End Here  */
-/*  Inner Chats End Here  */
+/* Astrologer Registratio */
 .astrologer-registration-bg {
     padding: 50px 0;
     background-color: #f8f8f8;
@@ -863,7 +891,6 @@ scrollbar-color: #ddd #ddd;
     border-radius: 50%;
     height: 70px;
     object-fit: contain;
-
 }
 .user-profile-pick a i {
     position: absolute;
@@ -1006,7 +1033,6 @@ ul.check-box-drop-worn {
 }
 
 /*  dashboard astrologer */
-
 .dashboard-inner {
 	display: flex;
 	flex-wrap: wrap;
@@ -1073,7 +1099,6 @@ fill: #ffffff;
   position: relative;
   padding: 5px 13px 5px 35px;
 }
-
 .dashboard-left-dashboard ul li ul li a:hover {
   opacity: 1;
 }
@@ -1104,7 +1129,6 @@ fill: #ffffff;
 .dashboard-column {
   width: calc(25% - 24px);
 }
-
 .dashboard-right-content table {
   width: 100%;
   text-align: center;
@@ -1128,10 +1152,7 @@ p.error, .error-message {
   color: red;
 }
 
-
-/* dashboard astrologer */
-
-/*  06-march-2025 */
+/*  Send OTP popup */
 .send-otp.man-input-filed-sec {
     max-width: 480px;
     margin: 0 auto;
@@ -1259,29 +1280,6 @@ p.error, .error-message {
     font-size: 20px;
 }
 
-/* ================== Define Css End Here ================== */
-
-/* ================== Header Section Start Here ================== */
-.header {
-    padding: 10px 0;
-    box-shadow: 0 0 10px #d7d7d7;
-}
-nav.navbar > ul > li {
-    padding: 3px 20px;
-}
-nav.navbar ul li a {
-    color: inherit;
-}
-.header-left-logo, .header-right-profil-icon {
-    width: calc(11% - 20px);
-}
-nav.navbar {
-    width: calc(78% - 20px);
-}
-nav.navbar ul {
-    justify-content: center;
-    display: flex;
-}
 /* dashboard */
 
 .user-dashboard-profile img {
@@ -1354,12 +1352,10 @@ nav.navbar ul {
     position: relative;
     max-width: max-content;
     margin-left: auto;
-    padding-bottom: 14px;
+    padding-block: 14px;
 }
-/* dashboard */
-/*  Header Section End Here  */
 
-/*  Notifications Section Start Here */
+/*  Notifications Section */
 .banner-notifications-bg {
     margin-top: 50px;
 }
@@ -1406,9 +1402,7 @@ section.all-notifications-sec-bg {
     margin-right: 5px;
 }
 
-/* Notifications Section End Here */
-
-/*  My Wallet Section Start Here */
+/*  My Wallet Section */
 .wallet-ctm-tab-menu ul li button, .wallet-ctm-tab-menu ul li a {
     background-color: #fff;
     color: var(--primary_color);
@@ -1525,10 +1519,8 @@ section.all-notifications-sec-bg {
     font-size: 12px;
     margin-top: 4px;
 }
-/* table */
-/*  My Wallet Section End Here  */
 
-/*  Add Money to Wallet Section Start Here  */
+/*  Add Money to Wallet Section  */
 section.add-money-wallet-bg {
     margin: 50px 0;
 }
@@ -1599,9 +1591,8 @@ table, th, td {
     border: 1px solid black;
     border-collapse: collapse;
 }
-/* Add Money to Wallet Section End Here */
 
-/* Order History Section Start Here */
+/* Order History Section */
 .my-order-hisrory-bg .wallet-ctm-tab-menu.wallet-ctm-tab-menu {
     margin-top: 30px;
 }
@@ -1714,7 +1705,8 @@ table, th, td {
     align-items: center;
     flex-wrap: wrap;
 }
-/* ================== Order History Section End Here ================== */
+
+/* ============== */
 body.user-recharge {
     position: fixed;
     width: 100%;
@@ -1740,7 +1732,7 @@ body.user-recharge:before {
     opacity: 0.2;
     z-index: 55;
 }
-/*========================9 April-2025====================*/
+
 .inner-scroll {
     display: flex;
     flex-wrap: wrap;
@@ -1928,14 +1920,14 @@ body.user-recharge:before {
 }
 /* 26-april-2025 */
 
-/* astrologer_profile_Section detail start */
+/* astrologer_profile_Section */
 .astrologer {
     padding-block: 100px;
 }
 .breadcrumb ul {
     margin: 0;
     list-style: none;
-    padding: 6px 0;
+    padding: 25px 0 10px;
 }
 .breadcrumb ul span.icon {
     background: #ccc;
@@ -1995,9 +1987,9 @@ body.user-recharge:before {
     margin: 0 0 15px;
 }
 .profile_with_contact_slider {
-    border: 1px solid #0003;
     border-radius: 10px;
     padding: 15px;
+    background-color: #f2f2f2;
 }
 .profile_with_contact .image {
     flex: 0 0 25%;
@@ -2053,7 +2045,6 @@ body.user-recharge:before {
 }
 .about_astrologer p {
     margin-bottom: 10px;
-    color: #616161;
 }
 .details_of_conversation {
     display: flex;
@@ -2063,7 +2054,6 @@ body.user-recharge:before {
     display: flex;
     font-size: 16px;
     margin-right: 40px;
-    color: #616161;
     display: flex;
     align-items: center;
     font-weight: 400;
@@ -2079,21 +2069,12 @@ body.user-recharge:before {
     height: auto;
 }
 .btns_astrolgers_contact {
-    display: flex;
-    box-shadow: 0 0 4px #ccc;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
     border-radius: 30px;
-    padding: 8px 17px;
-    transition: all .3s ease-in-out;
-    min-height: 55px;
-    background-color: #fff;
-    border: 1px solid #eb0029;
-    color: #eb0029;
-    flex: 0 0 auto;
-    width: 41.66666667%;
-    cursor: pointer;
+    padding: 10px 50px;
+    background-color: transparent;
+    border: 1px solid var(--primary_color);
+    color: var(--primary_font);
+    font-size: 16px;
 }
 .btns_astrolgers_contact .icon {
     width: 25px;
@@ -2110,6 +2091,10 @@ body.user-recharge:before {
 .btns_astrolgers_contact .start_btn {
     width: calc(100% - 20px);
     text-align: center;
+}
+.charges b {
+	color: var(--primary_color);
+	font-size: 16px;
 }
 /* slider */
 .slider_inner .slick-slide {
@@ -2128,33 +2113,32 @@ body.user-recharge:before {
 
 /* about us */
 .profile_with_contact_slider .about_us {
-    margin-top: 15px;
+	margin-top: 15px;
+	border-top: 1px solid #ddd;
+	padding: 20px 0px 0px;
 }
 .profile_with_contact_slider .about_us h2 {
     font-size: 20px;
     text-align: center;
     font-weight: 600;
     margin-bottom: 10px;
-    color: #454545;
 }
 .profile_with_contact_slider .about_us p {
     font-size: 14px;
-    font-weight: 400;
     margin: 0;
-    overflow: hidden;
-    color: #616161;
-    text-align: justify;
 }
 
 /* rating */
 .rating_review {
     margin: 10px 0 0;
 }
-.rating_col,
-.header_similar_consultants {
+.rating_col {
     border-radius: 10px;
-    border: 1px solid #0003;
     padding: 14px;
+    background-color: #f2f2f2;
+}
+.header_similar_consultants {
+    margin: 20px 0px 0px;
 }
 .rating_review .row {
     display: grid;
@@ -2165,10 +2149,11 @@ body.user-recharge:before {
 .rating_col h2,
 h2.check_similar_text {
     font-size: 20px;
-    margin-bottom: 10px;
-    color: #454545;
     font-weight: 600;
     text-align: left;
+}
+.rating_col h2 {
+    margin: 0 0 10px;
 }
 .review {
     align-items: center;
@@ -2187,7 +2172,6 @@ h2.check_similar_text {
     font-size: 40px;
     margin-bottom: 0;
     font-weight: 400;
-    color: #313131;
     line-height: 1;
 }
 span.star.full,
@@ -2201,14 +2185,20 @@ span.star {
     color: #616161;
 }
 .status_bar_ratting {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
+	margin: 0 0 10px;
 }
-span.number_progress_bar {
-    font-size: 22px;
-    color: #616161;
-    margin-right: 10px;
-    display: block;
+.number_progress_bar {
+	font-size: 16px;
+	margin-right: 10px;
+	width: 30px;
+	height: 30px;
+	background-color: #ffffff;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 .progress.width_custom {
     background-color: #eee;
@@ -2216,9 +2206,6 @@ span.number_progress_bar {
     border-radius: 10px;
     height: 16px;
     overflow: hidden;
-}
-.progress.width_custom .progress-bar {
-    height: 100%;
 }
 .progress-bar.bg_green {
     background-color: #3ed33e;
@@ -2234,6 +2221,10 @@ span.number_progress_bar {
 }
 .progress-bar.bg_voilet {
     background-color: #e63124;
+}
+.progress.width_custom .progress-bar {
+    height: 100%;
+    background-color: var(--primary_color);
 }
 .header_similar_consultants {
     display: flex;
@@ -2254,7 +2245,7 @@ span.number_progress_bar {
     border: 1px solid #0003;
     border-radius: 10px;
     margin: 0 0 10px;
-    padding: 4px 10px;
+    padding: 10px 20px;
     display: flex;
     align-items: center;
     position: relative;
@@ -2269,10 +2260,6 @@ span.number_progress_bar {
 /* 24-04-2025 */
 .sort-modal {
     width: 300px;
-    border: 1px solid #ccc;
-    background: #fff;
-    padding: 15px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
 }
 .sort-header {
     display: flex;
@@ -2286,7 +2273,6 @@ span.number_progress_bar {
     display: block;
     padding: 8px 0;
     cursor: pointer;
-    color: #004d4d;
 }
 .sort-options input[type="radio"] {
     margin-right: 10px;
@@ -2306,19 +2292,19 @@ span.number_progress_bar {
     border-radius: 50%;
     position: absolute;
     left: 0;
-    top: 0;
     background-color: #fff;
-    border: 2px solid teal;
+    top: 1.5px;
+    border: 2px solid var(--primary_color);
 }
 .sort-modal .sort-options label span::after {
     content: "";
     position: absolute;
-    left: 4px;
-    top: 5px;
-    border-left: 3px solid white;
-    border-bottom: 3px solid white;
-    width: 9px;
-    height: 4px;
+    left: 5px;
+    top: 8px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    width: 8px;
+    height: 3px;
     transform: rotate(-45deg);
     display: none;
 }
@@ -2326,21 +2312,7 @@ span.number_progress_bar {
     display: block;
 }
 .sort-modal .sort-options label input:checked + span::before {
-    background-color: teal;
-}
-.header button {
-    display: inline-block;
-    border: 1px solid var(--body_content_color);
-    background-color: var(--body_content_color);
-    color: #fff;
-    padding: 8px 20px;
-    border-radius: 50px;
-    font-size: 15px;
-    cursor: pointer;
-}
-.header button:hover {
-	background-color: transparent;
-	color: var(--body_content_color);
+    background-color: var(--primary_color);
 }
 
 
@@ -2366,7 +2338,10 @@ span.number_progress_bar {
     z-index: 2;
     background-color: #fff;
 }
-body.user-filter-popup::before {
+.user-filter-popup, .multi-user-filter-popup, .sort-user-filter-popup, .loading-user-filter-popup {
+    position: relative;
+}
+.user-filter-popup::before, .multi-user-filter-popup::before, .sort-user-filter-popup::before, .loading-user-filter-popup::before {
     content: "";
     position: absolute;
     width: 100%;
@@ -2374,26 +2349,36 @@ body.user-filter-popup::before {
     top: 0px;
     left: 0px;
     background-color: rgba(0, 0, 0, .5);
-    z-index: 1;
+    z-index: 2;
+    min-height: 100vh;
 }
-.user-filter-popup .sort-modal,.user-filter-popup .filter-modal {
-    height: auto;
+.sort-modal,
+.filter-modal {
     position: fixed;
     z-index: 9;
     background-color: transparent;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -100%);
     border: 0;
-    box-shadow: none;
+    transition: all .4s;
+    opacity: 0;
+    visibility: hidden;
+    overflow-y: auto;
+    max-height: 100vh;
 }
-.user-filter-popup .sort-options {
+.sort-user-filter-popup .sort-modal, .multi-user-filter-popup .filter-modal {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%);
+}
+ .sort-options {
     text-align: left;
 }
-.user-filter-popup .sort-header, .user-filter-popup .filter-header {
+.sort-header, .filter-header {
     align-items: center;
 }
-.user-filter-popup .sort-header > button,.user-filter-popup .filter-header > button {
+.sort-header > button, .filter-header > button {
     border: 0px;
     width: 20px;
     height: 20px;
@@ -2402,11 +2387,7 @@ body.user-filter-popup::before {
     font-weight: 700;
 }
 .filter-modal {
-    border: 2px solid #e3e3e3;
     width: 400px;
-    background: #fff;
-    padding: 10px;
-    overflow: hidden;
 }
 .filter-header {
     display: flex;
@@ -2503,7 +2484,7 @@ body.user-filter-popup::before {
 .filter-content .tab-pane label input:checked + span::before {
     background-color: teal;
 }
-.user-filter-popup .main-recharge-popup > * {
+.main-recharge-popup > * {
     width: 100%;
 }
 .filter-footer button {
@@ -2516,9 +2497,6 @@ li.active a {
 /* 24-04-2025 */
 
 /* 25-04-2025 */
-.user-filter-popup .filter-modal, .user-filter-popup .sort-modal {
-	padding: 0px;
-}
 .filter-outer {
     display: flex;
     justify-content: space-between;
@@ -2540,8 +2518,8 @@ li.active a {
 .filter-header span {
     font-weight: 500;
 }
-.user-filter-popup .filter-header > button,
-.user-filter-popup .sort-header > button {
+.filter-header > button,
+.sort-header > button {
     width: 28px;
     height: 28px;
     font-size: 22px;
@@ -2624,23 +2602,6 @@ li.active a {
 }
 /* 25-04-2025 */
 
-/* 29-04-2025 */
-.sort-modal .sort-options label span:before {
-    top: 1.5px;
-    border: 2px solid var(--primary_color);
-}
-.sort-modal .sort-options label span:after {
-    left: 5px;
-    top: 8px;
-    border-left: 2px solid #fff;
-    border-bottom: 2px solid #fff;
-    width: 8px;
-    height: 3px;
-}
-.sort-modal .sort-options label input:checked+span:before {
-    background-color: var(--primary_color);
-}
- 
 /* Payment */
 .outer-payment {
     padding: 70px 0px;
@@ -2818,17 +2779,18 @@ input::file-selector-button {
 .outer-payment table tr td:last-child {
     text-align: right;
 }
-.skills,
-.talk-to-language {
+.skills, .talk-to-language, .lang-outer {
     display: flex;
     flex-wrap: wrap;
 }
-.skills span,
-.talk-to-language span {
+.skills span, .talk-to-language span, .lang-outer span {
     color: var(--body_content_color);
     font-size: 14px;
 }
-.skills span:not(:last-child)::after, .talk-to-language span:not(:last-child)::after {
+.skills span.des {
+	font-size: 16px;
+}
+.skills span:not(:last-child)::after, .talk-to-language span:not(:last-child)::after, .lang-outer span:not(:last-child)::after {
     display: inline-block;
     margin: 0px 4px;
     line-height: 1;
@@ -2866,6 +2828,10 @@ input::file-selector-button {
     padding: 20px;
     box-sizing: border-box;
     border-radius: 20px;
+    /* display: none; */
+}
+.loading-user-filter-popup .countdown-outer {
+    display: block;
 }
 .countdown-outer h1 {
     margin: 0 0 10px;
@@ -2949,8 +2915,12 @@ input::file-selector-button {
     overflow-x: hidden;
     overflow-y: auto;
     padding: 12px;
-    border: 1px solid #0003;
     border-radius: 10px;
+    background-color: #f2f2f2;
+}
+.profile-image-name {
+	display: flex;
+	align-items: center;
 }
 .sort-filter-rating {
     border: 1px solid #ccc;
@@ -2962,7 +2932,8 @@ input::file-selector-button {
     align-items: center;
 }
 .sort-left h6 {
-    font-size: 20px;
+	font-size: 16px;
+	font-weight: 600;
 }
 .sort-right {
     display: flex;
@@ -2978,12 +2949,13 @@ input::file-selector-button {
     background-color: #fff;
     min-height: 70px;
     padding: 15px;
-    box-shadow: 0 0 2px 2px #ccc;
     margin-bottom: 10px;
     border-radius: 10px;
 }
 h2.review-heading {
-    margin: 0 0 15px;
+	margin: 0 0 15px;
+	font-weight: 600;
+	font-size: 18px;
 }
 .free-chat-main {
     padding: 70px 0px;
@@ -3011,10 +2983,29 @@ h2.review-heading {
     text-transform: capitalize;
     margin: 20px 0px 0px;
 }
+.name-text {
+	font-size: 16px;
+	font-weight: 600;
+}
+
 /* ================== @ Media Css Start Here ================== */
 @media (max-width:1199px) {
     .astrologer {
         padding-block: 60px;
+    }
+    .all-list-talk-to-astrologer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .inner-talk-to-astrologer {
+        row-gap: 15pxs;
+    }
+    .talk-to-astrologer-left-content,
+    .talk-to-astrologer-right-content {
+        width: 100%;
+    }
+    .talk-to-astrologer-right-content,
+    .recharge-button {
+        margin-left: 0px;
     }
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
@@ -3035,6 +3026,17 @@ h2.review-heading {
     }
 }
 @media (max-width: 767px) {
+
+    /* Header Section */
+    .navbar {
+        display: none;
+    }
+    .header-left-logo, .header-right-profil-icon {
+        width: auto;
+        max-width: 70px;
+    }
+
+
     .profile_with_contact {
         flex-direction: column;
         align-items:normal;
@@ -3077,6 +3079,9 @@ h2.review-heading {
     }
     .about_astrologer p span {
         font-size: 12px;
+    }
+    .all-list-talk-to-astrologer {
+        grid-template-columns: repeat(1, 1fr);
     }
 }
 @media (max-width:575px) {

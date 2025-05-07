@@ -17,8 +17,7 @@ const MultiFilters = ({
   setGenderData,
   languageListData,
   skillsListData,
-  setExperienceAstrologer,
-  experienceAstrologer,
+
   setAverageRating,
   averageRating
 
@@ -30,7 +29,9 @@ const MultiFilters = ({
     useState(findLanguageListData);
   const [getGenderListData, setGetGenderListData] = useState(genderData);
   const [getCountryListData, setGetCountryListData] = useState(countryData);
+  const [getTopAstrologerData, setGetTopAstrologerData] = useState(averageRating);
   const [errors, setErrors] = useState({});
+console.log(getTopAstrologerData, averageRating);
 
   useEffect(() => {
     
@@ -41,16 +42,14 @@ const MultiFilters = ({
     const storedGender = JSON.parse(secureLocalStorage.getItem("selectedGender"));
     const storedCountry = JSON.parse(secureLocalStorage.getItem("selectedCountry"));
     const storedRating = JSON.parse(secureLocalStorage.getItem("averageRating"));
-    const storedExperience = JSON.parse(secureLocalStorage.getItem("experienceAstrologer"));
 
     // If no data, first time -> Save default data into secureLocalStorage
-    if (!storedLanguages || !storedSkills || !storedGender || !storedCountry || !storedRating || !storedExperience) {
+    if (!storedLanguages || !storedSkills || !storedGender || !storedCountry || !storedRating ) {
       const defaultLanguages = languageListData.map((lang) => lang.languages);
       const defaultSkills = skillsListData.map((skill) => skill.professions);
       const defaultGender = ["Male", "Female"]; 
       const defaultCountry = ["India", "Outside_India"]; 
-      const defaultRating = 0
-      const defaultExperience = 50
+      const defaultRating = ["celebrity", "top_choice", "rising_star", "All"];
       secureLocalStorage.setItem(
         "selectedLanguages",
         JSON.stringify(defaultLanguages)
@@ -59,30 +58,34 @@ const MultiFilters = ({
       secureLocalStorage.setItem("selectedGender", JSON.stringify(defaultGender));
       secureLocalStorage.setItem("selectedCountry", JSON.stringify(defaultCountry));
       secureLocalStorage.setItem("averageRating", JSON.stringify(defaultRating));
-      secureLocalStorage.setItem("experienceAstrologer", JSON.stringify(defaultExperience));
 
       setGetLanguageListData(defaultLanguages);
       setGetProfessionsList(defaultSkills);
       setGetGenderListData(defaultGender);
       setGetCountryListData(defaultCountry);
+      setGetTopAstrologerData(defaultRating)
 
       // Also update parent states
       setFindLanguageListData(defaultLanguages);
       setFindSkillsListData(defaultSkills);
       setGenderData(defaultGender);
       setCountryData(defaultCountry);
+      setAverageRating(defaultRating)
     } else {
       // If data exists, load from secureLocalStorage
       setGetLanguageListData(storedLanguages);
       setGetProfessionsList(storedSkills);
       setGetGenderListData(storedGender);
       setGetCountryListData(storedCountry);
+      setGetTopAstrologerData(storedRating)
+
 
       // Also update parent states
       setFindLanguageListData(storedLanguages);
       setFindSkillsListData(storedSkills);
       setGenderData(storedGender);
       setCountryData(storedCountry);
+      setAverageRating(storedRating)
     }
   }, [languageListData, skillsListData]);
 
@@ -102,12 +105,15 @@ const MultiFilters = ({
     secureLocalStorage.setItem("selectedSkills", JSON.stringify(getProfessionsList));
     secureLocalStorage.setItem("selectedGender", JSON.stringify(getGenderListData));
     secureLocalStorage.setItem("selectedCountry", JSON.stringify(getCountryListData));
+    secureLocalStorage.setItem("averageRating", JSON.stringify(getTopAstrologerData));
+
 
     // Set in parent state also
     setFindLanguageListData(getLanguageListData);
     setFindSkillsListData(getProfessionsList);
     setGenderData(getGenderListData);
     setCountryData(getCountryListData);
+    setAverageRating(getTopAstrologerData)
 
     setTimeout(() => {
       setMultiFilterStatus(false);
@@ -144,24 +150,29 @@ const MultiFilters = ({
     const defaultSkills = skillsListData.map((skill) => skill.professions);
     const defaultGender = ["Male", "Female"];
     const defaultCountry = ["India", "Outside_India"];
+    const defaultRating = ["celebrity", "top_choice", "rising_star","All"];
 
     // Update local state
     setGetLanguageListData(defaultLanguages);
     setGetProfessionsList(defaultSkills);
     setGetGenderListData(defaultGender);
     setGetCountryListData(defaultCountry);
+    setGetTopAstrologerData(defaultRating)
 
     // Update parent state too
     setFindLanguageListData(defaultLanguages);
     setFindSkillsListData(defaultSkills);
     setGenderData(defaultGender);
     setCountryData(defaultCountry);
+    setAverageRating(defaultRating)
 
     // Save into secureLocalStorage
     secureLocalStorage.setItem("selectedLanguages", JSON.stringify(defaultLanguages));
     secureLocalStorage.setItem("selectedSkills", JSON.stringify(defaultSkills));
     secureLocalStorage.setItem("selectedGender", JSON.stringify(defaultGender));
     secureLocalStorage.setItem("selectedCountry", JSON.stringify(defaultCountry));
+    secureLocalStorage.setItem("averageRating", JSON.stringify(defaultRating));
+
 
     setMultiFilterStatus(false);
   };
@@ -364,28 +375,39 @@ const MultiFilters = ({
                   <input type="checkbox" name="Offer" /> <span>Not Active</span>
                 </label>
               </div>
-              {activeTab === "top Astrologer" && (
-                <div className="tab-pane active" id="top">
+            
+                <div className={`tab-pane ${activeTab === "top Astrologer"? "active":""}`} id="top">
                   {[
-                    { value: "4.5", label: "Celebrity", desc: "They have the highest fan following & people are crazy about them" },
-                    { value: "4.7", label: "Top Choice", desc: "If you talk to them once, you are their customer for life" },
-                    { value: "10", label: "Rising Star", desc: "They are high in demand & have strong customer loyalty" },
-                    { value: "", label: "All", desc: "Includes all verified astrologers, hired after 5 rounds of interviews" },
+                    { value: "celebrity", label: "Celebrity", desc: "They have the highest fan following & people are crazy about them" },
+                    { value: "top_choice", label: "Top Choice", desc: "If you talk to them once, you are their customer for life" },
+                    { value: "rising_star", label: "Rising Star", desc: "They are high in demand & have strong customer loyalty" },
+                    { value: "All", label: "All", desc: "Includes all verified astrologers, hired after 5 rounds of interviews" },
                   ].map(({ value, label, desc }) => (
                     <label key={value}>
                       <input
-                        type="checkbox"
-                        name="top_astrologer"
-                        // value={value}
-                        // checked={getExperienceListData.includes(value)}
-                        // onChange={() => handleTopAstrologerChange(value)}
+                         type="checkbox"
+                         name="top_astrologer"
+                         value={value}
+                         checked={Array.isArray(getTopAstrologerData) && getTopAstrologerData.includes(value)}
+                         onChange={(e) => {
+                           const value = e.target.value;
+                           if (e.target.checked) {
+                             setGetTopAstrologerData((prev) =>
+                               Array.isArray(prev) ? [...prev, value] : [value]
+                             );
+                           } else {
+                             setGetTopAstrologerData((prev) =>
+                               Array.isArray(prev) ? prev.filter((l) => l !== value) : []
+                             );
+                           }
+                         }}
                       />
                       <span>{label}</span>
                       <p>{desc}</p>
                     </label>
                   ))}
                 </div>
-              )}
+              
             </div>
           </div>
 

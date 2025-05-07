@@ -72,9 +72,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     JSON.parse(secureLocalStorage.getItem("averageRating")) || []
   );
 
-  const [experienceAstrologer, setExperienceAstrologer] = useState(
-    JSON.parse(secureLocalStorage.getItem("experienceAstrologer")) || []
-  );
+ 
 
   console.log(astrologerId);
 
@@ -89,7 +87,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
           process.env.NEXT_PUBLIC_WEBSITE_URL
         }/astrologer-businessProfile?name=${searchName}&sortby=${
           sortFilterCharges || ""
-        }&page=1&limit=18&languages=${findLanguageListData}&professions=${findSkillsListData}&gender=${genderData}&country=${countryData}&minAverageRating=${averageRating}&experienceLessThan=${experienceAstrologer}`
+        }&page=1&limit=18&languages=${findLanguageListData}&professions=${findSkillsListData}&gender=${genderData}&country=${countryData}&minAverageRating=${averageRating}`
       );
       setShowAstrologer(response.data.profiles);
     } catch (err) {
@@ -107,7 +105,6 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     genderData,
     countryData,
     averageRating,
-    experienceAstrologer,
   ]);
 
   useEffect(() => {
@@ -125,7 +122,6 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     genderData,
     countryData,
     averageRating,
-    experienceAstrologer,
   ]);
 
   const handleSearchChange = (e) => {
@@ -229,13 +225,30 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
       socket.off("userId-to-astrologer-error");
     };
   }, []);
+
   useEffect(() => {
-    if (sortFilterStatus || multiFilterStatus || isLoadingRequest) {
-      document.body.classList.add("user-filter-popup");
-    } else {
-      document.body.classList.remove("user-filter-popup");
+    // Remove all related classes first
+    document.body.classList.remove(
+      "sort-user-filter-popup",
+      "multi-user-filter-popup",
+      "loading-user-filter-popup"
+    );
+  
+    // Add the correct one based on the current status
+    if (sortFilterStatus) {
+      document.body.classList.add("sort-user-filter-popup");
+    } else if (multiFilterStatus) {
+      document.body.classList.add("multi-user-filter-popup");
+    } else if (isLoadingRequest) {
+      document.body.classList.add("loading-user-filter-popup");
     }
   }, [sortFilterStatus, multiFilterStatus, isLoadingRequest]);
+  
+
+
+
+
+  
 
   const handelUserLogin = () => {
     setOtpPopUpDisplay(true);
@@ -407,15 +420,15 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
         />
       )}
 
-      {sortFilterStatus && (
+      
         <SortByFilter
           setSortFilterStatus={setSortFilterStatus}
           setSortFilterCharges={setSortFilterCharges}
           sortFilterCharges={sortFilterCharges}
         />
-      )}
+    
 
-      {multiFilterStatus && (
+     
         <MultiFilters
           setMultiFilterStatus={setMultiFilterStatus}
           setMultiFilter={setMultiFilter}
@@ -432,10 +445,9 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
           skillsListData={skillsListData}
           averageRating={averageRating}
           setAverageRating={setAverageRating}
-          experienceAstrologer={experienceAstrologer}
-          setExperienceAstrologer={setExperienceAstrologer}
+         
         />
-      )}
+     
 
       <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
         {otpPopUpDisplay && (

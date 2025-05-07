@@ -4,8 +4,17 @@ import React, { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 import io from "socket.io-client";
 import UserRecharge from "../component/UserRechargePopUp";
-import { IoHome, IoStar, IoStarHalf, IoStarOutline,IoCallSharp  } from "react-icons/io5";
+import {
+  IoHome,
+  IoStar,
+  IoStarHalf,
+  IoStarOutline,
+  IoCallSharp,
+} from "react-icons/io5";
 import { SiMessenger } from "react-icons/si";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   withCredentials: true,
@@ -141,6 +150,31 @@ export const AstrologerDetail = ({ astrologerData }) => {
 
     return stars;
   };
+
+  const ratings = {
+    5: astrologerData?.averageRating_5,
+    4: astrologerData?.averageRating_4,
+    3: astrologerData?.averageRating_3,
+    2: astrologerData?.averageRating_2,
+    1: astrologerData?.averageRating_1,
+  };
+
+  const colorClasses = {
+    5: "bg_green",
+    4: "bg_blue",
+    3: "bg_light_green",
+    2: "bg_brown",
+    1: "bg_voilet",
+  };
+  const sliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 700,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    autoplay: false,
+    autoplaySpeed: 2000,
+  };
   return (
     <>
       {showRecharge && (
@@ -186,13 +220,13 @@ export const AstrologerDetail = ({ astrologerData }) => {
               </div>
               <div className="about_astrologer">
                 <p className="skills">
-                {astrologerData?.professions?.map((item) => {
-                  return (
-                    <>
-                      <span className="des">{item}</span>
-                    </>
-                  );
-                })}
+                  {astrologerData?.professions?.map((item) => {
+                    return (
+                      <>
+                        <span className="des">{item}</span>
+                      </>
+                    );
+                  })}
                 </p>
                 <p className="lang-outer">
                   {astrologerData?.languages?.map((item) => {
@@ -213,7 +247,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
               <div className="details_of_conversation">
                 <div className="chat_details">
                   <div className="icon_details">
-                  <SiMessenger />
+                    <SiMessenger />
                   </div>
                   <b>181K</b>
                   mins
@@ -222,7 +256,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
                 <div className="call_details">
                   <div className="chat_details">
                     <div className="icon_details">
-                    <IoCallSharp />
+                      <IoCallSharp />
                     </div>
                     <b>224K</b>
                     mins
@@ -231,110 +265,143 @@ export const AstrologerDetail = ({ astrologerData }) => {
               </div>
 
               <div className="btns_chat_call">
-                <button className="btns_astrolgers_contact">
-                  <div className="icon">
-                    {/* <img src="./Images/busy-status-chat.webp" /> */}
-                  </div>
-                  <div className="start_btn">
-                    {astrologerData.chatStatus == false ? (
-                      <div className="astrologer-call-button-ctm-detail">
-                        {userAmount >= astrologerData.charges * 2 ? (
-                          <a
-                            href={`/chat-with-astrologer/user/${userIds}`}
-                            onClick={() =>
-                              onChangeId(
-                                astrologerData._id,
-                                astrologerData.mobileNumber,
-                                // item.profileImage,
-                                astrologerData.name,
-                                astrologerData.charges,
-                                astrologerData.experience
-                              )
-                            }
-                          >
-                            Chat{" "}
-                          </a>
-                        ) : (
-                          <a
-                            href="#"
-                            onClick={() =>
-                              onChangeId(
-                                astrologerData._id,
-                                astrologerData.mobileNumber,
-                                // item.profileImage,
-                                astrologerData.name,
-                                astrologerData.charges,
-                                astrologerData.experience
-                              )
-                            }
-                          >
-                            chat
-                          </a>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="astrologer-call-button-ctm chatStatus-false">
-                        <button
-                        // onClick={() =>
-                        //   onChangeId(item._id, item.mobileNumber)
-                        // }
+                <div className="start_btn">
+                  {astrologerData.chatStatus == false ? (
+                    <div className="astrologer-call-button-ctm-detail">
+                      {userAmount >= astrologerData.charges * 2 ? (
+                        <a
+                          className="btns_astrolgers_contact"
+                          href={`/chat-with-astrologer/user/${userIds}`}
+                          onClick={() =>
+                            onChangeId(
+                              astrologerData._id,
+                              astrologerData.mobileNumber,
+                              // item.profileImage,
+                              astrologerData.name,
+                              astrologerData.charges,
+                              astrologerData.experience
+                            )
+                          }
                         >
-                          Chat
-                        </button>
-                        <span>waiting 5 minutes</span>
-                      </div>
-                    )}
-                  </div>
-                </button>
+                          <span className="icon">
+                            <SiMessenger />
+                          </span>
+                          Chat{" "}
+                        </a>
+                      ) : (
+                        <a
+                          className="btns_astrolgers_contact"
+                          href="#"
+                          onClick={() =>
+                            onChangeId(
+                              astrologerData._id,
+                              astrologerData.mobileNumber,
+                              // item.profileImage,
+                              astrologerData.name,
+                              astrologerData.charges,
+                              astrologerData.experience
+                            )
+                          }
+                        >
+                          <span className="icon">
+                            <SiMessenger />
+                          </span>
+                          chat
+                        </a>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="astrologer-call-button-ctm chatStatus-false">
+                      <button
+                      // onClick={() =>
+                      //   onChangeId(item._id, item.mobileNumber)
+                      // }
+                      >
+                        Chat
+                      </button>
+                      <span>waiting 5 minutes</span>
+                    </div>
+                  )}
+                </div>
+
                 {/* <button className="btns_astrolgers_contact">
-                <div className="icon">
-                  <img src="./Images/busy-status-call.webp" />
-                </div>
-                <div className="start_btn call">
-                  <div className="strt">Start call</div>
-                  <div className="avialable_comming text-danger ng-star-inserted">
-                    <div className="ng-star-inserted">Wait time ~ 19m </div>
-                  </div>
-                </div>
-              </button> */}
+             <div className="icon">
+               <img src="./Images/busy-status-call.webp" />
+             </div>
+             <div className="start_btn call">
+               <div className="strt">Start call</div>
+               <div className="avialable_comming text-danger ng-star-inserted">
+                 <div className="ng-star-inserted">Wait time ~ 19m </div>
+               </div>
+             </div>
+           </button> */}
               </div>
             </div>
           </div>
 
           {/* <!--- slider --> */}
 
-          <div className="slider_main">
-            <div className="slider_inner">
-              <div className="slick_slider">
-                <div className="slide_item">
-                  <div className="slide_inner">
-                    {/* <img src="./Images/slider/slide1.png" /> */}
-                  </div>
-                </div>
-                <div className="slide_item">
-                  <div className="slide_inner">
-                    {/* <img src="./Images/slider/slide2.png" /> */}
-                  </div>
-                </div>
-                <div className="slide_item">
-                  <div className="slide_inner">
-                    {/* <img src="./Images/slider/slide3.png" /> */}
-                  </div>
-                </div>
-                <div className="slide_item">
-                  <div className="slide_inner">
-                    {/* <img src="./Images/slider/slide4.png" /> */}
-                  </div>
-                </div>
-                <div className="slide_item">
-                  <div className="slide_inner">
-                    {/* <img src="./Images/slider/slide4.png" /> */}
-                  </div>
-                </div>
-              </div>
+          <Slider {...sliderSettings}
+          responsive={[
+            {
+              breakpoint: 1198,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 4,
+                infinite: true,
+              },
+            },
+            {
+              breakpoint: 800,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                infinite: true,
+              },
+            },
+            {
+              breakpoint: 639,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                infinite: true,
+              },
+            },
+            {
+              breakpoint: 375,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2,
+                infinite: true,
+              },
+            },
+          ]}
+          >
+            <div className="astro-img">
+              <img
+                src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/262x262/images/6f17062e-24d1-4772-afcd-4de411d68d49.jpeg"
+                alt=""
+              />
             </div>
-          </div>
-
+            <div className="astro-img">
+              <img
+                src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/262x262/images/6f17062e-24d1-4772-afcd-4de411d68d49.jpeg"
+                alt=""
+              />
+            </div>
+            <div className="astro-img">
+              <img
+                src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/262x262/images/6f17062e-24d1-4772-afcd-4de411d68d49.jpeg"
+                alt=""
+              />
+            </div>
+            <div className="astro-img">
+              <img
+                src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/262x262/images/6f17062e-24d1-4772-afcd-4de411d68d49.jpeg"
+                alt=""
+              />
+            </div>
+          </Slider>
           {/* <!--- about section --> */}
 
           <div className="about_us">
@@ -365,131 +432,24 @@ export const AstrologerDetail = ({ astrologerData }) => {
                     </div>
                   </div>
                   <div className="ratting-review">
-                    <div
-                      _ngcontent-serverapp-c96=""
-                      className="status_bar_ratting"
-                    >
-                      <span
-                        _ngcontent-serverapp-c96=""
-                        className="number_progress_bar"
-                      >
-                        5
-                      </span>
-                      <div
-                        _ngcontent-serverapp-c96=""
-                        className="progress width_custom"
-                      >
-                        <div
-                          _ngcontent-serverapp-c96=""
-                          role="progressbar"
-                          aria-valuenow="75"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                          aria-label="Excellent Ratting"
-                          className="progress-bar bg_green"
-                        ></div>
-                      </div>
-                    </div>
-                    <div
-                      _ngcontent-serverapp-c96=""
-                      className="status_bar_ratting"
-                    >
-                      <span
-                        _ngcontent-serverapp-c96=""
-                        className="number_progress_bar"
-                      >
-                        4
-                      </span>
-                      <div
-                        _ngcontent-serverapp-c96=""
-                        className="progress width_custom"
-                      >
-                        <div
-                          _ngcontent-serverapp-c96=""
-                          role="progressbar"
-                          aria-valuenow="75"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                          aria-label="Good Ratting"
-                          className="progress-bar bg_blue"
-                        ></div>
-                      </div>
-                    </div>
-                    <div
-                      _ngcontent-serverapp-c96=""
-                      className="status_bar_ratting"
-                    >
-                      <span
-                        _ngcontent-serverapp-c96=""
-                        className="number_progress_bar"
-                      >
-                        3
-                      </span>
-                      <div
-                        _ngcontent-serverapp-c96=""
-                        className="progress width_custom"
-                      >
-                        <div
-                          _ngcontent-serverapp-c96=""
-                          role="progressbar"
-                          aria-valuenow="75"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                          aria-label="Average Ratting"
-                          className="progress-bar bg_light_green"
-                        ></div>
-                      </div>
-                    </div>
-                    <div
-                      _ngcontent-serverapp-c96=""
-                      className="status_bar_ratting"
-                    >
-                      <span
-                        _ngcontent-serverapp-c96=""
-                        className="number_progress_bar"
-                      >
-                        2
-                      </span>
-                      <div
-                        _ngcontent-serverapp-c96=""
-                        className="progress width_custom"
-                      >
-                        <div
-                          _ngcontent-serverapp-c96=""
-                          role="progressbar"
-                          aria-valuenow="75"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                          aria-label="Poor Ratting"
-                          className="progress-bar bg_brown"
-                        ></div>
-                      </div>
-                    </div>
-                    <div
-                      _ngcontent-serverapp-c96=""
-                      className="status_bar_ratting"
-                    >
-                      <span
-                        _ngcontent-serverapp-c96=""
-                        className="number_progress_bar"
-                      >
-                        1
-                      </span>
-                      <div
-                        _ngcontent-serverapp-c96=""
-                        className="progress width_custom"
-                      >
-                        <div
-                          _ngcontent-serverapp-c96=""
-                          role="progressbar"
-                          aria-valuenow="75"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                          aria-label="Very Poor Ratting"
-                          className="progress-bar bg_voilet"
-                        ></div>
-                      </div>
-                    </div>
+                    {Object.entries(ratings)
+                      .sort((a, b) => b[0] - a[0])
+                      .map(([star, percent]) => (
+                        <div key={star} className="status_bar_ratting">
+                          <span className="number_progress_bar">{star}</span>
+                          <div className="progress width_custom">
+                            <div
+                              role="progressbar"
+                              aria-valuenow={percent}
+                              aria-valuemin={0}
+                              aria-valuemax={100}
+                              aria-label={`${star} Star Rating`}
+                              className={`progress-bar ${colorClasses[star]}`}
+                              style={{ width: `${percent}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -580,7 +540,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
                       })}
                     </div>
                   )}
-                 {onchangeTabbing == "Most_Recent" && (
+                  {onchangeTabbing == "Most_Recent" && (
                     <div className="similar-conslt-reviews-sec">
                       {astrologerData?.reviews.map((item) => {
                         return (
