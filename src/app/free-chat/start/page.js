@@ -79,7 +79,7 @@ const StartUserName = () => {
 
     if (!formData) return;
 
-    const phone = datePhoneAvailable?.phone;
+    const phone = userMobile ? userMobile : datePhoneAvailable?.phone 
 
     if (phone) {
       try {
@@ -220,28 +220,28 @@ const StartUserName = () => {
                         </label>
                       </div>
                       <div className="man-input-filed-sec input-gender-sec common-input-filed">
-                      <div className="inner-radio">
-                        <input
-                          type="radio"
-                          id="yes"
-                          name="YesNO"
-                          value="yes"
-                          required
-                          onChange={() => setDateOfBirthAvailable("yes")}
-                        />
-                        <label for="html">Yes</label>
+                        <div className="inner-radio">
+                          <input
+                            type="radio"
+                            id="yes"
+                            name="YesNO"
+                            value="yes"
+                            required
+                            onChange={() => setDateOfBirthAvailable("yes")}
+                          />
+                          <label for="html">Yes</label>
                         </div>
 
                         <div className="inner-radio">
-                        <input
-                          type="radio"
-                          id="no"
-                          name="YesNO"
-                          value="no"
-                          required
-                          onChange={() => setDateOfBirthAvailable("no")}
-                        />
-                        <label for="css">No</label>
+                          <input
+                            type="radio"
+                            id="no"
+                            name="YesNO"
+                            value="no"
+                            required
+                            onChange={() => setDateOfBirthAvailable("no")}
+                          />
+                          <label for="css">No</label>
                         </div>
                       </div>
                       {dateOfBirthAvailable == "yes" && (
@@ -265,18 +265,16 @@ const StartUserName = () => {
                         </label>
                       </div>
                       <div className="man-input-filed-sec erch-input-filed">
-                        
-                          <input
-                            type="search"
-                            id="searchAddress"
-                            name="gsearch"
-                            placeholder="Where were you born"
-                            className="common-input-filed"
-                          />
-                          <button type="submit" className="ctm-white-color">
-                            <i className="fa-solid fa-magnifying-glass"></i>
-                          </button>
-                        
+                        <input
+                          type="search"
+                          id="searchAddress"
+                          name="gsearch"
+                          placeholder="Where were you born"
+                          className="common-input-filed"
+                        />
+                        <button type="submit" className="ctm-white-color">
+                          <i className="fa-solid fa-magnifying-glass"></i>
+                        </button>
                       </div>
                     </div>
 
@@ -309,9 +307,11 @@ const StartUserName = () => {
                     </div>
                   </div>
                   <div className="reg-sumbit-button">
-                    <button type="button" onClick={handleUserSignUpData}>
-                      Start Chat With Astrologer
-                    </button>
+                   
+                      <button type="button" onClick={handleUserSignUpData}>
+                        {userMobile?"Update User Detail":"Start Chat With Astrologer"}
+                      </button>
+                  
                   </div>
                 </form>
               </div>

@@ -187,7 +187,7 @@ const Header = () => {
                 <li>
                   <Link
                     href={`${
-                      userMobile ? "/chat-with-astrologer" : "/free-chat"
+                      userMobile ? "/free-chat/start" : "/free-chat"
                     }`}
                     onClick={() => {
                       setIsLoading(true);
