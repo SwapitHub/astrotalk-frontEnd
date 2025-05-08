@@ -54,14 +54,14 @@ function UserOtpLoginData({ setOtpPopUpDisplay }) {
 
   const verifyOtp = async () => {
     const formData = {
-      first_name: document.getElementById("fname")?.value.trim(),
+      first_name: document.getElementById("fname")?.value?.trim(),
       gender:
         document.querySelector('input[name="gender"]:checked')?.value,
-      date_of_birth: document.getElementById("birthdayany")?.value.trim() ,
+      date_of_birth: document.getElementById("birthdayany")?.value?.trim() ,
       re_use_date_of_birth:
-        document.getElementById("birthdayReUse")?.value.trim() ,
-      placeOfBorn: document.getElementById("searchAddress")?.value.trim(),
-      languages: document.getElementById("language")?.value.trim(),
+        document.getElementById("birthdayReUse")?.value?.trim() ,
+      placeOfBorn: document.getElementById("searchAddress")?.value?.trim(),
+      languages: document.getElementById("language")?.value?.trim(),
       // mobileNumber: document.getElementById("mobileNumber")?.value.trim() || "",
     };
 console.log(formData);

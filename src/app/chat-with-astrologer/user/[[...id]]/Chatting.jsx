@@ -375,7 +375,6 @@ export default function Chatting(AdminCommissionData) {
   let userTotalAmount = showUserData?.totalAmount;
   let astroChatPricePerMinute = Math.round(astrologerData.charges);
   let totalTimeSecond = (userTotalAmount / astroChatPricePerMinute) * 60;
-  console.log(showUserData?.freeChatStatus);
 
   useEffect(() => {
     if (totalChatTime > 0 && showUserData?.freeChatStatus == false) {
@@ -408,7 +407,6 @@ export default function Chatting(AdminCommissionData) {
   //    setActualChargeUserChat(totalChatPrice);
   //  },[totalChatPrice])
 
-  console.log(showRating);
 
   useEffect(() => {
     const className = "rating-popup-opened";
@@ -426,6 +424,7 @@ export default function Chatting(AdminCommissionData) {
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
+console.log(showEndChat);
 
   return (
     <>

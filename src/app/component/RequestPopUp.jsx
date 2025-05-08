@@ -35,7 +35,7 @@ const RequestPopUp = ({setIsLoadingRequest}) => {
     <section className="countdown-outer">
     <div className="container">
         <div className="countdown-inner">
-          <button onClick={handleUpdateNotification}>Close X</button>
+          <span className="close-icon"><button onClick={handleUpdateNotification}>Close X</button></span>
             <div className="countdown-top-cont">
                 <h1>Please wait....</h1>
                 <p>The astrologer will connect with you shortly.</p>

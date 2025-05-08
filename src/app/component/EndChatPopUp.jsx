@@ -18,7 +18,7 @@ const EndChatPopUp = ({ setShowEndChat, onCloseEndChat, setShowRating }) => {
 
 
   return (
-    <div className="parent-recharge-popup">
+    <div className="end-chat-popup">
       <div className="main-recharge-popup">
         <div className="recharge-popup">
           <h3>End Chat</h3>

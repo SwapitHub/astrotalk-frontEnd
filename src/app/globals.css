@@ -126,15 +126,14 @@ nav.navbar ul {
     justify-content: center;
     display: flex;
 }
-.header button {
+.header button, .notification-box a {
     display: inline-block;
     border: 1px solid var(--body_content_color);
     background-color: var(--body_content_color);
     color: #fff;
     padding: 8px 20px;
     border-radius: 50px;
-    font-size: 15px;
-    cursor: pointer;
+    font-size: 14px;
 }
 .header button:hover {
 	background-color: transparent;
@@ -436,6 +435,7 @@ scrollbar-color: #ddd #ddd;
   position: fixed;
   right: 20px;
   top: 20px;
+  z-index: 9;
 }
 .notification-box {
     background-color: var(--primary_color);
@@ -457,9 +457,15 @@ scrollbar-color: #ddd #ddd;
 	margin: 0 0 5px;
 }
 .notification-box a {
-	color: #fff;
-	font-size: 14px;
-	margin-left: 15px;
+	border-color: #ffffff;
+    color: #ffffff;
+    margin-left: 5px;
+    background-color: transparent;
+}
+.button-outer {
+	border-top: 1px solid rgba(255, 255, 255, .5);
+	padding: 14px 0px 0px;
+	margin: 10px 0px 0px;
 }
 
 /*  Thank You Section  */
@@ -532,7 +538,7 @@ scrollbar-color: #ddd #ddd;
     color: #fff;
     border-radius: 5px;
     margin-left: 20px;
-    padding: 8px 30px;
+    padding: 9px 30px;
     font-size: 14px;
 }
 .recharge-button:hover {
@@ -544,7 +550,7 @@ scrollbar-color: #ddd #ddd;
     border-radius: 5px;
     width: max-content;
     border: 1px solid var(--body_content_color);
-    padding: 7px;
+    padding: 8px 7px;
     display: flex;
     align-items: center;
     gap: 3px;
@@ -677,16 +683,12 @@ scrollbar-color: #ddd #ddd;
     text-align: center;
     display: flex;
     justify-content: center;
-    align-items: center;
     background: #fff;
     max-width: 400px;
     align-items: center;
-    border: 1px solid;
-    border-radius: 5px;
     box-shadow: 0 11px 15px -7px #0003, 0 24px 38px 3px #00000024, 0 9px 46px 8px #0000001f;
     padding: 24px;
     border-radius: 10px;
-    border: none;
 }
 .recharge-popup .button button {
     color: #313131;
@@ -738,6 +740,7 @@ scrollbar-color: #ddd #ddd;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    max-width: 67px;
 }
 .astrologer-profile {
     width: 100%;
@@ -791,20 +794,24 @@ scrollbar-color: #ddd #ddd;
     border-radius: 5px;
     cursor: pointer;
 }
-.astrologer-call-button-ctm.chatStatus-false button {
+.astrologer-call-button-ctm.chatStatus-false a {
     color: var(--primary_color);
     background-color: #fff;
     border: 1px solid var(--primary_color);
-    color: var(--primary_color);
-    background-color: #fff;
-    padding: 10px 30px;
+    padding: 5px 15px;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 14px;
 }
-.astrologer-call-button-ctm.chatStatus-false span{
+.astrologer-call-button-ctm.chatStatus-false span:not(.icon) {
     color: var(--primary_color);
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.2;
+    display: inline-block;
+    margin: 7px 0px 0px;
 }
-.astrologer-call-button-ctm.chatStatus-false button:hover {
+.astrologer-call-button-ctm.chatStatus-false a:hover {
     background-color: var(--primary_color);
     color: #fff;
     transition: 0.3s ease-in-out;
@@ -832,9 +839,12 @@ scrollbar-color: #ddd #ddd;
 }
 .five-star-rating ul li svg,
 .stars li svg {
-    width: 12px;
+    width: 14px;
     fill: goldenrod;
     stroke: goldenrod;
+}
+.five-star-rating ul li svg {
+    width: 12px;
 }
 .talk-to-total-orders p {
     color: #616161;
@@ -1037,6 +1047,7 @@ ul.check-box-drop-worn {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 30px;
+    padding: 50px 0px;
 }
 .header-left-logo a {
     width: 85px;
@@ -1145,14 +1156,23 @@ fill: #ffffff;
   color: #fff;
   font-size: 15px;
 }
-.dashboard-inner {
-  padding-top: 50px;
-}
 p.error, .error-message {
   color: red;
 }
 
 /*  Send OTP popup */
+.outer-send-otp-main {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #0000003b;
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 .send-otp.man-input-filed-sec {
     max-width: 480px;
     margin: 0 auto;
@@ -1258,18 +1278,6 @@ p.error, .error-message {
     align-items: center;
     gap: 30px;
 }
-.outer-send-otp-main {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background-color: #0000003b;
-    z-index: 99;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
 /* 06-march-2025 */
 
 .ctm-underline-text {
@@ -1347,6 +1355,10 @@ p.error, .error-message {
     top: 0;
     bottom: 0;
     margin: auto;
+    color: var(--primary_color);
+}
+.user-dashboard-profile-drop-down-menu ul li a:hover span.amount-ctm-content {
+    color: var(--body_content_color);
 }
 .user-dashboard-profile-main-pro {
     position: relative;
@@ -1707,13 +1719,11 @@ table, th, td {
 }
 
 /* ============== */
-body.user-recharge {
-    position: fixed;
-    width: 100%;
-    height: 100vh;
+.user-recharge {
+    position: relative;
     overflow: hidden;
 }
-.parent-recharge-popup {
+.parent-recharge-popup, .end-chat-popup {
     position: fixed;
     width: 100%;
     height: 100%;
@@ -1722,6 +1732,18 @@ body.user-recharge {
     justify-content: center;
     top: 0;
     z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-100%);
+    transition: all 0.3s;
+}
+.end-chat-popup {
+    background-color: rgba(0, 0, 0, .5);
+}
+.user-recharge .parent-recharge-popup, .end-chat-popup {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 body.user-recharge:before {
     content: "";
@@ -1732,7 +1754,6 @@ body.user-recharge:before {
     opacity: 0.2;
     z-index: 55;
 }
-
 .inner-scroll {
     display: flex;
     flex-wrap: wrap;
@@ -1921,8 +1942,12 @@ body.user-recharge:before {
 /* 26-april-2025 */
 
 /* astrologer_profile_Section */
+
 .astrologer {
     padding-block: 100px;
+}
+.astrologer_profile_Section {
+	background-color: #f2f2f2;
 }
 .breadcrumb ul {
     margin: 0;
@@ -1987,9 +2012,13 @@ body.user-recharge:before {
     margin: 0 0 15px;
 }
 .profile_with_contact_slider {
-    border-radius: 10px;
-    padding: 15px;
+    padding: 10px 0px 25px;
     background-color: #f2f2f2;
+}
+.profile_with_contact_slider-inner {
+	padding: 15px;
+	background-color: #fff;
+	border-radius: 10px;
 }
 .profile_with_contact .image {
     flex: 0 0 25%;
@@ -2048,15 +2077,16 @@ body.user-recharge:before {
 }
 .details_of_conversation {
     display: flex;
+    gap: 40px;
     margin: 0 0 10px;
 }
 .chat_details {
     display: flex;
     font-size: 16px;
-    margin-right: 40px;
-    display: flex;
     align-items: center;
-    font-weight: 400;
+}
+.chat_details > b {
+    margin-right: 5px;
 }
 .icon_details {
     width: 20px;
@@ -2069,53 +2099,80 @@ body.user-recharge:before {
     height: auto;
 }
 .btns_astrolgers_contact {
+	border-radius: 30px;
+	padding: 10px 50px;
+	background-color: transparent;
+	border: 1px solid #13853a;
+	color: #13853a;
+	font-size: 16px;
+	min-width: 250px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    gap: 10px;
+}
+.btns_astrolgers_contact span {
+    line-height: 1;
+}
+.astrologer-call-button-ctm.chatStatus-false .btns_astrolgers_contact {
+	padding: 10px 50px;
     border-radius: 30px;
-    padding: 10px 50px;
+    display: flex;
     background-color: transparent;
-    border: 1px solid var(--primary_color);
-    color: var(--primary_font);
-    font-size: 16px;
-}
-.btns_astrolgers_contact .icon {
-    width: 25px;
-    min-width: 25px;
-}
-.btns_astrolgers_contact .icon img {
-    width: 100%;
-    height: auto;
 }
 .btns_chat_call {
     display: flex;
     gap: 24px;
 }
-.btns_astrolgers_contact .start_btn {
-    width: calc(100% - 20px);
-    text-align: center;
+.start_btn .astrologer-call-button-ctm > span {
+    width: 100%;
 }
 .charges b {
 	color: var(--primary_color);
 	font-size: 16px;
 }
 /* slider */
-.slider_inner .slick-slide {
-    margin: 10px 5px 0;
+.profile_with_contact_slider .slick-list {
+    padding-block: 20px;
 }
-.slide_inner img {
-    object-fit: cover;
-    border: 1px solid #eee;
-    object-position: center;
-    transition: all .3s ease-in-out;
+.profile_with_contact_slider .astro-img {
+    padding: 0px 10px;
+}
+.profile_with_contact_slider .slick-slide img {
     border-radius: 10px;
     width: 100%;
-    height: 100%;
-    box-shadow: 0 0 2px 2px #ccc;
 }
-
+.slick-arrow.slick-next {
+    right: -10px;
+}
+.slick-arrow.slick-prev {
+    left: -10px;
+}
+button.slick-arrow {
+    z-index: 9;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary_color) !important;
+}
+button.slick-arrow::before {
+	content: "";
+	width: 10px;
+	height: 10px;
+	border-top: 2px solid #fff;
+	border-left: 2px solid #fff;
+	display: inline-block;
+	transform: rotate(-45deg);
+	margin: 0 0 0 4px;
+    opacity: 1;
+}
+button.slick-arrow.slick-next::before {
+    transform: rotate(135deg);
+    margin: 0 4px 0px 0px;
+}
 /* about us */
 .profile_with_contact_slider .about_us {
 	margin-top: 15px;
-	border-top: 1px solid #ddd;
-	padding: 20px 0px 0px;
 }
 .profile_with_contact_slider .about_us h2 {
     font-size: 20px;
@@ -2130,15 +2187,12 @@ body.user-recharge:before {
 
 /* rating */
 .rating_review {
-    margin: 10px 0 0;
+    padding: 25px 0 50px;
 }
 .rating_col {
     border-radius: 10px;
     padding: 14px;
     background-color: #f2f2f2;
-}
-.header_similar_consultants {
-    margin: 20px 0px 0px;
 }
 .rating_review .row {
     display: grid;
@@ -2190,22 +2244,24 @@ span.star {
 	margin: 0 0 10px;
 }
 .number_progress_bar {
-	font-size: 16px;
+	font-size: 14px;
 	margin-right: 10px;
-	width: 30px;
-	height: 30px;
+	width: 25px;
+	height: 25px;
 	background-color: #ffffff;
 	border-radius: 50%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, .15);
 }
 .progress.width_custom {
-    background-color: #eee;
+    background-color: #ffffff;
     width: 80%;
     border-radius: 10px;
-    height: 16px;
+    height: 12px;
     overflow: hidden;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, .15);
 }
 .progress-bar.bg_green {
     background-color: #3ed33e;
@@ -2242,14 +2298,10 @@ span.star {
     margin-top: 10px;
 }
 .assistantBox .assHeading {
-    border: 1px solid #0003;
+    background-color: #f2f2f2;
     border-radius: 10px;
     margin: 0 0 10px;
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
+    padding: 15px 20px;
 }
 .assistantBox .assHeading img.img-fluid {
     width: 30px;
@@ -2448,41 +2500,46 @@ span.star {
 .filter-content .tab-pane label {
     margin-top: 13px;
 }
-.filter-content .tab-pane label span {
+.filter-content .tab-pane label span,
+.sort-radio input[type="radio"] + label {
     position: relative;
     padding-left: 25px;
 }
 .filter-content .tab-pane label input {
     display: none;
 }
-.filter-content .tab-pane label span::before {
+.filter-content .tab-pane label span::before,
+.sort-radio input[type="radio"] + label::before {
     content: "";
-    width: 16px;
-    height: 16px;
     border-radius: 50%;
     position: absolute;
     left: 0;
-    top: 0;
     background-color: #fff;
-    border: 2px solid teal;
+    width: 16px;
+    height: 16px;
+    top: 1.5px;
+    border: 2px solid var(--primary_color);
 }
-.filter-content .tab-pane label span::after {
+.filter-content .tab-pane label span::after,
+.sort-radio input[type="radio"] + label::after {
     content: "";
     position: absolute;
-    left: 4px;
-    top: 5px;
-    border-left: 3px solid white;
-    border-bottom: 3px solid white;
-    width: 9px;
-    height: 4px;
     transform: rotate(-45deg);
-    display: none;
+    left: 5px;
+    top: 8px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    width: 8px;
+    height: 3px;
+    opacity: 0;
+    transition: all .3s;
 }
-.filter-content .tab-pane label input:checked + span::after {
-    display: block;
+.filter-content .tab-pane label input:checked + span::after,
+.sort-radio input[type="radio"]:checked + label::after {
+    opacity: 1;
 }
 .filter-content .tab-pane label input:checked + span::before {
-    background-color: teal;
+    background-color: var(--primary_color);
 }
 .main-recharge-popup > * {
     width: 100%;
@@ -2562,23 +2619,6 @@ li.active a {
 }
 .filter-content .tab-pane {
     text-align: left;
-}
-.filter-content .tab-pane label span:before {
-    width: 16px;
-    height: 16px;
-    top: 1.5px;
-    border: 2px solid var(--primary_color);
-}
-.filter-content .tab-pane label input:checked + span:before {
-    background-color: var(--primary_color);
-}
-.filter-content .tab-pane label span:after {
-    left: 5px;
-    top: 8px;
-    border-left: 2px solid #fff;
-    border-bottom: 2px solid #fff;
-    width: 8px;
-    height: 3px;
 }
 .filter-footer button {
     display: inline-block;
@@ -2682,10 +2722,10 @@ input::file-selector-button {
     border-radius: 100px;
     color: #2f2f2f;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 15px;
     margin-right: 20px;
     padding: 7px 24px;
+    font-family: inherit;
 }
 .man-input-filed-sec {
     border: 0;
@@ -2828,7 +2868,8 @@ input::file-selector-button {
     padding: 20px;
     box-sizing: border-box;
     border-radius: 20px;
-    /* display: none; */
+    max-height: 100vh;
+    overflow-y: auto;
 }
 .loading-user-filter-popup .countdown-outer {
     display: block;
@@ -2900,11 +2941,36 @@ input::file-selector-button {
     width: 100%;
     color: green;
 }
-.five-star-rating ul li svg {
-    stroke: #daa520;
-}
 .talk-to-total-orders {
     text-align: center;
+}
+.close-icon {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.close-icon button {
+    font-size: 0px;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-icon button::before, .close-icon button::after {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 13px;
+    background-color: var(--body_content_color);
+    transform: rotate(45deg);
+}
+
+.close-icon button::after {
+    transform: rotate(-45deg);
 }
 /* End Rating Popup  */
 
@@ -2923,13 +2989,16 @@ input::file-selector-button {
 	align-items: center;
 }
 .sort-filter-rating {
-    border: 1px solid #ccc;
-    padding: 10px;
+    background-color: var(--primary_color);
+    padding: 10px 15px;
     border-radius: 10px;
     display: flex;
     margin-bottom: 10px;
     justify-content: space-between;
     align-items: center;
+}
+.sort-filter-rating * {
+    color: #ffffff;
 }
 .sort-left h6 {
 	font-size: 16px;
@@ -2944,6 +3013,24 @@ input::file-selector-button {
     display: flex;
     align-items: center;
     gap: 7px;
+    position: relative;
+}
+.sort-radio input {
+	position: absolute;
+	opacity: 0;
+	z-index: 1;
+	width: 100%;
+    cursor: pointer;
+}
+.sort-radio input[type="radio"] + label::before {
+    border-color: #ffffff;
+    background-color: transparent;
+}
+.sort-radio input[type="radio"]:checked + label::before {
+	background-color: #ffffff;
+}
+.sort-radio input[type="radio"] + label::after {
+    border-color: var(--primary_color);
 }
 .single-review {
     background-color: #fff;
@@ -2951,6 +3038,9 @@ input::file-selector-button {
     padding: 15px;
     margin-bottom: 10px;
     border-radius: 10px;
+}
+.single-review:last-child {
+    margin-bottom: 0px;
 }
 h2.review-heading {
 	margin: 0 0 15px;
@@ -3008,6 +3098,11 @@ h2.review-heading {
         margin-left: 0px;
     }
 }
+@media (max-width: 992px) {
+    .sort-right {
+        gap: 8px;
+    }
+}
 @media screen and (min-width: 768px) and (max-width: 992px) {
     .container {
         max-width: 750px;
@@ -3047,9 +3142,6 @@ h2.review-heading {
         flex: 0 0 100%;
         max-width: 100%;
     }
-    .profile_with_contact .image .follow-button {
-        margin-inline: 0;
-    }
     .btns_chat_call {
         flex-direction: column;
         gap: 0;
@@ -3070,8 +3162,6 @@ h2.review-heading {
         justify-content: center;
         border-top: 1px solid #ccc;
         padding-top: 10px;
-        margin-top: 10px;
-        padding-bottom: 10px;
     }
     .chat_details,
       .chat_details {
@@ -3082,6 +3172,18 @@ h2.review-heading {
     }
     .all-list-talk-to-astrologer {
         grid-template-columns: repeat(1, 1fr);
+    }
+    .sort-filter-rating {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    button.slick-arrow {
+        width: 25px;
+        height: 25px;
+    }
+    button.slick-arrow::before {
+        width: 7px;
+        height: 7px;
     }
 }
 @media (max-width:575px) {

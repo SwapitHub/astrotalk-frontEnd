@@ -176,7 +176,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
     autoplaySpeed: 2000,
   };
   return (
-    <>
+    <main className="main-content">
       {showRecharge && (
         <UserRecharge
           setShowRecharge={setShowRecharge}
@@ -184,9 +184,10 @@ export const AstrologerDetail = ({ astrologerData }) => {
         />
       )}
 
-      <div className="container">
-        <div className="astrologer_profile_Section">
-          <div className="breadcrumb">
+        <section className="astrologer_profile_Section">
+        <div className="container">
+          <div className="astrologer_profile_Section-inner">
+            <div className="breadcrumb">
             <ul>
               <li>
                 <a href="">
@@ -198,10 +199,14 @@ export const AstrologerDetail = ({ astrologerData }) => {
               </li>
             </ul>
           </div>
-        </div>
+          </div>
+          </div>
+        </section>
 
         {/* <!---- Profile image with contact and slider --> */}
-        <div className="profile_with_contact_slider">
+        <section className="profile_with_contact_slider">
+          <div className="container">
+          <div className="profile_with_contact_slider-inner">
           <div className="profile_with_contact">
             <div className="image">
               <div className="img">
@@ -249,8 +254,14 @@ export const AstrologerDetail = ({ astrologerData }) => {
                   <div className="icon_details">
                     <SiMessenger />
                   </div>
-                  <b>181K</b>
-                  mins
+                  <b>
+                    {astrologerData?.astroTotalChatTime >= 1000
+                      ? `${(astrologerData?.astroTotalChatTime / 1000).toFixed(
+                          1
+                        )}k`
+                      : astrologerData?.astroTotalChatTime || 0}
+                  </b> 
+                  <span> mins</span>
                 </div>
 
                 <div className="call_details">
@@ -258,8 +269,14 @@ export const AstrologerDetail = ({ astrologerData }) => {
                     <div className="icon_details">
                       <IoCallSharp />
                     </div>
-                    <b>224K</b>
-                    mins
+                    <b>
+                    {astrologerData?.astroTotalChatTime >= 1000
+                      ? `${(astrologerData?.astroTotalChatTime / 1000).toFixed(
+                          1
+                        )}k`
+                      : astrologerData?.astroTotalChatTime || 0}
+                  </b> 
+                  <span> mins</span>
                   </div>
                 </div>
               </div>
@@ -312,13 +329,18 @@ export const AstrologerDetail = ({ astrologerData }) => {
                     </div>
                   ) : (
                     <div className="astrologer-call-button-ctm chatStatus-false">
-                      <button
-                      // onClick={() =>
-                      //   onChangeId(item._id, item.mobileNumber)
-                      // }
+                      <a
+                        href="#"
+                        className="btns_astrolgers_contact"
+                        // onClick={() =>
+                        //   onChangeId(item._id, item.mobileNumber)
+                        // }
                       >
+                        <span className="icon">
+                          <SiMessenger />
+                        </span>
                         Chat
-                      </button>
+                      </a>
                       <span>waiting 5 minutes</span>
                     </div>
                   )}
@@ -340,42 +362,43 @@ export const AstrologerDetail = ({ astrologerData }) => {
           </div>
 
           {/* <!--- slider --> */}
-
-          <Slider {...sliderSettings}
-          responsive={[
-            {
-              breakpoint: 1198,
-              settings: {
-                slidesToShow: 3,
-                slidesToScroll: 4,
-                infinite: true,
+                  <div className="slider-outer">
+          <Slider
+            {...sliderSettings}
+            responsive={[
+              {
+                breakpoint: 1198,
+                settings: {
+                  slidesToShow: 3,
+                  slidesToScroll: 4,
+                  infinite: true,
+                },
               },
-            },
-            {
-              breakpoint: 800,
-              settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3,
-                infinite: true,
+              {
+                breakpoint: 800,
+                settings: {
+                  slidesToShow: 3,
+                  slidesToScroll: 3,
+                  infinite: true,
+                },
               },
-            },
-            {
-              breakpoint: 639,
-              settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3,
-                infinite: true,
+              {
+                breakpoint: 639,
+                settings: {
+                  slidesToShow: 3,
+                  slidesToScroll: 3,
+                  infinite: true,
+                },
               },
-            },
-            {
-              breakpoint: 375,
-              settings: {
-                slidesToShow: 2,
-                slidesToScroll: 2,
-                infinite: true,
+              {
+                breakpoint: 375,
+                settings: {
+                  slidesToShow: 2,
+                  slidesToScroll: 2,
+                  infinite: true,
+                },
               },
-            },
-          ]}
+            ]}
           >
             <div className="astro-img">
               <img
@@ -403,16 +426,20 @@ export const AstrologerDetail = ({ astrologerData }) => {
             </div>
           </Slider>
           {/* <!--- about section --> */}
-
+            </div>
           <div className="about_us">
             <h2>About me</h2>
             <p>{astrologerData.Description}</p>
           </div>
-        </div>
+          </div>
+          </div>
+        </section>
 
         {/* <!--- rating review --> */}
 
-        <div className="rating_review">
+        <section className="rating_review">
+        <div className="container">
+        <div className="rating_review-inner">
           <div className="row">
             <div className="left_col">
               <div className="rating_col">
@@ -514,7 +541,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
                   </div>
                   {onchangeTabbing == "Most_helpful" && (
                     <div className="similar-conslt-reviews-sec">
-                      {astrologerData?.reviews.map((item) => {
+                      {astrologerData?.reviews.slice(0,50).map((item) => {
                         return (
                           <>
                             <div className="single-review">
@@ -542,7 +569,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
                   )}
                   {onchangeTabbing == "Most_Recent" && (
                     <div className="similar-conslt-reviews-sec">
-                      {astrologerData?.reviews.map((item) => {
+                      {astrologerData?.reviews.slice(0,50).map((item) => {
                         return (
                           <>
                             <div className="single-review">
@@ -572,8 +599,9 @@ export const AstrologerDetail = ({ astrologerData }) => {
               </div>
             </div>
           </div>
-        </div>
       </div>
-    </>
+      </div>
+      </section>
+    </main>
   );
 };
