@@ -79,7 +79,7 @@ const StartUserName = () => {
 
     if (!formData) return;
 
-    const phone = userMobile ? userMobile : datePhoneAvailable?.phone 
+    const phone = userMobile ? userMobile : datePhoneAvailable?.phone;
 
     if (phone) {
       try {
@@ -307,11 +307,11 @@ const StartUserName = () => {
                     </div>
                   </div>
                   <div className="reg-sumbit-button">
-                   
-                      <button type="button" onClick={handleUserSignUpData}>
-                        {userMobile?"Update User Detail":"Start Chat With Astrologer"}
-                      </button>
-                  
+                    <button type="button" onClick={handleUserSignUpData}>
+                      {userMobile
+                        ? "Update User Detail"
+                        : "Start Chat With Astrologer"}
+                    </button>
                   </div>
                 </form>
               </div>
