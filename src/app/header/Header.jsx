@@ -16,15 +16,13 @@ const Header = () => {
   const [userDetailData, setUserDetailData] = useState();
   const [astroDetailData, setAstroDetailData] = useState();
   const [astrologerPhone, setAstrologerPhone] = useState();
-  const [isLoading, setIsLoading] = useState(false);
-
   const [admin_id, setAdmin_id] = useState(() =>
     secureLocalStorage.getItem("admin_id")
   );
 
   // console.log(astrologerPhone,astroDetailData);
   const [userMobile, setUserMobile] = useState();
-  console.log(admin_id, userMobile);
+  console.log(admin_id,userMobile);
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -46,26 +44,26 @@ const Header = () => {
   }, []);
 
   // Watch for userMobile updates
-  useEffect(() => {
-    const storedMobile = secureLocalStorage.getItem("userMobile");
-    if (storedMobile) {
-      setUserMobile(Math.round(storedMobile));
+useEffect(() => {
+  const storedMobile = secureLocalStorage.getItem("userMobile");
+  if (storedMobile) {
+    setUserMobile(Math.round(storedMobile));
+  }
+
+  const handleStorageChange = () => {
+    const updatedMobile = secureLocalStorage.getItem("userMobile");
+    if (updatedMobile) {
+      setUserMobile((updatedMobile));
+      // fetchUserDetail();
     }
+  };
 
-    const handleStorageChange = () => {
-      const updatedMobile = secureLocalStorage.getItem("userMobile");
-      if (updatedMobile) {
-        setUserMobile(updatedMobile);
-        // fetchUserDetail();
-      }
-    };
+  window.addEventListener("userMobileUpdated", handleStorageChange);
 
-    window.addEventListener("userMobileUpdated", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("userMobileUpdated", handleStorageChange);
-    };
-  }, []);
+  return () => {
+    window.removeEventListener("userMobileUpdated", handleStorageChange);
+  };
+}, []);
 
   useEffect(() => {
     const fetchAstroDetailData = async () => {
@@ -98,7 +96,7 @@ const Header = () => {
         console.error("user detail api error:", err);
       }
     };
-
+  
     if (userMobile) {
       fetchUserDetail();
     }
@@ -166,14 +164,15 @@ const Header = () => {
 
   return (
     <header className="header">
+      {
+        otpPopUpDisplay == true &&
       
-      {otpPopUpDisplay == true && (
-        <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
-          {otpPopUpDisplay && (
-            <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
-          )}
-        </div>
-      )}
+      <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
+        {otpPopUpDisplay && (
+          <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
+        )}
+      </div>
+}
       <div className="container">
         <div className="inner-header-sec ctm-flex-row ctm-align-items-center ctm-justify-content-between">
           <div className="header-left-logo">
@@ -187,27 +186,17 @@ const Header = () => {
                 <li>
                   <Link
                     href={`${
-                      userMobile ? "/free-chat/start" : "/free-chat"
+                      userMobile ? "/chat-with-astrologer" : "/free-chat"
                     }`}
-                    onClick={() => {
-                      setIsLoading(true);
-                      setTimeout(() => {
-                        setIsLoading(false);
-                      }, 3000);
-                    }}
                   >
                     Chat Now
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href={`${"/chat-with-astrologer"}`}
-                    onClick={() => {
-                      setIsLoading(true);
-                      setTimeout(() => {
-                        setIsLoading(false);
-                      }, 3000);
-                    }}
+                    href={`${
+                      "/chat-with-astrologer"
+                    }`}
                   >
                     Chat with Astrologer
                   </Link>
@@ -229,17 +218,7 @@ const Header = () => {
                   </div>
                 </li>
                 <li>
-                  <Link
-                    href="/signup"
-                    onClick={() => {
-                      setIsLoading(true);
-                      setTimeout(() => {
-                        setIsLoading(false);
-                      }, 3000);
-                    }}
-                  >
-                    Astrologer Registration
-                  </Link>
+                  <Link href="/signup">Astrologer Registration</Link>
                 </li>
                 {/* <li>
                   <Link href="/admin">Admin</Link>
@@ -264,7 +243,7 @@ const Header = () => {
                     <img
                       src={
                         astroDetailData
-                          ? `https://aws.astrotalk.com/consultant_pic/p-50896.jpg`
+                          ? `${astroDetailData?.profileImage}`
                           : `/user-profile-icon.jpg`
                       }
                       alt="user-profile"
@@ -276,7 +255,7 @@ const Header = () => {
                         <img
                           src={
                             astroDetailData
-                              ? `https://aws.astrotalk.com/consultant_pic/p-50896.jpg`
+                              ? `${astroDetailData?.profileImage}`
                               : `/user-profile-icon.jpg`
                           }
                           alt="user-profile"
@@ -311,7 +290,7 @@ const Header = () => {
                               >
                                 Wallet Transactions{" "}
                                 <span className="amount-ctm-content">
-                                  &#8377; {userDetailData?.totalAmount}
+                                  &#8377; 0
                                 </span>
                               </Link>
                             </li>
