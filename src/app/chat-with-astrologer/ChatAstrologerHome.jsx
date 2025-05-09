@@ -70,7 +70,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     JSON.parse(secureLocalStorage.getItem("averageRating")) || []
   );
 
-  console.log(skipFetch);
+  console.log(userData);
 
   // Memoize the fetch function to prevent unnecessary recreations
   const fetchData = useCallback(async () => {
@@ -618,11 +618,15 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
 
                               {item.chatStatus == false ? (
                                 <div className="astrologer-call-button-ctm">
-                                  {userAmount >= item.charges * 2 ? (
+                                  {!userData?.name ? (
+                                    <Link href="/free-chat/start">
+                                      Chat 
+                                    </Link>
+                                  ) : userAmount >= item.charges * 2 ? (
                                     <Link
                                       href="#"
-                                      onClick={() =>{
-                                        setIsLoading(false)
+                                      onClick={() => {
+                                        setIsLoading(false);
                                         onChangeId(
                                           item._id,
                                           item.mobileNumber,
@@ -630,12 +634,10 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                                           item.name,
                                           item.charges,
                                           item.experience
-                                        )
-                                      }
-                                        
-                                      }
+                                        );
+                                      }}
                                     >
-                                      Chat{" "}
+                                      Chat 
                                     </Link>
                                   ) : !userMobile || !userIds ? (
                                     <Link href="#" onClick={handelUserLogin}>
@@ -655,7 +657,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                                         )
                                       }
                                     >
-                                      chat
+                                      chat 
                                     </Link>
                                   )}
                                 </div>

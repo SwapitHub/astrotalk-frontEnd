@@ -13,8 +13,7 @@ const StartUserName = () => {
   const [datePhoneAvailable, setDatePhoneAvailable] = useState();
   const [errors, setErrors] = useState({});
   const [userMobile, setUserMobile] = useState();
-  console.log(errors);
-  console.log(datePhoneAvailable, userMobile);
+ 
 
   useEffect(() => {
     const fetchUserDetail = async () => {

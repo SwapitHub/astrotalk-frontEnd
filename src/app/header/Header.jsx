@@ -16,13 +16,15 @@ const Header = () => {
   const [userDetailData, setUserDetailData] = useState();
   const [astroDetailData, setAstroDetailData] = useState();
   const [astrologerPhone, setAstrologerPhone] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
   const [admin_id, setAdmin_id] = useState(() =>
     secureLocalStorage.getItem("admin_id")
   );
 
   // console.log(astrologerPhone,astroDetailData);
   const [userMobile, setUserMobile] = useState();
-  console.log(admin_id,userMobile);
+  console.log(admin_id, userMobile);
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -44,26 +46,26 @@ const Header = () => {
   }, []);
 
   // Watch for userMobile updates
-useEffect(() => {
-  const storedMobile = secureLocalStorage.getItem("userMobile");
-  if (storedMobile) {
-    setUserMobile(Math.round(storedMobile));
-  }
-
-  const handleStorageChange = () => {
-    const updatedMobile = secureLocalStorage.getItem("userMobile");
-    if (updatedMobile) {
-      setUserMobile((updatedMobile));
-      // fetchUserDetail();
+  useEffect(() => {
+    const storedMobile = secureLocalStorage.getItem("userMobile");
+    if (storedMobile) {
+      setUserMobile(Math.round(storedMobile));
     }
-  };
 
-  window.addEventListener("userMobileUpdated", handleStorageChange);
+    const handleStorageChange = () => {
+      const updatedMobile = secureLocalStorage.getItem("userMobile");
+      if (updatedMobile) {
+        setUserMobile(updatedMobile);
+        // fetchUserDetail();
+      }
+    };
 
-  return () => {
-    window.removeEventListener("userMobileUpdated", handleStorageChange);
-  };
-}, []);
+    window.addEventListener("userMobileUpdated", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("userMobileUpdated", handleStorageChange);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchAstroDetailData = async () => {
@@ -96,7 +98,7 @@ useEffect(() => {
         console.error("user detail api error:", err);
       }
     };
-  
+
     if (userMobile) {
       fetchUserDetail();
     }
@@ -164,15 +166,14 @@ useEffect(() => {
 
   return (
     <header className="header">
-      {
-        otpPopUpDisplay == true &&
       
-      <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
-        {otpPopUpDisplay && (
-          <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
-        )}
-      </div>
-}
+      {otpPopUpDisplay == true && (
+        <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
+          {otpPopUpDisplay && (
+            <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
+          )}
+        </div>
+      )}
       <div className="container">
         <div className="inner-header-sec ctm-flex-row ctm-align-items-center ctm-justify-content-between">
           <div className="header-left-logo">
@@ -186,17 +187,27 @@ useEffect(() => {
                 <li>
                   <Link
                     href={`${
-                      userMobile ? "/chat-with-astrologer" : "/free-chat"
+                      userMobile ? "/free-chat/start" : "/free-chat"
                     }`}
+                    onClick={() => {
+                      setIsLoading(true);
+                      setTimeout(() => {
+                        setIsLoading(false);
+                      }, 3000);
+                    }}
                   >
                     Chat Now
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href={`${
-                      "/chat-with-astrologer"
-                    }`}
+                    href={`${"/chat-with-astrologer"}`}
+                    onClick={() => {
+                      setIsLoading(true);
+                      setTimeout(() => {
+                        setIsLoading(false);
+                      }, 3000);
+                    }}
                   >
                     Chat with Astrologer
                   </Link>
@@ -218,7 +229,17 @@ useEffect(() => {
                   </div>
                 </li>
                 <li>
-                  <Link href="/signup">Astrologer Registration</Link>
+                  <Link
+                    href="/signup"
+                    onClick={() => {
+                      setIsLoading(true);
+                      setTimeout(() => {
+                        setIsLoading(false);
+                      }, 3000);
+                    }}
+                  >
+                    Astrologer Registration
+                  </Link>
                 </li>
                 {/* <li>
                   <Link href="/admin">Admin</Link>
@@ -243,7 +264,7 @@ useEffect(() => {
                     <img
                       src={
                         astroDetailData
-                          ? `${astroDetailData?.profileImage}`
+                          ? `https://aws.astrotalk.com/consultant_pic/p-50896.jpg`
                           : `/user-profile-icon.jpg`
                       }
                       alt="user-profile"
@@ -255,7 +276,7 @@ useEffect(() => {
                         <img
                           src={
                             astroDetailData
-                              ? `${astroDetailData?.profileImage}`
+                              ? `https://aws.astrotalk.com/consultant_pic/p-50896.jpg`
                               : `/user-profile-icon.jpg`
                           }
                           alt="user-profile"
@@ -264,8 +285,8 @@ useEffect(() => {
                       <div className="user-inner-dashbord-content">
                         <h5>
                           {astrologerPhone
-                            ? `${astroDetailData?.name}`
-                            : `${userDetailData?.name}`}
+                            ? `${astroDetailData?.name || ""}`
+                            : `${userDetailData?.name || ""}`}
                         </h5>
                         <Link href="#" title="Number">
                           {astrologerPhone
@@ -290,7 +311,7 @@ useEffect(() => {
                               >
                                 Wallet Transactions{" "}
                                 <span className="amount-ctm-content">
-                                  &#8377; 0
+                                  &#8377; {userDetailData?.totalAmount}
                                 </span>
                               </Link>
                             </li>
