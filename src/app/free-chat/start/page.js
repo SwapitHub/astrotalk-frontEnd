@@ -1,4 +1,6 @@
 "use client";
+export const dynamic = 'force-dynamic';
+
 import { validateAstrologerForm } from "@/app/component/FormValidation";
 import UserOtpLoginData from "@/app/component/UserOtpLoginData";
 import axios from "axios";

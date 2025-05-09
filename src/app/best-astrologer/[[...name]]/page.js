@@ -1,4 +1,5 @@
 // app/best-astrologer/[name]/page.js
+export const dynamic = 'force-dynamic';
 
 import { AstrologerDetail } from "../AstrologerDetail";
 

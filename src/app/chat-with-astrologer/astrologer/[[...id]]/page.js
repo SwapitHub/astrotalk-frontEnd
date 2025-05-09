@@ -1,4 +1,5 @@
 import Chatting from "../Chatting";
+export const dynamic = 'force-dynamic';
 
 const fetchChatAstrologerData = async (astrologerId) => {
   try {
