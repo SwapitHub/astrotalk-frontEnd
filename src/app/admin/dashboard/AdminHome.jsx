@@ -9,8 +9,8 @@ import UserList from "./UserList";
 import {  useRouter } from "next/navigation";
 import secureLocalStorage from "react-secure-storage";
 import SideSetting from "./AddLanguage";
-// import AddLanguage from "./AddLanguage";
-// import AddProfession from "./AddProfession";
+import AddLanguage from "./AddLanguage";
+import AddProfession from "./AddProfession";
 import ChatCommission from "./ChatCommission";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
@@ -268,8 +268,8 @@ const admin_id = secureLocalStorage.getItem("admin_id");
             {updateButton == "pending" && <AstrologerPendingList />}
             {updateButton == 7 && <UserList />}
             {updateButton == 3 && <Denomination />}
-            {/* {updateButton == "language" && <AddLanguage />} */}
-            {/* {updateButton == "profession" && <AddProfession />} */}
+            {updateButton == "language" && <AddLanguage />}
+            {updateButton == "profession" && <AddProfession />}
             {updateButton == "ChatCommission" && <ChatCommission />}
             {(updateButton == "user" ||
               updateButton == "astrologer" ||
