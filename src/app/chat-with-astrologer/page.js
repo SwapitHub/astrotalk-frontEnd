@@ -1,4 +1,3 @@
-export const dynamic = 'force-dynamic';
 import ChatWithAstrologer from "./ChatAstrologerHome";
 
 const fetchChatLanguageData = async () => {
