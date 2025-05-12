@@ -351,13 +351,13 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
       {showEndChat && (
         <EndChatPopUp
           setShowEndChat={setShowEndChat}
-          onCloseEndChat={endChatStatus} // pass function, not result
+          onCloseEndChat={endChatStatus} 
           setShowRating={setShowRating}
 
         />
       )}
 
-      <section className="chat-top-header">
+      <section className="chat-top-header astrologer-chat">
         <div className="container">
           <div className="chat-top-header-main">
             <div className="inner-chat-top-header ctm-flex-row ctm-justify-content-between ctm-align-items-center">

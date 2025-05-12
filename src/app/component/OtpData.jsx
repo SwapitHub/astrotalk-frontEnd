@@ -27,8 +27,15 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
       });
   }, []);
 
-  const sendOtp = async () => {
-    try {
+ const sendOtp = async () => {
+  try {
+    // Step 1: Check if mobile number exists
+    const responseMatch = await axios.get(
+      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-detail/${phone}`
+    );
+
+    // Step 2: If match found, send OTP
+    if (responseMatch?.data?.success) {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/send-otp`,
         {
@@ -38,7 +45,7 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
 
       setOtpSent(true);
       let countdown = 60;
-      setTimeOtpMessage(countdown); // Initialize countdown value
+      setTimeOtpMessage(countdown);
 
       const timer = setInterval(() => {
         countdown -= 1;
@@ -48,12 +55,21 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
           clearInterval(timer);
         }
       }, 1000);
+
       setMessage(response.data.message);
-    } catch (error) {
-      setMessage("Error sending OTP");
-      console.log(error);
+    } else {
+      setMessage("Mobile number not found");
     }
-  };
+  } catch (error) {
+    if (error.response?.status === 404) {
+      setMessage("Mobile number not registered");
+    } else {
+      setMessage("Error sending OTP");
+    }
+    console.log(error);
+  }
+};
+
 
   const verifyOtp = async () => {
     try {
@@ -66,13 +82,10 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
       );
       setMessage(response.data.message);
 
-      const matchMobileAstro = pendingData.find(
-        (item) => item.mobileNumber === phone
-      );
+    
 
-      console.log(pendingData);
+      if (response.data.success==true) {
 
-      if (matchMobileAstro !== undefined) {
         router.push("/astrologer-dashboard");
         setOtpPopUpDisplayAstro(false);
         setOtpSent(false);

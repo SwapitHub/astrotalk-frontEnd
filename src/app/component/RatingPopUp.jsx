@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
-const RatingPopUp = ({ userId, astrologerId, setShowRating, showUserData }) => {
+const RatingPopUp = ({ userId, astrologerId, setShowRating, showUserData,timeLeft }) => {
+  const router = useRouter()
   const [selectedRating, setSelectedRating] = useState(0);
   const [averageRating, setAverageRating] = useState(0);
   const [review, setReview] = useState("");
@@ -21,6 +23,7 @@ const RatingPopUp = ({ userId, astrologerId, setShowRating, showUserData }) => {
       );
       fetchAverage();
       setShowRating(false);
+      router.push("/chat-with-astrologer")
     } catch {
       toast.error("Please Select Rating", {
         position: "top-right",

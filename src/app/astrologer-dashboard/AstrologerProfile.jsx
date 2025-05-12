@@ -24,12 +24,12 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-detail/${astrologerPhone}`
       )
       .then((res) => {
-        setRegistrationDetail(res.data);
+        setRegistrationDetail(res.data.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [astrologerPhone]);
 
   const handleBusinessProfile = async () => {
     const validationErrors = validateAstrologerForm("astroProfile");

@@ -5,22 +5,29 @@ import React, { useEffect, useState } from "react";
 
 function AdminWallet({ updateButton }) {
   const [walletAdminData, setWalletAdminData] = useState([]);
-  const [page, setPage] = useState(1);
+const [pages, setPages] = useState(() => {
+  if (typeof window !== "undefined") {
+    const saved = localStorage.getItem("admin_wallet_pages");
+    return saved ? JSON.parse(saved) : { admin: 1, user: 1, astrologer: 1 };
+  }
+  return { admin: 1, user: 1, astrologer: 1 };
+});
+
   const [totalPages, setTotalPages] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
   const [totalAvailableBalance, setTotalAvailableBalance] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const fetchTransactions = async (pageNumber) => {
+  const fetchTransactions = async () => {
     try {
       setLoading(true);
+      const currentPage = pages[updateButton] || 1;
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/chat/WalletTransactionData?type=${updateButton}&page=${pageNumber}&limit=6`
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/chat/WalletTransactionData?type=${updateButton}&page=${currentPage}&limit=6`
       );
 
       setWalletAdminData(res.data.transactions);
-      setPage(res.data.page);
       setTotalPages(Math.ceil(res.data.totalTransactions / 6));
       setHasNextPage(res.data.hasNextPage);
       setHasPrevPage(res.data.hasPrevPage);
@@ -34,21 +41,36 @@ function AdminWallet({ updateButton }) {
 
   useEffect(() => {
     if (updateButton) {
-      fetchTransactions(page);
+      fetchTransactions();
     }
-  }, [updateButton, page]);
+    
+  }, [updateButton, pages[updateButton]]); 
+
+  const handleNext = () => {
+    setPages((prev) => ({
+      ...prev,
+      [updateButton]: prev[updateButton] + 1,
+    }));
+  };
+
+  const handlePrevious = () => {
+    setPages((prev) => ({
+      ...prev,
+      [updateButton]: prev[updateButton] - 1,
+    }));
+  };
 
   return (
     <div className="admin-wallet-main">
-       {/* <Loader/> */}
       {updateButton === "admin" && (
         <p>
           <strong>Available balance: </strong>
           <span>₹ {Math.round(totalAvailableBalance)}</span>
         </p>
       )}
+
       {loading ? (
-       <Loader/>
+        <Loader />
       ) : (
         <table border="1">
           <thead>
@@ -75,23 +97,22 @@ function AdminWallet({ updateButton }) {
           </tbody>
         </table>
       )}
+
       <div className="admin-wallet-inner">
         <button
-          onClick={() => setPage(page - 1)}
+          onClick={handlePrevious}
           disabled={!hasPrevPage || loading}
-          className={!hasPrevPage && "disable"}
-
+          className={!hasPrevPage ? "disable" : ""}
         >
           Previous
         </button>
         <span>
-          {" "}
-          Page {page} of {totalPages}{" "}
+          Page {pages[updateButton]} of {totalPages}
         </span>
         <button
-          onClick={() => setPage(page + 1)}
+          onClick={handleNext}
           disabled={!hasNextPage || loading}
-          className={!hasNextPage && "disable"}
+          className={!hasNextPage ? "disable" : ""}
         >
           Next
         </button>

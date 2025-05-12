@@ -183,7 +183,8 @@ const AstroNotification = ({ astrologerPhone }) => {
     socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
     secureLocalStorage.setItem("IsLoadingRequestStore", false);
     secureLocalStorage.removeItem("storedNotification");
-    setUpdateNotification(null);
+    setUpdateNotification(null);       
+        
   };
 
   useEffect(() => {
