@@ -165,10 +165,7 @@ const Header = () => {
   };
 
   return (
-    <>
-    {
-      !admin_id && 
-      <header className="header">
+    <header className="header">
       
       {otpPopUpDisplay == true && (
         <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
@@ -190,7 +187,7 @@ const Header = () => {
                 <li>
                   <Link
                     href={`${
-                      userMobile ? "/free-chat/start" : "/free-chat"
+                      userMobile ? "/chat-with-astrologer" : "/free-chat"
                     }`}
                     onClick={() => {
                       setIsLoading(true);
@@ -288,8 +285,8 @@ const Header = () => {
                       <div className="user-inner-dashbord-content">
                         <h5>
                           {astrologerPhone
-                            ? `${astroDetailData?.name || ""}`
-                            : `${userDetailData?.name || ""}`}
+                            ? `${astroDetailData?.name}`
+                            : `${userDetailData?.name}`}
                         </h5>
                         <Link href="#" title="Number">
                           {astrologerPhone
@@ -350,9 +347,6 @@ const Header = () => {
         </div>
       </div>
     </header>
-    }
-    </>
-   
   );
 };
 

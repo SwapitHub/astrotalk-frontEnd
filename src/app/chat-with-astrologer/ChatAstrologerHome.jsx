@@ -48,7 +48,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
   const [astrologerId, setAstrologerId] = useState();
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(null);
-  const [skipFetch, setSkipFetch] = useState(false);
+    const [skipFetch, setSkipFetch] = useState(false);
 
   const [multiFilter, setMultiFilter] = useState();
   const [genderData, setGenderData] = useState(
@@ -70,10 +70,11 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     JSON.parse(secureLocalStorage.getItem("averageRating")) || []
   );
 
-  console.log(userData);
+  console.log(astrologerId);
 
   // Memoize the fetch function to prevent unnecessary recreations
   const fetchData = useCallback(async () => {
+    if (skipFetch) return;
     setIsLoading(true);
     setError(null);
 
@@ -104,14 +105,12 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
   ]);
 
   useEffect(() => {
-    if (skipFetch) return;
     const timerId = setTimeout(() => {
       fetchData();
     }, 500);
 
     return () => clearTimeout(timerId);
   }, [
-    skipFetch,
     searchName,
     fetchData,
     sortFilterCharges,
@@ -150,8 +149,10 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
   }, [showRecharge]);
 
   const userAmount = userData?.totalAmount;
+console.log(skipFetch);
 
   const onChangeId = async (
+
     astrologerId,
     mobileNumber,
     // profileImage,
@@ -159,7 +160,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     astroCharge,
     astroExperience
   ) => {
-    setSkipFetch(true);
+    setSkipFetch(true)
     if (!userIds) {
       console.error("userIds is undefined!");
       return;
@@ -553,7 +554,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                               setIsLoading(true);
                               setTimeout(() => {
                                 setIsLoading(false);
-                              }, 6000);
+                              }, 3000); 
                             }}
                           >
                             <div className="astrologer-list-left">
@@ -618,15 +619,11 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
 
                               {item.chatStatus == false ? (
                                 <div className="astrologer-call-button-ctm">
-                                  {!userData?.name ? (
-                                    <Link href="/free-chat/start">
-                                      Chat 
-                                    </Link>
-                                  ) : userAmount >= item.charges * 2 ? (
+                                  {userAmount >= item.charges * 2 ? (
                                     <Link
                                       href="#"
-                                      onClick={() => {
-                                        setIsLoading(false);
+                                      // href={`/chat-with-astrologer/user/${userIds}`}
+                                      onClick={() =>
                                         onChangeId(
                                           item._id,
                                           item.mobileNumber,
@@ -634,10 +631,10 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                                           item.name,
                                           item.charges,
                                           item.experience
-                                        );
-                                      }}
+                                        )
+                                      }
                                     >
-                                      Chat 
+                                      Chat{" "}
                                     </Link>
                                   ) : !userMobile || !userIds ? (
                                     <Link href="#" onClick={handelUserLogin}>
@@ -657,14 +654,14 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                                         )
                                       }
                                     >
-                                      chat 
+                                      chat
                                     </Link>
                                   )}
                                 </div>
                               ) : (
                                 <div className="astrologer-call-button-ctm chatStatus-false">
                                   <Link
-                                    href={`/chat-with-astrologer/user/${userIds}`}
+                                    href="#"
                                     // onClick={() =>
                                     //   onChangeId(item._id, item.mobileNumber)
                                     // }

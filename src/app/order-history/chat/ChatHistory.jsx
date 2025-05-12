@@ -256,7 +256,7 @@ const ChatHistory = () => {
                                                   <div className="astrologer-call-button-ctm">
                                                     {userAmount >=
                                                     item.astroCharges * 2 ? (
-                                                      <Link
+                                                      <a
                                                         href={`/chat-with-astrologer/user/${userIds}`}
                                                         onClick={() =>
                                                           onChangeId(
@@ -271,7 +271,7 @@ const ChatHistory = () => {
                                                         }
                                                       >
                                                         Chat{" "}
-                                                      </Link>
+                                                      </a>
                                                     ) : (
                                                       <button
                                                         onClick={() =>

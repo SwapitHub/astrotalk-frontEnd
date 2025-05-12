@@ -274,7 +274,7 @@ const AstroNotification = ({ astrologerPhone }) => {
             </p>
             <div className="button-outer">
             <button onClick={UpdateRemoveData}>Dismiss</button>
-            <a
+            <Link
               href={`/chat-with-astrologer/astrologer/${updateNotification?.astrologerId}`}
               // href="#"
               onClick={() =>
@@ -285,7 +285,7 @@ const AstroNotification = ({ astrologerPhone }) => {
               }
             >
               Chat
-            </a>
+            </Link>
             </div>
           </div>
         </div>

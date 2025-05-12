@@ -82,7 +82,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
       socket.off("astrologer-data-received-new-notification");
       socket.disconnect();
     };
-  }, []);
+  }, [astrologerPhone,socket]);
 
   useEffect(() => {
     axios
@@ -95,7 +95,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [userIds]);
   useEffect(() => {
     axios
       .get(
@@ -107,7 +107,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [astrologerPhone]);
 
   // message detail api
   const fetchMessages = async () => {
@@ -168,19 +168,34 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
     }
   };
 
-  useEffect(() => {
-    setUser(astrologer.name);
-    socket.emit("joinChat", { userIds, astrologerId });
-    fetchMessages();
-    socket.on("receiveMessage", (msg) => {
-      setMessageData((prev) => [...prev, msg]);
-    });
+    useEffect(() => {
+      if (!astrologerId || !userIds || !socket) return;
+      setUser(astrologer.name);
+      socket.emit("joinChat", { userIds, astrologerId });
+  
+      fetchMessages();
+  
+      socket.on("receiveMessage", (msg) => {
+        setMessageData((prev) => [...prev, msg]);
+      });
+  
+      return () => {
+        socket.off("receiveMessage");
+      };
+    }, [astrologerId, userIds, socket]);
+  // useEffect(() => {
+  //   setUser(astrologer.name);
+  //   socket.emit("joinChat", { userIds, astrologerId });
+  //   fetchMessages();
+  //   socket.on("receiveMessage", (msg) => {
+  //     setMessageData((prev) => [...prev, msg]);
+  //   });
 
-    return () => {
-      socket.off("receiveMessage"); // Remove the listener
-      socket.disconnect();
-    };
-  }, [userIds, astrologerId]);
+  //   return () => {
+  //     socket.off("receiveMessage"); // Remove the listener
+  //     socket.disconnect();
+  //   };
+  // }, [userIds, astrologerId]);
 
   const endChatStatus = async () => {
     if (actualChargeUserChat == undefined) return;
@@ -269,6 +284,10 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
       );
     }
   };
+
+
+
+
 
   useEffect(() => {
     if (astrologerNotificationStatus == undefined) {

@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import secureLocalStorage from "react-secure-storage";
-import Loader from "../component/Loader";
 
 const Admin = () => {
   const router = useRouter();
@@ -14,8 +13,6 @@ const Admin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-
 
   const admin_id = secureLocalStorage.getItem("admin_id");
 
@@ -27,7 +24,6 @@ const Admin = () => {
   }, [adminSegment, admin_id, router]);
 
   const handleSubmit = async () => {
-    setIsLoading(true); // Start loader
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/admin`);
       if (!response.ok) throw new Error("Failed to fetch admin data");
@@ -46,15 +42,11 @@ const Admin = () => {
       console.error("Login error:", err);
       setError(err.message || "Login failed");
     }
-    finally {
-      setIsLoading(false); // Stop loader
-    }
   };
 
   return (
     <div className="container">
       <div className="admin-popup-main">
-      {isLoading && <Loader />}
         <div className="admin-popup-outer-inner">
           <div className="admin-detail-popup">
             <label>Admin Email</label>

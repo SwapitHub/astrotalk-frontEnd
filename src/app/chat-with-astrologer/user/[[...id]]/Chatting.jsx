@@ -20,8 +20,6 @@ export default function Chatting(AdminCommissionData) {
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
   const [showEndChat, setShowEndChat] = useState(false);
   const [showRating, setShowRating] = useState(false);
-console.log("AdminCommissionData",AdminCommissionData.AdminCommissionData
-);
 
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
@@ -76,7 +74,6 @@ console.log("AdminCommissionData",AdminCommissionData.AdminCommissionData
     }
   }, [astrologerNotificationStatus]);
 
-  
   useEffect(() => {
     if (astrologerData?.mobileNumber) {
       mobileRef.current = astrologerData.mobileNumber;
@@ -295,7 +292,7 @@ console.log("AdminCommissionData",AdminCommissionData.AdminCommissionData
           astroMobile: astrologerData.mobileNumber,
           astrologerId: astrologerId,
           actualChargeUserChat: actualChargeUserChat,
-          updateAdminCommission: AdminCommissionData.AdminCommissionData,
+          updateAdminCommission: AdminCommissionData,
         };
         if (showUserData?.freeChatStatus == false) {
           socket.emit("chat-timeLeft-update", newUserDetail);
