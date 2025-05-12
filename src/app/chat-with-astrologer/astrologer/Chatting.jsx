@@ -270,10 +270,6 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
     }
   };
 
-
-
-
-
   useEffect(() => {
     if (astrologerNotificationStatus == undefined) {
       return;

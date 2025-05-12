@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 import ChatWithAstrologer from "./ChatAstrologerHome";
 
 const fetchChatLanguageData = async () => {
@@ -42,16 +40,14 @@ const fetchAdminSkillsData = async () => {
   }
 };
 
-const ChatAstroHomeServer = async () => {
+const ChatAstroHomeServer = async (props) => {
+
   const languageListData = await fetchChatLanguageData();
   const skillsListData = await fetchAdminSkillsData();
 
   return (
     <>
-      <ChatWithAstrologer
-        languageListData={languageListData}
-        skillsListData={skillsListData}
-      />
+      <ChatWithAstrologer languageListData={languageListData} skillsListData={skillsListData}/>
     </>
   );
 };

@@ -553,7 +553,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                               setIsLoading(true);
                               setTimeout(() => {
                                 setIsLoading(false);
-                              }, 3000);
+                              }, 6000);
                             }}
                           >
                             <div className="astrologer-list-left">
@@ -664,7 +664,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                               ) : (
                                 <div className="astrologer-call-button-ctm chatStatus-false">
                                   <Link
-                                    href="#"
+                                    href={`/chat-with-astrologer/user/${userIds}`}
                                     // onClick={() =>
                                     //   onChangeId(item._id, item.mobileNumber)
                                     // }

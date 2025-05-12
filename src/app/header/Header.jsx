@@ -165,7 +165,10 @@ const Header = () => {
   };
 
   return (
-    <header className="header">
+    <>
+    {
+      !admin_id && 
+      <header className="header">
       
       {otpPopUpDisplay == true && (
         <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
@@ -347,6 +350,9 @@ const Header = () => {
         </div>
       </div>
     </header>
+    }
+    </>
+   
   );
 };
 
