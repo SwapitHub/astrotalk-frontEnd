@@ -15,6 +15,7 @@ import { SiMessenger } from "react-icons/si";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Link from "next/link";
 
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   withCredentials: true,
@@ -71,6 +72,9 @@ export const AstrologerDetail = ({ astrologerData }) => {
         // await router.push(`/chat-with-astrologer/user/${userIds}`);
 
         // This code will run after the navigation is complete
+        secureLocalStorage.setItem("IsLoadingRequestStore", true);
+        // setIsLoadingRequest(true);
+
         secureLocalStorage.setItem("astrologerId", astrologerId);
 
         const messageId = {
@@ -94,6 +98,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
         };
 
         socket.emit("userId-to-astrologer", messageId);
+        socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 0 });
       } catch (error) {
         console.error("Navigation failed:", error);
       }
@@ -184,305 +189,295 @@ export const AstrologerDetail = ({ astrologerData }) => {
         />
       )}
 
-        <section className="astrologer_profile_Section">
+      <section className="astrologer_profile_Section">
         <div className="container">
           <div className="astrologer_profile_Section-inner">
             <div className="breadcrumb">
-            <ul>
-              <li>
-                <a href="">
-                  <span className="icon">
-                    <IoHome />
-                  </span>
-                </a>
-                <span className="text">{astrologerData.name}'s Profile</span>
-              </li>
-            </ul>
-          </div>
-          </div>
-          </div>
-        </section>
-
-        {/* <!---- Profile image with contact and slider --> */}
-        <section className="profile_with_contact_slider">
-          <div className="container">
-          <div className="profile_with_contact_slider-inner">
-          <div className="profile_with_contact">
-            <div className="image">
-              <div className="img">
-                <img src="https://aws.astrotalk.com/consultant_pic/p-106783.jpg" />
-              </div>
-              <button type="button" className="follow-button">
-                Follow
-              </button>
+              <ul>
+                <li>
+                  <a href="">
+                    <span className="icon">
+                      <IoHome />
+                    </span>
+                  </a>
+                  <span className="text">{astrologerData.name}'s Profile</span>
+                </li>
+              </ul>
             </div>
-            <div className="content">
-              <div className="astrologer_name">
-                <h1>{astrologerData.name}</h1>
-                <div className="icon">
-                  {/* <img src="./Images/check.webp" /> */}
-                </div>
-              </div>
-              <div className="about_astrologer">
-                <p className="skills">
-                  {astrologerData?.professions?.map((item) => {
-                    return (
-                      <>
-                        <span className="des">{item}</span>
-                      </>
-                    );
-                  })}
-                </p>
-                <p className="lang-outer">
-                  {astrologerData?.languages?.map((item) => {
-                    return (
-                      <>
-                        <span className="lang">{item}</span>
-                      </>
-                    );
-                  })}
-                </p>
-                <p className="exp">Exp: {astrologerData.experience} Years</p>
-                <p className="charges">
-                  <b> ₹ {astrologerData.charges}</b>
-                  <span>/min</span>
-                </p>
-              </div>
+          </div>
+        </div>
+      </section>
 
-              <div className="details_of_conversation">
-                <div className="chat_details">
-                  <div className="icon_details">
-                    <SiMessenger />
+      {/* <!---- Profile image with contact and slider --> */}
+      <section className="profile_with_contact_slider">
+        <div className="container">
+          <div className="profile_with_contact_slider-inner">
+            <div className="profile_with_contact">
+              <div className="image">
+                <div className="img">
+                  <img src="https://aws.astrotalk.com/consultant_pic/p-106783.jpg" />
+                </div>
+                <button type="button" className="follow-button">
+                  Follow
+                </button>
+              </div>
+              <div className="content">
+                <div className="astrologer_name">
+                  <h1>{astrologerData.name}</h1>
+                  <div className="icon">
+                    {/* <img src="./Images/check.webp" /> */}
                   </div>
-                  <b>
-                    {astrologerData?.astroTotalChatTime >= 1000
-                      ? `${(astrologerData?.astroTotalChatTime / 1000).toFixed(
-                          1
-                        )}k`
-                      : astrologerData?.astroTotalChatTime || 0}
-                  </b> 
-                  <span> mins</span>
+                </div>
+                <div className="about_astrologer">
+                  <p className="skills">
+                    {astrologerData?.professions?.map((item) => {
+                      return (
+                        <>
+                          <span className="des">{item}</span>
+                        </>
+                      );
+                    })}
+                  </p>
+                  <p className="lang-outer">
+                    {astrologerData?.languages?.map((item) => {
+                      return (
+                        <>
+                          <span className="lang">{item}</span>
+                        </>
+                      );
+                    })}
+                  </p>
+                  <p className="exp">Exp: {astrologerData.experience} Years</p>
+                  <p className="charges">
+                    <b> ₹ {astrologerData.charges}</b>
+                    <span>/min</span>
+                  </p>
                 </div>
 
-                <div className="call_details">
+                <div className="details_of_conversation">
                   <div className="chat_details">
                     <div className="icon_details">
-                      <IoCallSharp />
+                      <SiMessenger />
                     </div>
                     <b>
-                    {astrologerData?.astroTotalChatTime >= 1000
-                      ? `${(astrologerData?.astroTotalChatTime / 1000).toFixed(
-                          1
-                        )}k`
-                      : astrologerData?.astroTotalChatTime || 0}
-                  </b> 
-                  <span> mins</span>
+                      {astrologerData?.astroTotalChatTime >= 1000
+                        ? `${(
+                            astrologerData?.astroTotalChatTime / 1000
+                          ).toFixed(1)}k`
+                        : astrologerData?.astroTotalChatTime || 0}
+                    </b>
+                    <span> mins</span>
+                  </div>
+
+                  <div className="call_details">
+                    <div className="chat_details">
+                      <div className="icon_details">
+                        <IoCallSharp />
+                      </div>
+                      <b>
+                        {astrologerData?.astroTotalChatTime >= 1000
+                          ? `${(
+                              astrologerData?.astroTotalChatTime / 1000
+                            ).toFixed(1)}k`
+                          : astrologerData?.astroTotalChatTime || 0}
+                      </b>
+                      <span> mins</span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="btns_chat_call">
-                <div className="start_btn">
-                  {astrologerData.chatStatus == false ? (
-                    <div className="astrologer-call-button-ctm-detail">
-                      {userAmount >= astrologerData.charges * 2 ? (
-                        <a
-                          className="btns_astrolgers_contact"
-                          href={`/chat-with-astrologer/user/${userIds}`}
-                          onClick={() =>
-                            onChangeId(
-                              astrologerData._id,
-                              astrologerData.mobileNumber,
-                              // item.profileImage,
-                              astrologerData.name,
-                              astrologerData.charges,
-                              astrologerData.experience
-                            )
-                          }
-                        >
-                          <span className="icon">
-                            <SiMessenger />
-                          </span>
-                          Chat{" "}
-                        </a>
-                      ) : (
-                        <a
-                          className="btns_astrolgers_contact"
+                <div className="btns_chat_call">
+                  <div className="start_btn">
+                    {astrologerData.chatStatus == false ? (
+                      <div className="astrologer-call-button-ctm-detail">
+                        {userAmount >= astrologerData.charges * 2 ? (
+                          <Link
+                            className="btns_astrolgers_contact"
+                            href={`/chat-with-astrologer/user/${userIds}`}
+                            onClick={() =>
+                              onChangeId(
+                                astrologerData._id,
+                                astrologerData.mobileNumber,
+                                // item.profileImage,
+                                astrologerData.name,
+                                astrologerData.charges,
+                                astrologerData.experience
+                              )
+                            }
+                          >
+                            <span className="icon">
+                              <SiMessenger />
+                            </span>
+                            Chat{" "}
+                          </Link>
+                        ) : (
+                          <Link
+                            className="btns_astrolgers_contact"
+                            href="#"
+                            onClick={() =>
+                              onChangeId(
+                                astrologerData._id,
+                                astrologerData.mobileNumber,
+                                // item.profileImage,
+                                astrologerData.name,
+                                astrologerData.charges,
+                                astrologerData.experience
+                              )
+                            }
+                          >
+                            <span className="icon">
+                              <SiMessenger />
+                            </span>
+                            chat
+                          </Link>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="astrologer-call-button-ctm chatStatus-false">
+                        <Link
                           href="#"
-                          onClick={() =>
-                            onChangeId(
-                              astrologerData._id,
-                              astrologerData.mobileNumber,
-                              // item.profileImage,
-                              astrologerData.name,
-                              astrologerData.charges,
-                              astrologerData.experience
-                            )
-                          }
+                          className="btns_astrolgers_contact"
+                          // onClick={() =>
+                          //   onChangeId(item._id, item.mobileNumber)
+                          // }
                         >
                           <span className="icon">
                             <SiMessenger />
                           </span>
-                          chat
-                        </a>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="astrologer-call-button-ctm chatStatus-false">
-                      <a
-                        href="#"
-                        className="btns_astrolgers_contact"
-                        // onClick={() =>
-                        //   onChangeId(item._id, item.mobileNumber)
-                        // }
-                      >
-                        <span className="icon">
-                          <SiMessenger />
-                        </span>
-                        Chat
-                      </a>
-                      <span>waiting 5 minutes</span>
-                    </div>
-                  )}
-                </div>
+                          Chat
+                        </Link>
+                        <span>waiting 5 minutes</span>
+                      </div>
+                    )}
+                  </div>
 
-                {/* <button className="btns_astrolgers_contact">
-             <div className="icon">
-               <img src="./Images/busy-status-call.webp" />
-             </div>
-             <div className="start_btn call">
-               <div className="strt">Start call</div>
-               <div className="avialable_comming text-danger ng-star-inserted">
-                 <div className="ng-star-inserted">Wait time ~ 19m </div>
-               </div>
-             </div>
-           </button> */}
+                 
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* <!--- slider --> */}
-                  <div className="slider-outer">
-          <Slider
-            {...sliderSettings}
-            responsive={[
-              {
-                breakpoint: 1198,
-                settings: {
-                  slidesToShow: 3,
-                  slidesToScroll: 4,
-                  infinite: true,
-                },
-              },
-              {
-                breakpoint: 800,
-                settings: {
-                  slidesToShow: 3,
-                  slidesToScroll: 3,
-                  infinite: true,
-                },
-              },
-              {
-                breakpoint: 639,
-                settings: {
-                  slidesToShow: 3,
-                  slidesToScroll: 3,
-                  infinite: true,
-                },
-              },
-              {
-                breakpoint: 375,
-                settings: {
-                  slidesToShow: 2,
-                  slidesToScroll: 2,
-                  infinite: true,
-                },
-              },
-            ]}
-          >
-            <div className="astro-img">
-              <img
-                src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/262x262/images/6f17062e-24d1-4772-afcd-4de411d68d49.jpeg"
-                alt=""
-              />
+            {/* <!--- slider --> */}
+            <div className="slider-outer">
+              <Slider
+                {...sliderSettings}
+                responsive={[
+                  {
+                    breakpoint: 1198,
+                    settings: {
+                      slidesToShow: 3,
+                      slidesToScroll: 4,
+                      infinite: true,
+                    },
+                  },
+                  {
+                    breakpoint: 800,
+                    settings: {
+                      slidesToShow: 3,
+                      slidesToScroll: 3,
+                      infinite: true,
+                    },
+                  },
+                  {
+                    breakpoint: 639,
+                    settings: {
+                      slidesToShow: 3,
+                      slidesToScroll: 3,
+                      infinite: true,
+                    },
+                  },
+                  {
+                    breakpoint: 375,
+                    settings: {
+                      slidesToShow: 2,
+                      slidesToScroll: 2,
+                      infinite: true,
+                    },
+                  },
+                ]}
+              >
+                <div className="astro-img">
+                  <img
+                    src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/262x262/images/6f17062e-24d1-4772-afcd-4de411d68d49.jpeg"
+                    alt=""
+                  />
+                </div>
+                <div className="astro-img">
+                  <img
+                    src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/262x262/images/6f17062e-24d1-4772-afcd-4de411d68d49.jpeg"
+                    alt=""
+                  />
+                </div>
+                <div className="astro-img">
+                  <img
+                    src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/262x262/images/6f17062e-24d1-4772-afcd-4de411d68d49.jpeg"
+                    alt=""
+                  />
+                </div>
+                <div className="astro-img">
+                  <img
+                    src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/262x262/images/6f17062e-24d1-4772-afcd-4de411d68d49.jpeg"
+                    alt=""
+                  />
+                </div>
+              </Slider>
+              {/* <!--- about section --> */}
             </div>
-            <div className="astro-img">
-              <img
-                src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/262x262/images/6f17062e-24d1-4772-afcd-4de411d68d49.jpeg"
-                alt=""
-              />
+            <div className="about_us">
+              <h2>About me</h2>
+              <p>{astrologerData.Description}</p>
             </div>
-            <div className="astro-img">
-              <img
-                src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/262x262/images/6f17062e-24d1-4772-afcd-4de411d68d49.jpeg"
-                alt=""
-              />
-            </div>
-            <div className="astro-img">
-              <img
-                src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/262x262/images/6f17062e-24d1-4772-afcd-4de411d68d49.jpeg"
-                alt=""
-              />
-            </div>
-          </Slider>
-          {/* <!--- about section --> */}
-            </div>
-          <div className="about_us">
-            <h2>About me</h2>
-            <p>{astrologerData.Description}</p>
           </div>
-          </div>
-          </div>
-        </section>
+        </div>
+      </section>
 
-        {/* <!--- rating review --> */}
+      {/* <!--- rating review --> */}
 
-        <section className="rating_review">
+      <section className="rating_review">
         <div className="container">
-        <div className="rating_review-inner">
-          <div className="row">
-            <div className="left_col">
-              <div className="rating_col">
-                <h2>Rating & Reviews</h2>
+          <div className="rating_review-inner">
+            <div className="row">
+              <div className="left_col">
+                <div className="rating_col">
+                  <h2>Rating & Reviews</h2>
 
-                <div className="review">
-                  <div className="rating_star">
-                    <div className="ratting_number">
-                      {astrologerData?.averageRating}
+                  <div className="review">
+                    <div className="rating_star">
+                      <div className="ratting_number">
+                        {astrologerData?.averageRating}
+                      </div>
+                      <ul className="stars">
+                        <li>{renderStars(astrologerData?.averageRating)}</li>
+                      </ul>
+                      <div className="total_view">
+                        <i className="fa-solid fa-user"></i>
+                        <span>{astrologerData?.totalOrders} total </span>
+                      </div>
                     </div>
-                    <ul className="stars">
-                      <li>{renderStars(astrologerData?.averageRating)}</li>
-                    </ul>
-                    <div className="total_view">
-                      <i className="fa-solid fa-user"></i>
-                      <span>{astrologerData?.totalOrders} total </span>
-                    </div>
-                  </div>
-                  <div className="ratting-review">
-                    {Object.entries(ratings)
-                      .sort((a, b) => b[0] - a[0])
-                      .map(([star, percent]) => (
-                        <div key={star} className="status_bar_ratting">
-                          <span className="number_progress_bar">{star}</span>
-                          <div className="progress width_custom">
-                            <div
-                              role="progressbar"
-                              aria-valuenow={percent}
-                              aria-valuemin={0}
-                              aria-valuemax={100}
-                              aria-label={`${star} Star Rating`}
-                              className={`progress-bar ${colorClasses[star]}`}
-                              style={{ width: `${percent}%` }}
-                            ></div>
+                    <div className="ratting-review">
+                      {Object.entries(ratings)
+                        .sort((a, b) => b[0] - a[0])
+                        .map(([star, percent]) => (
+                          <div key={star} className="status_bar_ratting">
+                            <span className="number_progress_bar">{star}</span>
+                            <div className="progress width_custom">
+                              <div
+                                role="progressbar"
+                                aria-valuenow={percent}
+                                aria-valuemin={0}
+                                aria-valuemax={100}
+                                aria-label={`${star} Star Rating`}
+                                className={`progress-bar ${colorClasses[star]}`}
+                                style={{ width: `${percent}%` }}
+                              ></div>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="assistantBox">
-                <div className="assHeading">
-                  {/* <img
+                <div className="assistantBox">
+                  <div className="assHeading">
+                    {/* <img
                   src="https://aws.astrotalk.com/assets/images/assistant.webp"
                   height="54"
                   width="54"
@@ -490,117 +485,117 @@ export const AstrologerDetail = ({ astrologerData }) => {
                   alt="emergency"
                   className="img-fluid"
                 /> */}
-                  <span>Chat with Assistant?</span>
-                  <a className="float-lg-end fa fa-angle-right"></a>
+                    <span>Chat with Assistant?</span>
+                    <a className="float-lg-end fa fa-angle-right"></a>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="similar_consultants_section">
-              <div className="header_similar_consultants">
-                <h2 className="check_similar_text">
-                  Check Similar Consultants
-                </h2>
-                <i
-                  _ngcontent-serverapp-c96=""
-                  className="fa fa-info-circle"
-                ></i>
-              </div>
-              <div className="reviews-similiar-conslt-outer">
-                <div className="reviews-similiar-conslt-inner">
-                  <h2 className="review-heading">User Reviews</h2>
-                  <div className="sort-filter-rating">
-                    <div className="sort-left">
-                      <h6> Sort By</h6>
-                    </div>
-                    <div className="sort-right">
-                      <div className="sort-radio">
-                        <input
-                          type="radio"
-                          name="sort"
-                          checked={onchangeTabbing === "Most_helpful"}
-                          id="helpful_reviews "
-                          onChange={() => {
-                            setOnchangeTabbing("Most_helpful");
-                          }}
-                        />
-                        <label for="helpful_reviews">Most helpful</label>
+              <div className="similar_consultants_section">
+                <div className="header_similar_consultants">
+                  <h2 className="check_similar_text">
+                    Check Similar Consultants
+                  </h2>
+                  <i
+                    _ngcontent-serverapp-c96=""
+                    className="fa fa-info-circle"
+                  ></i>
+                </div>
+                <div className="reviews-similiar-conslt-outer">
+                  <div className="reviews-similiar-conslt-inner">
+                    <h2 className="review-heading">User Reviews</h2>
+                    <div className="sort-filter-rating">
+                      <div className="sort-left">
+                        <h6> Sort By</h6>
                       </div>
-                      <div className="sort-radio">
-                        <input
-                          type="radio"
-                          name="sort"
-                          checked={onchangeTabbing === "Most_Recent"}
-                          id="recent_reviews"
-                          onChange={() => {
-                            setOnchangeTabbing("Most_Recent");
-                          }}
-                        />
-                        <label for="recent_reviews">Most Recent</label>
+                      <div className="sort-right">
+                        <div className="sort-radio">
+                          <input
+                            type="radio"
+                            name="sort"
+                            checked={onchangeTabbing === "Most_helpful"}
+                            id="helpful_reviews "
+                            onChange={() => {
+                              setOnchangeTabbing("Most_helpful");
+                            }}
+                          />
+                          <label for="helpful_reviews">Most helpful</label>
+                        </div>
+                        <div className="sort-radio">
+                          <input
+                            type="radio"
+                            name="sort"
+                            checked={onchangeTabbing === "Most_Recent"}
+                            id="recent_reviews"
+                            onChange={() => {
+                              setOnchangeTabbing("Most_Recent");
+                            }}
+                          />
+                          <label for="recent_reviews">Most Recent</label>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  {onchangeTabbing == "Most_helpful" && (
-                    <div className="similar-conslt-reviews-sec">
-                      {astrologerData?.reviews.slice(0,50).map((item) => {
-                        return (
-                          <>
-                            <div className="single-review">
-                              <div className="profile-image-name">
-                                <div className="picture_profile">
-                                  <img src="" alt="" />
+                    {onchangeTabbing == "Most_helpful" && (
+                      <div className="similar-conslt-reviews-sec">
+                        {astrologerData?.reviews.slice(0, 50).map((item) => {
+                          return (
+                            <>
+                              <div className="single-review">
+                                <div className="profile-image-name">
+                                  <div className="picture_profile">
+                                    <img src="" alt="" />
+                                  </div>
+                                  <div className="name-text">
+                                    <span>{item.userName}</span>
+                                  </div>
                                 </div>
-                                <div className="name-text">
-                                  <span>{item.userName}</span>
+                                <div className="rating-stars">
+                                  <ul class="stars">
+                                    <li>{renderStars(item?.rating)}</li>
+                                  </ul>
                                 </div>
-                              </div>
-                              <div className="rating-stars">
-                                <ul class="stars">
-                                  <li>{renderStars(item?.rating)}</li>
-                                </ul>
-                              </div>
-                              <div className="review-content">
-                                <p>{item.review}</p>
-                              </div>
-                            </div>
-                          </>
-                        );
-                      })}
-                    </div>
-                  )}
-                  {onchangeTabbing == "Most_Recent" && (
-                    <div className="similar-conslt-reviews-sec">
-                      {astrologerData?.reviews.slice(0,50).map((item) => {
-                        return (
-                          <>
-                            <div className="single-review">
-                              <div className="profile-image-name">
-                                <div className="picture_profile">
-                                  <img src="" alt="" />
-                                </div>
-                                <div className="name-text">
-                                  <span>{item.userName}</span>
+                                <div className="review-content">
+                                  <p>{item.review}</p>
                                 </div>
                               </div>
-                              <div className="rating-stars">
-                                <ul class="stars">
-                                  <li>{renderStars(item?.rating)}</li>
-                                </ul>
-                              </div>
-                              {/* <div className="review-content">
+                            </>
+                          );
+                        })}
+                      </div>
+                    )}
+                    {onchangeTabbing == "Most_Recent" && (
+                      <div className="similar-conslt-reviews-sec">
+                        {astrologerData?.reviews.slice(0, 50).map((item) => {
+                          return (
+                            <>
+                              <div className="single-review">
+                                <div className="profile-image-name">
+                                  <div className="picture_profile">
+                                    <img src="" alt="" />
+                                  </div>
+                                  <div className="name-text">
+                                    <span>{item.userName}</span>
+                                  </div>
+                                </div>
+                                <div className="rating-stars">
+                                  <ul class="stars">
+                                    <li>{renderStars(item?.rating)}</li>
+                                  </ul>
+                                </div>
+                                {/* <div className="review-content">
                                 <p>{item.review}</p>
                               </div> */}
-                            </div>
-                          </>
-                        );
-                      })}
-                    </div>
-                  )}
+                              </div>
+                            </>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-      </div>
-      </div>
+        </div>
       </section>
     </main>
   );

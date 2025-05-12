@@ -55,10 +55,16 @@ const AstrologerHome = () => {
   
 
   return (
+    <main className="main-content">
+      <div class="dashboard-main-outer">
     <div className="container">
       <div className="dashboard-inner-main">
         <div className="dashboard-inner">
           <div className="dashboard-left-dashboard">
+          <div className="left-sidebar-logo">
+              <a href="#" title=""><img src="/astrotalk-logo.webp" alt="Logo" /></a>
+            </div>
+          <div className="dashboard-list">
             <ul>
               <li>
                 <a
@@ -145,6 +151,7 @@ const AstrologerHome = () => {
               )}
             </ul>
           </div>
+          </div>
           <div className="dashboard-right-content">
             {updateButton == 1 && <DashBoardData_1 />}
 
@@ -158,8 +165,10 @@ const AstrologerHome = () => {
             {updateButton == 3 && <AstrologerWallet />}
           </div>
         </div>
-      </div>
+        </div>
     </div>
+    </div>
+    </main>
   );
 };
 

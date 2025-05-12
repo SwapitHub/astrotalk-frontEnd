@@ -48,7 +48,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
   const [astrologerId, setAstrologerId] = useState();
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(null);
-    const [skipFetch, setSkipFetch] = useState(false);
+  const [skipFetch, setSkipFetch] = useState(false);
 
   const [multiFilter, setMultiFilter] = useState();
   const [genderData, setGenderData] = useState(
@@ -70,11 +70,10 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     JSON.parse(secureLocalStorage.getItem("averageRating")) || []
   );
 
-  console.log(astrologerId);
+  console.log(userData);
 
   // Memoize the fetch function to prevent unnecessary recreations
   const fetchData = useCallback(async () => {
-    if (skipFetch) return;
     setIsLoading(true);
     setError(null);
 
@@ -105,12 +104,14 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
   ]);
 
   useEffect(() => {
+    if (skipFetch) return;
     const timerId = setTimeout(() => {
       fetchData();
     }, 500);
 
     return () => clearTimeout(timerId);
   }, [
+    skipFetch,
     searchName,
     fetchData,
     sortFilterCharges,
@@ -149,10 +150,8 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
   }, [showRecharge]);
 
   const userAmount = userData?.totalAmount;
-console.log(skipFetch);
 
   const onChangeId = async (
-
     astrologerId,
     mobileNumber,
     // profileImage,
@@ -160,7 +159,7 @@ console.log(skipFetch);
     astroCharge,
     astroExperience
   ) => {
-    setSkipFetch(true)
+    setSkipFetch(true);
     if (!userIds) {
       console.error("userIds is undefined!");
       return;
@@ -554,7 +553,7 @@ console.log(skipFetch);
                               setIsLoading(true);
                               setTimeout(() => {
                                 setIsLoading(false);
-                              }, 3000); 
+                              }, 6000);
                             }}
                           >
                             <div className="astrologer-list-left">
@@ -619,11 +618,15 @@ console.log(skipFetch);
 
                               {item.chatStatus == false ? (
                                 <div className="astrologer-call-button-ctm">
-                                  {userAmount >= item.charges * 2 ? (
+                                  {!userData?.name ? (
+                                    <Link href="/free-chat/start">
+                                      Chat 
+                                    </Link>
+                                  ) : userAmount >= item.charges * 2 ? (
                                     <Link
                                       href="#"
-                                      // href={`/chat-with-astrologer/user/${userIds}`}
-                                      onClick={() =>
+                                      onClick={() => {
+                                        setIsLoading(false);
                                         onChangeId(
                                           item._id,
                                           item.mobileNumber,
@@ -631,10 +634,10 @@ console.log(skipFetch);
                                           item.name,
                                           item.charges,
                                           item.experience
-                                        )
-                                      }
+                                        );
+                                      }}
                                     >
-                                      Chat{" "}
+                                      Chat 
                                     </Link>
                                   ) : !userMobile || !userIds ? (
                                     <Link href="#" onClick={handelUserLogin}>
@@ -654,14 +657,14 @@ console.log(skipFetch);
                                         )
                                       }
                                     >
-                                      chat
+                                      chat 
                                     </Link>
                                   )}
                                 </div>
                               ) : (
                                 <div className="astrologer-call-button-ctm chatStatus-false">
                                   <Link
-                                    href="#"
+                                    href={`/chat-with-astrologer/user/${userIds}`}
                                     // onClick={() =>
                                     //   onChangeId(item._id, item.mobileNumber)
                                     // }
