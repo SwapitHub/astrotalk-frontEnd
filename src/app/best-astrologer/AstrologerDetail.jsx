@@ -44,7 +44,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
         )
         .then((res) => {
-          setUserData(res.data);
+          setUserData(res.data.data);
         })
         .catch((err) => {
           console.log(err, "user login api error");

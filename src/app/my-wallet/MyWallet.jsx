@@ -58,7 +58,7 @@ useEffect(()=>{
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userPhone}`
         );
-        setUserData(response.data);
+        setUserData(response.data.data);
       } catch (error) {
         console.log("Error login detail api", error);
       }

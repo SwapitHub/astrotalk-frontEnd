@@ -70,7 +70,7 @@ const Header = () => {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
         );
-        setUserDetailData(response.data);
+        setUserDetailData(response.data.data);
         console.log("API response:", response);
       } catch (err) {
         console.error("user detail api error:", err);

@@ -237,7 +237,7 @@ console.log("AdminCommissionData",AdminCommissionData.AdminCommissionData
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
       )
       .then((res) => {
-        setShowUserData(res.data);
+        setShowUserData(res.data.data);
       })
       .catch((err) => {
         console.log(err);

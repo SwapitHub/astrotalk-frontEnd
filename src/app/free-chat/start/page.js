@@ -22,7 +22,7 @@ const StartUserName = () => {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
         );
-        setDatePhoneAvailable(response.data);
+        setDatePhoneAvailable(response.data.data);
         console.log("API response:", response);
       } catch (err) {
         console.error("user detail api error:", err);

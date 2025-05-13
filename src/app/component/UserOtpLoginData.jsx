@@ -78,12 +78,16 @@ console.log(formData);
       );
       setMessage(response.data.message);
 
-      let userMatch = userLoginData.find((item) => {
-        return item.phone == phone;
-      });
+      // let userMatch = userLoginData.find((item) => {
+      //   return item.phone == phone;
+      // });
+       const userMatch = await axios.get(
+      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${phone}`
+    );
+console.log(userMatch);
 
 
-      if (!userMatch) {
+      if (!userMatch.data.message=="success") {
         if (response.status == 200) {
           const userLoginRes = await axios.post(
             `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login`,

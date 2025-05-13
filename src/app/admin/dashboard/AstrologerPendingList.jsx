@@ -79,11 +79,11 @@ function AstrologerPendingList() {
         </tbody>
       </table>
 
-      <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+      <div  className="admin-wallet-inner">
         <button
           onClick={() => setPage(page - 1)}
           disabled={!hasPrevPage}
-          style={{ padding: "6px 12px" }}
+         
         >
           Previous
         </button>

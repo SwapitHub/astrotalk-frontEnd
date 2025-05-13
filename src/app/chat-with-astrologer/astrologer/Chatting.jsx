@@ -90,7 +90,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userIds}`
       )
       .then((response) => {
-        setShowUserData(response.data);
+        setShowUserData(response.data.data);
       })
       .catch((error) => {
         console.log(error);
