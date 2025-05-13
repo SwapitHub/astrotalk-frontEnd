@@ -16,7 +16,7 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 });
 
 export default function Chatting(AdminCommissionData) {
-  const router = useRouter()
+  const router = useRouter();
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [timeLeft, setTimeLeft] = useState(null);
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
@@ -37,15 +37,13 @@ export default function Chatting(AdminCommissionData) {
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(() => secureLocalStorage.getItem("AstrologerNotificationStatus"));
   const mobileRef = useRef(null);
+  console.log(astrologerNotificationStatus === false && showRating === false);
 
   useEffect(() => {
-    if (
-      astrologerNotificationStatus == false ||
-      astrologerNotificationStatus == undefined
-    ) {
+    if (astrologerNotificationStatus === false && showRating === false) {
       router.push("/chat-with-astrologer");
     }
-  }, [astrologerNotificationStatus]);
+  }, [astrologerNotificationStatus, showRating]);
 
   useEffect(() => {
     const id = secureLocalStorage.getItem("astrologerId");

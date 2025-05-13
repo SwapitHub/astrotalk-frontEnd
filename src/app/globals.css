@@ -486,7 +486,6 @@ scrollbar-color: #ddd #ddd;
 /*  Thank You Section  */
 .astrologer-registration-bg {
     padding: 50px 0;
-    background-color: #f8f8f8;
 }
 .logo-astrologer-registration img {
     width: 50px;
@@ -930,14 +929,11 @@ scrollbar-color: #ddd #ddd;
 .add-profile-content {
     margin-top: 5px;
 }
-.astrologer-registration-form {
+.astrologer-registration-form, .user-registration-form {
     max-width: 1024px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 30px 20px;
-    border-radius: 10px;
-    margin-top: 20px;
-    box-shadow: 0 5px 12px #00000047;
+    background: #f2f2f2;
+    padding: 50px;
+    margin: 20px auto 0px;
 }
 .please-check-ref-color a {
     color: #1788ec;
@@ -951,14 +947,9 @@ scrollbar-color: #ddd #ddd;
     row-gap: 30px;
     margin-top: 30px;
 }
-.inner-form-filed-sec {
-    width: calc(100%/2 - 10px);
-    position: relative;
-}
 .common-input-filed {
     border-radius: 5px;
     width: 100%;
-    color: #232323;
     font-weight: 400;
     font-size: 16px;
     line-height: normal;
@@ -968,11 +959,12 @@ scrollbar-color: #ddd #ddd;
     background: transparent;
     border-bottom: 1px solid #d9d9d9;
     border: 1px solid #d9d9d9;
-    height: 40px;
+    font-family: inherit;
+	height: 42px;
 }
+
 .man-input-filed-sec input::placeholder {
     color: #232323 !important;
-    font-size: 16px;
 }
 input#fname::placeholder {
     color: #232323 !important;
@@ -1061,6 +1053,25 @@ ul.check-box-drop-worn {
 .header-left-logo a {
     width: 85px;
 }
+.mobile-close-sidebar {
+    display: none;
+     width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    align-items: center;
+    justify-content: center;
+}
+.mobile-close-sidebar span {
+    display: block;
+    width: 2px;
+    height: 16px;
+    background-color: #fff;
+    transform: rotate(45deg) translate(1px , -1px);
+}
+.mobile-close-sidebar span:last-child {
+    transform: rotate(-45deg);
+}
 .dashboard-left-dashboard {
     width: 255px;
     overflow-x: hidden;
@@ -1115,23 +1126,27 @@ ul.check-box-drop-worn {
   color: #fff;
 }
 .dashboard-list > ul > li > a svg {
-vertical-align: middle;
-fill: #ffffff;
+    vertical-align: middle;
+    fill: #ffffff;
+}
+.dashboard-list ul li a, .dashboard-list ul li button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    gap: 10px;
 }
 .dashboard-list ul li a {
-  color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: all 0.3s;
   font-weight: 400;
   font-size: 14px;
   padding: 15px 16px;
 }
+span.list-text {
+    flex-grow: 1;
+}
 .dashboard-list ul li button {
   border: 0;
   background: transparent;
-  color: #fff;
   font-weight: 500;
   font-size: 15px;
   width: 100%;
@@ -2589,7 +2604,7 @@ span.star {
     display: inline-block;
     padding: 7px 20px;
 }
-li.active a {
+li.active > a {
     opacity: 1 !important;
 }
 /* 24-04-2025 */
@@ -2730,16 +2745,7 @@ li.active a {
 }
  
 /* Manage Profile */
-.astrologer-registration-form {
-    margin: 0 auto;
-    box-shadow: none;
-    background-color: #f2f2f2;
-    border-radius: 0px;
-}
-.common-input-filed {
-    font-family: inherit;
-	height: 42px;
-}
+
 .common-input-filed:not([type="file"]):not([type="radio"]):not([type="checkbox"]):not(.man-input-filed-sec) {
     border: 0px;
     background-color: #fff;
@@ -3279,9 +3285,9 @@ h2.review-heading {
     top: -10px
 }
 .page-main-header .main-header-right .nav-right ul li svg {
-    margin-top: 10px;
     width: 18px;
-    height: 18px
+    height: 18px;
+    margin-top: 10px;
 }
 .page-main-header .main-header-right .nav-right ul li svg path {
     color: var(--primary_color)
@@ -3445,18 +3451,18 @@ h2.review-heading {
 .page-main-header .main-header-right .nav-right .profile-dropdown li:hover a svg path,.page-main-header .main-header-right .nav-right .profile-dropdown li:hover a svg line,.page-main-header .main-header-right .nav-right .profile-dropdown li:hover a svg polyline {
     color: var(--primary_color) !important
 }
-.page-main-header .main-header-right .nav-right .profile-dropdown li a {
+.page-main-header .main-header-right .nav-right .profile-dropdown li a, .page-main-header .main-header-right .nav-right .profile-dropdown li button {
     color: #313131;
-    -webkit-transition: .3s;
-    transition: .3s;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center
+    align-items: center;
 }
-.page-main-header .main-header-right .nav-right .profile-dropdown li a svg {
+.page-main-header .main-header-right .nav-right .profile-dropdown li button {
+    appearance: none;
+    border: 0px;
+    background-color: transparent;
+    padding: 0;
+}
+.page-main-header .main-header-right .nav-right .profile-dropdown li svg {
     margin-right: 10px;
     color: var(--primary_color);
 }
@@ -3522,9 +3528,11 @@ ul.notification-dropdown.onhover-show-div li h6 small {
     display: block;
 }
 ul.notification-dropdown.onhover-show-div li span svg {
-    margin-top: 0 !important;
     margin-right: 10px;
     vertical-align: text-top
+}
+ul.notification-dropdown.onhover-show-div li span svg, .page-main-header .main-header-right .nav-right .profile-dropdown li svg {
+    margin-top: 0px !important;
 }
 ul.notification-dropdown.onhover-show-div li span .shopping-color path,ul.notification-dropdown.onhover-show-div li span .shopping-color line {
     color: var(--primary_color)
@@ -3549,10 +3557,6 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
     -webkit-transition: all linear 0.3s;
     transition: all linear 0.3s
 }
-.onhover-show-div li a svg {
-    margin-top: 0 !important
-}
-
 .onhover-show-div li a svg path,.onhover-show-div li a svg line {
     color: #313131 !important
 }
@@ -3625,9 +3629,6 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
     display: none;
 }
 
-.mobile-close-sidebar{
-    color: red;
-}
 /* ================== @ Media Css Start Here ================== */
 @media (max-width:1199px) {
     .astrologer {
@@ -3667,6 +3668,9 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
         flex: 0 0 66.66666667%;
         max-width: 66.66666667%;
     }
+    .admin-popup-main .admin-popup-outer-inner {
+        max-width: 100%;
+    }
 }
 @media (max-width: 767px) {
 
@@ -3679,6 +3683,9 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
         max-width: 70px;
     }
     /* Dashboard Header  */
+    .mobile-close-sidebar {
+        display: flex;
+    }
     .page-main-header {
         margin-left: 0px;
         width: 100%;
@@ -3697,7 +3704,6 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
         flex-direction: column;
         align-items:normal;
     }
-    
     .profile_with_contact .image,
     .profile_with_contact .content {
         flex: 0 0 100%;
@@ -3708,7 +3714,6 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
         gap: 0;
         align-items: normal;
     }
-    
     .btns_astrolgers_contact {
         width: 100%;
     }
@@ -3765,6 +3770,12 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
     }
     .mobile {
         display: block;
+    }
+    .astrologer-registration-form, .user-registration-form { 
+        padding: 30px 20px;
+    }
+    .inner-form-filed-sec {
+        width: 100%;
     }
 }
 @media (max-width:575px) {
