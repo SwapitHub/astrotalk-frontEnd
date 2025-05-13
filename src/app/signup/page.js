@@ -110,20 +110,14 @@ const AstrologerRegistration = () => {
     fetchLanguageList();
   }, []);
   return (
-    <>
+    <main className="main-content">
       {successMessage == "success" ? (
-        <div className="container">
           <section className="astrologer-registration-bg">
             <div className="container">
+            <div className="astrologer-registration-wrapper">
               <div className="inner-astrologer-registration">
                 <div className="registration-heading">
                   <h1 className="common-h1-heading">Astrologer Registration</h1>
-                </div>
-
-                <div className="logo-astrologer-registration">
-                  <a href="#" title="weddingbyte">
-                    <img src="./wedding-fav-icon.ico" alt="weddingbyte" />
-                  </a>
                 </div>
               </div>
               <div className="astrologer-thanks-section-bg">
@@ -146,20 +140,16 @@ const AstrologerRegistration = () => {
                   </p>
                 </div>
               </div>
+              </div>
             </div>
           </section>
-        </div>
       ) : (
         <section className="astrologer-registration-bg">
           <div className="container">
+          <div className="astrologer-registration-wrapper">
             <div className="inner-astrologer-registration">
               <div className="registration-heading">
                 <h1 className="common-h1-heading">Astrologer Registration</h1>
-              </div>
-              <div className="logo-astrologer-registration">
-                <a href="#" title="weddingbyte">
-                  <img src="./wedding-fav-icon.ico" alt="weddingbyte" />
-                </a>
               </div>
             </div>
             <div className="astrologer-registration-form">
@@ -383,10 +373,11 @@ const AstrologerRegistration = () => {
                 </div>
               </form>
             </div>
+            </div>
           </div>
         </section>
       )}
-    </>
+    </main>
   );
 };
 export default AstrologerRegistration;

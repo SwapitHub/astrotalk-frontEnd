@@ -4,26 +4,26 @@
 // import React, { useEffect, useState } from "react";
 // import secureLocalStorage from "react-secure-storage";
 
-// const MyWalletPaymentLog = ()  => {
+// const MyWalletPaymentLog = () => {
 //   const userPhone = Math.round(secureLocalStorage.getItem("userMobile"));
 //   const [userData, setUserData] = useState();
-// console.log(userPhone);
+//   console.log(userPhone);
 
-// useEffect(() => {
-//   const fetchOrderUserList = async () => {
-//     try {
-//       const response = await axios.get(
-//         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/create-order-user-list/${userPhone}`
-//       );
-//       console.log(response);
-//       setUserData(response.data);
-//     } catch (error) {
-//       console.log("Error login detail api", error);
-//     }
-//   };
+//   useEffect(() => {
+//     const fetchOrderUserList = async () => {
+//       try {
+//         const response = await axios.get(
+//           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/create-order-user-list/${userPhone}`
+//         );
+//         console.log(response);
+//         setUserData(response.data);
+//       } catch (error) {
+//         console.log("Error login detail api", error);
+//       }
+//     };
 
-//   fetchOrderUserList();
-// }, [userPhone]);
+//     fetchOrderUserList();
+//   }, [userPhone]);
 
 //   return (
 //     <div
@@ -64,12 +64,12 @@
 //           </div>
 //         </div>
 //       </div>
-//       <div className="my-wallet-table-sec">
+//       <div className="my-wallet-table-sec outer-table">
 //         <table>
 //           <thead>
 //             <tr>
 //               <th>Recharge</th>
-//               <th>	Datetime</th>
+//               <th> Datetime</th>
 //               <th>Amount</th>
 //               <th>Transaction ID</th>
 //               <th>Status</th>
@@ -82,12 +82,8 @@
 //                 <>
 //                   <tr>
 //                     <td>Recharge</td>
-//                     <td>
-//                      {new Date(item?.createdAt)?.toLocaleString()}
-//                     </td>
-//                     <td>                      
-//                         {item?.amount}                      
-//                     </td>
+//                     <td>{new Date(item?.createdAt)?.toLocaleString()}</td>
+//                     <td>{item?.amount}</td>
 //                     <td>{item?.order_id}</td>
 //                     <td>{item?.status}</td>
 //                     <td className="delete-button-icon">

@@ -11,9 +11,19 @@ import UserList from "./UserList";
 import AddLanguage from "./AddLanguage";
 import AddProfession from "./AddProfession";
 import ChatCommission from "./ChatCommission";
-import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import {
+  MdOutlineDashboard,
+  MdOutlineKeyboardArrowRight,
+  MdOutlinePreview,
+} from "react-icons/md";
 import SlideToggle from "@/app/component/SlideToggle";
 import DashboardHeader from "@/app/header/DashboardHeader";
+import { PiUserListDuotone } from "react-icons/pi";
+import { CiSettings, CiWallet } from "react-icons/ci";
+import { TfiGallery } from "react-icons/tfi";
+import { IoMdLogOut } from "react-icons/io";
+import { TbBrandDenodo } from "react-icons/tb";
+import { FaHeadSideCough } from "react-icons/fa";
 
 const AdminHome = () => {
   const router = useRouter();
@@ -22,6 +32,7 @@ const AdminHome = () => {
   const [astroListToggle, setAstroListToggle] = useState(false);
   const [adminWalletToggle, setAdminWalletToggle] = useState(false);
   const [adminSideSettingToggle, setAdminSideSettingToggle] = useState(false);
+  const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
 
   useEffect(() => {
     if (!admin_id) {
@@ -35,14 +46,31 @@ const AdminHome = () => {
     router.push("/admin");
   };
 
+
+useEffect(() => {
+  const className = "slider-opened";
+
+  if (toggleSlideMobile) {
+    document.body.classList.add(className);
+  } else {
+    document.body.classList.remove(className);
+  }
+}, [toggleSlideMobile]);
+
   return (
     <main className="main-content">
-      <DashboardHeader />
+      <DashboardHeader setToggleSlideMobile={setToggleSlideMobile}/>
       <div className="dashboard-main-outer">
         <div className="container">
           <div className="dashboard-inner-main super-admin">
             <div className="dashboard-inner">
               <div className="dashboard-left-dashboard">
+                <div
+                  className="mobile-close-sidebar"
+                   onClick={() => setToggleSlideMobile(false)}
+                >
+                  Close
+                </div>
                 <div className="left-sidebar-logo">
                   <a href="#" title="">
                     <img src="/astrotalk-logo.webp" alt="Logo" />
@@ -58,10 +86,17 @@ const AdminHome = () => {
                           setUpdateButton(1);
                         }}
                       >
-                        Dashboard
+                        <MdOutlineDashboard />
+                        <span className="list-text">Dashboard</span>
                       </a>
                     </li>
-                    <li>
+                    <li
+                      className={`${
+                        updateButton === "active" || updateButton === "pending"
+                          ? "active"
+                          : ""
+                      }`}
+                    >
                       <a
                         href="#"
                         onClick={(e) => {
@@ -69,8 +104,9 @@ const AdminHome = () => {
                           setAstroListToggle(!astroListToggle);
                         }}
                       >
-                        Astrologer List{" "}
-                        <span>
+                        <PiUserListDuotone />
+                        <span className="list-text">Astrologer List </span>
+                        <span className="list-arrow">
                           <MdOutlineKeyboardArrowRight />
                         </span>
                       </a>
@@ -109,7 +145,15 @@ const AdminHome = () => {
                         </ul>
                       </SlideToggle>
                     </li>
-                    <li>
+                    <li
+                      className={
+                        updateButton === "admin" ||
+                        updateButton === "astrologer" ||
+                        updateButton === "user"
+                          ? "active"
+                          : ""
+                      }
+                    >
                       <a
                         href="#"
                         onClick={(e) => {
@@ -117,8 +161,9 @@ const AdminHome = () => {
                           setAdminWalletToggle(!adminWalletToggle);
                         }}
                       >
-                        Wallet{" "}
-                        <span>
+                        <CiWallet />
+                        <span className="list-text">Wallet </span>
+                        <span className="list-arrow">
                           <MdOutlineKeyboardArrowRight />
                         </span>
                       </a>
@@ -176,10 +221,19 @@ const AdminHome = () => {
                           setUpdateButton(3);
                         }}
                       >
-                        Denomination
+                        <TbBrandDenodo />
+                        <span className="list-text">Denomination</span>
                       </a>
                     </li>
-                    <li>
+                    <li
+                      className={
+                        updateButton === "language" ||
+                        updateButton === "profession" ||
+                        updateButton === "ChatCommission"
+                          ? "active"
+                          : ""
+                      }
+                    >
                       <a
                         href="#"
                         onClick={(e) => {
@@ -187,8 +241,9 @@ const AdminHome = () => {
                           setAdminSideSettingToggle(!adminSideSettingToggle);
                         }}
                       >
-                        Site Setting{" "}
-                        <span>
+                        <CiSettings />
+                        <span className="list-text">Site Setting </span>
+                        <span className="list-arrow">
                           <MdOutlineKeyboardArrowRight />
                         </span>
                       </a>
@@ -250,7 +305,8 @@ const AdminHome = () => {
                           setUpdateButton(4);
                         }}
                       >
-                        Gallery
+                        <TfiGallery />
+                        <span className="list-text">Gallery</span>
                       </a>
                     </li>
                     <li className={updateButton === 5 ? "active" : ""}>
@@ -261,7 +317,8 @@ const AdminHome = () => {
                           setUpdateButton(5);
                         }}
                       >
-                        My Review
+                        <MdOutlinePreview />
+                        <span className="list-text">My Review</span>
                       </a>
                     </li>
                     <li className={updateButton === 6 ? "active" : ""}>
@@ -272,7 +329,8 @@ const AdminHome = () => {
                           setUpdateButton(6);
                         }}
                       >
-                        Id Proof
+                        <FaHeadSideCough />
+                        <span className="list-text">Id Proof</span>
                       </a>
                     </li>
                     <li className={updateButton === 7 ? "active" : ""}>
@@ -283,13 +341,15 @@ const AdminHome = () => {
                           setUpdateButton(7);
                         }}
                       >
-                        User List
+                        <PiUserListDuotone />
+                        <span className="list-text">User List</span>
                       </a>
                     </li>
                     <li>
                       {admin_id && (
                         <button onClick={handleAdminLogOut}>
-                          Log out admin
+                          <IoMdLogOut />
+                          <span className="list-text">Log out admin</span>
                         </button>
                       )}
                     </li>

@@ -1,4 +1,5 @@
 "use client";
+import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
@@ -8,9 +9,12 @@ function AstrologerPendingList() {
   const [totalPages, setTotalPages] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
+    const [loading, setLoading] = useState(false);
+  
 
   const fetchAstrologers = async (pageNumber) => {
     try {
+      setLoading(true)
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-list?astroStatus=false&page=${pageNumber}&limit=2`
       );
@@ -22,6 +26,9 @@ function AstrologerPendingList() {
       setHasPrevPage(res.data.hasPrevPage);
     } catch (err) {
       console.log("Fetch astrologers error:", err);
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -45,46 +52,49 @@ function AstrologerPendingList() {
   };
 
   return (
-    <div>
-      <table border="1" cellPadding="8" style={{ marginBottom: "20px" }}>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pendingData.map((item) => (
-            <tr key={item._id}>
-              <td>{item._id}</td>
-              <td>{item.name}</td>
-              <td>
-                <button
-                  onClick={() => updateAstrologerStatus(item._id, true)}
-                  style={{
-                    backgroundColor: item.astroStatus ? "green" : "orange",
-                    color: "white",
-                    padding: "4px 10px",
-                    border: "none",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                  }}
-                >
-                  {item.astroStatus ? "Active" : "Pending"}
-                </button>
-              </td>
+    <>
+    {loading ?  <Loader /> : 
+   
+      <div className="outer-table">
+        <table border="1" cellPadding="8" style={{ marginBottom: "20px" }}>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Status</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <div  className="admin-wallet-inner">
-        <button
-          onClick={() => setPage(page - 1)}
-          disabled={!hasPrevPage}
-         
-        >
+          </thead>
+          <tbody>
+            {pendingData.map((item) => (
+              <tr key={item._id}>
+                <td>{item._id}</td>
+                <td>{item.name}</td>
+                <td>
+                  <button
+                    onClick={() => updateAstrologerStatus(item._id, true)}
+                    style={{
+                      backgroundColor: item.astroStatus ? "green" : "orange",
+                      color: "white",
+                      padding: "4px 10px",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {item.astroStatus ? "Active" : "Pending"}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+}
+      <div className="admin-wallet-inner">
+        <button onClick={() => setPage(page - 1)} 
+           disabled={!hasPrevPage || loading}
+          className={!hasPrevPage ? "disable" : ""}
+          >
           Previous
         </button>
         <span>
@@ -92,13 +102,13 @@ function AstrologerPendingList() {
         </span>
         <button
           onClick={() => setPage(page + 1)}
-          disabled={!hasNextPage}
-          style={{ padding: "6px 12px" }}
+         disabled={!hasNextPage || loading}
+          className={!hasNextPage ? "disable" : ""}
         >
           Next
         </button>
       </div>
-    </div>
+    </>
   );
 }
 

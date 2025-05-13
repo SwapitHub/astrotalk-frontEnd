@@ -114,8 +114,8 @@ const StartUserName = () => {
   };
 
   return (
-    <>
-      <section className="astrologer-registration-bg">
+    <main className="main-content">
+      <section className="astrologer-registration-bg user-registration-bg">
         <div className="container">
           <div className={otpPopUpDisplays == true && `outer-send-otp-main`}>
             {otpPopUpDisplays && (
@@ -319,7 +319,7 @@ const StartUserName = () => {
           </div>
         </div>
       </section>
-    </>
+    </main>
   );
 };
 

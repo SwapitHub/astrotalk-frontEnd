@@ -21,10 +21,10 @@ const RequestPopUp = ({setIsLoadingRequest}) => {
       return () => clearInterval(interval); 
     }, [timer]);
 
-    const handleUpdateNotification =()=>{
+    const handleCloseNotification =()=>{
       // console.log("jhgjhgjhghg============");
       
-      // socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
+      socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
       // socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
       secureLocalStorage.setItem("IsLoadingRequestStore", false);
       setIsLoadingRequest(false);
@@ -35,7 +35,7 @@ const RequestPopUp = ({setIsLoadingRequest}) => {
     <section className="countdown-outer">
     <div className="container">
         <div className="countdown-inner">
-          <span className="close-icon"><button onClick={handleUpdateNotification}>Close X</button></span>
+          <span className="close-icon"><button onClick={handleCloseNotification}>Close X</button></span>
             <div className="countdown-top-cont">
                 <h1>Please wait....</h1>
                 <p>The astrologer will connect with you shortly.</p>

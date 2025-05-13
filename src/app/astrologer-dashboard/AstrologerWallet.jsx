@@ -54,6 +54,7 @@ function AstrologerWallet() {
       {loading ? (
         <Loader />
       ) : (
+        <div className="outer-table">
         <table>
           <thead>
             <tr>
@@ -84,6 +85,7 @@ function AstrologerWallet() {
             )}
           </tbody>
         </table>
+        </div>
       )}
       <div className="admin-wallet-inner">
         <button

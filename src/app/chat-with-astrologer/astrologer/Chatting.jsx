@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useRef } from "react";
 import secureLocalStorage from "react-secure-storage";
 import EndChatPopUp from "@/app/component/EndChatPopUp";
+import { useRouter } from "next/navigation";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
   transports: ["websocket"],
@@ -14,6 +15,7 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 });
 
 export default function Chatting({ astrologer, AdminCommissionData }) {
+  const router = useRouter();
   const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [timeLeft, setTimeLeft] = useState(null);
@@ -31,19 +33,20 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   const [showUserData, setShowUserData] = useState("");
   const astrologerId = secureLocalStorage.getItem("astrologerId");
   const userIds = secureLocalStorage.getItem("userIds");
-  const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
-    useState();
-// console.log(astrologerId,userIds,showUserData);
+ const [astrologerNotificationStatus, setAstrologerNotificationStatus] = useState(() =>
+  secureLocalStorage.getItem("AstrologerNotificationStatus")
+);
 
+
+console.log(astrologerNotificationStatus);
   useEffect(() => {
-    let storedNotification = secureLocalStorage.getItem(
-      "AstrologerNotificationStatus"
-    );
-    if (storedNotification) {
-      setAstrologerNotificationStatus(storedNotification);
+    if (
+      astrologerNotificationStatus == false ||
+      astrologerNotificationStatus == undefined
+    ) {
+      router.push("/");
     }
-  }, []);
-
+  }, [astrologerNotificationStatus]);
 
   useEffect(() => {
     const storedTime = secureLocalStorage.getItem("chatTimeLeft");
@@ -236,7 +239,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
         };
         // socket.emit("chat-timeLeft-update", newUserDetail);
         // console.log(newUserDetail);
-        if(showUserData?.freeChatStatus == false){
+        if (showUserData?.freeChatStatus == false) {
           socket.emit("chat-timeLeft-update", newUserDetail);
           console.log("newUserDetail=====", newUserDetail);
         }
@@ -259,7 +262,6 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
           }
         );
 
-       
         console.log("update hist", updateList);
       }
     } catch (error) {
@@ -314,22 +316,22 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   let astroChatPricePerMinute = Math.round(astrologerData.charges);
   let totalTimeSecond = (userTotalAmount / astroChatPricePerMinute) * 60;
 
-   useEffect(() => {
-     if (totalChatTime > 0 && showUserData?.freeChatStatus == false) {
-       const maxAffordableTime = Math.floor(
-         (userTotalAmount / astroChatPricePerMinute) * 60 - 1
-       );
+  useEffect(() => {
+    if (totalChatTime > 0 && showUserData?.freeChatStatus == false) {
+      const maxAffordableTime = Math.floor(
+        (userTotalAmount / astroChatPricePerMinute) * 60 - 1
+      );
 
-       if (totalChatTime >= maxAffordableTime) {
-         const remainingBalance = 0;
-         console.log(totalChatTime, userTotalAmount, maxAffordableTime);
-         setActualChargeUserChat(userTotalAmount);
+      if (totalChatTime >= maxAffordableTime) {
+        const remainingBalance = 0;
+        console.log(totalChatTime, userTotalAmount, maxAffordableTime);
+        setActualChargeUserChat(userTotalAmount);
 
-         endChatStatus();
-         console.log("Automatically ending chat due to balance exhaustion...");
-       }
-     }
-   }, [totalChatTime, userTotalAmount, astroChatPricePerMinute]);
+        endChatStatus();
+        console.log("Automatically ending chat due to balance exhaustion...");
+      }
+    }
+  }, [totalChatTime, userTotalAmount, astroChatPricePerMinute]);
   // if user balance is over then cut the automatic call End
 
   const intervals = Math.ceil(totalChatTime / 60);
@@ -340,9 +342,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
     setShowEndChat(true);
   };
 
-  // useEffect(()=>{
-  //   setActualChargeUserChat(totalChatPrice);
-  // },[totalChatPrice])
+
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
@@ -351,9 +351,8 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
       {showEndChat && (
         <EndChatPopUp
           setShowEndChat={setShowEndChat}
-          onCloseEndChat={endChatStatus} 
+          onCloseEndChat={endChatStatus}
           setShowRating={setShowRating}
-
         />
       )}
 

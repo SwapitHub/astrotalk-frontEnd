@@ -109,6 +109,7 @@ useEffect(()=>{
       </div>
       <div className="my-wallet-table-sec">
         {loading ?  <Loader/> : 
+        <div className="outer-table">
         <table>
           <thead>
             <tr>
@@ -152,6 +153,7 @@ useEffect(()=>{
             })}
           </tbody>
         </table>
+        </div>
 }
         <div style={{ marginTop: "10px" }}>
         <button onClick={() => setPage(page - 1)} disabled={!hasPrevPage || loading}

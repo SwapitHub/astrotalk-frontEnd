@@ -72,6 +72,7 @@ const [pages, setPages] = useState(() => {
       {loading ? (
         <Loader />
       ) : (
+        <div className="outer-table">
         <table border="1">
           <thead>
             <tr>
@@ -96,6 +97,7 @@ const [pages, setPages] = useState(() => {
             ))}
           </tbody>
         </table>
+        </div>
       )}
 
       <div className="admin-wallet-inner">

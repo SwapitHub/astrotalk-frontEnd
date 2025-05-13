@@ -8,6 +8,7 @@ import { useRef } from "react";
 import secureLocalStorage from "react-secure-storage";
 import EndChatPopUp from "@/app/component/EndChatPopUp";
 import RatingPopUp from "@/app/component/RatingPopUp";
+import { useRouter } from "next/navigation";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
   transports: ["websocket"],
@@ -15,47 +16,41 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 });
 
 export default function Chatting(AdminCommissionData) {
+  const router = useRouter()
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [timeLeft, setTimeLeft] = useState(null);
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
   const [showEndChat, setShowEndChat] = useState(false);
   const [showRating, setShowRating] = useState(false);
-console.log("AdminCommissionData",AdminCommissionData.AdminCommissionData
-);
+  console.log("AdminCommissionData", AdminCommissionData.AdminCommissionData);
 
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
   const [message, setMessage] = useState("");
   const [messageData, setMessageData] = useState([]);
-  const [user, setUser] = useState("");
   const [astrologerData, setAstrologerData] = useState("");
   const [showUserData, setShowUserData] = useState();
   const [astrologerId, setAstrologerId] = useState();
   const userIds = secureLocalStorage.getItem("userIds");
   const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
-  // const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
-  useState();
-  const [astroMobileUpdate, setAstroMobileUpdate] = useState(null);
-  const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
-    useState(null);
-  const mobileRef = useRef(null);
-  // console.log(showUserData);
 
-  // console.log(astrologerId, astrologerNotificationStatus);
+  const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
+    useState(() => secureLocalStorage.getItem("AstrologerNotificationStatus"));
+  const mobileRef = useRef(null);
+
+  useEffect(() => {
+    if (
+      astrologerNotificationStatus == false ||
+      astrologerNotificationStatus == undefined
+    ) {
+      router.push("/chat-with-astrologer");
+    }
+  }, [astrologerNotificationStatus]);
 
   useEffect(() => {
     const id = secureLocalStorage.getItem("astrologerId");
     if (id) {
       setAstrologerId(id);
-    }
-  }, []);
-
-  useEffect(() => {
-    const storedNotification = secureLocalStorage.getItem(
-      "AstrologerNotificationStatus"
-    );
-    if (storedNotification) {
-      setAstrologerNotificationStatus(storedNotification);
     }
   }, []);
 
@@ -76,7 +71,6 @@ console.log("AdminCommissionData",AdminCommissionData.AdminCommissionData
     }
   }, [astrologerNotificationStatus]);
 
-  
   useEffect(() => {
     if (astrologerData?.mobileNumber) {
       mobileRef.current = astrologerData.mobileNumber;
@@ -410,7 +404,6 @@ console.log("AdminCommissionData",AdminCommissionData.AdminCommissionData
   //    setActualChargeUserChat(totalChatPrice);
   //  },[totalChatPrice])
 
-
   useEffect(() => {
     const className = "rating-popup-opened";
 
@@ -427,7 +420,7 @@ console.log("AdminCommissionData",AdminCommissionData.AdminCommissionData
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
-console.log(showEndChat);
+  console.log(showEndChat);
 
   return (
     <>

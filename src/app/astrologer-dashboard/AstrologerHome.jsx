@@ -8,6 +8,13 @@ import axios from "axios";
 import Link from "next/link";
 import DashboardHeader from "../header/DashboardHeader";
 import { useRouter } from "next/navigation";
+import { MdOutlineDashboard, MdOutlinePreview } from "react-icons/md";
+import { ImProfile } from "react-icons/im";
+import { CiWallet } from "react-icons/ci";
+import { TfiGallery } from "react-icons/tfi";
+import { FaHeadSideCough } from "react-icons/fa";
+import { IoMdLogOut } from "react-icons/io";
+import { SiFreedesktopdotorg } from "react-icons/si";
 
 const AstrologerHome = () => {
   const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
@@ -15,6 +22,8 @@ const AstrologerHome = () => {
   const [updateButton, setUpdateButton] = useState(2);
   const [successMessageProfile, setSuccessMessageProfile] = useState();
   const [astrologerData, setAstrologerData] = useState("");
+  const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
+
 
   useEffect(() => {
     if (!astrologerPhone) {
@@ -99,15 +108,31 @@ const AstrologerHome = () => {
       );
     }
   };
+
+  useEffect(() => {
+    const className = "slider-opened";
+  
+    if (toggleSlideMobile) {
+      document.body.classList.add(className);
+    } else {
+      document.body.classList.remove(className);
+    }
+  }, [toggleSlideMobile]);
   return (
     <main className="main-content">
-      <DashboardHeader/>
+      <DashboardHeader setToggleSlideMobile={setToggleSlideMobile}/>
       <div class="dashboard-main-outer">
         <div className="container">
           <div className="dashboard-inner-main">
             <div className="dashboard-inner">
               
                 <div className="dashboard-left-dashboard">
+                   <div
+                  className="mobile-close-sidebar"
+                   onClick={() => setToggleSlideMobile(false)}
+                >
+                  Close
+                </div>
                   <div className="left-sidebar-logo">
                     <a href="#" title="">
                       <img src="/astrotalk-logo.webp" alt="Logo" />
@@ -124,7 +149,8 @@ const AstrologerHome = () => {
                             setUpdateButton(1);
                           }}
                         >
-                          Dashboard
+                         <MdOutlineDashboard />
+                                                 <span className="list-text">Dashboard</span>
                         </a>
                       </li>
                       <li>
@@ -136,7 +162,8 @@ const AstrologerHome = () => {
                             setUpdateButton(2);
                           }}
                         >
-                          Manage Profile
+                          <ImProfile />
+                          <span className="list-text">Manage Profile</span>
                         </a>
                       </li>
                       <li>
@@ -148,7 +175,8 @@ const AstrologerHome = () => {
                             setUpdateButton(3);
                           }}
                         >
-                          Wallet
+                          <CiWallet />
+                                                  <span className="list-text">Wallet </span>
                         </a>
                       </li>
                       <li>
@@ -160,7 +188,8 @@ const AstrologerHome = () => {
                             setUpdateButton(4);
                           }}
                         >
-                          Gallery
+                          <TfiGallery />
+                                                  <span className="list-text">Gallery</span>
                         </a>
                       </li>
                       <li>
@@ -172,7 +201,8 @@ const AstrologerHome = () => {
                             setUpdateButton(5);
                           }}
                         >
-                          My Review
+                          <MdOutlinePreview />
+                                                  <span className="list-text">My Review</span>
                         </a>
                       </li>
                       <li>
@@ -184,13 +214,15 @@ const AstrologerHome = () => {
                             setUpdateButton(6);
                           }}
                         >
-                          Id Proof
+                         <FaHeadSideCough />
+                                                 <span className="list-text">Id Proof</span>
                         </a>
                       </li>
 
                       {astrologerData?.profileStatus == true && (
                         <li>
                           <button>
+                            <SiFreedesktopdotorg />
                             <label>Are you Available for free chat </label>
                             <input
                               type="checkBox"
@@ -204,7 +236,9 @@ const AstrologerHome = () => {
 
                       <li>
                         <button onClick={astroLogerLogout}>
-                          Log Out Astrologer
+                           <IoMdLogOut />
+                                                    <span className="list-text">Log Out Astrologer</span>
+                          
                         </button>
                       </li>
                     </ul>

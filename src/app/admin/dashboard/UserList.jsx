@@ -1,3 +1,4 @@
+import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
@@ -7,8 +8,11 @@ const UserList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
+      const [loading, setLoading] = useState(false);
+  
 
   const fetchUsers = async (pageNumber) => {
+    setLoading(true)
     try {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login?page=${pageNumber}&limit=2`
@@ -20,6 +24,8 @@ const UserList = () => {
       setHasPrevPage(res.data.hasPrevPage);
     } catch (err) {
       console.error("Error fetching users:", err);
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -28,33 +34,36 @@ const UserList = () => {
   }, [page]);
 
   return (
-    <div>
-      <table border="1">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Gender</th>
-            <th>Date Of Birth</th>
-          </tr>
-        </thead>
-        <tbody>
-          {userMainData.map((item) => (
-            <tr key={item._id}>
-              <td>{item._id}</td>
-              <td>{item.name}</td>
-              <td>{item.gender}</td>
-              <td>{item.dateOfBirth}</td>
+    <>
+     {loading ?  <Loader /> : 
+      <div className="outer-table">
+        <table border="1">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Gender</th>
+              <th>Date Of Birth</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-
+          </thead>
+          <tbody>
+            {userMainData.map((item) => (
+              <tr key={item._id}>
+                <td>{item._id}</td>
+                <td>{item.name}</td>
+                <td>{item.gender}</td>
+                <td>{item.dateOfBirth}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+}
       <div className="admin-wallet-inner">
         <button
           onClick={() => setPage(page - 1)}
-          disabled={!hasPrevPage}
-          style={{ marginRight: "10px" }}
+           disabled={!hasPrevPage || loading}
+          className={!hasPrevPage ? "disable" : ""}
         >
           Previous
         </button>
@@ -65,13 +74,13 @@ const UserList = () => {
 
         <button
           onClick={() => setPage(page + 1)}
-          disabled={!hasNextPage}
-          style={{ marginLeft: "10px" }}
+          disabled={!hasNextPage || loading}
+          className={!hasNextPage ? "disable" : ""}
         >
           Next
         </button>
       </div>
-    </div>
+    </>
   );
 };
 
