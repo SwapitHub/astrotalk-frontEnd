@@ -183,13 +183,15 @@ const AstroNotification = ({ astrologerPhone }) => {
     socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
     secureLocalStorage.setItem("IsLoadingRequestStore", false);
     // secureLocalStorage.setItem("storedNotification", false);'
-    window.location.reload()
+    window.location.reload();
   };
 
-if(newRequestNotification=="2"){
-
-   window.location.reload()
-}
+  useEffect(() => {
+    if (newRequestNotification == "2" && newRequestNotification !== false) {
+      // window.location.reload();
+      socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
+    }
+  }, [newRequestNotification]);
 
   useEffect(() => {
     const handleNewRequestStatusNotification = (data) => {
