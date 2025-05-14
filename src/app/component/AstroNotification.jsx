@@ -31,12 +31,6 @@ const AstroNotification = ({ astrologerPhone }) => {
     astrologerPhone === updateNotification?.mobileNumber;
 
   useEffect(() => {
-    if (newRequestNotification == "1") {
-      window.location.reload();
-    }
-  }, [newRequestNotification]);
-
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const freeChatResponse = await axios.get(
