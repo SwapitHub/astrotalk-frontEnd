@@ -180,10 +180,16 @@ const AstroNotification = ({ astrologerPhone }) => {
   // Clear notification data from secureLocalStorage
   const UpdateRemoveData = () => {
     // socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
-    socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 0 });
+    socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
     secureLocalStorage.setItem("IsLoadingRequestStore", false);
-    // secureLocalStorage.setItem("storedNotification", false);
+    // secureLocalStorage.setItem("storedNotification", false);'
+    window.location.reload()
   };
+
+if(newRequestNotification=="2"){
+
+   window.location.reload()
+}
 
   useEffect(() => {
     const handleNewRequestStatusNotification = (data) => {
