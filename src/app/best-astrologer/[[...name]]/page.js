@@ -5,7 +5,9 @@ import { AstrologerDetail } from "../AstrologerDetail";
 const fetchAstrologerDetailData = async (name) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${decodeURIComponent(name)}`,
+      `${
+        process.env.NEXT_PUBLIC_WEBSITE_URL
+      }/astrologer-businessProfile/${decodeURIComponent(name)}`,
       {
         cache: "no-store",
       }
@@ -25,7 +27,6 @@ const fetchAstrologerDetailData = async (name) => {
 const AstroDetailServer = async ({ params }) => {
   const { name } = params;
   const astrologerData = await fetchAstrologerDetailData(name[0]);
-
 
   return (
     <>

@@ -69,7 +69,8 @@ useEffect(() => {
                   className="mobile-close-sidebar"
                    onClick={() => setToggleSlideMobile(false)}
                 >
-                  Close
+                 <span></span>
+                 <span></span>
                 </div>
                 <div className="left-sidebar-logo">
                   <a href="#" title="">
