@@ -37,7 +37,7 @@ export default function Chatting(AdminCommissionData) {
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(() => secureLocalStorage.getItem("AstrologerNotificationStatus"));
   const mobileRef = useRef(null);
-  console.log(astrologerNotificationStatus === false && showRating === false);
+  
 
   useEffect(() => {
     if (astrologerNotificationStatus === false && showRating === false) {

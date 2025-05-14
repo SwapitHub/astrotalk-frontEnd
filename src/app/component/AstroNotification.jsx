@@ -114,11 +114,11 @@ const AstroNotification = ({ astrologerPhone }) => {
       if (response.status == 200) {
         console.log(response.status == 200);
         setUpdateNotification(null);
-      secureLocalStorage.removeItem("storedNotification");
+        secureLocalStorage.removeItem("storedNotification");
 
         const astrologerData = response.data.updatedProfile;
         socket.emit("astrologer-chat-status", astrologerData);
-        socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
+        // socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
         socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
 
         if (astrologerData.mobileNumber == astrologerPhone) {
@@ -179,12 +179,10 @@ const AstroNotification = ({ astrologerPhone }) => {
 
   // Clear notification data from secureLocalStorage
   const UpdateRemoveData = () => {
-      socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
-    // socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
+    // socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
+    socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
     secureLocalStorage.setItem("IsLoadingRequestStore", false);
-    secureLocalStorage.removeItem("storedNotification");
-    setUpdateNotification(null);      
-        
+    // secureLocalStorage.setItem("storedNotification", false);
   };
 
   useEffect(() => {
@@ -251,7 +249,7 @@ const AstroNotification = ({ astrologerPhone }) => {
   const storedNotification = secureLocalStorage.getItem(
     "shouldShowNotification"
   );
-  console.log("storedNotification",storedNotification);
+  console.log("storedNotification", storedNotification);
 
   return (
     <>
@@ -274,19 +272,19 @@ const AstroNotification = ({ astrologerPhone }) => {
               <strong>Time of Birth:</strong> {updateNotification?.userBornTime}
             </p>
             <div className="button-outer">
-            <button onClick={UpdateRemoveData}>Dismiss</button>
-            <a
-              href={`/chat-with-astrologer/astrologer/${updateNotification?.astrologerId}`}
-              // href="#"
-              onClick={() =>
-                onChangeId(
-                  updateNotification.astrologerId,
-                  updateNotification.userId
-                )
-              }
-            >
-              Chat
-            </a>
+              <button onClick={UpdateRemoveData}>Dismiss</button>
+              <a
+                href={`/chat-with-astrologer/astrologer/${updateNotification?.astrologerId}`}
+                // href="#"
+                onClick={() =>
+                  onChangeId(
+                    updateNotification.astrologerId,
+                    updateNotification.userId
+                  )
+                }
+              >
+                Chat
+              </a>
             </div>
           </div>
         </div>
