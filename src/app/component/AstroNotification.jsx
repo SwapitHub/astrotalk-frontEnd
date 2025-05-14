@@ -177,6 +177,7 @@ const AstroNotification = ({ astrologerPhone }) => {
     }
   };
 
+  
   // Clear notification data from secureLocalStorage
   const UpdateRemoveData = () => {
     // socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
