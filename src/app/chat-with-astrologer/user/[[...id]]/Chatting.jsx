@@ -418,7 +418,6 @@ export default function Chatting(AdminCommissionData) {
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
-  console.log(showEndChat);
 
   return (
     <>

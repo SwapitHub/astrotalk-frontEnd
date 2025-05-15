@@ -197,7 +197,7 @@ const AstrologerRegistration = () => {
                         Gender <span>(लिंग)</span>
                       </label>
                     </div>
-                    <div className="man-input-filed-sec input-gender-sec common-input-filed">
+                    <div className="man-input-filed-sec input-gender-sec">
                     <div className="inner-radio">
                       <input
                         type="radio"
@@ -344,7 +344,7 @@ const AstrologerRegistration = () => {
                   <div className="inner-form-filed-sec">
                     <div className="label-content">
                       <label for="birthday">
-                        Mobile Number <span>मोबाइल नंबर</span>
+                        Mobile Number <span>(मोबाइल नंबर)</span>
                       </label>
                     </div>
                     <div className="man-input-filed-sec">

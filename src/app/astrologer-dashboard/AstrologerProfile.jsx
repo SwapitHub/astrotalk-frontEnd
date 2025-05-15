@@ -279,7 +279,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
             <div className="inner-form-filed-sec">
               <div className="label-content">
                 <label for="Name">
-                  Experience <span>अनुभव</span>
+                  Experience <span>(अनुभव)</span>
                 </label>
               </div>
               <input
@@ -297,7 +297,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
             <div className="inner-form-filed-sec">
               <div className="label-content">
                 <label>
-                  Skills <span>कौशल</span>
+                  Skills <span>(कौशल)</span>
                 </label>
               </div>
               <div className="man-input-filed-sec">
@@ -347,7 +347,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
             <div className="inner-form-filed-sec full">
               <div className="label-content">
                 <label for="Name">
-                  Charges <span>शुल्क</span>
+                  Charges <span>(शुल्क)</span>
                 </label>
               </div>
               <input
@@ -428,7 +428,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
             <div className="inner-form-filed-sec full">
               <div className="label-content">
                 <label for="Name">
-                  Mobile Number <span>मोबाइल नंबर</span>
+                  Mobile Number <span>(मोबाइल नंबर)</span>
                 </label>
               </div>
               <input
@@ -452,7 +452,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
             <div className="inner-form-filed-sec full">
               <div className="label-content">
                 <label for="Name">
-                  Description <span>पविवरण</span>
+                  Description <span>(पविवरण)</span>
                 </label>
               </div>
               <textarea id="description"></textarea>
