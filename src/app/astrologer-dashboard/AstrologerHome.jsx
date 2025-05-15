@@ -24,7 +24,6 @@ const AstrologerHome = () => {
   const [astrologerData, setAstrologerData] = useState("");
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
 
-
   useEffect(() => {
     if (!astrologerPhone) {
       router.push("/");
@@ -111,7 +110,7 @@ const AstrologerHome = () => {
 
   useEffect(() => {
     const className = "slider-opened";
-  
+
     if (toggleSlideMobile) {
       document.body.classList.add(className);
     } else {
@@ -120,132 +119,128 @@ const AstrologerHome = () => {
   }, [toggleSlideMobile]);
   return (
     <main className="main-content">
-      <DashboardHeader setToggleSlideMobile={setToggleSlideMobile}/>
+      <DashboardHeader setToggleSlideMobile={setToggleSlideMobile} />
       <div class="dashboard-main-outer">
         <div className="container">
           <div className="dashboard-inner-main">
             <div className="dashboard-inner">
-              
-                <div className="dashboard-left-dashboard">
-                   <div
+              <div className="dashboard-left-dashboard">
+                <div
                   className="mobile-close-sidebar"
-                   onClick={() => setToggleSlideMobile(false)}
+                  onClick={() => setToggleSlideMobile(false)}
                 >
                   <span></span>
                   <span></span>
                 </div>
-                  <div className="left-sidebar-logo">
-                    <a href="#" title="">
-                      <img src="/astrotalk-logo.webp" alt="Logo" />
-                    </a>
-                  </div>
-                  <div className="dashboard-list">
-                    <ul>
-                      <li>
-                        <a
-                          href="#"
-                          title="menu"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setUpdateButton(1);
-                          }}
-                        >
-                         <MdOutlineDashboard />
-                                                 <span className="list-text">Dashboard</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="#"
-                          title="menu"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setUpdateButton(2);
-                          }}
-                        >
-                          <ImProfile />
-                          <span className="list-text">Manage Profile</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="#"
-                          title="menu"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setUpdateButton(3);
-                          }}
-                        >
-                          <CiWallet />
-                                                  <span className="list-text">Wallet </span>
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="#"
-                          title="menu"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setUpdateButton(4);
-                          }}
-                        >
-                          <TfiGallery />
-                                                  <span className="list-text">Gallery</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="#"
-                          title="menu"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setUpdateButton(5);
-                          }}
-                        >
-                          <MdOutlinePreview />
-                                                  <span className="list-text">My Review</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="#"
-                          title="menu"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setUpdateButton(6);
-                          }}
-                        >
-                         <FaHeadSideCough />
-                                                 <span className="list-text">Id Proof</span>
-                        </a>
-                      </li>
-
-                      {astrologerData?.profileStatus == true && (
-                        <li>
-                          <button>
-                            <SiFreedesktopdotorg />
-                            <label>Are you Available for free chat </label>
-                            <input
-                              type="checkBox"
-                              name={astrologerPhone}
-                              onClick={handleUpdateStatus}
-                              defaultChecked={astrologerData.freeChatStatus}
-                            />
-                          </button>
-                        </li>
-                      )}
-
-                      <li>
-                        <button onClick={astroLogerLogout}>
-                           <IoMdLogOut />
-                                                    <span className="list-text">Log Out Astrologer</span>
-                          
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
+                <div className="left-sidebar-logo">
+                  <a href="#" title="">
+                    <img src="/astrotalk-logo.webp" alt="Logo" />
+                  </a>
                 </div>
-             
+                <div className="dashboard-list">
+                  <ul>
+                    <li>
+                      <a
+                        href="#"
+                        title="menu"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setUpdateButton(1);
+                        }}
+                      >
+                        <MdOutlineDashboard />
+                        <span className="list-text">Dashboard</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        title="menu"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setUpdateButton(2);
+                        }}
+                      >
+                        <ImProfile />
+                        <span className="list-text">Manage Profile</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        title="menu"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setUpdateButton(3);
+                        }}
+                      >
+                        <CiWallet />
+                        <span className="list-text">Wallet </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        title="menu"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setUpdateButton(4);
+                        }}
+                      >
+                        <TfiGallery />
+                        <span className="list-text">Gallery</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        title="menu"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setUpdateButton(5);
+                        }}
+                      >
+                        <MdOutlinePreview />
+                        <span className="list-text">My Review</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        title="menu"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setUpdateButton(6);
+                        }}
+                      >
+                        <FaHeadSideCough />
+                        <span className="list-text">Id Proof</span>
+                      </a>
+                    </li>
+
+                    {astrologerData?.profileStatus == true && (
+                      <li>
+                        <span>
+                          <input
+                            type="checkbox"
+                            name={astrologerPhone}
+                            onClick={handleUpdateStatus}
+                            defaultChecked={astrologerData.freeChatStatus}
+                            />
+                            <label>Are you Available for free chat </label>
+                        </span>
+                      </li>
+                    )}
+
+                    <li>
+                      <span onClick={astroLogerLogout}>
+                        <IoMdLogOut />
+                        <span className="list-text">Log Out Astrologer</span>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
 
               <div className="dashboard-right-content">
                 {updateButton == 1 && <DashBoardData_1 />}

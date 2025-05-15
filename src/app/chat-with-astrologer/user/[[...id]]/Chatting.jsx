@@ -8,7 +8,7 @@ import { useRef } from "react";
 import secureLocalStorage from "react-secure-storage";
 import EndChatPopUp from "@/app/component/EndChatPopUp";
 import RatingPopUp from "@/app/component/RatingPopUp";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
   transports: ["websocket"],
@@ -17,6 +17,9 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 
 export default function Chatting(AdminCommissionData) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const userParam = searchParams.get("user");
+
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [timeLeft, setTimeLeft] = useState(null);
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
@@ -40,7 +43,7 @@ export default function Chatting(AdminCommissionData) {
   
 
   useEffect(() => {
-    if (astrologerNotificationStatus === false && showRating === false) {
+    if (astrologerNotificationStatus === false && showRating === false && !userParam=="order-history") {
       router.push("/chat-with-astrologer");
     }
   }, [astrologerNotificationStatus, showRating]);

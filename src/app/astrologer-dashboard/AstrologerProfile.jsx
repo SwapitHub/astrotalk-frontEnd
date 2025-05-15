@@ -94,6 +94,14 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
       );
 
       if (response.data.message === "success") {
+        const updateList = await axios.put(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
+          {
+            mobileNumber: astrologerPhone,
+            profileStatus: true,
+          }
+        );
+
         // Reset only needed fields
         ["Experience", "Charges", "description", "image"].forEach((id) => {
           const el = document.getElementById(id);
@@ -382,7 +390,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
                   Country <span>(देश)</span>
                 </label>
               </div>
-              <div className="man-input-filed-sec input-gender-sec common-input-filed">
+              <div className="man-input-filed-sec input-gender-sec">
                 <div className="inner-radio">
                   <input type="radio" name="country" value="India" />
                   <label>India</label>
@@ -402,7 +410,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
                   Gender <span>(लिंग)</span>
                 </label>
               </div>
-              <div className="man-input-filed-sec input-gender-sec common-input-filed">
+              <div className="man-input-filed-sec input-gender-sec">
                 <div className="inner-radio">
                   <input type="radio" id="Male" name="gender" value="Male" />
                   <label>Male</label>

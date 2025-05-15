@@ -27,6 +27,8 @@ const ChatHistory = () => {
   const [astroMessageList, setAstroMessageList] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   console.log(astroMessageList);
 
@@ -44,6 +46,7 @@ const ChatHistory = () => {
   }, [showRecharge]);
 
   const fetchAstroMessageList = async () => {
+    setIsLoading(true)
     try {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list/${userIds}?page=${page}&limit=4`
@@ -56,6 +59,9 @@ const ChatHistory = () => {
       setPage((prev) => prev + 1);
     } catch (error) {
       console.error("Error fetching messages:", error);
+    }
+    finally {
+      setIsLoading(false);
     }
   };
 
@@ -79,8 +85,10 @@ const ChatHistory = () => {
 
   const fetchDataUserDetail = async () => {
     try {
-      const data = await fetchUserLoginDetails(userMobile);
-      setUserData(data);
+      const data = await axios.get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
+      );
+      setUserData(data.data.data);
     } catch (error) {
       console.error("Error fetching fetchDataUserDetail:", error);
     }
@@ -89,7 +97,7 @@ const ChatHistory = () => {
     fetchDataUserDetail();
   }, []);
 
-  const userAmount = userData?.totalAmount;
+  const userAmount = userData?.data?.totalAmount;
 
   const onChangeId = async (
     astrologerId,
@@ -199,6 +207,7 @@ const ChatHistory = () => {
                   </li>
                 </ul>
               </div>
+              {isLoading && <Loader />}
               <div
                 className="wallet-ctm-tab wallet-ctm-tab-active"
                 data-id="wallet-ctm-tab1"
@@ -207,7 +216,7 @@ const ChatHistory = () => {
                   <InfiniteScroll
                     dataLength={astroMessageList?.length}
                     next={fetchAstroMessageList}
-                    hasMore={<Loader/>}
+                    hasMore={<Loader />}
                     scrollThreshold={0.9} // Trigger load when 90% scrolled
                   >
                     <div className="inner-scroll">
@@ -258,7 +267,9 @@ const ChatHistory = () => {
                                                     item.astroCharges * 2 ? (
                                                       <Link
                                                         href={`/chat-with-astrologer/user/${userIds}`}
-                                                        onClick={() =>
+                                                        onClick={() => {
+                                                          setIsLoading(false);
+
                                                           onChangeId(
                                                             item.astrologerIdToAst,
                                                             item.mobileNumber,
@@ -267,13 +278,14 @@ const ChatHistory = () => {
                                                             item.astroCharges,
                                                             item.astroExperience,
                                                             item.profileStatus
-                                                          )
-                                                        }
+                                                          );
+                                                        }}
                                                       >
                                                         Chat{" "}
                                                       </Link>
                                                     ) : (
-                                                      <button
+                                                      <Link
+                                                      href="#"
                                                         onClick={() =>
                                                           onChangeId(
                                                             item.astrologerIdToAst,
@@ -287,18 +299,19 @@ const ChatHistory = () => {
                                                         }
                                                       >
                                                         chat
-                                                      </button>
+                                                      </Link>
                                                     )}
                                                   </div>
                                                 ) : (
                                                   <div className="astrologer-call-button-ctm chatStatus-false">
-                                                    <button
-                                                    // onClick={() =>
-                                                    //   onChangeId(item._id, item.mobileNumber)
-                                                    // }
+                                                    <Link
+                                                      href={`/chat-with-astrologer/user/${userIds}`}
+                                                      // onClick={() =>
+                                                      //   onChangeId(item._id, item.mobileNumber)
+                                                      // }
                                                     >
                                                       Chat
-                                                    </button>
+                                                    </Link>
                                                     <span>
                                                       waiting 5 minutes
                                                     </span>
@@ -319,7 +332,7 @@ const ChatHistory = () => {
                                           item?.astrologerIdToAst
                                         );
                                         router.push(
-                                          `/chat-with-astrologer/user/${item?.userIdToAst}`
+                                          `/chat-with-astrologer/user/${item?.userIdToAst}/?user=order-history`
                                         );
                                       }}
                                     >
@@ -349,6 +362,11 @@ const ChatHistory = () => {
                                       </div>
                                       <div className="call-rate-text">
                                         <p>Rate: ₹ ${item.astroCharges}/min </p>
+                                      </div>
+                                      <div className="call-rate-text">
+                                        <p>
+                                          Astrologer Name: {item.astroName}{" "}
+                                        </p>
                                       </div>
                                       <div className="call-rate-text">
                                         <p>

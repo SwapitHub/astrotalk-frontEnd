@@ -348,10 +348,10 @@ useEffect(() => {
                     </li>
                     <li>
                       {admin_id && (
-                        <button onClick={handleAdminLogOut}>
+                        <span onClick={handleAdminLogOut}>
                           <IoMdLogOut />
                           <span className="list-text">Log out admin</span>
-                        </button>
+                        </span>
                       )}
                     </li>
                   </ul>

@@ -1109,9 +1109,13 @@ ul.check-box-drop-worn {
   display: block;
   border-bottom: 1px solid #464646;
 }
+.dashboard-list > ul > li > span > label {
+    position: relative;
+}
 .dashboard-list > ul > li.active > a,
 .dashboard-list > ul > li > a:hover,
-.dashboard-list ul li button:hover {
+.dashboard-list ul li button:hover,
+.dashboard-list > ul > li > span:hover  {
     background-color: var(--primary_color);
 }
 .dashboard-list > ul > li > a {
@@ -1121,17 +1125,54 @@ ul.check-box-drop-worn {
     vertical-align: middle;
     fill: #ffffff;
 }
-.dashboard-list ul li a, .dashboard-list ul li button {
+.dashboard-list ul li a, .dashboard-list ul li button, .dashboard-list > ul > li > span {
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: #fff;
     gap: 10px;
 }
-.dashboard-list ul li a {
+.dashboard-list ul li a, .dashboard-list > ul > li > span {
   font-weight: 400;
   font-size: 14px;
   padding: 15px 16px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.dashboard-list > ul > li input[type="checkbox"] {appearance: none;width: 14px;height: 14px;border: 1px solid #fff;}
+.dashboard-list > ul > li input[type="checkbox"] + label::before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 4px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(-45deg);
+    left: -19px;
+    top: 14px;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+}
+.dashboard-list > ul > li input[type="checkbox"] + label::after {
+    content: "";
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    background-color: #121212;
+    left: -17px;
+    top: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+}
+.dashboard-list > ul > li input[type="checkbox"]:checked + label::after, .dashboard-list > ul > li input[type="checkbox"]:checked + label::before {
+    opacity: 1;
+    visibility: visible;
+}
+.dashboard-list > ul > li > span:hover input[type="checkbox"]:checked + label::after {
+    background-color: var(--primary_color);
 }
 span.list-text {
     flex-grow: 1;
@@ -1325,7 +1366,12 @@ p.error, .error-message {
 .send-otp p {
     text-align: center;
     padding: 20px 0px;
-    color:var(--primary_color);
+}
+.green p {
+    color: green;
+}
+.red p {
+    color: red;
 }
 .send-otp .resend-both-col {
     display: flex;
@@ -1489,6 +1535,9 @@ section.all-notifications-sec-bg {
     font-size: 16px;
     cursor: pointer;
     border: 1px solid var(--primary_color);
+    display: inline-block;
+    width: 100%;
+    text-align: center;
 }
 .wallet-ctm-tab-menu ul li button:hover, .wallet-ctm-tab-menu ul li a:hover{
     background-color: var(--primary_color);
@@ -1579,6 +1628,7 @@ section.all-notifications-sec-bg {
     color: #fff;
     border: 1px solid var(--primary_color);
     font-size: 14px;
+    display: inline-block;
 }
 .invoice-button-ctm:hover {
     background-color: #fff;
@@ -1686,7 +1736,7 @@ table, th, td {
     object-fit: contain;
 }
 .history-delete-button-ctm svg {
-    color: #ff0000;
+    fill: var(--primary_color);
     font-size: 16px;
 }
 .order-id-sec ul li p,
@@ -1697,6 +1747,7 @@ table, th, td {
 .share-with-frnds-chat p span {
     color: #616161;
     padding: 3px 0;
+    word-break: break-word;
 }
 .order-id-sec ul {
     position: relative;
@@ -1716,12 +1767,14 @@ table, th, td {
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
-    gap: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #e1dddd;
+    gap: 14px;
+    padding: 20px 10px 0px;
+}
+.ctm-chat-with-astrologer:has(.inner-scroll) {
+    padding-inline: 0px;
 }
 .inner-ctm-chat-with-astrologer {
-    width: calc(100% / 3 - 14px);
+    width: calc(100% / 3 - 9.3333333px);
     background-color: #fff;
     box-shadow: 0 0 10px #ccc;
     border-radius: 10px;
@@ -1749,8 +1802,7 @@ table, th, td {
     color: #fff;
     border: 1px solid var(--primary_color);
     font-size: 14px;
-    outline: none;
-    cursor: pointer;
+    display: inline-block;
 }
 .help-ctm-ctm:hover {
     background-color: #fff;
@@ -1764,14 +1816,11 @@ table, th, td {
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
+    padding: 0px 10px;
 }
 .my-order-hisrory-bg .wallet-ctm-tab-menu ul li {
     width: max-content;
-    flex: 1 0 auto;
-}
-.my-order-hisrory-bg .wallet-ctm-tab-menu ul li button, .my-order-hisrory-bg .wallet-ctm-tab-menu ul li a {
-    width: 100%;
-    text-align: center;
+    flex: 1;
 }
 .inner-ctm-chat-with-astrologer-botton {
     display: flex;
@@ -1822,16 +1871,13 @@ body.user-recharge:before {
     flex-wrap: wrap;
     gap: 14px;
     padding: 10px;
-    margin-left: -10px;
-    margin-right: -10px;
     width: 100%;
     margin: 0 auto;
 }
-.order-id-sec > ul  > li:first-child {
+.order-id-sec > ul > li:first-child {
     width: calc(70% - 20px);
 }
-.order-id-sec > ul  > li.help-list-button-ctm {
-    width: calc(30% - 10px);
+.order-id-sec > ul > li.help-list-button-ctm {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
@@ -2777,6 +2823,7 @@ input::file-selector-button {
 .man-input-filed-sec > * {
     position: relative;
     padding-left: 25px;
+    padding-top: 2px;
 }
 .man-input-filed-sec input[type="radio"], .man-input-filed-sec input[type="checkbox"] {
     opacity: 0;
@@ -3284,7 +3331,7 @@ h2.review-heading {
     background-color: var(--primary_color);
     position: absolute;
     right: 17px;
-    bottom: 6px;
+    bottom: 0px;
     animation: blink 1.5s infinite
 }
 .page-main-header .main-header-right .nav-right ul li .dot-chat {
@@ -3446,6 +3493,7 @@ h2.review-heading {
     border: 0px;
     background-color: transparent;
     padding: 0;
+    text-align: left;
 }
 .page-main-header .main-header-right .nav-right .profile-dropdown li svg {
     margin-right: 10px;
@@ -3453,7 +3501,6 @@ h2.review-heading {
 }
 .page-main-header .main-header-right li {
     display: inline-block;
-    position: relative
 }
 .d-lg-none {
     display: none;
@@ -3482,7 +3529,6 @@ h2.review-heading {
 }
 .nav-menus .onhover-dropdown {
     cursor: pointer;
-    position: relative
 }
 .nav-menus .onhover-dropdown:before {
     display: none
@@ -3632,24 +3678,26 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
         margin-left: 0px;
     }
 }
-@media (max-width: 992px) {
-    .sort-right {
-        gap: 8px;
-    }
-}
-@media screen and (min-width: 768px) and (max-width: 992px) {
+@media screen and (min-width: 768px) and (max-width: 991px) {
     .container {
         max-width: 750px;
         margin-inline: auto;
-        padding: 0 12px;
+        padding: 0;
     }
 }
 @media (max-width: 991px) {
-     .header-left-logo img {
+    .inner-header-sec {
+        gap: 0px;
+    }
+    .header-left-logo img {
         max-width: 80px;
     }
     nav.navbar > ul > li {
         padding: 3px 10px;
+    }
+    .user-dashboard-profile img {
+        width: 50px;
+        height: 50px;
     }
     .profile_with_contact .image {
         max-width: 33.33333333%;
@@ -3661,6 +3709,18 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
     }
     .admin-popup-main .admin-popup-outer-inner {
         max-width: 100%;
+    }
+    .sort-right {
+        gap: 8px;
+    }
+    .inner-ctm-chat-with-astrologer {
+        width: calc(100% / 2 - 7px);
+    }
+    .sort-right {
+        gap: 8px;
+    }
+    .inner-ctm-chat-with-astrologer {
+        width: calc(100% / 2 - 7px);
     }
 }
 @media (max-width: 767px) {
@@ -3771,9 +3831,18 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
     .inner-form-filed-sec, .inner-all-notifications-sec-box-maim {
         width: 100%;
     }
-
+    .wallet-ctm-tab-menu ul li button, .wallet-ctm-tab-menu ul li a, .my-wallet-recharge-button {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+     .inner-ctm-chat-with-astrologer {
+        width: 100%;
+    }
+    .dashboard-right-content .container {
+        padding: 0;
+    }
 }
-@media (max-width:575px) {
+@media (max-width: 575px) {
     .chat-left-logo {
         gap: 10px;
     }
