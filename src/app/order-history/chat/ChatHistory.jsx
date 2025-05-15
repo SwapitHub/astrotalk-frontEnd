@@ -216,7 +216,8 @@ const ChatHistory = () => {
                   <InfiniteScroll
                     dataLength={astroMessageList?.length}
                     next={fetchAstroMessageList}
-                    hasMore={<Loader />}
+                   hasMore={hasMore} // ✅ Boolean
+  loader={<Loader />}
                     scrollThreshold={0.9} // Trigger load when 90% scrolled
                   >
                     <div className="inner-scroll">
