@@ -30,20 +30,19 @@ const RequestPopUp = ({ setIsLoadingRequest }) => {
     setIsLoadingRequest(false);
   };
 
-   useEffect(() => {
+  useEffect(() => {
     const handleNewRequestStatusNotification = (data) => {
       console.log("📩 astrologer-requestStatus-new-notification:", data);
-if(data.requestStatusData.requestStatus=="3"){
-  setIsLoadingRequest(false);
-  socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 2 });
-}
+      if (data.requestStatusData.requestStatus == "3") {
+        setIsLoadingRequest(false);
+        socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 2 });
+      }
       // setNewRequestNotification(data.requestStatusData?.requestStatus);
       // Optionally save to secureLocalStorage if needed
       secureLocalStorage.setItem(
         "requestStatusNotifications",
         data.requestStatusData?.requestStatus
       );
-
     };
 
     // Add listeners

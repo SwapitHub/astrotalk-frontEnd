@@ -110,7 +110,6 @@ button {
     align-self: baseline;
 }
 
-
 /*  Header Section */
 .header {
     padding: 10px 0;
@@ -122,11 +121,8 @@ nav.navbar > ul > li {
 nav.navbar ul li a {
     color: inherit;
 }
-.header-left-logo, .header-right-profil-icon {
-    width: calc(11% - 20px);
-}
-nav.navbar {
-    width: calc(78% - 20px);
+.header-left-logo img {
+    max-width: 105px;
 }
 nav.navbar ul {
     justify-content: center;
@@ -209,10 +205,7 @@ nav.navbar ul {
     object-fit: cover;
     object-position: center top;
 }
-.header-chat-logo {
-    max-width: max-content;
-}
-.header-chat-content {
+.header-chat-logo, .header-chat-content {
     max-width: max-content;
 }
 .chat-left-logo {
@@ -573,8 +566,9 @@ scrollbar-color: #ddd #ddd;
     background-color: transparent;
 }
 .filter-button button:hover {
-    background-color: #ddd;
-    border: 1px solid #ddd;
+    background-color: var(--body_content_color);
+    border: 1px solid var(--body_content_color);
+    color: #ffffff;
 }
 .filter-button i {
     font-size: 14px;
@@ -592,8 +586,7 @@ scrollbar-color: #ddd #ddd;
 .talk-to-astrologer-left-content{
     width: 45%;
 }
-.talk-to-astrologer-left-content,
-.talk-to-astrologer-right-content {
+.talk-to-astrologer-left-content, .talk-to-astrologer-right-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -781,8 +774,7 @@ scrollbar-color: #ddd #ddd;
 .talk-to-language {
     margin: 5px 0;
 }
-.talk-to-language p span,
-.exp-year-sec p {
+.talk-to-language p span, .exp-year-sec p {
     color: #616161;
     font-size: 14px;
 }
@@ -828,12 +820,10 @@ scrollbar-color: #ddd #ddd;
 .astrologer-call-button-ctm.chatStatus-false a:hover {
     background-color: var(--primary_color);
     color: #fff;
-    transition: 0.3s ease-in-out;
 }
 .astrologer-call-button-ctm button:hover {
     background-color: #28ba51;
     color: #fff;
-    transition: 0.3s ease-in-out;
 }
 .Verified-Sticker-icon {
     text-align: right;
@@ -950,24 +940,19 @@ scrollbar-color: #ddd #ddd;
 .common-input-filed {
     border-radius: 5px;
     width: 100%;
-    font-weight: 400;
     font-size: 16px;
     line-height: normal;
-    outline-style: none;
-    padding: 10px;
-    box-shadow: none;
-    background: transparent;
-    border-bottom: 1px solid #d9d9d9;
-    border: 1px solid #d9d9d9;
+    padding: 10px 15px;
     font-family: inherit;
 	height: 42px;
 }
-
-.man-input-filed-sec input::placeholder {
+.man-input-filed-sec input::placeholder, input#fname::placeholder {
     color: #232323 !important;
 }
-input#fname::placeholder {
-    color: #232323 !important;
+.common-input-filed:not([type="file"]):not([type="radio"]):not([type="checkbox"]):not(.man-input-filed-sec) {
+    border: 0px;
+    background-color: #fff;
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, .3);
 }
 .label-content label {
     font-size: 16px;
@@ -1009,6 +994,13 @@ ul.check-box-drop-worn {
 }
 .man-input-filed-sec {
     position: relative;
+    border: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 10px;
+    align-items: center;
+    height: auto;
 }
 .man-input-filed-sec i {
     position: absolute;
@@ -1236,7 +1228,7 @@ p.error, .error-message {
     flex-direction: column;
     justify-content: center;
 }
-.send-otp.man-input-filed-sec {
+.send-otp {
     max-width: 480px;
     margin: 0 auto;
     position: relative;
@@ -1245,32 +1237,43 @@ p.error, .error-message {
     background-color: #fff;
     overflow: hidden;
 }
-.send-otp.man-input-filed-sec > h1 {
+.popup-header {
     background-color: var(--primary_color);
-    text-align: center;
+    padding: 13px 20px;
+}
+.popup-header h1 {
     font-weight: 600;
     color: #fff;
-    margin: 0;
-    padding: 12px 0;
-    border-bottom: 1px solid #ccc;
     font-size: 20px;
-    width: 100%;
+	line-height: normal;
 }
 .send-otp .number--continious-popup, .enter-otp {
     padding: 0 50px 30px;
 }
-.send-otp.man-input-filed-sec span.close-icon {
+.send-otp span.close-icon {
     position: absolute;
-    right: 10px;
-    top: 10px;
-    font-size: 21px;
-    color: #313131;
-    font-weight: 100;
+    right: 12px;
+    top: 14px;
+    font-size: 0;
     cursor: pointer;
-    opacity: 1;
-    transition: .3sease-in-out;
-    color: #fff;
+    transition: .3s ease-in-out;
     z-index: 9;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.send-otp span.close-icon span {
+    height: 18px;
+    width: 2px;
+    background-color: #ffffff;
+    display: inline-block;
+    transform: rotate(45deg);
+	position: absolute;
+}
+.send-otp span.close-icon span:last-child {
+    transform: rotate(-45deg);
 }
 .send-otp .number--continious-popup > p {
     margin: 0;
@@ -1296,7 +1299,7 @@ p.error, .error-message {
     transition: .3sease-in-out;
     cursor: pointer;
 }
-.send-otp.man-input-filed-sec input {
+.send-otp input {
     border-radius: 5px;
     width: 100%;
     color: #232323;
@@ -1311,7 +1314,7 @@ p.error, .error-message {
     border: 1px solid #d9d9d9;
     height: 40px;
 }
-.send-otp.man-input-filed-sec span.close-icon.back {
+.send-otp span.close-icon.back {
     left: 10px;
 }
 .send-otp .enter-otp h2 {
@@ -1319,10 +1322,10 @@ p.error, .error-message {
     text-align: center;
     padding: 20px 0;
 }
-.send-otp.man-input-filed-sec p {
+.send-otp p {
     text-align: center;
-    padding: 20px;
-    color: red;
+    padding: 20px 0px;
+    color:var(--primary_color);
 }
 .send-otp .resend-both-col {
     display: flex;
@@ -1516,19 +1519,17 @@ section.all-notifications-sec-bg {
     padding: 10px 40px;
     border-radius: 5px;
     font-size: 16px;
-    cursor: pointer;
+    display: inline-block;
     border: 1px solid #28ba51;
 }
 .my-wallet-recharge-button:hover {
     background-color: #28ba51;
     color: #fff;
-    transition: 0.3s ease-in-out;
 }
 .inner-my-wallet-sec {
     margin: 14px 0;
 }
 .delate-all-btn a {
-    background-color: #fff;
     border: 1px solid #ff0000;
     color: #ff0000;
 }
@@ -1536,7 +1537,6 @@ section.all-notifications-sec-bg {
     background-color: #ff0000;
     border: 1px solid #ff0000;
     color: #fff;
-    transition: 0.3s ease-in-out;
 }
 .my-walleavailable-balance-text p,
 .my-walleavailable-balance-text p span {
@@ -2745,12 +2745,6 @@ li.active > a {
 }
  
 /* Manage Profile */
-
-.common-input-filed:not([type="file"]):not([type="radio"]):not([type="checkbox"]):not(.man-input-filed-sec) {
-    border: 0px;
-    background-color: #fff;
-	box-shadow: 0px 1px 3px rgba(0, 0, 0, .3);
-}
 select.common-input-filed {
     background-image: linear-gradient(45deg, transparent 50%, gray 50%), linear-gradient(135deg, gray 50%, transparent 50%), linear-gradient(to right, #ccc, #ccc);
     background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
@@ -2773,15 +2767,6 @@ input::file-selector-button {
     margin-right: 20px;
     padding: 7px 24px;
     font-family: inherit;
-}
-.man-input-filed-sec {
-    border: 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px 10px;
-    align-items: center;
-    height: auto;
 }
 .astrologer-registration-form textarea {
     background-color: #ffffff !important;
@@ -3660,6 +3645,12 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
     }
 }
 @media (max-width: 991px) {
+     .header-left-logo img {
+        max-width: 80px;
+    }
+    nav.navbar > ul > li {
+        padding: 3px 10px;
+    }
     .profile_with_contact .image {
         max-width: 33.33333333%;
         flex:0 0 33.33333333%;
@@ -3673,7 +3664,10 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
     }
 }
 @media (max-width: 767px) {
-
+    h1, .common-h1-heading {
+        font-size: 30px;
+        line-height: 40px;
+    }
     /* Header Section */
     .navbar {
         display: none;
@@ -3774,9 +3768,10 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
     .astrologer-registration-form, .user-registration-form { 
         padding: 30px 20px;
     }
-    .inner-form-filed-sec {
+    .inner-form-filed-sec, .inner-all-notifications-sec-box-maim {
         width: 100%;
     }
+
 }
 @media (max-width:575px) {
     .chat-left-logo {
@@ -3790,5 +3785,11 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
     }
     .chat-left-logo {
         width: calc(80% - 10px);
+    }
+    .send-otp {
+        max-width: calc(100% - 30px);
+    }
+    .send-otp .number--continious-popup, .enter-otp {
+        padding: 0 20px 0px;
     }
 }

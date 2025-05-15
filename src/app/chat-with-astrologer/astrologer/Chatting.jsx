@@ -37,14 +37,14 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   secureLocalStorage.getItem("AstrologerNotificationStatus")
 );
 
-console.log(messageData);
 
+console.log(astrologerNotificationStatus);
   useEffect(() => {
     if (
       astrologerNotificationStatus == false ||
       astrologerNotificationStatus == undefined
     ) {
-      // router.push("/");
+      router.push("/");
     }
   }, [astrologerNotificationStatus]);
 
@@ -135,15 +135,13 @@ console.log(messageData);
   }, [message]);
   // auto send message first time user to astrologer
   const sendMessage = async () => {
-    
     if (!message.trim()) return;
-    
     const now = new Date();
     const hours = now.getHours() % 12 || 12;
     const minutes = now.getMinutes().toString().padStart(2, "0");
     const ampm = now.getHours() >= 12 ? "PM" : "AM";
     const time = `${hours}:${minutes} ${ampm}`;
-    
+
     try {
       const newMessage = {
         user: user,
@@ -173,38 +171,19 @@ console.log(messageData);
     }
   };
 
-  // useEffect(() => {
-  //   setUser(astrologer.name);
-  //   socket.emit("joinChat", { userIds, astrologerId });
-  //   fetchMessages();
-  //   socket.on("receiveMessage", (msg) => {
-  //     setMessageData((prev) => [...prev, msg]);
-  //   });
-
-  //   return () => {
-  //     socket.off("receiveMessage"); // Remove the listener
-  //     socket.disconnect();
-  //   };
-  // }, [userIds, astrologerId]);
-
   useEffect(() => {
     setUser(astrologer.name);
-    
-    if (!astrologerId || !userIds || !socket) return;
-
     socket.emit("joinChat", { userIds, astrologerId });
-
     fetchMessages();
-
     socket.on("receiveMessage", (msg) => {
       setMessageData((prev) => [...prev, msg]);
     });
 
     return () => {
-      socket.off("receiveMessage");
+      socket.off("receiveMessage"); // Remove the listener
+      socket.disconnect();
     };
-  }, [astrologerId, userIds, socket]);
-
+  }, [userIds, astrologerId]);
 
   const endChatStatus = async () => {
     if (actualChargeUserChat == undefined) return;

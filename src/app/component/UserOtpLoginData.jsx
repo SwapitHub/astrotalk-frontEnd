@@ -79,21 +79,20 @@ function UserOtpLoginData({ setOtpPopUpDisplay }) {
       // let userMatch = userLoginData.find((item) => {
       //   return item.phone == phone;
       // });
-    let userMatch = null;
-    try {
-      const userMatchRes = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${phone}`
-      );
-      if (userMatchRes.data.message === "success") {
-        userMatch = userMatchRes.data;
+      let userMatch = null;
+      try {
+        const userMatchRes = await axios.get(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${phone}`
+        );
+        if (userMatchRes.data.message === "success") {
+          userMatch = userMatchRes.data;
+        }
+      } catch (error) {
+        console.warn("User not found, proceeding to create new user.");
       }
-    } catch (error) {
-      console.warn("User not found, proceeding to create new user.");
-    }
-console.log(userMatch);
+      console.log(userMatch);
 
       if (!userMatch) {
-        
         if (response.status == 200) {
           const userLoginRes = await axios.post(
             `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login`,
@@ -162,44 +161,49 @@ console.log(userMatch);
   };
 
   return (
-    <div className="man-input-filed-sec send-otp">
-      {otpSent == true && (
-        <span
-          className="close-icon back"
-          onClick={(e) => {
-            e.preventDefault();
+    <div className="send-otp">
+      <div className="popup-header">
+        {otpSent == true && (
+          <span
+            className="close-icon back"
+            onClick={(e) => {
+              e.preventDefault();
 
-            setOtpSent(false);
-          }}
-        >
-          back
-        </span>
-      )}
-      {otpSent == false ? (
-        <span
-          className="close-icon"
-          onClick={(e) => {
-            e.preventDefault();
-            setOtpPopUpDisplay(false);
-            setOtpSent(false);
-          }}
-        >
-          close
-        </span>
-      ) : (
-        <span
-          className="close-icon"
-          onClick={(e) => {
-            e.preventDefault();
-            setOtpPopUpDisplay(false);
-            setOtpSent(true);
-          }}
-        >
-          close
-        </span>
-      )}
+              setOtpSent(false);
+            }}
+          >
+            back
+          </span>
+        )}
+        {otpSent == false ? (
+          <span
+            className="close-icon"
+            onClick={(e) => {
+              e.preventDefault();
+              setOtpPopUpDisplay(false);
+              setOtpSent(false);
+            }}
+          >
+            <span></span>
+            <span></span>
+          </span>
+        ) : (
+          <span
+            className="close-icon"
+            onClick={(e) => {
+              e.preventDefault();
+              setOtpPopUpDisplay(false);
+              setOtpSent(true);
+            }}
+          >
+            <span></span>
+            <span></span>
+          </span>
+        )}
 
-      <h1>{otpSent == false ? `Continue with Phone` : `Verify Phone`}</h1>
+        <h1>{otpSent == false ? `Continue with Phone` : `Verify Phone`}</h1>
+      </div>
+
       {otpSent == false ? (
         <div className="number--continious-popup">
           <p>You will receive a 6 digit code for verification</p>
@@ -249,8 +253,13 @@ console.log(userMatch);
           </div>
         </div>
       )}
-
-      <p>{message}</p>
+      <div
+        className={`popup-btm-content ${
+          message == "OTP sent successfully" ? "green" : "red"
+        }`}
+      >
+        <p>{message}</p>
+      </div>
     </div>
   );
 }

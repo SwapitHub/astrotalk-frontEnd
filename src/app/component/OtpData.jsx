@@ -130,7 +130,9 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
   return (
     <div className={otpPopUpDisplayAstro == true && `outer-send-otp-main`}>
       {otpPopUpDisplayAstro && (
-        <div className="man-input-filed-sec send-otp">
+        <div className="send-otp">
+
+          <div className="popup-header">
           {otpSent == true && (
             <span
               className="close-icon back"
@@ -152,7 +154,7 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
                 setOtpSent(false);
               }}
             >
-              close
+              <span></span><span></span>
             </span>
           ) : (
             <span
@@ -163,11 +165,12 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
                 setOtpSent(true);
               }}
             >
-              close
+              <span></span><span></span>
             </span>
           )}
 
           <h1>{otpSent == false ? `Continue with Phone` : `Verify Phone`}</h1>
+</div>
           {otpSent == false ? (
             <div className="number--continious-popup">
               <p>You will receive a 6 digit code for verification</p>
@@ -222,7 +225,13 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
             </div>
           )}
 
-          <p>{message}</p>
+          <div
+        className={`popup-btm-content ${
+          message == "OTP sent successfully" ? "green" : "red"
+        }`}
+      >
+        <p>{message}</p>
+      </div>
         </div>
       )}
     </div>
