@@ -188,6 +188,7 @@ console.log(messageData);
   // }, [userIds, astrologerId]);
 
   useEffect(() => {
+    setUser(astrologer.name);
     
     if (!astrologerId || !userIds || !socket) return;
 

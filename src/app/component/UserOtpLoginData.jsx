@@ -55,20 +55,18 @@ function UserOtpLoginData({ setOtpPopUpDisplay }) {
   const verifyOtp = async () => {
     const formData = {
       first_name: document.getElementById("fname")?.value?.trim(),
-      gender:
-        document.querySelector('input[name="gender"]:checked')?.value,
-      date_of_birth: document.getElementById("birthdayany")?.value?.trim() ,
-      re_use_date_of_birth:
-        document.getElementById("birthdayReUse")?.value?.trim() ,
+      gender: document.querySelector('input[name="gender"]:checked')?.value,
+      date_of_birth: document.getElementById("birthdayany")?.value?.trim(),
+      re_use_date_of_birth: document
+        .getElementById("birthdayReUse")
+        ?.value?.trim(),
       placeOfBorn: document.getElementById("searchAddress")?.value?.trim(),
       languages: document.getElementById("language")?.value?.trim(),
       // mobileNumber: document.getElementById("mobileNumber")?.value.trim() || "",
     };
-console.log(formData);
+    console.log(formData);
 
     try {
-      
-      
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/verify-otp`,
         {
@@ -81,13 +79,21 @@ console.log(formData);
       // let userMatch = userLoginData.find((item) => {
       //   return item.phone == phone;
       // });
-       const userMatch = await axios.get(
-      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${phone}`
-    );
+    let userMatch = null;
+    try {
+      const userMatchRes = await axios.get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${phone}`
+      );
+      if (userMatchRes.data.message === "success") {
+        userMatch = userMatchRes.data;
+      }
+    } catch (error) {
+      console.warn("User not found, proceeding to create new user.");
+    }
 console.log(userMatch);
 
-
-      if (!userMatch.data.message=="success") {
+      if (!userMatch) {
+        
         if (response.status == 200) {
           const userLoginRes = await axios.post(
             `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login`,
@@ -100,7 +106,7 @@ console.log(userMatch);
               language: formData.languages,
               phone: phone,
               totalAmount: 0,
-              freeChatStatus: true
+              freeChatStatus: true,
             }
           );
           // userLoginRes.data.user.freeChatStatus==true ? `/chat-with-astrologer/user/${userLoginRes.data.user._id}`:
@@ -110,9 +116,10 @@ console.log(userMatch);
             secureLocalStorage.setItem("userMobile", phone);
             console.log("User login successful, User ID:", phone);
             window.dispatchEvent(new Event("userMobileUpdated"));
-            router.push(formData.first_name ? "/chat-with-astrologer" : "/free-chat/start");
+            router.push(
+              formData.first_name ? "/chat-with-astrologer" : "/free-chat/start"
+            );
             console.log(formData);
-            
           }
         }
       } else {
@@ -123,14 +130,16 @@ console.log(userMatch);
               name: userMatch.name,
               gender: userMatch.gender,
               dateOfBirth: userMatch.dateOfBirth,
-              reUseDateOfBirth: userMatch.re_use_date_of_birth?userMatch.re_use_date_of_birth:"",
+              reUseDateOfBirth: userMatch.re_use_date_of_birth
+                ? userMatch.re_use_date_of_birth
+                : "",
               placeOfBorn: userMatch.placeOfBorn,
               language: userMatch.language,
               // totalAmount: 0,
             }
           );
-          console.log("response",response.data);
-          
+          console.log("response", response.data);
+
           if (response.data.message == "success") {
             setOtpPopUpDisplay(false);
             secureLocalStorage.setItem("userIds", response.data.user._id);
@@ -149,7 +158,6 @@ console.log(userMatch);
     } catch (error) {
       setMessage("Invalid OTP or login formData");
       console.log("Invalid OTP or login formData");
-      
     }
   };
 

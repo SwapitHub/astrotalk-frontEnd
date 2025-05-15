@@ -72,6 +72,7 @@ const Header = () => {
         );
         setUserDetailData(response.data.data);
         console.log("API response:", response);
+         
       } catch (err) {
         console.error("user detail api error:", err);
       }
@@ -79,6 +80,11 @@ const Header = () => {
 
     if (userMobile) {
       fetchUserDetail();
+      window.addEventListener("userMobileUpdated", fetchUserDetail);
+
+    return () => {
+      window.removeEventListener("userMobileUpdated", fetchUserDetail);
+    };
     }
   }, [userMobile]);
 

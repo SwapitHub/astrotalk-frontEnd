@@ -341,6 +341,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
           sendMessageRequest(item);
         });
       }
+       socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 0 });
     } catch (error) {
       console.error("Update user freeChatStatus error:", error);
     }
