@@ -29,7 +29,6 @@ const ChatHistory = () => {
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-
   console.log(astroMessageList);
 
   const deleteOrderHistory = (id) => {
@@ -46,7 +45,7 @@ const ChatHistory = () => {
   }, [showRecharge]);
 
   const fetchAstroMessageList = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list/${userIds}?page=${page}&limit=4`
@@ -59,8 +58,7 @@ const ChatHistory = () => {
       setPage((prev) => prev + 1);
     } catch (error) {
       console.error("Error fetching messages:", error);
-    }
-    finally {
+    } finally {
       setIsLoading(false);
     }
   };
@@ -216,8 +214,8 @@ const ChatHistory = () => {
                   <InfiniteScroll
                     dataLength={astroMessageList?.length}
                     next={fetchAstroMessageList}
-                   hasMore={hasMore} // ✅ Boolean
-  loader={<Loader />}
+                    hasMore={hasMore} // ✅ Boolean
+                    loader={<Loader />}
                     scrollThreshold={0.9} // Trigger load when 90% scrolled
                   >
                     <div className="inner-scroll">
@@ -286,7 +284,7 @@ const ChatHistory = () => {
                                                       </Link>
                                                     ) : (
                                                       <Link
-                                                      href="#"
+                                                        href="#"
                                                         onClick={() =>
                                                           onChangeId(
                                                             item.astrologerIdToAst,

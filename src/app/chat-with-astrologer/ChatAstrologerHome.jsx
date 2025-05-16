@@ -161,7 +161,6 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
   ) => {
     setSkipFetch(true);
     if (!userIds) {
-      console.error("userIds is undefined!");
       return;
     }
     if (userAmount >= astroCharge * 2) {

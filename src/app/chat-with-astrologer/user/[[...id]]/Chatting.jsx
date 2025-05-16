@@ -40,10 +40,13 @@ export default function Chatting(AdminCommissionData) {
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(() => secureLocalStorage.getItem("AstrologerNotificationStatus"));
   const mobileRef = useRef(null);
-  
 
   useEffect(() => {
-    if (astrologerNotificationStatus === false && showRating === false && !userParam=="order-history") {
+    if (
+      astrologerNotificationStatus === false &&
+      showRating === false &&
+      userParam !== "order-history"
+    ) {
       router.push("/chat-with-astrologer");
     }
   }, [astrologerNotificationStatus, showRating]);
