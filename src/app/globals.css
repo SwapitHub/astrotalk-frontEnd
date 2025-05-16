@@ -1789,7 +1789,7 @@ table, th, td {
     position: relative;
 }
 .order-id-sec ul .images {
-    width: 20%;
+    width: 100%;
 }
 .inner-ctm-chat-with-astrologer-top a {
     width: 100%;
@@ -1852,7 +1852,7 @@ table, th, td {
 .end-chat-popup {
     background-color: rgba(0, 0, 0, .5);
 }
-.user-recharge .parent-recharge-popup, .end-chat-popup {
+.user-recharge .parent-recharge-popup, .end-chat-popup, .delete-chat-popup .parent-recharge-popup {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
@@ -2491,11 +2491,11 @@ span.star {
     z-index: 2;
     background-color: #fff;
 }
-.user-filter-popup, .multi-user-filter-popup, .sort-user-filter-popup, .loading-user-filter-popup {
+.user-filter-popup, .multi-user-filter-popup, .sort-user-filter-popup, .loading-user-filter-popup, .delete-chat-popup {
     position: relative;
     overflow: hidden;
 }
-.user-filter-popup::before, .multi-user-filter-popup::before, .sort-user-filter-popup::before, .loading-user-filter-popup::before {
+.user-filter-popup::before, .multi-user-filter-popup::before, .sort-user-filter-popup::before, .loading-user-filter-popup::before, .delete-chat-popup::before {
     content: "";
     position: absolute;
     width: 100%;

@@ -16,6 +16,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Link from "next/link";
+import UserOtpLoginData from "../component/UserOtpLoginData";
+import RequestPopUp from "../component/RequestPopUp";
+import { useRouter } from "next/navigation";
 
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   withCredentials: true,
@@ -29,13 +32,21 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   forceNew: true,
 });
 export const AstrologerDetail = ({ astrologerData }) => {
+  const router = useRouter();
   const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
   const userIds = secureLocalStorage.getItem("userIds");
   const [showRecharge, setShowRecharge] = useState(false);
   const [astroMobileNum, setAstroMobileNum] = useState();
   const [onchangeTabbing, setOnchangeTabbing] = useState("Most_helpful");
+  const [astrologerId, setAstrologerId] = useState();
 
   const [userData, setUserData] = useState();
+  const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
+  const [isLoadingRequest, setIsLoadingRequest] = useState(
+    secureLocalStorage.getItem("IsLoadingRequestStore")
+  );
+  const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
+    useState(null);
 
   useEffect(() => {
     if (userMobile) {
@@ -73,7 +84,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
 
         // This code will run after the navigation is complete
         secureLocalStorage.setItem("IsLoadingRequestStore", true);
-        // setIsLoadingRequest(true);
+        setIsLoadingRequest(true);
 
         secureLocalStorage.setItem("astrologerId", astrologerId);
 
@@ -180,13 +191,78 @@ export const AstrologerDetail = ({ astrologerData }) => {
     autoplay: false,
     autoplaySpeed: 2000,
   };
+  const handelUserLogin = () => {
+    setOtpPopUpDisplay(true);
+  };
+
+  useEffect(() => {
+    if (isLoadingRequest) {
+      if (astrologerId) {
+        router.push(`/chat-with-astrologer/user/${userIds}`);
+        secureLocalStorage.setItem("astrologerId", astrologerId);
+
+        secureLocalStorage.setItem("IsLoadingRequestStore", false);
+        setIsLoadingRequest(false);
+      } else {
+        setIsLoadingRequest(true);
+        secureLocalStorage.setItem("IsLoadingRequestStore", true);
+
+        console.log("No astrologer found. Timer fallback logic can go here.");
+
+        // return () => clearTimeout(timer);
+      }
+    }
+  }, [astrologerId, isLoadingRequest]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleNewNotification = (data) => {
+      console.log("Received data:", data.astrologerData);
+      const id = data.astrologerData?._id;
+      setAstrologerId(id);
+      const newStatus = data.astrologerData.chatStatus;
+      console.log(newStatus);
+
+      setAstrologerNotificationStatus((prevStatus) => {
+        if (prevStatus !== newStatus) {
+          secureLocalStorage.setItem("AstrologerNotificationStatus", newStatus);
+          return newStatus;
+        }
+        return prevStatus;
+      });
+    };
+
+    socket.on("connect", () => console.log("Connected to socket.io server"));
+    socket.on(
+      "astrologer-data-received-new-notification",
+      handleNewNotification
+    );
+
+    return () => {
+      socket.off(
+        "astrologer-data-received-new-notification",
+        handleNewNotification
+      );
+    };
+  }, [socket]);
+
   return (
     <main className="main-content">
+      {isLoadingRequest && (
+        <RequestPopUp setIsLoadingRequest={setIsLoadingRequest} />
+      )}
+
       {showRecharge && (
         <UserRecharge
           setShowRecharge={setShowRecharge}
           astroMobileNum={astroMobileNum}
         />
+      )}
+      {otpPopUpDisplay && (
+        <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
+          <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
+        </div>
       )}
 
       <section className="astrologer_profile_Section">
@@ -293,8 +369,8 @@ export const AstrologerDetail = ({ astrologerData }) => {
                         {userAmount >= astrologerData.charges * 2 ? (
                           <Link
                             className="btns_astrolgers_contact"
-                            href={`/chat-with-astrologer/user/${userIds}`}
-                            onClick={() =>
+                            href="#"
+                            onClick={() => {
                               onChangeId(
                                 astrologerData._id,
                                 astrologerData.mobileNumber,
@@ -302,13 +378,17 @@ export const AstrologerDetail = ({ astrologerData }) => {
                                 astrologerData.name,
                                 astrologerData.charges,
                                 astrologerData.experience
-                              )
-                            }
+                              );
+                            }}
                           >
                             <span className="icon">
                               <SiMessenger />
                             </span>
                             Chat{" "}
+                          </Link>
+                        ) : !userMobile || !userIds ? (
+                          <Link href="#" onClick={handelUserLogin}>
+                            chat
                           </Link>
                         ) : (
                           <Link
@@ -335,23 +415,17 @@ export const AstrologerDetail = ({ astrologerData }) => {
                     ) : (
                       <div className="astrologer-call-button-ctm chatStatus-false">
                         <Link
-                          href="#"
-                          className="btns_astrolgers_contact"
+                          href={`/chat-with-astrologer/user/${userIds}`}
                           // onClick={() =>
                           //   onChangeId(item._id, item.mobileNumber)
                           // }
                         >
-                          <span className="icon">
-                            <SiMessenger />
-                          </span>
                           Chat
                         </Link>
                         <span>waiting 5 minutes</span>
                       </div>
                     )}
                   </div>
-
-                 
                 </div>
               </div>
             </div>

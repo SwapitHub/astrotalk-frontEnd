@@ -1,6 +1,8 @@
 "use client";
 import DeleteChatPopUp from "@/app/component/DeleteChatPopUp";
 import Loader from "@/app/component/Loader";
+import RequestPopUp from "@/app/component/RequestPopUp";
+import UserOtpLoginData from "@/app/component/UserOtpLoginData";
 import UserRecharge from "@/app/component/UserRechargePopUp";
 import { fetchUserLoginDetails } from "@/app/utils/api";
 import axios from "axios";
@@ -13,7 +15,18 @@ import { MdDelete } from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroll-component";
 import secureLocalStorage from "react-secure-storage";
 import io from "socket.io-client";
-const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
+
+const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
+  withCredentials: true,
+  reconnection: true,
+  reconnectionAttempts: 5,
+  reconnectionDelay: 1000,
+  reconnectionDelayMax: 5000,
+  timeout: 20000,
+  transports: ["websocket"], // Try WebSocket first
+  autoConnect: true,
+  forceNew: true,
+});
 
 const ChatHistory = () => {
   const router = useRouter();
@@ -28,21 +41,36 @@ const ChatHistory = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
+  const [isLoadingRequest, setIsLoadingRequest] = useState(
+    secureLocalStorage.getItem("IsLoadingRequestStore")
+  );
+  const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
+    useState(null);
+  const [astrologerId, setAstrologerId] = useState();
 
-  console.log(astroMessageList);
 
+  console.log("====astroMessageList",astroMessageList);
   const deleteOrderHistory = (id) => {
+    
     setShowDelete(true);
     setDeleteId(id);
   };
 
-  useEffect(() => {
-    if (showRecharge) {
-      document.body.classList.add("user-recharge");
-    } else {
-      document.body.classList.remove("user-recharge");
-    }
-  }, [showRecharge]);
+useEffect(() => {
+  if (showRecharge) {
+    document.body.classList.add("user-recharge");
+  } else {
+    document.body.classList.remove("user-recharge");
+  }
+
+  if (showDelete) {
+    document.body.classList.add("delete-chat-popup");
+  } else {
+    document.body.classList.remove("delete-chat-popup");
+  }
+}, [showRecharge, showDelete]);
+
 
   const fetchAstroMessageList = async () => {
     setIsLoading(true);
@@ -65,6 +93,7 @@ const ChatHistory = () => {
 
   // Filter out deleted item locally after success
   const handleDeleteSuccess = (id) => {
+
     setAstroMessageList((prev) => prev.filter((item) => item._id !== id));
   };
 
@@ -95,16 +124,15 @@ const ChatHistory = () => {
     fetchDataUserDetail();
   }, []);
 
-  const userAmount = userData?.data?.totalAmount;
+  const userAmount = userData?.totalAmount;
 
   const onChangeId = async (
     astrologerId,
     mobileNumber,
-    profileImage,
+    // profileImage,
     astroName,
     astroCharge,
     astroExperience,
-    profileStatus
   ) => {
     if (userAmount >= astroCharge * 2) {
       try {
@@ -112,13 +140,15 @@ const ChatHistory = () => {
         // await router.push(`/chat-with-astrologer/user/${userIds}`);
 
         // This code will run after the navigation is complete
+        secureLocalStorage.setItem("IsLoadingRequestStore", true);
+        setIsLoadingRequest(true);
         secureLocalStorage.setItem("astrologerId", astrologerId);
 
         const messageId = {
           userIdToAst: userIds,
           astrologerIdToAst: astrologerId,
           mobileNumber: mobileNumber,
-          profileImage: profileImage,
+          // profileImage: profileImage,
           astroName: astroName,
           astroCharges: astroCharge,
           astroExperience: astroExperience,
@@ -128,11 +158,13 @@ const ChatHistory = () => {
           chatDeduction: "0",
           DeleteOrderHistoryStatus: true,
           chatStatus: true,
-          profileStatus: profileStatus,
+           userName: userData?.name,
+          userDateOfBirth: userData?.dateOfBirth,
+          userPlaceOfBorn: userData?.placeOfBorn,
+          userBornTime: userData?.reUseDateOfBirth,
         };
-        console.log("messageId", messageId, profileStatus);
-
         socket.emit("userId-to-astrologer", messageId);
+        socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 0 });
       } catch (error) {
         console.error("Navigation failed:", error);
       }
@@ -142,6 +174,63 @@ const ChatHistory = () => {
     }
   };
 
+  const handelUserLogin = () => {
+    setOtpPopUpDisplay(true);
+  };
+
+  useEffect(() => {
+    if (isLoadingRequest) {
+      if (astrologerId) {
+        router.push(`/chat-with-astrologer/user/${userIds}`);
+        secureLocalStorage.setItem("astrologerId", astrologerId);
+
+        secureLocalStorage.setItem("IsLoadingRequestStore", false);
+        setIsLoadingRequest(false);
+      } else {
+        setIsLoadingRequest(true);
+        secureLocalStorage.setItem("IsLoadingRequestStore", true);
+
+        console.log("No astrologer found. Timer fallback logic can go here.");
+
+        // return () => clearTimeout(timer);
+      }
+    }
+  }, [astrologerId, isLoadingRequest]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleNewNotification = (data) => {
+      console.log("Received data:", data.astrologerData);
+      const id = data.astrologerData?._id;
+      setAstrologerId(id);
+      const newStatus = data.astrologerData.chatStatus;
+      console.log(newStatus);
+
+      setAstrologerNotificationStatus((prevStatus) => {
+        if (prevStatus !== newStatus) {
+          secureLocalStorage.setItem("AstrologerNotificationStatus", newStatus);
+          return newStatus;
+        }
+        return prevStatus;
+      });
+    };
+
+    socket.on("connect", () => console.log("Connected to socket.io server"));
+    socket.on(
+      "astrologer-data-received-new-notification",
+      handleNewNotification
+    );
+
+    return () => {
+      socket.off(
+        "astrologer-data-received-new-notification",
+        handleNewNotification
+      );
+    };
+  }, [socket]);
+  console.log(showDelete, deleteId,);
+  
   return (
     <>
       {showDelete && (
@@ -151,11 +240,20 @@ const ChatHistory = () => {
           onDeleteSuccess={handleDeleteSuccess}
         />
       )}
+      {isLoadingRequest && (
+        <RequestPopUp setIsLoadingRequest={setIsLoadingRequest} />
+      )}
+
       {showRecharge && (
         <UserRecharge
           setShowRecharge={setShowRecharge}
           astroMobileNum={astroMobileNum}
         />
+      )}
+      {otpPopUpDisplay && (
+        <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
+          <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
+        </div>
       )}
       <section className="my-order-hisrory-bg">
         <div className="container">
@@ -220,6 +318,7 @@ const ChatHistory = () => {
                   >
                     <div className="inner-scroll">
                       {astroMessageList.map((item) => {
+                        
                         return (
                           <>
                             {item?.DeleteOrderHistoryStatus == true && (
@@ -245,7 +344,7 @@ const ChatHistory = () => {
                                             <div className="hide-div-img-text">
                                               <div className="images">
                                                 <img
-                                                  src={`/images/${item.profileImage}`}
+                                                  src={`https://aws.astrotalk.com/consultant_pic/p-106783.jpg`}
                                                   alt=""
                                                 />
                                               </div>
@@ -265,22 +364,31 @@ const ChatHistory = () => {
                                                     {userAmount >=
                                                     item.astroCharges * 2 ? (
                                                       <Link
-                                                        href={`/chat-with-astrologer/user/${userIds}`}
+                                                        href={`#`}
                                                         onClick={() => {
                                                           setIsLoading(false);
 
                                                           onChangeId(
                                                             item.astrologerIdToAst,
                                                             item.mobileNumber,
-                                                            item.profileImage,
+                                                            // item.profileImage,
                                                             item.astroName,
                                                             item.astroCharges,
                                                             item.astroExperience,
-                                                            item.profileStatus
                                                           );
                                                         }}
                                                       >
                                                         Chat{" "}
+                                                      </Link>
+                                                    ) : !userMobile ||
+                                                      !userIds ? (
+                                                      <Link
+                                                        href="#"
+                                                        onClick={
+                                                          handelUserLogin
+                                                        }
+                                                      >
+                                                        chat
                                                       </Link>
                                                     ) : (
                                                       <Link
@@ -289,11 +397,10 @@ const ChatHistory = () => {
                                                           onChangeId(
                                                             item.astrologerIdToAst,
                                                             item.mobileNumber,
-                                                            item.profileImage,
+                                                            // item.profileImage,
                                                             item.astroName,
                                                             item.astroCharges,
                                                             item.astroExperience,
-                                                            item.profileStatus
                                                           )
                                                         }
                                                       >

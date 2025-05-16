@@ -15,6 +15,8 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 });
 
 export default function Chatting({ astrologer, AdminCommissionData }) {
+  console.log(astrologer);
+
   const router = useRouter();
   const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
@@ -33,12 +35,10 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   const [showUserData, setShowUserData] = useState("");
   const astrologerId = secureLocalStorage.getItem("astrologerId");
   const userIds = secureLocalStorage.getItem("userIds");
- const [astrologerNotificationStatus, setAstrologerNotificationStatus] = useState(() =>
-  secureLocalStorage.getItem("AstrologerNotificationStatus")
-);
+  const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
+    useState(() => secureLocalStorage.getItem("AstrologerNotificationStatus"));
 
-
-console.log(astrologerNotificationStatus);
+  console.log(astrologerNotificationStatus);
   useEffect(() => {
     if (
       astrologerNotificationStatus == false ||
@@ -134,6 +134,35 @@ console.log(astrologerNotificationStatus);
     }
   }, [message]);
   // auto send message first time user to astrologer
+
+  useEffect(() => {
+  if (!user || !userIds || !astrologerId) return; // wait until all data is available
+
+  const now = new Date();
+  const hours = now.getHours() % 12 || 12;
+  const minutes = now.getMinutes().toString().padStart(2, "0");
+  const ampm = now.getHours() >= 12 ? "PM" : "AM";
+  const time = `${hours}:${minutes} ${ampm}`;
+
+  const newMessage = {
+    user: user,
+    message: `Hi,
+    
+Below are my details:
+Name: ${showUserData?.name}
+Gender: ${showUserData?.gender}
+DOB: ${showUserData?.dateOfBirth}
+ ${showUserData?.reUseDateOfBirth ? `TOB: ${showUserData?.reUseDateOfBirth}` : ""}
+POB: ${showUserData?.placeOfBorn}`,
+    time: time,
+    members: [userIds, astrologerId],
+  };
+
+  socket.emit("sendMessage", newMessage);
+  
+}, [userIds, astrologerId, showUserData]); // only run once when all 3 are available
+
+
   const sendMessage = async () => {
     if (!message.trim()) return;
     const now = new Date();
@@ -259,6 +288,7 @@ console.log(astrologerNotificationStatus);
           {
             mobileNumber: astrologerData.mobileNumber,
             chatStatus: false,
+            profileStatus: true,
           }
         );
 
@@ -341,8 +371,6 @@ console.log(astrologerNotificationStatus);
     setActualChargeUserChat(totalChatPrice);
     setShowEndChat(true);
   };
-
-
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;

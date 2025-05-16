@@ -315,6 +315,7 @@ export default function Chatting(AdminCommissionData) {
         {
           mobileNumber: astrologerData.mobileNumber,
           chatStatus: false,
+          profileStatus: true,
         }
       );
       console.log("update hist", updateList);
