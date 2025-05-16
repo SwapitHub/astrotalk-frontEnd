@@ -223,7 +223,7 @@ console.log(astrologerNotificationStatus);
         secureLocalStorage.removeItem("chatTimeLeft");
 
         const updatedAstrologerData = response.data.updatedProfile;
-        socket.emit("astrologer-chat-status", updatedAstrologerData);
+        // socket.emit("astrologer-chat-status", updatedAstrologerData);
 
         const newUserDetail = {
           userId: userIds,
@@ -239,10 +239,10 @@ console.log(astrologerNotificationStatus);
         };
         // socket.emit("chat-timeLeft-update", newUserDetail);
         // console.log(newUserDetail);
-        if (showUserData?.freeChatStatus == false) {
-          socket.emit("chat-timeLeft-update", newUserDetail);
-          console.log("newUserDetail=====", newUserDetail);
-        }
+        // if (showUserData?.freeChatStatus == false) {
+        //   socket.emit("chat-timeLeft-update", newUserDetail);
+        //   console.log("newUserDetail=====", newUserDetail);
+        // }
         // Update AstrologerNotificationStatus in secureLocalStorage and state
         secureLocalStorage.setItem(
           "AstrologerNotificationStatus",
