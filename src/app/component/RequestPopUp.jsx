@@ -34,6 +34,7 @@ const RequestPopUp = ({ setIsLoadingRequest }) => {
     const handleNewRequestStatusNotification = (data) => {
       console.log("📩 astrologer-requestStatus-new-notification:", data);
       if (data.requestStatusData.requestStatus == "3") {
+         secureLocalStorage.setItem("IsLoadingRequestStore", false);
         setIsLoadingRequest(false);
         socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 2 });
       }
