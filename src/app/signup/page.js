@@ -178,7 +178,7 @@ const AstrologerRegistration = () => {
                         Date of Birth <span>(जन्मतिथि)</span>
                       </label>
                     </div>
-                    <div className="man-input-filed-sec">
+                    
                       <input
                         type="date"
                         id="birthday"
@@ -189,7 +189,7 @@ const AstrologerRegistration = () => {
                       {errors.dateOfBirth && (
                         <p className="error">{errors.dateOfBirth}</p>
                       )}
-                    </div>
+                   
                   </div>
                   <div className="inner-form-filed-sec">
                     <div className="label-content">
@@ -268,7 +268,7 @@ const AstrologerRegistration = () => {
                         Skills <span>(कौशल)</span>
                       </label>
                     </div>
-                    <div className="man-input-filed-sec">
+                    
                       <select
                         name="Skills"
                         id="Skills"
@@ -293,7 +293,7 @@ const AstrologerRegistration = () => {
                       {errors.skills && (
                         <p className="error">{errors.skills}</p>
                       )}
-                    </div>
+                    
                   </div>
 
                   <div className="inner-form-filed-sec">
@@ -303,7 +303,7 @@ const AstrologerRegistration = () => {
                         <span>(आप कौन सा फ़ोन इस्तेमाल करते हैं?)</span>
                       </label>
                     </div>
-                    <div className="man-input-filed-sec common-input-filed">
+                    
                       <select
                         name="deviceUse"
                         id="deviceUse"
@@ -318,7 +318,7 @@ const AstrologerRegistration = () => {
                       {errors.deviceUse && (
                         <p className="error">{errors.deviceUse}</p>
                       )}
-                    </div>
+                    
                   </div>
 
                   <div className="inner-form-filed-sec">
@@ -327,7 +327,7 @@ const AstrologerRegistration = () => {
                         Email Address <span> (मेल पता)</span>
                       </label>
                     </div>
-                    <div className="man-input-filed-sec">
+                  
                       <input
                         type="email"
                         id="emails"
@@ -338,7 +338,7 @@ const AstrologerRegistration = () => {
                         required
                       />
                       {errors.email && <p className="error">{errors.email}</p>}
-                    </div>
+                   
                   </div>
 
                   <div className="inner-form-filed-sec">
@@ -347,7 +347,7 @@ const AstrologerRegistration = () => {
                         Mobile Number <span>(मोबाइल नंबर)</span>
                       </label>
                     </div>
-                    <div className="man-input-filed-sec">
+                    
                       <input
                         type="text"
                         placeholder="Enter phone number"
@@ -363,7 +363,7 @@ const AstrologerRegistration = () => {
                       {errors.mobileNumber && (
                         <p className="error">{errors.mobileNumber}</p>
                       )}
-                    </div>
+                    
                   </div>
                 </div>
                 <div className="reg-sumbit-button">

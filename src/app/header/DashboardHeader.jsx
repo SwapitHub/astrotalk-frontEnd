@@ -6,10 +6,13 @@ import secureLocalStorage from "react-secure-storage";
 import AstroNotification from "../component/AstroNotification";
 import ProfilePopUp from "../component/ProfilePopUp";
 import HeaderDashNotification from "../component/HeaderDashNotification";
+import axios from "axios";
 
 const DashboardHeader = ({setToggleSlideMobile}) => {
   const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
   const [toggleSlide, setToggleSlide] = useState(false);
+const [astroDetailData, setAstroDetailData] = useState();
+
 
   const toggleFullScreen = () => {
     const elem = document.documentElement;
@@ -25,6 +28,23 @@ const DashboardHeader = ({setToggleSlideMobile}) => {
   };
 
 
+  useEffect(() => {
+    const fetchAstroDetailData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerPhone}`
+        );
+        setAstroDetailData(response?.data);
+        console.log("astroDetailData", response);
+      } catch (error) {
+        console.log(error, "user detail api error");
+      }
+    };
+
+    if (astrologerPhone) {
+      fetchAstroDetailData();
+    }
+  }, [astrologerPhone]);
  
 
   useEffect(() => {
@@ -172,7 +192,7 @@ const DashboardHeader = ({setToggleSlideMobile}) => {
                   <span className="main-circle"></span>
                 </div>
               </div>
-              <ProfilePopUp />
+              <ProfilePopUp astroDetailData={astroDetailData}/>
             </li>
           </ul>
           <div className="d-lg-none mobile-toggle">
@@ -198,7 +218,7 @@ const DashboardHeader = ({setToggleSlideMobile}) => {
         {astrologerPhone && (
           <>
             <IoMdNotificationsOutline />
-            <AstroNotification astrologerPhone={astrologerPhone} />
+            <AstroNotification astrologerPhone={astrologerPhone} astroDetailData={astroDetailData}/>
           </>
         )}
       </div>

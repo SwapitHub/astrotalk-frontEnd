@@ -20,9 +20,12 @@ export default function Chatting(AdminCommissionData) {
   const searchParams = useSearchParams();
   const userParam = searchParams.get("user");
 
+  const [showUserData, setShowUserData] = useState();
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [timeLeft, setTimeLeft] = useState(null);
-  const [actualChargeUserChat, setActualChargeUserChat] = useState();
+ const [actualChargeUserChat, setActualChargeUserChat] = useState();
+console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
+
   const [showEndChat, setShowEndChat] = useState(false);
   const [showRating, setShowRating] = useState(false);
   console.log("AdminCommissionData", AdminCommissionData.AdminCommissionData);
@@ -32,7 +35,6 @@ export default function Chatting(AdminCommissionData) {
   const [message, setMessage] = useState("");
   const [messageData, setMessageData] = useState([]);
   const [astrologerData, setAstrologerData] = useState("");
-  const [showUserData, setShowUserData] = useState();
   const [astrologerId, setAstrologerId] = useState();
   const userIds = secureLocalStorage.getItem("userIds");
   const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
@@ -40,6 +42,15 @@ export default function Chatting(AdminCommissionData) {
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(() => secureLocalStorage.getItem("AstrologerNotificationStatus"));
   const mobileRef = useRef(null);
+
+
+  useEffect(() => {
+  if (showUserData?.freeChatStatus === true) {
+    setActualChargeUserChat(0);
+  }
+}, [showUserData?.freeChatStatus]);
+
+
 
   useEffect(() => {
     if (
@@ -242,8 +253,25 @@ export default function Chatting(AdminCommissionData) {
       });
   }, [userMobile]);
 
+ 
+  
+console.log(timeLeft, showUserData?.freeChatStatus === true);
+
+  // Automatically end chat after 120 seconds (when timer hits 0) for free chat
+  useEffect(() => {
+    if (timeLeft === 120 && showUserData?.freeChatStatus === true) {
+      console.log("actualChargeUserChat============");
+      
+      endChatStatus();
+    }
+  }, [timeLeft, showUserData?.freeChatStatus]);
+
+
   const endChatStatus = async () => {
+console.log("actualChargeUserChat",actualChargeUserChat);
+
     if (actualChargeUserChat == undefined) return;
+console.log("===============sasasa");
 
     if (showUserData?.freeChatStatus == true) {
       const response = await axios.put(
@@ -326,13 +354,6 @@ export default function Chatting(AdminCommissionData) {
       );
     }
   };
-
-  useEffect(() => {
-    if (showUserData?.freeChatStatus === true && timeLeft === 120) {
-      endChatStatus();
-      console.log("ended chat==============================================");
-    }
-  }, [showUserData?.freeChatStatus, timeLeft]);
 
   useEffect(() => {
     if (astrologerNotificationStatus == undefined) {
@@ -488,7 +509,10 @@ export default function Chatting(AdminCommissionData) {
                      }`}
                     >
                       {/* <h4>{msg.user}</h4> */}
-                      <p>{msg.message}</p>
+                       <p
+      className="chat-message"
+      dangerouslySetInnerHTML={{ __html: msg.message }}
+      ></p>
                       <p>{msg.time}</p>
                     </div>
                   ))}

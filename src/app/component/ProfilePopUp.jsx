@@ -6,28 +6,10 @@ import axios from "axios";
 import Link from "next/link";
 import { IoIosCall } from "react-icons/io";
 
-const ProfilePopUp = () => {
+const ProfilePopUp = ({astroDetailData}) => {
   const router = useRouter();
   const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
-  const [astroDetailData, setAstroDetailData] = useState();
-
-  useEffect(() => {
-    const fetchAstroDetailData = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerPhone}`
-        );
-        setAstroDetailData(response?.data);
-        console.log("astroDetailData", response);
-      } catch (error) {
-        console.log(error, "user detail api error");
-      }
-    };
-
-    if (astrologerPhone) {
-      fetchAstroDetailData();
-    }
-  }, [astrologerPhone]);
+  
 
   const handleAdminLogOut = () => {
     secureLocalStorage.removeItem("admin_id");

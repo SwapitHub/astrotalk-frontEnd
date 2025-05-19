@@ -136,32 +136,34 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   // auto send message first time user to astrologer
 
   useEffect(() => {
-  if (!user || !userIds || !astrologerId) return; // wait until all data is available
+    if (!user || !userIds || !astrologerId) return; // wait until all data is available
 
-  const now = new Date();
-  const hours = now.getHours() % 12 || 12;
-  const minutes = now.getMinutes().toString().padStart(2, "0");
-  const ampm = now.getHours() >= 12 ? "PM" : "AM";
-  const time = `${hours}:${minutes} ${ampm}`;
+    const now = new Date();
+    const hours = now.getHours() % 12 || 12;
+    const minutes = now.getMinutes().toString().padStart(2, "0");
+    const ampm = now.getHours() >= 12 ? "PM" : "AM";
+    const time = `${hours}:${minutes} ${ampm}`;
 
-  const newMessage = {
-    user: user,
-    message: `Hi,
-    
-Below are my details:
-Name: ${showUserData?.name}
-Gender: ${showUserData?.gender}
-DOB: ${showUserData?.dateOfBirth}
- ${showUserData?.reUseDateOfBirth ? `TOB: ${showUserData?.reUseDateOfBirth}` : ""}
-POB: ${showUserData?.placeOfBorn}`,
-    time: time,
-    members: [userIds, astrologerId],
-  };
+    const newMessage = {
+  user: user,
+  message: `Hi,<br/><br/>
+Below are my details:<br/>
+Name: ${showUserData?.name}<br/>
+Gender: ${showUserData?.gender}<br/>
+DOB: ${showUserData?.dateOfBirth}<br/>
+${
+  showUserData?.reUseDateOfBirth
+    ? `TOB: ${showUserData?.reUseDateOfBirth}<br/>`
+    : ""
+}
+POB: ${showUserData?.placeOfBorn}<br/>`,
+  time: time,
+  members: [userIds, astrologerId],
+};
 
-  socket.emit("sendMessage", newMessage);
-  
-}, [userIds, astrologerId, showUserData]); // only run once when all 3 are available
 
+    socket.emit("sendMessage", newMessage);
+  }, [userIds, astrologerId, showUserData]); // only run once when all 3 are available
 
   const sendMessage = async () => {
     if (!message.trim()) return;
@@ -425,8 +427,12 @@ POB: ${showUserData?.placeOfBorn}`,
                           : "message incoming"
                       }
                     >
-                      <p>{msg.message}</p>
-                      <p>{msg.time}</p>
+                      {/* <p>{msg.message}</p> */}
+                      <p
+      className="chat-message"
+      dangerouslySetInnerHTML={{ __html: msg.message }}
+      ></p>
+      <p>{msg.time}</p>
                     </div>
                   ))}
                 </div>

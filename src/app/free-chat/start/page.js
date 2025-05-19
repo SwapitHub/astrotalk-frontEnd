@@ -156,7 +156,7 @@ const StartUserName = () => {
                           Gender <span>(लिंग)</span>
                         </label>
                       </div>
-                      <div className="man-input-filed-sec input-gender-sec common-input-filed">
+                      <div className="man-input-filed-sec input-gender-sec">
                         <div className="inner-radio">
                           <input
                             type="radio"
@@ -198,7 +198,7 @@ const StartUserName = () => {
                           Date of Birth <span>(जन्मतिथि)</span>
                         </label>
                       </div>
-                      <div className="man-input-filed-sec">
+                    
                         <input
                           type="date"
                           id="birthdayany"
@@ -210,7 +210,7 @@ const StartUserName = () => {
                         {errors.dateOfBirthAnys && (
                           <p className="error">{errors.dateOfBirthAnys}</p>
                         )}
-                      </div>
+                     
                     </div>
                     <div className="inner-form-filed-sec">
                       <div className="label-content">
@@ -219,7 +219,7 @@ const StartUserName = () => {
                           <span>(क्या आप अपना जन्म समय जानते हैं?)</span>
                         </label>
                       </div>
-                      <div className="man-input-filed-sec input-gender-sec common-input-filed">
+                      <div className="man-input-filed-sec input-gender-sec">
                         <div className="inner-radio">
                           <input
                             type="radio"
@@ -257,14 +257,14 @@ const StartUserName = () => {
                       )}
                     </div>
 
-                    <div className="inner-form-filed-sec you-born-ctm-filed">
+                    <div className="inner-form-filed-sec you-born-ctm-filed erch-input-filed">
                       <div className="label-content">
                         <label for="Languages">
                           Where were you born?
                           <span>(आपका जन्म कहां हुआ था?)</span>
                         </label>
                       </div>
-                      <div className="man-input-filed-sec erch-input-filed">
+                      
                         <input
                           type="search"
                           id="searchAddress"
@@ -275,7 +275,7 @@ const StartUserName = () => {
                         <button type="submit" className="ctm-white-color">
                           <i className="fa-solid fa-magnifying-glass"></i>
                         </button>
-                      </div>
+                      
                     </div>
 
                     <div className="inner-form-filed-sec">
@@ -284,7 +284,7 @@ const StartUserName = () => {
                           Languages <span>(भाषाएँ)</span>
                         </label>
                       </div>
-                      <div className="man-input-filed-sec">
+                      
                         <select
                           name="language"
                           id="language"
@@ -303,7 +303,7 @@ const StartUserName = () => {
                         {errors.languages && (
                           <p className="error">{errors.languages}</p>
                         )}
-                      </div>
+                      
                     </div>
                   </div>
                   <div className="reg-sumbit-button">

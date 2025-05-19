@@ -144,7 +144,7 @@ nav.navbar ul {
 
 /*  Chat Section */
 .chat-top-header {
-  padding: 10px;
+  padding: 20px 0px 0px;
   background-color: transparent;
   position: fixed;
   z-index: 1;
@@ -168,6 +168,7 @@ nav.navbar ul {
     margin: 5px 0;
     padding: 10px;
     border-radius: 8px;
+    color: white;
 }
 .chat-top-header-main {
     border-radius: 10px;
@@ -208,25 +209,16 @@ nav.navbar ul {
 .header-chat-logo, .header-chat-content {
     max-width: max-content;
 }
-.chat-left-logo {
-    width: calc(80% - 20px);
-}
-.chat-right-end-btn {
-    width: 20%;
-}
-.chat-right-end-btn {
-    text-align: end;
-}
 .uder-and-astro-chat-bg {
   background-image: url(/astro-bg-img.webp);
   background-repeat: repeat;
   background-size: auto;
-  height: calc(100vh - 257px);
+  height: calc(100vh - 331px);
   overflow: auto;
   padding: 20px 0;
 }
 .astrologer-chat .uder-and-astro-chat-bg {
-	height: calc(100vh - 169px);
+	height: calc(100vh - 213px);
 }
 .inner-uder-and-astro-chat {
   max-width: 1000px;
@@ -277,9 +269,6 @@ scrollbar-color: #ddd #ddd;
 }
 .chat-input-box-main {
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 30px;
-    padding: 10px 20px 10px 10px;
 }
 .chat-button {
     width: 5%;
@@ -376,13 +365,6 @@ scrollbar-color: #ddd #ddd;
     display: flex;
     flex-direction: column;
 }
-.chat-message {
-    max-width: 60%;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 10px;
-    color: white;
-}
 .incoming {
     align-self: flex-start;
     background-color: #fff;
@@ -416,28 +398,28 @@ scrollbar-color: #ddd #ddd;
     color: #616161;
 }
 .chat-input {
-    display: flex;
-    padding: 0;
-    border-top: 0;
+    position: relative;
     width: 100%;
 }
 .chat-input input {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    margin-right: 10px;
-    outline: none !important;
+	width: 100%;
+	padding: 0px 96px 0px 20px;
+	border: none;
+	border-radius: 50px;
+	height: 59px;
+    outline:none;
 }
 .chat-input button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 5px;
+	background-color: var(--primary_color);
+	color: white;
+	border: none;
+	padding: 9px 20px;
+	cursor: pointer;
+	border-radius: 50px;
+	position: absolute;
+	right: 13px;
+	top: 10px;
 }
-
 /* Notification popup  */
 .notification-astro {
   position: fixed;
@@ -1255,7 +1237,11 @@ span.list-text {
 p.error, .error-message {
   color: red;
 }
-
+p.error {
+	display: block;
+	width: 100%;
+	margin: 7px 0px 0px;
+}
 /*  Send OTP popup */
 .outer-send-otp-main {
     position: fixed;
@@ -1834,6 +1820,7 @@ table, th, td {
 .user-recharge {
     position: relative;
     overflow: hidden;
+    min-height: 100vh;
 }
 .parent-recharge-popup, .end-chat-popup {
     position: fixed;
@@ -2820,7 +2807,7 @@ input::file-selector-button {
     resize: none;
 	box-shadow: 0px 1px 3px rgba(0, 0, 0, .3) !important;
 }
-.man-input-filed-sec > * {
+.man-input-filed-sec > *:not(.error) {
     position: relative;
     padding-left: 25px;
     padding-top: 2px;
@@ -3677,12 +3664,22 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
     .talk-to-astrologer-right-content, .recharge-button {
         margin-left: 0px;
     }
+    .send-input-button {
+        max-width: calc(100% - 40px);
+        width: 100%;
+    }
+    .astrologer-chat .uder-and-astro-chat-bg {
+        height: calc(100vh - 209px);
+    }
 }
 @media screen and (min-width: 768px) and (max-width: 991px) {
     .container {
         max-width: 750px;
         margin-inline: auto;
         padding: 0;
+    }
+    .send-input-button {
+        max-width: 750px;
     }
 }
 @media (max-width: 991px) {
@@ -3721,6 +3718,9 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
     }
     .inner-ctm-chat-with-astrologer {
         width: calc(100% / 2 - 7px);
+    }
+    .uder-and-astro-chat-bg {
+        height: calc(100vh - 306px);
     }
 }
 @media (max-width: 767px) {
@@ -3851,9 +3851,6 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
     }
     .header-chat-content h4 {
         font-size: 14px;
-    }
-    .chat-left-logo {
-        width: calc(80% - 10px);
     }
     .send-otp {
         max-width: calc(100% - 30px);

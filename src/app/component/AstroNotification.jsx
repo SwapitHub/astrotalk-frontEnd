@@ -12,23 +12,15 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
   reconnection: true,
 });
 
-const AstroNotification = ({ astrologerPhone }) => {
+const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
   const [updateNotification, setUpdateNotification] = useState();
   const [updateRequestStatus, setUpdateRequestStatus] = useState();
   const [orderCounter, setOrderCounter] = useState(1);
-  console.log(orderCounter);
 
   const [newRequestNotification, setNewRequestNotification] = useState(
     secureLocalStorage.getItem("requestStatusNotifications")
   );
   const [loading, setLoading] = useState(false);
-  console.log("newRequestNotification", newRequestNotification);
-
-  console.log(updateRequestStatus);
-  console.log(updateNotification);
-
-  const matchAstrologerMobile =
-    astrologerPhone === updateNotification?.mobileNumber;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,7 +31,6 @@ const AstroNotification = ({ astrologerPhone }) => {
 
         const astrologers = freeChatResponse.data.data;
         setUpdateRequestStatus(astrologers);
-        console.log("astrologers===========", astrologers);
       } catch (error) {
         console.error("Error fetching free chat astrologers:", error);
       }
@@ -73,6 +64,8 @@ const AstroNotification = ({ astrologerPhone }) => {
           "new-notification-store",
           JSON.stringify(data)
         );
+        console.log("========--------sasssssssss", data);
+
         setUpdateNotification(data);
         setUpdateRequestStatus((prev) =>
           prev.map((item) => ({
@@ -108,11 +101,9 @@ const AstroNotification = ({ astrologerPhone }) => {
           requestStatus: false,
         }
       );
-      console.log(response);
       secureLocalStorage.removeItem("storedNotification");
 
       if (response.status == 200) {
-        console.log(response.status == 200);
         setUpdateNotification(null);
         secureLocalStorage.removeItem("storedNotification");
 
@@ -121,9 +112,10 @@ const AstroNotification = ({ astrologerPhone }) => {
         // socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
         socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
 
-        if (astrologerData.mobileNumber == astrologerPhone) {
-          console.log(astrologerData.chatStatus);
+        setUpdateNotification(null);
+        secureLocalStorage.removeItem("new-notification-store");
 
+        if (astrologerData.mobileNumber == astrologerPhone) {
           secureLocalStorage.setItem(
             "AstrologerNotificationStatus",
             astrologerData.chatStatus
@@ -141,8 +133,6 @@ const AstroNotification = ({ astrologerPhone }) => {
         );
 
         for (const item of updateRequestStatus) {
-          console.log(item);
-
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-business-profile/${item.mobileNumber}`,
             {
@@ -157,7 +147,6 @@ const AstroNotification = ({ astrologerPhone }) => {
           );
 
           const result = await response.json();
-          console.log("Updated:", item.mobileNumber, result);
           if (result.message == "Success") {
             setUpdateRequestStatus((prev) =>
               prev.map((astro) =>
@@ -182,6 +171,8 @@ const AstroNotification = ({ astrologerPhone }) => {
     // socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
     socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 3 });
     secureLocalStorage.setItem("IsLoadingRequestStore", false);
+    setUpdateNotification(null);
+    secureLocalStorage.removeItem("new-notification-store");
     // secureLocalStorage.setItem("storedNotification", false);'
     // window.location.reload();
   };
@@ -228,40 +219,50 @@ const AstroNotification = ({ astrologerPhone }) => {
     };
   }, []);
 
-  const updateNotificationFreeChat =
-    updateRequestStatus?.some((item) => item.requestStatus === true) &&
-    (newRequestNotification === true || newRequestNotification === undefined);
+  // const updateNotificationSingleChat =
+  //   updateNotification && matchAstrologerMobile;
 
-  const updateNotificationSingleChat =
-    updateNotification && matchAstrologerMobile;
-  console.log("matchAstrologerMobile", matchAstrologerMobile);
+  // useEffect(() => {
+  //   const shouldShow =
+  //     newRequestNotification === 0 && updateNotificationSingleChat;
 
-  console.log(
-    "updateNotificationFreeChat",
-    updateNotificationFreeChat,
-    updateNotificationSingleChat
-  );
+  //   secureLocalStorage.setItem("shouldShowNotification", shouldShow);
+  // }, [newRequestNotification, updateNotificationSingleChat]);
 
+  const [storedNotification, setStoredNotification] = useState(null);
+
+  // Hook: Always call useEffect at the top level
   useEffect(() => {
-    const shouldShow =
-      (newRequestNotification === true && updateNotificationFreeChat) ||
-      (newRequestNotification === 0 && updateNotificationSingleChat);
+    let interval;
 
-    secureLocalStorage.setItem("shouldShowNotification", shouldShow);
-  }, [
-    newRequestNotification,
-    updateNotificationFreeChat,
-    updateNotificationSingleChat,
-  ]);
+    // Only set interval if freeChatStatus is true
+    if (astroDetailData?.freeChatStatus === true) {
+      interval = setInterval(() => {
+        const value = secureLocalStorage.getItem("shouldShowNotification");
+        if (value !== storedNotification) {
+          setStoredNotification(value);
+        }
+      }, 1000);
+    }
 
-  const storedNotification = secureLocalStorage.getItem(
+    // Cleanup interval
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [astroDetailData?.freeChatStatus, storedNotification]);
+
+  // For immediate value read if needed
+  const currentNotification = secureLocalStorage.getItem(
     "shouldShowNotification"
   );
-  console.log("storedNotification", storedNotification);
-
+  // console.log("storedNotification", storedNotification);
+  // console.log(astroDetailData?.freeChatStatus, "astroDetailData");
+  // console.log("currentNotification", currentNotification);
+  // (storedNotification || currentNotification)
+  // updateNotification?.mobileNumber
   return (
     <>
-      {storedNotification && (
+      {updateNotification?.mobileNumber && (
         <div className="notification-astro">
           <div className="notification-box">
             <h4>New Chat Request</h4>
