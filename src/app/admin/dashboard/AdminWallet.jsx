@@ -2,6 +2,7 @@
 import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { FaSearch } from "react-icons/fa";
 
 function AdminWallet({ updateButton }) {
   const [walletAdminData, setWalletAdminData] = useState([]);
@@ -24,11 +25,11 @@ const [pages, setPages] = useState(() => {
       setLoading(true);
       const currentPage = pages[updateButton] || 1;
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/chat/WalletTransactionData?type=${updateButton}&page=${currentPage}&limit=6`
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/chat/WalletTransactionData?type=${updateButton}&page=${currentPage}&limit=5`
       );
 
       setWalletAdminData(res.data.transactions);
-      setTotalPages(Math.ceil(res.data.totalTransactions / 6));
+      setTotalPages(Math.ceil(res.data.totalTransactions / 5));
       setHasNextPage(res.data.hasNextPage);
       setHasPrevPage(res.data.hasPrevPage);
       setTotalAvailableBalance(res.data.availableBalance);
@@ -68,6 +69,25 @@ const [pages, setPages] = useState(() => {
           <span>₹ {Math.round(totalAvailableBalance)}</span>
         </p>
       )}
+
+  <div className="filter-button search-box-top-btn">
+                    <div className="search-box-filed">
+                      <input
+                        type="search"
+                        id="astrologer-search"
+                        name="astrologer-search"
+                        placeholder="Search name..."
+                        // value={searchName}
+                        // onChange={handleSearchChange}
+                        aria-label="Search astrologers by name"
+                      />
+                    </div>
+                    <div className="search-button-filed">
+                      <button type="submit">
+                        <FaSearch />
+                      </button>
+                    </div>
+                  </div>
 
       {loading ? (
         <Loader />

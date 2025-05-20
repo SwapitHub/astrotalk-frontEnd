@@ -15,6 +15,8 @@ import { TfiGallery } from "react-icons/tfi";
 import { FaHeadSideCough } from "react-icons/fa";
 import { IoMdLogOut } from "react-icons/io";
 import { SiFreedesktopdotorg } from "react-icons/si";
+import AstrologerReview from "./AstrologerReview";
+import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
 
 const AstrologerHome = () => {
   const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
@@ -24,6 +26,8 @@ const AstrologerHome = () => {
   const [astrologerData, setAstrologerData] = useState("");
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
 
+  
+  
   useEffect(() => {
     if (!astrologerPhone) {
       router.push("/");
@@ -117,6 +121,30 @@ const AstrologerHome = () => {
       document.body.classList.remove(className);
     }
   }, [toggleSlideMobile]);
+
+
+ const renderStars = (averageRating) => {
+    const stars = [];
+    const fullStars = Math.floor(averageRating);
+    const hasHalfStar =
+      averageRating - fullStars >= 0.25 && averageRating - fullStars < 0.75;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(<IoStar key={`full-${i}`} />);
+    }
+
+    if (hasHalfStar) {
+      stars.push(<IoStarHalf key="half" />);
+    }
+
+    for (let i = 0; i < emptyStars; i++) {
+      stars.push(<IoStarOutline key={`empty-${i}`} />);
+    }
+
+    return stars;
+  };
+
   return (
     <main className="main-content">
       <DashboardHeader setToggleSlideMobile={setToggleSlideMobile} />
@@ -253,6 +281,7 @@ const AstrologerHome = () => {
                   />
                 )}
                 {updateButton == 3 && <AstrologerWallet />}
+                {updateButton == 5 && <AstrologerReview astrologerData={astrologerData} renderStars={renderStars}/>}
               </div>
             </div>
           </div>

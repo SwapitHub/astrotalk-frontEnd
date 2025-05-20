@@ -1,7 +1,6 @@
 "use client";
 
 import axios from "axios";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 import io from "socket.io-client";
@@ -27,10 +26,10 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
     if (newRequestNotification == 1) {
       secureLocalStorage.setItem("IsLoadingRequestStore", false);
       setUpdateNotification(null);
-      secureLocalStorage.removeItem("new-notification-store");
+      // secureLocalStorage.removeItem("new-notification-store");
     }
   }, [newRequestNotification]);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -178,13 +177,10 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
 
   // Clear notification data from secureLocalStorage
   const UpdateRemoveData = () => {
-    // socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
-    socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
+    socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 3 });
     secureLocalStorage.setItem("IsLoadingRequestStore", false);
     setUpdateNotification(null);
     secureLocalStorage.removeItem("new-notification-store");
-    // secureLocalStorage.setItem("storedNotification", false);'
-    // window.location.reload();
   };
 
   useEffect(() => {
@@ -241,37 +237,8 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
     secureLocalStorage.setItem("shouldShowNotification", shouldShow);
   }, [newRequestNotification, updateNotificationSingleChat]);
 
-  const [storedNotification, setStoredNotification] = useState(null);
 
-  // Hook: Always call useEffect at the top level
-  useEffect(() => {
-    let interval;
-
-    // Only set interval if freeChatStatus is true
-    if (astroDetailData?.freeChatStatus === true) {
-      interval = setInterval(() => {
-        const value = secureLocalStorage.getItem("shouldShowNotification");
-        if (value !== storedNotification) {
-          setStoredNotification(value);
-        }
-      }, 1000);
-    }
-
-    // Cleanup interval
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [astroDetailData?.freeChatStatus, storedNotification]);
-
-  // For immediate value read if needed
-  const currentNotification = secureLocalStorage.getItem(
-    "shouldShowNotification"
-  );
-  console.log("storedNotification", storedNotification);
-  // console.log(astroDetailData?.freeChatStatus, "astroDetailData");
-  // console.log("currentNotification", currentNotification);
-  // (storedNotification || currentNotification)
-  // updateNotification?.mobileNumber
+ 
   return (
     <>
       {updateNotification?.mobileNumber && (

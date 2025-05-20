@@ -310,18 +310,7 @@ useEffect(() => {
                         <span className="list-text">Gallery</span>
                       </a>
                     </li>
-                    <li className={updateButton === 5 ? "active" : ""}>
-                      <a
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setUpdateButton(5);
-                        }}
-                      >
-                        <MdOutlinePreview />
-                        <span className="list-text">My Review</span>
-                      </a>
-                    </li>
+                   
                     <li className={updateButton === 6 ? "active" : ""}>
                       <a
                         href="#"

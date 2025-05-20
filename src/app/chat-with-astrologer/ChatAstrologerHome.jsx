@@ -340,7 +340,10 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
           sendMessageRequest(item);
         });
       }
-       socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 0 });
+      socket.emit("astrologer-chat-request-FreeChat", {
+        requestStatus: "freeChat",
+      });
+      socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 0 });
     } catch (error) {
       console.error("Update user freeChatStatus error:", error);
     }
@@ -549,13 +552,8 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                           <Link
                             href={`/best-astrologer/${item?.name}`}
                             key={item.id}
-                            onClick={() => {
-                              setIsLoading(true);
-                              setTimeout(() => {
-                                setIsLoading(false);
-                              }, 6000);
-                            }}
                           >
+                            <div className="star-banner">Rising Star</div>
                             <div className="astrologer-list-left">
                               <div className="astrologer-profile">
                                 <img
@@ -619,14 +617,11 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                               {item.chatStatus == false ? (
                                 <div className="astrologer-call-button-ctm">
                                   {!userData?.name ? (
-                                    <Link href="/free-chat/start">
-                                      Chat 
-                                    </Link>
+                                    <Link href="/free-chat/start">Chat</Link>
                                   ) : userAmount >= item.charges * 2 ? (
                                     <Link
                                       href="#"
                                       onClick={() => {
-                                        setIsLoading(false);
                                         onChangeId(
                                           item._id,
                                           item.mobileNumber,
@@ -637,7 +632,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                                         );
                                       }}
                                     >
-                                      Chat 
+                                      Chat
                                     </Link>
                                   ) : !userMobile || !userIds ? (
                                     <Link href="#" onClick={handelUserLogin}>
@@ -657,7 +652,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                                         )
                                       }
                                     >
-                                      chat 
+                                      chat
                                     </Link>
                                   )}
                                 </div>

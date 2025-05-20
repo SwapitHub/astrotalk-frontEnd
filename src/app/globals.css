@@ -717,6 +717,18 @@ scrollbar-color: #ddd #ddd;
     row-gap: 5px;
     padding: 14px;
     width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+.star-banner {
+    background-color: var(--primary_color);
+    color: #fff;
+    position: absolute;
+    font-size: 9px;
+    padding: 1px 30px;
+    transform: rotate(-43deg);
+    left: -33px;
+    top: 12px;
 }
 .astrologer-list-left {
     width: 70px;
