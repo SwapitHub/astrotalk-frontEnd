@@ -21,7 +21,16 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
     secureLocalStorage.getItem("requestStatusNotifications")
   );
   const [loading, setLoading] = useState(false);
+  console.log("newRequestNotification====", newRequestNotification);
 
+  useEffect(() => {
+    if (newRequestNotification == 1) {
+      secureLocalStorage.setItem("IsLoadingRequestStore", false);
+      setUpdateNotification(null);
+      secureLocalStorage.removeItem("new-notification-store");
+    }
+  }, [newRequestNotification]);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -111,6 +120,7 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
         socket.emit("astrologer-chat-status", astrologerData);
         // socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
         socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
+        secureLocalStorage.setItem("IsLoadingRequestStore", false);
 
         setUpdateNotification(null);
         secureLocalStorage.removeItem("new-notification-store");
@@ -169,7 +179,7 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
   // Clear notification data from secureLocalStorage
   const UpdateRemoveData = () => {
     // socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
-    socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 3 });
+    socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
     secureLocalStorage.setItem("IsLoadingRequestStore", false);
     setUpdateNotification(null);
     secureLocalStorage.removeItem("new-notification-store");
@@ -180,9 +190,9 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
   useEffect(() => {
     if (newRequestNotification == "2" && newRequestNotification !== false) {
       // window.location.reload();
-      socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
+      socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 3 });
       secureLocalStorage.removeItem("new-notification-store");
-      setUpdateNotification(null)
+      setUpdateNotification(null);
     }
   }, [newRequestNotification]);
 
