@@ -1,11 +1,15 @@
 "use client";
 import Loader from "@/app/component/Loader";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { FaSearch } from "react-icons/fa";
+import debounce from "lodash.debounce";
 
 function AdminWallet({ updateButton }) {
   const [walletAdminData, setWalletAdminData] = useState([]);
+  const [searchName, setSearchName] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
   const [pages, setPages] = useState(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("admin_wallet_pages");
@@ -20,12 +24,36 @@ function AdminWallet({ updateButton }) {
   const [totalAvailableBalance, setTotalAvailableBalance] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  // Debounce search input to avoid frequent API calls
+  const debounceSearch = useCallback(
+    debounce((query) => {
+      setDebouncedSearch(query);
+      setPages((prev) => ({ ...prev, [updateButton]: 1 })); // reset to page 1
+    }, 500),
+    [updateButton]
+  );
+
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchName(query);
+    debounceSearch(query);
+  };
+
   const fetchTransactions = async () => {
     try {
       setLoading(true);
       const currentPage = pages[updateButton] || 1;
+
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/chat/WalletTransactionData?type=${updateButton}&page=${currentPage}&limit=5`
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/chat/WalletTransactionData`,
+        {
+          params: {
+            type: updateButton,
+            page: currentPage,
+            limit: 5,
+            search: debouncedSearch,
+          },
+        }
       );
 
       setWalletAdminData(res.data.transactions);
@@ -44,7 +72,7 @@ function AdminWallet({ updateButton }) {
     if (updateButton) {
       fetchTransactions();
     }
-  }, [updateButton, pages[updateButton]]);
+  }, [updateButton, debouncedSearch, pages[updateButton]]);
 
   const handleNext = () => {
     setPages((prev) => ({
@@ -75,14 +103,14 @@ function AdminWallet({ updateButton }) {
             type="search"
             id="astrologer-search"
             name="astrologer-search"
-            placeholder="Search name..."
-            // value={searchName}
-            // onChange={handleSearchChange}
-            aria-label="Search astrologers by name"
+            placeholder="Search name or mobile..."
+            value={searchName}
+            onChange={handleSearchChange}
+            aria-label="Search wallet transactions"
           />
         </div>
         <div className="search-button-filed">
-          <button type="submit">
+          <button type="button">
             <FaSearch />
           </button>
         </div>

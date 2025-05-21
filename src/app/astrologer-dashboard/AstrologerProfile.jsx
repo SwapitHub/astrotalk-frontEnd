@@ -94,13 +94,13 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
       );
 
       if (response.data.message === "success") {
-        const updateList = await axios.put(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
-          {
-            mobileNumber: astrologerPhone,
-            profileStatus: true,
-          }
-        );
+        // const updateList = await axios.put(
+        //   `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
+        //   {
+        //     mobileNumber: astrologerPhone,
+        //     profileStatus: true,
+        //   }
+        // );
 
         // Reset only needed fields
         ["Experience", "Charges", "description", "image"].forEach((id) => {
@@ -131,6 +131,9 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
         "Error in registration:",
         error.response?.data?.message || error.message
       );
+       toast.error("Profile not Completed", {
+          position: "top-right",
+        });
     }
   };
 
