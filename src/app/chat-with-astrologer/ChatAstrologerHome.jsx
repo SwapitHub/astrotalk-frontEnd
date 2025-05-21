@@ -553,7 +553,19 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                             href={`/best-astrologer/${item?.name}`}
                             key={item.id}
                           >
-                            <div className="star-banner">Rising Star</div>
+                            {
+                              item.topAstrologer &&
+                              <div className="star-banner">
+                              {item.topAstrologer == "celebrity"
+                                ? "Celebrity"
+                                : item.topAstrologer == "rising_star"
+                                ? "Rising Star"
+                                : item.topAstrologer == "top_choice"
+                                ? "Top Choice"
+                                : ""}
+                            </div>
+                            }
+                            
                             <div className="astrologer-list-left">
                               <div className="astrologer-profile">
                                 <img

@@ -6,13 +6,13 @@ import { FaSearch } from "react-icons/fa";
 
 function AdminWallet({ updateButton }) {
   const [walletAdminData, setWalletAdminData] = useState([]);
-const [pages, setPages] = useState(() => {
-  if (typeof window !== "undefined") {
-    const saved = localStorage.getItem("admin_wallet_pages");
-    return saved ? JSON.parse(saved) : { admin: 1, user: 1, astrologer: 1 };
-  }
-  return { admin: 1, user: 1, astrologer: 1 };
-});
+  const [pages, setPages] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("admin_wallet_pages");
+      return saved ? JSON.parse(saved) : { admin: 1, user: 1, astrologer: 1 };
+    }
+    return { admin: 1, user: 1, astrologer: 1 };
+  });
 
   const [totalPages, setTotalPages] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
@@ -44,8 +44,7 @@ const [pages, setPages] = useState(() => {
     if (updateButton) {
       fetchTransactions();
     }
-    
-  }, [updateButton, pages[updateButton]]); 
+  }, [updateButton, pages[updateButton]]);
 
   const handleNext = () => {
     setPages((prev) => ({
@@ -70,53 +69,53 @@ const [pages, setPages] = useState(() => {
         </p>
       )}
 
-  <div className="filter-button search-box-top-btn">
-                    <div className="search-box-filed">
-                      <input
-                        type="search"
-                        id="astrologer-search"
-                        name="astrologer-search"
-                        placeholder="Search name..."
-                        // value={searchName}
-                        // onChange={handleSearchChange}
-                        aria-label="Search astrologers by name"
-                      />
-                    </div>
-                    <div className="search-button-filed">
-                      <button type="submit">
-                        <FaSearch />
-                      </button>
-                    </div>
-                  </div>
+      <div className="filter-button search-box-top-btn">
+        <div className="search-box-filed">
+          <input
+            type="search"
+            id="astrologer-search"
+            name="astrologer-search"
+            placeholder="Search name..."
+            // value={searchName}
+            // onChange={handleSearchChange}
+            aria-label="Search astrologers by name"
+          />
+        </div>
+        <div className="search-button-filed">
+          <button type="submit">
+            <FaSearch />
+          </button>
+        </div>
+      </div>
 
       {loading ? (
         <Loader />
       ) : (
         <div className="outer-table">
-        <table border="1">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Available Balance</th>
-              <th>Transaction Amount</th>
-              <th>Description</th>
-              <th>Date and Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            {walletAdminData?.map((item) => (
-              <tr key={item._id}>
-                <td>{item._id}</td>
-                <td>{item.name}</td>
-                <td>₹ {Math.round(item.availableBalance)}</td>
-                <td>₹ {item.transactionAmount}</td>
-                <td>{item.description}</td>
-                <td>{new Date(item.createdAt).toLocaleString()}</td>
+          <table border="1">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Available Balance</th>
+                <th>Transaction Amount</th>
+                <th>Description</th>
+                <th>Date and Time</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {walletAdminData?.map((item) => (
+                <tr key={item._id}>
+                  <td>{item._id}</td>
+                  <td>{item.name}</td>
+                  <td>₹ {Math.round(item.availableBalance)}</td>
+                  <td>₹ {item.transactionAmount}</td>
+                  <td>{item.description}</td>
+                  <td>{new Date(item.createdAt).toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
 
