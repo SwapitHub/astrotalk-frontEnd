@@ -147,7 +147,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
     const newMessage = {
   user: user,
   message: `Hi,<br/><br/>
-Below are my details:<br/>
+Below are Your details:<br/>
 Name: ${showUserData?.name}<br/>
 Gender: ${showUserData?.gender}<br/>
 DOB: ${showUserData?.dateOfBirth}<br/>

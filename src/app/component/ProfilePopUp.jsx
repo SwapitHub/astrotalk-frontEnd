@@ -5,11 +5,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { IoIosCall } from "react-icons/io";
+import { useGlobalContext } from "@/context/HomeContext";
 
 const ProfilePopUp = ({astroDetailData}) => {
   const router = useRouter();
   const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
-  
+    const { setUpdateButton } = useGlobalContext()
 
   const handleAdminLogOut = () => {
     secureLocalStorage.removeItem("admin_id");
@@ -52,6 +53,9 @@ const ProfilePopUp = ({astroDetailData}) => {
     }
   };
 
+  const openProfile = () =>{
+    setUpdateButton(2)
+  }
   return (
     <ul className="profile-dropdown onhover-show-div">
       {astrologerPhone && (
@@ -86,7 +90,7 @@ const ProfilePopUp = ({astroDetailData}) => {
       )}
 
       <li>
-        <Link href="#">
+        <Link href="#" onClick={openProfile}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

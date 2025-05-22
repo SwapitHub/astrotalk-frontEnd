@@ -9,14 +9,37 @@ import secureLocalStorage from "react-secure-storage";
 const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
   const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
   const [registrationDetail, setRegistrationDetail] = useState();
+  const [astroUpdateDetail, setAstroUpdateDetail] = useState();
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState();
   const [professionsList, setProfessionsList] = useState([]);
   const [languageListData, setLanguageListData] = useState([]);
 
+    const [name, setName] = useState("");
+  const [experience, setExperience] = useState("");
+  const [editProfessions, setEditProfessions] = useState("");
+  const [editLanguages, setEditLanguages] = useState("");
+  const [editCharges, setEditCharges] = useState("");
+  const [editCountry, setEditCountry] = useState("");
+  const [editGender, setEditGender] = useState("");
+
   const astrologerLoginUpdate = secureLocalStorage.getItem(
     "astrologerLoginUpdate"
   );
+
+  useEffect(() => {
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerPhone}`
+      )
+      .then((res) => {
+        setAstroUpdateDetail(res.data);
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [astrologerPhone]);
 
   useEffect(() => {
     axios
@@ -94,6 +117,8 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
       );
 
       if (response.data.message === "success") {
+        //======= agr hm ise start krte hai to new astrologer login ni hoga.========
+
         // const updateList = await axios.put(
         //   `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
         //   {
@@ -131,9 +156,9 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
         "Error in registration:",
         error.response?.data?.message || error.message
       );
-       toast.error("Profile not Completed", {
-          position: "top-right",
-        });
+      toast.error("Profile not Completed", {
+        position: "top-right",
+      });
     }
   };
 
@@ -232,6 +257,38 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
     }
   };
 
+  useEffect(() => {
+    // Initialize name based on profileStatus and existing data
+    if (astrologerData?.profileStatus !== true) {
+      setName(registrationDetail?.name || "");
+    } else {
+      setName(astroUpdateDetail?.name || "");
+    }
+    setExperience(astroUpdateDetail?.experience || "");
+    setEditProfessions(astroUpdateDetail?.professions || []);
+    setEditLanguages(astroUpdateDetail?.languages || []);
+    setEditCharges(astroUpdateDetail?.charges || []);
+    setEditCountry(astroUpdateDetail?.country || []);
+    setEditGender(astroUpdateDetail?.gender || []);
+  }, [astrologerData, registrationDetail, astroUpdateDetail]);
+
+  const handleProfessionChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setEditProfessions((prev) => [...prev, value]);
+    } else {
+      setEditProfessions((prev) => prev.filter((item) => item !== value));
+    }
+  };
+  const handleLanguagesChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setEditLanguages((prev) => [...prev, value]);
+    } else {
+      setEditLanguages((prev) => prev.filter((item) => item !== value));
+    }
+  };
+
   return (
     <div className="container">
       <div className="astrologer-registration-form">
@@ -280,9 +337,8 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
                 name="fname"
                 className="common-input-filed"
                 placeholder="Please enter your name here"
-                {...(astrologerData?.profileStatus !== true && {
-                  value: registrationDetail?.name,
-                })}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
               {errors.firstName && <p className="error">{errors.firstName}</p>}
             </div>
@@ -299,6 +355,8 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
                 name="Experience"
                 className="common-input-filed"
                 placeholder="Exp:"
+                value={experience}
+                onChange={(e) => setExperience(e.target.value)}
               />
               {errors.Experience && (
                 <p className="error">{errors.Experience}</p>
@@ -318,6 +376,8 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
                       type="checkbox"
                       name="profession"
                       value={item.professions}
+                      checked={editProfessions.includes(item.professions)}
+                      onChange={handleProfessionChange}
                     />
                     <span>{item.professions}</span>
                   </label>
@@ -343,7 +403,8 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
                         name="languages"
                         value={lang.languages}
                         id="languages"
-                        // onChange={handleLanguageCheckboxChange}
+                        checked={editLanguages.includes(lang.languages)}
+                        onChange={handleLanguagesChange}
                       />
                       <span>{lang.languages}</span>
                     </label>
@@ -367,6 +428,8 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
                 name="Charges"
                 className="common-input-filed"
                 placeholder="enter your charge"
+                value={editCharges}
+                onChange={(e) => setEditCharges(e.target.value)}
               />
               {errors.Charges && <p className="error">{errors.Charges}</p>}
             </div>
@@ -395,12 +458,24 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
               </div>
               <div className="man-input-filed-sec input-gender-sec">
                 <div className="inner-radio">
-                  <input type="radio" name="country" value="India" />
+                  <input
+                    type="radio"
+                    name="country"
+                    value="India"
+                    checked={editCountry === "India"}
+                    onChange={(e) => setEditCountry(e.target.value)}
+                  />
                   <label>India</label>
                 </div>
 
                 <div className="inner-radio">
-                  <input type="radio" name="country" value="Outside_India" />
+                  <input
+                    type="radio"
+                    name="country"
+                    value="Outside_India"
+                    checked={editCountry === "Outside_India"}
+                    onChange={(e) => setEditCountry(e.target.value)}
+                  />
                   <label>Outside India</label>
                 </div>
                 {errors.country && <p className="error">{errors.country}</p>}
@@ -415,7 +490,14 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
               </div>
               <div className="man-input-filed-sec input-gender-sec">
                 <div className="inner-radio">
-                  <input type="radio" id="Male" name="gender" value="Male" />
+                  <input
+                    type="radio"
+                    id="Male"
+                    name="gender"
+                    value="Male"
+                    checked={editGender === "Male"}
+                    onChange={(e) => setEditGender(e.target.value)}
+                  />
                   <label>Male</label>
                 </div>
 
@@ -425,11 +507,20 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
                     id="Female"
                     name="gender"
                     value="Female"
+                    checked={editGender === "Female"}
+                    onChange={(e) => setEditGender(e.target.value)}
                   />
                   <label>Female</label>
                 </div>
                 <div className="inner-radio">
-                  <input type="radio" id="Other" name="gender" value="Other" />
+                  <input
+                    type="radio"
+                    id="Other"
+                    name="gender"
+                    value="Other"
+                    checked={editGender === "Other"}
+                    onChange={(e) => setEditGender(e.target.value)}
+                  />
                   <label>Other</label>
                 </div>
                 {errors.gender && <p className="error">{errors.gender}</p>}

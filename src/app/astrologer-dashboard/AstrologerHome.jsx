@@ -17,11 +17,15 @@ import { IoMdLogOut } from "react-icons/io";
 import { SiFreedesktopdotorg } from "react-icons/si";
 import AstrologerReview from "./AstrologerReview";
 import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
+import { useGlobalContext } from "@/context/HomeContext";
 
 const AstrologerHome = () => {
   const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
+  const {updateButton, setUpdateButton,  } = useGlobalContext();
+  console.log(updateButton,"updateButtonGlobal");
+  
   const router = useRouter();
-  const [updateButton, setUpdateButton] = useState(2);
+  // const [updateButton, setUpdateButton] = useState(updateButtonGlobal);
   const [successMessageProfile, setSuccessMessageProfile] = useState();
   const [astrologerData, setAstrologerData] = useState("");
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);

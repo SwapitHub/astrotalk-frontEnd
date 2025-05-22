@@ -14,7 +14,13 @@ const StartUserName = () => {
   const [datePhoneAvailable, setDatePhoneAvailable] = useState();
   const [errors, setErrors] = useState({});
   const [userMobile, setUserMobile] = useState();
- 
+  const [editName, setEditName] = useState();
+  const [editGender, setEditGender] = useState();
+  const [editDateOfBirth, setEditDateOfBirth] = useState();
+  const [editLanguage, setEditLanguage] = useState();
+  const [editPob, setEditPob] = useState();
+
+  console.log(datePhoneAvailable);
 
   useEffect(() => {
     const fetchUserDetail = async () => {
@@ -57,13 +63,17 @@ const StartUserName = () => {
   }, []);
 
   const handleUserSignUpData = async () => {
-    const validationErrors = validateAstrologerForm("user");
+    let validationErrors;
+    if (!userMobile) {
+      validationErrors = validateAstrologerForm("user");
+    }
     console.log(validationErrors);
 
     setErrors(validationErrors);
-
-    if (Object.keys(validationErrors).length > 0) {
-      return;
+    if (!userMobile) {
+      if (Object.keys(validationErrors).length > 0) {
+        return;
+      }
     }
 
     const formData = {
@@ -113,6 +123,13 @@ const StartUserName = () => {
     }
   };
 
+  useEffect(() => {
+    setEditName(datePhoneAvailable?.name || "");
+    setEditGender(datePhoneAvailable?.gender || "");
+    setEditDateOfBirth(datePhoneAvailable?.dateOfBirth || "");
+    setEditLanguage(datePhoneAvailable?.language || "");
+    setEditPob(datePhoneAvailable?.placeOfBorn || "");
+  }, [datePhoneAvailable]);
   return (
     <main className="main-content">
       <section className="astrologer-registration-bg user-registration-bg">
@@ -145,9 +162,11 @@ const StartUserName = () => {
                         className="common-input-filed"
                         placeholder="What is your name?"
                         required
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
                       />
-                      {errors.firstName && (
-                        <p className="error">{errors.firstName}</p>
+                      {errors?.firstName && (
+                        <p className="error">{errors?.firstName}</p>
                       )}
                     </div>
                     <div className="inner-form-filed-sec">
@@ -163,6 +182,8 @@ const StartUserName = () => {
                             id="Male"
                             name="gender"
                             value="Male"
+                            checked={datePhoneAvailable?.gender == "Male"}                            
+                        onChange={(e) => setEditGender(e.target.value)}
                           />
                           <label for="html">Male</label>
                         </div>
@@ -173,6 +194,9 @@ const StartUserName = () => {
                             id="Female"
                             name="gender"
                             value="Female"
+                            checked={datePhoneAvailable?.gender == "Female"}
+                        onChange={(e) => setEditGender(e.target.value)}
+
                           />
                           <label for="css">Female</label>
                         </div>
@@ -183,11 +207,14 @@ const StartUserName = () => {
                             id="Other"
                             name="gender"
                             value="Other"
+                            checked={datePhoneAvailable?.gender == "Other"}
+                        onChange={(e) => setEditGender(e.target.value)}
+
                           />
                           <label for="css">Other</label>
                         </div>
-                        {errors.gender && (
-                          <p className="error">{errors.gender}</p>
+                        {errors?.gender && (
+                          <p className="error">{errors?.gender}</p>
                         )}
                       </div>
                     </div>
@@ -198,19 +225,20 @@ const StartUserName = () => {
                           Date of Birth <span>(जन्मतिथि)</span>
                         </label>
                       </div>
-                    
-                        <input
-                          type="date"
-                          id="birthdayany"
-                          name="birthdayany"
-                          className="common-input-filed"
-                          placeholder="Select your birth date"
-                          required
-                        />
-                        {errors.dateOfBirthAnys && (
-                          <p className="error">{errors.dateOfBirthAnys}</p>
-                        )}
-                     
+
+                      <input
+                        type="date"
+                        id="birthdayany"
+                        name="birthdayany"
+                        className="common-input-filed"
+                        placeholder="Select your birth date"
+                        required
+                        value={editDateOfBirth}
+                        onChange={(e) => setEditDateOfBirth(e.target.value)}
+                      />
+                      {errors?.dateOfBirthAnys && (
+                        <p className="error">{errors?.dateOfBirthAnys}</p>
+                      )}
                     </div>
                     <div className="inner-form-filed-sec">
                       <div className="label-content">
@@ -264,18 +292,19 @@ const StartUserName = () => {
                           <span>(आपका जन्म कहां हुआ था?)</span>
                         </label>
                       </div>
-                      
-                        <input
-                          type="search"
-                          id="searchAddress"
-                          name="gsearch"
-                          placeholder="Where were you born"
-                          className="common-input-filed"
-                        />
-                        <button type="submit" className="ctm-white-color">
-                          <i className="fa-solid fa-magnifying-glass"></i>
-                        </button>
-                      
+
+                      <input
+                        type="search"
+                        id="searchAddress"
+                        name="gsearch"
+                        placeholder="Where were you born"
+                        className="common-input-filed"
+                       value={editPob}
+                        onChange={(e) => setEditPob(e.target.value)}
+                      />
+                      <button type="submit" className="ctm-white-color">
+                        <i className="fa-solid fa-magnifying-glass"></i>
+                      </button>
                     </div>
 
                     <div className="inner-form-filed-sec">
@@ -284,26 +313,27 @@ const StartUserName = () => {
                           Languages <span>(भाषाएँ)</span>
                         </label>
                       </div>
-                      
-                        <select
-                          name="language"
-                          id="language"
-                          className="common-input-filed"
-                          required
-                        >
-                          <option value="select language">
-                            Select all your languages?
-                          </option>
-                          <option value="English">English</option>
-                          <option value="Hindi">Hindi</option>
-                          <option value="Bengali">Bengali</option>
-                          <option value="Assamese">Assamese</option>
-                          <option value="Punjabi">Punjabi</option>
-                        </select>
-                        {errors.languages && (
-                          <p className="error">{errors.languages}</p>
-                        )}
-                      
+
+                      <select
+                        name="language"
+                        id="language"
+                        className="common-input-filed"
+                        required
+                        value={editLanguage}
+                        onChange={(e) => setEditLanguage(e.target.value)}
+                      >
+                        <option value="select language">
+                          Select all your languages?
+                        </option>
+                        <option value="English">English</option>
+                        <option value="Hindi">Hindi</option>
+                        <option value="Bengali">Bengali</option>
+                        <option value="Assamese">Assamese</option>
+                        <option value="Punjabi">Punjabi</option>
+                      </select>
+                      {errors?.languages && (
+                        <p className="error">{errors?.languages}</p>
+                      )}
                     </div>
                   </div>
                   <div className="reg-sumbit-button">
