@@ -182,7 +182,7 @@ const StartUserName = () => {
                             id="Male"
                             name="gender"
                             value="Male"
-                            checked={datePhoneAvailable?.gender == "Male"}                            
+                            checked={editGender == "Male"}                            
                         onChange={(e) => setEditGender(e.target.value)}
                           />
                           <label for="html">Male</label>
@@ -194,7 +194,7 @@ const StartUserName = () => {
                             id="Female"
                             name="gender"
                             value="Female"
-                            checked={datePhoneAvailable?.gender == "Female"}
+                            checked={editGender == "Female"}
                         onChange={(e) => setEditGender(e.target.value)}
 
                           />
@@ -207,7 +207,7 @@ const StartUserName = () => {
                             id="Other"
                             name="gender"
                             value="Other"
-                            checked={datePhoneAvailable?.gender == "Other"}
+                            checked={editGender == "Other"}
                         onChange={(e) => setEditGender(e.target.value)}
 
                           />

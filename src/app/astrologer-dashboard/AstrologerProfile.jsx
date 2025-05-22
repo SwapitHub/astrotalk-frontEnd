@@ -22,6 +22,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
   const [editCharges, setEditCharges] = useState("");
   const [editCountry, setEditCountry] = useState("");
   const [editGender, setEditGender] = useState("");
+  const [editDescription, setEditDescription] = useState("");
 
   const astrologerLoginUpdate = secureLocalStorage.getItem(
     "astrologerLoginUpdate"
@@ -267,9 +268,10 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
     setExperience(astroUpdateDetail?.experience || "");
     setEditProfessions(astroUpdateDetail?.professions || []);
     setEditLanguages(astroUpdateDetail?.languages || []);
-    setEditCharges(astroUpdateDetail?.charges || []);
-    setEditCountry(astroUpdateDetail?.country || []);
-    setEditGender(astroUpdateDetail?.gender || []);
+    setEditCharges(astroUpdateDetail?.charges || "");
+    setEditCountry(astroUpdateDetail?.country || "");
+    setEditGender(astroUpdateDetail?.gender || "");
+    setEditDescription(astroUpdateDetail?.Description || "");
   }, [astrologerData, registrationDetail, astroUpdateDetail]);
 
   const handleProfessionChange = (e) => {
@@ -557,7 +559,10 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
                   Description <span>(पविवरण)</span>
                 </label>
               </div>
-              <textarea id="description"></textarea>
+              <textarea id="description"
+               value={editDescription}
+                    onChange={(e) => setEditDescription(e.target.value)}
+              ></textarea>
             </div>
           </div>
 
