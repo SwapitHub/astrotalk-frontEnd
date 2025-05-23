@@ -260,10 +260,10 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
 
   useEffect(() => {
     // Initialize name based on profileStatus and existing data
-    if (astrologerData?.profileStatus !== true) {
-      setName(registrationDetail?.name || "");
-    } else {
+    if (astroUpdateDetail) {
       setName(astroUpdateDetail?.name || "");
+    } else {
+      setName(registrationDetail?.name || "");
     }
     setExperience(astroUpdateDetail?.experience || "");
     setEditProfessions(astroUpdateDetail?.professions || []);

@@ -2,14 +2,14 @@
 import { useEffect, useState } from "react";
 import AstrologerHome from "./astrologer-dashboard/AstrologerHome";
 import HomePage from "./home/page";
+import secureLocalStorage from "react-secure-storage";
 
 export default function Home() {
-  const [sessionAstrologerPhone, setSessionAstrologerPhone] = useState()
+  const [astrologerPhone, setAstrologerPhone] = useState()
   useEffect(()=>{
-      const sessionAstrologerPhone =  sessionStorage.getItem("session-astrologer-phone");
-
-    setSessionAstrologerPhone(sessionAstrologerPhone)
+    const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
+    setAstrologerPhone(astrologerPhone)
   },[])
 
-  return <>{sessionAstrologerPhone ? <AstrologerHome /> : <HomePage />}</>;
+  return <>{astrologerPhone ? <AstrologerHome /> : <HomePage />}</>;
 }

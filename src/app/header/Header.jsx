@@ -9,13 +9,7 @@ import UserOtpLoginData from "../component/UserOtpLoginData";
 
 const Header = () => {
   const router = useRouter();
-   const [sessionAstrologerPhone, setSessionAstrologerPhone] = useState(null);
-  useEffect(() => {
-    const data = sessionStorage.getItem("session-astrologer-phone");
-    if (data) {
-      setSessionAstrologerPhone(JSON.parse(data));
-    }
-  }, []);
+
 
   const [otpPopUpDisplayAstro, setOtpPopUpDisplayAstro] = useState(false);
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
@@ -113,19 +107,11 @@ const Header = () => {
   const handelUserLogin = () => {
     setOtpPopUpDisplay(true);
   };
-  const handleAdminLogOut = () => {
-    secureLocalStorage.removeItem("admin_id");
-
-    // Notify other parts of the app
-    window.dispatchEvent(new Event("admin_id_updated"));
-
-    // Redirect
-    router.push("/admin");
-  };
+ 
 
   return (
     <>
-    {!admin_id && !sessionAstrologerPhone&& (
+    {!admin_id && !astrologerPhone &&
       <header className="header">
         {otpPopUpDisplay == true && (
           <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
@@ -274,8 +260,6 @@ const Header = () => {
           </div>
         </div>
       </header>
-
-          )
       }
     </>
 
