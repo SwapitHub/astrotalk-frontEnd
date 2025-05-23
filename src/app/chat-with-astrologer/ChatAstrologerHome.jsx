@@ -671,7 +671,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                               ) : (
                                 <div className="astrologer-call-button-ctm chatStatus-false">
                                   <Link
-                                    href={`/chat-with-astrologer/user/${userIds}`}
+                                    href={userData?.chatStatus?`/chat-with-astrologer/user/${userIds}`:"#"}
                                     // onClick={() =>
                                     //   onChangeId(item._id, item.mobileNumber)
                                     // }

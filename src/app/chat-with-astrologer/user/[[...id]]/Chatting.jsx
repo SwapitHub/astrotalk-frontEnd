@@ -273,11 +273,12 @@ console.log("actualChargeUserChat",actualChargeUserChat);
     if (actualChargeUserChat == undefined) return;
 console.log("===============sasasa");
 
-    if (showUserData?.freeChatStatus == true) {
+    if (showUserData?.freeChatStatus == true || showUserData?.chatStatus == true) {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${userMobile}`,
         {
           freeChatStatus: false,
+          chatStatus: false
         }
       );
       console.log("response", response.data);

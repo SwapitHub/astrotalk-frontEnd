@@ -60,7 +60,7 @@ const ProfilePopUp = ({astroDetailData}) => {
     <ul className="profile-dropdown onhover-show-div">
       {astrologerPhone && (
         <>
-          <li>
+          <li className="name">
             <Link href="#">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +80,7 @@ const ProfilePopUp = ({astroDetailData}) => {
               {astroDetailData?.name}
             </Link>
           </li>
-          <li>
+          <li className="mobile-no">
             <Link href="#">
               <IoIosCall />
               {astroDetailData?.mobileNumber}

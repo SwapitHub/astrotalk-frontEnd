@@ -21,22 +21,30 @@ import { useGlobalContext } from "@/context/HomeContext";
 
 const AstrologerHome = () => {
   const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
-  const {updateButton, setUpdateButton,  } = useGlobalContext();
-  console.log(updateButton,"updateButtonGlobal");
-  
+  const { updateButton, setUpdateButton } = useGlobalContext();
+  console.log(updateButton, "updateButtonGlobal");
+
   const router = useRouter();
+
   // const [updateButton, setUpdateButton] = useState(updateButtonGlobal);
   const [successMessageProfile, setSuccessMessageProfile] = useState();
   const [astrologerData, setAstrologerData] = useState("");
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
 
-  
-  
+  const [sessionAstrologerPhone, setSessionAstrologerPhone] = useState(null);
   useEffect(() => {
-    if (!astrologerPhone) {
-      router.push("/");
+    const data = sessionStorage.getItem("session-astrologer-phone");
+    if (data) {
+      setSessionAstrologerPhone(JSON.parse(data));
     }
-  }, [astrologerPhone]);
+  }, []);
+
+  useEffect(() => {
+    if (!sessionAstrologerPhone) {
+      router.push("/");
+      
+    }
+  }, [sessionAstrologerPhone]);
 
   useEffect(() => {
     axios
@@ -93,6 +101,7 @@ const AstrologerHome = () => {
 
       if (response.data.message == "Success") {
         secureLocalStorage.removeItem("astrologer-phone");
+        sessionStorage.removeItem("session-astrologer-phone");
         router.push("/");
         setTimeout(() => {
           window.location.reload();
@@ -126,8 +135,7 @@ const AstrologerHome = () => {
     }
   }, [toggleSlideMobile]);
 
-
- const renderStars = (averageRating) => {
+  const renderStars = (averageRating) => {
     const stars = [];
     const fullStars = Math.floor(averageRating);
     const hasHalfStar =
@@ -258,8 +266,8 @@ const AstrologerHome = () => {
                             name={astrologerPhone}
                             onClick={handleUpdateStatus}
                             defaultChecked={astrologerData.freeChatStatus}
-                            />
-                            <label>Are you Available for free chat </label>
+                          />
+                          <label>Are you Available for free chat </label>
                         </span>
                       </li>
                     )}
@@ -285,7 +293,12 @@ const AstrologerHome = () => {
                   />
                 )}
                 {updateButton == 3 && <AstrologerWallet />}
-                {updateButton == 5 && <AstrologerReview astrologerData={astrologerData} renderStars={renderStars}/>}
+                {updateButton == 5 && (
+                  <AstrologerReview
+                    astrologerData={astrologerData}
+                    renderStars={renderStars}
+                  />
+                )}
               </div>
             </div>
           </div>

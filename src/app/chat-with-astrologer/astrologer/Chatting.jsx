@@ -219,11 +219,12 @@ POB: ${showUserData?.placeOfBorn}<br/>`,
   const endChatStatus = async () => {
     if (actualChargeUserChat == undefined) return;
 
-    if (showUserData?.freeChatStatus == true) {
+    if (showUserData?.freeChatStatus == true || showUserData?.chatStatus == true) {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${showUserData?.phone}`,
         {
           freeChatStatus: false,
+          chatStatus: false
         }
       );
       console.log("response", response.data);

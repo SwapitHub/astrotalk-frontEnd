@@ -9,6 +9,14 @@ import UserOtpLoginData from "../component/UserOtpLoginData";
 
 const Header = () => {
   const router = useRouter();
+   const [sessionAstrologerPhone, setSessionAstrologerPhone] = useState(null);
+  useEffect(() => {
+    const data = sessionStorage.getItem("session-astrologer-phone");
+    if (data) {
+      setSessionAstrologerPhone(JSON.parse(data));
+    }
+  }, []);
+
   const [otpPopUpDisplayAstro, setOtpPopUpDisplayAstro] = useState(false);
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
   const [userDetailData, setUserDetailData] = useState();
@@ -72,7 +80,6 @@ const Header = () => {
         );
         setUserDetailData(response.data.data);
         console.log("API response:", response);
-         
       } catch (err) {
         console.error("user detail api error:", err);
       }
@@ -82,9 +89,9 @@ const Header = () => {
       fetchUserDetail();
       window.addEventListener("userMobileUpdated", fetchUserDetail);
 
-    return () => {
-      window.removeEventListener("userMobileUpdated", fetchUserDetail);
-    };
+      return () => {
+        window.removeEventListener("userMobileUpdated", fetchUserDetail);
+      };
     }
   }, [userMobile]);
 
@@ -118,168 +125,160 @@ const Header = () => {
 
   return (
     <>
-      {!admin_id && !astrologerPhone && (
-        <header className="header">
-          {otpPopUpDisplay == true && (
-            <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
-              {otpPopUpDisplay && (
-                <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
-              )}
+    {!admin_id && !sessionAstrologerPhone&& (
+      <header className="header">
+        {otpPopUpDisplay == true && (
+          <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
+            {otpPopUpDisplay && (
+              <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
+            )}
+          </div>
+        )}
+        <div className="container">
+          <div className="inner-header-sec ctm-flex-row ctm-align-items-center ctm-justify-content-between">
+            <div className="header-left-logo">
+              <Link href="/" title="WeddingByte">
+                <img src="/astrotalk-logo.webp" alt="WeddingByte" />
+              </Link>
             </div>
-          )}
-          <div className="container">
-            <div className="inner-header-sec ctm-flex-row ctm-align-items-center ctm-justify-content-between">
-              <div className="header-left-logo">
-                <Link href="/" title="WeddingByte">
-                  <img src="/astrotalk-logo.webp" alt="WeddingByte" />
-                </Link>
-              </div>
-              {!(admin_id || astrologerPhone) && (
-                <nav className="navbar">
-                  <ul>
-                    <li>
-                      <Link
-                        href={`${
-                          userMobile ? "/free-chat/start" : "/free-chat"
-                        }`}
-                        onClick={() => {
-                          setIsLoading(true);
-                          setTimeout(() => {
-                            setIsLoading(false);
-                          }, 3000);
-                        }}
-                      >
-                        Chat Now
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href={`${"/chat-with-astrologer"}`}
-                        onClick={() => {
-                          setIsLoading(true);
-                          setTimeout(() => {
-                            setIsLoading(false);
-                          }, 3000);
-                        }}
-                      >
-                        Chat with Astrologer
-                      </Link>
-                    </li>
-                    <li>
-                      <div>
-                        <OtpData
-                          setOtpPopUpDisplayAstro={setOtpPopUpDisplayAstro}
-                          otpPopUpDisplayAstro={otpPopUpDisplayAstro}
-                        />
-                        <Link
-                          href={`${
-                            astrologerPhone ? "/astrologer-dashboard" : "/"
-                          }`}
-                          onClick={handleOtpPop}
-                        >
-                          Astrologer Dashboard
-                        </Link>
-                      </div>
-                    </li>
-                    <li>
-                      <Link
-                        href="/signup"
-                        onClick={() => {
-                          setIsLoading(true);
-                          setTimeout(() => {
-                            setIsLoading(false);
-                          }, 3000);
-                        }}
-                      >
-                        Astrologer Registration
-                      </Link>
-                    </li>
-                    {/* <li>
+
+            <nav className="navbar">
+              <ul>
+                <li>
+                  <Link
+                    href={`${userMobile ? "/free-chat/start" : "/free-chat"}`}
+                    onClick={() => {
+                      setIsLoading(true);
+                      setTimeout(() => {
+                        setIsLoading(false);
+                      }, 3000);
+                    }}
+                  >
+                    Chat Now
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={`${"/chat-with-astrologer"}`}
+                    onClick={() => {
+                      setIsLoading(true);
+                      setTimeout(() => {
+                        setIsLoading(false);
+                      }, 3000);
+                    }}
+                  >
+                    Chat with Astrologer
+                  </Link>
+                </li>
+                <li>
+                  <div>
+                    <OtpData
+                      setOtpPopUpDisplayAstro={setOtpPopUpDisplayAstro}
+                      otpPopUpDisplayAstro={otpPopUpDisplayAstro}
+                    />
+                    <Link
+                      href={`${
+                        astrologerPhone ? "/astrologer-dashboard" : "/"
+                      }`}
+                      onClick={handleOtpPop}
+                    >
+                      Astrologer Dashboard
+                    </Link>
+                  </div>
+                </li>
+                <li>
+                  <Link
+                    href="/signup"
+                    onClick={() => {
+                      setIsLoading(true);
+                      setTimeout(() => {
+                        setIsLoading(false);
+                      }, 3000);
+                    }}
+                  >
+                    Astrologer Registration
+                  </Link>
+                </li>
+                {/* <li>
                   <Link href="/admin">Admin</Link>
                 </li> */}
-                  </ul>
-                </nav>
-              )}
+              </ul>
+            </nav>
 
-              {admin_id ? (
-                <button onClick={handleAdminLogOut}>Log out admin</button>
-              ) : astrologerPhone || userMobile ? (
-                <div className="header-right-profil-icon">
-                  <div className="user-dashboard-profile ctm-text-end">
-                    <div className="user-dashboard-profile-main-pro">
-                      <Link href="#" title="dashboard">
-                        <img
-                          src={`/user-profile-icon.jpg`}
-                          alt="user-profile"
-                        />
-                      </Link>
-                      <div className="user-dashboard-profile-menu">
-                        <div className="user-inner-dashbord-pic">
-                          <Link href="#" title="Profile">
-                            <img
-                              src={`/user-profile-icon.jpg`}
-                              alt="user-profile"
-                            />
+            {userMobile ? (
+              <div className="header-right-profil-icon">
+                <div className="user-dashboard-profile ctm-text-end">
+                  <div className="user-dashboard-profile-main-pro">
+                    <Link href="#" title="dashboard">
+                      <img src={`/user-profile-icon.jpg`} alt="user-profile" />
+                    </Link>
+                    <div className="user-dashboard-profile-menu">
+                      <div className="user-inner-dashbord-pic">
+                        <Link href="#" title="Profile">
+                          <img
+                            src={`/user-profile-icon.jpg`}
+                            alt="user-profile"
+                          />
+                        </Link>
+                        <div className="user-inner-dashbord-content">
+                          <h5>{userDetailData?.name || ""}</h5>
+                          <Link href="#" title="Number">
+                            {userDetailData?.phone}
                           </Link>
-                          <div className="user-inner-dashbord-content">
-                            <h5>{userDetailData?.name || ""}</h5>
-                            <Link href="#" title="Number">
-                              {userDetailData?.phone}
+                        </div>
+                      </div>
+                      <div className="user-dashboard-profile-drop-down-menu">
+                        <ul>
+                          {!astrologerPhone && (
+                            <>
+                              <li>
+                                <Link href="/notification" title="notification">
+                                  Notification
+                                </Link>
+                              </li>
+                              <li>
+                                <Link
+                                  href="/my-wallet"
+                                  title="Wallet Transactions"
+                                >
+                                  Wallet Transactions{" "}
+                                  <span className="amount-ctm-content">
+                                    &#8377; {userDetailData?.totalAmount}
+                                  </span>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link
+                                  href="/order-history/chat"
+                                  title="order history"
+                                >
+                                  Order History
+                                </Link>
+                              </li>
+                            </>
+                          )}
+                          <li>
+                            <Link href={``} onClick={userLogout}>
+                              Logout
                             </Link>
-                          </div>
-                        </div>
-                        <div className="user-dashboard-profile-drop-down-menu">
-                          <ul>
-                            {!astrologerPhone && (
-                              <>
-                                <li>
-                                  <Link
-                                    href="/notification"
-                                    title="notification"
-                                  >
-                                    Notification
-                                  </Link>
-                                </li>
-                                <li>
-                                  <Link
-                                    href="/my-wallet"
-                                    title="Wallet Transactions"
-                                  >
-                                    Wallet Transactions{" "}
-                                    <span className="amount-ctm-content">
-                                      &#8377; {userDetailData?.totalAmount}
-                                    </span>
-                                  </Link>
-                                </li>
-                                <li>
-                                  <Link
-                                    href="/order-history/chat"
-                                    title="order history"
-                                  >
-                                    Order History
-                                  </Link>
-                                </li>
-                              </>
-                            )}
-                            <li>
-                              <Link href={``} onClick={userLogout}>
-                                Logout
-                              </Link>
-                            </li>
-                          </ul>
-                        </div>
+                          </li>
+                        </ul>
                       </div>
                     </div>
                   </div>
                 </div>
-              ) : (
-                <button onClick={handelUserLogin}>User Login</button>
-              )}
-            </div>
+              </div>
+            ) : (
+              <button onClick={handelUserLogin}>User Login</button>
+            )}
           </div>
-        </header>
-      )}
+        </div>
+      </header>
+
+          )
+      }
     </>
+
   );
 };
 
