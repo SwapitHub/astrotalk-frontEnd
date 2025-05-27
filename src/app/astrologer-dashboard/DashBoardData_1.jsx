@@ -8,7 +8,6 @@ const DashBoardData_1 = ({ astrologerData = {} }) => {
     !!sessionStorage.getItem("session-astrologer-phone")
   );
   // const newdata = sessionStorage.getItem("session-astrologer-phone")
-  console.log("isOnline",isOnline);
 
   const updateAstrologerStatus = useCallback(
     async (status) => {
@@ -81,7 +80,7 @@ const DashBoardData_1 = ({ astrologerData = {} }) => {
             <div className="image-dash">
               <img src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/320x410/assets/images/login_banner.webp" alt="" />
             </div>
-            <div className="astrologer-call-button-ctm">
+            <div className="astrologer-main-dashboard-btn">
               <a
                 href={
                   astrologerData.chatStatus
