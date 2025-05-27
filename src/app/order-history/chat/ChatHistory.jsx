@@ -2,6 +2,7 @@
 import DeleteChatPopUp from "@/app/component/DeleteChatPopUp";
 import Loader from "@/app/component/Loader";
 import RequestPopUp from "@/app/component/RequestPopUp";
+import SharePopUp from "@/app/component/SharePopUp";
 import UserOtpLoginData from "@/app/component/UserOtpLoginData";
 import UserRecharge from "@/app/component/UserRechargePopUp";
 import { fetchUserLoginDetails } from "@/app/utils/api";
@@ -42,6 +43,9 @@ const ChatHistory = () => {
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
+  const [shareOpenPopup, setShareOpenPopup] = useState(false);
+  const [showUserIdToAst, setShowUserIdToAst] = useState(secureLocalStorage.getItem("userIdToAst"));
+  const [astrologerIdToAst, setAstrologerIdToAst] = useState(secureLocalStorage.getItem("astrologerIdToAst"));
   const [isLoadingRequest, setIsLoadingRequest] = useState(
     secureLocalStorage.getItem("IsLoadingRequestStore")
   );
@@ -49,28 +53,31 @@ const ChatHistory = () => {
     useState(null);
   const [astrologerId, setAstrologerId] = useState();
 
-
-  console.log("====astroMessageList",astroMessageList);
+  console.log("====astroMessageList", astroMessageList);
   const deleteOrderHistory = (id) => {
-    
     setShowDelete(true);
     setDeleteId(id);
   };
 
-useEffect(() => {
-  if (showRecharge) {
-    document.body.classList.add("user-recharge");
-  } else {
-    document.body.classList.remove("user-recharge");
-  }
+  useEffect(() => {
+    if (showRecharge) {
+      document.body.classList.add("user-recharge");
+    } else {
+      document.body.classList.remove("user-recharge");
+    }
 
-  if (showDelete) {
-    document.body.classList.add("delete-chat-popup");
-  } else {
-    document.body.classList.remove("delete-chat-popup");
-  }
-}, [showRecharge, showDelete]);
+    if (showDelete) {
+      document.body.classList.add("delete-chat-popup");
+    } else {
+      document.body.classList.remove("delete-chat-popup");
+    }
 
+    if (shareOpenPopup) {
+      document.body.classList.add("share-open-popup");
+    } else {
+      document.body.classList.remove("share-open-popup");
+    }
+  }, [showRecharge, showDelete, shareOpenPopup]);
 
   const fetchAstroMessageList = async () => {
     setIsLoading(true);
@@ -93,7 +100,6 @@ useEffect(() => {
 
   // Filter out deleted item locally after success
   const handleDeleteSuccess = (id) => {
-
     setAstroMessageList((prev) => prev.filter((item) => item._id !== id));
   };
 
@@ -132,7 +138,7 @@ useEffect(() => {
     // profileImage,
     astroName,
     astroCharge,
-    astroExperience,
+    astroExperience
   ) => {
     if (userAmount >= astroCharge * 2) {
       try {
@@ -158,7 +164,7 @@ useEffect(() => {
           chatDeduction: "0",
           DeleteOrderHistoryStatus: true,
           chatStatus: true,
-           userName: userData?.name,
+          userName: userData?.name,
           userDateOfBirth: userData?.dateOfBirth,
           userPlaceOfBorn: userData?.placeOfBorn,
           userBornTime: userData?.reUseDateOfBirth,
@@ -229,10 +235,28 @@ useEffect(() => {
       );
     };
   }, [socket]);
-  console.log(showDelete, deleteId,);
-  
+
+  console.log(showUserIdToAst);
+
+  const showSharePopUp = (userIdToAst, astrologerIdToAst) => {
+    console.log(userIdToAst);
+    secureLocalStorage.setItem("userIdToAst",userIdToAst)
+    secureLocalStorage.setItem("astrologerIdToAst",astrologerIdToAst)
+    setShareOpenPopup(true);
+    setShowUserIdToAst(userIdToAst);
+    setAstrologerIdToAst(astrologerIdToAst);
+  };
+
   return (
     <>
+      {
+        <SharePopUp
+          setShareOpenPopup={setShareOpenPopup}
+          showUserIdToAst={showUserIdToAst}
+          astrologerIdToAst={astrologerIdToAst}
+        />
+      }
+
       {showDelete && (
         <DeleteChatPopUp
           deleteId={deleteId}
@@ -240,6 +264,7 @@ useEffect(() => {
           onDeleteSuccess={handleDeleteSuccess}
         />
       )}
+
       {isLoadingRequest && (
         <RequestPopUp setIsLoadingRequest={setIsLoadingRequest} />
       )}
@@ -250,6 +275,7 @@ useEffect(() => {
           astroMobileNum={astroMobileNum}
         />
       )}
+
       {otpPopUpDisplay && (
         <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
           <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
@@ -272,7 +298,7 @@ useEffect(() => {
                   >
                     Call
                   </Link>
-                </li> */}
+                 </li> */}
                   <li>
                     <Link
                       href="/order-history/chat"
@@ -318,13 +344,12 @@ useEffect(() => {
                   >
                     <div className="inner-scroll">
                       {astroMessageList.map((item) => {
-                        
                         return (
                           <>
                             {item?.DeleteOrderHistoryStatus == true && (
                               <div className="inner-ctm-chat-with-astrologer">
                                 <div className="inner-ctm-chat-with-astrologer-top">
-                                  <div className="outer-order-list-data">
+                                  <div className="order-list-data-wrap">
                                     <div className="order-id-sec">
                                       <ul>
                                         <li>
@@ -340,149 +365,154 @@ useEffect(() => {
                                           >
                                             HELP
                                           </button>
-                                          {item.profileStatus == true && (
-                                            <div className="hide-div-img-text">
-                                              <div className="images">
-                                                <img
-                                                  src={`https://aws.astrotalk.com/consultant_pic/p-106783.jpg`}
-                                                  alt=""
-                                                />
-                                              </div>
-                                              <div className="price">
-                                                $ {item?.astroCharges}
-                                              </div>
-                                              <div className="astrologer-list-right">
-                                                {/* <div className="Verified-Sticker-icon">
+                                        </li>
+                                      </ul>
+                                    </div>
+
+                                    <div className="outer-order-list-data">
+                                      <div
+                                        className="inner-order-list-data"
+                                        onClick={() => {
+                                          secureLocalStorage.setItem(
+                                            "astrologerId",
+                                            item?.astrologerIdToAst
+                                          );
+                                          router.push(
+                                            `/chat-with-astrologer/user/${item?.userIdToAst}/?user=order-history`
+                                          );
+                                        }}
+                                      >
+                                        
+                                        <div className="date-and-tine-sec">
+                                          <p>
+                                            {new Date(
+                                              item.createdAt
+                                            ).toLocaleString()}
+                                          </p>
+                                        </div>
+                                        <div className="chat-completed-content">
+                                          <p className="ctm-color-green">
+                                            {item?.chatStatus == false
+                                              ? "completed"
+                                              : "pending"}{" "}
+                                          </p>
+                                        </div>
+                                        <div className="call-rate-text">
+                                          <p className="ctm-color-green">
+                                            Chat Type -{" "}
+                                            <span>{item?.chatType}</span>{" "}
+                                          </p>
+                                        </div>
+                                        <div className="call-rate-text">
+                                          <p>
+                                            Rate: ₹ ${item.astroCharges}/min{" "}
+                                          </p>
+                                        </div>
+                                        <div className="call-rate-text">
+                                          <p>
+                                            Astrologer Name: {item.astroName}{" "}
+                                          </p>
+                                        </div>
+                                        <div className="call-rate-text">
+                                          <p>
+                                            Duration: {item?.chatDuration}{" "}
+                                            second
+                                          </p>
+                                        </div>
+                                        <div className="duration-history-text">
+                                          <p>
+                                            Deduction: ₹ {item?.chatDeduction}
+                                            .00{" "}
+                                          </p>
+                                        </div>
+                                      </div>
+                                      <div className="outer-hide-div-img-text">
+                                        {item.profileStatus == true && (
+                                          <div className="hide-div-img-text">
+                                            <div className="images">
+                                              <img
+                                                src={`https://aws.astrotalk.com/consultant_pic/p-106783.jpg`}
+                                                alt=""
+                                              />
+                                            </div>
+                                            <div className="price">
+                                              $ {item?.astroCharges}
+                                            </div>
+                                            <div className="astrologer-list-right">
+                                              {/* <div className="Verified-Sticker-icon">
                                               <img
                                                 src="/Verified-Sticker.png"
                                                 alt="Verified Sticker"
                                               />
                                             </div> */}
 
-                                                {item.chatStatus == false ? (
-                                                  <div className="astrologer-call-button-ctm">
-                                                    {userAmount >=
-                                                    item.astroCharges * 2 ? (
-                                                      <Link
-                                                        href={`#`}
-                                                        onClick={() => {
-                                                          setIsLoading(false);
-
-                                                          onChangeId(
-                                                            item.astrologerIdToAst,
-                                                            item.mobileNumber,
-                                                            // item.profileImage,
-                                                            item.astroName,
-                                                            item.astroCharges,
-                                                            item.astroExperience,
-                                                          );
-                                                        }}
-                                                      >
-                                                        Chat{" "}
-                                                      </Link>
-                                                    ) : !userMobile ||
-                                                      !userIds ? (
-                                                      <Link
-                                                        href="#"
-                                                        onClick={
-                                                          handelUserLogin
-                                                        }
-                                                      >
-                                                        chat
-                                                      </Link>
-                                                    ) : (
-                                                      <Link
-                                                        href="#"
-                                                        onClick={() =>
-                                                          onChangeId(
-                                                            item.astrologerIdToAst,
-                                                            item.mobileNumber,
-                                                            // item.profileImage,
-                                                            item.astroName,
-                                                            item.astroCharges,
-                                                            item.astroExperience,
-                                                          )
-                                                        }
-                                                      >
-                                                        chat
-                                                      </Link>
-                                                    )}
-                                                  </div>
-                                                ) : (
-                                                  <div className="astrologer-call-button-ctm chatStatus-false">
+                                              {item.chatStatus == false ? (
+                                                <div className="astrologer-call-button-ctm">
+                                                  {userAmount >=
+                                                  item.astroCharges * 2 ? (
                                                     <Link
-                                                      href={userData?.chatStatus?`/chat-with-astrologer/user/${userIds}`:"#"}
-                                                      // onClick={() =>
-                                                      //   onChangeId(item._id, item.mobileNumber)
-                                                      // }
-                                                    >
-                                                      Chat
-                                                    </Link>
-                                                    <span>
-                                                      waiting 5 minutes
-                                                    </span>
-                                                  </div>
-                                                )}
-                                              </div>
-                                            </div>
-                                          )}
-                                        </li>
-                                      </ul>
-                                    </div>
+                                                      href={`#`}
+                                                      onClick={() => {
+                                                        setIsLoading(false);
 
-                                    <div
-                                      className="inner-order-list-data"
-                                      onClick={() => {
-                                        secureLocalStorage.setItem(
-                                          "astrologerId",
-                                          item?.astrologerIdToAst
-                                        );
-                                        router.push(
-                                          `/chat-with-astrologer/user/${item?.userIdToAst}/?user=order-history`
-                                        );
-                                      }}
-                                    >
-                                      {/* <div className="chat-astrologer-name-sec">
-                              <h5>{item.astroName}</h5>
-                              <p>Vedic, Numerology, Vastu</p>
-                            </div> */}
-                                      <div className="date-and-tine-sec">
-                                        <p>
-                                          {new Date(
-                                            item.createdAt
-                                          ).toLocaleString()}
-                                        </p>
-                                      </div>
-                                      <div className="chat-completed-content">
-                                        <p className="ctm-color-green">
-                                          {item?.chatStatus == false
-                                            ? "completed"
-                                            : "pending"}{" "}
-                                        </p>
-                                      </div>
-                                      <div className="call-rate-text">
-                                        <p className="ctm-color-green">
-                                          Chat Type -{" "}
-                                          <span>{item?.chatType}</span>{" "}
-                                        </p>
-                                      </div>
-                                      <div className="call-rate-text">
-                                        <p>Rate: ₹ ${item.astroCharges}/min </p>
-                                      </div>
-                                      <div className="call-rate-text">
-                                        <p>
-                                          Astrologer Name: {item.astroName}{" "}
-                                        </p>
-                                      </div>
-                                      <div className="call-rate-text">
-                                        <p>
-                                          Duration: {item?.chatDuration} second
-                                        </p>
-                                      </div>
-                                      <div className="duration-history-text">
-                                        <p>
-                                          Deduction: ₹ {item?.chatDeduction}.00{" "}
-                                        </p>
+                                                        onChangeId(
+                                                          item.astrologerIdToAst,
+                                                          item.mobileNumber,
+                                                          // item.profileImage,
+                                                          item.astroName,
+                                                          item.astroCharges,
+                                                          item.astroExperience
+                                                        );
+                                                      }}
+                                                    >
+                                                      Chat{" "}
+                                                    </Link>
+                                                  ) : !userMobile ||
+                                                    !userIds ? (
+                                                    <Link
+                                                      href="#"
+                                                      onClick={handelUserLogin}
+                                                    >
+                                                      chat
+                                                    </Link>
+                                                  ) : (
+                                                    <Link
+                                                      href="#"
+                                                      onClick={() =>
+                                                        onChangeId(
+                                                          item.astrologerIdToAst,
+                                                          item.mobileNumber,
+                                                          // item.profileImage,
+                                                          item.astroName,
+                                                          item.astroCharges,
+                                                          item.astroExperience
+                                                        )
+                                                      }
+                                                    >
+                                                      chat
+                                                    </Link>
+                                                  )}
+                                                </div>
+                                              ) : (
+                                                <div className="astrologer-call-button-ctm chatStatus-false">
+                                                  <Link
+                                                    href={
+                                                      userData?.chatStatus
+                                                        ? `/chat-with-astrologer/user/${userIds}`
+                                                        : "#"
+                                                    }
+                                                    // onClick={() =>
+                                                    //   onChangeId(item._id, item.mobileNumber)
+                                                    // }
+                                                  >
+                                                    Chat
+                                                  </Link>
+                                                  <span>waiting 5 minutes</span>
+                                                </div>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )}
                                       </div>
                                     </div>
                                   </div>
@@ -490,16 +520,17 @@ useEffect(() => {
                                 <div className="inner-ctm-chat-with-astrologer-botton">
                                   <div className="share-with-frnds-chat">
                                     <p>
-                                      <a
-                                        href="#"
-                                        title="Share with your friends"
+                                      <button
+                                        onClick={() =>
+                                          showSharePopUp(item?.userIdToAst, item?.astrologerIdToAst)
+                                        }
                                       >
                                         <img
                                           src="/what-sap-icon.webp"
                                           alt="whatsapp"
                                         />
                                         <span>Share with your friends</span>{" "}
-                                      </a>
+                                      </button>
                                     </p>
                                   </div>
 

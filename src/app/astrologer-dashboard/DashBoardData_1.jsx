@@ -7,7 +7,8 @@ const DashBoardData_1 = ({ astrologerData = {} }) => {
   const [isOnline, setIsOnline] = useState(
     !!sessionStorage.getItem("session-astrologer-phone")
   );
-  console.log(isOnline);
+  // const newdata = sessionStorage.getItem("session-astrologer-phone")
+  console.log("isOnline",isOnline);
 
   const updateAstrologerStatus = useCallback(
     async (status) => {
@@ -64,7 +65,7 @@ const DashBoardData_1 = ({ astrologerData = {} }) => {
 
       if (isOnline) {
         updateAstrologerStatus(false);
-        sessionStorage.removeItem("session-astrologer-phone");
+        // sessionStorage.removeItem("session-astrologer-phone");
       }
     };
 
@@ -77,6 +78,9 @@ const DashBoardData_1 = ({ astrologerData = {} }) => {
       <div className="container">
         <div className="inner-astrologer-registration">
           <div className="registration-heading">
+            <div className="image-dash">
+              <img src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/320x410/assets/images/login_banner.webp" alt="" />
+            </div>
             <div className="astrologer-call-button-ctm">
               <a
                 href={
@@ -85,7 +89,7 @@ const DashBoardData_1 = ({ astrologerData = {} }) => {
                     : "#"
                 }
               >
-                Chat
+                Back To The Chat Page
               </a>
 
               <button onClick={toggleOnlineStatus}>

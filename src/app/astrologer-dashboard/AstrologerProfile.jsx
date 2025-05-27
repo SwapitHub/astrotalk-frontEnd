@@ -293,7 +293,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
 
   return (
     <div className="container">
-      <div className="astrologer-registration-form">
+      <div className={`astrologer-registration-form ${astrologerData?.profileStatus == true ? "update-profile" : "" }`}>
         {astrologerData?.profileStatus !== true && (
           <h2>Please Complete the Profile then you connect the user.</h2>
         )}

@@ -591,6 +591,26 @@ scrollbar-color: #ddd #ddd;
     cursor: pointer;
     width: max-content;
 }
+.dashboard-right-content .filter-button.search-box-top-btn {
+    margin: 0px 0px 20px;
+    width: auto;
+    display: inline-flex;
+}
+.dashboard-right-content .search-box-filed {
+    max-width: max-content;
+    width: auto;
+}
+.dashboard-right-content .search-button-filed {
+    width: auto;
+}
+.dashboard-right-content .search-button-filed button {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border: 0px;
+}
+.dashboard-right-content .search-box-top-btn input {
+    min-width: 250px;
+}
 .search-box-top-btn input:focus {
     border: none;
 }
@@ -742,6 +762,10 @@ scrollbar-color: #ddd #ddd;
     flex-direction: column;
     justify-content: space-between;
     max-width: 67px;
+    margin: 0 auto;
+}
+.outer-hide-div-img-text .price {
+	margin: 5px 0px;
 }
 .astrologer-profile {
     width: 100%;
@@ -1719,7 +1743,7 @@ table, th, td {
 .my-order-hisrory-bg .wallet-ctm-tab-menu.wallet-ctm-tab-menu {
     margin-top: 30px;
 }
-.share-with-frnds-chat a {
+.share-with-frnds-chat a, .share-with-frnds-chat button {
     display: flex;
     flex-wrap: wrap;
     row-gap: 10px;
@@ -1727,8 +1751,9 @@ table, th, td {
     padding: 5px 10px;
     border-radius: 5px;
     border: 1px solid #e1dddd;
+    background-color: transparent;
 }
-.share-with-frnds-chat a img {
+.share-with-frnds-chat a img, .share-with-frnds-chat button img {
     max-width: 20px;
     margin-right: 10px;
     object-fit: contain;
@@ -1753,6 +1778,17 @@ table, th, td {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+}
+.outer-order-list-data {
+	display: flex;
+	justify-content: space-between;
+}
+.inner-order-list-data {
+	width: calc(100% - 100px);
+}
+.outer-hide-div-img-text {
+	width: 80px;
+	text-align: center;
 }
 .chat-astrologer-name-sec h5 {
     font-size: 18px;
@@ -1782,9 +1818,6 @@ table, th, td {
     row-gap: 5px;
     padding: 14px;
     flex-direction: column;
-}
-.order-id-sec ul {
-    position: relative;
 }
 .order-id-sec ul .images {
     width: 100%;
@@ -1877,10 +1910,8 @@ body.user-recharge:before {
     width: calc(70% - 20px);
 }
 .order-id-sec > ul > li.help-list-button-ctm {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 20px;
+    text-align: center;
+    width: 80px;
 }
 .order-id-sec > ul > li.help-list-button-ctm .hide-div-img-text .images img {
     width: 48px;
@@ -1904,11 +1935,6 @@ body.user-recharge:before {
 }
 .order-id-sec > ul > li.help-list-button-ctm .price, .order-id-sec > ul > li.help-list-button-ctm .images {
     text-align: center;
-}
-.order-id-sec ul li.help-list-button-ctm {
-    position: absolute;
-    right: 0;
-    top: 10px;
 }
 
 /* 9 April-2025 */
@@ -2490,11 +2516,11 @@ span.star {
     z-index: 2;
     background-color: #fff;
 }
-.user-filter-popup, .multi-user-filter-popup, .sort-user-filter-popup, .loading-user-filter-popup, .delete-chat-popup {
+.user-filter-popup, .multi-user-filter-popup, .sort-user-filter-popup, .loading-user-filter-popup, .delete-chat-popup, .share-open-popup {
     position: relative;
     overflow: hidden;
 }
-.user-filter-popup::before, .multi-user-filter-popup::before, .sort-user-filter-popup::before, .loading-user-filter-popup::before, .delete-chat-popup::before {
+.user-filter-popup::before, .multi-user-filter-popup::before, .sort-user-filter-popup::before, .loading-user-filter-popup::before, .delete-chat-popup::before, .share-open-popup::before {
     content: "";
     position: absolute;
     width: 100%;
@@ -2506,7 +2532,8 @@ span.star {
     min-height: 100vh;
 }
 .sort-modal,
-.filter-modal {
+.filter-modal,
+.sharePopUp {
     position: fixed;
     z-index: 9;
     background-color: transparent;
@@ -2517,10 +2544,12 @@ span.star {
     transition: all .4s;
     opacity: 0;
     visibility: hidden;
+    overflow: hidden;
     overflow-y: auto;
     max-height: 100vh;
 }
-.sort-user-filter-popup .sort-modal, .multi-user-filter-popup .filter-modal {
+
+.sort-user-filter-popup .sort-modal, .multi-user-filter-popup .filter-modal, .share-open-popup .sharePopUp {
     opacity: 1;
     visibility: visible;
     transform: translate(-50%, -50%);
@@ -2531,16 +2560,24 @@ span.star {
 .sort-header, .filter-header {
     align-items: center;
 }
-.sort-header > button, .filter-header > button {
+.sort-header > button, .filter-header > button, .sharePopUp .cross {
     border: 0px;
-    width: 20px;
-    height: 20px;
     border-radius: 50px;
-    font-size: 18px;
-    font-weight: 700;
+    font-weight: 500;
+    width: 28px;
+    height: 28px;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .5);
+    padding: 3px 0px 0px;
+    background-color: #ddd;
+    cursor: pointer;
 }
 .filter-modal {
     width: 400px;
+    max-width: calc(100% - 20px);
 }
 .filter-header {
     display: flex;
@@ -2675,17 +2712,6 @@ li.active > a {
 }
 .filter-header span {
     font-weight: 500;
-}
-.filter-header > button,
-.sort-header > button {
-    width: 28px;
-    height: 28px;
-    font-size: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .5);
-    padding: 3px 0px 0px;
 }
 .tab-btn {
     transition: all 0.3s;
@@ -3662,6 +3688,118 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
 .main-header-right > svg:last-child {
     display: none;
 }
+.available-balance {
+    margin: 0 0 10px;
+}
+
+/* Share Popup  */
+.sharePopUp {
+  box-shadow: 0 11px 15px -7px #0003, 0 24px 38px 3px #00000024, 0 9px 46px 8px #0000001f;
+  padding: 24px;
+  border-radius: 10px;
+  max-width: 540px;
+  background-color: #ffffff;
+  text-align: center;
+}
+.sharePopUp > h3 {
+	font-size: 24px;
+}
+.sharePopUp .cross {
+	position: absolute;
+	right: 20px;
+	top: 15px;
+	font-size: 16px;
+}
+.message-icon {
+	margin: 20px auto;
+	display: inline-flex;
+	width: 70px;
+	height: 70px;
+	justify-content: center;
+	align-items: center;
+	background-color: #f2f2f2;
+	border-radius: 50%;
+	border: 2px solid var(--primary_color);
+}
+.message-icon svg {
+	width: 50px;
+	height: 50px;
+	vertical-align: middle;
+}
+.copy {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+.copy a {
+	font-size: 9px;
+	border: 0;
+	color: var(--primary_color);
+	padding: 5px 10px;
+	border-radius: 10px;
+    background-color: #eeeeee;
+}
+.Clipboard-icon-outer {
+	position: relative;
+}
+.Clipboard-icon {
+    cursor: pointer;
+}
+.clipboard-text, .clipboard-text + span {
+	position: absolute;
+    right: 0px;
+	font-size: 11px;
+	width: max-content;
+	background-color: rgba(0, 0, 0, .6);
+	color: #fff;
+	padding: 3px 5px;
+	border-radius: 20px;
+    transition: all 0.3s;
+}
+.clipboard-text {
+    opacity: 0;
+    visibility: hidden;
+}
+.Clipboard-icon:hover + .clipboard-text {
+    opacity: 1;
+    visibility: visible;
+}
+.information {
+	display: flex;
+	justify-content: center;
+	margin: 20px 0px 0px;
+	gap: 15px;
+}
+.information a {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	width: 50px;
+	height: 50px;
+	background-color: #f2f2f2;
+	border-radius: 50%;
+}
+.information a svg {
+	width: 28px;
+	height: 28px;
+	color: var(--body_content_color);
+}
+
+
+.pagination-outer {
+	display: flex;
+	justify-content: space-between;
+	align-content: center;
+}
+button {
+	padding: 4px 14px;
+	background-color: var(--primary_color);
+	border-radius: 5px;
+	color: #fff;
+	border: 1px solid var(--primary_color);
+	font-size: 14px;
+	display: inline-block;
+}
 
 /* ================== @ Media Css Start Here ================== */
 @media (max-width:1199px) {
@@ -3686,6 +3824,9 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
     }
     .astrologer-chat .uder-and-astro-chat-bg {
         height: calc(100vh - 209px);
+    }
+    .inner-popular-recharge-sec {
+        width: calc(100%/5 - 16px);
     }
 }
 @media screen and (min-width: 768px) and (max-width: 991px) {
@@ -3737,6 +3878,9 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
     }
     .uder-and-astro-chat-bg {
         height: calc(100vh - 306px);
+    }
+    .inner-popular-recharge-sec {
+        width: calc(100%/4 - 15px);
     }
 }
 @media (max-width: 767px) {
@@ -3857,8 +4001,18 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
     .dashboard-right-content .container {
         padding: 0;
     }
+    .my-wallet-table-sec table {
+        white-space: nowrap;
+    }
+    .inner-popular-recharge-sec {
+        width: calc(100%/3 - 13.3333px);
+    }
+    .countdown-outer {
+        min-width: 340px;
+        max-width: calc(100% - 30px);
+    }
 }
-@media (max-width: 575px) {
+@media (max-width: 574px) {
     .chat-left-logo {
         gap: 10px;
     }
@@ -3873,5 +4027,14 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
     }
     .send-otp .number--continious-popup, .enter-otp {
         padding: 0 20px 0px;
+    }
+     .inner-popular-recharge-sec {
+        width: calc(100%/2 - 10px);
+    }
+    .sharePopUp {
+        min-width: calc(100% - 30px);
+    }
+    .sharePopUp > h3 {
+        font-size: 18px;
     }
 }

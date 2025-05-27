@@ -10,25 +10,28 @@ import EndChatPopUp from "@/app/component/EndChatPopUp";
 import RatingPopUp from "@/app/component/RatingPopUp";
 import { useRouter, useSearchParams } from "next/navigation";
 
+
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
   transports: ["websocket"],
   reconnection: true,
 });
 
-export default function Chatting(AdminCommissionData) {
+export default function Chatting({AdminCommissionData, userIdUrl}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const userParam = searchParams.get("user");
+  const astrologerIdToAst = searchParams.get("astrologerIdToAst");
+ console.log(astrologerIdToAst,userIdUrl,"astrologerIdToAst==================");
 
   const [showUserData, setShowUserData] = useState();
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [timeLeft, setTimeLeft] = useState(null);
- const [actualChargeUserChat, setActualChargeUserChat] = useState();
-console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
+  const [actualChargeUserChat, setActualChargeUserChat] = useState();
+  console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
 
   const [showEndChat, setShowEndChat] = useState(false);
   const [showRating, setShowRating] = useState(false);
-  console.log("AdminCommissionData", AdminCommissionData.AdminCommissionData);
+  console.log("AdminCommissionData", AdminCommissionData);
 
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
@@ -43,12 +46,11 @@ console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
     useState(() => secureLocalStorage.getItem("AstrologerNotificationStatus"));
   const mobileRef = useRef(null);
 
-
   useEffect(() => {
-  if (showUserData?.freeChatStatus === true) {
-    setActualChargeUserChat(0);
-  }
-}, [showUserData?.freeChatStatus]);
+    if (showUserData?.freeChatStatus === true) {
+      setActualChargeUserChat(0);
+    }
+  }, [showUserData?.freeChatStatus]);
 
 
 
@@ -64,10 +66,11 @@ console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
 
   useEffect(() => {
     const id = secureLocalStorage.getItem("astrologerId");
-    if (id) {
-      setAstrologerId(id);
+    
+    if (id || astrologerIdToAst) {
+      setAstrologerId(id || astrologerIdToAst);
     }
-  }, []);
+  }, [astrologerIdToAst]);
 
   useEffect(() => {
     const storedTime = secureLocalStorage.getItem("chatTimeLeft");
@@ -165,7 +168,7 @@ console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
   const fetchMessages = async () => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/chat/detail/${userIds}/${astrologerId}`
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/chat/detail/${userIds || userIdUrl}/${astrologerId }`
       );
       setMessageData(response.data);
     } catch (error) {
@@ -225,7 +228,7 @@ console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
   };
 
   useEffect(() => {
-    if (!astrologerId || !userIds || !socket) return;
+    if (!astrologerId || !userIds || !socket ) return;
 
     socket.emit("joinChat", { userIds, astrologerId });
 
@@ -238,7 +241,7 @@ console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
     return () => {
       socket.off("receiveMessage");
     };
-  }, [astrologerId, userIds, socket]); // Watch these dependencies
+  }, [astrologerId, userIds, socket, userIdUrl]); // Watch these dependencies
 
   useEffect(() => {
     axios
@@ -253,32 +256,31 @@ console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
       });
   }, [userMobile]);
 
- 
-  
-console.log(timeLeft, showUserData?.freeChatStatus === true);
 
   // Automatically end chat after 120 seconds (when timer hits 0) for free chat
   useEffect(() => {
     if (timeLeft === 120 && showUserData?.freeChatStatus === true) {
       console.log("actualChargeUserChat============");
-      
+
       endChatStatus();
     }
   }, [timeLeft, showUserData?.freeChatStatus]);
 
-
   const endChatStatus = async () => {
-console.log("actualChargeUserChat",actualChargeUserChat);
+    console.log("actualChargeUserChat", actualChargeUserChat);
 
     if (actualChargeUserChat == undefined) return;
-console.log("===============sasasa");
+    console.log("===============sasasa");
 
-    if (showUserData?.freeChatStatus == true || showUserData?.chatStatus == true) {
+    if (
+      showUserData?.freeChatStatus == true ||
+      showUserData?.chatStatus == true
+    ) {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${userMobile}`,
         {
           freeChatStatus: false,
-          chatStatus: false
+          chatStatus: false,
         }
       );
       console.log("response", response.data);
@@ -510,10 +512,10 @@ console.log("===============sasasa");
                      }`}
                     >
                       {/* <h4>{msg.user}</h4> */}
-                       <p
-      className="chat-message"
-      dangerouslySetInnerHTML={{ __html: msg.message }}
-      ></p>
+                      <p
+                        className="chat-message"
+                        dangerouslySetInnerHTML={{ __html: msg.message }}
+                      ></p>
                       <p>{msg.time}</p>
                     </div>
                   ))}

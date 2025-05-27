@@ -27,49 +27,48 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
       });
   }, []);
 
- const sendOtp = async () => {
-  try {
-    // Step 1: Check if mobile number exists
-    const responseMatch = await axios.get(
-      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-detail/${phone}`
-    );
-
-    // Step 2: If match found, send OTP
-    if (responseMatch?.data?.success) {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/send-otp`,
-        {
-          phone: phone,
-        }
+  const sendOtp = async () => {
+    try {
+      // Step 1: Check if mobile number exists
+      const responseMatch = await axios.get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-detail/${phone}`
       );
 
-      setOtpSent(true);
-      let countdown = 60;
-      setTimeOtpMessage(countdown);
+      // Step 2: If match found, send OTP
+      if (responseMatch?.data?.success) {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/send-otp`,
+          {
+            phone: phone,
+          }
+        );
 
-      const timer = setInterval(() => {
-        countdown -= 1;
+        setOtpSent(true);
+        let countdown = 60;
         setTimeOtpMessage(countdown);
 
-        if (countdown <= 0) {
-          clearInterval(timer);
-        }
-      }, 1000);
+        const timer = setInterval(() => {
+          countdown -= 1;
+          setTimeOtpMessage(countdown);
 
-      setMessage(response.data.message);
-    } else {
-      setMessage("Mobile number not found");
-    }
-  } catch (error) {
-    if (error.response?.status === 404) {
-      setMessage("Mobile number not registered");
-    } else {
-      setMessage("Error sending OTP");
-    }
-    console.log(error);
-  }
-};
+          if (countdown <= 0) {
+            clearInterval(timer);
+          }
+        }, 1000);
 
+        setMessage(response.data.message);
+      } else {
+        setMessage("Mobile number not found");
+      }
+    } catch (error) {
+      if (error.response?.status === 404) {
+        setMessage("Mobile number not registered");
+      } else {
+        setMessage("Error sending OTP");
+      }
+      console.log(error);
+    }
+  };
 
   const verifyOtp = async () => {
     try {
@@ -82,10 +81,7 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
       );
       setMessage(response.data.message);
 
-    
-
-      if (response.data.success==true) {
-
+      if (response.data.success == true) {
         router.push("/astrologer-dashboard");
         setOtpPopUpDisplayAstro(false);
         setOtpSent(false);
@@ -132,46 +128,47 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
     <div className={otpPopUpDisplayAstro == true && `outer-send-otp-main`}>
       {otpPopUpDisplayAstro && (
         <div className="send-otp">
-
           <div className="popup-header">
-          {otpSent == true && (
-            <span
-              className="close-icon back"
-              onClick={(e) => {
-                e.preventDefault();
+            {otpSent == true && (
+              <span
+                className="close-icon back"
+                onClick={(e) => {
+                  e.preventDefault();
 
-                setOtpSent(false);
-              }}
-            >
-              back
-            </span>
-          )}
-          {otpSent == false ? (
-            <span
-              className="close-icon"
-              onClick={(e) => {
-                e.preventDefault();
-                setOtpPopUpDisplayAstro(false);
-                setOtpSent(false);
-              }}
-            >
-              <span></span><span></span>
-            </span>
-          ) : (
-            <span
-              className="close-icon"
-              onClick={(e) => {
-                e.preventDefault();
-                setOtpPopUpDisplayAstro(false);
-                setOtpSent(true);
-              }}
-            >
-              <span></span><span></span>
-            </span>
-          )}
+                  setOtpSent(false);
+                }}
+              >
+                back
+              </span>
+            )}
+            {otpSent == false ? (
+              <span
+                className="close-icon"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOtpPopUpDisplayAstro(false);
+                  setOtpSent(false);
+                }}
+              >
+                <span></span>
+                <span></span>
+              </span>
+            ) : (
+              <span
+                className="close-icon"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOtpPopUpDisplayAstro(false);
+                  setOtpSent(true);
+                }}
+              >
+                <span></span>
+                <span></span>
+              </span>
+            )}
 
-          <h1>{otpSent == false ? `Continue with Phone` : `Verify Phone`}</h1>
-</div>
+            <h1>{otpSent == false ? `Continue with Phone` : `Verify Phone`}</h1>
+          </div>
           {otpSent == false ? (
             <div className="number--continious-popup">
               <p>You will receive a 6 digit code for verification</p>
@@ -227,12 +224,12 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
           )}
 
           <div
-        className={`popup-btm-content ${
-          message == "OTP sent successfully" ? "green" : "red"
-        }`}
-      >
-        <p>{message}</p>
-      </div>
+            className={`popup-btm-content ${
+              message == "OTP sent successfully" ? "green" : "red"
+            }`}
+          >
+            <p>{message}</p>
+          </div>
         </div>
       )}
     </div>

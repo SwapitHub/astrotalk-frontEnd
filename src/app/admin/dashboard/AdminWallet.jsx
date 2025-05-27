@@ -91,10 +91,15 @@ function AdminWallet({ updateButton }) {
   return (
     <div className="admin-wallet-main">
       {updateButton === "admin" && (
-        <p>
-          <strong>Available balance: </strong>
+        <>
+        <div className="available-balance">
+            <p>    
+           <strong>Available balance: </strong>    
           <span>₹ {Math.round(totalAvailableBalance)}</span>
         </p>
+        </div>
+      
+        </>
       )}
 
       <div className="filter-button search-box-top-btn">

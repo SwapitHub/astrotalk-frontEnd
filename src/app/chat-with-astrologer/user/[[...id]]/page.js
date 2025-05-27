@@ -20,12 +20,16 @@ const fetchAdminCommissionData = async () => {
   }
 };
 
-const ChattingServer = async () => {
+const ChattingServer = async ({ params, searchParams }) => {
  
   const AdminCommissionData = await fetchAdminCommissionData();
+    const idArray = params?.id || []; // this will be an array
+  const userIdUrl = idArray[0];
+  
+  
   return (
     <>
-      <Chatting AdminCommissionData={AdminCommissionData[0].AdminCommissions}/>
+      <Chatting AdminCommissionData={AdminCommissionData[0].AdminCommissions} userIdUrl={userIdUrl}/>
     </>
   );
 };

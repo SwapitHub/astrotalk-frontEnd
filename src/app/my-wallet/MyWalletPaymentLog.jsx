@@ -35,11 +35,7 @@ const MyWalletPaymentLog = () => {
       </div>
       <div className="inner-my-wallet-sec ctm-flex-row ctm-justify-content-between">
         <div className="my-wallet-sec-left-content ctm-align-items-center ctm-flex-row">
-          <div className="my-walleavailable-balance-text">
-            <p>
-              {/* Available balance: <span>₹ {userData?.totalAmount}</span> */}
-            </p>
-          </div>
+          
           <div className="recharge-btm">
             <Link
               href="/add-wallet-money/price-list"
