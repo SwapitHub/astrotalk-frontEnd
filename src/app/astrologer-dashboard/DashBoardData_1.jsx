@@ -4,21 +4,24 @@ import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
 const DashBoardData_1 = ({ astrologerData = {} }) => {
-  const [isOnline, setIsOnline] = useState(
-    !!sessionStorage.getItem("session-astrologer-phone")
-  );
-  // const newdata = sessionStorage.getItem("session-astrologer-phone")
+  const [isOnline, setIsOnline] = useState(false);
+
+  // ✅ Load from sessionStorage only on client
+  useEffect(() => {
+    const sessionPhone = sessionStorage.getItem("session-astrologer-phone");
+    if (sessionPhone === astrologerData.mobileNumber) {
+      setIsOnline(true);
+    }
+  }, [astrologerData.mobileNumber]);
 
   const updateAstrologerStatus = useCallback(
     async (status) => {
       try {
-        // 1️⃣  update profile
         await axios.put(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-status-by-mobile/${astrologerData.mobileNumber}`,
           { profileStatus: status }
         );
 
-        // 2️⃣  update order/history list
         await axios.put(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
           {
@@ -52,19 +55,20 @@ const DashBoardData_1 = ({ astrologerData = {} }) => {
     updateAstrologerStatus(next);
   };
 
-  // ─────────────────────────────────── mark online once after mount
+  // ✅ Mark online after mount if already marked
   useEffect(() => {
-    if (isOnline) updateAstrologerStatus(true);
-  }, []);
+    if (isOnline) {
+      updateAstrologerStatus(true);
+    }
+  }, [isOnline, updateAstrologerStatus]);
 
-  // ─────────────────────────────────── clean logout on true tab close
+  // ✅ Handle tab close
   useEffect(() => {
     const handlePageHide = (e) => {
       if (e.persisted) return;
 
       if (isOnline) {
         updateAstrologerStatus(false);
-        // sessionStorage.removeItem("session-astrologer-phone");
       }
     };
 
@@ -78,7 +82,10 @@ const DashBoardData_1 = ({ astrologerData = {} }) => {
         <div className="inner-astrologer-registration">
           <div className="registration-heading">
             <div className="image-dash">
-              <img src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/320x410/assets/images/login_banner.webp" alt="" />
+              <img
+                src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/320x410/assets/images/login_banner.webp"
+                alt=""
+              />
             </div>
             <div className="astrologer-main-dashboard-btn">
               <a
@@ -90,7 +97,6 @@ const DashBoardData_1 = ({ astrologerData = {} }) => {
               >
                 Back To The Chat Page
               </a>
-
               <button onClick={toggleOnlineStatus}>
                 {isOnline ? "Go Offline" : "Go Online"}
               </button>

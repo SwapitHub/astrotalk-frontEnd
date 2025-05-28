@@ -155,7 +155,7 @@ useEffect(()=>{
         </table>
         </div>
 }
-        <div style={{ marginTop: "10px" }}>
+        <div className="pagination-outer" style={{ marginTop: "10px" }}>
         <button onClick={() => setPage(page - 1)} disabled={!hasPrevPage || loading}
           className={!hasPrevPage && "disable"}
           
