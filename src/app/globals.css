@@ -407,7 +407,8 @@ scrollbar-color: #ddd #ddd;
 	border: none;
 	border-radius: 50px;
 	height: 59px;
-    outline:none;
+    outline: none;
+    font-family: inherit;
 }
 .chat-input button {
 	background-color: var(--primary_color);
@@ -3314,7 +3315,11 @@ h2.review-heading {
 .page-main-header .main-header-right .nav-right ul li .media .dotted-animation {
     position: relative;
     right: -7px;
-    top: -16px
+    top: -16px;
+    display: none;
+}
+.showOnline .page-main-header .main-header-right .nav-right ul li .media .dotted-animation {
+    display: block;
 }
 .page-main-header .main-header-right .nav-right ul li .media .dotted-animation .animate-circle {
     position: absolute;
@@ -3813,6 +3818,13 @@ button {
 }
 .update-profile .label-content label::after {
 	display: none;
+}
+.typing-indicator {
+    position: absolute;
+    z-index: 9;
+    bottom: 20px;
+    left: 30px;
+    color: var(--primary_color);
 }
 /* ================== @ Media Css Start Here ================== */
 @media (max-width:1199px) {

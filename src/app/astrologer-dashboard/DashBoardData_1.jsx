@@ -6,6 +6,15 @@ import axios from "axios";
 const DashBoardData_1 = ({ astrologerData = {} }) => {
   const [isOnline, setIsOnline] = useState(false);
 
+
+  useEffect(() => {
+    if (isOnline) {
+      document.body.classList.add("showOnline");
+    } else {
+      document.body.classList.remove("showOnline");
+    }
+  }, [isOnline]);
+
   // ✅ Load from sessionStorage only on client
   useEffect(() => {
     const sessionPhone = sessionStorage.getItem("session-astrologer-phone");
@@ -48,9 +57,7 @@ const DashBoardData_1 = ({ astrologerData = {} }) => {
         "session-astrologer-phone",
         astrologerData.mobileNumber
       );
-    } else {
-      sessionStorage.removeItem("session-astrologer-phone");
-    }
+    } 
 
     updateAstrologerStatus(next);
   };

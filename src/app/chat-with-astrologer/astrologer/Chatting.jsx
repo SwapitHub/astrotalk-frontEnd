@@ -15,8 +15,6 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 });
 
 export default function Chatting({ astrologer, AdminCommissionData }) {
-  console.log(astrologer);
-
   const router = useRouter();
   const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
@@ -38,7 +36,6 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(() => secureLocalStorage.getItem("AstrologerNotificationStatus"));
 
-  console.log(astrologerNotificationStatus);
   useEffect(() => {
     if (
       astrologerNotificationStatus == false ||
@@ -47,6 +44,36 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
       router.push("/");
     }
   }, [astrologerNotificationStatus]);
+
+  // typing logic start here
+    const [isTyping, setIsTyping] = useState(false);
+    console.log(isTyping, "isTyping");
+  
+    useEffect(() => {
+      if (!socket) return;
+  
+      const handleTyping = (data) => {
+        if (data.userId !== userIds) {
+          setIsTyping(true);
+          setTimeout(() => setIsTyping(false), 2000);
+        }
+      };
+  
+      socket.on("typing", handleTyping);
+  
+      return () => {
+        socket.off("typing", handleTyping);
+      };
+    }, [socket, userIds]);
+  
+  
+     const handleTyping = () => {
+      socket.emit("typing", {
+        sender: showUserData?._id,
+        receiverId: astrologerId,
+      });
+    };
+    // typing logic end here
 
   useEffect(() => {
     const storedTime = secureLocalStorage.getItem("chatTimeLeft");
@@ -145,8 +172,8 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
     const time = `${hours}:${minutes} ${ampm}`;
 
     const newMessage = {
-  user: user,
-  message: `Hi,<br/><br/>
+      user: user,
+      message: `Hi,<br/><br/>
 Below are Your details:<br/>
 Name: ${showUserData?.name}<br/>
 Gender: ${showUserData?.gender}<br/>
@@ -157,10 +184,9 @@ ${
     : ""
 }
 POB: ${showUserData?.placeOfBorn}<br/>`,
-  time: time,
-  members: [userIds, astrologerId],
-};
-
+      time: time,
+      members: [userIds, astrologerId],
+    };
 
     socket.emit("sendMessage", newMessage);
   }, [userIds, astrologerId, showUserData]); // only run once when all 3 are available
@@ -219,12 +245,15 @@ POB: ${showUserData?.placeOfBorn}<br/>`,
   const endChatStatus = async () => {
     if (actualChargeUserChat == undefined) return;
 
-    if (showUserData?.freeChatStatus == true || showUserData?.chatStatus == true) {
+    if (
+      showUserData?.freeChatStatus == true ||
+      showUserData?.chatStatus == true
+    ) {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${showUserData?.phone}`,
         {
           freeChatStatus: false,
-          chatStatus: false
+          chatStatus: false,
         }
       );
       console.log("response", response.data);
@@ -430,15 +459,16 @@ POB: ${showUserData?.placeOfBorn}<br/>`,
                     >
                       {/* <p>{msg.message}</p> */}
                       <p
-      className="chat-message"
-      dangerouslySetInnerHTML={{ __html: msg.message }}
-      ></p>
-      <p>{msg.time}</p>
+                        className="chat-message"
+                        dangerouslySetInnerHTML={{ __html: msg.message }}
+                      ></p>
+                      <p>{msg.time}</p>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
+            {isTyping && <div className="typing-indicator">Typing...</div>}
             {timeLeft ? (
               <div className="send-input-button ctm-flex-row ctm-align-items-center ctm-justify-content-between">
                 <div className="chat-input-box-main ctm-flex-row ctm-align-items-center ctm-justify-content-between">
@@ -447,7 +477,11 @@ POB: ${showUserData?.placeOfBorn}<br/>`,
                       type="text"
                       placeholder="Type a message"
                       value={message}
-                      onChange={(e) => setMessage(e.target.value)}
+                      // onChange={(e) => setMessage(e.target.value)}
+                       onChange={(e) => {
+                        setMessage(e.target.value);
+                        handleTyping(); 
+                      }}
                       onKeyDown={handleKeyDown}
                     />
                     <button onClick={sendMessage}>Send</button>
