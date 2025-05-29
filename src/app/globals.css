@@ -141,6 +141,16 @@ nav.navbar ul {
 	background-color: transparent;
 	color: var(--body_content_color);
 }
+.header .mobile-toggle {
+    display: none;
+}
+.header .mobile-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: #000;
+    margin: 4px 0px;
+}
 
 /*  Chat Section */
 .chat-top-header {
@@ -1060,9 +1070,6 @@ ul.check-box-drop-worn {
 .dashboard-main-outer > .container {
     max-width: 100%;
     padding: 0;
-}
-.header-left-logo a {
-    width: 85px;
 }
 .mobile-close-sidebar {
     display: none;
@@ -3636,14 +3643,17 @@ ul.notification-dropdown.onhover-show-div li+li:hover {
     text-align: left;
     box-shadow: 0px 1px 2px 0px #cacaca;
     transform: translateY(30px);
+    right: 0;
     opacity: 0;
     visibility: hidden;
-    right: 0;
 }
-.onhover-dropdown:hover .onhover-show-div {
-    opacity: 1;
-    transform: translateY(0px);
-    visibility: visible
+
+@media (min-width: 768px) {
+    .onhover-dropdown:hover .onhover-show-div {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0px);
+    } 
 }
 @keyframes blink {
     0% {
@@ -3865,6 +3875,28 @@ button {
     }
 }
 @media (max-width: 991px) {
+    .navbar {
+        display: none;
+        position: absolute;
+        top: 100%;
+        background-color: #fff;
+        left: 0;
+        width: 100%;
+    }
+    nav.navbar ul {
+        flex-direction: column;
+    }
+    .header .mobile-toggle {
+        position: absolute;
+        right: 15px;
+        display: block;
+    }
+    .header button {
+        margin-right: 45px;
+    }
+    .menu-opened .navbar {
+        display: block;
+    }
     .inner-header-sec {
         gap: 0px;
     }
@@ -3872,7 +3904,7 @@ button {
         max-width: 80px;
     }
     nav.navbar > ul > li {
-        padding: 3px 10px;
+        padding: 10px 20px;
     }
     .user-dashboard-profile img {
         width: 50px;
@@ -3914,14 +3946,19 @@ button {
         line-height: 40px;
     }
     /* Header Section */
-    .navbar {
-        display: none;
+    .header button {
+        margin-right: 30px;
     }
-    .header-left-logo, .header-right-profil-icon {
-        width: auto;
+    .header-left-logo img {
         max-width: 70px;
     }
     /* Dashboard Header  */
+    .user-opened .onhover-dropdown.mobile-user .onhover-show-div,
+    .notification-opened .onhover-dropdown.mobile-notification .onhover-show-div {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0px);
+    }
     .mobile-close-sidebar {
         display: flex;
     }

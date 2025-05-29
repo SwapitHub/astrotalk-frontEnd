@@ -8,11 +8,10 @@ import ProfilePopUp from "../component/ProfilePopUp";
 import HeaderDashNotification from "../component/HeaderDashNotification";
 import axios from "axios";
 
-const DashboardHeader = ({setToggleSlideMobile}) => {
+const DashboardHeader = ({ setToggleSlideMobile }) => {
   const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
   const [toggleSlide, setToggleSlide] = useState(false);
-const [astroDetailData, setAstroDetailData] = useState();
-
+  const [astroDetailData, setAstroDetailData] = useState();
 
   const toggleFullScreen = () => {
     const elem = document.documentElement;
@@ -26,7 +25,6 @@ const [astroDetailData, setAstroDetailData] = useState();
       document.exitFullscreen();
     }
   };
-
 
   useEffect(() => {
     const fetchAstroDetailData = async () => {
@@ -45,21 +43,36 @@ const [astroDetailData, setAstroDetailData] = useState();
       fetchAstroDetailData();
     }
   }, [astrologerPhone]);
- 
+
+  const [notificationMobile, setNotificationMobile] = useState();
+  const [userMobile, setUserMobile] = useState();
 
   useEffect(() => {
-    const className = "slider-opened";
-
-    if (toggleSlide) {
-      document.body.classList.add(className);
+    if (notificationMobile) {
+      document.body.classList.add("notification-opened");
     } else {
-      document.body.classList.remove(className);
+      document.body.classList.remove("notification-opened");
     }
 
+    if (userMobile) {
+      document.body.classList.add("user-opened");
+    } else {
+      document.body.classList.remove("user-opened");
+    }
+
+    if (toggleSlide) {
+      document.body.classList.add("slider-opened");
+    } else {
+      document.body.classList.remove("slider-opened");
+    }
+
+    // Cleanup on unmount
     return () => {
-      document.body.classList.remove(className);
+      document.body.classList.remove("notification-opened");
+      document.body.classList.remove("user-opened");
+      document.body.classList.remove("slider-opened");
     };
-  }, [toggleSlide]);
+  }, [notificationMobile, userMobile, toggleSlide]);
 
   return (
     <div className="page-main-header">
@@ -78,10 +91,7 @@ const [astroDetailData, setAstroDetailData] = useState();
         <div className="mobile-sidebar w-auto">
           <div className="media-body text-end switch-sm">
             <label className="switch mobile">
-              <Link
-                href="#"
-                onClick={() => setToggleSlideMobile(true)}
-              >
+              <Link href="#" onClick={() => setToggleSlideMobile(true)}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -154,7 +164,10 @@ const [astroDetailData, setAstroDetailData] = useState();
               </Link>
             </li>
 
-            <li className="onhover-dropdown">
+            <li
+              className="onhover-dropdown mobile-notification"
+              onClick={() => setNotificationMobile((prev) => !prev)}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -176,7 +189,10 @@ const [astroDetailData, setAstroDetailData] = useState();
               <span className="dot"></span>
               <HeaderDashNotification />
             </li>
-            <li className="onhover-dropdown">
+            <li
+              className="onhover-dropdown mobile-user"
+              onClick={() => setUserMobile((prev) => !prev)}
+            >
               <div className="media">
                 {astrologerPhone ? (
                   <img
@@ -192,7 +208,7 @@ const [astroDetailData, setAstroDetailData] = useState();
                   <span className="main-circle"></span>
                 </div>
               </div>
-              <ProfilePopUp astroDetailData={astroDetailData}/>
+              <ProfilePopUp astroDetailData={astroDetailData} />
             </li>
           </ul>
           <div className="d-lg-none mobile-toggle">
@@ -218,7 +234,10 @@ const [astroDetailData, setAstroDetailData] = useState();
         {astrologerPhone && (
           <>
             <IoMdNotificationsOutline />
-            <AstroNotification astrologerPhone={astrologerPhone} astroDetailData={astroDetailData}/>
+            <AstroNotification
+              astrologerPhone={astrologerPhone}
+              astroDetailData={astroDetailData}
+            />
           </>
         )}
       </div>
