@@ -348,7 +348,7 @@ useEffect(() => {
               </div>
 
               <div className="dashboard-right-content">
-                {updateButton === 1 && <AdminDashBoardData />}
+                {updateButton === 1 && <AdminDashBoardData setUpdateButton={setUpdateButton}/>}
                 {updateButton === "active" && <AstroLogerList />}
                 {updateButton === "pending" && <AstrologerPendingList />}
                 {updateButton === 7 && <UserList />}

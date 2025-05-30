@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useEffect, useState, useCallback } from "react";
 import { FaSearch } from "react-icons/fa";
 import debounce from "lodash.debounce";
+import secureLocalStorage from "react-secure-storage";
 
 function AdminWallet({ updateButton }) {
   const [walletAdminData, setWalletAdminData] = useState([]);
@@ -55,7 +56,7 @@ function AdminWallet({ updateButton }) {
           },
         }
       );
-
+secureLocalStorage.setItem("totalTransactionsData",res.data.totalTransactions)
       setWalletAdminData(res.data.transactions);
       setTotalPages(Math.ceil(res.data.totalTransactions / 5));
       setHasNextPage(res.data.hasNextPage);

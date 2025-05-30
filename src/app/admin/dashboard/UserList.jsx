@@ -1,22 +1,24 @@
 import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import secureLocalStorage from "react-secure-storage";
 
-const UserList = () => {
+const UserList = ({setUserListData}) => {
   const [userMainData, setUserMainData] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
-      const [loading, setLoading] = useState(false);
-  
+  const [loading, setLoading] = useState(false);
 
+  
   const fetchUsers = async (pageNumber) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login?page=${pageNumber}&limit=2`
-      );
+      );  
+     secureLocalStorage.setItem("totalUsersList",res.data.totalUsers)
       setUserMainData(res.data.users);
       setPage(res.data.page);
       setTotalPages(res.data.totalPages);
@@ -24,8 +26,8 @@ const UserList = () => {
       setHasPrevPage(res.data.hasPrevPage);
     } catch (err) {
       console.error("Error fetching users:", err);
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -35,34 +37,36 @@ const UserList = () => {
 
   return (
     <>
-     {loading ?  <Loader /> : 
-      <div className="outer-table">
-        <table border="1">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Gender</th>
-              <th>Date Of Birth</th>
-            </tr>
-          </thead>
-          <tbody>
-            {userMainData.map((item) => (
-              <tr key={item._id}>
-                <td>{item._id}</td>
-                <td>{item.name}</td>
-                <td>{item.gender}</td>
-                <td>{item.dateOfBirth}</td>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="outer-table">
+          <table border="1">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Date Of Birth</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-}
+            </thead>
+            <tbody>
+              {userMainData.map((item) => (
+                <tr key={item._id}>
+                  <td>{item._id}</td>
+                  <td>{item.name}</td>
+                  <td>{item.gender}</td>
+                  <td>{item.dateOfBirth}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
       <div className="admin-wallet-inner">
         <button
           onClick={() => setPage(page - 1)}
-           disabled={!hasPrevPage || loading}
+          disabled={!hasPrevPage || loading}
           className={!hasPrevPage ? "disable" : ""}
         >
           Previous

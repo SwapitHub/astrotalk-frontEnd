@@ -2,6 +2,7 @@
 import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import secureLocalStorage from "react-secure-storage";
 
 function AstroLogerList() {
   const [pendingData, setPendingData] = useState([]);
@@ -18,6 +19,7 @@ function AstroLogerList() {
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-list?astroStatus=true&page=${pageNumber}&limit=2`
       );
       setPendingData(res.data.astrologers);
+      secureLocalStorage.setItem("totalAstroActive", res.data.totalAstrologers)
       setPage(res.data.page);
       setTotalPages(res.data.totalPages);
       setHasNextPage(res.data.hasNextPage);

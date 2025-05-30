@@ -17,6 +17,7 @@ function AstrologerPendingList() {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-list?astroStatus=false&page=${pageNumber}&limit=2`
       );
+      secureLocalStorage.setItem("totalAstroPending", res.data.totalAstrologers)
 
       setPendingData(res.data.astrologers);
       setPage(res.data.page);

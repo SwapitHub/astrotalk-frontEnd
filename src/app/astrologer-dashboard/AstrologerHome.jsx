@@ -275,7 +275,7 @@ const AstrologerHome = () => {
               </div>
 
               <div className="dashboard-right-content">
-                {updateButton == 1 && <DashBoardData_1 astrologerData={astrologerData}/>}
+                {updateButton == 1 && <DashBoardData_1 astrologerData={astrologerData} setUpdateButton={setUpdateButton}/>}
 
                 {updateButton == 2 && (
                   <AstrologerProfile
