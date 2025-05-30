@@ -18,6 +18,8 @@ const AdminDashBoardData = ({
   const totalAstroActive = secureLocalStorage.getItem("totalAstroActive")
   const totalAstroPending = secureLocalStorage.getItem("totalAstroPending")
   const totalTransactionsData = secureLocalStorage.getItem("totalTransactionsData")
+  console.log(totalAstroPending);
+  
   return (
     <div className="outer-home-dashboard">
       

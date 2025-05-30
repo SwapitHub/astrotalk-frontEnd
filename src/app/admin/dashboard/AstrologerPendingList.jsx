@@ -17,13 +17,20 @@ function AstrologerPendingList() {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-list?astroStatus=false&page=${pageNumber}&limit=2`
       );
-      secureLocalStorage.setItem("totalAstroPending", res.data.totalAstrologers)
+      console.log( res.data.totalAstrologers);
 
       setPendingData(res.data.astrologers);
+     
+
+      
       setPage(res.data.page);
       setTotalPages(res.data.totalPages);
       setHasNextPage(res.data.hasNextPage);
       setHasPrevPage(res.data.hasPrevPage);
+       secureLocalStorage.setItem(
+        "totalAstroPending",
+        res.data.totalAstrologers
+      );
     } catch (err) {
       console.log("Fetch astrologers error:", err);
     } finally {
