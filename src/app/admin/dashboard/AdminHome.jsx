@@ -24,6 +24,7 @@ import { TfiGallery } from "react-icons/tfi";
 import { IoMdLogOut } from "react-icons/io";
 import { TbBrandDenodo } from "react-icons/tb";
 import { FaHeadSideCough } from "react-icons/fa";
+import ChangePassword from "./ChangePassword";
 
 const AdminHome = () => {
   const router = useRouter();
@@ -46,20 +47,19 @@ const AdminHome = () => {
     router.push("/admin");
   };
 
+  useEffect(() => {
+    const className = "slider-opened";
 
-useEffect(() => {
-  const className = "slider-opened";
-
-  if (toggleSlideMobile) {
-    document.body.classList.add(className);
-  } else {
-    document.body.classList.remove(className);
-  }
-}, [toggleSlideMobile]);
+    if (toggleSlideMobile) {
+      document.body.classList.add(className);
+    } else {
+      document.body.classList.remove(className);
+    }
+  }, [toggleSlideMobile]);
 
   return (
     <main className="main-content">
-      <DashboardHeader setToggleSlideMobile={setToggleSlideMobile}/>
+      <DashboardHeader setToggleSlideMobile={setToggleSlideMobile} />
       <div className="dashboard-main-outer">
         <div className="container">
           <div className="dashboard-inner-main super-admin">
@@ -67,10 +67,10 @@ useEffect(() => {
               <div className="dashboard-left-dashboard">
                 <div
                   className="mobile-close-sidebar"
-                   onClick={() => setToggleSlideMobile(false)}
+                  onClick={() => setToggleSlideMobile(false)}
                 >
-                 <span></span>
-                 <span></span>
+                  <span></span>
+                  <span></span>
                 </div>
                 <div className="left-sidebar-logo">
                   <a href="#" title="">
@@ -230,7 +230,8 @@ useEffect(() => {
                       className={
                         updateButton === "language" ||
                         updateButton === "profession" ||
-                        updateButton === "ChatCommission"
+                        updateButton === "ChatCommission" ||
+                        updateButton === "changePassword"
                           ? "active"
                           : ""
                       }
@@ -295,6 +296,21 @@ useEffect(() => {
                               Chat Commission
                             </a>
                           </li>
+                          <li
+                            className={
+                              updateButton === "changePassword" ? "active" : ""
+                            }
+                          >
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setUpdateButton("changePassword");
+                              }}
+                            >
+                              Change Password
+                            </a>
+                          </li>
                         </ul>
                       </SlideToggle>
                     </li>
@@ -310,7 +326,7 @@ useEffect(() => {
                         <span className="list-text">Gallery</span>
                       </a>
                     </li>
-                   
+
                     <li className={updateButton === 6 ? "active" : ""}>
                       <a
                         href="#"
@@ -348,7 +364,9 @@ useEffect(() => {
               </div>
 
               <div className="dashboard-right-content">
-                {updateButton === 1 && <AdminDashBoardData setUpdateButton={setUpdateButton}/>}
+                {updateButton === 1 && (
+                  <AdminDashBoardData setUpdateButton={setUpdateButton} />
+                )}
                 {updateButton === "active" && <AstroLogerList />}
                 {updateButton === "pending" && <AstrologerPendingList />}
                 {updateButton === 7 && <UserList />}
@@ -356,6 +374,7 @@ useEffect(() => {
                 {updateButton === "language" && <AddLanguage />}
                 {updateButton === "profession" && <AddProfession />}
                 {updateButton === "ChatCommission" && <ChatCommission />}
+                {updateButton === "changePassword" && <ChangePassword />}
                 {["user", "astrologer", "admin"].includes(updateButton) && (
                   <AdminWallet updateButton={updateButton} />
                 )}

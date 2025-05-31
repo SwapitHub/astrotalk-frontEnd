@@ -8,27 +8,35 @@ import secureLocalStorage from "react-secure-storage";
 import { GrLanguage } from "react-icons/gr";
 import { IoWalletSharp } from "react-icons/io5";
 import { LiaSortAmountUpSolid } from "react-icons/lia";
+import { RiLockPasswordLine } from "react-icons/ri";
 
-const AdminDashBoardData = ({
-  setUpdateButton,
- 
-}) => {
-
-  const totalUsersList = secureLocalStorage.getItem("totalUsersList")
-  const totalAstroActive = secureLocalStorage.getItem("totalAstroActive")
-  const totalAstroPending = secureLocalStorage.getItem("totalAstroPending")
-  const totalTransactionsData = secureLocalStorage.getItem("totalTransactionsData")
+const AdminDashBoardData = ({ setUpdateButton }) => {
+  const totalUsersList = secureLocalStorage.getItem("totalUsersList");
+  const totalAstroActive = secureLocalStorage.getItem("totalAstroActive");
+  const totalAstroPending = secureLocalStorage.getItem("totalAstroPending");
+  const totalTransactionsData = secureLocalStorage.getItem(
+    "totalTransactionsData"
+  );
   console.log(totalAstroPending);
-  
+
   return (
     <div className="outer-home-dashboard">
-      
       <div className="inner-home-dashboard">
         <div className="home-dashboard-heading">
           <h2>Dashboard</h2>
           <p>Astrotalk Admin Panel</p>
-          </div>
+        </div>
         <ul>
+          <li>
+            <Link href="#" onClick={() => setUpdateButton("changePassword")}>
+              <span>
+               <RiLockPasswordLine />
+              </span>
+              <div className="inner-text">
+                <span>Change Password</span>
+              </div>
+            </Link>
+          </li>
           <li>
             <Link href="#" onClick={() => setUpdateButton(7)}>
               <span>
@@ -98,7 +106,7 @@ const AdminDashBoardData = ({
           <li>
             <Link href="#" onClick={() => setUpdateButton(3)}>
               <span>
-               <LiaSortAmountUpSolid />
+                <LiaSortAmountUpSolid />
               </span>
               <div className="inner-text">
                 <span>Denomination Amount</span>
@@ -109,7 +117,7 @@ const AdminDashBoardData = ({
           <li>
             <Link href="#" onClick={() => setUpdateButton("language")}>
               <span>
-               <GrLanguage />
+                <GrLanguage />
               </span>
               <div className="inner-text">
                 <span> Languages</span>

@@ -4100,6 +4100,18 @@ button {
   left: 30px;
   color: var(--primary_color);
 }
+
+.change-password {
+    background-color: #f2f2f2;
+    padding: 50px;
+}
+.change-password .form-field:not(:last-child) {
+    margin: 0 0 30px;
+}
+.change-password p {
+    color: red;
+    padding-top: 15px;
+}
 /* ================== @ Media Css Start Here ================== */
 @media (max-width: 1400px) {
   .outer-home-dashboard ul {
