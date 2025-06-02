@@ -73,9 +73,9 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
 
   // ✅ Mark online after mount if already marked
   useEffect(() => {
-    if (isOnline) {
-      updateAstrologerStatus(true);
-    }
+   
+      updateAstrologerStatus(isOnline);
+    
   }, [isOnline, updateAstrologerStatus]);
 
   // ✅ Handle tab close
