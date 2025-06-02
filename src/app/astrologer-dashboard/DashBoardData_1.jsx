@@ -10,7 +10,7 @@ import { ImProfile } from "react-icons/im";
 import { IoIosArrowRoundBack } from "react-icons/io";
 
 const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
-  const [isOnline, setIsOnline] = useState(astrologerData.profileStatus);
+  const [isOnline, setIsOnline] = useState();
 console.log(astrologerData.profileStatus,isOnline);
 
   useEffect(() => {
@@ -28,6 +28,7 @@ console.log(astrologerData.profileStatus,isOnline);
       setIsOnline(astrologerData.profileStatus);
     }
     else{
+      updateAstrologerStatus(false);
       setIsOnline(false)
     }
   }, [astrologerData.mobileNumber]);
