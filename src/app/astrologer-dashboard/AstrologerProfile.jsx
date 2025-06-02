@@ -27,6 +27,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
   const astrologerLoginUpdate = secureLocalStorage.getItem(
     "astrologerLoginUpdate"
   );
+console.log(astrologerData);
 
   useEffect(() => {
     axios

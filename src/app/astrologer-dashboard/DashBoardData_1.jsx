@@ -10,27 +10,27 @@ import { ImProfile } from "react-icons/im";
 import { IoIosArrowRoundBack } from "react-icons/io";
 
 const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
-  const [isOnline, setIsOnline] = useState(false);
+  const [isOnline, setIsOnline] = useState(astrologerData.profileStatus);
+console.log(astrologerData.profileStatus,isOnline);
 
-  // ✅ Apply online CSS class based on status
   useEffect(() => {
-    document.body.classList.toggle("showOnline", isOnline);
+    if (isOnline) {
+      document.body.classList.add("showOnline");
+    } else {
+      document.body.classList.remove("showOnline");
+    }
   }, [isOnline]);
 
-  // ✅ Load session status from client storage
+  // ✅ Load from sessionStorage only on client
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const sessionPhone = sessionStorage.getItem("session-astrologer-phone");
-      if (sessionPhone === astrologerData?.mobileNumber) {
-        setIsOnline(true);
-      }
+    const sessionPhone = sessionStorage.getItem("session-astrologer-phone");
+    if (sessionPhone === astrologerData.mobileNumber) {
+      setIsOnline(astrologerData.profileStatus);
     }
-  }, [astrologerData?.mobileNumber]);
+  }, [astrologerData.mobileNumber]);
 
-  // ✅ Function to update status to backend
   const updateAstrologerStatus = useCallback(
     async (status) => {
-      if (!astrologerData?.mobileNumber) return;
       try {
         await axios.put(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-status-by-mobile/${astrologerData.mobileNumber}`,
@@ -51,37 +51,40 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
         );
       }
     },
-    [astrologerData?.mobileNumber]
+    [astrologerData.mobileNumber]
   );
 
-  // ✅ Toggle online/offline status
   const toggleOnlineStatus = async () => {
-    const nextStatus = !isOnline;
-    setIsOnline(nextStatus);
+    const next = !isOnline;
+    setIsOnline(next);
 
-    if (nextStatus) {
-      sessionStorage.setItem("session-astrologer-phone", astrologerData.mobileNumber);
-    } else {
-      sessionStorage.removeItem("session-astrologer-phone");
+    if (next) {
+      sessionStorage.setItem(
+        "session-astrologer-phone",
+        astrologerData.mobileNumber
+      );
     }
 
-    await updateAstrologerStatus(nextStatus);
+    updateAstrologerStatus(next);
   };
 
-  // ✅ Update backend when `isOnline` changes (skip initial mount)
+  // ✅ Mark online after mount if already marked
   useEffect(() => {
-    if (astrologerData?.mobileNumber) {
-      updateAstrologerStatus(isOnline);
+    if (isOnline) {
+      updateAstrologerStatus(true);
     }
   }, [isOnline, updateAstrologerStatus]);
 
-  // ✅ Mark offline when tab is closed or reloaded
+  // ✅ Handle tab close
   useEffect(() => {
     const handlePageHide = (e) => {
-      if (!e.persisted && isOnline) {
+      if (e.persisted) return;
+
+      if (isOnline) {
         updateAstrologerStatus(false);
       }
     };
+
     window.addEventListener("pagehide", handlePageHide);
     return () => window.removeEventListener("pagehide", handlePageHide);
   }, [isOnline, updateAstrologerStatus]);
@@ -94,13 +97,18 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
             <h2>Dashboard</h2>
             <p>Astrotalk Panel</p>
           </div>
-
           <div className="inner-astrologer-registration">
             <div className="registration-heading">
+              {/* <div className="image-dash">
+              <img
+                src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/320x410/assets/images/login_banner.webp"
+                alt=""
+              />
+            </div> */}
               <div className="astrologer-main-dashboard-btn">
                 <a
                   href={
-                    astrologerData?.chatStatus
+                    astrologerData.chatStatus
                       ? `/chat-with-astrologer/astrologer/${astrologerData._id}`
                       : "#"
                   }
@@ -110,7 +118,6 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
                   </span>{" "}
                   Back To The Chat Page
                 </a>
-
                 <button onClick={toggleOnlineStatus}>
                   {isOnline ? "Go Offline" : "Go Online"}
                 </button>
@@ -118,32 +125,51 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
             </div>
           </div>
         </div>
-
         <div className="outer-home-dashboard">
           <div className="inner-home-dashboard">
             <ul>
               <li>
                 <Link href="#" onClick={() => setUpdateButton(2)}>
-                  <span><ImProfile /></span>
-                  <div className="inner-text"><span>Profile</span></div>
+                  <span>
+                    <ImProfile />
+                  </span>
+                  <div className="inner-text">
+                    <span> Profile</span>
+                    {/* <span>123</span> */}
+                  </div>
                 </Link>
               </li>
               <li>
                 <Link href="#" onClick={() => setUpdateButton(3)}>
-                  <span><IoWalletSharp /></span>
-                  <div className="inner-text"><span>Wallet</span></div>
+                  <span>
+                    <IoWalletSharp />
+                  </span>
+                  <div className="inner-text">
+                    <span> Wallet</span>
+                    {/* <span>123</span> */}
+                  </div>
                 </Link>
               </li>
               <li>
                 <Link href="#" onClick={() => setUpdateButton(5)}>
-                  <span><MdOutlinePreview /></span>
-                  <div className="inner-text"><span>Review</span></div>
+                  <span>
+                    <MdOutlinePreview />
+                  </span>
+                  <div className="inner-text">
+                    <span> Review</span>
+                    {/* <span>123</span> */}
+                  </div>
                 </Link>
               </li>
               <li>
                 <Link href="#">
-                  <span><TfiGallery /></span>
-                  <div className="inner-text"><span>Gallery</span></div>
+                  <span>
+                    <TfiGallery />
+                  </span>
+                  <div className="inner-text">
+                    <span> Gallery</span>
+                    {/* <span>123</span> */}
+                  </div>
                 </Link>
               </li>
             </ul>
