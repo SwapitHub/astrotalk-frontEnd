@@ -8,8 +8,10 @@ import { IoWalletSharp } from "react-icons/io5";
 import { MdOutlinePreview } from "react-icons/md";
 import { ImProfile } from "react-icons/im";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import { useRef } from "react";
 
 const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
+  const didInitialStatusUpdate = useRef(false);
   const [isOnline, setIsOnline] = useState(false);
 
   useEffect(() => {
@@ -71,12 +73,26 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
     updateAstrologerStatus(next);
   };
 
-  // ✅ Mark online after mount if already marked
+
   useEffect(() => {
-   
-      updateAstrologerStatus(isOnline);
-    
-  }, [isOnline, updateAstrologerStatus]);
+  if (!astrologerData?.mobileNumber) return;
+
+  const sessionPhone = sessionStorage.getItem("session-astrologer-phone");
+  if (sessionPhone === astrologerData.mobileNumber) {
+    setIsOnline(true);
+  }
+}, [astrologerData.mobileNumber]);
+
+
+  // ✅ Mark online after mount if already marked
+useEffect(() => {
+  if (!didInitialStatusUpdate.current) {
+    didInitialStatusUpdate.current = true;
+    return; // Skip the first call, wait for sessionStorage effect to run
+  }
+  updateAstrologerStatus(isOnline);
+}, [isOnline, updateAstrologerStatus]);
+
 
   // ✅ Handle tab close
   useEffect(() => {
