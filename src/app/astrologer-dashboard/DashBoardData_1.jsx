@@ -27,6 +27,9 @@ console.log(astrologerData.profileStatus,isOnline);
     if (sessionPhone === astrologerData.mobileNumber) {
       setIsOnline(astrologerData.profileStatus);
     }
+    else{
+      setIsOnline(false)
+    }
   }, [astrologerData.mobileNumber]);
 
   const updateAstrologerStatus = useCallback(
