@@ -22,30 +22,29 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
   }, [isOnline]);
 
   // ✅ Load from sessionStorage only on client
-useEffect(() => {
-  const checkAndUpdateStatus = async () => {
-    if (!astrologerData?.mobileNumber) return;
+  useEffect(() => {
+    const checkAndUpdateStatus = async () => {
+      if (!astrologerData?.mobileNumber) return;
 
-    const sessionPhone = sessionStorage.getItem("session-astrologer-phone");
+      const sessionPhone = sessionStorage.getItem("session-astrologer-phone");
 
-    if (sessionPhone === astrologerData.mobileNumber) {
-      setIsOnline(astrologerData.profileStatus);
-    } else {
-      try {
-        await axios.put(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-status-by-mobile/${astrologerData.mobileNumber}`,
-          { profileStatus: false }
-        );
-        setIsOnline(false);
-      } catch (err) {
-        console.error("Failed to update status to false:", err);
+      if (sessionPhone !== astrologerData.mobileNumber) {
+        try {
+          await axios.put(
+            `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-status-by-mobile/${astrologerData.mobileNumber}`,
+            { profileStatus: false }
+          );
+          setIsOnline(false);
+        } catch (err) {
+          console.error("Failed to update status to false:", err);
+        }
+      } else if (sessionPhone === astrologerData.mobileNumber) {
+        setIsOnline(astrologerData.profileStatus);
       }
-    }
-  };
+    };
 
-  checkAndUpdateStatus();
-}, [astrologerData?.mobileNumber, astrologerData?.profileStatus]);
-
+    checkAndUpdateStatus();
+  }, [astrologerData?.mobileNumber, astrologerData?.profileStatus]);
 
   const updateAstrologerStatus = useCallback(
     async (status) => {
@@ -104,6 +103,11 @@ useEffect(() => {
       if (isOnline) {
         updateAstrologerStatus(false);
         console.log("isdsd=======", isOnline);
+          axios.put(
+            `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-status-by-mobile/${astrologerData.mobileNumber}`,
+            { profileStatus: false }
+          );
+          setIsOnline(false);
       }
     };
 
