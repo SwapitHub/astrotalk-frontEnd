@@ -44,8 +44,7 @@ const AstrologerReview = ({ astrologerData, renderStars}) => {
               </div>
             </div>
           </div>
-          {console.log(astrologerData)
-          }
+          
           {onchangeTabbing == "Most_helpful" && (
             <div className="similar-conslt-reviews-sec">
               {astrologerData?.reviews.slice(0, 50).map((item) => {

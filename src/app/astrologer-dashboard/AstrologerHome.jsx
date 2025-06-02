@@ -30,7 +30,6 @@ const AstrologerHome = () => {
   const [astrologerData, setAstrologerData] = useState("");
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
 
-  console.log(astrologerData);
   
   
   useEffect(() => {

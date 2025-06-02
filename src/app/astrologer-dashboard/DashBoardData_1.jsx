@@ -11,7 +11,7 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 
 const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
   const [isOnline, setIsOnline] = useState();
-console.log(astrologerData.profileStatus,isOnline);
+  console.log(astrologerData.profileStatus, isOnline);
 
   useEffect(() => {
     if (isOnline) {
@@ -22,16 +22,30 @@ console.log(astrologerData.profileStatus,isOnline);
   }, [isOnline]);
 
   // ✅ Load from sessionStorage only on client
-  useEffect(() => {
+useEffect(() => {
+  const checkAndUpdateStatus = async () => {
+    if (!astrologerData?.mobileNumber) return;
+
     const sessionPhone = sessionStorage.getItem("session-astrologer-phone");
+
     if (sessionPhone === astrologerData.mobileNumber) {
       setIsOnline(astrologerData.profileStatus);
+    } else {
+      try {
+        await axios.put(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-status-by-mobile/${astrologerData.mobileNumber}`,
+          { profileStatus: false }
+        );
+        setIsOnline(false);
+      } catch (err) {
+        console.error("Failed to update status to false:", err);
+      }
     }
-    else{
-      updateAstrologerStatus(false);
-      setIsOnline(false)
-    }
-  }, [astrologerData.mobileNumber]);
+  };
+
+  checkAndUpdateStatus();
+}, [astrologerData?.mobileNumber, astrologerData?.profileStatus]);
+
 
   const updateAstrologerStatus = useCallback(
     async (status) => {
@@ -82,10 +96,14 @@ console.log(astrologerData.profileStatus,isOnline);
   // ✅ Handle tab close
   useEffect(() => {
     const handlePageHide = (e) => {
+      console.log("e.persisted-1", e.persisted);
+
       if (e.persisted) return;
+      console.log("e.persisted-2", e.persisted);
 
       if (isOnline) {
         updateAstrologerStatus(false);
+        console.log("isdsd=======", isOnline);
       }
     };
 
