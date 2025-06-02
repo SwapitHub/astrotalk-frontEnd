@@ -28,8 +28,12 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
     }
   }, [astrologerData.mobileNumber]);
 
+  console.log("isonline", isOnline);
+
   const updateAstrologerStatus = useCallback(
     async (status) => {
+      console.log("status", status);
+
       try {
         await axios.put(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-status-by-mobile/${astrologerData.mobileNumber}`,
