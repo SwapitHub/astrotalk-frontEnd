@@ -9,7 +9,7 @@ import { fetchUserLoginDetails } from "@/app/utils/api";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useId } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { MdDelete } from "react-icons/md";
@@ -31,8 +31,9 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
 
 const ChatHistory = () => {
   const router = useRouter();
-  const userIds = secureLocalStorage.getItem("userIds");
-  const userMobile = secureLocalStorage.getItem("userMobile");
+  const [userMobile, setUserMobile] = useState();
+  const [userIds, setUserIds] = useState();
+
   const [showRecharge, setShowRecharge] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [deleteId, setDeleteId] = useState();
@@ -44,8 +45,12 @@ const ChatHistory = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
   const [shareOpenPopup, setShareOpenPopup] = useState(false);
-  const [showUserIdToAst, setShowUserIdToAst] = useState(secureLocalStorage.getItem("userIdToAst"));
-  const [astrologerIdToAst, setAstrologerIdToAst] = useState(secureLocalStorage.getItem("astrologerIdToAst"));
+  const [showUserIdToAst, setShowUserIdToAst] = useState(
+    secureLocalStorage.getItem("userIdToAst")
+  );
+  const [astrologerIdToAst, setAstrologerIdToAst] = useState(
+    secureLocalStorage.getItem("astrologerIdToAst")
+  );
   const [isLoadingRequest, setIsLoadingRequest] = useState(
     secureLocalStorage.getItem("IsLoadingRequestStore")
   );
@@ -58,6 +63,14 @@ const ChatHistory = () => {
     setShowDelete(true);
     setDeleteId(id);
   };
+
+ useEffect(() => {
+  const userMobiles = localStorage.getItem("userMobile");
+  const userIdss = localStorage.getItem("userIds");
+  setUserMobile(userMobiles);
+  setUserIds(userIdss);
+}, []);
+
 
   useEffect(() => {
     if (showRecharge) {
@@ -240,8 +253,8 @@ const ChatHistory = () => {
 
   const showSharePopUp = (userIdToAst, astrologerIdToAst) => {
     console.log(userIdToAst);
-    secureLocalStorage.setItem("userIdToAst",userIdToAst)
-    secureLocalStorage.setItem("astrologerIdToAst",astrologerIdToAst)
+    secureLocalStorage.setItem("userIdToAst", userIdToAst);
+    secureLocalStorage.setItem("astrologerIdToAst", astrologerIdToAst);
     setShareOpenPopup(true);
     setShowUserIdToAst(userIdToAst);
     setAstrologerIdToAst(astrologerIdToAst);
@@ -382,7 +395,6 @@ const ChatHistory = () => {
                                           );
                                         }}
                                       >
-                                        
                                         <div className="date-and-tine-sec">
                                           <p>
                                             {new Date(
@@ -522,7 +534,10 @@ const ChatHistory = () => {
                                     <p>
                                       <button
                                         onClick={() =>
-                                          showSharePopUp(item?.userIdToAst, item?.astrologerIdToAst)
+                                          showSharePopUp(
+                                            item?.userIdToAst,
+                                            item?.astrologerIdToAst
+                                          )
                                         }
                                       >
                                         <img

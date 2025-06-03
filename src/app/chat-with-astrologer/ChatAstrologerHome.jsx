@@ -30,8 +30,8 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
 const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
   const router = useRouter();
   const [showAstrologer, setShowAstrologer] = useState(null);
-  const userIds = secureLocalStorage.getItem("userIds");
-  const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
+  const [userMobile,setUserMobile] = useState()
+  const [userIds,setUserIds] = useState()
   const [showRecharge, setShowRecharge] = useState(false);
   const [userData, setUserData] = useState();
   const [astroMobileNum, setAstroMobileNum] = useState();
@@ -70,7 +70,12 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     JSON.parse(secureLocalStorage.getItem("averageRating")) || []
   );
 
-  console.log(userData);
+ useEffect(() => {
+  const userMobiles = localStorage.getItem("userMobile");
+  const userIdss = localStorage.getItem("userIds");
+  setUserMobile(userMobiles);
+  setUserIds(userIdss);
+}, []);
 
   // Memoize the fetch function to prevent unnecessary recreations
   const fetchData = useCallback(async () => {
