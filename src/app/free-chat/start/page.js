@@ -302,9 +302,9 @@ const StartUserName = () => {
                        value={editPob}
                         onChange={(e) => setEditPob(e.target.value)}
                       />
-                      <button type="submit" className="ctm-white-color">
+                      {/* <button type="submit" className="ctm-white-color">
                         <i className="fa-solid fa-magnifying-glass"></i>
-                      </button>
+                      </button> */}
                     </div>
 
                     <div className="inner-form-filed-sec">

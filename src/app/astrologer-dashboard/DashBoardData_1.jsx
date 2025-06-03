@@ -11,9 +11,7 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 
 const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
   const [isOnline, setIsOnline] = useState();
-  const [sessionValue, setSessionValue] = useState();
   console.log(astrologerData.profileStatus, isOnline);
-  console.log("sessionValue", sessionValue);
 
   useEffect(() => {
     if (isOnline) {
@@ -48,6 +46,20 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
     [astrologerData.mobileNumber]
   );
 
+  // ✅ Load from sessionStorage only on client
+  useEffect(() => { 
+  const sessionPhone = sessionStorage.getItem("session-astrologer-phone");
+  console.log("sessionValue", sessionPhone);
+
+  if (sessionPhone == undefined) {
+    updateAstrologerStatus(false);
+    setIsOnline(false);
+  } else if (sessionPhone === astrologerData.mobileNumber) {
+    setIsOnline(astrologerData.profileStatus);
+  }
+}, [astrologerData.mobileNumber]);
+
+
   const toggleOnlineStatus = async () => {
     const next = !isOnline;
     setIsOnline(next);
@@ -61,18 +73,6 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
 
     updateAstrologerStatus(next);
   };
-
-  // ✅ Load from sessionStorage only on client
-  useEffect(() => {
-    const sessionPhone = sessionStorage.getItem("session-astrologer-phone");
-    if (sessionPhone === astrologerData.mobileNumber) {
-      setIsOnline(astrologerData.profileStatus);
-      setSessionValue(sessionPhone);
-    } else if (sessionValue == undefined) {
-      updateAstrologerStatus(false);
-      setIsOnline(false);
-    }
-  }, [astrologerData.mobileNumber, sessionValue]);
 
   // ✅ Mark online after mount if already marked
   useEffect(() => {
@@ -94,6 +94,7 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
     window.addEventListener("pagehide", handlePageHide);
     return () => window.removeEventListener("pagehide", handlePageHide);
   }, [isOnline, updateAstrologerStatus]);
+  
 
   return (
     <section className="astrologer-registration-bg">
