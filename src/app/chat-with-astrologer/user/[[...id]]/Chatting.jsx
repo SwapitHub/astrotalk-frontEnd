@@ -36,14 +36,22 @@ console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
   const [messageData, setMessageData] = useState([]);
   const [astrologerData, setAstrologerData] = useState("");
   const [astrologerId, setAstrologerId] = useState();
-  const userIds = secureLocalStorage.getItem("userIds");
-  const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
+  
 
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(() => secureLocalStorage.getItem("AstrologerNotificationStatus"));
   const mobileRef = useRef(null);
 
 
+    const [userMobile, setUserMobile] = useState();
+    const [userIds, setUserIds] = useState();
+  
+    useEffect(() => {
+      const userMobiles = localStorage.getItem("userMobile");
+      const userIdss = localStorage.getItem("userIds");
+      setUserMobile(userMobiles);
+      setUserIds(userIdss);
+    }, []);
   useEffect(() => {
   if (showUserData?.freeChatStatus === true) {
     setActualChargeUserChat(0);

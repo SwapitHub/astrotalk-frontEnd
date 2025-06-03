@@ -2,18 +2,22 @@
 import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import secureLocalStorage from "react-secure-storage";
 
 const MyWalletPaymentLog = () => {
-  const userPhone = Math.round(secureLocalStorage.getItem("userMobile"));
   const [userData, setUserData] = useState();
-  console.log(userPhone);
+
+  const [userMobile, setUserMobile] = useState();
+
+  useEffect(() => {
+    const userMobiles = localStorage.getItem("userMobile");
+    setUserMobile(userMobiles);
+  }, []);
 
   useEffect(() => {
     const fetchOrderUserList = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/create-order-user-list/${userPhone}`
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/create-order-user-list/${userMobile}`
         );
         console.log(response);
         setUserData(response.data);
@@ -23,7 +27,7 @@ const MyWalletPaymentLog = () => {
     };
 
     fetchOrderUserList();
-  }, [userPhone]);
+  }, [userMobile]);
 
   return (
     <div
@@ -35,7 +39,6 @@ const MyWalletPaymentLog = () => {
       </div>
       <div className="inner-my-wallet-sec ctm-flex-row ctm-justify-content-between">
         <div className="my-wallet-sec-left-content ctm-align-items-center ctm-flex-row">
-          
           <div className="recharge-btm">
             <Link
               href="/add-wallet-money/price-list"

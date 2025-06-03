@@ -2,12 +2,16 @@
 import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import secureLocalStorage from "react-secure-storage";
 
 const WalletPriceList = () => {
   const [denominationList, setDenominationList] = useState([]);
   const [userData, setUserData] = useState();
-  const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
+  const [userMobile, setUserMobile] = useState();
+
+  useEffect(() => {
+    const userMobiles = localStorage.getItem("userMobile");
+    setUserMobile(userMobiles);
+  }, []);
 
   useEffect(() => {
     axios
@@ -49,7 +53,10 @@ const WalletPriceList = () => {
             return (
               <>
                 <div className="inner-popular-recharge-sec" key={item._id}>
-                  <Link href={`/add-wallet-money/payment?pmt=${item._id}`} title="Money ">
+                  <Link
+                    href={`/add-wallet-money/payment?pmt=${item._id}`}
+                    title="Money "
+                  >
                     <div className="popular-amount">
                       <span>₹ {item.amount}</span>
                     </div>
@@ -63,7 +70,6 @@ const WalletPriceList = () => {
                     )}
                   </Link>
                 </div>
-                
               </>
             );
           })}
