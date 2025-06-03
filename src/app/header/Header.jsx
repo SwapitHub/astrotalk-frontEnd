@@ -97,7 +97,7 @@ const [toggleMobile, setToggleMobile] = useState(false);
 
   const userLogout = () => {
     window.dispatchEvent(new Event(""));
-    secureLocalStorage.removeItem("userIds");
+    localStorage.removeItem("userIds");
     localStorage.removeItem("userMobile");
     secureLocalStorage.removeItem("astrologerId");
     secureLocalStorage.removeItem("AstrologerNotificationStatus");

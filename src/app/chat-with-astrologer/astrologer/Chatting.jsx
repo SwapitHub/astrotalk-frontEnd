@@ -32,9 +32,16 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   const [user, setUser] = useState("");
   const [showUserData, setShowUserData] = useState("");
   const astrologerId = secureLocalStorage.getItem("astrologerId");
-  const userIds = secureLocalStorage.getItem("userIds");
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(() => secureLocalStorage.getItem("AstrologerNotificationStatus"));
+
+
+  const [userIds, setUserIds] = useState();
+
+  useEffect(() => {
+    const userIdss = localStorage.getItem("userIds");
+    setUserIds(userIdss);
+  }, []);
 
   useEffect(() => {
     if (

@@ -113,7 +113,7 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
 
   // Handle the update and status change of the astrologer
   const onChangeId = async (astrologerId, userId) => {
-    secureLocalStorage.setItem("userIds", userId);
+    localStorage.setItem("userIds", userId);
     secureLocalStorage.setItem("astrologerId", astrologerId);
 
     try {

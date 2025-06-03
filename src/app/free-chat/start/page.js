@@ -42,13 +42,13 @@ const StartUserName = () => {
 
   // Watch for userMobile updates
   useEffect(() => {
-    const storedMobile = secureLocalStorage.getItem("userMobile");
+    const storedMobile = localStorage.getItem("userMobile");
     if (storedMobile) {
       setUserMobile(Math.round(storedMobile));
     }
 
     const handleStorageChange = () => {
-      const updatedMobile = secureLocalStorage.getItem("userMobile");
+      const updatedMobile = localStorage.getItem("userMobile");
       if (updatedMobile) {
         setUserMobile(updatedMobile);
         // fetchUserDetail();
@@ -109,7 +109,7 @@ const StartUserName = () => {
         console.log("response", response.data);
 
         if (response.data.message === "success") {
-          secureLocalStorage.setItem("userIds", response.data.user._id);
+          localStorage.setItem("userIds", response.data.user._id);
           window.dispatchEvent(new Event("userMobileUpdated"));
           router.push("/chat-with-astrologer");
         }
