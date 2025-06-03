@@ -11,7 +11,7 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 
 const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
   const [isOnline, setIsOnline] = useState();
-  console.log(astrologerData.profileStatus, isOnline);
+ console.log(astrologerData.profileStatus,isOnline);
 
   useEffect(() => {
     if (isOnline) {
@@ -20,6 +20,15 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
       document.body.classList.remove("showOnline");
     }
   }, [isOnline]);
+
+  // ✅ Load from sessionStorage only on client
+  useEffect(() => {
+    const sessionPhone = sessionStorage.getItem("session-astrologer-phone");
+    if (sessionPhone === astrologerData.mobileNumber) {
+      setIsOnline(astrologerData.profileStatus);
+    }
+    
+  }, [astrologerData.mobileNumber]);
 
   const updateAstrologerStatus = useCallback(
     async (status) => {
@@ -45,20 +54,6 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
     },
     [astrologerData.mobileNumber]
   );
-
-  // ✅ Load from sessionStorage only on client
-  useEffect(() => { 
-  const sessionPhone = sessionStorage.getItem("session-astrologer-phone");
-  console.log("sessionValue", sessionPhone);
-
-  if (sessionPhone == undefined) {
-    updateAstrologerStatus(false);
-    setIsOnline(false);
-  } else if (sessionPhone === astrologerData.mobileNumber) {
-    setIsOnline(astrologerData.profileStatus);
-  }
-}, [astrologerData.mobileNumber]);
-
 
   const toggleOnlineStatus = async () => {
     const next = !isOnline;
@@ -94,7 +89,6 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
     window.addEventListener("pagehide", handlePageHide);
     return () => window.removeEventListener("pagehide", handlePageHide);
   }, [isOnline, updateAstrologerStatus]);
-  
 
   return (
     <section className="astrologer-registration-bg">

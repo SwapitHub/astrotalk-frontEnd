@@ -112,7 +112,7 @@ function UserOtpLoginData({ setOtpPopUpDisplay }) {
           if (userLoginRes.status === 200 || userLoginRes.status === 201) {
             setOtpPopUpDisplay(false);
             secureLocalStorage.setItem("userIds", userLoginRes.data.user._id);
-            secureLocalStorage.setItem("userMobile", phone);
+            localStorage.setItem("userMobile", phone);
             console.log("User login successful, User ID:", phone);
             window.dispatchEvent(new Event("userMobileUpdated"));
             router.push(
@@ -142,7 +142,7 @@ function UserOtpLoginData({ setOtpPopUpDisplay }) {
           if (response.data.message == "success") {
             setOtpPopUpDisplay(false);
             secureLocalStorage.setItem("userIds", response.data.user._id);
-            secureLocalStorage.setItem("userMobile", phone);
+            localStorage.setItem("userMobile", phone);
             window.dispatchEvent(new Event("userMobileUpdated"));
             router.push("/chat-with-astrologer");
           }

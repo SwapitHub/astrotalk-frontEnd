@@ -18,6 +18,7 @@ const SortByFilter = ({
         <div className="recharge-popup">
           <div class="sort-header">
             <span>SORT BY</span>
+          
             <button
               onClick={() => {
                 setSortFilterStatus(false);
@@ -51,14 +52,26 @@ const SortByFilter = ({
               />{" "}
               <span>Experience : Low to High</span>
             </label>
-            {/* <label>
-              <input type="radio" name="sort" />{" "}
+            <label>
+              <input
+                type="radio"
+                name="sort"
+                id="order_high_to_low"
+                checked={sortFilterCharges === "order_high_to_low"}
+                onChange={handleSortChange}
+              />{" "}
               <span>Total orders : High to Low</span>
-            </label> */}
-            {/* <label>
-              <input type="radio" name="sort" />{" "}
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="sort"
+                id="order_low_to_high"
+                checked={sortFilterCharges === "order_low_to_high"}
+                onChange={handleSortChange}
+              />{" "}
               <span>Total orders : Low to High</span>
-            </label> */}
+            </label>
             <label>
               <input
                 type="radio"
@@ -84,6 +97,16 @@ const SortByFilter = ({
               <span>Rating : High to Low</span>
             </label> */}
           </div>
+            <button
+              className="reset"
+              onClick={() => {
+                setSortFilterCharges(" ");
+
+                setSortFilterStatus(false);
+              }}
+            >
+              Reset
+            </button>
         </div>
       </div>
     </div>
