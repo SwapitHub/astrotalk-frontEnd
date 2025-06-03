@@ -271,11 +271,11 @@ export const AstrologerDetail = ({ astrologerData }) => {
             <div className="breadcrumb">
               <ul>
                 <li>
-                  <a href="">
+                  <Link href="/chat-with-astrologer">
                     <span className="icon">
                       <IoHome />
                     </span>
-                  </a>
+                  </Link>
                   <span className="text">{astrologerData.name}'s Profile</span>
                 </li>
               </ul>
