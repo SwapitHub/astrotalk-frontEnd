@@ -1,9 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRazorpay } from "react-razorpay";
 import { toast } from "react-toastify";
-import secureLocalStorage from "react-secure-storage";
 import { useRouter } from "next/navigation";
 
 const RazorpayPayment = ({ totalFinalPrice, extraAmount, totalAmount }) => {
