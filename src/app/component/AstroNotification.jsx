@@ -16,22 +16,29 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
   const [updateRequestStatus, setUpdateRequestStatus] = useState();
   const [orderCounter, setOrderCounter] = useState(1);
 
-  const [newRequestNotification, setNewRequestNotification] = useState(
-    secureLocalStorage.getItem("requestStatusNotifications")
-  );
-  const [freeRequestNotification, setFreeRequestNotification] = useState(
-    secureLocalStorage.getItem("requestFreeNotifications")
-  );
+  const [newRequestNotification, setNewRequestNotification] = useState();
+  const [freeRequestNotification, setFreeRequestNotification] = useState();
   const [loading, setLoading] = useState(false);
   console.log("freeRequestNotification====", freeRequestNotification);
+
+  useEffect(() => {
+    const newRequestNotification = localStorage.getItem(
+      "requestStatusNotifications"
+    );
+    const freeRequestNotification = localStorage.getItem(
+      "requestFreeNotifications"
+    );
+    setFreeRequestNotification(freeRequestNotification);
+    setNewRequestNotification(newRequestNotification);
+  }, []);
 
   useEffect(() => {
     const shouldReset = newRequestNotification == 1;
 
     if (shouldReset) {
-      secureLocalStorage.setItem("IsLoadingRequestStore", false);
+      localStorage.setItem("IsLoadingRequestStore", false);
       setUpdateNotification(null);
-      secureLocalStorage.removeItem("requestFreeNotifications")
+      localStorage.removeItem("requestFreeNotifications");
     }
   }, [newRequestNotification]);
 
@@ -39,11 +46,10 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
     const shouldReset = freeRequestNotification == "freeChatRemove";
 
     if (shouldReset) {
-      secureLocalStorage.setItem("IsLoadingRequestStore", false);
+      localStorage.setItem("IsLoadingRequestStore", false);
       setUpdateNotification(null);
-      secureLocalStorage.removeItem("new-notification-store");
-      secureLocalStorage.removeItem("requestFreeNotifications")
-
+      localStorage.removeItem("new-notification-store");
+      localStorage.removeItem("requestFreeNotifications");
     }
   }, [freeRequestNotification]);
 
@@ -64,11 +70,9 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
     fetchData();
   }, []);
 
-  // Fetch and set initial notification data from secureLocalStorage
+  // Fetch and set initial notification data from localStorage
   useEffect(() => {
-    const storedNotification = secureLocalStorage.getItem(
-      "new-notification-store"
-    );
+    const storedNotification = localStorage.getItem("new-notification-store");
     if (storedNotification) {
       setUpdateNotification(JSON.parse(storedNotification));
     }
@@ -85,10 +89,7 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
 
       // Ensure the notification is for the correct astrologer
       if (data?.mobileNumber && astrologerPhone === data.mobileNumber) {
-        secureLocalStorage.setItem(
-          "new-notification-store",
-          JSON.stringify(data)
-        );
+        localStorage.setItem("new-notification-store", JSON.stringify(data));
         console.log("========--------sasssssssss", data);
 
         setUpdateNotification(data);
@@ -114,7 +115,7 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
   // Handle the update and status change of the astrologer
   const onChangeId = async (astrologerId, userId) => {
     localStorage.setItem("userIds", userId);
-    secureLocalStorage.setItem("astrologerId", astrologerId);
+    localStorage.setItem("astrologerId", astrologerId);
 
     try {
       // await router.push(`/chat-with-astrologer/astrologer/${astrologerId}`);
@@ -126,11 +127,11 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
           requestStatus: false,
         }
       );
-      secureLocalStorage.removeItem("storedNotification");
+      localStorage.removeItem("storedNotification");
 
       if (response.status == 200) {
         setUpdateNotification(null);
-        secureLocalStorage.removeItem("storedNotification");
+        localStorage.removeItem("storedNotification");
 
         const astrologerData = response.data.updatedProfile;
         socket.emit("astrologer-chat-status", astrologerData);
@@ -138,19 +139,18 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
           socket.emit("astrologer-chat-request-FreeChat", {
             requestStatus: "freeChatRemove",
           });
-
         } else {
           socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
         }
         // socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
-        secureLocalStorage.setItem("IsLoadingRequestStore", false);
+        localStorage.setItem("IsLoadingRequestStore", false);
 
         setUpdateNotification(null);
-        secureLocalStorage.removeItem("new-notification-store");
-          secureLocalStorage.removeItem("requestFreeNotifications");
+        localStorage.removeItem("new-notification-store");
+        localStorage.removeItem("requestFreeNotifications");
 
         if (astrologerData.mobileNumber == astrologerPhone) {
-          secureLocalStorage.setItem(
+          localStorage.setItem(
             "AstrologerNotificationStatus",
             astrologerData.chatStatus
           );
@@ -200,16 +200,16 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
     }
   };
 
-  // Clear notification data from secureLocalStorage
+  // Clear notification data from localStorage
   const UpdateRemoveData = () => {
-    secureLocalStorage.setItem("IsLoadingRequestStore", false);
+    localStorage.setItem("IsLoadingRequestStore", false);
 
     if (freeRequestNotification === "freeChat") {
       socket.emit("astrologer-chat-request-FreeChat", {
         requestStatus: "",
       });
 
-      secureLocalStorage.removeItem("requestFreeNotifications");
+      localStorage.removeItem("requestFreeNotifications");
     } else {
       socket.emit("astrologer-chat-requestPaidChat", {
         requestStatus: 3,
@@ -217,14 +217,14 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
     }
 
     setUpdateNotification(null);
-    secureLocalStorage.removeItem("new-notification-store");
+    localStorage.removeItem("new-notification-store");
   };
 
   useEffect(() => {
     if (newRequestNotification == "2" && newRequestNotification !== false) {
       // window.location.reload();
       socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 3 });
-      secureLocalStorage.removeItem("new-notification-store");
+      localStorage.removeItem("new-notification-store");
       setUpdateNotification(null);
     }
   }, [newRequestNotification]);
@@ -234,14 +234,14 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
       if (data?.requestStatusData?.requestStatus) {
         console.log("📩 astrologer-requestStatus-new-notification:", data);
         setNewRequestNotification(data.requestStatusData.requestStatus);
-        secureLocalStorage.setItem(
+        localStorage.setItem(
           "requestStatusNotifications",
           data.requestStatusData.requestStatus
         );
       } else if (data?.requestStatusFreeChat?.requestStatus) {
         console.log("📩 astrologer-request-FreeChat-new-notification:", data);
         setFreeRequestNotification(data.requestStatusFreeChat.requestStatus);
-        secureLocalStorage.setItem(
+        localStorage.setItem(
           "requestFreeNotifications",
           data.requestStatusFreeChat.requestStatus
         );
@@ -283,7 +283,7 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
     const shouldShow =
       newRequestNotification === 0 && updateNotificationSingleChat;
 
-    secureLocalStorage.setItem("shouldShowNotification", shouldShow);
+    localStorage.setItem("shouldShowNotification", shouldShow);
   }, [newRequestNotification, updateNotificationSingleChat]);
 
   return (

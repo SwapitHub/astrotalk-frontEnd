@@ -21,7 +21,6 @@ export default function Chatting(AdminCommissionData) {
   const userParam = searchParams.get("user");
 
   const [showUserData, setShowUserData] = useState();
-  const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [timeLeft, setTimeLeft] = useState(null);
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
   console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
@@ -35,22 +34,32 @@ export default function Chatting(AdminCommissionData) {
   const [message, setMessage] = useState("");
   const [messageData, setMessageData] = useState([]);
   const [astrologerData, setAstrologerData] = useState("");
-  const [astrologerId, setAstrologerId] = useState();
 
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
-    useState(() => secureLocalStorage.getItem("AstrologerNotificationStatus"));
+    useState();
   const mobileRef = useRef(null);
 
-  const [userMobile, setUserMobile] = useState();
+  const [astrologerId, setAstrologerId] = useState();
   const [userIds, setUserIds] = useState();
+  const [totalChatTime, setTotalChatTime] = useState();
+  const [userMobile, setUserMobile] = useState();
 
   useEffect(() => {
-    const userMobiles = localStorage.getItem("userMobile");
-    const userIdss = localStorage.getItem("userIds");
-    setUserMobile(userMobiles);
-    setUserIds(userIdss);
+    const astroNotification = localStorage.getItem(
+      "AstrologerNotificationStatus"
+    );
+    const astrologerId = localStorage.getItem("astrologerId");
+    const userIds = localStorage.getItem("userIds");
+    const totalChatTime = Math.round(localStorage.getItem("totalChatTime"));
+    const userMobile = Math.round(localStorage.getItem("userMobile"));
+
+    setAstrologerId(astrologerId);
+    setUserIds(userIds);
+    setUserMobile(userMobile);
+    setTotalChatTime(totalChatTime);
+    setAstrologerNotificationStatus(astroNotification);
   }, []);
-  
+
   useEffect(() => {
     if (showUserData?.freeChatStatus === true) {
       setActualChargeUserChat(0);
@@ -97,14 +106,14 @@ export default function Chatting(AdminCommissionData) {
   }, [astrologerNotificationStatus, showRating]);
 
   useEffect(() => {
-    const id = secureLocalStorage.getItem("astrologerId");
+    const id = localStorage.getItem("astrologerId");
     if (id) {
       setAstrologerId(id);
     }
   }, []);
 
   useEffect(() => {
-    const storedTime = secureLocalStorage.getItem("chatTimeLeft");
+    const storedTime = localStorage.getItem("chatTimeLeft");
 
     if (storedTime) {
       setTimeLeft(parseInt(storedTime, 10));
@@ -125,7 +134,7 @@ export default function Chatting(AdminCommissionData) {
       mobileRef.current = astrologerData.mobileNumber;
     }
 
-    const storedNotification = secureLocalStorage.getItem(
+    const storedNotification = localStorage.getItem(
       "AstrologerNotificationStatus"
     );
     if (storedNotification) {
@@ -138,7 +147,7 @@ export default function Chatting(AdminCommissionData) {
 
     const handleNewNotification = (data) => {
       console.log("Received data:", data.astrologerData);
-      secureLocalStorage.setItem("astrologerId", data.astrologerData?._id);
+      localStorage.setItem("astrologerId", data.astrologerData?._id);
       setAstrologerId(data.astrologerData?._id);
       console.log(data.astrologerData?._id);
 
@@ -154,7 +163,7 @@ export default function Chatting(AdminCommissionData) {
         // Ensure state actually changes
         setAstrologerNotificationStatus((prevStatus) => {
           if (prevStatus !== newStatus) {
-            secureLocalStorage.setItem(
+            localStorage.setItem(
               "AstrologerNotificationStatus",
               newStatus
             );
@@ -338,9 +347,9 @@ export default function Chatting(AdminCommissionData) {
           position: "top-right",
         });
 
-        // Update state and secureLocalStorage
+        // Update state and localStorage
         setTimeLeft(null);
-        secureLocalStorage.removeItem("chatTimeLeft");
+        localStorage.removeItem("chatTimeLeft");
 
         const updatedAstrologerData = response.data.updatedProfile;
 
@@ -363,8 +372,8 @@ export default function Chatting(AdminCommissionData) {
           console.log("newUserDetail=====", newUserDetail);
         }
 
-        // Update AstrologerNotificationStatus in secureLocalStorage and state
-        secureLocalStorage.setItem(
+        // Update AstrologerNotificationStatus in localStorage and state
+        localStorage.setItem(
           "AstrologerNotificationStatus",
           updatedAstrologerData.chatStatus
         );
@@ -403,8 +412,8 @@ export default function Chatting(AdminCommissionData) {
         intervalRef.current = setInterval(() => {
           setTimeLeft((prevTime) => {
             const newTime = prevTime + 1;
-            secureLocalStorage.setItem("chatTimeLeft", newTime.toString());
-            secureLocalStorage.setItem("totalChatTime", newTime.toString());
+            localStorage.setItem("chatTimeLeft", newTime.toString());
+            localStorage.setItem("totalChatTime", newTime.toString());
             return newTime;
           });
         }, 1000);
@@ -417,7 +426,7 @@ export default function Chatting(AdminCommissionData) {
       }, 100);
     } else {
       setTimeLeft(null);
-      secureLocalStorage.removeItem("chatTimeLeft");
+      localStorage.removeItem("chatTimeLeft");
       clearTimeout(timeoutRef.current);
       clearInterval(intervalRef.current);
       const newUserDetail = {

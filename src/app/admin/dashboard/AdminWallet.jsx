@@ -56,7 +56,10 @@ function AdminWallet({ updateButton }) {
           },
         }
       );
-secureLocalStorage.setItem("totalTransactionsData",res.data.totalTransactions)
+      localStorage.setItem(
+        "totalTransactionsData",
+        res.data.totalTransactions
+      );
       setWalletAdminData(res.data.transactions);
       setTotalPages(Math.ceil(res.data.totalTransactions / 5));
       setHasNextPage(res.data.hasNextPage);
@@ -93,13 +96,12 @@ secureLocalStorage.setItem("totalTransactionsData",res.data.totalTransactions)
     <div className="admin-wallet-main">
       {updateButton === "admin" && (
         <>
-        <div className="available-balance">
-            <p>    
-           <strong>Available balance: </strong>    
-          <span>₹ {Math.round(totalAvailableBalance)}</span>
-        </p>
-        </div>
-      
+          <div className="available-balance">
+            <p>
+              <strong>Available balance: </strong>
+              <span>₹ {Math.round(totalAvailableBalance)}</span>
+            </p>
+          </div>
         </>
       )}
 

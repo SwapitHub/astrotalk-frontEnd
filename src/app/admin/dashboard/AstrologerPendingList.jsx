@@ -27,7 +27,7 @@ function AstrologerPendingList() {
       setTotalPages(res.data.totalPages);
       setHasNextPage(res.data.hasNextPage);
       setHasPrevPage(res.data.hasPrevPage);
-       secureLocalStorage.setItem(
+       localStorage.setItem(
         "totalAstroPending",
         res.data.totalAstrologers
       );

@@ -26,7 +26,7 @@ const RequestPopUp = ({ setIsLoadingRequest }) => {
 
     // socket.emit("astrologer-chat-requestStatus", { requestStatus: false });
     socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 2 });
-    secureLocalStorage.setItem("IsLoadingRequestStore", false);
+    localStorage.setItem("IsLoadingRequestStore", false);
     setIsLoadingRequest(false);
   };
 
@@ -34,13 +34,13 @@ const RequestPopUp = ({ setIsLoadingRequest }) => {
     const handleNewRequestStatusNotification = (data) => {
       console.log("📩 astrologer-requestStatus-new-notification:", data);
       if (data.requestStatusData.requestStatus == "3") {
-         secureLocalStorage.setItem("IsLoadingRequestStore", false);
+         localStorage.setItem("IsLoadingRequestStore", false);
         setIsLoadingRequest(false);
         socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 2 });
       }
       // setNewRequestNotification(data.requestStatusData?.requestStatus);
-      // Optionally save to secureLocalStorage if needed
-      secureLocalStorage.setItem(
+      // Optionally save to localStorage if needed
+      localStorage.setItem(
         "requestStatusNotifications",
         data.requestStatusData?.requestStatus
       );

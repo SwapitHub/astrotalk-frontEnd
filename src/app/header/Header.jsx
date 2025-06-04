@@ -17,9 +17,12 @@ const Header = () => {
   const [isLoading, setIsLoading] = useState(false);
 const [toggleMobile, setToggleMobile] = useState(false);
 
-  const [admin_id, setAdmin_id] = useState(() =>
-    secureLocalStorage.getItem("admin_id")
-  );
+   const [admin_id, setAdmin_id] = useState();
+
+  useEffect(() => {
+    const admin_ids = localStorage.getItem("admin_id");
+    setAdmin_id(admin_ids);
+  }, []);
 
   // console.log(astrologerPhone,astroDetailData);
   const [userMobile, setUserMobile] = useState();
@@ -27,7 +30,7 @@ const [toggleMobile, setToggleMobile] = useState(false);
 
   useEffect(() => {
     const handleStorageChange = () => {
-      const updatedId = secureLocalStorage.getItem("admin_id");
+      const updatedId = localStorage.getItem("admin_id");
       setAdmin_id(updatedId);
     };
 
@@ -40,7 +43,7 @@ const [toggleMobile, setToggleMobile] = useState(false);
   }, []);
 
   useEffect(() => {
-    const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
+    const astrologerPhone = localStorage.getItem("astrologer-phone");
     setAstrologerPhone(astrologerPhone);
   }, []);
 
@@ -99,8 +102,8 @@ const [toggleMobile, setToggleMobile] = useState(false);
     window.dispatchEvent(new Event(""));
     localStorage.removeItem("userIds");
     localStorage.removeItem("userMobile");
-    secureLocalStorage.removeItem("astrologerId");
-    secureLocalStorage.removeItem("AstrologerNotificationStatus");
+    localStorage.removeItem("astrologerId");
+    localStorage.removeItem("AstrologerNotificationStatus");
     setUserMobile(null);
   };
 

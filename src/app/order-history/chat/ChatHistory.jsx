@@ -9,7 +9,7 @@ import { fetchUserLoginDetails } from "@/app/utils/api";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useId } from "react";
+import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { MdDelete } from "react-icons/md";
@@ -31,8 +31,8 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
 
 const ChatHistory = () => {
   const router = useRouter();
-  const [userMobile, setUserMobile] = useState();
-  const [userIds, setUserIds] = useState();
+  // const userIds = localStorage.getItem("userIds");
+  // const userMobile = localStorage.getItem("userMobile");
 
   const [showRecharge, setShowRecharge] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
@@ -45,32 +45,40 @@ const ChatHistory = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
   const [shareOpenPopup, setShareOpenPopup] = useState(false);
-  const [showUserIdToAst, setShowUserIdToAst] = useState(
-    secureLocalStorage.getItem("userIdToAst")
-  );
-  const [astrologerIdToAst, setAstrologerIdToAst] = useState(
-    secureLocalStorage.getItem("astrologerIdToAst")
-  );
-  const [isLoadingRequest, setIsLoadingRequest] = useState(
-    secureLocalStorage.getItem("IsLoadingRequestStore")
-  );
+  const [showUserIdToAst, setShowUserIdToAst] = useState(null);
+  const [astrologerIdToAst, setAstrologerIdToAst] = useState(null);
+  const [isLoadingRequest, setIsLoadingRequest] = useState(false);
+
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(null);
   const [astrologerId, setAstrologerId] = useState();
+
+  const [userIds, setUserIds] = useState(null);
+  const [userMobile, setUserMobile] = useState(null);
+
+  useEffect(() => {
+    setShowUserIdToAst(localStorage.getItem("userIdToAst"));
+    setAstrologerIdToAst(localStorage.getItem("astrologerIdToAst"));
+    setIsLoadingRequest(secureLocalStorage.getItem("IsLoadingRequestStore"));
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Try localStorage first, fallback to localStorage
+      const id = localStorage.getItem("userIds");
+      const mobile = localStorage.getItem("userMobile");
+
+      console.log(id, mobile, "userId-userMobile (safe read)");
+      setUserIds(id);
+      setUserMobile(mobile);
+    }
+  }, []);
 
   console.log("====astroMessageList", astroMessageList);
   const deleteOrderHistory = (id) => {
     setShowDelete(true);
     setDeleteId(id);
   };
-
- useEffect(() => {
-  const userMobiles = localStorage.getItem("userMobile");
-  const userIdss = localStorage.getItem("userIds");
-  setUserMobile(userMobiles);
-  setUserIds(userIdss);
-}, []);
-
 
   useEffect(() => {
     if (showRecharge) {
@@ -129,19 +137,25 @@ const ChatHistory = () => {
     }
   }, [userIds, page]);
 
-  const fetchDataUserDetail = async () => {
-    try {
-      const data = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
-      );
-      setUserData(data.data.data);
-    } catch (error) {
-      console.error("Error fetching fetchDataUserDetail:", error);
-    }
-  };
   useEffect(() => {
-    fetchDataUserDetail();
-  }, []);
+    if (!userMobile) return;
+
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
+        );
+        setUserData(res.data.data);
+      } catch (error) {
+        console.error(
+          "Error fetching user detail:",
+          error.response?.data || error.message
+        );
+      }
+    };
+
+    fetchUser();
+  }, [userMobile]);
 
   const userAmount = userData?.totalAmount;
 
@@ -159,9 +173,9 @@ const ChatHistory = () => {
         // await router.push(`/chat-with-astrologer/user/${userIds}`);
 
         // This code will run after the navigation is complete
-        secureLocalStorage.setItem("IsLoadingRequestStore", true);
+        localStorage.setItem("IsLoadingRequestStore", true);
         setIsLoadingRequest(true);
-        secureLocalStorage.setItem("astrologerId", astrologerId);
+        localStorage.setItem("astrologerId", astrologerId);
 
         const messageId = {
           userIdToAst: userIds,
@@ -201,13 +215,13 @@ const ChatHistory = () => {
     if (isLoadingRequest) {
       if (astrologerId) {
         router.push(`/chat-with-astrologer/user/${userIds}`);
-        secureLocalStorage.setItem("astrologerId", astrologerId);
+        localStorage.setItem("astrologerId", astrologerId);
 
-        secureLocalStorage.setItem("IsLoadingRequestStore", false);
+        localStorage.setItem("IsLoadingRequestStore", false);
         setIsLoadingRequest(false);
       } else {
         setIsLoadingRequest(true);
-        secureLocalStorage.setItem("IsLoadingRequestStore", true);
+        localStorage.setItem("IsLoadingRequestStore", true);
 
         console.log("No astrologer found. Timer fallback logic can go here.");
 
@@ -228,7 +242,7 @@ const ChatHistory = () => {
 
       setAstrologerNotificationStatus((prevStatus) => {
         if (prevStatus !== newStatus) {
-          secureLocalStorage.setItem("AstrologerNotificationStatus", newStatus);
+          localStorage.setItem("AstrologerNotificationStatus", newStatus);
           return newStatus;
         }
         return prevStatus;
@@ -253,8 +267,8 @@ const ChatHistory = () => {
 
   const showSharePopUp = (userIdToAst, astrologerIdToAst) => {
     console.log(userIdToAst);
-    secureLocalStorage.setItem("userIdToAst", userIdToAst);
-    secureLocalStorage.setItem("astrologerIdToAst", astrologerIdToAst);
+    localStorage.setItem("userIdToAst", userIdToAst);
+    localStorage.setItem("astrologerIdToAst", astrologerIdToAst);
     setShareOpenPopup(true);
     setShowUserIdToAst(userIdToAst);
     setAstrologerIdToAst(astrologerIdToAst);
@@ -386,7 +400,7 @@ const ChatHistory = () => {
                                       <div
                                         className="inner-order-list-data"
                                         onClick={() => {
-                                          secureLocalStorage.setItem(
+                                          localStorage.setItem(
                                             "astrologerId",
                                             item?.astrologerIdToAst
                                           );

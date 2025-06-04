@@ -11,7 +11,6 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
   const [otpSent, setOtpSent] = useState(false);
   const [message, setMessage] = useState("");
   const [timeOtpMessage, setTimeOtpMessage] = useState("");
-  const localAstroMobile = secureLocalStorage.getItem("astrologer-phone");
   const [pendingData, setPendingData] = useState([]);
 
   useEffect(() => {
@@ -85,7 +84,7 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
         router.push("/astrologer-dashboard");
         setOtpPopUpDisplayAstro(false);
         setOtpSent(false);
-        secureLocalStorage.setItem("astrologer-phone", phone);
+        localStorage.setItem("astrologer-phone", phone);
         sessionStorage.setItem("session-astrologer-phone", phone);
         try {
           const response = await axios.put(

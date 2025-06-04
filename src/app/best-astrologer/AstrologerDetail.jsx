@@ -34,26 +34,30 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
 });
 export const AstrologerDetail = ({ astrologerData }) => {
   const router = useRouter();
-
   const [showRecharge, setShowRecharge] = useState(false);
   const [astroMobileNum, setAstroMobileNum] = useState();
   const [astrologerId, setAstrologerId] = useState();
 
   const [userData, setUserData] = useState();
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
-  const [isLoadingRequest, setIsLoadingRequest] = useState(
-    secureLocalStorage.getItem("IsLoadingRequestStore")
-  );
+  const [isLoadingRequest, setIsLoadingRequest] = useState();
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(null);
-  const [userMobile, setUserMobile] = useState();
-  const [userIds, setUserIds] = useState();
+
+  const [userIds, setUserIds] = useState(null);
+  const [userMobile, setUserMobile] = useState(null);
 
   useEffect(() => {
-    const userMobiles = localStorage.getItem("userMobile");
-    const userIdss = localStorage.getItem("userIds");
-    setUserMobile(userMobiles);
-    setUserIds(userIdss);
+    if (typeof window !== "undefined") {
+      const id = localStorage.getItem("userIds");
+      const mobile = localStorage.getItem("userMobile");
+      const loadingReq = localStorage.getItem("IsLoadingRequestStore");
+
+      console.log(id, mobile, "userId-userMobile (safe read)");
+      setUserIds(id);
+      setUserMobile(mobile);
+      setIsLoadingRequest(loadingReq);
+    }
   }, []);
 
   useEffect(() => {
@@ -91,10 +95,10 @@ export const AstrologerDetail = ({ astrologerData }) => {
         // await router.push(`/chat-with-astrologer/user/${userIds}`);
 
         // This code will run after the navigation is complete
-        secureLocalStorage.setItem("IsLoadingRequestStore", true);
+        localStorage.setItem("IsLoadingRequestStore", true);
         setIsLoadingRequest(true);
 
-        secureLocalStorage.setItem("astrologerId", astrologerId);
+        localStorage.setItem("astrologerId", astrologerId);
 
         const messageId = {
           userIdToAst: userIds,
@@ -207,13 +211,13 @@ export const AstrologerDetail = ({ astrologerData }) => {
     if (isLoadingRequest) {
       if (astrologerId) {
         router.push(`/chat-with-astrologer/user/${userIds}`);
-        secureLocalStorage.setItem("astrologerId", astrologerId);
+        localStorage.setItem("astrologerId", astrologerId);
 
-        secureLocalStorage.setItem("IsLoadingRequestStore", false);
+        localStorage.setItem("IsLoadingRequestStore", false);
         setIsLoadingRequest(false);
       } else {
         setIsLoadingRequest(true);
-        secureLocalStorage.setItem("IsLoadingRequestStore", true);
+        localStorage.setItem("IsLoadingRequestStore", true);
 
         console.log("No astrologer found. Timer fallback logic can go here.");
 
@@ -234,7 +238,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
 
       setAstrologerNotificationStatus((prevStatus) => {
         if (prevStatus !== newStatus) {
-          secureLocalStorage.setItem("AstrologerNotificationStatus", newStatus);
+          localStorage.setItem("AstrologerNotificationStatus", newStatus);
           return newStatus;
         }
         return prevStatus;

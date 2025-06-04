@@ -21,7 +21,7 @@ const ChatButtonUser = ({item, userAmount, userIds}) => {
             // await router.push(`/chat-with-astrologer/user/${userIds}`);
     
             // This code will run after the navigation is complete
-            secureLocalStorage.setItem("astrologerId", astrologerId);
+            localStorage.setItem("astrologerId", astrologerId);
     
             const messageId = {
               userIdToAst: userIds,

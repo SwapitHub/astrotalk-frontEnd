@@ -7,7 +7,6 @@ import { validateAstrologerForm } from "../component/FormValidation";
 import secureLocalStorage from "react-secure-storage";
 
 const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
-  const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
   const [registrationDetail, setRegistrationDetail] = useState();
   const [astroUpdateDetail, setAstroUpdateDetail] = useState();
   const [errors, setErrors] = useState({});
@@ -24,9 +23,12 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
   const [editGender, setEditGender] = useState("");
   const [editDescription, setEditDescription] = useState("");
 
-  const astrologerLoginUpdate = secureLocalStorage.getItem(
-    "astrologerLoginUpdate"
-  );
+ const [astrologerPhone, setAstrologerPhone] = useState();
+
+  useEffect(() => {
+    const astrologerPhones = localStorage.getItem("astrologer-phone");
+    setAstrologerPhone(astrologerPhones);
+  }, []);
 
   useEffect(() => {
     axios
@@ -142,7 +144,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
         });
 
         setSuccessMessageProfile(response.data);
-        secureLocalStorage.setItem("astrLoginStatus", "0");
+        localStorage.setItem("astrLoginStatus", "0");
 
         toast.success("Profile Completed Successfully", {
           position: "top-right",

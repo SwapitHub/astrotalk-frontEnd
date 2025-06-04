@@ -2,6 +2,7 @@
 import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import secureLocalStorage from "react-secure-storage";
 
 const WalletPriceList = () => {
   const [denominationList, setDenominationList] = useState([]);
@@ -9,7 +10,7 @@ const WalletPriceList = () => {
   const [userMobile, setUserMobile] = useState();
 
   useEffect(() => {
-    const userMobiles = localStorage.getItem("userMobile");
+    const userMobiles = Math.round(localStorage.getItem("userMobile"));
     setUserMobile(userMobiles);
   }, []);
 

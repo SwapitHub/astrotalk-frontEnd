@@ -11,7 +11,9 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 
 const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
   const [isOnline, setIsOnline] = useState();
+  const [sessionValue, setSessionValue] = useState();
  console.log(astrologerData.profileStatus,isOnline);
+console.log("sessionValue",sessionValue);
 
   useEffect(() => {
     if (isOnline) {
@@ -26,6 +28,7 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
     const sessionPhone = sessionStorage.getItem("session-astrologer-phone");
     if (sessionPhone === astrologerData.mobileNumber) {
       setIsOnline(astrologerData.profileStatus);
+      setSessionValue(sessionPhone)
     }
     
   }, [astrologerData.mobileNumber]);

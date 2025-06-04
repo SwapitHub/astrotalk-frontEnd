@@ -1,22 +1,29 @@
 import Link from "next/link";
-import React from "react";
 import { FaRocketchat } from "react-icons/fa";
 import { PiUserListDuotone } from "react-icons/pi";
 import { SiLinuxprofessionalinstitute } from "react-icons/si";
 import { TfiGallery } from "react-icons/tfi";
-import secureLocalStorage from "react-secure-storage";
 import { GrLanguage } from "react-icons/gr";
 import { IoWalletSharp } from "react-icons/io5";
 import { LiaSortAmountUpSolid } from "react-icons/lia";
 import { RiLockPasswordLine } from "react-icons/ri";
+import { useState,useEffect } from "react";
 
 const AdminDashBoardData = ({ setUpdateButton }) => {
-  const totalUsersList = secureLocalStorage.getItem("totalUsersList");
-  const totalAstroActive = secureLocalStorage.getItem("totalAstroActive");
-  const totalAstroPending = secureLocalStorage.getItem("totalAstroPending");
-  const totalTransactionsData = secureLocalStorage.getItem(
-    "totalTransactionsData"
-  );
+  const [totalUsersList, setTotalUsersList] = useState(null);
+  const [totalAstroActive, setTotalAstroActive] = useState(null);
+  const [totalAstroPending, setTotalAstroPending] = useState(null);
+  const [totalTransactionsData, setTotalTransactionsData] = useState(null);
+
+  useEffect(() => {
+    // Run only on client
+    if (typeof window !== "undefined") {
+      setTotalUsersList(localStorage.getItem("totalUsersList"));
+      setTotalAstroActive(localStorage.getItem("totalAstroActive"));
+      setTotalAstroPending(localStorage.getItem("totalAstroPending"));
+      setTotalTransactionsData(localStorage.getItem("totalTransactionsData"));
+    }
+  }, []);
   console.log(totalAstroPending);
 
   return (

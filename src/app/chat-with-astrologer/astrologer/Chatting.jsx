@@ -16,14 +16,13 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 
 export default function Chatting({ astrologer, AdminCommissionData }) {
   const router = useRouter();
-  const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
-  const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
+  // const astrologerPhone = localStorage.getItem("astrologer-phone");
+  // const totalChatTime = Math.round(localStorage.getItem("totalChatTime"));
+  // State declarations
   const [timeLeft, setTimeLeft] = useState(null);
   const [showRating, setShowRating] = useState(false);
-
   const [actualChargeUserChat, setActualChargeUserChat] = useState();
   const [showEndChat, setShowEndChat] = useState(false);
-
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
   const [message, setMessage] = useState("");
@@ -31,83 +30,81 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   const [messageData, setMessageData] = useState([]);
   const [user, setUser] = useState("");
   const [showUserData, setShowUserData] = useState("");
-  const astrologerId = secureLocalStorage.getItem("astrologerId");
+
+  const [astrologerPhone, setAstrologerPhone] = useState("");
+  const [totalChatTime, setTotalChatTime] = useState();
+  const [astrologerId, setAstrologerId] = useState("");
+  const [userIds, setUserIds] = useState("");
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
-    useState(() => secureLocalStorage.getItem("AstrologerNotificationStatus"));
+    useState("");
+  const [isTyping, setIsTyping] = useState(false);
 
+  const chatContainerRef = useRef(null);
 
-  const [userIds, setUserIds] = useState();
-
+  // Load localStorage on mount
   useEffect(() => {
-    const userIdss = localStorage.getItem("userIds");
-    setUserIds(userIdss);
+    setAstrologerPhone(localStorage.getItem("astrologer-phone") || "");
+    setTotalChatTime(Math.round(localStorage.getItem("totalChatTime")));
+    setAstrologerId(localStorage.getItem("astrologerId") || "");
+    setUserIds(localStorage.getItem("userIds") || "");
+    setAstrologerNotificationStatus(
+      localStorage.getItem("AstrologerNotificationStatus") || ""
+    );
   }, []);
 
   useEffect(() => {
+    // if (!astrologerNotificationStatus) return;
     if (
-      astrologerNotificationStatus == false ||
-      astrologerNotificationStatus == undefined
+      astrologerNotificationStatus === false ||
+      astrologerNotificationStatus === undefined
     ) {
       router.push("/");
     }
   }, [astrologerNotificationStatus]);
 
-  // typing logic start here
-    const [isTyping, setIsTyping] = useState(false);
-    console.log(isTyping, "isTyping");
-  
-    useEffect(() => {
-      if (!socket) return;
-  
-      const handleTyping = (data) => {
-        if (data.userId !== userIds) {
-          setIsTyping(true);
-          setTimeout(() => setIsTyping(false), 2000);
-        }
-      };
-  
-      socket.on("typing", handleTyping);
-  
-      return () => {
-        socket.off("typing", handleTyping);
-      };
-    }, [socket, userIds]);
-  
-  
-     const handleTyping = () => {
-      socket.emit("typing", {
-        sender: showUserData?._id,
-        receiverId: astrologerId,
-      });
+  // Typing socket event
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleTyping = (data) => {
+      if (data.userId !== userIds) {
+        setIsTyping(true);
+        setTimeout(() => setIsTyping(false), 2000);
+      }
     };
-    // typing logic end here
+
+    socket.on("typing", handleTyping);
+    return () => socket.off("typing", handleTyping);
+  }, [userIds]);
+
+  const handleTyping = () => {
+    if (!astrologerId) return;
+    socket.emit("typing", {
+      sender: showUserData?._id,
+      receiverId: astrologerId,
+    });
+  };
 
   useEffect(() => {
-    const storedTime = secureLocalStorage.getItem("chatTimeLeft");
-
-    if (storedTime) {
-      setTimeLeft(parseInt(storedTime, 10));
-    } else {
-      if (
-        astrologerNotificationStatus === false ||
-        astrologerNotificationStatus === "false"
-      ) {
-        setTimeLeft(0);
-      } else {
-        setTimeLeft(null);
-      }
-    }
+    const storedTime = localStorage.getItem("chatTimeLeft");
+    if (storedTime) setTimeLeft(parseInt(storedTime, 10));
+    else if (
+      astrologerNotificationStatus === "false" ||
+      astrologerNotificationStatus === false
+    )
+      setTimeLeft(0);
+    else setTimeLeft(null);
   }, [astrologerNotificationStatus]);
 
+  // Initial data socket listener
   useEffect(() => {
-    socket.on("connect", () => {
-      console.log("Connected to socket.io server");
-    });
+    if (!astrologerPhone) return;
+
+    socket.on("connect", () => console.log("Connected to socket.io server"));
 
     socket.on("astrologer-data-received-new-notification", (data) => {
-      console.log("New notification received:", data);
-      if (data.astrologerData.mobileNumber == astrologerPhone) {
-        secureLocalStorage.setItem(
+      if (data.astrologerData.mobileNumber === astrologerPhone) {
+        localStorage.setItem(
           "AstrologerNotificationStatus",
           data.astrologerData.chatStatus
         );
@@ -119,35 +116,31 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
       socket.off("astrologer-data-received-new-notification");
       socket.disconnect();
     };
-  }, []);
+  }, [astrologerPhone]);
 
   useEffect(() => {
+    if (!userIds) return;
     axios
       .get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userIds}`
       )
-      .then((response) => {
-        setShowUserData(response.data.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+      .then((response) => setShowUserData(response.data.data))
+      .catch(console.error);
+  }, [userIds]);
+
   useEffect(() => {
+    if (!astrologerPhone) return;
     axios
       .get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerPhone}`
       )
-      .then((response) => {
-        setAstrologerData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+      .then((response) => setAstrologerData(response.data))
+      .catch(console.error);
+  }, [astrologerPhone]);
 
-  // message detail api
+  // Message fetch
   const fetchMessages = async () => {
+    if (!astrologerId || !userIds) return;
     try {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/chat/detail/${userIds}/${astrologerId}`
@@ -158,76 +151,64 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
     }
   };
 
-  const chatContainerRef = useRef(null);
-
-  // Scroll to the bottom when messages change
+  // Scroll bottom when new message
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
     }
   }, [message]);
-  // auto send message first time user to astrologer
 
+  // Auto send message first time
   useEffect(() => {
-    if (!user || !userIds || !astrologerId) return; // wait until all data is available
-
+    if (!user || !userIds || !astrologerId) return;
     const now = new Date();
-    const hours = now.getHours() % 12 || 12;
-    const minutes = now.getMinutes().toString().padStart(2, "0");
-    const ampm = now.getHours() >= 12 ? "PM" : "AM";
-    const time = `${hours}:${minutes} ${ampm}`;
-
+    const time = `${now.getHours() % 12 || 12}:${now
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")} ${now.getHours() >= 12 ? "PM" : "AM"}`;
     const newMessage = {
       user: user,
-      message: `Hi,<br/><br/>
-Below are Your details:<br/>
-Name: ${showUserData?.name}<br/>
-Gender: ${showUserData?.gender}<br/>
-DOB: ${showUserData?.dateOfBirth}<br/>
-${
-  showUserData?.reUseDateOfBirth
-    ? `TOB: ${showUserData?.reUseDateOfBirth}<br/>`
-    : ""
-}
-POB: ${showUserData?.placeOfBorn}<br/>`,
+      message: `Hi,<br/><br/>Below are Your details:<br/>Name: ${
+        showUserData?.name
+      }<br/>Gender: ${showUserData?.gender}<br/>DOB: ${
+        showUserData?.dateOfBirth
+      }<br/>${
+        showUserData?.reUseDateOfBirth
+          ? `TOB: ${showUserData?.reUseDateOfBirth}<br/>`
+          : ""
+      }POB: ${showUserData?.placeOfBorn}<br/>`,
       time: time,
       members: [userIds, astrologerId],
     };
-
     socket.emit("sendMessage", newMessage);
-  }, [userIds, astrologerId, showUserData]); // only run once when all 3 are available
+  }, [userIds, astrologerId, showUserData]);
 
-  const sendMessage = async () => {
-    if (!message.trim()) return;
+  const sendMessage = () => {
+    if (!message.trim() || !astrologerId || !userIds) return;
     const now = new Date();
-    const hours = now.getHours() % 12 || 12;
-    const minutes = now.getMinutes().toString().padStart(2, "0");
-    const ampm = now.getHours() >= 12 ? "PM" : "AM";
-    const time = `${hours}:${minutes} ${ampm}`;
-
-    try {
-      const newMessage = {
-        user: user,
-        message: message,
-        time: time,
-        members: [userIds, astrologerId],
-      };
-      // Emit the message to the server
-      socket.emit("sendMessage", newMessage);
-      setMessage("");
-      scrollToBottom();
-    } catch (error) {
-      console.error("Error sending message:", error);
-    }
+    const time = `${now.getHours() % 12 || 12}:${now
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")} ${now.getHours() >= 12 ? "PM" : "AM"}`;
+    const newMessage = {
+      user: user,
+      message: message,
+      time: time,
+      members: [userIds, astrologerId],
+    };
+    socket.emit("sendMessage", newMessage);
+    setMessage("");
+    scrollToBottom();
   };
 
   const scrollToBottom = () => {
-    const chatContainer = document.querySelector(".chat-container");
-    if (chatContainer) {
-      chatContainer.scrollTop = chatContainer.scrollHeight;
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
     }
   };
+
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -236,60 +217,47 @@ POB: ${showUserData?.placeOfBorn}<br/>`,
   };
 
   useEffect(() => {
+    if (!astrologerId || !userIds) return;
     setUser(astrologer.name);
     socket.emit("joinChat", { userIds, astrologerId });
     fetchMessages();
-    socket.on("receiveMessage", (msg) => {
-      setMessageData((prev) => [...prev, msg]);
-    });
-
-    return () => {
-      socket.off("receiveMessage"); // Remove the listener
-      socket.disconnect();
-    };
+    socket.on("receiveMessage", (msg) =>
+      setMessageData((prev) => [...prev, msg])
+    );
+    return () => socket.off("receiveMessage");
   }, [userIds, astrologerId]);
 
   const endChatStatus = async () => {
-    if (actualChargeUserChat == undefined) return;
-
-    if (
-      showUserData?.freeChatStatus == true ||
-      showUserData?.chatStatus == true
-    ) {
-      const response = await axios.put(
+    if (actualChargeUserChat === undefined) return;
+    if (showUserData?.freeChatStatus || showUserData?.chatStatus) {
+      await axios.put(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${showUserData?.phone}`,
         {
           freeChatStatus: false,
           chatStatus: false,
         }
       );
-      console.log("response", response.data);
     }
 
     if (
-      astrologerNotificationStatus == false ||
-      astrologerNotificationStatus == "false"
+      astrologerNotificationStatus === "false" ||
+      astrologerNotificationStatus === false
     )
       return;
+
     clearTimeout(timeoutRef.current);
     clearInterval(intervalRef.current);
+
     try {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-status-by-mobile/${astrologerData.mobileNumber}`,
-        {
-          chatStatus: false,
-        }
+        { chatStatus: false }
       );
 
       if (response.data.message === "Success") {
-        toast.error("End Chat Successfully", {
-          position: "top-right",
-        });
-
-        // Update state and secureLocalStorage
+        toast.error("End Chat Successfully", { position: "top-right" });
         setTimeLeft(null);
-        secureLocalStorage.removeItem("chatTimeLeft");
-
+        localStorage.removeItem("chatTimeLeft");
         const updatedAstrologerData = response.data.updatedProfile;
         socket.emit("astrologer-chat-status", updatedAstrologerData);
 
@@ -305,24 +273,18 @@ POB: ${showUserData?.placeOfBorn}<br/>`,
           actualChargeUserChat: actualChargeUserChat,
           updateAdminCommission: AdminCommissionData,
         };
-        // socket.emit("chat-timeLeft-update", newUserDetail);
-        // console.log(newUserDetail);
-        if (showUserData?.freeChatStatus == false) {
+
+        if (showUserData?.freeChatStatus === false) {
           socket.emit("chat-timeLeft-update", newUserDetail);
-          console.log("newUserDetail=====", newUserDetail);
         }
-        // Update AstrologerNotificationStatus in secureLocalStorage and state
-        secureLocalStorage.setItem(
+
+        localStorage.setItem(
           "AstrologerNotificationStatus",
           updatedAstrologerData.chatStatus
         );
         setAstrologerNotificationStatus(updatedAstrologerData.chatStatus);
 
-        console.log("Astrologer status updated:", updatedAstrologerData);
-
-        console.log(astrologerData.mobileNumber);
-        // update order history
-        const updateList = await axios.put(
+        await axios.put(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
           {
             mobileNumber: astrologerData.mobileNumber,
@@ -330,22 +292,13 @@ POB: ${showUserData?.placeOfBorn}<br/>`,
             profileStatus: true,
           }
         );
-
-        console.log("update hist", updateList);
       }
     } catch (error) {
-      console.error(
-        "Failed to update astrologer status:",
-        error.response?.data?.error || error.message
-      );
+      console.error("Failed to update astrologer status:", error);
     }
   };
 
   useEffect(() => {
-    if (astrologerNotificationStatus == undefined) {
-      return;
-    }
-
     if (
       astrologerNotificationStatus === "true" ||
       astrologerNotificationStatus === true
@@ -354,58 +307,42 @@ POB: ${showUserData?.placeOfBorn}<br/>`,
         intervalRef.current = setInterval(() => {
           setTimeLeft((prevTime) => {
             const newTime = prevTime + 1;
-            secureLocalStorage.setItem("chatTimeLeft", newTime.toString());
-            secureLocalStorage.setItem("totalChatTime", newTime.toString());
+            localStorage.setItem("chatTimeLeft", newTime.toString());
+            localStorage.setItem("totalChatTime", newTime.toString());
             return newTime;
           });
         }, 1000);
-
-        return () => {
-          clearTimeout(timeoutRef.current);
-          clearInterval(intervalRef.current);
-          console.log("Timer cleared");
-        };
       }, 100);
     } else {
       setTimeLeft(null);
-      secureLocalStorage.removeItem("chatTimeLeft");
+      // localStorage.removeItem("chatTimeLeft");
       clearTimeout(timeoutRef.current);
       clearInterval(intervalRef.current);
-      const newUserDetail = {
+      socket.emit("chat-timeLeft-update", {
         userId: userIds,
         totalChatTime: 0,
-      };
-      socket.emit("chat-timeLeft-update", newUserDetail);
-      console.log("not working this");
+      });
     }
   }, [astrologerNotificationStatus]);
 
-  // if user balance is over then cut the automatic call start
-  let userTotalAmount = showUserData?.totalAmount;
-  let astroChatPricePerMinute = Math.round(astrologerData.charges);
-  let totalTimeSecond = (userTotalAmount / astroChatPricePerMinute) * 60;
+  const userTotalAmount = showUserData?.totalAmount;
+  const astroChatPricePerMinute = Math.round(astrologerData.charges);
+  const totalTimeSecond = (userTotalAmount / astroChatPricePerMinute) * 60;
 
   useEffect(() => {
-    if (totalChatTime > 0 && showUserData?.freeChatStatus == false) {
-      const maxAffordableTime = Math.floor(
-        (userTotalAmount / astroChatPricePerMinute) * 60 - 1
-      );
-
+    if (totalChatTime > 0 && showUserData?.freeChatStatus === false) {
+      const maxAffordableTime = Math.floor(totalTimeSecond - 1);
       if (totalChatTime >= maxAffordableTime) {
-        const remainingBalance = 0;
-        console.log(totalChatTime, userTotalAmount, maxAffordableTime);
         setActualChargeUserChat(userTotalAmount);
-
         endChatStatus();
-        console.log("Automatically ending chat due to balance exhaustion...");
       }
     }
   }, [totalChatTime, userTotalAmount, astroChatPricePerMinute]);
-  // if user balance is over then cut the automatic call End
 
   const intervals = Math.ceil(totalChatTime / 60);
   const totalChatPrice = Math.min(intervals * astroChatPricePerMinute);
   const remainingBalance = userTotalAmount - totalChatPrice;
+
   const handleEndChatClick = () => {
     setActualChargeUserChat(totalChatPrice);
     setShowEndChat(true);
@@ -485,9 +422,9 @@ POB: ${showUserData?.placeOfBorn}<br/>`,
                       placeholder="Type a message"
                       value={message}
                       // onChange={(e) => setMessage(e.target.value)}
-                       onChange={(e) => {
+                      onChange={(e) => {
                         setMessage(e.target.value);
-                        handleTyping(); 
+                        handleTyping();
                       }}
                       onKeyDown={handleKeyDown}
                     />

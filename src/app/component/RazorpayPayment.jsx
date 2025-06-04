@@ -1,20 +1,20 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useRazorpay } from "react-razorpay";
 import { toast } from "react-toastify";
+import secureLocalStorage from "react-secure-storage";
 import { useRouter } from "next/navigation";
 
 const RazorpayPayment = ({ totalFinalPrice, extraAmount, totalAmount }) => {
   const { error, isLoading, Razorpay } = useRazorpay();
-
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+
   const [userMobile, setUserMobile] = useState();
 
   useEffect(() => {
     const userMobiles = localStorage.getItem("userMobile");
-
     setUserMobile(userMobiles);
   }, []);
 

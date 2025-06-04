@@ -18,7 +18,7 @@ const UserList = ({setUserListData}) => {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login?page=${pageNumber}&limit=2`
       );  
-     secureLocalStorage.setItem("totalUsersList",res.data.totalUsers)
+     localStorage.setItem("totalUsersList",res.data.totalUsers)
       setUserMainData(res.data.users);
       setPage(res.data.page);
       setTotalPages(res.data.totalPages);

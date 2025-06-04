@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import secureLocalStorage from "react-secure-storage";
 import AdminDashBoardData from "./AdminDashBoardData";
 import AdminWallet from "./AdminWallet";
 import AstroLogerList from "./AstroLogerList";
@@ -28,12 +27,17 @@ import ChangePassword from "./ChangePassword";
 
 const AdminHome = () => {
   const router = useRouter();
-  const admin_id = secureLocalStorage.getItem("admin_id");
   const [updateButton, setUpdateButton] = useState(1);
   const [astroListToggle, setAstroListToggle] = useState(false);
   const [adminWalletToggle, setAdminWalletToggle] = useState(false);
   const [adminSideSettingToggle, setAdminSideSettingToggle] = useState(false);
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
+  const [admin_id, setAdmin_id] = useState();
+
+  useEffect(() => {
+    const admin_ids = localStorage.getItem("admin_id");
+    setAdmin_id(admin_ids);
+  }, []);
 
   useEffect(() => {
     if (!admin_id) {
@@ -42,7 +46,7 @@ const AdminHome = () => {
   }, [admin_id]);
 
   const handleAdminLogOut = () => {
-    secureLocalStorage.removeItem("admin_id");
+    localStorage.removeItem("admin_id");
     window.dispatchEvent(new Event("admin_id_updated"));
     router.push("/admin");
   };
