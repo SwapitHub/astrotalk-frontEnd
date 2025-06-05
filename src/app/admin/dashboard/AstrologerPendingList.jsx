@@ -2,7 +2,6 @@
 import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import secureLocalStorage from "react-secure-storage";
 
 function AstrologerPendingList() {
   const [pendingData, setPendingData] = useState([]);
@@ -28,11 +27,7 @@ function AstrologerPendingList() {
       setTotalPages(res.data.totalPages);
       setHasNextPage(res.data.hasNextPage);
       setHasPrevPage(res.data.hasPrevPage);
-       localStorage.setItem(
-        "totalAstroPending",
-        res.data.totalAstrologers
-      );
-      secureLocalStorage.setItem(
+       secureLocalStorage.setItem(
         "totalAstroPending",
         res.data.totalAstrologers
       );

@@ -136,7 +136,6 @@ console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
     const handleNewNotification = (data) => {
       console.log("Received data:", data.astrologerData);
       secureLocalStorage.setItem("astrologerId", data.astrologerData?._id);
-      localStorage.setItem("astrologerId", data.astrologerData?._id);
       setAstrologerId(data.astrologerData?._id);
       console.log(data.astrologerData?._id);
 
@@ -153,10 +152,6 @@ console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
         setAstrologerNotificationStatus((prevStatus) => {
           if (prevStatus !== newStatus) {
             secureLocalStorage.setItem(
-              "AstrologerNotificationStatus",
-              newStatus
-            ); 
-            localStorage.setItem(
               "AstrologerNotificationStatus",
               newStatus
             );
@@ -370,10 +365,6 @@ console.log("===============sasasa");
           "AstrologerNotificationStatus",
           updatedAstrologerData.chatStatus
         );
-         localStorage.setItem(
-          "AstrologerNotificationStatus",
-          updatedAstrologerData.chatStatus
-        );
         setAstrologerNotificationStatus(updatedAstrologerData.chatStatus);
 
         console.log("Astrologer status updated:", updatedAstrologerData);
@@ -410,9 +401,7 @@ console.log("===============sasasa");
           setTimeLeft((prevTime) => {
             const newTime = prevTime + 1;
             secureLocalStorage.setItem("chatTimeLeft", newTime.toString());
-            localStorage.setItem("chatTimeLeft", newTime.toString());
             secureLocalStorage.setItem("totalChatTime", newTime.toString());
-            localStorage.setItem("totalChatTime", newTime.toString());
             return newTime;
           });
         }, 1000);

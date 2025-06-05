@@ -5,15 +5,9 @@ import React, { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 
 const MyWalletPaymentLog = () => {
+  const userPhone = Math.round(secureLocalStorage.getItem("userMobile"));
   const [userData, setUserData] = useState();
   console.log(userPhone);
-
- const [userPhone, setUserPhone] = useState();
-
-  useEffect(() => {
-    const userPhones = Math.round(localStorage.getItem("userMobile"));
-    setUserPhone(userPhones);
-  }, []);
 
   useEffect(() => {
     const fetchOrderUserList = async () => {

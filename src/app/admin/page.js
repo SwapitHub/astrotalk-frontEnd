@@ -16,12 +16,8 @@ const Admin = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
- const [admin_id, setAdmin_id] = useState();
 
-  useEffect(() => {
-    const admin_ids = localStorage.getItem("admin_id");
-    setAdmin_id(admin_ids);
-  }, []);
+  const admin_id = secureLocalStorage.getItem("admin_id");
 
   useEffect(() => {
     // Redirect to dashboard if already logged in
@@ -40,7 +36,6 @@ const Admin = () => {
       const admin = admins[0];
 
       if (admin?.email === email && admin?.password === password) {
-        localStorage.setItem("admin_id", admin._id);
         secureLocalStorage.setItem("admin_id", admin._id);
         router.push("/admin/dashboard");
         window.dispatchEvent(new Event("admin_id_updated"));

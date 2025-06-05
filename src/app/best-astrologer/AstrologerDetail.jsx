@@ -34,31 +34,19 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
 });
 export const AstrologerDetail = ({ astrologerData }) => {
   const router = useRouter();
+  const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
+  const userIds = secureLocalStorage.getItem("userIds");
   const [showRecharge, setShowRecharge] = useState(false);
   const [astroMobileNum, setAstroMobileNum] = useState();
   const [astrologerId, setAstrologerId] = useState();
 
   const [userData, setUserData] = useState();
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
-  const [isLoadingRequest, setIsLoadingRequest] = useState();
+  const [isLoadingRequest, setIsLoadingRequest] = useState(
+    secureLocalStorage.getItem("IsLoadingRequestStore")
+  );
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(null);
-
-  const [userIds, setUserIds] = useState(null);
-  const [userMobile, setUserMobile] = useState(null);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const id = localStorage.getItem("userIds");
-      const mobile = localStorage.getItem("userMobile");
-      const loadingReq = localStorage.getItem("IsLoadingRequestStore");
-
-      console.log(id, mobile, "userId-userMobile (safe read)");
-      setUserIds(id);
-      setUserMobile(mobile);
-      setIsLoadingRequest(loadingReq);
-    }
-  }, []);
 
   useEffect(() => {
     if (userMobile) {
@@ -95,11 +83,9 @@ export const AstrologerDetail = ({ astrologerData }) => {
         // await router.push(`/chat-with-astrologer/user/${userIds}`);
 
         // This code will run after the navigation is complete
-        localStorage.setItem("IsLoadingRequestStore", true);
         secureLocalStorage.setItem("IsLoadingRequestStore", true);
         setIsLoadingRequest(true);
 
-        localStorage.setItem("astrologerId", astrologerId);
         secureLocalStorage.setItem("astrologerId", astrologerId);
 
         const messageId = {
@@ -213,15 +199,12 @@ export const AstrologerDetail = ({ astrologerData }) => {
     if (isLoadingRequest) {
       if (astrologerId) {
         router.push(`/chat-with-astrologer/user/${userIds}`);
-        localStorage.setItem("astrologerId", astrologerId);
         secureLocalStorage.setItem("astrologerId", astrologerId);
 
-        localStorage.setItem("IsLoadingRequestStore", false);
         secureLocalStorage.setItem("IsLoadingRequestStore", false);
         setIsLoadingRequest(false);
       } else {
         setIsLoadingRequest(true);
-        localStorage.setItem("IsLoadingRequestStore", true);
         secureLocalStorage.setItem("IsLoadingRequestStore", true);
 
         console.log("No astrologer found. Timer fallback logic can go here.");
@@ -243,7 +226,6 @@ export const AstrologerDetail = ({ astrologerData }) => {
 
       setAstrologerNotificationStatus((prevStatus) => {
         if (prevStatus !== newStatus) {
-          localStorage.setItem("AstrologerNotificationStatus", newStatus);
           secureLocalStorage.setItem("AstrologerNotificationStatus", newStatus);
           return newStatus;
         }
@@ -432,12 +414,8 @@ export const AstrologerDetail = ({ astrologerData }) => {
                       </div>
                     ) : (
                       <div className="astrologer-call-button-ctm chatStatus-false">
-                        <Link
-                          href={
-                            userData?.chatStatus
-                              ? `/chat-with-astrologer/user/${userIds}`
-                              : "#"
-                          }
+                        <Link                         
+                          href={userData?.chatStatus?`/chat-with-astrologer/user/${userIds}`:"#"}
                           // onClick={() =>
                           //   onChangeId(item._id, item.mobileNumber)
                           // }
@@ -586,10 +564,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
                   </div>
                 </div>
               </div>
-              <AstrologerReview
-                astrologerData={astrologerData}
-                renderStars={renderStars}
-              />
+              <AstrologerReview  astrologerData={astrologerData} renderStars={renderStars}/>
             </div>
           </div>
         </div>

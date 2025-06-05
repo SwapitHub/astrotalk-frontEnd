@@ -9,18 +9,11 @@ import { useGlobalContext } from "@/context/HomeContext";
 
 const ProfilePopUp = ({astroDetailData}) => {
   const router = useRouter();
+  const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
     const { setUpdateButton } = useGlobalContext()
 
-
- const [astrologerPhone, setAstrologerPhone] = useState();
-
-  useEffect(() => {
-    const astrologerPhones = localStorage.getItem("astrologer-phone");
-    setAstrologerPhone(astrologerPhones);
-  }, []);
-
   const handleAdminLogOut = () => {
-    localStorage.removeItem("admin_id");
+    secureLocalStorage.removeItem("admin_id");
     window.dispatchEvent(new Event("admin_id_updated"));
     router.push("/admin");
   };
@@ -36,7 +29,7 @@ const ProfilePopUp = ({astroDetailData}) => {
       console.log(response);
 
       if (response.data.message == "Success") {
-        localStorage.removeItem("astrologer-phone");
+        secureLocalStorage.removeItem("astrologer-phone");
         router.push("/");
         setTimeout(() => {
           window.location.reload();

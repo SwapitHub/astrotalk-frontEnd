@@ -13,7 +13,7 @@ const ChatCommission = () => {
   useEffect(() => {
     fetchChatCommission();
 
-    const storedStatus = localStorage.getItem("buttonStatus");
+    const storedStatus = secureLocalStorage.getItem("buttonStatus");
     setDisableButton(storedStatus === "true"); 
   }, []);
 
@@ -41,7 +41,7 @@ const ChatCommission = () => {
         });
         document.getElementById("AdminCommission").value = "";
         fetchChatCommission();
-        setDisableButton(localStorage.setItem("buttonStatus", "true"));
+        setDisableButton(secureLocalStorage.setItem("buttonStatus", "true"));
         setDisableButton(true);
       }
     } catch (error) {
@@ -77,7 +77,7 @@ const ChatCommission = () => {
           position: "top-right",
         });
         fetchChatCommission();
-        localStorage.removeItem("buttonStatus");
+        secureLocalStorage.removeItem("buttonStatus");
         setDisableButton(false);
       }
     } catch (err) {

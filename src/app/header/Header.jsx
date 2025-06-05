@@ -17,12 +17,9 @@ const Header = () => {
   const [isLoading, setIsLoading] = useState(false);
 const [toggleMobile, setToggleMobile] = useState(false);
 
-   const [admin_id, setAdmin_id] = useState();
-
-  useEffect(() => {
-    const admin_ids = localStorage.getItem("admin_id");
-    setAdmin_id(admin_ids);
-  }, []);
+  const [admin_id, setAdmin_id] = useState(() =>
+    secureLocalStorage.getItem("admin_id")
+  );
 
   // console.log(astrologerPhone,astroDetailData);
   const [userMobile, setUserMobile] = useState();
@@ -30,7 +27,7 @@ const [toggleMobile, setToggleMobile] = useState(false);
 
   useEffect(() => {
     const handleStorageChange = () => {
-      const updatedId = localStorage.getItem("admin_id");
+      const updatedId = secureLocalStorage.getItem("admin_id");
       setAdmin_id(updatedId);
     };
 
@@ -43,19 +40,19 @@ const [toggleMobile, setToggleMobile] = useState(false);
   }, []);
 
   useEffect(() => {
-    const astrologerPhone = localStorage.getItem("astrologer-phone");
+    const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
     setAstrologerPhone(astrologerPhone);
   }, []);
 
   // Watch for userMobile updates
   useEffect(() => {
-    const storedMobile = localStorage.getItem("userMobile");
+    const storedMobile = secureLocalStorage.getItem("userMobile");
     if (storedMobile) {
       setUserMobile(Math.round(storedMobile));
     }
 
     const handleStorageChange = () => {
-      const updatedMobile = localStorage.getItem("userMobile");
+      const updatedMobile = secureLocalStorage.getItem("userMobile");
       if (updatedMobile) {
         setUserMobile(updatedMobile);
         // fetchUserDetail();
@@ -100,10 +97,10 @@ const [toggleMobile, setToggleMobile] = useState(false);
 
   const userLogout = () => {
     window.dispatchEvent(new Event(""));
-    localStorage.removeItem("userIds");
-    localStorage.removeItem("userMobile");
-    localStorage.removeItem("astrologerId");
-    localStorage.removeItem("AstrologerNotificationStatus");
+    secureLocalStorage.removeItem("userIds");
+    secureLocalStorage.removeItem("userMobile");
+    secureLocalStorage.removeItem("astrologerId");
+    secureLocalStorage.removeItem("AstrologerNotificationStatus");
     setUserMobile(null);
   };
 
@@ -261,12 +258,12 @@ useEffect(() => {
                                   </Link>
                                 </li>
                                 <li>
-                                  <a
+                                  <Link
                                     href="/order-history/chat"
                                     title="order history"
                                   >
                                     Order History
-                                  </a>
+                                  </Link>
                                 </li>
                               </>
                             )}

@@ -31,9 +31,8 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
 
 const ChatHistory = () => {
   const router = useRouter();
-  // const userIds = localStorage.getItem("userIds");
-  // const userMobile = localStorage.getItem("userMobile");
-
+  const userIds = secureLocalStorage.getItem("userIds");
+  const userMobile = secureLocalStorage.getItem("userMobile");
   const [showRecharge, setShowRecharge] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [deleteId, setDeleteId] = useState();
@@ -45,34 +44,14 @@ const ChatHistory = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
   const [shareOpenPopup, setShareOpenPopup] = useState(false);
-  const [showUserIdToAst, setShowUserIdToAst] = useState(null);
-  const [astrologerIdToAst, setAstrologerIdToAst] = useState(null);
-  const [isLoadingRequest, setIsLoadingRequest] = useState(false);
-
+  const [showUserIdToAst, setShowUserIdToAst] = useState(secureLocalStorage.getItem("userIdToAst"));
+  const [astrologerIdToAst, setAstrologerIdToAst] = useState(secureLocalStorage.getItem("astrologerIdToAst"));
+  const [isLoadingRequest, setIsLoadingRequest] = useState(
+    secureLocalStorage.getItem("IsLoadingRequestStore")
+  );
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(null);
   const [astrologerId, setAstrologerId] = useState();
-
-  const [userIds, setUserIds] = useState(null);
-  const [userMobile, setUserMobile] = useState(null);
-
-  useEffect(() => {
-    setShowUserIdToAst(localStorage.getItem("userIdToAst"));
-    setAstrologerIdToAst(localStorage.getItem("astrologerIdToAst"));
-    setIsLoadingRequest(secureLocalStorage.getItem("IsLoadingRequestStore"));
-  }, []);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Try localStorage first, fallback to localStorage
-      const id = localStorage.getItem("userIds");
-      const mobile = localStorage.getItem("userMobile");
-
-      console.log(id, mobile, "userId-userMobile (safe read)");
-      setUserIds(id);
-      setUserMobile(mobile);
-    }
-  }, []);
 
   console.log("====astroMessageList", astroMessageList);
   const deleteOrderHistory = (id) => {
@@ -137,25 +116,19 @@ const ChatHistory = () => {
     }
   }, [userIds, page]);
 
+  const fetchDataUserDetail = async () => {
+    try {
+      const data = await axios.get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
+      );
+      setUserData(data.data.data);
+    } catch (error) {
+      console.error("Error fetching fetchDataUserDetail:", error);
+    }
+  };
   useEffect(() => {
-    if (!userMobile) return;
-
-    const fetchUser = async () => {
-      try {
-        const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
-        );
-        setUserData(res.data.data);
-      } catch (error) {
-        console.error(
-          "Error fetching user detail:",
-          error.response?.data || error.message
-        );
-      }
-    };
-
-    fetchUser();
-  }, [userMobile]);
+    fetchDataUserDetail();
+  }, []);
 
   const userAmount = userData?.totalAmount;
 
@@ -173,10 +146,8 @@ const ChatHistory = () => {
         // await router.push(`/chat-with-astrologer/user/${userIds}`);
 
         // This code will run after the navigation is complete
-        localStorage.setItem("IsLoadingRequestStore", true);
         secureLocalStorage.setItem("IsLoadingRequestStore", true);
         setIsLoadingRequest(true);
-        localStorage.setItem("astrologerId", astrologerId);
         secureLocalStorage.setItem("astrologerId", astrologerId);
 
         const messageId = {
@@ -217,15 +188,12 @@ const ChatHistory = () => {
     if (isLoadingRequest) {
       if (astrologerId) {
         router.push(`/chat-with-astrologer/user/${userIds}`);
-        localStorage.setItem("astrologerId", astrologerId);
         secureLocalStorage.setItem("astrologerId", astrologerId);
 
-        localStorage.setItem("IsLoadingRequestStore", false);
         secureLocalStorage.setItem("IsLoadingRequestStore", false);
         setIsLoadingRequest(false);
       } else {
         setIsLoadingRequest(true);
-        localStorage.setItem("IsLoadingRequestStore", true);
         secureLocalStorage.setItem("IsLoadingRequestStore", true);
 
         console.log("No astrologer found. Timer fallback logic can go here.");
@@ -247,7 +215,6 @@ const ChatHistory = () => {
 
       setAstrologerNotificationStatus((prevStatus) => {
         if (prevStatus !== newStatus) {
-          localStorage.setItem("AstrologerNotificationStatus", newStatus);
           secureLocalStorage.setItem("AstrologerNotificationStatus", newStatus);
           return newStatus;
         }
@@ -273,10 +240,8 @@ const ChatHistory = () => {
 
   const showSharePopUp = (userIdToAst, astrologerIdToAst) => {
     console.log(userIdToAst);
-    localStorage.setItem("userIdToAst", userIdToAst);
-    secureLocalStorage.setItem("userIdToAst", userIdToAst);
-    localStorage.setItem("astrologerIdToAst", astrologerIdToAst);
-    secureLocalStorage.setItem("astrologerIdToAst", astrologerIdToAst);
+    secureLocalStorage.setItem("userIdToAst",userIdToAst)
+    secureLocalStorage.setItem("astrologerIdToAst",astrologerIdToAst)
     setShareOpenPopup(true);
     setShowUserIdToAst(userIdToAst);
     setAstrologerIdToAst(astrologerIdToAst);
@@ -408,11 +373,7 @@ const ChatHistory = () => {
                                       <div
                                         className="inner-order-list-data"
                                         onClick={() => {
-                                          localStorage.setItem(
-                                            "astrologerId",
-                                            item?.astrologerIdToAst
-                                          );
-                                           secureLocalStorage.setItem(
+                                          secureLocalStorage.setItem(
                                             "astrologerId",
                                             item?.astrologerIdToAst
                                           );
@@ -421,6 +382,7 @@ const ChatHistory = () => {
                                           );
                                         }}
                                       >
+                                        
                                         <div className="date-and-tine-sec">
                                           <p>
                                             {new Date(
@@ -560,10 +522,7 @@ const ChatHistory = () => {
                                     <p>
                                       <button
                                         onClick={() =>
-                                          showSharePopUp(
-                                            item?.userIdToAst,
-                                            item?.astrologerIdToAst
-                                          )
+                                          showSharePopUp(item?.userIdToAst, item?.astrologerIdToAst)
                                         }
                                       >
                                         <img

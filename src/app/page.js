@@ -7,7 +7,7 @@ import secureLocalStorage from "react-secure-storage";
 export default function Home() {
   const [astrologerPhone, setAstrologerPhone] = useState()
   useEffect(()=>{
-    const astrologerPhone = localStorage.getItem("astrologer-phone");
+    const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
     setAstrologerPhone(astrologerPhone)
   },[])
 

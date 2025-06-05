@@ -30,12 +30,16 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
 const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
   const router = useRouter();
   const [showAstrologer, setShowAstrologer] = useState(null);
+  const userIds = secureLocalStorage.getItem("userIds");
+  const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
   const [showRecharge, setShowRecharge] = useState(false);
   const [userData, setUserData] = useState();
   const [astroMobileNum, setAstroMobileNum] = useState();
   const [searchName, setSearchName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingRequest, setIsLoadingRequest] = useState();
+  const [isLoadingRequest, setIsLoadingRequest] = useState(
+    secureLocalStorage.getItem("IsLoadingRequestStore")
+  );
   const [error, setError] = useState(null);
   const [sortFilterStatus, setSortFilterStatus] = useState(false);
   const [multiFilterStatus, setMultiFilterStatus] = useState(false);
@@ -45,60 +49,27 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(null);
   const [skipFetch, setSkipFetch] = useState(false);
+
   const [multiFilter, setMultiFilter] = useState();
-  const [userIds, setUserIds] = useState();
-  const [userMobile, setUserMobile] = useState();
+  const [genderData, setGenderData] = useState(
+    JSON.parse(secureLocalStorage.getItem("selectedGender")) || []
+  );
+  const [countryData, setCountryData] = useState(
+    JSON.parse(secureLocalStorage.getItem("selectedCountry")) || []
+  );
 
-  const [genderData, setGenderData] = useState([]);
-  const [countryData, setCountryData] = useState([]);
-  const [findSkillsListData, setFindSkillsListData] = useState([]);
-  const [findLanguageListData, setFindLanguageListData] = useState([]);
-  const [averageRating, setAverageRating] = useState([]);
+  const [findSkillsListData, setFindSkillsListData] = useState(
+    JSON.parse(secureLocalStorage.getItem("selectedSkills")) || []
+  );
 
-  useEffect(() => {
-    const userMobile = Math.round(localStorage.getItem("userMobile"));
-    const userIds = localStorage.getItem("userIds");
-    const isLoading = localStorage.getItem("IsLoadingRequestStore");
+  const [findLanguageListData, setFindLanguageListData] = useState(
+    JSON.parse(secureLocalStorage.getItem("selectedLanguages")) || []
+  );
 
-    setIsLoading(isLoading);
-    setUserIds(userIds);
-    setUserMobile(userMobile);
+  const [averageRating, setAverageRating] = useState(
+    JSON.parse(secureLocalStorage.getItem("averageRating")) || []
+  );
 
-    try {
-      const storedGender = localStorage.getItem("selectedGender");
-      if (storedGender) setGenderData(JSON.parse(storedGender));
-    } catch (e) {
-      setGenderData([]);
-    }
-
-    try {
-      const storedCountry = localStorage.getItem("selectedCountry");
-      if (storedCountry) setCountryData(JSON.parse(storedCountry));
-    } catch {
-      setCountryData([]);
-    }
-
-    try {
-      const storedSkills = localStorage.getItem("selectedSkills");
-      if (storedSkills) setFindSkillsListData(JSON.parse(storedSkills));
-    } catch {
-      setFindSkillsListData([]);
-    }
-
-    try {
-      const storedLanguages = localStorage.getItem("selectedLanguages");
-      if (storedLanguages) setFindLanguageListData(JSON.parse(storedLanguages));
-    } catch {
-      setFindLanguageListData([]);
-    }
-
-    try {
-      const storedRating = localStorage.getItem("averageRating");
-      if (storedRating) setAverageRating(JSON.parse(storedRating));
-    } catch {
-      setAverageRating([]);
-    }
-  }, []);
   console.log(userData);
 
   // Memoize the fetch function to prevent unnecessary recreations
@@ -198,11 +169,9 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
         // await router.push(`/chat-with-astrologer/user/${userIds}`);
 
         // This code will run after the navigation is complete
-        localStorage.setItem("IsLoadingRequestStore", true);
         secureLocalStorage.setItem("IsLoadingRequestStore", true);
         setIsLoadingRequest(true);
 
-        localStorage.setItem("astrologerId", astrologerId);
         secureLocalStorage.setItem("astrologerId", astrologerId);
 
         const messageId = {
@@ -287,7 +256,6 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
       const newStatus = data.astrologerData.chatStatus;
       setAstrologerNotificationStatus((prevStatus) => {
         if (prevStatus !== newStatus) {
-          localStorage.setItem("AstrologerNotificationStatus", newStatus);
           secureLocalStorage.setItem("AstrologerNotificationStatus", newStatus);
           return newStatus;
         }
@@ -315,15 +283,12 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     if (isLoadingRequest) {
       if (astrologerId) {
         router.push(`/chat-with-astrologer/user/${userIds}`);
-        localStorage.setItem("astrologerId", astrologerId);
         secureLocalStorage.setItem("astrologerId", astrologerId);
 
-        localStorage.setItem("IsLoadingRequestStore", false);
         secureLocalStorage.setItem("IsLoadingRequestStore", false);
         setIsLoadingRequest(false);
       } else {
         setIsLoadingRequest(true);
-        localStorage.setItem("IsLoadingRequestStore", true);
         secureLocalStorage.setItem("IsLoadingRequestStore", true);
 
         console.log("No astrologer found. Timer fallback logic can go here.");
@@ -337,7 +302,6 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
   const handleUpdateUserDetail = async (e) => {
     e.preventDefault();
     setIsLoadingRequest(true);
-    localStorage.setItem("IsLoadingRequestStore", true);
     secureLocalStorage.setItem("IsLoadingRequestStore", true);
 
     try {
@@ -391,7 +355,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
       return;
     }
 
-    // localStorage.setItem("astrologerId", item._id);
+    // secureLocalStorage.setItem("astrologerId", item._id);
 
     const messageId = {
       userIdToAst: userIds,
@@ -589,18 +553,19 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                             href={`/best-astrologer/${item?.name}`}
                             key={item.id}
                           >
-                            {item.topAstrologer && (
+                            {
+                              item.topAstrologer &&
                               <div className="star-banner">
-                                {item.topAstrologer == "celebrity"
-                                  ? "Celebrity"
-                                  : item.topAstrologer == "rising_star"
-                                  ? "Rising Star"
-                                  : item.topAstrologer == "top_choice"
-                                  ? "Top Choice"
-                                  : ""}
-                              </div>
-                            )}
-
+                              {item.topAstrologer == "celebrity"
+                                ? "Celebrity"
+                                : item.topAstrologer == "rising_star"
+                                ? "Rising Star"
+                                : item.topAstrologer == "top_choice"
+                                ? "Top Choice"
+                                : ""}
+                            </div>
+                            }
+                            
                             <div className="astrologer-list-left">
                               <div className="astrologer-profile">
                                 <img
@@ -706,11 +671,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                               ) : (
                                 <div className="astrologer-call-button-ctm chatStatus-false">
                                   <Link
-                                    href={
-                                      userData?.chatStatus
-                                        ? `/chat-with-astrologer/user/${userIds}`
-                                        : "#"
-                                    }
+                                    href={userData?.chatStatus?`/chat-with-astrologer/user/${userIds}`:"#"}
                                     // onClick={() =>
                                     //   onChangeId(item._id, item.mobileNumber)
                                     // }

@@ -7,12 +7,7 @@ import secureLocalStorage from "react-secure-storage";
 const WalletPriceList = () => {
   const [denominationList, setDenominationList] = useState([]);
   const [userData, setUserData] = useState();
-  const [userMobile, setUserMobile] = useState();
-
-  useEffect(() => {
-    const userMobiles = Math.round(localStorage.getItem("userMobile"));
-    setUserMobile(userMobiles);
-  }, []);
+  const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
 
   useEffect(() => {
     axios
@@ -54,10 +49,7 @@ const WalletPriceList = () => {
             return (
               <>
                 <div className="inner-popular-recharge-sec" key={item._id}>
-                  <Link
-                    href={`/add-wallet-money/payment?pmt=${item._id}`}
-                    title="Money "
-                  >
+                  <Link href={`/add-wallet-money/payment?pmt=${item._id}`} title="Money ">
                     <div className="popular-amount">
                       <span>₹ {item.amount}</span>
                     </div>
@@ -71,6 +63,7 @@ const WalletPriceList = () => {
                     )}
                   </Link>
                 </div>
+                
               </>
             );
           })}

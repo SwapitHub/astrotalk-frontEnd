@@ -12,14 +12,10 @@ function AstrologerWallet() {
   const [hasPrevPage, setHasPrevPage] = useState(false);
   const [totalAvailableBalance, setTotalAvailableBalance] = useState();
   const [loading, setLoading] = useState(false);
-
-
- const [astrologerPhone, setAstrologerPhone] = useState();
-
-  useEffect(() => {
-    const astrologerPhones = localStorage.getItem("astrologer-phone");
-    setAstrologerPhone(astrologerPhones);
-  }, []);
+  const astrologerPhone =
+    typeof window !== "undefined"
+      ? secureLocalStorage.getItem("astrologer-phone")
+      : null;
 
       
       

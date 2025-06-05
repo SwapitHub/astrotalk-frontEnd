@@ -19,7 +19,8 @@ const MultiFilters = ({
   skillsListData,
 
   setAverageRating,
-  averageRating,
+  averageRating
+
 }) => {
   const [activeTab, setActiveTab] = useState("skill");
   const [getProfessionsList, setGetProfessionsList] =
@@ -28,88 +29,63 @@ const MultiFilters = ({
     useState(findLanguageListData);
   const [getGenderListData, setGetGenderListData] = useState(genderData);
   const [getCountryListData, setGetCountryListData] = useState(countryData);
-  const [getTopAstrologerData, setGetTopAstrologerData] =
-    useState(averageRating);
+  const [getTopAstrologerData, setGetTopAstrologerData] = useState(averageRating);
   const [errors, setErrors] = useState({});
-  console.log(getTopAstrologerData, averageRating);
+console.log(getTopAstrologerData, averageRating);
 
   useEffect(() => {
+    
     const storedLanguages = JSON.parse(
-      localStorage.getItem("selectedLanguages")
+      secureLocalStorage.getItem("selectedLanguages")
     );
-    const storedSkills = JSON.parse(
-      localStorage.getItem("selectedSkills")
-    );
-    const storedGender = JSON.parse(
-      localStorage.getItem("selectedGender")
-    );
-    const storedCountry = JSON.parse(
-      localStorage.getItem("selectedCountry")
-    );
-    const storedRating = JSON.parse(
-      localStorage.getItem("averageRating")
-    );
+    const storedSkills = JSON.parse(secureLocalStorage.getItem("selectedSkills"));
+    const storedGender = JSON.parse(secureLocalStorage.getItem("selectedGender"));
+    const storedCountry = JSON.parse(secureLocalStorage.getItem("selectedCountry"));
+    const storedRating = JSON.parse(secureLocalStorage.getItem("averageRating"));
 
-    // If no data, first time -> Save default data into localStorage
-    if (
-      !storedLanguages ||
-      !storedSkills ||
-      !storedGender ||
-      !storedCountry ||
-      !storedRating
-    ) {
+    // If no data, first time -> Save default data into secureLocalStorage
+    if (!storedLanguages || !storedSkills || !storedGender || !storedCountry || !storedRating ) {
       const defaultLanguages = languageListData.map((lang) => lang.languages);
       const defaultSkills = skillsListData.map((skill) => skill.professions);
-      const defaultGender = ["Male", "Female"];
-      const defaultCountry = ["India", "Outside_India"];
+      const defaultGender = ["Male", "Female"]; 
+      const defaultCountry = ["India", "Outside_India"]; 
       const defaultRating = ["celebrity", "top_choice", "rising_star", "All"];
-      localStorage.setItem(
+      secureLocalStorage.setItem(
         "selectedLanguages",
         JSON.stringify(defaultLanguages)
       );
-      localStorage.setItem(
-        "selectedSkills",
-        JSON.stringify(defaultSkills)
-      );
-      localStorage.setItem(
-        "selectedGender",
-        JSON.stringify(defaultGender)
-      );
-      localStorage.setItem(
-        "selectedCountry",
-        JSON.stringify(defaultCountry)
-      );
-      localStorage.setItem(
-        "averageRating",
-        JSON.stringify(defaultRating)
-      );
+      secureLocalStorage.setItem("selectedSkills", JSON.stringify(defaultSkills));
+      secureLocalStorage.setItem("selectedGender", JSON.stringify(defaultGender));
+      secureLocalStorage.setItem("selectedCountry", JSON.stringify(defaultCountry));
+      secureLocalStorage.setItem("averageRating", JSON.stringify(defaultRating));
 
       setGetLanguageListData(defaultLanguages);
       setGetProfessionsList(defaultSkills);
       setGetGenderListData(defaultGender);
       setGetCountryListData(defaultCountry);
-      setGetTopAstrologerData(defaultRating);
+      setGetTopAstrologerData(defaultRating)
 
       // Also update parent states
       setFindLanguageListData(defaultLanguages);
       setFindSkillsListData(defaultSkills);
       setGenderData(defaultGender);
       setCountryData(defaultCountry);
-      setAverageRating(defaultRating);
+      setAverageRating(defaultRating)
     } else {
-      // If data exists, load from localStorage
+      // If data exists, load from secureLocalStorage
       setGetLanguageListData(storedLanguages);
       setGetProfessionsList(storedSkills);
       setGetGenderListData(storedGender);
       setGetCountryListData(storedCountry);
-      setGetTopAstrologerData(storedRating);
+      setGetTopAstrologerData(storedRating)
+
 
       // Also update parent states
       setFindLanguageListData(storedLanguages);
       setFindSkillsListData(storedSkills);
       setGenderData(storedGender);
       setCountryData(storedCountry);
-      setAverageRating(storedRating);
+      setAverageRating(storedRating)
     }
   }, [languageListData, skillsListData]);
 
@@ -122,33 +98,22 @@ const MultiFilters = ({
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length > 0) return;
 
-    localStorage.setItem(
+    secureLocalStorage.setItem(
       "selectedLanguages",
       JSON.stringify(getLanguageListData)
     );
-    localStorage.setItem(
-      "selectedSkills",
-      JSON.stringify(getProfessionsList)
-    );
-    localStorage.setItem(
-      "selectedGender",
-      JSON.stringify(getGenderListData)
-    );
-    localStorage.setItem(
-      "selectedCountry",
-      JSON.stringify(getCountryListData)
-    );
-    localStorage.setItem(
-      "averageRating",
-      JSON.stringify(getTopAstrologerData)
-    );
+    secureLocalStorage.setItem("selectedSkills", JSON.stringify(getProfessionsList));
+    secureLocalStorage.setItem("selectedGender", JSON.stringify(getGenderListData));
+    secureLocalStorage.setItem("selectedCountry", JSON.stringify(getCountryListData));
+    secureLocalStorage.setItem("averageRating", JSON.stringify(getTopAstrologerData));
+
 
     // Set in parent state also
     setFindLanguageListData(getLanguageListData);
     setFindSkillsListData(getProfessionsList);
     setGenderData(getGenderListData);
     setCountryData(getCountryListData);
-    setAverageRating(getTopAstrologerData);
+    setAverageRating(getTopAstrologerData)
 
     setTimeout(() => {
       setMultiFilterStatus(false);
@@ -185,34 +150,29 @@ const MultiFilters = ({
     const defaultSkills = skillsListData.map((skill) => skill.professions);
     const defaultGender = ["Male", "Female"];
     const defaultCountry = ["India", "Outside_India"];
-    const defaultRating = ["celebrity", "top_choice", "rising_star", "All"];
+    const defaultRating = ["celebrity", "top_choice", "rising_star","All"];
 
     // Update local state
     setGetLanguageListData(defaultLanguages);
     setGetProfessionsList(defaultSkills);
     setGetGenderListData(defaultGender);
     setGetCountryListData(defaultCountry);
-    setGetTopAstrologerData(defaultRating);
+    setGetTopAstrologerData(defaultRating)
 
     // Update parent state too
     setFindLanguageListData(defaultLanguages);
     setFindSkillsListData(defaultSkills);
     setGenderData(defaultGender);
     setCountryData(defaultCountry);
-    setAverageRating(defaultRating);
+    setAverageRating(defaultRating)
 
-    // Save into localStorage
-    localStorage.setItem(
-      "selectedLanguages",
-      JSON.stringify(defaultLanguages)
-    );
-    localStorage.setItem("selectedSkills", JSON.stringify(defaultSkills));
-    localStorage.setItem("selectedGender", JSON.stringify(defaultGender));
-    localStorage.setItem(
-      "selectedCountry",
-      JSON.stringify(defaultCountry)
-    );
-    localStorage.setItem("averageRating", JSON.stringify(defaultRating));
+    // Save into secureLocalStorage
+    secureLocalStorage.setItem("selectedLanguages", JSON.stringify(defaultLanguages));
+    secureLocalStorage.setItem("selectedSkills", JSON.stringify(defaultSkills));
+    secureLocalStorage.setItem("selectedGender", JSON.stringify(defaultGender));
+    secureLocalStorage.setItem("selectedCountry", JSON.stringify(defaultCountry));
+    secureLocalStorage.setItem("averageRating", JSON.stringify(defaultRating));
+
 
     setMultiFilterStatus(false);
   };
@@ -221,12 +181,12 @@ const MultiFilters = ({
     const defaultSkills = skillsListData.map((skill) => skill.professions);
     setGetProfessionsList(defaultSkills);
     setFindSkillsListData(defaultSkills);
-    localStorage.setItem("selectedSkills", JSON.stringify(defaultSkills));
+    secureLocalStorage.setItem("selectedSkills", JSON.stringify(defaultSkills));
   };
   const handleChangeClearAll = () => {
     setGetProfessionsList([]);
     setFindSkillsListData([]);
-    localStorage.setItem("selectedSkills", JSON.stringify([]));
+    secureLocalStorage.setItem("selectedSkills", JSON.stringify([]));
   };
 
   return (
@@ -415,64 +375,39 @@ const MultiFilters = ({
                   <input type="checkbox" name="Offer" /> <span>Not Active</span>
                 </label>
               </div>
-
-              <div
-                className={`tab-pane ${
-                  activeTab === "top Astrologer" ? "active" : ""
-                }`}
-                id="top"
-              >
-                {[
-                  {
-                    value: "celebrity",
-                    label: "Celebrity",
-                    desc: "They have the highest fan following & people are crazy about them",
-                  },
-                  {
-                    value: "top_choice",
-                    label: "Top Choice",
-                    desc: "If you talk to them once, you are their customer for life",
-                  },
-                  {
-                    value: "rising_star",
-                    label: "Rising Star",
-                    desc: "They are high in demand & have strong customer loyalty",
-                  },
-                  {
-                    value: "All",
-                    label: "All",
-                    desc: "Includes all verified astrologers, hired after 5 rounds of interviews",
-                  },
-                ].map(({ value, label, desc }) => (
-                  <label key={value}>
-                    <input
-                      type="checkbox"
-                      name="top_astrologer"
-                      value={value}
-                      checked={
-                        Array.isArray(getTopAstrologerData) &&
-                        getTopAstrologerData.includes(value)
-                      }
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (e.target.checked) {
-                          setGetTopAstrologerData((prev) =>
-                            Array.isArray(prev) ? [...prev, value] : [value]
-                          );
-                        } else {
-                          setGetTopAstrologerData((prev) =>
-                            Array.isArray(prev)
-                              ? prev.filter((l) => l !== value)
-                              : []
-                          );
-                        }
-                      }}
-                    />
-                    <span>{label}</span>
-                    <p>{desc}</p>
-                  </label>
-                ))}
-              </div>
+            
+                <div className={`tab-pane ${activeTab === "top Astrologer"? "active":""}`} id="top">
+                  {[
+                    { value: "celebrity", label: "Celebrity", desc: "They have the highest fan following & people are crazy about them" },
+                    { value: "top_choice", label: "Top Choice", desc: "If you talk to them once, you are their customer for life" },
+                    { value: "rising_star", label: "Rising Star", desc: "They are high in demand & have strong customer loyalty" },
+                    { value: "All", label: "All", desc: "Includes all verified astrologers, hired after 5 rounds of interviews" },
+                  ].map(({ value, label, desc }) => (
+                    <label key={value}>
+                      <input
+                         type="checkbox"
+                         name="top_astrologer"
+                         value={value}
+                         checked={Array.isArray(getTopAstrologerData) && getTopAstrologerData.includes(value)}
+                         onChange={(e) => {
+                           const value = e.target.value;
+                           if (e.target.checked) {
+                             setGetTopAstrologerData((prev) =>
+                               Array.isArray(prev) ? [...prev, value] : [value]
+                             );
+                           } else {
+                             setGetTopAstrologerData((prev) =>
+                               Array.isArray(prev) ? prev.filter((l) => l !== value) : []
+                             );
+                           }
+                         }}
+                      />
+                      <span>{label}</span>
+                      <p>{desc}</p>
+                    </label>
+                  ))}
+                </div>
+              
             </div>
           </div>
 
