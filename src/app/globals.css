@@ -547,6 +547,8 @@ nav.navbar ul {
   margin-left: 20px;
   padding: 9px 30px;
   font-size: 14px;
+  display: inline-block;
+  text-align: center;
 }
 .recharge-button:hover {
   background-color: #fff;
@@ -837,6 +839,7 @@ nav.navbar ul {
 }
 .astrologer-list-center {
   width: calc(100% - 145px);
+  padding-left: 10px;
 }
 .astrologer-list-right {
   position: relative;
@@ -859,6 +862,7 @@ nav.navbar ul {
   object-fit: cover;
   border-radius: 50%;
   object-position: top;
+  background-color: #e7e7e7;
 }
 .talk-to-name-sec h5 {
   font-size: 16px;
@@ -891,15 +895,27 @@ nav.navbar ul {
 .talk-to-time-sec {
   margin-top: 5px;
 }
-.astrologer-call-button-ctm button {
+.astrologer-call-button-ctm button, .astrologer-call-button-ctm-detail a, .astrologer-call-button-ctm a {
   color: #28ba51;
   background-color: #fff;
   border: 1px solid #28ba51;
   color: #28ba51;
   background-color: #fff;
   padding: 10px 30px;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
+  display: inline-block;
+  text-align: center;
+}
+.astrologer-call-button-ctm a {
+  padding: 5px 15px;
+  color: #13853a;
+  border-color: #13853a;
+}
+.astrologer-call-button-ctm a:hover, .astrologer-call-button-ctm-detail a:hover {
+  background-color: #28ba51;
+  border-color: #28ba51;
+  color: #ffffff;
 }
 .astrologer-call-button-ctm.chatStatus-false a {
   color: var(--primary_color);
@@ -1022,7 +1038,6 @@ nav.navbar ul {
 }
 .astrologer-registration-form,
 .user-registration-form {
-  max-width: 1024px;
   background: #f2f2f2;
   padding: 50px;
   margin: 20px auto 0px;
@@ -1736,7 +1751,6 @@ section.all-notifications-sec-bg {
 .my-wallet-table-sec table tr th {
   text-align: start;
   padding: 10px;
-  border-bottom: 1px solid #ccc;
 }
 .my-wallet-table-sec table tr td {
   text-align: start;
@@ -2037,16 +2051,6 @@ body.user-recharge:before {
 }
 .order-id-sec > ul > li.help-list-button-ctm .price {
   margin-top: 7px;
-}
-.astrologer-call-button-ctm a {
-  color: #13853a;
-  border: 1px solid #13853a;
-  font-size: 16px;
-  display: inline-block;
-  border-radius: 8px;
-  text-align: center;
-  padding: 5px 15px;
-  font-size: 14px;
 }
 .order-id-sec > ul > li.help-list-button-ctm .price,
 .order-id-sec > ul > li.help-list-button-ctm .images {
@@ -2429,6 +2433,7 @@ button.slick-arrow.slick-next::before {
   text-align: center;
   font-weight: 600;
   margin-bottom: 10px;
+  text-transform: capitalize;
 }
 .profile_with_contact_slider .about_us p {
   font-size: 14px;
@@ -2616,7 +2621,11 @@ span.star {
 .sort-modal .sort-options label input:checked + span::before {
   background-color: var(--primary_color);
 }
-
+button.reset {
+    float: left;
+    margin: 10px 0px 0px;
+}
+ 
 .AddLanguage .language-add-data {
   border-right: 1px solid #cfcfcf;
 }
@@ -4136,6 +4145,9 @@ button {
   .recharge-button {
     margin-left: 0px;
   }
+  .talk-to-astrologer-right-content {
+    justify-content: center;
+  }
   .send-input-button {
     max-width: calc(100% - 40px);
     width: 100%;
@@ -4234,8 +4246,8 @@ button {
 @media (max-width: 767px) {
   h1,
   .common-h1-heading {
-    font-size: 30px;
-    line-height: 40px;
+    font-size: 24px;
+    line-height: 36px;
   }
   /* Header Section */
   .header button,
@@ -4371,6 +4383,30 @@ button {
   .countdown-outer {
     min-width: 340px;
     max-width: calc(100% - 30px);
+  }
+  .inner-talk-to-astrologer-right-content > *:not(.search-box-top-btn) {
+    width: calc(100%/3 - 6.6666667px);
+  }
+  .inner-talk-to-astrologer-right-content > *:not(.search-box-top-btn) > * {
+    width: 100%;
+    padding-inline: 0;
+    justify-content: center;
+  }
+  .search-box-top-btn {
+    width: 100%;
+  }
+  .search-button-filed {
+    width: 45px;
+  }
+  .search-box-filed {
+    width: calc(100% - 45px);
+    max-width: 100%;
+  }
+  .astrologer-call-button-ctm-detail {
+    text-align: center;
+  }
+  .talk-to-astrologer-left-content {
+    justify-content: center;
   }
 }
 @media (max-width: 574px) {
