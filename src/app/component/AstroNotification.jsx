@@ -37,8 +37,10 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
 
     if (shouldReset) {
       localStorage.setItem("IsLoadingRequestStore", false);
+      secureLocalStorage.setItem("IsLoadingRequestStore", false);
       setUpdateNotification(null);
       localStorage.removeItem("requestFreeNotifications");
+      secureLocalStorage.removeItem("requestFreeNotifications");
     }
   }, [newRequestNotification]);
 
@@ -47,6 +49,7 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
 
     if (shouldReset) {
       localStorage.setItem("IsLoadingRequestStore", false);
+      secureLocalStorage.setItem("IsLoadingRequestStore", false);
       setUpdateNotification(null);
       localStorage.removeItem("new-notification-store");
       localStorage.removeItem("requestFreeNotifications");
@@ -90,6 +93,7 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
       // Ensure the notification is for the correct astrologer
       if (data?.mobileNumber && astrologerPhone === data.mobileNumber) {
         localStorage.setItem("new-notification-store", JSON.stringify(data));
+        secureLocalStorage.setItem("new-notification-store", JSON.stringify(data));
         console.log("========--------sasssssssss", data);
 
         setUpdateNotification(data);
@@ -115,7 +119,9 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
   // Handle the update and status change of the astrologer
   const onChangeId = async (astrologerId, userId) => {
     localStorage.setItem("userIds", userId);
+    secureLocalStorage.setItem("userIds", userId);
     localStorage.setItem("astrologerId", astrologerId);
+    secureLocalStorage.setItem("astrologerId", astrologerId);
 
     try {
       // await router.push(`/chat-with-astrologer/astrologer/${astrologerId}`);
@@ -144,6 +150,7 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
         }
         // socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
         localStorage.setItem("IsLoadingRequestStore", false);
+        secureLocalStorage.setItem("IsLoadingRequestStore", false);
 
         setUpdateNotification(null);
         localStorage.removeItem("new-notification-store");
@@ -151,6 +158,10 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
 
         if (astrologerData.mobileNumber == astrologerPhone) {
           localStorage.setItem(
+            "AstrologerNotificationStatus",
+            astrologerData.chatStatus
+          );
+          secureLocalStorage.setItem(
             "AstrologerNotificationStatus",
             astrologerData.chatStatus
           );
@@ -203,6 +214,7 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
   // Clear notification data from localStorage
   const UpdateRemoveData = () => {
     localStorage.setItem("IsLoadingRequestStore", false);
+    secureLocalStorage.setItem("IsLoadingRequestStore", false);
 
     if (freeRequestNotification === "freeChat") {
       socket.emit("astrologer-chat-request-FreeChat", {
@@ -238,10 +250,18 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
           "requestStatusNotifications",
           data.requestStatusData.requestStatus
         );
+        secureLocalStorage.setItem(
+          "requestStatusNotifications",
+          data.requestStatusData.requestStatus
+        );
       } else if (data?.requestStatusFreeChat?.requestStatus) {
         console.log("📩 astrologer-request-FreeChat-new-notification:", data);
         setFreeRequestNotification(data.requestStatusFreeChat.requestStatus);
         localStorage.setItem(
+          "requestFreeNotifications",
+          data.requestStatusFreeChat.requestStatus
+        );
+        secureLocalStorage.setItem(
           "requestFreeNotifications",
           data.requestStatusFreeChat.requestStatus
         );
@@ -284,6 +304,7 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
       newRequestNotification === 0 && updateNotificationSingleChat;
 
     localStorage.setItem("shouldShowNotification", shouldShow);
+    secureLocalStorage.setItem("shouldShowNotification", shouldShow);
   }, [newRequestNotification, updateNotificationSingleChat]);
 
   return (

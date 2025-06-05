@@ -34,16 +34,15 @@ const AdminHome = () => {
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
   const [admin_id, setAdmin_id] = useState();
 
+
+
   useEffect(() => {
     const admin_ids = localStorage.getItem("admin_id");
     setAdmin_id(admin_ids);
-  }, []);
-
-  useEffect(() => {
-    if (!admin_id) {
+    if (!admin_ids) {
       router.push("/");
     }
-  }, [admin_id]);
+  }, []);
 
   const handleAdminLogOut = () => {
     localStorage.removeItem("admin_id");

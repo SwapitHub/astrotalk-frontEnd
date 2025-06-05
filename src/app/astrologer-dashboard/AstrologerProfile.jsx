@@ -145,6 +145,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
 
         setSuccessMessageProfile(response.data);
         localStorage.setItem("astrLoginStatus", "0");
+        secureLocalStorage.setItem("astrLoginStatus", "0");
 
         toast.success("Profile Completed Successfully", {
           position: "top-right",

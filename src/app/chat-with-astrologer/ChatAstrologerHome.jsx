@@ -199,9 +199,11 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
 
         // This code will run after the navigation is complete
         localStorage.setItem("IsLoadingRequestStore", true);
+        secureLocalStorage.setItem("IsLoadingRequestStore", true);
         setIsLoadingRequest(true);
 
         localStorage.setItem("astrologerId", astrologerId);
+        secureLocalStorage.setItem("astrologerId", astrologerId);
 
         const messageId = {
           userIdToAst: userIds,
@@ -286,6 +288,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
       setAstrologerNotificationStatus((prevStatus) => {
         if (prevStatus !== newStatus) {
           localStorage.setItem("AstrologerNotificationStatus", newStatus);
+          secureLocalStorage.setItem("AstrologerNotificationStatus", newStatus);
           return newStatus;
         }
         return prevStatus;
@@ -313,12 +316,15 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
       if (astrologerId) {
         router.push(`/chat-with-astrologer/user/${userIds}`);
         localStorage.setItem("astrologerId", astrologerId);
+        secureLocalStorage.setItem("astrologerId", astrologerId);
 
         localStorage.setItem("IsLoadingRequestStore", false);
+        secureLocalStorage.setItem("IsLoadingRequestStore", false);
         setIsLoadingRequest(false);
       } else {
         setIsLoadingRequest(true);
         localStorage.setItem("IsLoadingRequestStore", true);
+        secureLocalStorage.setItem("IsLoadingRequestStore", true);
 
         console.log("No astrologer found. Timer fallback logic can go here.");
 
@@ -332,6 +338,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     e.preventDefault();
     setIsLoadingRequest(true);
     localStorage.setItem("IsLoadingRequestStore", true);
+    secureLocalStorage.setItem("IsLoadingRequestStore", true);
 
     try {
       const response = await axios.put(

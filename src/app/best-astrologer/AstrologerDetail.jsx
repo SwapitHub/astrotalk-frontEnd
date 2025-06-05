@@ -96,9 +96,11 @@ export const AstrologerDetail = ({ astrologerData }) => {
 
         // This code will run after the navigation is complete
         localStorage.setItem("IsLoadingRequestStore", true);
+        secureLocalStorage.setItem("IsLoadingRequestStore", true);
         setIsLoadingRequest(true);
 
         localStorage.setItem("astrologerId", astrologerId);
+        secureLocalStorage.setItem("astrologerId", astrologerId);
 
         const messageId = {
           userIdToAst: userIds,
@@ -212,12 +214,15 @@ export const AstrologerDetail = ({ astrologerData }) => {
       if (astrologerId) {
         router.push(`/chat-with-astrologer/user/${userIds}`);
         localStorage.setItem("astrologerId", astrologerId);
+        secureLocalStorage.setItem("astrologerId", astrologerId);
 
         localStorage.setItem("IsLoadingRequestStore", false);
+        secureLocalStorage.setItem("IsLoadingRequestStore", false);
         setIsLoadingRequest(false);
       } else {
         setIsLoadingRequest(true);
         localStorage.setItem("IsLoadingRequestStore", true);
+        secureLocalStorage.setItem("IsLoadingRequestStore", true);
 
         console.log("No astrologer found. Timer fallback logic can go here.");
 
@@ -239,6 +244,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
       setAstrologerNotificationStatus((prevStatus) => {
         if (prevStatus !== newStatus) {
           localStorage.setItem("AstrologerNotificationStatus", newStatus);
+          secureLocalStorage.setItem("AstrologerNotificationStatus", newStatus);
           return newStatus;
         }
         return prevStatus;

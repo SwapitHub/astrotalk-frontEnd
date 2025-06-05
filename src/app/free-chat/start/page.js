@@ -110,6 +110,7 @@ const StartUserName = () => {
 
         if (response.data.message === "success") {
           localStorage.setItem("userIds", response.data.user._id);
+          secureLocalStorage.setItem("userIds", response.data.user._id);
           window.dispatchEvent(new Event("userMobileUpdated"));
           router.push("/chat-with-astrologer");
         }

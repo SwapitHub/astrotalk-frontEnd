@@ -60,6 +60,11 @@ function AdminWallet({ updateButton }) {
         "totalTransactionsData",
         res.data.totalTransactions
       );
+      secureLocalStorage.setItem(
+        "totalTransactionsData",
+        res.data.totalTransactions
+      );
+      
       setWalletAdminData(res.data.transactions);
       setTotalPages(Math.ceil(res.data.totalTransactions / 5));
       setHasNextPage(res.data.hasNextPage);

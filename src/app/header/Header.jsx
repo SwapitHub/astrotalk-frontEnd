@@ -261,12 +261,12 @@ useEffect(() => {
                                   </Link>
                                 </li>
                                 <li>
-                                  <Link
+                                  <a
                                     href="/order-history/chat"
                                     title="order history"
                                   >
                                     Order History
-                                  </Link>
+                                  </a>
                                 </li>
                               </>
                             )}

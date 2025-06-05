@@ -20,6 +20,7 @@ function AstroLogerList() {
       );
       setPendingData(res.data.astrologers);
       localStorage.setItem("totalAstroActive", res.data.totalAstrologers)
+      secureLocalStorage.setItem("totalAstroActive", res.data.totalAstrologers)
       setPage(res.data.page);
       setTotalPages(res.data.totalPages);
       setHasNextPage(res.data.hasNextPage);

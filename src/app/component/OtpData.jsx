@@ -85,6 +85,7 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
         setOtpPopUpDisplayAstro(false);
         setOtpSent(false);
         localStorage.setItem("astrologer-phone", phone);
+        secureLocalStorage.setItem("astrologer-phone", phone);
         sessionStorage.setItem("session-astrologer-phone", phone);
         try {
           const response = await axios.put(

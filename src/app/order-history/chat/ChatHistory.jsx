@@ -174,8 +174,10 @@ const ChatHistory = () => {
 
         // This code will run after the navigation is complete
         localStorage.setItem("IsLoadingRequestStore", true);
+        secureLocalStorage.setItem("IsLoadingRequestStore", true);
         setIsLoadingRequest(true);
         localStorage.setItem("astrologerId", astrologerId);
+        secureLocalStorage.setItem("astrologerId", astrologerId);
 
         const messageId = {
           userIdToAst: userIds,
@@ -216,12 +218,15 @@ const ChatHistory = () => {
       if (astrologerId) {
         router.push(`/chat-with-astrologer/user/${userIds}`);
         localStorage.setItem("astrologerId", astrologerId);
+        secureLocalStorage.setItem("astrologerId", astrologerId);
 
         localStorage.setItem("IsLoadingRequestStore", false);
+        secureLocalStorage.setItem("IsLoadingRequestStore", false);
         setIsLoadingRequest(false);
       } else {
         setIsLoadingRequest(true);
         localStorage.setItem("IsLoadingRequestStore", true);
+        secureLocalStorage.setItem("IsLoadingRequestStore", true);
 
         console.log("No astrologer found. Timer fallback logic can go here.");
 
@@ -243,6 +248,7 @@ const ChatHistory = () => {
       setAstrologerNotificationStatus((prevStatus) => {
         if (prevStatus !== newStatus) {
           localStorage.setItem("AstrologerNotificationStatus", newStatus);
+          secureLocalStorage.setItem("AstrologerNotificationStatus", newStatus);
           return newStatus;
         }
         return prevStatus;
@@ -268,7 +274,9 @@ const ChatHistory = () => {
   const showSharePopUp = (userIdToAst, astrologerIdToAst) => {
     console.log(userIdToAst);
     localStorage.setItem("userIdToAst", userIdToAst);
+    secureLocalStorage.setItem("userIdToAst", userIdToAst);
     localStorage.setItem("astrologerIdToAst", astrologerIdToAst);
+    secureLocalStorage.setItem("astrologerIdToAst", astrologerIdToAst);
     setShareOpenPopup(true);
     setShowUserIdToAst(userIdToAst);
     setAstrologerIdToAst(astrologerIdToAst);
@@ -401,6 +409,10 @@ const ChatHistory = () => {
                                         className="inner-order-list-data"
                                         onClick={() => {
                                           localStorage.setItem(
+                                            "astrologerId",
+                                            item?.astrologerIdToAst
+                                          );
+                                           secureLocalStorage.setItem(
                                             "astrologerId",
                                             item?.astrologerIdToAst
                                           );

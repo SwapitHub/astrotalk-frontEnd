@@ -22,6 +22,7 @@ const ChatButtonUser = ({item, userAmount, userIds}) => {
     
             // This code will run after the navigation is complete
             localStorage.setItem("astrologerId", astrologerId);
+            secureLocalStorage.setItem("astrologerId", astrologerId);
     
             const messageId = {
               userIdToAst: userIds,
