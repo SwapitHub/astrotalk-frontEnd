@@ -95,7 +95,7 @@ const AstrologerHome = () => {
       console.log(response);
 
       if (response.data.message == "Success") {
-        Cookies.removeItem("astrologer-phone");
+        Cookies.remove("astrologer-phone");
         router.push("/");
         setTimeout(() => {
           window.location.reload();

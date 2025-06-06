@@ -23,6 +23,7 @@ const ProfilePopUp = ({ astroDetailData }) => {
     window.dispatchEvent(new Event("admin_id_updated"));
     router.push("/admin");
   };
+console.log(astrologerPhone,"astrologerPhone");
 
   const astroLogerLogout = async () => {
     try {
@@ -35,7 +36,7 @@ const ProfilePopUp = ({ astroDetailData }) => {
       console.log(response);
 
       if (response.data.message == "Success") {
-        Cookies.removeItem("astrologer-phone");
+        Cookies.remove("astrologer-phone");
         router.push("/");
         setTimeout(() => {
           window.location.reload();

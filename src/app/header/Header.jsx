@@ -98,9 +98,9 @@ const [toggleMobile, setToggleMobile] = useState(false);
 
   const userLogout = () => {
     window.dispatchEvent(new Event(""));
-    Cookies.removeItem("userIds");
-    Cookies.removeItem("userMobile");
-    Cookies.removeItem("astrologerId");
+    Cookies.remove("userIds");
+    Cookies.remove("userMobile");
+    Cookies.remove("astrologerId");
     secureLocalStorage.removeItem("AstrologerNotificationStatus");
     setUserMobile(null);
   };
