@@ -3,11 +3,12 @@ import { useEffect, useState } from "react";
 import AstrologerHome from "./astrologer-dashboard/AstrologerHome";
 import HomePage from "./home/page";
 import secureLocalStorage from "react-secure-storage";
+import Cookies from "js-cookie";
 
 export default function Home() {
   const [astrologerPhone, setAstrologerPhone] = useState()
   useEffect(()=>{
-    const astrologerPhone = sessionStorage.getItem("astrologer-phone");
+    const astrologerPhone = Cookies.get("astrologer-phone");
     setAstrologerPhone(astrologerPhone)
   },[])
 

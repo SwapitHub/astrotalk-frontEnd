@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 import io from "socket.io-client";
@@ -31,7 +32,7 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
     if (shouldReset) {
       secureLocalStorage.setItem("IsLoadingRequestStore", false);
       setUpdateNotification(null);
-      secureLocalStorage.removeItem("requestFreeNotifications")
+      secureLocalStorage.removeItem("requestFreeNotifications");
     }
   }, [newRequestNotification]);
 
@@ -42,8 +43,7 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
       secureLocalStorage.setItem("IsLoadingRequestStore", false);
       setUpdateNotification(null);
       secureLocalStorage.removeItem("new-notification-store");
-      secureLocalStorage.removeItem("requestFreeNotifications")
-
+      secureLocalStorage.removeItem("requestFreeNotifications");
     }
   }, [freeRequestNotification]);
 
@@ -113,8 +113,16 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
 
   // Handle the update and status change of the astrologer
   const onChangeId = async (astrologerId, userId) => {
-    sessionStorage.setItem("userIds", userId);
-    sessionStorage.setItem("astrologerId", astrologerId);
+    Cookies.set("userIds", userId, {
+      expires: 3650,
+      secure: true,
+      sameSite: "Strict",
+    });
+    Cookies.set("astrologerId", astrologerId, {
+      expires: 3650,
+      secure: true,
+      sameSite: "Strict",
+    });
 
     try {
       // await router.push(`/chat-with-astrologer/astrologer/${astrologerId}`);
@@ -138,7 +146,6 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
           socket.emit("astrologer-chat-request-FreeChat", {
             requestStatus: "freeChatRemove",
           });
-
         } else {
           socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 1 });
         }
@@ -147,7 +154,7 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
 
         setUpdateNotification(null);
         secureLocalStorage.removeItem("new-notification-store");
-          secureLocalStorage.removeItem("requestFreeNotifications");
+        secureLocalStorage.removeItem("requestFreeNotifications");
 
         if (astrologerData.mobileNumber == astrologerPhone) {
           secureLocalStorage.setItem(

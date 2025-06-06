@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import Cookies from "js-cookie";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
@@ -10,7 +11,7 @@ const MyWalletPaymentLog = () => {
   console.log(userPhone);
 
   useEffect(() => {
-    const userMobiles = Math.round(sessionStorage.getItem("userMobile"));
+    const userMobiles = Math.round(Cookies.get("userMobile"));
 
     setUserPhone(userMobiles);
   }, []);

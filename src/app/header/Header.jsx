@@ -6,6 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import secureLocalStorage from "react-secure-storage";
 import UserOtpLoginData from "../component/UserOtpLoginData";
+import Cookies from "js-cookie";
 
 const Header = () => {
   const router = useRouter();
@@ -40,19 +41,19 @@ const [toggleMobile, setToggleMobile] = useState(false);
   }, []);
 
   useEffect(() => {
-    const astrologerPhone = sessionStorage.getItem("astrologer-phone");
+    const astrologerPhone = Cookies.get("astrologer-phone");
     setAstrologerPhone(astrologerPhone);
   }, []);
 
   // Watch for userMobile updates
   useEffect(() => {
-    const storedMobile = sessionStorage.getItem("userMobile");
+    const storedMobile = Cookies.get("userMobile");
     if (storedMobile) {
       setUserMobile(Math.round(storedMobile));
     }
 
     const handleStorageChange = () => {
-      const updatedMobile = sessionStorage.getItem("userMobile");
+      const updatedMobile = Cookies.get("userMobile");
       if (updatedMobile) {
         setUserMobile(updatedMobile);
         // fetchUserDetail();
@@ -97,9 +98,9 @@ const [toggleMobile, setToggleMobile] = useState(false);
 
   const userLogout = () => {
     window.dispatchEvent(new Event(""));
-    sessionStorage.removeItem("userIds");
-    sessionStorage.removeItem("userMobile");
-    sessionStorage.removeItem("astrologerId");
+    Cookies.removeItem("userIds");
+    Cookies.removeItem("userMobile");
+    Cookies.removeItem("astrologerId");
     secureLocalStorage.removeItem("AstrologerNotificationStatus");
     setUserMobile(null);
   };

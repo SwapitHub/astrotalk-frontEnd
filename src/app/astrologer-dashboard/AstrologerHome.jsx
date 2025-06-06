@@ -18,6 +18,7 @@ import { SiFreedesktopdotorg } from "react-icons/si";
 import AstrologerReview from "./AstrologerReview";
 import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
 import { useGlobalContext } from "@/context/HomeContext";
+import Cookies from "js-cookie";
 
 const AstrologerHome = () => {
   const { updateButton, setUpdateButton } = useGlobalContext();
@@ -30,7 +31,7 @@ const AstrologerHome = () => {
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
 
   useEffect(() => {
-    const astrologerPhones = sessionStorage.getItem("astrologer-phone");
+    const astrologerPhones = Cookies.get("astrologer-phone");
     setAstrologerPhone(astrologerPhones);
   }, []);
 
@@ -94,7 +95,7 @@ const AstrologerHome = () => {
       console.log(response);
 
       if (response.data.message == "Success") {
-        sessionStorage.removeItem("astrologer-phone");
+        Cookies.removeItem("astrologer-phone");
         router.push("/");
         setTimeout(() => {
           window.location.reload();

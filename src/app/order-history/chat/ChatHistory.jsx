@@ -7,6 +7,7 @@ import UserOtpLoginData from "@/app/component/UserOtpLoginData";
 import UserRecharge from "@/app/component/UserRechargePopUp";
 import { fetchUserLoginDetails } from "@/app/utils/api";
 import axios from "axios";
+import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -65,8 +66,8 @@ const ChatHistory = () => {
   };
 
   useEffect(() => {
-    const userMobiles = Math.round(sessionStorage.getItem("userMobile"));
-    const userId = sessionStorage.getItem("userIds");
+    const userMobiles = Math.round(Cookies.get("userMobile"));
+    const userId = Cookies.get("userIds");
     setUserMobile(userMobiles);
     setUserIds(userId);
   }, []);
@@ -160,7 +161,11 @@ const ChatHistory = () => {
         // This code will run after the navigation is complete
         secureLocalStorage.setItem("IsLoadingRequestStore", true);
         setIsLoadingRequest(true);
-        sessionStorage.setItem("astrologerId", astrologerId);
+        Cookies.set("astrologerId", astrologerId , {
+           expires: 3650,
+              secure: true,
+              sameSite: "Strict",
+        });
 
         const messageId = {
           userIdToAst: userIds,
@@ -200,7 +205,7 @@ const ChatHistory = () => {
     if (isLoadingRequest) {
       if (astrologerId) {
         router.push(`/chat-with-astrologer/user/${userIds}`);
-        sessionStorage.setItem("astrologerId", astrologerId);
+        Cookies.set("astrologerId", astrologerId);
 
         secureLocalStorage.setItem("IsLoadingRequestStore", false);
         setIsLoadingRequest(false);

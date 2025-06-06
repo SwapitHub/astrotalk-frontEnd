@@ -20,6 +20,7 @@ import UserOtpLoginData from "../component/UserOtpLoginData";
 import RequestPopUp from "../component/RequestPopUp";
 import { useRouter } from "next/navigation";
 import AstrologerReview from "../astrologer-dashboard/AstrologerReview";
+import Cookies from "js-cookie";
 
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   withCredentials: true,
@@ -51,8 +52,8 @@ export const AstrologerDetail = ({ astrologerData }) => {
  
 
   useEffect(() => {
-    const userMobiles = Math.round(sessionStorage.getItem("userMobile"));
-    const userId = sessionStorage.getItem("userIds");
+    const userMobiles = Math.round(Cookies.get("userMobile"));
+    const userId = Cookies.get("userIds");
     setUserMobile(userMobiles);
     setUserIds(userId);
   }, []);
@@ -95,7 +96,11 @@ export const AstrologerDetail = ({ astrologerData }) => {
         secureLocalStorage.setItem("IsLoadingRequestStore", true);
         setIsLoadingRequest(true);
 
-        sessionStorage.setItem("astrologerId", astrologerId);
+        Cookies.set("astrologerId", astrologerId, {
+           expires: 3650,
+              secure: true,
+              sameSite: "Strict",
+        });
 
         const messageId = {
           userIdToAst: userIds,
@@ -208,7 +213,11 @@ export const AstrologerDetail = ({ astrologerData }) => {
     if (isLoadingRequest) {
       if (astrologerId) {
         router.push(`/chat-with-astrologer/user/${userIds}`);
-        sessionStorage.setItem("astrologerId", astrologerId);
+        Cookies.set("astrologerId", astrologerId , {
+           expires: 3650,
+              secure: true,
+              sameSite: "Strict",
+        });
 
         secureLocalStorage.setItem("IsLoadingRequestStore", false);
         setIsLoadingRequest(false);

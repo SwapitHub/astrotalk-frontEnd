@@ -3,6 +3,7 @@
 import { validateAstrologerForm } from "@/app/component/FormValidation";
 import UserOtpLoginData from "@/app/component/UserOtpLoginData";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
@@ -42,13 +43,13 @@ const StartUserName = () => {
 
   // Watch for userMobile updates
   useEffect(() => {
-    const storedMobile = sessionStorage.getItem("userMobile");
+    const storedMobile = Cookies.get("userMobile");
     if (storedMobile) {
       setUserMobile(Math.round(storedMobile));
     }
 
     const handleStorageChange = () => {
-      const updatedMobile = sessionStorage.getItem("userMobile");
+      const updatedMobile = Cookies.get("userMobile");
       if (updatedMobile) {
         setUserMobile(updatedMobile);
         // fetchUserDetail();
@@ -109,7 +110,11 @@ const StartUserName = () => {
         console.log("response", response.data);
 
         if (response.data.message === "success") {
-          sessionStorage.setItem("userIds", response.data.user._id);
+          Cookies.set("userIds", response.data.user._id , {
+             expires: 3650,
+              secure: true,
+              sameSite: "Strict",
+          });
           window.dispatchEvent(new Event("userMobileUpdated"));
           router.push("/chat-with-astrologer");
         }

@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 import Loader from "../component/Loader";
+import Cookies from "js-cookie";
 
 const MyWallet = () => {
 
@@ -18,8 +19,8 @@ const [loading, setLoading] = useState(false)
   const [userIds, setUserIds] = useState(false);
  
 useEffect(()=>{
-  const userPhones = Math.round(sessionStorage.getItem("userMobile"));
-  const userId = sessionStorage.getItem("userIds")
+  const userPhones = Math.round(Cookies.get("userMobile"));
+  const userId = Cookies.get("userIds")
   setUserPhone(userPhones)
   setUserIds(userId)
 },[])

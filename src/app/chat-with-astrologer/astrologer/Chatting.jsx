@@ -8,6 +8,7 @@ import { useRef } from "react";
 import secureLocalStorage from "react-secure-storage";
 import EndChatPopUp from "@/app/component/EndChatPopUp";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
   transports: ["websocket"],
@@ -16,11 +17,7 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 
 export default function Chatting({ astrologer, AdminCommissionData }) {
   const router = useRouter();
-  const astrologerPhone = sessionStorage.getItem("astrologer-phone");
-  const astrologerId = sessionStorage.getItem("astrologerId");
-  const userIds = sessionStorage.getItem("userIds");
-
-
+  const astrologerPhone = Cookies.get("astrologer-phone");
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [timeLeft, setTimeLeft] = useState(null);
   const [showRating, setShowRating] = useState(false);
@@ -35,9 +32,13 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   const [messageData, setMessageData] = useState([]);
   const [user, setUser] = useState("");
   const [showUserData, setShowUserData] = useState("");
+  const astrologerId = Cookies.get("astrologerId");
+  const userIds = Cookies.get("userIds");
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(() => secureLocalStorage.getItem("AstrologerNotificationStatus"));
 
+    console.log(astrologerPhone,astrologerId,userIds, "userIds==================");
+    
   useEffect(() => {
     if (
       astrologerNotificationStatus == false ||

@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 import Loader from "../component/Loader";
+import Cookies from "js-cookie";
 
 function AstrologerWallet() {
   const [walletAdminData, setWalletAdminData] = useState([]);
@@ -15,7 +16,7 @@ function AstrologerWallet() {
   const [astrologerPhone, setAstrologerPhone] = useState();
 
   useEffect(() => {
-    const astrologerPhones = sessionStorage.getItem("astrologer-phone");
+    const astrologerPhones = Cookies.get("astrologer-phone");
     setAstrologerPhone(astrologerPhones);
   }, []);
 

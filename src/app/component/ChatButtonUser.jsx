@@ -1,4 +1,5 @@
 "use client"
+import Cookies from 'js-cookie';
 import React from 'react'
 import { useEffect } from 'react';
 import secureLocalStorage from 'react-secure-storage';
@@ -21,7 +22,11 @@ const ChatButtonUser = ({item, userAmount, userIds}) => {
             // await router.push(`/chat-with-astrologer/user/${userIds}`);
     
             // This code will run after the navigation is complete
-            sessionStorage.setItem("astrologerId", astrologerId);
+            Cookies.set("astrologerId", astrologerId , {
+               expires: 3650,
+              secure: true,
+              sameSite: "Strict",
+            });
     
             const messageId = {
               userIdToAst: userIds,

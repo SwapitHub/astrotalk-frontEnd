@@ -6,6 +6,7 @@ import axios from "axios";
 import Link from "next/link";
 import { IoIosCall } from "react-icons/io";
 import { useGlobalContext } from "@/context/HomeContext";
+import Cookies from "js-cookie";
 
 const ProfilePopUp = ({ astroDetailData }) => {
   const router = useRouter();
@@ -13,7 +14,7 @@ const ProfilePopUp = ({ astroDetailData }) => {
   const [astrologerPhone, setAstrologerPhone] = useState();
 
   useEffect(() => {
-    const astrologerPhones = sessionStorage.getItem("astrologer-phone");
+    const astrologerPhones = Cookies.get("astrologer-phone");
     setAstrologerPhone(astrologerPhones);
   }, []);
 
@@ -34,7 +35,7 @@ const ProfilePopUp = ({ astroDetailData }) => {
       console.log(response);
 
       if (response.data.message == "Success") {
-        sessionStorage.removeItem("astrologer-phone");
+        Cookies.removeItem("astrologer-phone");
         router.push("/");
         setTimeout(() => {
           window.location.reload();

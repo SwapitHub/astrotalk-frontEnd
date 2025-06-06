@@ -5,6 +5,7 @@ import { useRazorpay } from "react-razorpay";
 import { toast } from "react-toastify";
 import secureLocalStorage from "react-secure-storage";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 const RazorpayPayment = ({ totalFinalPrice, extraAmount, totalAmount }) => {
   const { error, isLoading, Razorpay } = useRazorpay();
@@ -14,7 +15,7 @@ const RazorpayPayment = ({ totalFinalPrice, extraAmount, totalAmount }) => {
   const [userMobile, setUserMobile] = useState(false);
 
   useEffect(() => {
-    const userMobiles = Math.round(sessionStorage.getItem("userMobile"));
+    const userMobiles = Math.round(Cookies.get("userMobile"));
     setUserMobile(userMobiles);
   }, []);
 

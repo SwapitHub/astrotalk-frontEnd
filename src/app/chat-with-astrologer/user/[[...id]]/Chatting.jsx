@@ -9,6 +9,7 @@ import secureLocalStorage from "react-secure-storage";
 import EndChatPopUp from "@/app/component/EndChatPopUp";
 import RatingPopUp from "@/app/component/RatingPopUp";
 import { useRouter, useSearchParams } from "next/navigation";
+import Cookies from "js-cookie";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
   transports: ["websocket"],
@@ -23,8 +24,8 @@ export default function Chatting(AdminCommissionData) {
   const [showUserData, setShowUserData] = useState();
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [timeLeft, setTimeLeft] = useState(null);
-  const [actualChargeUserChat, setActualChargeUserChat] = useState();
-  console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
+ const [actualChargeUserChat, setActualChargeUserChat] = useState();
+console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
 
   const [showEndChat, setShowEndChat] = useState(false);
   const [showRating, setShowRating] = useState(false);
@@ -36,55 +37,52 @@ export default function Chatting(AdminCommissionData) {
   const [messageData, setMessageData] = useState([]);
   const [astrologerData, setAstrologerData] = useState("");
   const [astrologerId, setAstrologerId] = useState();
+  const userIds = Cookies.get("userIds");
+  const userMobile = Math.round(Cookies.get("userMobile"));
 
-  const [userIds, setUserIds] = useState();
-  const [userMobile, setUserMobile] = useState();
-  
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(() => secureLocalStorage.getItem("AstrologerNotificationStatus"));
   const mobileRef = useRef(null);
 
-  useEffect(() => {
-    const userMobiles = Math.round(sessionStorage.getItem("userMobile"));
-    const userId = sessionStorage.getItem("userIds");
-    setUserMobile(userMobiles);
-    setUserIds(userId);
-  }, []);
 
   useEffect(() => {
-    if (showUserData?.freeChatStatus === true) {
-      setActualChargeUserChat(0);
-    }
-  }, [showUserData?.freeChatStatus]);
+  if (showUserData?.freeChatStatus === true) {
+    setActualChargeUserChat(0);
+  }
+}, [showUserData?.freeChatStatus]);
 
-  // typing logic start here
-  const [isTyping, setIsTyping] = useState(false);
-  console.log(isTyping, "isTyping");
 
-  useEffect(() => {
-    if (!socket) return;
 
-    const handleTyping = (data) => {
-      if (data.userId !== userIds) {
-        setIsTyping(true);
-        setTimeout(() => setIsTyping(false), 2000);
-      }
+// typing logic start here
+    const [isTyping, setIsTyping] = useState(false);
+    console.log(isTyping, "isTyping");
+  
+    useEffect(() => {
+      if (!socket) return;
+  
+      const handleTyping = (data) => {
+        if (data.userId !== userIds) {
+          setIsTyping(true);
+          setTimeout(() => setIsTyping(false), 2000);
+        }
+      };
+  
+      socket.on("typing", handleTyping);
+  
+      return () => {
+        socket.off("typing", handleTyping);
+      };
+    }, [socket, userIds]);
+  
+  
+     const handleTyping = () => {
+      socket.emit("typing", {
+        sender: showUserData?._id,
+        receiverId: astrologerId,
+      });
     };
+    // typing logic end here
 
-    socket.on("typing", handleTyping);
-
-    return () => {
-      socket.off("typing", handleTyping);
-    };
-  }, [socket, userIds]);
-
-  const handleTyping = () => {
-    socket.emit("typing", {
-      sender: showUserData?._id,
-      receiverId: astrologerId,
-    });
-  };
-  // typing logic end here
 
   useEffect(() => {
     if (
@@ -97,7 +95,7 @@ export default function Chatting(AdminCommissionData) {
   }, [astrologerNotificationStatus, showRating]);
 
   useEffect(() => {
-    const id = sessionStorage.getItem("astrologerId");
+    const id = Cookies.get("astrologerId");
     if (id) {
       setAstrologerId(id);
     }
@@ -138,7 +136,11 @@ export default function Chatting(AdminCommissionData) {
 
     const handleNewNotification = (data) => {
       console.log("Received data:", data.astrologerData);
-      sessionStorage.setItem("astrologerId", data.astrologerData?._id);
+      Cookies.set("astrologerId", data.astrologerData?._id , {
+         expires: 3650,
+              secure: true,
+              sameSite: "Strict",
+      });
       setAstrologerId(data.astrologerData?._id);
       console.log(data.astrologerData?._id);
 
@@ -287,32 +289,32 @@ export default function Chatting(AdminCommissionData) {
       });
   }, [userMobile]);
 
-  console.log(timeLeft, showUserData?.freeChatStatus === true);
+ 
+  
+console.log(timeLeft, showUserData?.freeChatStatus === true);
 
   // Automatically end chat after 120 seconds (when timer hits 0) for free chat
   useEffect(() => {
     if (timeLeft === 120 && showUserData?.freeChatStatus === true) {
       console.log("actualChargeUserChat============");
-
+      
       endChatStatus();
     }
   }, [timeLeft, showUserData?.freeChatStatus]);
 
+
   const endChatStatus = async () => {
-    console.log("actualChargeUserChat", actualChargeUserChat);
+console.log("actualChargeUserChat",actualChargeUserChat);
 
     if (actualChargeUserChat == undefined) return;
-    console.log("===============sasasa");
+console.log("===============sasasa");
 
-    if (
-      showUserData?.freeChatStatus == true ||
-      showUserData?.chatStatus == true
-    ) {
+    if (showUserData?.freeChatStatus == true || showUserData?.chatStatus == true) {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${userMobile}`,
         {
           freeChatStatus: false,
-          chatStatus: false,
+          chatStatus: false
         }
       );
       console.log("response", response.data);
@@ -544,10 +546,10 @@ export default function Chatting(AdminCommissionData) {
                      }`}
                     >
                       {/* <h4>{msg.user}</h4> */}
-                      <p
-                        className="chat-message"
-                        dangerouslySetInnerHTML={{ __html: msg.message }}
-                      ></p>
+                       <p
+      className="chat-message"
+      dangerouslySetInnerHTML={{ __html: msg.message }}
+      ></p>
                       <p>{msg.time}</p>
                     </div>
                   ))}
@@ -567,7 +569,7 @@ export default function Chatting(AdminCommissionData) {
                       // onChange={(e) => setMessage(e.target.value)}
                       onChange={(e) => {
                         setMessage(e.target.value);
-                        handleTyping();
+                        handleTyping(); 
                       }}
                       onKeyDown={handleKeyDown}
                     />

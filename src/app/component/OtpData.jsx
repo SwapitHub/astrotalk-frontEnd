@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
@@ -85,7 +86,11 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
         router.push("/astrologer-dashboard");
         setOtpPopUpDisplayAstro(false);
         setOtpSent(false);
-        sessionStorage.setItem("astrologer-phone", phone);
+        Cookies.set("astrologer-phone", phone , {
+           expires: 3650,
+              secure: true,
+              sameSite: "Strict",
+        });
         sessionStorage.setItem("session-astrologer-phone", phone);
         try {
           const response = await axios.put(

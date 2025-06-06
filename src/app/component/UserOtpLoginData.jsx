@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
@@ -111,8 +112,16 @@ function UserOtpLoginData({ setOtpPopUpDisplay }) {
           // userLoginRes.data.user.freeChatStatus==true ? `/chat-with-astrologer/user/${userLoginRes.data.user._id}`:
           if (userLoginRes.status === 200 || userLoginRes.status === 201) {
             setOtpPopUpDisplay(false);
-            sessionStorage.setItem("userIds", userLoginRes.data.user._id);
-            sessionStorage.setItem("userMobile", phone);
+            Cookies.set("userIds", userLoginRes.data.user._id , {
+               expires: 3650,
+              secure: true,
+              sameSite: "Strict",
+            });
+            Cookies.set("userMobile", phone , {
+               expires: 3650,
+              secure: true,
+              sameSite: "Strict",
+            });
             console.log("User login successful, User ID:", phone);
             window.dispatchEvent(new Event("userMobileUpdated"));
             router.push(
@@ -141,8 +150,16 @@ function UserOtpLoginData({ setOtpPopUpDisplay }) {
 
           if (response.data.message == "success") {
             setOtpPopUpDisplay(false);
-            sessionStorage.setItem("userIds", response.data.user._id);
-            sessionStorage.setItem("userMobile", phone);
+            Cookies.set("userIds", response.data.user._id , {
+               expires: 3650,
+              secure: true,
+              sameSite: "Strict",
+            });
+            Cookies.set("userMobile", phone , {
+               expires: 3650,
+              secure: true,
+              sameSite: "Strict",
+            });
             window.dispatchEvent(new Event("userMobileUpdated"));
             router.push("/chat-with-astrologer");
           }

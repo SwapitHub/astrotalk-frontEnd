@@ -7,6 +7,7 @@ import AstroNotification from "../component/AstroNotification";
 import ProfilePopUp from "../component/ProfilePopUp";
 import HeaderDashNotification from "../component/HeaderDashNotification";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const DashboardHeader = ({ setToggleSlideMobile }) => {
 
@@ -16,7 +17,7 @@ const DashboardHeader = ({ setToggleSlideMobile }) => {
  const [astrologerPhone, setAstrologerPhone] = useState();
 
   useEffect(() => {
-    const astrologerPhones = sessionStorage.getItem("astrologer-phone");
+    const astrologerPhones = Cookies.get("astrologer-phone");
     setAstrologerPhone(astrologerPhones);
   }, []);
 

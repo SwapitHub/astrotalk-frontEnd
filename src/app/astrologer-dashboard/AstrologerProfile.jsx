@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { validateAstrologerForm } from "../component/FormValidation";
 import secureLocalStorage from "react-secure-storage";
+import Cookies from "js-cookie";
 
 const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
   const [astrologerPhone, setAstrologerPhone] = useState();
@@ -29,7 +30,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
   );
 
   useEffect(() => {
-    const astrologerPhones = sessionStorage.getItem("astrologer-phone");
+    const astrologerPhones = Cookies.get("astrologer-phone");
     setAstrologerPhone(astrologerPhones);
   }, []);
 
