@@ -18,10 +18,10 @@ const [loading, setLoading] = useState(false)
   const [userIds, setUserIds] = useState(false);
  
 useEffect(()=>{
-  const userPhone = Math.round(secureLocalStorage.getItem("userMobile"));
-  const userIds = secureLocalStorage.getItem("userIds")
-  setUserPhone(userPhone)
-  setUserIds(userIds)
+  const userPhones = Math.round(sessionStorage.getItem("userMobile"));
+  const userId = sessionStorage.getItem("userIds")
+  setUserPhone(userPhones)
+  setUserIds(userId)
 },[])
 
 

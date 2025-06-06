@@ -31,8 +31,9 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
 
 const ChatHistory = () => {
   const router = useRouter();
-  const userIds = secureLocalStorage.getItem("userIds");
-  const userMobile = secureLocalStorage.getItem("userMobile");
+
+  const [userIds, setUserIds] = useState();
+  const [userMobile, setUserMobile] = useState();
   const [showRecharge, setShowRecharge] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [deleteId, setDeleteId] = useState();
@@ -44,8 +45,12 @@ const ChatHistory = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
   const [shareOpenPopup, setShareOpenPopup] = useState(false);
-  const [showUserIdToAst, setShowUserIdToAst] = useState(secureLocalStorage.getItem("userIdToAst"));
-  const [astrologerIdToAst, setAstrologerIdToAst] = useState(secureLocalStorage.getItem("astrologerIdToAst"));
+  const [showUserIdToAst, setShowUserIdToAst] = useState(
+    secureLocalStorage.getItem("userIdToAst")
+  );
+  const [astrologerIdToAst, setAstrologerIdToAst] = useState(
+    secureLocalStorage.getItem("astrologerIdToAst")
+  );
   const [isLoadingRequest, setIsLoadingRequest] = useState(
     secureLocalStorage.getItem("IsLoadingRequestStore")
   );
@@ -58,6 +63,13 @@ const ChatHistory = () => {
     setShowDelete(true);
     setDeleteId(id);
   };
+
+  useEffect(() => {
+    const userMobiles = Math.round(sessionStorage.getItem("userMobile"));
+    const userId = sessionStorage.getItem("userIds");
+    setUserMobile(userMobiles);
+    setUserIds(userId);
+  }, []);
 
   useEffect(() => {
     if (showRecharge) {
@@ -148,7 +160,7 @@ const ChatHistory = () => {
         // This code will run after the navigation is complete
         secureLocalStorage.setItem("IsLoadingRequestStore", true);
         setIsLoadingRequest(true);
-        secureLocalStorage.setItem("astrologerId", astrologerId);
+        sessionStorage.setItem("astrologerId", astrologerId);
 
         const messageId = {
           userIdToAst: userIds,
@@ -188,7 +200,7 @@ const ChatHistory = () => {
     if (isLoadingRequest) {
       if (astrologerId) {
         router.push(`/chat-with-astrologer/user/${userIds}`);
-        secureLocalStorage.setItem("astrologerId", astrologerId);
+        sessionStorage.setItem("astrologerId", astrologerId);
 
         secureLocalStorage.setItem("IsLoadingRequestStore", false);
         setIsLoadingRequest(false);
@@ -240,8 +252,8 @@ const ChatHistory = () => {
 
   const showSharePopUp = (userIdToAst, astrologerIdToAst) => {
     console.log(userIdToAst);
-    secureLocalStorage.setItem("userIdToAst",userIdToAst)
-    secureLocalStorage.setItem("astrologerIdToAst",astrologerIdToAst)
+    secureLocalStorage.setItem("userIdToAst", userIdToAst);
+    secureLocalStorage.setItem("astrologerIdToAst", astrologerIdToAst);
     setShareOpenPopup(true);
     setShowUserIdToAst(userIdToAst);
     setAstrologerIdToAst(astrologerIdToAst);
@@ -382,7 +394,6 @@ const ChatHistory = () => {
                                           );
                                         }}
                                       >
-                                        
                                         <div className="date-and-tine-sec">
                                           <p>
                                             {new Date(
@@ -522,7 +533,10 @@ const ChatHistory = () => {
                                     <p>
                                       <button
                                         onClick={() =>
-                                          showSharePopUp(item?.userIdToAst, item?.astrologerIdToAst)
+                                          showSharePopUp(
+                                            item?.userIdToAst,
+                                            item?.astrologerIdToAst
+                                          )
                                         }
                                       >
                                         <img

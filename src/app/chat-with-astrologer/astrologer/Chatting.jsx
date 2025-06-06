@@ -16,7 +16,11 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 
 export default function Chatting({ astrologer, AdminCommissionData }) {
   const router = useRouter();
-  const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
+  const astrologerPhone = sessionStorage.getItem("astrologer-phone");
+  const astrologerId = sessionStorage.getItem("astrologerId");
+  const userIds = sessionStorage.getItem("userIds");
+
+
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [timeLeft, setTimeLeft] = useState(null);
   const [showRating, setShowRating] = useState(false);
@@ -31,8 +35,6 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   const [messageData, setMessageData] = useState([]);
   const [user, setUser] = useState("");
   const [showUserData, setShowUserData] = useState("");
-  const astrologerId = secureLocalStorage.getItem("astrologerId");
-  const userIds = secureLocalStorage.getItem("userIds");
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(() => secureLocalStorage.getItem("AstrologerNotificationStatus"));
 

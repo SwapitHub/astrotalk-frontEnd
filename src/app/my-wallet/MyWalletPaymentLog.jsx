@@ -5,9 +5,15 @@ import React, { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 
 const MyWalletPaymentLog = () => {
-  const userPhone = Math.round(secureLocalStorage.getItem("userMobile"));
   const [userData, setUserData] = useState();
+  const [userPhone, setUserPhone] = useState();
   console.log(userPhone);
+
+  useEffect(() => {
+    const userMobiles = Math.round(sessionStorage.getItem("userMobile"));
+
+    setUserPhone(userMobiles);
+  }, []);
 
   useEffect(() => {
     const fetchOrderUserList = async () => {
@@ -35,7 +41,6 @@ const MyWalletPaymentLog = () => {
       </div>
       <div className="inner-my-wallet-sec ctm-flex-row ctm-justify-content-between">
         <div className="my-wallet-sec-left-content ctm-align-items-center ctm-flex-row">
-          
           <div className="recharge-btm">
             <Link
               href="/add-wallet-money/price-list"

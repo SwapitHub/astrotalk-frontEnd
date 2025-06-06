@@ -7,10 +7,15 @@ import Link from "next/link";
 import { IoIosCall } from "react-icons/io";
 import { useGlobalContext } from "@/context/HomeContext";
 
-const ProfilePopUp = ({astroDetailData}) => {
+const ProfilePopUp = ({ astroDetailData }) => {
   const router = useRouter();
-  const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
-    const { setUpdateButton } = useGlobalContext()
+  const { setUpdateButton } = useGlobalContext();
+  const [astrologerPhone, setAstrologerPhone] = useState();
+
+  useEffect(() => {
+    const astrologerPhones = sessionStorage.getItem("astrologer-phone");
+    setAstrologerPhone(astrologerPhones);
+  }, []);
 
   const handleAdminLogOut = () => {
     secureLocalStorage.removeItem("admin_id");
@@ -29,7 +34,7 @@ const ProfilePopUp = ({astroDetailData}) => {
       console.log(response);
 
       if (response.data.message == "Success") {
-        secureLocalStorage.removeItem("astrologer-phone");
+        sessionStorage.removeItem("astrologer-phone");
         router.push("/");
         setTimeout(() => {
           window.location.reload();
@@ -53,9 +58,9 @@ const ProfilePopUp = ({astroDetailData}) => {
     }
   };
 
-  const openProfile = () =>{
-    setUpdateButton(2)
-  }
+  const openProfile = () => {
+    setUpdateButton(2);
+  };
   return (
     <ul className="profile-dropdown onhover-show-div">
       {astrologerPhone && (
@@ -133,51 +138,44 @@ const ProfilePopUp = ({astroDetailData}) => {
       <li>
         {astrologerPhone ? (
           <button onClick={astroLogerLogout}>
-            
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                className="feather feather-log-out"
-              >
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                <polyline points="16 17 21 12 16 7"></polyline>
-                <line x1="21" y1="12" x2="9" y2="12"></line>
-              </svg>
-           
-           <span>
-Astrologer Logout{" "}
-            </span> 
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              className="feather feather-log-out"
+            >
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+
+            <span>Astrologer Logout </span>
           </button>
         ) : (
           <button onClick={handleAdminLogOut}>
-           
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                className="feather feather-log-out"
-              >
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                <polyline points="16 17 21 12 16 7"></polyline>
-                <line x1="21" y1="12" x2="9" y2="12"></line>
-              </svg>
-           <span>
-
-            Admin Logout
-           </span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              className="feather feather-log-out"
+            >
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            <span>Admin Logout</span>
           </button>
         )}
       </li>

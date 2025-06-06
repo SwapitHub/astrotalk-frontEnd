@@ -7,7 +7,7 @@ import { validateAstrologerForm } from "../component/FormValidation";
 import secureLocalStorage from "react-secure-storage";
 
 const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
-  const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
+  const [astrologerPhone, setAstrologerPhone] = useState();
   const [registrationDetail, setRegistrationDetail] = useState();
   const [astroUpdateDetail, setAstroUpdateDetail] = useState();
   const [errors, setErrors] = useState({});
@@ -15,7 +15,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
   const [professionsList, setProfessionsList] = useState([]);
   const [languageListData, setLanguageListData] = useState([]);
 
-    const [name, setName] = useState("");
+  const [name, setName] = useState("");
   const [experience, setExperience] = useState("");
   const [editProfessions, setEditProfessions] = useState("");
   const [editLanguages, setEditLanguages] = useState("");
@@ -27,6 +27,11 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
   const astrologerLoginUpdate = secureLocalStorage.getItem(
     "astrologerLoginUpdate"
   );
+
+  useEffect(() => {
+    const astrologerPhones = sessionStorage.getItem("astrologer-phone");
+    setAstrologerPhone(astrologerPhones);
+  }, []);
 
   useEffect(() => {
     axios
@@ -293,7 +298,11 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
 
   return (
     <div className="container">
-      <div className={`astrologer-registration-form ${astrologerData?.profileStatus == true ? "update-profile" : "" }`}>
+      <div
+        className={`astrologer-registration-form ${
+          astrologerData?.profileStatus == true ? "update-profile" : ""
+        }`}
+      >
         {astrologerData?.profileStatus !== true && (
           <h2>Please Complete the Profile then you connect the user.</h2>
         )}
@@ -559,9 +568,10 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
                   Description <span>(पविवरण)</span>
                 </label>
               </div>
-              <textarea id="description"
-               value={editDescription}
-                    onChange={(e) => setEditDescription(e.target.value)}
+              <textarea
+                id="description"
+                value={editDescription}
+                onChange={(e) => setEditDescription(e.target.value)}
               ></textarea>
             </div>
           </div>

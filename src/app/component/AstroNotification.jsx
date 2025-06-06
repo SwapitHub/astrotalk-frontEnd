@@ -113,8 +113,8 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
 
   // Handle the update and status change of the astrologer
   const onChangeId = async (astrologerId, userId) => {
-    secureLocalStorage.setItem("userIds", userId);
-    secureLocalStorage.setItem("astrologerId", astrologerId);
+    sessionStorage.setItem("userIds", userId);
+    sessionStorage.setItem("astrologerId", astrologerId);
 
     try {
       // await router.push(`/chat-with-astrologer/astrologer/${astrologerId}`);

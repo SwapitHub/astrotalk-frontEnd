@@ -12,13 +12,13 @@ function AstrologerWallet() {
   const [hasPrevPage, setHasPrevPage] = useState(false);
   const [totalAvailableBalance, setTotalAvailableBalance] = useState();
   const [loading, setLoading] = useState(false);
-  const astrologerPhone =
-    typeof window !== "undefined"
-      ? secureLocalStorage.getItem("astrologer-phone")
-      : null;
+  const [astrologerPhone, setAstrologerPhone] = useState();
 
-      
-      
+  useEffect(() => {
+    const astrologerPhones = sessionStorage.getItem("astrologer-phone");
+    setAstrologerPhone(astrologerPhones);
+  }, []);
+
   const fetchTransactions = async (pageNumber) => {
     try {
       setLoading(true);
@@ -55,36 +55,36 @@ function AstrologerWallet() {
         <Loader />
       ) : (
         <div className="outer-table">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>User Name</th>
-              <th>Available Balance</th>
-              <th>Transaction Amount</th>
-              <th>Description</th>
-              <th>Date and Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            {walletAdminData.length > 0 ? (
-              walletAdminData.map((item) => (
-                <tr key={item._id}>
-                  <td>{item._id}</td>
-                  <td>{item.userName || "N/A"}</td>
-                  <td>{Math.round(item.availableBalance)}</td>
-                  <td>{item.transactionAmount}</td>
-                  <td>{item.description || "No Description"}</td>
-                  <td>{new Date(item.createdAt).toLocaleString()}</td>
-                </tr>
-              ))
-            ) : (
+          <table>
+            <thead>
               <tr>
-                <td colSpan="6">No transactions found.</td>
+                <th>ID</th>
+                <th>User Name</th>
+                <th>Available Balance</th>
+                <th>Transaction Amount</th>
+                <th>Description</th>
+                <th>Date and Time</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {walletAdminData.length > 0 ? (
+                walletAdminData.map((item) => (
+                  <tr key={item._id}>
+                    <td>{item._id}</td>
+                    <td>{item.userName || "N/A"}</td>
+                    <td>{Math.round(item.availableBalance)}</td>
+                    <td>{item.transactionAmount}</td>
+                    <td>{item.description || "No Description"}</td>
+                    <td>{new Date(item.createdAt).toLocaleString()}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6">No transactions found.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       )}
       <div className="admin-wallet-inner">

@@ -40,19 +40,19 @@ const [toggleMobile, setToggleMobile] = useState(false);
   }, []);
 
   useEffect(() => {
-    const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
+    const astrologerPhone = sessionStorage.getItem("astrologer-phone");
     setAstrologerPhone(astrologerPhone);
   }, []);
 
   // Watch for userMobile updates
   useEffect(() => {
-    const storedMobile = secureLocalStorage.getItem("userMobile");
+    const storedMobile = sessionStorage.getItem("userMobile");
     if (storedMobile) {
       setUserMobile(Math.round(storedMobile));
     }
 
     const handleStorageChange = () => {
-      const updatedMobile = secureLocalStorage.getItem("userMobile");
+      const updatedMobile = sessionStorage.getItem("userMobile");
       if (updatedMobile) {
         setUserMobile(updatedMobile);
         // fetchUserDetail();
@@ -97,9 +97,9 @@ const [toggleMobile, setToggleMobile] = useState(false);
 
   const userLogout = () => {
     window.dispatchEvent(new Event(""));
-    secureLocalStorage.removeItem("userIds");
-    secureLocalStorage.removeItem("userMobile");
-    secureLocalStorage.removeItem("astrologerId");
+    sessionStorage.removeItem("userIds");
+    sessionStorage.removeItem("userMobile");
+    sessionStorage.removeItem("astrologerId");
     secureLocalStorage.removeItem("AstrologerNotificationStatus");
     setUserMobile(null);
   };

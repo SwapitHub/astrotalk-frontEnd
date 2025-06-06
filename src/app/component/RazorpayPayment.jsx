@@ -6,11 +6,17 @@ import { toast } from "react-toastify";
 import secureLocalStorage from "react-secure-storage";
 import { useRouter } from "next/navigation";
 
-const RazorpayPayment = ({ totalFinalPrice, extraAmount,totalAmount }) => {
+const RazorpayPayment = ({ totalFinalPrice, extraAmount, totalAmount }) => {
   const { error, isLoading, Razorpay } = useRazorpay();
-  const userMobile = secureLocalStorage.getItem("userMobile");
-const router = useRouter()
+
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [userMobile, setUserMobile] = useState(false);
+
+  useEffect(() => {
+    const userMobiles = Math.round(sessionStorage.getItem("userMobile"));
+    setUserMobile(userMobiles);
+  }, []);
 
   const handlePayment = async () => {
     try {
@@ -51,7 +57,7 @@ const router = useRouter()
                 }
               );
 
-              router.push("/chat-with-astrologer")
+              router.push("/chat-with-astrologer");
               // Additional success logic here
             } else {
               // Delete the order record if verification fails

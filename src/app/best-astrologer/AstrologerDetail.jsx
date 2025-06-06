@@ -34,8 +34,9 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
 });
 export const AstrologerDetail = ({ astrologerData }) => {
   const router = useRouter();
-  const userMobile = Math.round(secureLocalStorage.getItem("userMobile"));
-  const userIds = secureLocalStorage.getItem("userIds");
+ const [userIds, setUserIds] = useState();
+  const [userMobile, setUserMobile] = useState();
+
   const [showRecharge, setShowRecharge] = useState(false);
   const [astroMobileNum, setAstroMobileNum] = useState();
   const [astrologerId, setAstrologerId] = useState();
@@ -47,6 +48,14 @@ export const AstrologerDetail = ({ astrologerData }) => {
   );
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(null);
+ 
+
+  useEffect(() => {
+    const userMobiles = Math.round(sessionStorage.getItem("userMobile"));
+    const userId = sessionStorage.getItem("userIds");
+    setUserMobile(userMobiles);
+    setUserIds(userId);
+  }, []);
 
   useEffect(() => {
     if (userMobile) {
@@ -86,7 +95,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
         secureLocalStorage.setItem("IsLoadingRequestStore", true);
         setIsLoadingRequest(true);
 
-        secureLocalStorage.setItem("astrologerId", astrologerId);
+        sessionStorage.setItem("astrologerId", astrologerId);
 
         const messageId = {
           userIdToAst: userIds,
@@ -199,7 +208,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
     if (isLoadingRequest) {
       if (astrologerId) {
         router.push(`/chat-with-astrologer/user/${userIds}`);
-        secureLocalStorage.setItem("astrologerId", astrologerId);
+        sessionStorage.setItem("astrologerId", astrologerId);
 
         secureLocalStorage.setItem("IsLoadingRequestStore", false);
         setIsLoadingRequest(false);
@@ -414,8 +423,12 @@ export const AstrologerDetail = ({ astrologerData }) => {
                       </div>
                     ) : (
                       <div className="astrologer-call-button-ctm chatStatus-false">
-                        <Link                         
-                          href={userData?.chatStatus?`/chat-with-astrologer/user/${userIds}`:"#"}
+                        <Link
+                          href={
+                            userData?.chatStatus
+                              ? `/chat-with-astrologer/user/${userIds}`
+                              : "#"
+                          }
                           // onClick={() =>
                           //   onChangeId(item._id, item.mobileNumber)
                           // }
@@ -564,7 +577,10 @@ export const AstrologerDetail = ({ astrologerData }) => {
                   </div>
                 </div>
               </div>
-              <AstrologerReview  astrologerData={astrologerData} renderStars={renderStars}/>
+              <AstrologerReview
+                astrologerData={astrologerData}
+                renderStars={renderStars}
+              />
             </div>
           </div>
         </div>

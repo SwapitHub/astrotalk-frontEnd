@@ -9,9 +9,16 @@ import HeaderDashNotification from "../component/HeaderDashNotification";
 import axios from "axios";
 
 const DashboardHeader = ({ setToggleSlideMobile }) => {
-  const astrologerPhone = secureLocalStorage.getItem("astrologer-phone");
+
   const [toggleSlide, setToggleSlide] = useState(false);
   const [astroDetailData, setAstroDetailData] = useState();
+
+ const [astrologerPhone, setAstrologerPhone] = useState();
+
+  useEffect(() => {
+    const astrologerPhones = sessionStorage.getItem("astrologer-phone");
+    setAstrologerPhone(astrologerPhones);
+  }, []);
 
   const toggleFullScreen = () => {
     const elem = document.documentElement;
