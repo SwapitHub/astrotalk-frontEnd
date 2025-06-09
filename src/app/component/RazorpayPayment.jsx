@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import secureLocalStorage from "react-secure-storage";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { useEffect } from "react";
 
 const RazorpayPayment = ({ totalFinalPrice, extraAmount, totalAmount }) => {
   const { error, isLoading, Razorpay } = useRazorpay();

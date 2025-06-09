@@ -48,7 +48,7 @@ const ChattingServer = async (props) => {
 
   return (
     <>
-      <Chatting astrologer={astrologer} AdminCommissionData={AdminCommissionData[0].AdminCommissions}/>
+      <Chatting astrologer={astrologer} AdminCommissionData={AdminCommissionData[0]?.AdminCommissions}/>
     </>
   );
 };

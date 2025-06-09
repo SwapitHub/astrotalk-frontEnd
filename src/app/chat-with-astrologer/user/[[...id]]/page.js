@@ -29,7 +29,7 @@ const ChattingServer = async ({ params, searchParams }) => {
   
   return (
     <>
-      <Chatting AdminCommissionData={AdminCommissionData[0].AdminCommissions} userIdUrl={userIdUrl}/>
+      <Chatting AdminCommissionData={AdminCommissionData[0]?.AdminCommissions} userIdUrl={userIdUrl}/>
     </>
   );
 };
