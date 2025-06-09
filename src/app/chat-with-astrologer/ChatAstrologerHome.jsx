@@ -269,7 +269,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
       const newStatus = data.astrologerData.chatStatus;
       setAstrologerNotificationStatus((prevStatus) => {
         if (prevStatus !== newStatus) {
-          secureLocalStorage.setItem("AstrologerNotificationStatus", newStatus);
+          Cookies.set("AstrologerNotificationStatus", newStatus);
           return newStatus;
         }
         return prevStatus;

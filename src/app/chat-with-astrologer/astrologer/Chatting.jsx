@@ -35,10 +35,16 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   const astrologerId = Cookies.get("astrologerId");
   const userIds = Cookies.get("userIds");
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
-    useState(() => secureLocalStorage.getItem("AstrologerNotificationStatus"));
+    useState(() => Cookies.get("AstrologerNotificationStatus"));
 
-    console.log(astrologerPhone,astrologerId,userIds, "userIds==================");
-    
+  console.log(
+    astrologerPhone,
+    astrologerId,
+    userIds,
+    "userIds=================="
+  );
+console.log("astrologerNotificationStatus",astrologerNotificationStatus);
+
   useEffect(() => {
     if (
       astrologerNotificationStatus == false ||
@@ -49,34 +55,33 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   }, [astrologerNotificationStatus]);
 
   // typing logic start here
-    const [isTyping, setIsTyping] = useState(false);
-    console.log(isTyping, "isTyping");
-  
-    useEffect(() => {
-      if (!socket) return;
-  
-      const handleTyping = (data) => {
-        if (data.userId !== userIds) {
-          setIsTyping(true);
-          setTimeout(() => setIsTyping(false), 2000);
-        }
-      };
-  
-      socket.on("typing", handleTyping);
-  
-      return () => {
-        socket.off("typing", handleTyping);
-      };
-    }, [socket, userIds]);
-  
-  
-     const handleTyping = () => {
-      socket.emit("typing", {
-        sender: showUserData?._id,
-        receiverId: astrologerId,
-      });
+  const [isTyping, setIsTyping] = useState(false);
+  console.log(isTyping, "isTyping");
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleTyping = (data) => {
+      if (data.userId !== userIds) {
+        setIsTyping(true);
+        setTimeout(() => setIsTyping(false), 2000);
+      }
     };
-    // typing logic end here
+
+    socket.on("typing", handleTyping);
+
+    return () => {
+      socket.off("typing", handleTyping);
+    };
+  }, [socket, userIds]);
+
+  const handleTyping = () => {
+    socket.emit("typing", {
+      sender: showUserData?._id,
+      receiverId: astrologerId,
+    });
+  };
+  // typing logic end here
 
   useEffect(() => {
     const storedTime = secureLocalStorage.getItem("chatTimeLeft");
@@ -103,7 +108,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
     socket.on("astrologer-data-received-new-notification", (data) => {
       console.log("New notification received:", data);
       if (data.astrologerData.mobileNumber == astrologerPhone) {
-        secureLocalStorage.setItem(
+        Cookies.set(
           "AstrologerNotificationStatus",
           data.astrologerData.chatStatus
         );
@@ -308,7 +313,7 @@ POB: ${showUserData?.placeOfBorn}<br/>`,
           console.log("newUserDetail=====", newUserDetail);
         }
         // Update AstrologerNotificationStatus in secureLocalStorage and state
-        secureLocalStorage.setItem(
+        Cookies.set(
           "AstrologerNotificationStatus",
           updatedAstrologerData.chatStatus
         );
@@ -481,9 +486,9 @@ POB: ${showUserData?.placeOfBorn}<br/>`,
                       placeholder="Type a message"
                       value={message}
                       // onChange={(e) => setMessage(e.target.value)}
-                       onChange={(e) => {
+                      onChange={(e) => {
                         setMessage(e.target.value);
-                        handleTyping(); 
+                        handleTyping();
                       }}
                       onKeyDown={handleKeyDown}
                     />

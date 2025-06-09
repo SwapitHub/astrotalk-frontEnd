@@ -252,7 +252,7 @@ const AstrologerHome = () => {
                       </a>
                     </li>
 
-                    {astrologerData?.profileStatus == true && (
+                    {astrologerData?.completeProfile == true && (
                       <li>
                         <span>
                           <input

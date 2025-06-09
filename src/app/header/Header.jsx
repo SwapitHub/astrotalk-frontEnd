@@ -101,7 +101,7 @@ const [toggleMobile, setToggleMobile] = useState(false);
     Cookies.remove("userIds");
     Cookies.remove("userMobile");
     Cookies.remove("astrologerId");
-    secureLocalStorage.removeItem("AstrologerNotificationStatus");
+    Cookies.remove("AstrologerNotificationStatus");
     setUserMobile(null);
   };
 

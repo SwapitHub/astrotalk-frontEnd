@@ -154,7 +154,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
           position: "top-right",
         });
 
-        window.location.reload();
+        // window.location.reload();
       }
 
       console.log("Registration successful:", response.data);
@@ -301,10 +301,10 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
     <div className="container">
       <div
         className={`astrologer-registration-form ${
-          astrologerData?.profileStatus == true ? "update-profile" : ""
+          astrologerData?.completeProfile == true ? "update-profile" : ""
         }`}
       >
-        {astrologerData?.profileStatus !== true && (
+        {astrologerData?.completeProfile !== true && (
           <h2>Please Complete the Profile then you connect the user.</h2>
         )}
         <form action="">
@@ -578,7 +578,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
           </div>
 
           <div className="reg-sumbit-button">
-            {astrologerData?.profileStatus !== true ? (
+            {astrologerData?.completeProfile !== true ? (
               <button type="button" onClick={handleBusinessProfile}>
                 Submit
               </button>

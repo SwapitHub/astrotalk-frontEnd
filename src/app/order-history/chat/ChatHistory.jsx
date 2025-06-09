@@ -232,7 +232,7 @@ const ChatHistory = () => {
 
       setAstrologerNotificationStatus((prevStatus) => {
         if (prevStatus !== newStatus) {
-          secureLocalStorage.setItem("AstrologerNotificationStatus", newStatus);
+          Cookies.set("AstrologerNotificationStatus", newStatus);
           return newStatus;
         }
         return prevStatus;

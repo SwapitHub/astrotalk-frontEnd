@@ -41,7 +41,7 @@ console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
   const userMobile = Math.round(Cookies.get("userMobile"));
 
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
-    useState(() => secureLocalStorage.getItem("AstrologerNotificationStatus"));
+    useState(() => Cookies.get("AstrologerNotificationStatus"));
   const mobileRef = useRef(null);
 
 
@@ -123,7 +123,7 @@ console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
       mobileRef.current = astrologerData.mobileNumber;
     }
 
-    const storedNotification = secureLocalStorage.getItem(
+    const storedNotification = Cookies.get(
       "AstrologerNotificationStatus"
     );
     if (storedNotification) {
@@ -156,7 +156,7 @@ console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
         // Ensure state actually changes
         setAstrologerNotificationStatus((prevStatus) => {
           if (prevStatus !== newStatus) {
-            secureLocalStorage.setItem(
+            Cookies.set(
               "AstrologerNotificationStatus",
               newStatus
             );
@@ -366,7 +366,7 @@ console.log("===============sasasa");
         }
 
         // Update AstrologerNotificationStatus in secureLocalStorage and state
-        secureLocalStorage.setItem(
+        Cookies.set(
           "AstrologerNotificationStatus",
           updatedAstrologerData.chatStatus
         );

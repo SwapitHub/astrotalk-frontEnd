@@ -157,7 +157,7 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
         secureLocalStorage.removeItem("requestFreeNotifications");
 
         if (astrologerData.mobileNumber == astrologerPhone) {
-          secureLocalStorage.setItem(
+          Cookies.set(
             "AstrologerNotificationStatus",
             astrologerData.chatStatus
           );
