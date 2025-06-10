@@ -168,10 +168,13 @@ console.log("astrologerNotificationStatus",astrologerNotificationStatus);
         chatContainerRef.current.scrollHeight;
     }
   }, [message]);
-  // auto send message first time user to astrologer
 
+  // auto send message first time user to astrologer
   useEffect(() => {
     if (!user || !userIds || !astrologerId) return; // wait until all data is available
+ const alreadySent = sessionStorage.getItem("userDetailsMessageSent");
+
+  if (alreadySent === "true") return;
 
     const now = new Date();
     const hours = now.getHours() % 12 || 12;
@@ -197,6 +200,7 @@ POB: ${showUserData?.placeOfBorn}<br/>`,
     };
 
     socket.emit("sendMessage", newMessage);
+    sessionStorage.setItem("userDetailsMessageSent", "true");
   }, [userIds, astrologerId, showUserData]); // only run once when all 3 are available
 
   const sendMessage = async () => {

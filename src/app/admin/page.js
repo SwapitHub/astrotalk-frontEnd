@@ -46,9 +46,9 @@ const Admin = () => {
       console.error("Login error:", err);
       setError(err.message || "Login failed");
     }
-    finally {
-      setIsLoading(false); // Stop loader
-    }
+    // finally {
+    //   setIsLoading(false); // Stop loader
+    // }
   };
 
   return (
