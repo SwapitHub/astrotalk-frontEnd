@@ -43,7 +43,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
     userIds,
     "userIds=================="
   );
-console.log("astrologerNotificationStatus",astrologerNotificationStatus);
+  console.log("astrologerNotificationStatus", astrologerNotificationStatus);
 
   useEffect(() => {
     if (
@@ -172,9 +172,9 @@ console.log("astrologerNotificationStatus",astrologerNotificationStatus);
   // auto send message first time user to astrologer
   useEffect(() => {
     if (!user || !userIds || !astrologerId) return; // wait until all data is available
- const alreadySent = sessionStorage.getItem("userDetailsMessageSent");
+    const alreadySent = sessionStorage.getItem("userDetailsMessageSent");
 
-  if (alreadySent === "true") return;
+    if (alreadySent === "true") return;
 
     const now = new Date();
     const hours = now.getHours() % 12 || 12;
