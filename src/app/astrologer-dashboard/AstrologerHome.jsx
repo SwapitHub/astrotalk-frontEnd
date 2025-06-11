@@ -29,11 +29,20 @@ const AstrologerHome = () => {
   const [successMessageProfile, setSuccessMessageProfile] = useState();
   const [astrologerData, setAstrologerData] = useState("");
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
+  console.log(astrologerData, "astrologerData");
 
   useEffect(() => {
     const astrologerPhones = Cookies.get("astrologer-phone");
     setAstrologerPhone(astrologerPhones);
   }, []);
+
+  useEffect(() => {
+    if (!astrologerData?.completeProfile == true) {
+      setUpdateButton(2);
+    } else {
+      setUpdateButton(1);
+    }
+  }, [astrologerData]);
 
   useEffect(() => {
     if (!astrologerPhone) {
