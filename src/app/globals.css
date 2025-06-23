@@ -4125,6 +4125,9 @@ button {
     left: 0;
     background-color: #fff;
 }
+nav.navbar > ul > li > span{
+  cursor: pointer;
+}
 /* ================== @ Media Css Start Here ================== */
 @media (max-width: 1400px) {
   .outer-home-dashboard ul {

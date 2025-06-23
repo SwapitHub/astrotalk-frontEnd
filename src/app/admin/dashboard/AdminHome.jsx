@@ -25,11 +25,12 @@ import { IoMdLogOut } from "react-icons/io";
 import { TbBrandDenodo } from "react-icons/tb";
 import { FaHeadSideCough } from "react-icons/fa";
 import ChangePassword from "./ChangePassword";
+import { useGlobalContext } from "@/context/HomeContext";
 
 const AdminHome = () => {
   const router = useRouter();
   const admin_id = secureLocalStorage.getItem("admin_id");
-  const [updateButton, setUpdateButton] = useState(1);
+  const {updateButton, setUpdateButton} = useGlobalContext();
   const [astroListToggle, setAstroListToggle] = useState(false);
   const [adminWalletToggle, setAdminWalletToggle] = useState(false);
   const [adminSideSettingToggle, setAdminSideSettingToggle] = useState(false);
@@ -85,6 +86,7 @@ const AdminHome = () => {
                         onClick={(e) => {
                           e.preventDefault();
                           setUpdateButton(1);
+                          setToggleSlideMobile(false)
                         }}
                       >
                         <MdOutlineDashboard />
@@ -123,6 +125,7 @@ const AdminHome = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setUpdateButton("active");
+                                setToggleSlideMobile(false)
                               }}
                             >
                               Active
@@ -138,6 +141,7 @@ const AdminHome = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setUpdateButton("pending");
+                                setToggleSlideMobile(false)
                               }}
                             >
                               Pending
@@ -178,6 +182,7 @@ const AdminHome = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setUpdateButton("admin");
+                                setToggleSlideMobile(false)
                               }}
                             >
                               Admin
@@ -193,6 +198,7 @@ const AdminHome = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setUpdateButton("astrologer");
+                                setToggleSlideMobile(false)
                               }}
                             >
                               Astrologer
@@ -206,6 +212,7 @@ const AdminHome = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setUpdateButton("user");
+                                setToggleSlideMobile(false)
                               }}
                             >
                               User
@@ -261,6 +268,7 @@ const AdminHome = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setUpdateButton("language");
+                                setToggleSlideMobile(false)
                               }}
                             >
                               Add Languages
@@ -276,6 +284,7 @@ const AdminHome = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setUpdateButton("profession");
+                                setToggleSlideMobile(false)
                               }}
                             >
                               Add Profession
@@ -291,6 +300,7 @@ const AdminHome = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setUpdateButton("ChatCommission");
+                                setToggleSlideMobile(false)
                               }}
                             >
                               Chat Commission
@@ -306,6 +316,7 @@ const AdminHome = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setUpdateButton("changePassword");
+                                setToggleSlideMobile(false)
                               }}
                             >
                               Change Password
@@ -320,6 +331,7 @@ const AdminHome = () => {
                         onClick={(e) => {
                           e.preventDefault();
                           setUpdateButton(4);
+                          setToggleSlideMobile(false)
                         }}
                       >
                         <TfiGallery />
@@ -333,6 +345,7 @@ const AdminHome = () => {
                         onClick={(e) => {
                           e.preventDefault();
                           setUpdateButton(6);
+                          setToggleSlideMobile(false)
                         }}
                       >
                         <FaHeadSideCough />
@@ -345,6 +358,7 @@ const AdminHome = () => {
                         onClick={(e) => {
                           e.preventDefault();
                           setUpdateButton(7);
+                          setToggleSlideMobile(false)
                         }}
                       >
                         <PiUserListDuotone />

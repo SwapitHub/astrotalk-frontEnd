@@ -68,7 +68,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
       toast.error("Profile not Completed", {
         position: "top-right",
       });
-    };
+    }
 
     const formData = new FormData();
 
@@ -119,9 +119,9 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
     if (imageFile) {
       formData.append("image", imageFile);
     }
-if (!document.getElementById("image").files.length) {
-  errors.imagePic = "Image is required";
-}
+    if (!document.getElementById("image").files.length) {
+      errors.imagePic = "Image is required";
+    }
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile`,
@@ -336,13 +336,13 @@ if (!document.getElementById("image").files.length) {
                   name="image"
                   accept=".jpg, .jpeg, .png"
                   className="common-input-filed"
-                    onChange={() => {
-    setErrors((prev) => {
-      const newErrors = { ...prev };
-      delete newErrors.imagePic;
-      return newErrors;
-    });
-  }}
+                  onChange={() => {
+                    setErrors((prev) => {
+                      const newErrors = { ...prev };
+                      delete newErrors.imagePic;
+                      return newErrors;
+                    });
+                  }}
                 />
                 {errors.imagePic && <p className="error">{errors.imagePic}</p>}
               </div>

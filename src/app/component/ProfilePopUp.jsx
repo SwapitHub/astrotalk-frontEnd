@@ -12,6 +12,7 @@ const ProfilePopUp = ({ astroDetailData }) => {
   const router = useRouter();
   const { setUpdateButton } = useGlobalContext();
   const [astrologerPhone, setAstrologerPhone] = useState();
+  const admin_id = secureLocalStorage.getItem("admin_id");
 
   useEffect(() => {
     const astrologerPhones = Cookies.get("astrologer-phone");
@@ -61,9 +62,13 @@ console.log(astrologerPhone,"astrologerPhone");
   };
 
   const openProfile = () => {
-    setUpdateButton(2);
+    setUpdateButton(astrologerPhone ? 2 : "language");
   };
   return (
+    <>
+    {
+      (admin_id || astroDetailData ) &&
+    
     <ul className="profile-dropdown onhover-show-div">
       {astrologerPhone && (
         <>
@@ -95,7 +100,7 @@ console.log(astrologerPhone,"astrologerPhone");
           </li>
         </>
       )}
-
+{astrologerPhone && 
       <li>
         <Link href="#" onClick={openProfile}>
           <svg
@@ -116,8 +121,10 @@ console.log(astrologerPhone,"astrologerPhone");
           Profile
         </Link>
       </li>
+      }
+      {!astrologerPhone &&
       <li>
-        <Link href="#">
+        <Link href="#" onClick={openProfile}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -136,7 +143,7 @@ console.log(astrologerPhone,"astrologerPhone");
           Settings
         </Link>
       </li>
-
+}
       <li>
         {astrologerPhone ? (
           <button onClick={astroLogerLogout}>
@@ -182,6 +189,8 @@ console.log(astrologerPhone,"astrologerPhone");
         )}
       </li>
     </ul>
+    }
+    </>
   );
 };
 

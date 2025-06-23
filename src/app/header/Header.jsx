@@ -176,20 +176,18 @@ useEffect(() => {
                     </Link>
                   </li>
                   <li>
-                    <div>
+                    
                       <OtpData
                         setOtpPopUpDisplayAstro={setOtpPopUpDisplayAstro}
                         otpPopUpDisplayAstro={otpPopUpDisplayAstro}
                       />
-                      <Link
-                        href={`${
-                          astrologerPhone ? "/astrologer-dashboard" : "/"
-                        }`}
+                      <span
+                       
                         onClick={handleOtpPop}
                       >
-                        Astrologer Dashboard
-                      </Link>
-                    </div>
+                        Login Astrologer Dashboard
+                      </span>
+                    
                   </li>
                   <li>
                     <Link
