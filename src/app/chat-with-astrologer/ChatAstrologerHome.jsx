@@ -289,7 +289,6 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
       );
     };
   }, [socket]);
-  console.log(astrologerId);
 
   // ✅ Monitor astrologerId and redirect when it updates
   useEffect(() => {
@@ -339,7 +338,6 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
         console.log("astrologers===========", astrologers);
 
         astrologers.forEach((item) => {
-          console.log(item);
 
           const newData = fetch(
             `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-business-profile/${item?.mobileNumber}`,
@@ -393,7 +391,6 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
       userBornTime: userData?.reUseDateOfBirth,
       requestStatus: true,
     };
-    console.log(messageId);
 
     socket.emit("userId-to-astrologer", messageId);
     socket.emit("astrologer-chat-requestStatus", { requestStatus: true });

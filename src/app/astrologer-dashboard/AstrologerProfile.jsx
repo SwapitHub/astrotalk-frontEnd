@@ -304,7 +304,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
   };
 
   return (
-    <div className="container">
+    
       <div
         className={`astrologer-registration-form ${
           astrologerData?.completeProfile == true ? "update-profile" : ""
@@ -608,7 +608,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
           </div>
         </form>
       </div>
-    </div>
+    
   );
 };
 

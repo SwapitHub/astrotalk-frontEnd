@@ -94,8 +94,7 @@ console.log("sessionValue",sessionValue);
   }, [isOnline, updateAstrologerStatus]);
 
   return (
-    <section className="astrologer-registration-bg">
-      <div className="container">
+    <section className="astrologer-registration-bg">      
         <div className="astro-dashboard-heading-btns-outer">
           <div className="home-dashboard-heading">
             <h2>Dashboard</h2>
@@ -179,7 +178,7 @@ console.log("sessionValue",sessionValue);
             </ul>
           </div>
         </div>
-      </div>
+     
     </section>
   );
 };

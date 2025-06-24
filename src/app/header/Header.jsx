@@ -157,6 +157,7 @@ useEffect(() => {
                         setTimeout(() => {
                           setIsLoading(false);
                         }, 3000);
+                        setToggleMobile(false)
                       }}
                     >
                       Chat Now
@@ -170,7 +171,8 @@ useEffect(() => {
                         setTimeout(() => {
                           setIsLoading(false);
                         }, 3000);
-                      }}
+                        setToggleMobile(false)
+                      }}                      
                     >
                       Chat with Astrologer
                     </Link>
@@ -197,6 +199,7 @@ useEffect(() => {
                         setTimeout(() => {
                           setIsLoading(false);
                         }, 3000);
+                        setToggleMobile(false)
                       }}
                     >
                       Astrologer Registration

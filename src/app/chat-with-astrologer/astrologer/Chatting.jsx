@@ -37,13 +37,8 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(() => Cookies.get("AstrologerNotificationStatus"));
 
-  console.log(
-    astrologerPhone,
-    astrologerId,
-    userIds,
-    "userIds=================="
-  );
-  console.log("astrologerNotificationStatus", astrologerNotificationStatus);
+ 
+  console.log("showUserData", showUserData);
 
   useEffect(() => {
     if (
@@ -239,9 +234,10 @@ POB: ${showUserData?.placeOfBorn}<br/>`,
       sendMessage();
     }
   };
+console.log(astrologer, "astrologer.name");
 
   useEffect(() => {
-    setUser(astrologer.name);
+    setUser(astrologer?.name);
     socket.emit("joinChat", { userIds, astrologerId });
     fetchMessages();
     socket.on("receiveMessage", (msg) => {

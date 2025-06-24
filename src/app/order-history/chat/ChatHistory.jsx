@@ -59,7 +59,7 @@ const ChatHistory = () => {
     useState(null);
   const [astrologerId, setAstrologerId] = useState();
 
-  console.log("====astroMessageList", astroMessageList);
+  console.log("====auserMobile", userMobile, userData);
   const deleteOrderHistory = (id) => {
     setShowDelete(true);
     setDeleteId(id);
@@ -71,6 +71,15 @@ const ChatHistory = () => {
     setUserMobile(userMobiles);
     setUserIds(userId);
   }, []);
+
+ useEffect(() => {
+    document.body.classList.remove(
+      "loading-user-filter-popup"
+    );   
+     if (isLoadingRequest) {
+      document.body.classList.add("loading-user-filter-popup");
+    }
+  }, [isLoadingRequest]);
 
   useEffect(() => {
     if (showRecharge) {
@@ -92,24 +101,27 @@ const ChatHistory = () => {
     }
   }, [showRecharge, showDelete, shareOpenPopup]);
 
-  const fetchAstroMessageList = async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list/${userIds}?page=${page}&limit=4`
-      );
+ const fetchAstroMessageList = async () => {
+  console.log("Fetching page", page); // ✅ ये दिखना चाहिए
 
-      const newMessages = response.data.data;
+  setIsLoading(true);
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list/${userIds}?page=${page}&limit=4`
+    );
 
-      setAstroMessageList((prev) => [...prev, ...newMessages]);
-      setHasMore(response.data.hasMore);
-      setPage((prev) => prev + 1);
-    } catch (error) {
-      console.error("Error fetching messages:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    const newMessages = response.data.data;
+
+    setAstroMessageList((prev) => [...prev, ...newMessages]);
+    setHasMore(response.data.hasMore);
+    setPage((prev) => prev + 1);
+  } catch (error) {
+    console.error("Error fetching messages:", error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   // Filter out deleted item locally after success
   const handleDeleteSuccess = (id) => {
@@ -129,19 +141,20 @@ const ChatHistory = () => {
     }
   }, [userIds, page]);
 
-  const fetchDataUserDetail = async () => {
-    try {
-      const data = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
-      );
-      setUserData(data.data.data);
-    } catch (error) {
-      console.error("Error fetching fetchDataUserDetail:", error);
-    }
-  };
   useEffect(() => {
-    fetchDataUserDetail();
-  }, []);
+    if (userMobile) {
+      axios
+        .get(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
+        )
+        .then((res) => {
+          setUserData(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err, "user login api error");
+        });
+    }
+  }, [userMobile]);
 
   const userAmount = userData?.totalAmount;
 
@@ -153,6 +166,9 @@ const ChatHistory = () => {
     astroCharge,
     astroExperience
   ) => {
+    if (!userIds) {
+      return;
+    }
     if (userAmount >= astroCharge * 2) {
       try {
         // Navigate to the chat page
@@ -161,6 +177,7 @@ const ChatHistory = () => {
         // This code will run after the navigation is complete
         secureLocalStorage.setItem("IsLoadingRequestStore", true);
         setIsLoadingRequest(true);
+
         Cookies.set("astrologerId", astrologerId , {
            expires: 3650,
               secure: true,
@@ -186,6 +203,7 @@ const ChatHistory = () => {
           userPlaceOfBorn: userData?.placeOfBorn,
           userBornTime: userData?.reUseDateOfBirth,
         };
+
         socket.emit("userId-to-astrologer", messageId);
         socket.emit("astrologer-chat-requestPaidChat", { requestStatus: 0 });
       } catch (error) {
@@ -357,7 +375,7 @@ const ChatHistory = () => {
                     next={fetchAstroMessageList}
                     hasMore={hasMore} // ✅ Boolean
                     loader={<Loader />}
-                    scrollThreshold={0.9} // Trigger load when 90% scrolled
+                    scrollThreshold={0.8} // Trigger load when 90% scrolled
                   >
                     <div className="inner-scroll">
                       {astroMessageList.map((item) => {
@@ -464,15 +482,17 @@ const ChatHistory = () => {
 
                                               {item.chatStatus == false ? (
                                                 <div className="astrologer-call-button-ctm">
-                                                  {userAmount >=
-                                                  item.astroCharges * 2 ? (
+                                                  {!userData?.name ? (
+                                                    <Link href="/free-chat/start">
+                                                      Chat
+                                                    </Link>
+                                                  ) : userAmount >=
+                                                    item.charges * 2 ? (
                                                     <Link
-                                                      href={`#`}
+                                                      href="#"
                                                       onClick={() => {
-                                                        setIsLoading(false);
-
                                                         onChangeId(
-                                                          item.astrologerIdToAst,
+                                                           item.astrologerIdToAst,
                                                           item.mobileNumber,
                                                           // item.profileImage,
                                                           item.astroName,
@@ -481,7 +501,7 @@ const ChatHistory = () => {
                                                         );
                                                       }}
                                                     >
-                                                      Chat{" "}
+                                                      Chat
                                                     </Link>
                                                   ) : !userMobile ||
                                                     !userIds ? (
@@ -502,6 +522,8 @@ const ChatHistory = () => {
                                                           item.astroName,
                                                           item.astroCharges,
                                                           item.astroExperience
+
+                                                          
                                                         )
                                                       }
                                                     >

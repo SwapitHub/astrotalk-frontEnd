@@ -299,20 +299,29 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
         <div className="notification-astro">
           <div className="notification-box">
             <h4>New Chat Request</h4>
+            {
+              updateNotification?.userName &&             
             <p>
               <strong>Name of User:</strong> {updateNotification?.userName}
             </p>
+            }
             <p>
               <strong>Date of Birth:</strong>{" "}
               {updateNotification?.userDateOfBirth}
             </p>
+            {
+              updateNotification?.userPlaceOfBorn &&            
             <p>
               <strong>Place of Birth:</strong>{" "}
               {updateNotification?.userPlaceOfBorn}
             </p>
+            }
+
+            {updateNotification?.userBornTime && 
             <p>
               <strong>Time of Birth:</strong> {updateNotification?.userBornTime}
             </p>
+}
             <div className="button-outer">
               <button onClick={UpdateRemoveData}>Dismiss</button>
               <a

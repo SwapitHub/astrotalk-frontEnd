@@ -4128,6 +4128,11 @@ button {
 nav.navbar > ul > li > span{
   cursor: pointer;
 }
+.wallet-ctm-tab .infinite-scroll-component__outerdiv{
+  margin: 0 auto;
+  width: 100%;
+}
+
 /* ================== @ Media Css Start Here ================== */
 @media (max-width: 1400px) {
   .outer-home-dashboard ul {
@@ -4193,6 +4198,7 @@ nav.navbar > ul > li > span{
     position: absolute;
     right: 15px;
     display: block;
+    cursor: pointer;
   }
   .header button,
   .header-right-profil-icon {
@@ -4230,9 +4236,6 @@ nav.navbar > ul > li > span{
   }
   .inner-ctm-chat-with-astrologer {
     width: calc(100% / 2 - 7px);
-  }
-  .sort-right {
-    gap: 8px;
   }
   .inner-ctm-chat-with-astrologer {
     width: calc(100% / 2 - 7px);
@@ -4412,6 +4415,19 @@ nav.navbar > ul > li > span{
   .talk-to-astrologer-left-content {
     justify-content: center;
   }
+  .sort-right {
+    gap: 20px;
+  }
+  .filter-content .tab-pane label span::before, .sort-radio input[type="radio"] + label::before {
+    top: 0px;
+  }
+  .filter-content .tab-pane label span::after, .sort-radio input[type="radio"] + label::after {
+    top: 7px;
+  }
+  .astro-dashboard-heading-btns-outer {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
 }
 @media (max-width: 574px) {
   .chat-left-logo {
@@ -4438,5 +4454,10 @@ nav.navbar > ul > li > span{
   }
   .sharePopUp > h3 {
     font-size: 18px;
+  }
+}
+@media (max-width: 370px) {
+  .sort-right {
+    gap: 5px;
   }
 }
