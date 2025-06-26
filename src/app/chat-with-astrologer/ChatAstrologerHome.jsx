@@ -582,7 +582,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                             <div className="astrologer-list-left">
                               <div className="astrologer-profile">
                                 <img
-                                  src={`${`https://aws.astrotalk.com/consultant_pic/p-106783.jpg`}`}
+                                  src={`${item?.profileImage}`}
                                   alt={item?.name}
                                 />
                               </div>

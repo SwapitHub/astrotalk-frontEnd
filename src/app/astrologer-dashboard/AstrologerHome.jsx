@@ -19,6 +19,7 @@ import AstrologerReview from "./AstrologerReview";
 import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
 import { useGlobalContext } from "@/context/HomeContext";
 import Cookies from "js-cookie";
+import AstrologerGallery from "./AstrologerGallery";
 
 const AstrologerHome = () => {
   const { updateButton, setUpdateButton } = useGlobalContext();
@@ -301,6 +302,7 @@ const AstrologerHome = () => {
                   />
                 )}
                 {updateButton == 3 && <AstrologerWallet />}
+                {updateButton == 4 && <AstrologerGallery />}
                 {updateButton == 5 && (
                   <AstrologerReview
                     astrologerData={astrologerData}
