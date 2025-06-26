@@ -35,12 +35,13 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
 });
 export const AstrologerDetail = ({ astrologerData }) => {
   const router = useRouter();
- const [userIds, setUserIds] = useState();
+  const [userIds, setUserIds] = useState();
   const [userMobile, setUserMobile] = useState();
 
   const [showRecharge, setShowRecharge] = useState(false);
   const [astroMobileNum, setAstroMobileNum] = useState();
   const [astrologerId, setAstrologerId] = useState();
+  const [galleryData, setGalleryData] = useState([]);
 
   const [userData, setUserData] = useState();
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
@@ -49,7 +50,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
   );
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(null);
- 
+  console.log(astrologerData, "astrologerData");
 
   useEffect(() => {
     const userMobiles = Math.round(Cookies.get("userMobile"));
@@ -97,9 +98,9 @@ export const AstrologerDetail = ({ astrologerData }) => {
         setIsLoadingRequest(true);
 
         Cookies.set("astrologerId", astrologerId, {
-           expires: 3650,
-              secure: true,
-              sameSite: "Strict",
+          expires: 3650,
+          secure: true,
+          sameSite: "Strict",
         });
 
         const messageId = {
@@ -213,10 +214,10 @@ export const AstrologerDetail = ({ astrologerData }) => {
     if (isLoadingRequest) {
       if (astrologerId) {
         router.push(`/chat-with-astrologer/user/${userIds}`);
-        Cookies.set("astrologerId", astrologerId , {
-           expires: 3650,
-              secure: true,
-              sameSite: "Strict",
+        Cookies.set("astrologerId", astrologerId, {
+          expires: 3650,
+          secure: true,
+          sameSite: "Strict",
         });
 
         secureLocalStorage.setItem("IsLoadingRequestStore", false);
@@ -265,6 +266,20 @@ export const AstrologerDetail = ({ astrologerData }) => {
     };
   }, [socket]);
 
+  useEffect(() => {
+    const fetchGalleryList = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-gallery-astrologer/?mobileNumber=${astrologerData?.mobileNumber}`
+        );
+        setGalleryData(response.data);
+        console.log(response);
+      } catch (error) {
+        console.error("Fetch gallery list error:", error);
+      }
+    };
+    fetchGalleryList();
+  }, []);
   return (
     <main className="main-content">
       {isLoadingRequest && (
@@ -309,7 +324,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
             <div className="profile_with_contact">
               <div className="image">
                 <div className="img">
-                  <img src="https://aws.astrotalk.com/consultant_pic/p-106783.jpg" />
+                  <img src={`${astrologerData?.profileImage}`}/>
                 </div>
                 <button type="button" className="follow-button">
                   Follow
@@ -491,30 +506,11 @@ export const AstrologerDetail = ({ astrologerData }) => {
                   },
                 ]}
               >
-                <div className="astro-img">
-                  <img
-                    src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/262x262/images/6f17062e-24d1-4772-afcd-4de411d68d49.jpeg"
-                    alt=""
-                  />
-                </div>
-                <div className="astro-img">
-                  <img
-                    src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/262x262/images/6f17062e-24d1-4772-afcd-4de411d68d49.jpeg"
-                    alt=""
-                  />
-                </div>
-                <div className="astro-img">
-                  <img
-                    src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/262x262/images/6f17062e-24d1-4772-afcd-4de411d68d49.jpeg"
-                    alt=""
-                  />
-                </div>
-                <div className="astro-img">
-                  <img
-                    src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/262x262/images/6f17062e-24d1-4772-afcd-4de411d68d49.jpeg"
-                    alt=""
-                  />
-                </div>
+                {galleryData[0]?.multipleImages?.map((item) => (
+                  <div className="astro-img">
+                    <img src={item?.img_url} alt="" />
+                  </div>
+                ))}
               </Slider>
               {/* <!--- about section --> */}
             </div>

@@ -1,24 +1,28 @@
 "use client";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import Loader from "../component/Loader";
 
-const AstrologerGallery = () => {
+const AstrologerGallery = ({astrologerData}) => {
   const [galleryListData, setGalleryListData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [multipleImages, setMultipleImages] = useState([]);
+  const fileInputRef = useRef(null);
+console.log("galleryListData",galleryListData);
 
   const fetchGalleryList = async () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-gallery-astrologer`
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-gallery-astrologer/?mobileNumber=${astrologerData?.mobileNumber}`
       );
       setGalleryListData(response.data);
+      console.log(response);
+      
     } catch (error) {
       console.error("Fetch gallery list error:", error);
-      toast.error("Failed to fetch gallerys.", { position: "top-right" });
+      toast.error("Failed to fetch gallery.", { position: "top-right" });
     } finally {
       setLoading(false);
     }
@@ -31,7 +35,8 @@ const AstrologerGallery = () => {
   const handleSubmitAddGallery = async () => {
     setLoading(true);
     const formData = new FormData();
-
+    formData.append("nameAstro", astrologerData?.name);
+    formData.append("mobileNumber", astrologerData?.mobileNumber);
     // Append multiple images
     multipleImages.forEach((file) => {
       formData.append("multipleImages", file);
@@ -47,15 +52,25 @@ const AstrologerGallery = () => {
           },
         }
       );
-      console.log("Upload success:", response.data);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
       if (response.data?.message == "success") {
+         toast.success("Added successfully image!", {
+        position: "top-right",
+      });
+        setMultipleImages([]);
         fetchGalleryList();
-        setMultipleImages(" ");
       }
     } catch (error) {
-      console.error("Upload error:", error);
-      toast.error("Failed to delete gallery. please try again", { position: "top-right" });
-       setLoading(false);
+       if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+      setMultipleImages([]);
+      toast.error("Image is not upload. please try again", {
+        position: "top-right",
+      });
+      setLoading(false);
     } finally {
       setLoading(false);
     }
@@ -67,7 +82,6 @@ const AstrologerGallery = () => {
       const res = await axios.delete(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/delete-gallery-astrologer/?cloudinary_id=${id}`
       );
-      console.log("res-data", res);
 
       if (res.status == 200) {
         toast.success("gallery removed successfully!", {
@@ -76,11 +90,12 @@ const AstrologerGallery = () => {
         fetchGalleryList(); // Refresh list after delete
       }
     } catch (err) {
-      console.error("Delete gallery error:", err);
-      toast.error("Failed to delete gallery. please try again", { position: "top-right" });
-       setLoading(false);
+      toast.error("Failed to delete gallery. please try again", {
+        position: "top-right",
+      });
+      setLoading(false);
     } finally {
-      setLoading(true);
+      setLoading(false);
     }
   };
 
@@ -94,7 +109,7 @@ const AstrologerGallery = () => {
         <h2>Create New gallery</h2>
 
         <label>Choose Multiple Images:</label>
-        <input type="file" multiple onChange={handleMultipleChange} />
+        <input type="file" multiple onChange={handleMultipleChange} ref={fileInputRef}/>
 
         <button onClick={handleSubmitAddGallery}>Add gallery</button>
       </div>

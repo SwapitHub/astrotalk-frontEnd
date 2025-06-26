@@ -302,7 +302,7 @@ const AstrologerHome = () => {
                   />
                 )}
                 {updateButton == 3 && <AstrologerWallet />}
-                {updateButton == 4 && <AstrologerGallery />}
+                {updateButton == 4 && <AstrologerGallery astrologerData={astrologerData}/>}
                 {updateButton == 5 && (
                   <AstrologerReview
                     astrologerData={astrologerData}

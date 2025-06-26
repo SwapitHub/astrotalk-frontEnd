@@ -2183,6 +2183,21 @@ body.user-recharge:before {
   justify-content: space-between;
   align-items: center;
 }
+.gallery-main .language-add-data> label {
+    margin: 0 0 10px;
+    display: block;
+}
+.gallery-main .language-list ul li {
+    justify-content: unset;
+    gap: 20px;
+}
+.gallery-main .language-list ul li img {
+    width: 100px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
 .admin-wallet-inner {
   display: flex;
   justify-content: space-between;
@@ -2966,6 +2981,7 @@ input[type="file"] {
   border: 0;
   padding-inline: 0;
   padding: 0;
+  background: transparent;
 }
 input::file-selector-button {
   background-color: transparent;
