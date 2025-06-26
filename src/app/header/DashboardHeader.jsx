@@ -204,7 +204,7 @@ const DashboardHeader = ({ setToggleSlideMobile }) => {
               <div className="media">
                 {astrologerPhone ? (
                   <img
-                    src={`https://aws.astrotalk.com/consultant_pic/p-50896.jpg`}
+                    src={`${astroDetailData?.profileImage}`}
                     alt="user-profile"
                   />
                 ) : (

@@ -102,7 +102,7 @@ const ChatHistory = () => {
   }, [showRecharge, showDelete, shareOpenPopup]);
 
  const fetchAstroMessageList = async () => {
-  console.log("Fetching page", page); // ✅ ये दिखना चाहिए
+  console.log("Fetching page", page); 
 
   setIsLoading(true);
   try {
@@ -136,7 +136,7 @@ const ChatHistory = () => {
   }, [userIds]);
 
   useEffect(() => {
-    if (page === 1) {
+    if (page == 1 ) {
       fetchAstroMessageList();
     }
   }, [userIds, page]);
@@ -375,7 +375,7 @@ const ChatHistory = () => {
                     next={fetchAstroMessageList}
                     hasMore={hasMore} // ✅ Boolean
                     loader={<Loader />}
-                    scrollThreshold={0.8} // Trigger load when 90% scrolled
+                    scrollThreshold={0.9} // Trigger load when 90% scrolled
                   >
                     <div className="inner-scroll">
                       {astroMessageList.map((item) => {
