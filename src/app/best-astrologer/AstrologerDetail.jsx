@@ -468,7 +468,9 @@ export const AstrologerDetail = ({ astrologerData }) => {
             </div>
 
             {/* <!--- slider --> */}
-            <div className="slider-outer">
+            {
+              galleryData[0]?.multipleImages?.length>0 && 
+               <div className="slider-outer">
               <Slider
                 {...sliderSettings}
                 responsive={[
@@ -514,6 +516,8 @@ export const AstrologerDetail = ({ astrologerData }) => {
               </Slider>
               {/* <!--- about section --> */}
             </div>
+            }
+           
             <div className="about_us">
               <h2>About me</h2>
               <p>{astrologerData.Description}</p>

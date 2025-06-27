@@ -31,7 +31,6 @@ const MultiFilters = ({
   const [getTopAstrologerData, setGetTopAstrologerData] =
     useState(averageRating);
   const [errors, setErrors] = useState({});
-  console.log(getTopAstrologerData, averageRating);
 
   useEffect(() => {
     const storedLanguages = JSON.parse(

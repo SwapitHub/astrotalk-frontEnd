@@ -23,7 +23,7 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   reconnectionDelay: 1000,
   reconnectionDelayMax: 5000,
   timeout: 20000,
-  transports: ["websocket"], 
+  transports: ["websocket"],
   autoConnect: true,
   forceNew: true,
 });
@@ -72,7 +72,9 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     JSON.parse(secureLocalStorage.getItem("averageRating")) || []
   );
 
-  console.log(userData);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
 
   useEffect(() => {
     const userMobiles = Math.round(Cookies.get("userMobile"));
@@ -83,26 +85,36 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
 
   // Memoize the fetch function to prevent unnecessary recreations
   const fetchData = useCallback(async () => {
-    setIsLoading(true);
+    if (skipFetch) return;
     setError(null);
+    if (currentPage === 1) setIsLoading(true);
 
     try {
-      const response = await axios.get(
-        `${
+      const response = await axios.get(`
+        ${
           process.env.NEXT_PUBLIC_WEBSITE_URL
         }/astrologer-businessProfile?name=${searchName}&sortby=${
-          sortFilterCharges || ""
-        }&page=1&limit=15&languages=${findLanguageListData}&professions=${findSkillsListData}&gender=${genderData}&country=${countryData}&minAverageRating=${averageRating}&profileStatus=true`
-      );
-      setShowAstrologer(response.data.profiles);
+        sortFilterCharges || ""
+      }&page=${currentPage}&limit=4&languages=${findLanguageListData}&professions=${findSkillsListData}&gender=${genderData}&country=${countryData}&minAverageRating=${averageRating}&profileStatus=true
+      `);
+
+      const profiles = response.data.profiles;
+
+      setShowAstrologer((prev) => {
+        return currentPage === 1 ? profiles : [...(prev || []), ...profiles];
+      });
+
+      setHasMore(profiles.length === 4);
     } catch (err) {
-      setError(err);
       console.error("Error fetching astrologers:", err);
-      setShowAstrologer(null);
+      setError(err);
+      if (currentPage === 1) setShowAstrologer([]);
     } finally {
       setIsLoading(false);
+      setIsFetchingMore(false);
     }
   }, [
+    currentPage,
     searchName,
     sortFilterCharges,
     findLanguageListData,
@@ -110,19 +122,15 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     genderData,
     countryData,
     averageRating,
+    skipFetch,
+    currentPage,
   ]);
 
   useEffect(() => {
-    if (skipFetch) return;
-    const timerId = setTimeout(() => {
-      fetchData();
-    }, 500);
-
-    return () => clearTimeout(timerId);
+    setCurrentPage(1);
+    setHasMore(true);
   }, [
-    skipFetch,
     searchName,
-    fetchData,
     sortFilterCharges,
     findLanguageListData,
     findSkillsListData,
@@ -130,6 +138,29 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     countryData,
     averageRating,
   ]);
+  useEffect(() => {
+    if (!skipFetch) {
+      fetchData();
+    }
+  }, [currentPage, fetchData]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >=
+          document.body.offsetHeight - 100 &&
+        hasMore &&
+        !isFetchingMore &&
+        !isLoading
+      ) {
+        setIsFetchingMore(true);
+        setCurrentPage((prev) => prev + 1);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasMore, isFetchingMore, isLoading]);
 
   const handleSearchChange = (e) => {
     setSearchName(e.target.value);
@@ -181,10 +212,10 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
         secureLocalStorage.setItem("IsLoadingRequestStore", true);
         setIsLoadingRequest(true);
 
-        Cookies.set("astrologerId", astrologerId , {
-           expires: 3650,
-              secure: true,
-              sameSite: "Strict",
+        Cookies.set("astrologerId", astrologerId, {
+          expires: 3650,
+          secure: true,
+          sameSite: "Strict",
         });
 
         const messageId = {
@@ -295,10 +326,10 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     if (isLoadingRequest) {
       if (astrologerId) {
         router.push(`/chat-with-astrologer/user/${userIds}`);
-        Cookies.set("astrologerId", astrologerId , {
-           expires: 3650,
-              secure: true,
-              sameSite: "Strict",
+        Cookies.set("astrologerId", astrologerId, {
+          expires: 3650,
+          secure: true,
+          sameSite: "Strict",
         });
 
         secureLocalStorage.setItem("IsLoadingRequestStore", false);
@@ -338,7 +369,6 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
         console.log("astrologers===========", astrologers);
 
         astrologers.forEach((item) => {
-
           const newData = fetch(
             `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-business-profile/${item?.mobileNumber}`,
             {
