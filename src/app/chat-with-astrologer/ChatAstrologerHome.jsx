@@ -23,7 +23,7 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   reconnectionDelay: 1000,
   reconnectionDelayMax: 5000,
   timeout: 20000,
-  transports: ["websocket"], // Try WebSocket first
+  transports: ["websocket"], 
   autoConnect: true,
   forceNew: true,
 });
@@ -92,7 +92,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
           process.env.NEXT_PUBLIC_WEBSITE_URL
         }/astrologer-businessProfile?name=${searchName}&sortby=${
           sortFilterCharges || ""
-        }&page=1&limit=18&languages=${findLanguageListData}&professions=${findSkillsListData}&gender=${genderData}&country=${countryData}&minAverageRating=${averageRating}`
+        }&page=1&limit=15&languages=${findLanguageListData}&professions=${findSkillsListData}&gender=${genderData}&country=${countryData}&minAverageRating=${averageRating}&profileStatus=true`
       );
       setShowAstrologer(response.data.profiles);
     } catch (err) {

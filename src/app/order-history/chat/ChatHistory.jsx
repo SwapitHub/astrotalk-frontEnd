@@ -134,12 +134,13 @@ const ChatHistory = () => {
     setPage(1);
     setHasMore(true);
   }, [userIds]);
+console.log(page,"page");
 
   useEffect(() => {
     if (page == 1 ) {
       fetchAstroMessageList();
     }
-  }, [userIds, page]);
+  }, [userIds, page, fetchAstroMessageList]);
 
   useEffect(() => {
     if (userMobile) {
@@ -375,7 +376,7 @@ const ChatHistory = () => {
                     next={fetchAstroMessageList}
                     hasMore={hasMore} // ✅ Boolean
                     loader={<Loader />}
-                    scrollThreshold={0.9} // Trigger load when 90% scrolled
+                    scrollThreshold={0.9} 
                   >
                     <div className="inner-scroll">
                       {astroMessageList.map((item) => {

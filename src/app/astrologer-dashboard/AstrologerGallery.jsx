@@ -108,7 +108,7 @@ console.log("galleryListData",galleryListData);
       <div className="language-add-data">
         <h2>Create New gallery</h2>
 
-        <label>Choose Multiple Images:</label>
+        <label>Choose Multiple or Single Images:</label>
         <input type="file" multiple onChange={handleMultipleChange} ref={fileInputRef}/>
 
         <button onClick={handleSubmitAddGallery}>Add gallery</button>

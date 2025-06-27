@@ -186,8 +186,13 @@ const MultiFilters = ({
   }, [errors]);
 
   const resetFilters = () => {
-    const defaultLanguages = languageListData.map((lang) => lang.languages);
-    const defaultSkills = skillsListData.map((skill) => skill.professions);
+    const defaultLanguages = Array.isArray(languageListData)
+        ? languageListData.map((lang) => lang.languages)
+        : [];
+
+      const defaultSkills = Array.isArray(skillsListData)
+        ? skillsListData.map((skill) => skill.professions)
+        : [];
     const defaultGender = ["Male", "Female"];
     const defaultCountry = ["India", "Outside_India"];
     const defaultRating = ["celebrity", "top_choice", "rising_star", "All"];
