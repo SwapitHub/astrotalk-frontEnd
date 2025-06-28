@@ -114,14 +114,14 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     if (skipFetch) return;
     setError(null);
     if (currentPage === 1) setIsLoading(true);
-
+     let limit = 4
     try {
       const response = await axios.get(`
         ${
           process.env.NEXT_PUBLIC_WEBSITE_URL
         }/astrologer-businessProfile?name=${searchName}&sortby=${
         sortFilterCharges || ""
-      }&page=${currentPage}&limit=4&languages=${findLanguageListData}&professions=${findSkillsListData}&gender=${genderData}&country=${countryData}&minAverageRating=${averageRating}&profileStatus=true
+      }&page=${currentPage}&limit=${limit}&languages=${findLanguageListData}&professions=${findSkillsListData}&gender=${genderData}&country=${countryData}&minAverageRating=${averageRating}&profileStatus=true
       `);
 
       const profiles = response.data.profiles;
@@ -130,7 +130,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
         return currentPage === 1 ? profiles : [...(prev || []), ...profiles];
       });
 
-      setHasMore(profiles.length === 4);
+      setHasMore(profiles.length == limit);
     } catch (err) {
       console.error("Error fetching astrologers:", err);
       setError(err);

@@ -58,7 +58,7 @@ button {
 .loader + .all-list-talk-to-astrologer {
   display: none;
 }
-.talk-to-astrologer-bg .loader, section.my-order-hisrory-bg .loader{
+.talk-to-astrologer-bg .loader, section.my-order-hisrory-bg .loader, .my-wallet-table-sec .loader{
   background-color: #ffffff;
   z-index: 1;
   width: 100%;

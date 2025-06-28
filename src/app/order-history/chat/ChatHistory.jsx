@@ -104,11 +104,11 @@ const ChatHistory = () => {
 
   const fetchAstroMessageList = useCallback(async () => {
     if (!userIds || (!hasMore && currentPage !== 1)) return;
-
+   let limit = 4
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list/${userIds}?page=${currentPage}&limit=4`
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list/${userIds}?page=${currentPage}&limit=${limit}`
       );
 
       const newMessages = response.data.data;
@@ -117,7 +117,7 @@ const ChatHistory = () => {
         currentPage === 1 ? newMessages : [...prev, ...newMessages]
       );
 
-      setHasMore(newMessages.length == 4);
+      setHasMore(newMessages.length == limit);
     } catch (error) {
       console.error("Pagination fetch error:", error);
     } finally {
