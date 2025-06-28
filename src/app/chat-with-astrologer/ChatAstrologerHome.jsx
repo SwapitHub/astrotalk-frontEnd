@@ -82,24 +82,35 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     setUserMobile(userMobiles);
     setUserIds(userId);
 
-     const handleStorageChange = () => {
-          const updatedMobile = Cookies.get("userMobile");
-          if (updatedMobile) {
-            setUserMobile(updatedMobile);
-            // fetchUserDetail();
-          }
-        };
-    
-        window.addEventListener("userMobileUpdated", handleStorageChange);
-    
-        return () => {
-          window.removeEventListener("userMobileUpdated", handleStorageChange);
-        };
-  }, []);
+    const handleStorageChange = () => {
+      const updatedMobile = Cookies.get("userMobile");
+      if (updatedMobile) {
+        setUserMobile(updatedMobile);
+      }
+    };
+
+    const handleStorageChangeRemoved = () => {
+      setUserMobile(undefined);
+      setUserData(undefined);
+    };
+
+    window.addEventListener("userMobileUpdated", handleStorageChange);
+    window.addEventListener(
+      "userMobileUpdatedRemoved",
+      handleStorageChangeRemoved
+    );
+
+    return () => {
+      window.removeEventListener("userMobileUpdated", handleStorageChange);
+      window.removeEventListener(
+        "userMobileUpdatedRemoved",
+        handleStorageChangeRemoved
+      );
+    };
+  }, [userMobile, userIds]);
 
   // Memoize the fetch function to prevent unnecessary recreations
   const fetchData = useCallback(async () => {
-
     if (skipFetch) return;
     setError(null);
     if (currentPage === 1) setIsLoading(true);

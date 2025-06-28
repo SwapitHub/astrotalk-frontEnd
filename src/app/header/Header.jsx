@@ -97,12 +97,15 @@ const [toggleMobile, setToggleMobile] = useState(false);
   };
 
   const userLogout = () => {
-    window.dispatchEvent(new Event(""));
+   window.dispatchEvent(new Event("userMobileUpdatedRemoved"));
     Cookies.remove("userIds");
     Cookies.remove("userMobile");
     Cookies.remove("astrologerId");
     Cookies.remove("AstrologerNotificationStatus");
     setUserMobile(null);
+    setTimeout(() => {
+      router.push("/chat-with-astrologer")
+    }, 200);
   };
 
   const handelUserLogin = () => {
@@ -270,9 +273,9 @@ useEffect(() => {
                               </>
                             )}
                             <li>
-                              <Link href={``} onClick={userLogout}>
+                              <span className="logout" onClick={userLogout}>
                                 Logout
-                              </Link>
+                              </span>
                             </li>
                           </ul>
                         </div>

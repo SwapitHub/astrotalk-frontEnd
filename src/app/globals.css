@@ -1590,7 +1590,7 @@ p.error {
 .user-dashboard-profile-drop-down-menu {
   padding: 20px;
 }
-.user-dashboard-profile-drop-down-menu ul li a {
+.user-dashboard-profile-drop-down-menu ul li a, .user-dashboard-profile-drop-down-menu ul li .logout {
   text-transform: capitalize;
   font-size: 14px;
   text-transform: uppercase;
