@@ -58,14 +58,12 @@ button {
 .loader + .all-list-talk-to-astrologer {
   display: none;
 }
-.talk-to-astrologer-bg .loader {
+.talk-to-astrologer-bg .loader, section.my-order-hisrory-bg .loader{
   background-color: #ffffff;
-  position: absolute;
-  left: 0px;
   z-index: 1;
   width: 100%;
-  top: 100px;
-  min-height: calc(100vh - 225px);
+  min-height: 150px;
+  grid-column: span 2;
 }
 .outer-table {
   overflow-x: auto;

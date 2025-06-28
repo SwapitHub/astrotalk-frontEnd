@@ -323,16 +323,16 @@ console.log(astrologer, "astrologer.name");
 
         console.log(astrologerData.mobileNumber);
         // update order history
-        const updateList = await axios.put(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
-          {
-            mobileNumber: astrologerData.mobileNumber,
-            chatStatus: false,
-            profileStatus: true,
-          }
-        );
+        // const updateList = await axios.put(
+        //   `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
+        //   {
+        //     mobileNumber: astrologerData.mobileNumber,
+        //     chatStatus: false,
+        //     profileStatus: true,
+        //   }
+        // );
 
-        console.log("update hist", updateList);
+        // console.log("update hist", updateList);
       }
     } catch (error) {
       console.error(

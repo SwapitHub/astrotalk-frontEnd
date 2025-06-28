@@ -260,12 +260,12 @@ useEffect(() => {
                                   </Link>
                                 </li>
                                 <li>
-                                  <a
+                                  <Link
                                     href="/order-history/chat"
                                     title="order history"
                                   >
                                     Order History
-                                  </a>
+                                  </Link>
                                 </li>
                               </>
                             )}

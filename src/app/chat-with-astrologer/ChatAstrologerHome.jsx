@@ -81,10 +81,25 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     const userId = Cookies.get("userIds");
     setUserMobile(userMobiles);
     setUserIds(userId);
+
+     const handleStorageChange = () => {
+          const updatedMobile = Cookies.get("userMobile");
+          if (updatedMobile) {
+            setUserMobile(updatedMobile);
+            // fetchUserDetail();
+          }
+        };
+    
+        window.addEventListener("userMobileUpdated", handleStorageChange);
+    
+        return () => {
+          window.removeEventListener("userMobileUpdated", handleStorageChange);
+        };
   }, []);
 
   // Memoize the fetch function to prevent unnecessary recreations
   const fetchData = useCallback(async () => {
+
     if (skipFetch) return;
     setError(null);
     if (currentPage === 1) setIsLoading(true);
@@ -735,6 +750,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                     </>
                   );
                 })}
+                {isFetchingMore && <Loader />}
               </div>
             ) : (
               <p>No results found</p>

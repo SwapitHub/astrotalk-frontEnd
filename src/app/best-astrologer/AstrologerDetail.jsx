@@ -50,7 +50,6 @@ export const AstrologerDetail = ({ astrologerData }) => {
   );
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(null);
-  console.log(astrologerData, "astrologerData");
 
   useEffect(() => {
     const userMobiles = Math.round(Cookies.get("userMobile"));
@@ -58,6 +57,17 @@ export const AstrologerDetail = ({ astrologerData }) => {
     setUserMobile(userMobiles);
     setUserIds(userId);
   }, []);
+
+
+   useEffect(() => {
+      document.body.classList.remove(
+        "loading-user-filter-popup"
+      );   
+       if (isLoadingRequest) {
+        document.body.classList.add("loading-user-filter-popup");
+      }
+    }, [isLoadingRequest]);
+
 
   useEffect(() => {
     if (userMobile) {
