@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
+import { toast } from "react-toastify";
 
 const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
   const router = useRouter();
@@ -14,6 +15,8 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
   const [timeOtpMessage, setTimeOtpMessage] = useState("");
 
   const [pendingData, setPendingData] = useState([]);
+
+
 
   useEffect(() => {
     axios
@@ -34,9 +37,10 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
       const responseMatch = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-detail/${phone}`
       );
+console.log(responseMatch,"responseMatch");
 
       // Step 2: If match found, send OTP
-      if (responseMatch?.data?.success) {
+      if (responseMatch?.data?.success && responseMatch?.data?.data?.blockUnblockAstro==false) {
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/send-otp`,
           {
@@ -60,10 +64,17 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
         setMessage(response.data.message);
       } else {
         setMessage("Mobile number not found");
+        
+        toast.warn("You have been blocked. Please contact the administrator for assistance",{
+          position: "top-right"
+        })
       }
     } catch (error) {
-      if (error.response?.status === 404) {
+      if (error.response?.status == 404) {
         setMessage("Mobile number not registered");
+        toast.error("Mobile number not registered",{
+        position: "top-right",
+      })
       } else {
         setMessage("Error sending OTP");
       }

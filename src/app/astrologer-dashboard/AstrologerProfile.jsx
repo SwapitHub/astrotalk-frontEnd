@@ -7,9 +7,8 @@ import { validateAstrologerForm } from "../component/FormValidation";
 import secureLocalStorage from "react-secure-storage";
 import Cookies from "js-cookie";
 
-const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData }) => {
+const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData, registrationDetail, setRegistrationDetail }) => {
   const [astrologerPhone, setAstrologerPhone] = useState();
-  const [registrationDetail, setRegistrationDetail] = useState();
   const [astroUpdateDetail, setAstroUpdateDetail] = useState();
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState();

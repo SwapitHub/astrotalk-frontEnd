@@ -30,7 +30,9 @@ const AstrologerHome = () => {
   const [successMessageProfile, setSuccessMessageProfile] = useState();
   const [astrologerData, setAstrologerData] = useState("");
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
-  console.log(astrologerData, "astrologerData");
+  const [registrationDetail, setRegistrationDetail] = useState();
+
+  console.log(registrationDetail?.blockUnblockAstro, "registrationDetail");
 
   useEffect(() => {
     const astrologerPhones = Cookies.get("astrologer-phone");
@@ -128,6 +130,12 @@ const AstrologerHome = () => {
       );
     }
   };
+
+  useEffect(() => {
+    if (registrationDetail?.blockUnblockAstro == true) {
+      astroLogerLogout();
+    }
+  }, [registrationDetail,astroLogerLogout]);
 
   useEffect(() => {
     const className = "slider-opened";
@@ -299,10 +307,14 @@ const AstrologerHome = () => {
                     successMessageProfile={successMessageProfile}
                     setSuccessMessageProfile={setSuccessMessageProfile}
                     astrologerData={astrologerData}
+                    registrationDetail={registrationDetail}
+                    setRegistrationDetail={setRegistrationDetail}
                   />
                 )}
                 {updateButton == 3 && <AstrologerWallet />}
-                {updateButton == 4 && <AstrologerGallery astrologerData={astrologerData}/>}
+                {updateButton == 4 && (
+                  <AstrologerGallery astrologerData={astrologerData} />
+                )}
                 {updateButton == 5 && (
                   <AstrologerReview
                     astrologerData={astrologerData}

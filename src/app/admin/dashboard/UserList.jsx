@@ -16,7 +16,7 @@ const UserList = ({setUserListData}) => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login?page=${pageNumber}&limit=2`
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login?page=${pageNumber}&limit=5`
       );  
      secureLocalStorage.setItem("totalUsersList",res.data.totalUsers)
       setUserMainData(res.data.users);
@@ -48,6 +48,7 @@ const UserList = ({setUserListData}) => {
                 <th>Name</th>
                 <th>Gender</th>
                 <th>Date Of Birth</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>
@@ -57,6 +58,7 @@ const UserList = ({setUserListData}) => {
                   <td>{item.name}</td>
                   <td>{item.gender}</td>
                   <td>{item.dateOfBirth}</td>
+                  <td>Block</td>
                 </tr>
               ))}
             </tbody>

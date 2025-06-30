@@ -15,7 +15,7 @@ function AstrologerPendingList() {
     try {
       setLoading(true);
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-list?astroStatus=false&page=${pageNumber}&limit=2`
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-list?astroStatus=false&page=${pageNumber}&limit=5`
       );
       console.log( res.data.totalAstrologers);
 
@@ -49,8 +49,7 @@ function AstrologerPendingList() {
         { astroStatus: newStatus }
       );
       fetchAstrologers(page);
-      console.log(response.status == "200");
-      console.log(response);
+     
 
       if (response.status == "200") {
         try {
@@ -85,6 +84,7 @@ function AstrologerPendingList() {
               <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Mobile Number</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -93,6 +93,8 @@ function AstrologerPendingList() {
                 <tr key={item._id}>
                   <td>{item._id}</td>
                   <td>{item.name}</td>
+                  <td>{item?.mobileNumber}</td>
+
                   <td>
                     <button
                       onClick={() =>
@@ -113,7 +115,7 @@ function AstrologerPendingList() {
                         cursor: "pointer",
                       }}
                     >
-                      {item.astroStatus ? "Active" : "Pending"}
+                      {item.astroStatus ? "Active" : "Confirm"}
                     </button>
                   </td>
                 </tr>
