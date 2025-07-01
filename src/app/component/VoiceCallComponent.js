@@ -95,25 +95,31 @@ const VoiceCallComponent = () => {
     };
   }, []);
 
-  const prepareLocalStream = async () => {
-    if (!localStream.current) {
-      try {
-        localStream.current = await navigator.mediaDevices.getUserMedia({ audio: true });
-        if (localAudioRef.current) {
-          localAudioRef.current.srcObject = localStream.current;
-        }
-      } catch (err) {
-        alert("Microphone access denied.");
-        throw err;
-      }
-    }
-  };
+const prepareLocalStream = async () => {
+  if (!localStream.current) {
+    try {
+      localStream.current = await navigator.mediaDevices.getUserMedia({ audio: true });
+      console.log("Microphone stream started ✅", localStream.current);
 
-  const addTracksToPeer = (stream) => {
-    stream.getTracks().forEach((track) => {
-      peerConnection.current.addTrack(track, stream);
-    });
-  };
+      if (localAudioRef.current) {
+        localAudioRef.current.srcObject = localStream.current;
+      }
+    } catch (err) {
+      console.error("Microphone access failed ❌", err);
+      alert("Please allow microphone access.");
+      throw err;
+    }
+  }
+};
+
+
+const addTracksToPeer = (stream) => {
+  stream.getTracks().forEach((track) => {
+    console.log("Adding track:", track);
+    peerConnection.current.addTrack(track, stream);
+  });
+};
+
 
   const startCall = async () => {
     if (!targetId) return alert("Enter target socket ID.");
@@ -133,9 +139,11 @@ const VoiceCallComponent = () => {
         }
       };
 
-      peerConnection.current.ontrack = (event) => {
-        remoteAudioRef.current.srcObject = event.streams[0];
-      };
+   peerConnection.current.ontrack = (event) => {
+  console.log("Received remote stream:", event.streams);
+  remoteAudioRef.current.srcObject = event.streams[0];
+};
+
 
       const offer = await peerConnection.current.createOffer();
       await peerConnection.current.setLocalDescription(offer);
@@ -162,7 +170,10 @@ const VoiceCallComponent = () => {
       remoteAudioRef.current.srcObject = null;
     }
   };
-
+console.log("My Socket ID:", socket.id);
+console.log("Offer sent to:", targetId);
+console.log("Answer received");
+console.log("ICE candidate exchanged");
   return (
     <div style={{ padding: 20 }}>
       <h3>My Socket ID: {myId || "Connecting..."}</h3>
@@ -188,6 +199,7 @@ const VoiceCallComponent = () => {
       <audio ref={localAudioRef} autoPlay muted />
       <h4>Remote Audio</h4>
       <audio ref={remoteAudioRef} autoPlay playsInline />
+      
     </div>
   );
 };
