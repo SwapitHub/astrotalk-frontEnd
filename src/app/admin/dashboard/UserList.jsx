@@ -48,7 +48,6 @@ const UserList = ({setUserListData}) => {
                 <th>Name</th>
                 <th>Gender</th>
                 <th>Date Of Birth</th>
-                <th>Status</th>
               </tr>
             </thead>
             <tbody>
@@ -58,7 +57,6 @@ const UserList = ({setUserListData}) => {
                   <td>{item.name}</td>
                   <td>{item.gender}</td>
                   <td>{item.dateOfBirth}</td>
-                  <td>Block</td>
                 </tr>
               ))}
             </tbody>

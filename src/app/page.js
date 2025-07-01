@@ -5,7 +5,6 @@ import HomePage from "./home/page";
 import secureLocalStorage from "react-secure-storage";
 import Cookies from "js-cookie";
 import ChatWithAstrologer from "./chat-with-astrologer/ChatAstrologerHome";
-import VoiceCallComponent from "./component/VoiceCallComponent";
 
 export default function Home() {
   const [astrologerPhone, setAstrologerPhone] = useState()
@@ -14,6 +13,5 @@ export default function Home() {
     setAstrologerPhone(astrologerPhone)
   },[])
 
-  return <>{<VoiceCallComponent/>}</>
-  // return <>{astrologerPhone ? <AstrologerHome /> : <ChatWithAstrologer />}</>;
+  return <>{astrologerPhone ? <AstrologerHome /> : <ChatWithAstrologer />}</>;
 }
