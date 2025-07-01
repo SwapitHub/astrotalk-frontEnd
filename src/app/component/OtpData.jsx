@@ -16,8 +16,6 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
 
   const [pendingData, setPendingData] = useState([]);
 
-
-
   useEffect(() => {
     axios
       .get(
@@ -37,10 +35,13 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
       const responseMatch = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-detail/${phone}`
       );
-console.log(responseMatch,"responseMatch");
+      console.log( responseMatch?.data?.data?.blockUnblockAstro, "responseMatch");
 
       // Step 2: If match found, send OTP
-      if (responseMatch?.data?.success && responseMatch?.data?.data?.blockUnblockAstro==false) {
+      if (
+        responseMatch?.data?.success &&
+        responseMatch?.data?.data?.blockUnblockAstro == false ||  responseMatch?.data?.data?.blockUnblockAstro==undefined 
+      ) {
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/send-otp`,
           {
@@ -64,17 +65,20 @@ console.log(responseMatch,"responseMatch");
         setMessage(response.data.message);
       } else {
         setMessage("Mobile number not found");
-        
-        toast.warn("You have been blocked. Please contact the administrator for assistance",{
-          position: "top-right"
-        })
+
+        toast.warn(
+          "You have been blocked. Please contact the administrator for assistance",
+          {
+            position: "top-right",
+          }
+        );
       }
     } catch (error) {
       if (error.response?.status == 404) {
         setMessage("Mobile number not registered");
-        toast.error("Mobile number not registered",{
-        position: "top-right",
-      })
+        toast.error("Mobile number not registered", {
+          position: "top-right",
+        });
       } else {
         setMessage("Error sending OTP");
       }
@@ -97,10 +101,10 @@ console.log(responseMatch,"responseMatch");
         router.push("/astrologer-dashboard");
         setOtpPopUpDisplayAstro(false);
         setOtpSent(false);
-        Cookies.set("astrologer-phone", phone , {
-           expires: 3650,
-              secure: true,
-              sameSite: "Strict",
+        Cookies.set("astrologer-phone", phone, {
+          expires: 3650,
+          secure: true,
+          sameSite: "Strict",
         });
         sessionStorage.setItem("session-astrologer-phone", phone);
         try {

@@ -800,9 +800,13 @@ nav.navbar ul {
 }
 .all-list-talk-to-astrologer {
   margin-top: 30px;
-  display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
+}
+@media (min-width: 768px) {
+  .all-list-talk-to-astrologer {
+    display: grid;
+  }
 }
 .inner-astrologer-detail {
   box-shadow: 0 0 10px #ccc;
@@ -4342,8 +4346,8 @@ nav.navbar > ul > li > span{
   .about_astrologer p span {
     font-size: 12px;
   }
-  .all-list-talk-to-astrologer {
-    grid-template-columns: repeat(1, 1fr);
+  .inner-astrologer-detail:not(:last-child) {
+    margin: 0 0 20px;
   }
   .sort-filter-rating {
     flex-wrap: wrap;

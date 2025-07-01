@@ -165,7 +165,7 @@ console.log("sessionValue",sessionValue);
                 </Link>
               </li>
               <li>
-                <Link href="#">
+                <Link href="#" onClick={() => setUpdateButton(4)}>
                   <span>
                     <TfiGallery />
                   </span>

@@ -8,23 +8,23 @@ const AstrologerRegistration = () => {
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
   const [languageListData, setLanguageListData] = useState([]);
+  const todayDate = new Date().toISOString().split("T")[0];
 
   const handleSubmitSignup = async () => {
-    
     const validationErrors = validateAstrologerForm("astrologer");
     setErrors(validationErrors);
-  console.log(validationErrors);
-  
+    console.log(validationErrors);
+
     if (Object.keys(validationErrors).length > 0) {
       return;
     }
     console.log("kjkjhkjhkj");
-  
+
     // ✅ Collect multiple checked languages
     const selectedLanguages = Array.from(
       document.querySelectorAll('input[name="languages"]:checked')
     ).map((input) => input.value);
-  
+
     const formData = {
       first_name: document.getElementById("fname").value,
       date_of_birth: document.getElementById("birthday").value,
@@ -35,9 +35,9 @@ const AstrologerRegistration = () => {
       email: document.getElementById("emails").value,
       mobileNumber: document.getElementById("mobileNumber").value,
     };
-  
+
     console.log(formData); // Check the array of languages
-  
+
     // Basic required field validation
     if (
       !formData.first_name ||
@@ -51,7 +51,7 @@ const AstrologerRegistration = () => {
       console.warn("All form fields are required.");
       return;
     }
-  
+
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-registration`,
@@ -67,7 +67,7 @@ const AstrologerRegistration = () => {
           astroStatus: false,
         }
       );
-  
+
       if (response.data.message === "success") {
         // Reset fields
         document.getElementById("fname").value = "";
@@ -77,23 +77,23 @@ const AstrologerRegistration = () => {
         document.querySelectorAll('input[name="gender"]').forEach((radio) => {
           radio.checked = false;
         });
-        document.querySelectorAll('input[name="languages"]').forEach((checkbox) => {
-          checkbox.checked = false;
-        });
+        document
+          .querySelectorAll('input[name="languages"]')
+          .forEach((checkbox) => {
+            checkbox.checked = false;
+          });
         setSuccessMessage(response.data.message);
         console.log("Form reset successfully.");
       }
-  
+
       console.log("Registration successful:", response.data);
-    } 
-    catch (error) {
+    } catch (error) {
       toast.error("Email or mobile number already registered", {
         position: "top-right",
       });
       console.log("Error in registration api");
     }
   };
-  
 
   const fetchLanguageList = async () => {
     try {
@@ -106,14 +106,16 @@ const AstrologerRegistration = () => {
     } finally {
     }
   };
+
   useEffect(() => {
     fetchLanguageList();
   }, []);
+  
   return (
     <main className="main-content">
       {successMessage == "success" ? (
-          <section className="astrologer-registration-bg">
-            <div className="container">
+        <section className="astrologer-registration-bg">
+          <div className="container">
             <div className="astrologer-registration-wrapper">
               <div className="inner-astrologer-registration">
                 <div className="registration-heading">
@@ -140,135 +142,131 @@ const AstrologerRegistration = () => {
                   </p>
                 </div>
               </div>
-              </div>
             </div>
-          </section>
+          </div>
+        </section>
       ) : (
         <section className="astrologer-registration-bg">
           <div className="container">
-          <div className="astrologer-registration-wrapper">
-            <div className="inner-astrologer-registration">
-              <div className="registration-heading">
-                <h1 className="common-h1-heading">Astrologer Registration</h1>
+            <div className="astrologer-registration-wrapper">
+              <div className="inner-astrologer-registration">
+                <div className="registration-heading">
+                  <h1 className="common-h1-heading">Astrologer Registration</h1>
+                </div>
               </div>
-            </div>
-            <div className="astrologer-registration-form">
-              <form action="">
-                <div className="form-filed-section-bg">
-                  <div className="inner-form-filed-sec">
-                    <div className="label-content">
-                      <label for="Name">
-                        Name <span>(नाम)</span>
-                      </label>
+              <div className="astrologer-registration-form">
+                <form action="">
+                  <div className="form-filed-section-bg">
+                    <div className="inner-form-filed-sec">
+                      <div className="label-content">
+                        <label for="Name">
+                          Name <span>(नाम)</span>
+                        </label>
+                      </div>
+                      <input
+                        type="text"
+                        id="fname"
+                        name="fname"
+                        className="common-input-filed"
+                        placeholder="Please enter your name here"
+                      />
+                      {errors.firstName && (
+                        <p className="error">{errors.firstName}</p>
+                      )}
                     </div>
-                    <input
-                      type="text"
-                      id="fname"
-                      name="fname"
-                      className="common-input-filed"
-                      placeholder="Please enter your name here"
-                    />
-                    {errors.firstName && (
-                      <p className="error">{errors.firstName}</p>
-                    )}
-                  </div>
-                  <div className="inner-form-filed-sec">
-                    <div className="label-content">
-                      <label for="birthday">
-                        Date of Birth <span>(जन्मतिथि)</span>
-                      </label>
-                    </div>
-                    
+                    <div className="inner-form-filed-sec">
+                      <div className="label-content">
+                        <label for="birthday">
+                          Date of Birth <span>(जन्मतिथि)</span>
+                        </label>
+                      </div>
+
                       <input
                         type="date"
                         id="birthday"
                         name="birthday"
                         className="common-input-filed"
                         placeholder="Please enter your date of birth"
+                        max={todayDate}
                       />
                       {errors.dateOfBirth && (
                         <p className="error">{errors.dateOfBirth}</p>
                       )}
-                   
-                  </div>
-                  <div className="inner-form-filed-sec">
-                    <div className="label-content">
-                      <label htmlFor="gender">
-                        Gender <span>(लिंग)</span>
-                      </label>
                     </div>
-                    <div className="man-input-filed-sec input-gender-sec">
-                    <div className="inner-radio">
-                      <input
-                        type="radio"
-                        id="Male"
-                        name="gender"
-                        value="Male"
-                      />
-                      <label htmlFor="Male">Male</label>
-</div>
-<div className="inner-radio">
-                      <input
-                        type="radio"
-                        id="Female"
-                        name="gender"
-                        value="Female"
-                      />
-                      <label htmlFor="Female">Female</label>
-</div>
-<div className="inner-radio">
-                      <input
-                        type="radio"
-                        id="Other"
-                        name="gender"
-                        value="Other"
-                      />
-                      <label htmlFor="Other">Other</label>
+                    <div className="inner-form-filed-sec">
+                      <div className="label-content">
+                        <label htmlFor="gender">
+                          Gender <span>(लिंग)</span>
+                        </label>
                       </div>
-                      {errors.gender && (
-                        <p className="error">{errors.gender}</p>
-                      )}
+                      <div className="man-input-filed-sec input-gender-sec">
+                        <div className="inner-radio">
+                          <input
+                            type="radio"
+                            id="Male"
+                            name="gender"
+                            value="Male"
+                          />
+                          <label htmlFor="Male">Male</label>
+                        </div>
+                        <div className="inner-radio">
+                          <input
+                            type="radio"
+                            id="Female"
+                            name="gender"
+                            value="Female"
+                          />
+                          <label htmlFor="Female">Female</label>
+                        </div>
+                        <div className="inner-radio">
+                          <input
+                            type="radio"
+                            id="Other"
+                            name="gender"
+                            value="Other"
+                          />
+                          <label htmlFor="Other">Other</label>
+                        </div>
+                        {errors.gender && (
+                          <p className="error">{errors.gender}</p>
+                        )}
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="inner-form-filed-sec">
-                    <div className="label-content">
-                      <label for="Languages">
-                        Languages <span>(भाषाएँ)</span>
-                      </label>
+                    <div className="inner-form-filed-sec">
+                      <div className="label-content">
+                        <label for="Languages">
+                          Languages <span>(भाषाएँ)</span>
+                        </label>
+                      </div>
+                      <div className="man-input-filed-sec">
+                        {languageListData?.map((lang) => {
+                          return (
+                            <label key={lang._id}>
+                              <input
+                                type="checkbox"
+                                name="languages"
+                                value={lang.languages}
+                                id="languages"
+                                // onChange={handleLanguageCheckboxChange}
+                              />
+                              <span>{lang.languages}</span>
+                            </label>
+                          );
+                        })}
+                        {errors.languages && (
+                          <p className="error">{errors.languages}</p>
+                        )}
+                      </div>
                     </div>
-                    <div className="man-input-filed-sec">
-                      {languageListData?.map((lang) => {
 
-                        return (
-                          <label key={lang._id}>
-                            <input
-                              type="checkbox"
-                              name="languages"
-                              value={lang.languages}
-                              id="languages"
-                              // onChange={handleLanguageCheckboxChange}
-                            />
-                            <span>
+                    <div className="inner-form-filed-sec">
+                      <div className="label-content">
+                        <label for="Skills">
+                          Skills <span>(कौशल)</span>
+                        </label>
+                      </div>
 
-                            {lang.languages}
-                            </span>
-                          </label>
-                        );
-                      })}
-                      {errors.languages && (
-                        <p className="error">{errors.languages}</p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="inner-form-filed-sec">
-                    <div className="label-content">
-                      <label for="Skills">
-                        Skills <span>(कौशल)</span>
-                      </label>
-                    </div>
-                    
                       <select
                         name="Skills"
                         id="Skills"
@@ -293,17 +291,16 @@ const AstrologerRegistration = () => {
                       {errors.skills && (
                         <p className="error">{errors.skills}</p>
                       )}
-                    
-                  </div>
-
-                  <div className="inner-form-filed-sec">
-                    <div className="label-content">
-                      <label for="use-phone">
-                        Which phone do you use?{" "}
-                        <span>(आप कौन सा फ़ोन इस्तेमाल करते हैं?)</span>
-                      </label>
                     </div>
-                    
+
+                    <div className="inner-form-filed-sec">
+                      <div className="label-content">
+                        <label for="use-phone">
+                          Which phone do you use?{" "}
+                          <span>(आप कौन सा फ़ोन इस्तेमाल करते हैं?)</span>
+                        </label>
+                      </div>
+
                       <select
                         name="deviceUse"
                         id="deviceUse"
@@ -318,16 +315,15 @@ const AstrologerRegistration = () => {
                       {errors.deviceUse && (
                         <p className="error">{errors.deviceUse}</p>
                       )}
-                    
-                  </div>
-
-                  <div className="inner-form-filed-sec">
-                    <div className="label-content">
-                      <label for="birthday">
-                        Email Address <span> (मेल पता)</span>
-                      </label>
                     </div>
-                  
+
+                    <div className="inner-form-filed-sec">
+                      <div className="label-content">
+                        <label for="birthday">
+                          Email Address <span> (मेल पता)</span>
+                        </label>
+                      </div>
+
                       <input
                         type="email"
                         id="emails"
@@ -338,16 +334,15 @@ const AstrologerRegistration = () => {
                         required
                       />
                       {errors.email && <p className="error">{errors.email}</p>}
-                   
-                  </div>
-
-                  <div className="inner-form-filed-sec">
-                    <div className="label-content">
-                      <label for="birthday">
-                        Mobile Number <span>(मोबाइल नंबर)</span>
-                      </label>
                     </div>
-                    
+
+                    <div className="inner-form-filed-sec">
+                      <div className="label-content">
+                        <label for="birthday">
+                          Mobile Number <span>(मोबाइल नंबर)</span>
+                        </label>
+                      </div>
+
                       <input
                         type="text"
                         placeholder="Enter phone number"
@@ -363,16 +358,15 @@ const AstrologerRegistration = () => {
                       {errors.mobileNumber && (
                         <p className="error">{errors.mobileNumber}</p>
                       )}
-                    
+                    </div>
                   </div>
-                </div>
-                <div className="reg-sumbit-button">
-                  <button type="button" onClick={handleSubmitSignup}>
-                    Submit
-                  </button>
-                </div>
-              </form>
-            </div>
+                  <div className="reg-sumbit-button">
+                    <button type="button" onClick={handleSubmitSignup}>
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </section>

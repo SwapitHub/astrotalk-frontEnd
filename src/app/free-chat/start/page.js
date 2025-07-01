@@ -22,6 +22,7 @@ const StartUserName = () => {
   const [editPob, setEditPob] = useState();
 
   console.log(datePhoneAvailable);
+const todayDate = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
     const fetchUserDetail = async () => {
@@ -239,7 +240,8 @@ const StartUserName = () => {
                         placeholder="Select your birth date"
                         required
                         value={editDateOfBirth}
-                        onChange={(e) => setEditDateOfBirth(e.target.value)}
+                        onChange={(e) => setEditDateOfBirth(e.target.value)}                        
+                         max={todayDate} 
                       />
                       {errors?.dateOfBirthAnys && (
                         <p className="error">{errors?.dateOfBirthAnys}</p>
