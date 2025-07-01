@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 
 // ✅ Define socket outside the component to avoid multiple instances
-const socket = io("http://localhost:8080", {
+const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
   autoConnect: false, // we'll connect manually
 });
 
