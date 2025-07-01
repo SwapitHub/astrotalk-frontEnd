@@ -1,9 +1,11 @@
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 
-// ✅ Define socket outside the component to avoid multiple instances
-const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
-  autoConnect: false, // we'll connect manually
+// Create and export socket (change to your backend if needed)
+const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL || "http://localhost:8080", {
+  autoConnect: false,
+  transports: ["websocket"],
 });
 
 const VoiceCallComponent = () => {
@@ -19,19 +21,12 @@ const VoiceCallComponent = () => {
     iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
   };
 
-  // 🔁 Setup socket connection and listeners
   useEffect(() => {
-    socket.connect();
+    if (!socket.connected) socket.connect();
 
     socket.on("connect", () => {
-      console.log("Connected with ID:", socket.id);
+      console.log("🟢 Connected with ID:", socket.id);
       setMyId(socket.id);
-    });
-
-    socket.on("call-answered", async ({ answer }) => {
-      if (peerConnection.current) {
-        await peerConnection.current.setRemoteDescription(new RTCSessionDescription(answer));
-      }
     });
 
     socket.on("receive-call", async ({ callerSocketId, offer }) => {
@@ -50,7 +45,16 @@ const VoiceCallComponent = () => {
         };
 
         peerConnection.current.ontrack = (event) => {
-          remoteAudioRef.current.srcObject = event.streams[0];
+          const remoteStream = event.streams[0];
+          if (remoteAudioRef.current) {
+            remoteAudioRef.current.srcObject = remoteStream;
+            remoteAudioRef.current.onloadedmetadata = () => {
+              remoteAudioRef.current.play().catch((err) =>
+                console.error("🔇 Audio play error:", err)
+              );
+            };
+            console.log("🔊 Remote stream received");
+          }
         };
 
         await peerConnection.current.setRemoteDescription(new RTCSessionDescription(offer));
@@ -62,21 +66,27 @@ const VoiceCallComponent = () => {
           answer,
         });
 
-        // Apply pending ICE candidates
+        // Handle buffered ICE
         pendingCandidates.current.forEach((candidate) => {
           peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate));
         });
         pendingCandidates.current = [];
+      } catch (err) {
+        console.error("❌ Error answering call:", err);
+      }
+    });
 
-      } catch (error) {
-        console.error("Error answering call:", error);
+    socket.on("call-answered", async ({ answer }) => {
+      if (peerConnection.current) {
+        await peerConnection.current.setRemoteDescription(new RTCSessionDescription(answer));
+        console.log("✅ Call answered");
       }
     });
 
     socket.on("ice-candidate", ({ candidate }) => {
-      const iceCandidate = new RTCIceCandidate(candidate);
+      const ice = new RTCIceCandidate(candidate);
       if (peerConnection.current?.remoteDescription) {
-        peerConnection.current.addIceCandidate(iceCandidate);
+        peerConnection.current.addIceCandidate(ice);
       } else {
         pendingCandidates.current.push(candidate);
       }
@@ -88,41 +98,37 @@ const VoiceCallComponent = () => {
 
     return () => {
       socket.off("connect");
-      socket.off("call-answered");
       socket.off("receive-call");
+      socket.off("call-answered");
       socket.off("ice-candidate");
       socket.off("call-ended");
     };
   }, []);
 
-const prepareLocalStream = async () => {
-  if (!localStream.current) {
-    try {
-      localStream.current = await navigator.mediaDevices.getUserMedia({ audio: true });
-      console.log("Microphone stream started ✅", localStream.current);
-
-      if (localAudioRef.current) {
-        localAudioRef.current.srcObject = localStream.current;
+  const prepareLocalStream = async () => {
+    if (!localStream.current) {
+      try {
+        localStream.current = await navigator.mediaDevices.getUserMedia({ audio: true });
+        if (localAudioRef.current) {
+          localAudioRef.current.srcObject = localStream.current;
+        }
+        console.log("🎤 Microphone stream started ✅", localStream.current);
+      } catch (err) {
+        alert("Please allow microphone access.");
+        throw err;
       }
-    } catch (err) {
-      console.error("Microphone access failed ❌", err);
-      alert("Please allow microphone access.");
-      throw err;
     }
-  }
-};
+  };
 
-
-const addTracksToPeer = (stream) => {
-  stream.getTracks().forEach((track) => {
-    console.log("Adding track:", track);
-    peerConnection.current.addTrack(track, stream);
-  });
-};
-
+  const addTracksToPeer = (stream) => {
+    stream.getTracks().forEach((track) => {
+      console.log("🎧 Adding local track to peer:", track);
+      peerConnection.current.addTrack(track, stream);
+    });
+  };
 
   const startCall = async () => {
-    if (!targetId) return alert("Enter target socket ID.");
+    if (!targetId) return alert("Enter target socket ID");
 
     try {
       await prepareLocalStream();
@@ -139,11 +145,18 @@ const addTracksToPeer = (stream) => {
         }
       };
 
-   peerConnection.current.ontrack = (event) => {
-  console.log("Received remote stream:", event.streams);
-  remoteAudioRef.current.srcObject = event.streams[0];
-};
-
+      peerConnection.current.ontrack = (event) => {
+        const remoteStream = event.streams[0];
+        if (remoteAudioRef.current) {
+          remoteAudioRef.current.srcObject = remoteStream;
+          remoteAudioRef.current.onloadedmetadata = () => {
+            remoteAudioRef.current.play().catch((err) =>
+              console.error("🔇 Play failed:", err)
+            );
+          };
+          console.log("📶 Remote audio connected");
+        }
+      };
 
       const offer = await peerConnection.current.createOffer();
       await peerConnection.current.setLocalDescription(offer);
@@ -152,9 +165,9 @@ const addTracksToPeer = (stream) => {
         targetSocketId: targetId,
         offer,
       });
-
+      console.log("📞 Call initiated to", targetId);
     } catch (err) {
-      console.error("Error starting call:", err);
+      console.error("❌ Error starting call:", err);
     }
   };
 
@@ -163,20 +176,16 @@ const addTracksToPeer = (stream) => {
       peerConnection.current.close();
       peerConnection.current = null;
     }
-
     socket.emit("end-call", { targetSocketId: targetId });
-
     if (remoteAudioRef.current) {
       remoteAudioRef.current.srcObject = null;
     }
+    console.log("❌ Call ended");
   };
-console.log("My Socket ID:", socket.id);
-console.log("Offer sent to:", targetId);
-console.log("Answer received");
-console.log("ICE candidate exchanged");
+
   return (
     <div style={{ padding: 20 }}>
-      <h3>My Socket ID: {myId || "Connecting..."}</h3>
+      <h3>🔌 My Socket ID: {myId || "Connecting..."}</h3>
 
       <input
         type="text"
@@ -195,11 +204,11 @@ console.log("ICE candidate exchanged");
         </button>
       </div>
 
-      <h4>My Audio</h4>
-      <audio ref={localAudioRef} autoPlay muted />
-      <h4>Remote Audio</h4>
-      <audio ref={remoteAudioRef} autoPlay playsInline />
-      
+      <h4>🎙️ My Audio</h4>
+      <audio ref={localAudioRef} autoPlay muted controls />
+
+      <h4>🎧 Remote Audio</h4>
+      <audio ref={remoteAudioRef} autoPlay playsInline controls />
     </div>
   );
 };
