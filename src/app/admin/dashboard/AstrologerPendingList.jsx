@@ -48,8 +48,7 @@ function AstrologerPendingList() {
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-astro-status/${id}`,
         { astroStatus: newStatus }
       );
-      fetchAstrologers(page);
-     
+      fetchAstrologers(page);     
 
       if (response.status == "200") {
         try {
