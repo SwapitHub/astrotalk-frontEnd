@@ -220,7 +220,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
   const onChangeId = async (
     astrologerId,
     mobileNumber,
-    // profileImage,
+    profileImage,
     astroName,
     astroCharge,
     astroExperience
@@ -248,7 +248,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
           userIdToAst: userIds,
           astrologerIdToAst: astrologerId,
           mobileNumber: mobileNumber,
-          // profileImage: profileImage,
+          profileImage: profileImage,
           astroName: astroName,
           astroCharges: astroCharge,
           astroExperience: astroExperience,
@@ -706,7 +706,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                                         onChangeId(
                                           item._id,
                                           item.mobileNumber,
-                                          // item.profileImage,
+                                          item.profileImage,
                                           item.name,
                                           item.charges,
                                           item.experience
@@ -726,7 +726,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                                         onChangeId(
                                           item._id,
                                           item.mobileNumber,
-                                          // item.profileImage,
+                                          item.profileImage,
                                           item.name,
                                           item.charges,
                                           item.experience

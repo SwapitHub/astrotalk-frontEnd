@@ -1568,6 +1568,10 @@ p.error {
   border-top: 7px solid var(--primary_color);
   z-index: 111;
 }
+.hide-profile-popup-onload .user-dashboard-profile-menu {
+  display: none !important;
+}
+
 .user-dashboard-profile-main-pro:hover > .user-dashboard-profile-menu {
   display: block;
   transition: 0.3s ease-in-out;

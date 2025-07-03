@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import secureLocalStorage from "react-secure-storage";
 import UserOtpLoginData from "../component/UserOtpLoginData";
 import Cookies from "js-cookie";
+import Loader from "../component/Loader";
 
 const Header = () => {
   const router = useRouter();
@@ -16,7 +17,8 @@ const Header = () => {
   const [userDetailData, setUserDetailData] = useState();
   const [astrologerPhone, setAstrologerPhone] = useState();
   const [isLoading, setIsLoading] = useState(false);
-const [toggleMobile, setToggleMobile] = useState(false);
+  const [toggleMobile, setToggleMobile] = useState(false);
+  const [hideProfilePopup, setHideProfilePopup] = useState(false);
 
   const [admin_id, setAdmin_id] = useState(() =>
     secureLocalStorage.getItem("admin_id")
@@ -97,14 +99,14 @@ const [toggleMobile, setToggleMobile] = useState(false);
   };
 
   const userLogout = () => {
-   window.dispatchEvent(new Event("userMobileUpdatedRemoved"));
+    window.dispatchEvent(new Event("userMobileUpdatedRemoved"));
     Cookies.remove("userIds");
     Cookies.remove("userMobile");
     Cookies.remove("astrologerId");
     Cookies.remove("AstrologerNotificationStatus");
     setUserMobile(null);
     setTimeout(() => {
-      router.push("/chat-with-astrologer")
+      router.push("/chat-with-astrologer");
     }, 200);
   };
 
@@ -112,19 +114,32 @@ const [toggleMobile, setToggleMobile] = useState(false);
     setOtpPopUpDisplay(true);
   };
 
+  useEffect(() => {
+    if (toggleMobile) {
+      document.body.classList.add("menu-opened");
+    } else {
+      document.body.classList.remove("menu-opened");
+    }
 
+    return () => {
+      document.body.classList.remove("menu-opened");
+    };
+  }, [toggleMobile]);
 
-useEffect(() => {
-  if (toggleMobile) {
-    document.body.classList.add("menu-opened");
-  } else {
-    document.body.classList.remove("menu-opened");
-  }
+  useEffect(() => {
+    if (hideProfilePopup) {
+      document.body.classList.add("hide-profile-popup-onload");
+    } else {
+      document.body.classList.remove("hide-profile-popup-onload");
+    }
 
-  return () => {
-    document.body.classList.remove("menu-opened");
-  };
-}, [toggleMobile]);
+    const timer = setTimeout(() => {
+      document.body.classList.remove("hide-profile-popup-onload");
+      setHideProfilePopup(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [hideProfilePopup]);
 
   return (
     <>
@@ -145,7 +160,10 @@ useEffect(() => {
                 </Link>
               </div>
 
-              <div className="mobile-toggle" onClick={() => setToggleMobile(prev => !prev)}>
+              <div
+                className="mobile-toggle"
+                onClick={() => setToggleMobile((prev) => !prev)}
+              >
                 <span></span>
                 <span></span>
                 <span></span>
@@ -159,8 +177,8 @@ useEffect(() => {
                         setIsLoading(true);
                         setTimeout(() => {
                           setIsLoading(false);
-                        }, 3000);
-                        setToggleMobile(false)
+                        }, 2000);
+                        setToggleMobile(false);
                       }}
                     >
                       Chat Now
@@ -173,26 +191,21 @@ useEffect(() => {
                         setIsLoading(true);
                         setTimeout(() => {
                           setIsLoading(false);
-                        }, 3000);
-                        setToggleMobile(false)
-                      }}                      
+                        }, 2000);
+                        setToggleMobile(false);
+                      }}
                     >
                       Chat with Astrologer
                     </Link>
                   </li>
                   <li>
-                    
-                      <OtpData
-                        setOtpPopUpDisplayAstro={setOtpPopUpDisplayAstro}
-                        otpPopUpDisplayAstro={otpPopUpDisplayAstro}
-                      />
-                      <span
-                       
-                        onClick={handleOtpPop}
-                      >
-                        Login Astrologer Dashboard
-                      </span>
-                    
+                    <OtpData
+                      setOtpPopUpDisplayAstro={setOtpPopUpDisplayAstro}
+                      otpPopUpDisplayAstro={otpPopUpDisplayAstro}
+                    />
+                    <span onClick={handleOtpPop}>
+                      Login Astrologer Dashboard
+                    </span>
                   </li>
                   <li>
                     <Link
@@ -201,8 +214,8 @@ useEffect(() => {
                         setIsLoading(true);
                         setTimeout(() => {
                           setIsLoading(false);
-                        }, 3000);
-                        setToggleMobile(false)
+                        }, 2000);
+                        setToggleMobile(false);
                       }}
                     >
                       Astrologer Registration
@@ -247,6 +260,7 @@ useEffect(() => {
                                   <Link
                                     href="/notification"
                                     title="notification"
+                                    onClick={() => setHideProfilePopup(true)}
                                   >
                                     Notification
                                   </Link>
@@ -255,6 +269,7 @@ useEffect(() => {
                                   <Link
                                     href="/my-wallet"
                                     title="Wallet Transactions"
+                                    onClick={() => setHideProfilePopup(true)}
                                   >
                                     Wallet Transactions{" "}
                                     <span className="amount-ctm-content">
@@ -266,6 +281,7 @@ useEffect(() => {
                                   <Link
                                     href="/order-history/chat"
                                     title="order history"
+                                    onClick={() => setHideProfilePopup(true)}
                                   >
                                     Order History
                                   </Link>
@@ -288,6 +304,11 @@ useEffect(() => {
               )}
             </div>
           </div>
+          {/* {isLoading && (
+            <div className="loader">
+              <Loader />
+            </div>
+          )} */}
         </header>
       )}
     </>

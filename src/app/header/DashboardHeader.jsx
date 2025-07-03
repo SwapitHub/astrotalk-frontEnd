@@ -172,7 +172,7 @@ const DashboardHeader = ({ setToggleSlideMobile }) => {
               </Link>
             </li>
 
-            <li
+            {/* <li
               className="onhover-dropdown mobile-notification"
               onClick={() => setNotificationMobile((prev) => !prev)}
             >
@@ -196,7 +196,7 @@ const DashboardHeader = ({ setToggleSlideMobile }) => {
               </span>
               <span className="dot"></span>
               <HeaderDashNotification />
-            </li>
+            </li> */}
             <li
               className="onhover-dropdown mobile-user"
               onClick={() => setUserMobile((prev) => !prev)}

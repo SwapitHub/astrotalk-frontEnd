@@ -89,7 +89,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
   const onChangeId = async (
     astrologerId,
     mobileNumber,
-    // profileImage,
+    profileImage,
     astroName,
     astroCharge,
     astroExperience
@@ -117,7 +117,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
           userIdToAst: userIds,
           astrologerIdToAst: astrologerId,
           mobileNumber: mobileNumber,
-          // profileImage: profileImage,
+          profileImage: profileImage,
           astroName: astroName,
           astroCharges: astroCharge,
           astroExperience: astroExperience,
@@ -417,7 +417,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
                               onChangeId(
                                 astrologerData._id,
                                 astrologerData.mobileNumber,
-                                // item.profileImage,
+                                item.profileImage,
                                 astrologerData.name,
                                 astrologerData.charges,
                                 astrologerData.experience
@@ -441,7 +441,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
                               onChangeId(
                                 astrologerData._id,
                                 astrologerData.mobileNumber,
-                                // item.profileImage,
+                                item.profileImage,
                                 astrologerData.name,
                                 astrologerData.charges,
                                 astrologerData.experience

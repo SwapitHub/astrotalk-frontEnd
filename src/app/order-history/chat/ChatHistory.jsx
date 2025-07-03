@@ -179,7 +179,7 @@ const ChatHistory = () => {
   const onChangeId = async (
     astrologerId,
     mobileNumber,
-    // profileImage,
+    profileImage,
     astroName,
     astroCharge,
     astroExperience
@@ -206,7 +206,7 @@ const ChatHistory = () => {
           userIdToAst: userIds,
           astrologerIdToAst: astrologerId,
           mobileNumber: mobileNumber,
-          // profileImage: profileImage,
+          profileImage: profileImage,
           astroName: astroName,
           astroCharges: astroCharge,
           astroExperience: astroExperience,
@@ -473,7 +473,7 @@ const ChatHistory = () => {
                                         <div className="hide-div-img-text">
                                           <div className="images">
                                             <img
-                                              src={`https://aws.astrotalk.com/consultant_pic/p-106783.jpg`}
+                                              src={item?.profileImage}
                                               alt=""
                                             />
                                           </div>
@@ -502,7 +502,7 @@ const ChatHistory = () => {
                                                       onChangeId(
                                                         item.astrologerIdToAst,
                                                         item.mobileNumber,
-                                                        // item.profileImage,
+                                                        item.profileImage,
                                                         item.astroName,
                                                         item.astroCharges,
                                                         item.astroExperience
@@ -525,7 +525,7 @@ const ChatHistory = () => {
                                                       onChangeId(
                                                         item.astrologerIdToAst,
                                                         item.mobileNumber,
-                                                        // item.profileImage,
+                                                        item.profileImage,
                                                         item.astroName,
                                                         item.astroCharges,
                                                         item.astroExperience

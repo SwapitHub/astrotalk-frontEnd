@@ -97,8 +97,8 @@ const ChatCommission = () => {
       <div className="language-add-data">
         <h2>Admin to Astrologer Chat Commission (Based on Percentage)</h2>
         <input
-          type="text"
-          placeholder="AdminCommission Name"
+          type="number"
+          placeholder="Admin Commission"
           id="AdminCommission"
         />
         <button
