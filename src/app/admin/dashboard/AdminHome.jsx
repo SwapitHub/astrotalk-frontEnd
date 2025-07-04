@@ -23,17 +23,19 @@ import { CiSettings, CiWallet } from "react-icons/ci";
 import { TfiGallery } from "react-icons/tfi";
 import { IoMdLogOut } from "react-icons/io";
 import { TbBrandDenodo } from "react-icons/tb";
-import { FaHeadSideCough } from "react-icons/fa";
+import { FaHeadSideCough, FaShoppingBag } from "react-icons/fa";
 import ChangePassword from "./ChangePassword";
 import { useGlobalContext } from "@/context/HomeContext";
+import AstroMallShops from "./AstroMallShops";
 
 const AdminHome = () => {
   const router = useRouter();
   const admin_id = secureLocalStorage.getItem("admin_id");
-  const {updateButton, setUpdateButton} = useGlobalContext();
+  const { updateButton, setUpdateButton } = useGlobalContext();
   const [astroListToggle, setAstroListToggle] = useState(false);
   const [adminWalletToggle, setAdminWalletToggle] = useState(false);
   const [adminSideSettingToggle, setAdminSideSettingToggle] = useState(false);
+  const [astroShopeList, setAstroShopeList] = useState(false);
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
 
   useEffect(() => {
@@ -86,7 +88,7 @@ const AdminHome = () => {
                         onClick={(e) => {
                           e.preventDefault();
                           setUpdateButton(1);
-                          setToggleSlideMobile(false)
+                          setToggleSlideMobile(false);
                         }}
                       >
                         <MdOutlineDashboard />
@@ -125,7 +127,7 @@ const AdminHome = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setUpdateButton("active");
-                                setToggleSlideMobile(false)
+                                setToggleSlideMobile(false);
                               }}
                             >
                               Active
@@ -141,7 +143,7 @@ const AdminHome = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setUpdateButton("pending");
-                                setToggleSlideMobile(false)
+                                setToggleSlideMobile(false);
                               }}
                             >
                               Pending
@@ -182,7 +184,7 @@ const AdminHome = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setUpdateButton("admin");
-                                setToggleSlideMobile(false)
+                                setToggleSlideMobile(false);
                               }}
                             >
                               Admin
@@ -198,7 +200,7 @@ const AdminHome = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setUpdateButton("astrologer");
-                                setToggleSlideMobile(false)
+                                setToggleSlideMobile(false);
                               }}
                             >
                               Astrologer
@@ -212,7 +214,7 @@ const AdminHome = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setUpdateButton("user");
-                                setToggleSlideMobile(false)
+                                setToggleSlideMobile(false);
                               }}
                             >
                               User
@@ -268,7 +270,7 @@ const AdminHome = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setUpdateButton("language");
-                                setToggleSlideMobile(false)
+                                setToggleSlideMobile(false);
                               }}
                             >
                               Add Languages
@@ -284,7 +286,7 @@ const AdminHome = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setUpdateButton("profession");
-                                setToggleSlideMobile(false)
+                                setToggleSlideMobile(false);
                               }}
                             >
                               Add Profession
@@ -300,7 +302,7 @@ const AdminHome = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setUpdateButton("ChatCommission");
-                                setToggleSlideMobile(false)
+                                setToggleSlideMobile(false);
                               }}
                             >
                               Chat Commission
@@ -316,7 +318,7 @@ const AdminHome = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setUpdateButton("changePassword");
-                                setToggleSlideMobile(false)
+                                setToggleSlideMobile(false);
                               }}
                             >
                               Change Password
@@ -325,19 +327,50 @@ const AdminHome = () => {
                         </ul>
                       </SlideToggle>
                     </li>
-                    <li className={updateButton === 4 ? "active" : ""}>
+
+                    <li
+                      className={
+                        updateButton === "astroShop" 
+                          ? "active"
+                          : ""
+                      }
+                    >
                       <a
                         href="#"
                         onClick={(e) => {
                           e.preventDefault();
-                          setUpdateButton(4);
-                          setToggleSlideMobile(false)
+                          setAstroShopeList(!astroShopeList);
                         }}
                       >
-                        <TfiGallery />
-                        <span className="list-text">Gallery</span>
+                         <FaShoppingBag />
+                        <span className="list-text">Astromall Shop </span>
+                        <span className="list-arrow">
+                          <MdOutlineKeyboardArrowRight />
+                        </span>
                       </a>
+                      <SlideToggle isOpen={astroShopeList}>
+                        <ul>
+                          <li
+                            className={
+                              updateButton === "astroShop" ? "active" : ""
+                            }
+                          >
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setUpdateButton("astroShop");
+                                setToggleSlideMobile(false);
+                              }}
+                            >                             
+                              <span className="list-text">Add Astro Shop</span>
+                            </a>
+                          </li>
+                          
+                        </ul>
+                      </SlideToggle>
                     </li>
+                   
 
                     <li className={updateButton === 6 ? "active" : ""}>
                       <a
@@ -345,7 +378,7 @@ const AdminHome = () => {
                         onClick={(e) => {
                           e.preventDefault();
                           setUpdateButton(6);
-                          setToggleSlideMobile(false)
+                          setToggleSlideMobile(false);
                         }}
                       >
                         <FaHeadSideCough />
@@ -358,7 +391,7 @@ const AdminHome = () => {
                         onClick={(e) => {
                           e.preventDefault();
                           setUpdateButton(7);
-                          setToggleSlideMobile(false)
+                          setToggleSlideMobile(false);
                         }}
                       >
                         <PiUserListDuotone />
@@ -385,6 +418,7 @@ const AdminHome = () => {
                 {updateButton === "pending" && <AstrologerPendingList />}
                 {updateButton === 7 && <UserList />}
                 {updateButton === 3 && <Denomination />}
+                {updateButton === "astroShop" && <AstroMallShops />}
                 {updateButton === "language" && <AddLanguage />}
                 {updateButton === "profession" && <AddProfession />}
                 {updateButton === "ChatCommission" && <ChatCommission />}

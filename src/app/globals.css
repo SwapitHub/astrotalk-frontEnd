@@ -800,7 +800,7 @@ nav.navbar ul {
 }
 .all-list-talk-to-astrologer {
   margin-top: 30px;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 @media (min-width: 768px) {
@@ -1087,6 +1087,9 @@ input#fname::placeholder {
   right: -14px;
   top: -4px;
   font-size: 20px;
+}
+.Description  label::after {
+    display: none;
 }
 .input-gender-sec label {
   margin: 0 5px;
@@ -4155,11 +4158,137 @@ nav.navbar > ul > li > span{
   width: 100%;
 }
 
+/* Astromall  */
+
+.astromall-sec-outer {
+    padding: 70px 0px;
+}
+.heading-box {
+    text-align: center;
+}
+.heading-box h1 {
+  margin: 0 0 10px;
+}
+.astromall-wrapper {
+    margin: 30px 0px 0px;
+}
+.astromall-search {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+.astromall-search input {
+    border: 1px solid #232323;
+    border-radius: 5px 0px 0px 5px;
+    height: 40px;
+    padding: 0px 15px;
+    font-size: 14px;
+    font-family: inherit;
+    min-width: 300px;
+} 
+.astromall-search button {
+    border-radius: 0px 5px 5px 0px;
+}
+.astromall-listing {
+    margin: 30px 0px 0px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+.astromall-listing > *, .astromall-listing > * a {
+    position: relative;
+}
+.product-img img {
+    width: 100%;
+    vertical-align: bottom;
+}
+.details-outer {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+}
+.details-cont {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, .4);
+}
+.product-name {
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    margin: 0 0 5px;
+}
+.details-cont p {
+    font-size: 13px;
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    color: #eee;
+    margin-bottom: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.sales-tag {
+    position: absolute;
+    top: 10px;
+    z-index: 1;
+    left: 0;
+    background-color: var(--primary_color);
+    color: #fff;
+    padding: 5px 10px 3px;
+}
+.astromall-slider-outer {
+    padding: 0 0 70px;
+}
+.astromall-slider-outer .heading-sec {
+    text-align: center;
+}
+.astromall-slider-outer .heading-sec h2 {
+    font-size: 24px;
+}
+.AstroMallShops-admin {
+    align-items: flex-start;
+}
+.AstroMallShops-admin .change-password {
+    position: sticky;
+    top: 120px;
+    min-width: 500px;
+}
+.AstroMallShops-admin .language-list {
+  width: auto;
+  flex-grow: 1;
+}
+.astro-mall-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  display: flex;
+  gap: 5px;
+}
+.astro-mall-btn button {
+    padding: 0;
+    width: 30px;
+    height: 30px;
+}
+.AstroMallShops-admin {
+    flex-wrap: unset;
+}
+
 /* ================== @ Media Css Start Here ================== */
+
 @media (max-width: 1400px) {
   .outer-home-dashboard ul {
     grid-template-columns: repeat(3, 1fr);
   }
+  .AstroMallShops-admin .astromall-listing {
+      grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 1348px) {
+  
 }
 @media (max-width: 1199px) {
   .astrologer {
@@ -4191,6 +4320,17 @@ nav.navbar > ul > li > span{
   }
   .outer-home-dashboard ul {
     grid-template-columns: repeat(2, 1fr);
+  }
+   .AstroMallShops-admin {
+    flex-wrap: wrap;
+  }
+  .AstroMallShops-admin .change-password {
+    position: static;
+    min-width: 100%;
+  }
+  .AstroMallShops-admin .language-list {
+    margin: 40px 0px 0px;
+    padding: 0px;
   }
 }
 @media screen and (min-width: 768px) and (max-width: 991px) {
@@ -4273,6 +4413,9 @@ nav.navbar > ul > li > span{
   }
   .talk-to-astrologer-right-content {
     justify-content: center;
+  }
+  .astromall-listing {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 @media (max-width: 767px) {
@@ -4450,6 +4593,12 @@ nav.navbar > ul > li > span{
     flex-wrap: wrap;
     gap: 20px;
   }
+  .astromall-sec-outer {
+    padding: 50px 0px;
+  }
+  section.astromall-slider-outer {
+    padding: 0 0 50px;
+  }
 }
 @media (max-width: 574px) {
   .chat-left-logo {
@@ -4476,6 +4625,12 @@ nav.navbar > ul > li > span{
   }
   .sharePopUp > h3 {
     font-size: 18px;
+  }
+  .astromall-listing {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .astromall-search input {
+    min-width: 250px;
   }
 }
 @media (max-width: 370px) {

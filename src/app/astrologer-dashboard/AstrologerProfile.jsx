@@ -243,6 +243,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData, registrat
     if (imageFile) {
       formData.append("image", imageFile);
     }
+console.log("imageFile",imageFile);
 
     try {
       const response = await axios.put(
@@ -259,7 +260,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData, registrat
           position: "top-right",
         });
 
-        window.location.reload();
+        // window.location.reload();
       }
 
       console.log("Profile update response:", response.data);

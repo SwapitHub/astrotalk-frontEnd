@@ -207,6 +207,20 @@ const Header = () => {
                       Login Astrologer Dashboard
                     </span>
                   </li>
+                    <li>
+                    <Link
+                      href={`${"/shop"}`}
+                      onClick={() => {
+                        setIsLoading(true);
+                        setTimeout(() => {
+                          setIsLoading(false);
+                        }, 2000);
+                        setToggleMobile(false);
+                      }}
+                    >
+                     Astromall
+                    </Link>
+                  </li>
                   <li>
                     <Link
                       href="/signup"
