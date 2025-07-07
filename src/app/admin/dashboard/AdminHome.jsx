@@ -38,10 +38,6 @@ const AdminHome = () => {
   const [adminSideSettingToggle, setAdminSideSettingToggle] = useState(false);
   const [astroShopeList, setAstroShopeList] = useState(false);
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
-  
-
-
-
 
   useEffect(() => {
     if (!admin_id) {
@@ -370,7 +366,9 @@ const AdminHome = () => {
 
                           <li
                             className={
-                              updateButton === "astroShopProduct" ? "active" : ""
+                              updateButton === "astroShopProduct"
+                                ? "active"
+                                : ""
                             }
                           >
                             <a
@@ -381,7 +379,9 @@ const AdminHome = () => {
                                 setToggleSlideMobile(false);
                               }}
                             >
-                              <span className="list-text">Add Astro Shop Product</span>
+                              <span className="list-text">
+                                Add Astro Shop Product
+                              </span>
                             </a>
                           </li>
                         </ul>
@@ -434,8 +434,10 @@ const AdminHome = () => {
                 {updateButton === "pending" && <AstrologerPendingList />}
                 {updateButton === 7 && <UserList />}
                 {updateButton === 3 && <Denomination />}
-                {updateButton === "astroShop" && <AstroMallShops/>}
-                {updateButton === "astroShopProduct" && <AstroMallShopProduct/>}
+                {updateButton === "astroShop" && <AstroMallShops />}
+                {updateButton === "astroShopProduct" && (
+                  <AstroMallShopProduct />
+                )}
                 {updateButton === "language" && <AddLanguage />}
                 {updateButton === "profession" && <AddProfession />}
                 {updateButton === "ChatCommission" && <ChatCommission />}

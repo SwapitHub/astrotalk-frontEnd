@@ -27,6 +27,7 @@ const AstroMallProductServer = async ({params}) => {
   // 2. Await the data
   const astrShopDetailData = await astrShopDetail(slug[0]);
   
+  
   return (
     <>
     <AstroMallProduct astrShopDetailData={astrShopDetailData}/>
