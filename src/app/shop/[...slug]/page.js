@@ -1,5 +1,5 @@
 import React from 'react'
-import AstroMallProduct from './AstromallProduct'
+import AstroMallProduct from './AstromallProduct';
 
 const astrShopDetail = async (slug) => {
   try {
@@ -22,12 +22,12 @@ const astrShopDetail = async (slug) => {
 };
 
 const AstroMallProductServer = async ({params}) => {
-  const slug = params.slug;
+  const slug = params?.slug;
   
   // 2. Await the data
   const astrShopDetailData = await astrShopDetail(slug[0]);
   
-  
+
   return (
     <>
     <AstroMallProduct astrShopDetailData={astrShopDetailData}/>
