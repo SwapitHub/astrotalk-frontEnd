@@ -27,6 +27,7 @@ import { FaHeadSideCough, FaShoppingBag } from "react-icons/fa";
 import ChangePassword from "./ChangePassword";
 import { useGlobalContext } from "@/context/HomeContext";
 import AstroMallShops from "./AstroMallShops";
+import AstroMallShopProduct from "./AstroMallShopProduct";
 
 const AdminHome = () => {
   const router = useRouter();
@@ -37,6 +38,10 @@ const AdminHome = () => {
   const [adminSideSettingToggle, setAdminSideSettingToggle] = useState(false);
   const [astroShopeList, setAstroShopeList] = useState(false);
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
+  
+
+
+
 
   useEffect(() => {
     if (!admin_id) {
@@ -329,11 +334,7 @@ const AdminHome = () => {
                     </li>
 
                     <li
-                      className={
-                        updateButton === "astroShop" 
-                          ? "active"
-                          : ""
-                      }
+                      className={updateButton === "astroShop" ? "active" : ""}
                     >
                       <a
                         href="#"
@@ -342,7 +343,7 @@ const AdminHome = () => {
                           setAstroShopeList(!astroShopeList);
                         }}
                       >
-                         <FaShoppingBag />
+                        <FaShoppingBag />
                         <span className="list-text">Astromall Shop </span>
                         <span className="list-arrow">
                           <MdOutlineKeyboardArrowRight />
@@ -362,15 +363,30 @@ const AdminHome = () => {
                                 setUpdateButton("astroShop");
                                 setToggleSlideMobile(false);
                               }}
-                            >                             
+                            >
                               <span className="list-text">Add Astro Shop</span>
                             </a>
                           </li>
-                          
+
+                          <li
+                            className={
+                              updateButton === "astroShopProduct" ? "active" : ""
+                            }
+                          >
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setUpdateButton("astroShopProduct");
+                                setToggleSlideMobile(false);
+                              }}
+                            >
+                              <span className="list-text">Add Astro Shop Product</span>
+                            </a>
+                          </li>
                         </ul>
                       </SlideToggle>
                     </li>
-                   
 
                     <li className={updateButton === 6 ? "active" : ""}>
                       <a
@@ -418,7 +434,8 @@ const AdminHome = () => {
                 {updateButton === "pending" && <AstrologerPendingList />}
                 {updateButton === 7 && <UserList />}
                 {updateButton === 3 && <Denomination />}
-                {updateButton === "astroShop" && <AstroMallShops />}
+                {updateButton === "astroShop" && <AstroMallShops/>}
+                {updateButton === "astroShopProduct" && <AstroMallShopProduct/>}
                 {updateButton === "language" && <AddLanguage />}
                 {updateButton === "profession" && <AddProfession />}
                 {updateButton === "ChatCommission" && <ChatCommission />}

@@ -1,6 +1,9 @@
 import AstromallShop from "./AstromallShop";
 
-const AstromallShopServer = async ({ params }) => {
+
+
+
+const AstromallShopServer = async () => {
   
 
   return (

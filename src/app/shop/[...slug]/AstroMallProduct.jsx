@@ -3,31 +3,36 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-const AstromallShop = () => {
-  const [shopListData, setShopListData] = useState([]);
-
+const AstroMallProduct = ({ astrShopDetailData }) => {
+  const [productListData, setProductListData] = useState([]);
+  console.log(astrShopDetailData.data._id, "astrShopDetailData");
 
   useEffect(() => {
-    const getAstroShopData = async () => {
+    const getAstroProductData = async () => {
+      if (!astrShopDetailData.data._id) return;
+
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-list`
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-product-shop-id/${astrShopDetailData.data._id}`
         );
-        setShopListData(res.data.data);
+        
+        setProductListData(res.data.data);
       } catch (error) {
         console.log("API error", error);
       }
     };
-    getAstroShopData();
-  }, []);
+
+    getAstroProductData();
+  }, [astrShopDetailData.data._id]); 
+
   return (
     <main>
       <section className="astromall-sec-outer">
         <div className="container">
           <div className="astromall-sec-inner">
             <div className="heading-box">
-              <h1 className="common-h1-heading">Astromall Shop</h1>
-              <p>Shop Best Online Astrology Products And Services</p>
+              <h1 className="common-h1-heading">Astromall product</h1>
+              <p>product Best Online Astrology Products And Services</p>
             </div>
             <div className="astromall-wrapper">
               <div className="astromall-search">
@@ -51,16 +56,16 @@ const AstromallShop = () => {
               </div>
 
               <div className="astromall-listing">
-                {shopListData.map((item, index) => {
+                {productListData.map((item, index) => {
                   return (
                     <div className="single-item" key={index}>
                       <Link href={`shop/${item?.slug}`}>
                         <div className="sales-tag">
-                          <span>{item?.offer_title}</span>
+                          <span>Book Now</span>
                         </div>
                         <div className="details-outer">
                           <div className="product-img">
-                            <img src={item?.astroMallImg} alt="" />
+                            <img src={item?.astroMallProductImg} alt="" />
                           </div>
                           <div className="details-cont">
                             <div className="product-name">
@@ -144,4 +149,4 @@ const AstromallShop = () => {
   );
 };
 
-export default AstromallShop;
+export default AstroMallProduct;

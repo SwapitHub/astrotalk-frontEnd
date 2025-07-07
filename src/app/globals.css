@@ -1088,7 +1088,7 @@ input#fname::placeholder {
   top: -4px;
   font-size: 20px;
 }
-.Description  label::after {
+.remove-astrict  label::after {
     display: none;
 }
 .input-gender-sec label {

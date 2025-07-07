@@ -6,10 +6,13 @@ import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin7Fill } from "react-icons/ri";
 import { toast } from "react-toastify";
 
-const AstroMallShops = () => {
+const AstroMallShopProduct = () => {
   const [loading, setLoading] = useState(false);
-const [shopListData, setShopListData] = useState([]);
-
+  const [shopListData, setShopListData] = useState([]);
+  const [productListData, setProductListData] = useState([]);
+  const [astroShopId, setAstroShopId] = useState();
+  console.log(astroShopId,"shop_id");
+  
   useEffect(() => {
     const getAstroShopData = async () => {
       try {
@@ -17,18 +20,42 @@ const [shopListData, setShopListData] = useState([]);
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-list`
         );
         setShopListData(res.data.data);
+        console.log(res, "res=================");
       } catch (error) {
         console.log("API error", error);
       }
     };
+
     getAstroShopData();
   }, []);
 
+
+  useEffect(() => {
+    const getAstroProductData = async () => {
+      if (!astroShopId) return;
+
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-product-shop-id/${astroShopId}`
+        );
+
+        setProductListData(res.data.data);
+      } catch (error) {
+        toast.error("Data is not found ", {
+          position: "top-right",
+        });
+        console.log("API error", error);
+      }
+    };
+
+    getAstroProductData();
+  }, [astroShopId]);
+
   const handleSubmit = async () => {
-    const name = document.getElementById("name_shop").value;
-    let slug = document.getElementById("slug_shop").value;
-    const image = document.getElementById("astroMallImg").files[0];
-    const offer_title = document.getElementById("offer_title").value;
+    const name = document.getElementById("name_product").value;
+    let slug = document.getElementById("slug_product").value;
+    let shop_id = document.getElementById("shop_id").value;
+    const image = document.getElementById("astroMallProductImg").files[0];
     const offer_name = document.getElementById("offer_name").value;
     const description = document.getElementById("description").value;
 
@@ -41,7 +68,7 @@ const [shopListData, setShopListData] = useState([]);
         .replace(/-+/g, "-"); // remove duplicate hyphens
     }
 
-    if (!image || !offer_title || !offer_name || !name || !slug) {
+    if (!image || !offer_name || !name || !slug || !shop_id) {
       toast.error("please fill all field", {
         position: "top-right",
       });
@@ -52,15 +79,15 @@ const [shopListData, setShopListData] = useState([]);
 
     data.append("name", name);
     data.append("slug", slug);
-    data.append("astroMallImg", image);
-    data.append("offer_title", offer_title);
+    data.append("shop_id", shop_id);
+    data.append("astroMallProductImg", image);
     data.append("offer_name", offer_name);
     data.append("description", description);
 
     try {
       setLoading(true);
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astro-shope-list`,
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/post-astro-shope-product`,
         data
       );
       console.log(res);
@@ -72,10 +99,9 @@ const [shopListData, setShopListData] = useState([]);
       }
 
       // clear input fields
-      document.getElementById("name_shop").value = "";
-      document.getElementById("slug_shop").value = "";
-      document.getElementById("astroMallImg").value = "";
-      document.getElementById("offer_title").value = "";
+      document.getElementById("name_product").value = "";
+      document.getElementById("slug_product").value = "";
+      document.getElementById("astroMallProductImg").value = "";
       document.getElementById("offer_name").value = "";
       document.getElementById("description").value = "";
     } catch (err) {
@@ -106,29 +132,38 @@ const [shopListData, setShopListData] = useState([]);
           </div>
           <input
             type="file"
-            id="astroMallImg"
+            id="astroMallProductImg"
             accept="image/*"
             className="common-input-filed"
           />
         </div>
+
+        <div className="form-field">
+          <div className="label-content">
+            <label>Please choose a shop</label>
+          </div>
+          <select id="shop_id" onChange={(e) => setAstroShopId(e.target.value)}>
+            {shopListData?.map((item, index) => (
+              <option key={item._id} value={item._id} onChange={()=>{setAstroShopId(item._id)}}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <div className="form-field">
           <div className="label-content">
             <label>Name</label>
           </div>
-          <input class="common-input-filed" id="name_shop" type="text" />
+          <input class="common-input-filed" id="name_product" type="text" />
         </div>
         <div className="form-field">
           <div className="label-content remove-astrict">
             <label>Slug</label>
           </div>
-          <input class="common-input-filed" id="slug_shop" type="text" />
+          <input class="common-input-filed" id="slug_product" type="text" />
         </div>
-        <div className="form-field">
-          <div className="label-content">
-            <label>Offer title</label>
-          </div>
-          <input class="common-input-filed" id="offer_title" type="text" />
-        </div>
+
         <div className="form-field">
           <div className="label-content">
             <label>Offer name</label>
@@ -145,21 +180,21 @@ const [shopListData, setShopListData] = useState([]);
         <button onClick={handleSubmit}>Submit</button>
       </div>
       <div className="language-list">
-        <h2>Show astro mall shope list</h2>
+        <h2>Show astro mall producte list</h2>
         {loading ? (
           <Loader />
         ) : (
           <div className="astromall-listing">
-            {shopListData.map((item, index) => {
+            {productListData.map((item, index) => {
               return (
                 <>
                   <div className="single-item" key={index}>
                     <div className="sales-tag">
-                      <span>{item?.offer_title}</span>
+                      <span>Book Now</span>
                     </div>
                     <div className="details-outer">
                       <div className="product-img">
-                        <img src={item?.astroMallImg} alt="" />
+                        <img src={item?.astroMallProductImg} alt="" />
                       </div>
                       <div className="details-cont">
                         <div className="product-name">{item?.offer_name}</div>
@@ -185,4 +220,4 @@ const [shopListData, setShopListData] = useState([]);
   );
 };
 
-export default AstroMallShops;
+export default AstroMallShopProduct;
