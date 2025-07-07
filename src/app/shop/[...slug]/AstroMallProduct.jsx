@@ -1,21 +1,44 @@
 "use client";
 import axios from "axios";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const AstroMallProduct = ({ astrShopDetailData }) => {
+const AstroMallProduct = () => {
   const [productListData, setProductListData] = useState([]);
-  console.log(astrShopDetailData.data._id, "astrShopDetailData");
+  const [astrShopDetailData, setAstrShopDetailData] = useState([]);
+  const params = useParams();
+  console.log(astrShopDetailData, "astrShopDetailData");
+
+   useEffect(() => {
+    const fetchShopDetail = async () => {
+      if (!params?.slug || !params.slug[0]) return;
+
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-detail/${params.slug[0]}`
+        );
+console.log(res);
+
+        const result = await res.json();
+        setAstrShopDetailData(result.data); // Corrected: result.data, not res.data.data
+      } catch (error) {
+        console.error("Error fetching shop data:", error);
+      }
+    };
+
+    fetchShopDetail();
+  }, [params?.slug]);
 
   useEffect(() => {
     const getAstroProductData = async () => {
-      if (!astrShopDetailData.data._id) return;
+      if (!astrShopDetailData._id) return;
 
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-product-shop-id/${astrShopDetailData.data._id}`
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-product-shop-id/${astrShopDetailData._id}`
         );
-        
+
         setProductListData(res.data.data);
       } catch (error) {
         console.log("API error", error);
@@ -23,7 +46,7 @@ const AstroMallProduct = ({ astrShopDetailData }) => {
     };
 
     getAstroProductData();
-  }, [astrShopDetailData.data._id]); 
+  }, [astrShopDetailData._id]);
 
   return (
     <main>
