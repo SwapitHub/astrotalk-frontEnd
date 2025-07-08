@@ -8,17 +8,17 @@ const AstroMallProduct = () => {
   const [productListData, setProductListData] = useState([]);
   const [astrShopDetailData, setAstrShopDetailData] = useState([]);
   const params = useParams();
-  console.log(astrShopDetailData, "astrShopDetailData");
+  console.log(params.slug, "astrShopDetailData");
 
-   useEffect(() => {
+  useEffect(() => {
     const fetchShopDetail = async () => {
-      if (!params?.slug || !params.slug[0]) return;
+      if ( !params.slug) return;
 
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-detail/${params.slug[0]}`
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-detail/${params.slug}`
         );
-console.log(res);
+        console.log(res);
 
         const result = await res.json();
         setAstrShopDetailData(result.data); // Corrected: result.data, not res.data.data
@@ -91,10 +91,26 @@ console.log(res);
                             <img src={item?.astroMallProductImg} alt="" />
                           </div>
                           <div className="details-cont">
-                            <div className="product-name">
-                              {item?.offer_name}
-                            </div>
-                            <p>{item?.description}</p>
+                            
+                            {item?.discount_price ? (
+                              <div className="details-cont">
+                                <div className="product-name">
+                                  {item?.offer_name}
+                                </div>
+                                <p>
+                                  {" "}
+                                  ₹ {item?.discount_price}{" "}
+                                  <span>{item?.actual_price}</span>
+                                </p>
+                              </div>
+                            ) : (
+                              <div className="details-cont">
+                                <div className="product-name">
+                                  {item?.offer_name}
+                                </div>
+                                <p>Starting from ₹ {item?.starting_price}</p>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </Link>
@@ -113,25 +129,8 @@ console.log(res);
               <h2>Top Selling</h2>
             </div>
             <div className="slider-sec top-selling-slider">
-              <div className="single-slide">
-                <a href="#">
-                  <div className="slide-img">
-                    <img src="" alt="" />
-                  </div>
-                  <div className="slide-content">
-                    <p>Money Magnet Bracelet </p>
-                  </div>
-                </a>
-              </div>
-              <div className="single-slide">
-                <a href="#">
-                  <div className="slide-img">
-                    <img src="" alt="" />
-                  </div>
-                  <div className="slide-content">
-                    <p>Money Magnet Bracelet </p>
-                  </div>
-                </a>
+              <div className="slider-outer">
+                {/* <!--- about section --> */}
               </div>
             </div>
           </div>

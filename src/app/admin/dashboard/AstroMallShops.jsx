@@ -8,19 +8,22 @@ import { toast } from "react-toastify";
 
 const AstroMallShops = () => {
   const [loading, setLoading] = useState(false);
-const [shopListData, setShopListData] = useState([]);
+  const [shopListData, setShopListData] = useState([]);
+  const [editMode, setEditMode] = useState(false);
+    const [editShopId, setEditShopId] = useState(null);
+
+  const getAstroShopData = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-list`
+      );
+      setShopListData(res.data.data);
+    } catch (error) {
+      console.log("API error", error);
+    }
+  };
 
   useEffect(() => {
-    const getAstroShopData = async () => {
-      try {
-        const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-list`
-        );
-        setShopListData(res.data.data);
-      } catch (error) {
-        console.log("API error", error);
-      }
-    };
     getAstroShopData();
   }, []);
 
@@ -31,6 +34,8 @@ const [shopListData, setShopListData] = useState([]);
     const offer_title = document.getElementById("offer_title").value;
     const offer_name = document.getElementById("offer_name").value;
     const description = document.getElementById("description").value;
+    const isDiscounted = document.getElementById("offer_checkbox").checked; // ✅
+console.log(isDiscounted,"isDiscounted");
 
     if (!slug && name) {
       slug = name
@@ -56,6 +61,7 @@ const [shopListData, setShopListData] = useState([]);
     data.append("offer_title", offer_title);
     data.append("offer_name", offer_name);
     data.append("description", description);
+     data.append("discount_product", isDiscounted);
 
     try {
       setLoading(true);
@@ -69,6 +75,7 @@ const [shopListData, setShopListData] = useState([]);
         toast.success("Added list Successfully", {
           position: "top-right",
         });
+        getAstroShopData();
       }
 
       // clear input fields
@@ -78,6 +85,7 @@ const [shopListData, setShopListData] = useState([]);
       document.getElementById("offer_title").value = "";
       document.getElementById("offer_name").value = "";
       document.getElementById("description").value = "";
+       document.getElementById("offer_checkbox").checked = false;
     } catch (err) {
       console.error("Error uploading:", err);
       if (
@@ -94,6 +102,87 @@ const [shopListData, setShopListData] = useState([]);
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+
+
+  const handleEditShop = (shop) => {
+  document.getElementById("name_shop").value = shop.name;
+  document.getElementById("slug_shop").value = shop.slug;
+  document.getElementById("offer_title").value = shop.offer_title;
+  document.getElementById("offer_name").value = shop.offer_name;
+  document.getElementById("description").value = shop.description;
+
+  setEditMode(true);
+  setEditShopId(shop._id);
+};
+
+
+const handleUpdateShop = async () => {
+  const name = document.getElementById("name_shop").value;
+  const slug = document.getElementById("slug_shop").value;
+  const image = document.getElementById("astroMallImg").files[0];
+  const offer_title = document.getElementById("offer_title").value;
+  const offer_name = document.getElementById("offer_name").value;
+  const description = document.getElementById("description").value;
+
+  const data = new FormData();
+  data.append("name", name);
+  data.append("slug", slug);
+  data.append("offer_title", offer_title);
+  data.append("offer_name", offer_name);
+  data.append("description", description);
+  if (image) {
+    data.append("astroMallImg", image); // only append if new image is selected
+  }
+
+  try {
+    setLoading(true);
+    const res = await axios.put(
+      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-shope/${editShopId}`,
+      data
+    );
+
+    if (res.status === 200) {
+      toast.success("Updated Successfully", { position: "top-right" });
+      setEditMode(false);
+      setEditShopId(null);
+
+      await getAstroShopData(); // refresh list
+
+      // Clear inputs
+      document.getElementById("name_shop").value = "";
+      document.getElementById("slug_shop").value = "";
+      document.getElementById("astroMallImg").value = "";
+      document.getElementById("offer_title").value = "";
+      document.getElementById("offer_name").value = "";
+      document.getElementById("description").value = "";
+    }
+  } catch (err) {
+    console.error("Update error:", err);
+    toast.error("Update Failed", { position: "top-right" });
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+  const handleDeleteShop = async (deleteId) => {
+    try {
+      setLoading(true)
+      const response = await axios.delete(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/delete-astro-shope/${deleteId}`
+      );
+      if(response.status==200){
+        getAstroShopData();
+      }
+    } catch (err) {
+      console.log("delete API error", err);
+       toast.error("Delete Failed", { position: "top-right" });
+    }
+    finally{
+      setLoading(false)
     }
   };
 
@@ -141,8 +230,18 @@ const [shopListData, setShopListData] = useState([]);
             <label>Description</label>
           </div>
           <textarea id="description" className="common-input-filed" />
+        </div>  
+          <div className="form-field">
+          <div className="remove-astrict label-content">
+            <label>Do you want to offer discounts on items in your shop?</label>
+          </div>
+          <input id="offer_checkbox" type="checkbox" />
         </div>
-        <button onClick={handleSubmit}>Submit</button>
+        {editMode ? (
+          <button onClick={handleUpdateShop}>Update</button>
+        ) : (
+          <button onClick={handleSubmit}>Submit</button>
+        )}
       </div>
       <div className="language-list">
         <h2>Show astro mall shope list</h2>
@@ -166,10 +265,10 @@ const [shopListData, setShopListData] = useState([]);
                         <p>{item?.description}</p>
                       </div>
                       <div className="astro-mall-btn">
-                        <button>
+                        <button onClick={()=>{handleDeleteShop(item?._id)}}>
                           <RiDeleteBin7Fill />
                         </button>
-                        <button>
+                        <button onClick={()=>{handleEditShop(item)}}>
                           <FaEdit />
                         </button>
                       </div>

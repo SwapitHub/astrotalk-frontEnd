@@ -2,10 +2,12 @@
 import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const AstromallShop = () => {
   const [shopListData, setShopListData] = useState([]);
-
 
   useEffect(() => {
     const getAstroShopData = async () => {
@@ -20,6 +22,16 @@ const AstromallShop = () => {
     };
     getAstroShopData();
   }, []);
+
+  const sliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 700,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    autoplay: false,
+    autoplaySpeed: 2000,
+  };
   return (
     <main>
       <section className="astromall-sec-outer">
@@ -82,29 +94,77 @@ const AstromallShop = () => {
         <div className="container">
           <div className="astromall-slider-inner">
             <div className="heading-sec">
-              <h2>Top Selling</h2>
+              <h2>TOP SELLING</h2>
             </div>
             <div className="slider-sec top-selling-slider">
-              <div className="single-slide">
-                <a href="#">
-                  <div className="slide-img">
-                    <img src="" alt="" />
-                  </div>
-                  <div className="slide-content">
-                    <p>Money Magnet Bracelet </p>
-                  </div>
-                </a>
-              </div>
-              <div className="single-slide">
-                <a href="#">
-                  <div className="slide-img">
-                    <img src="" alt="" />
-                  </div>
-                  <div className="slide-content">
-                    <p>Money Magnet Bracelet </p>
-                  </div>
-                </a>
-              </div>
+              <Slider
+                {...sliderSettings}
+                responsive={[
+                  {
+                    breakpoint: 1198,
+                    settings: {
+                      slidesToShow: 3,
+                      slidesToScroll: 4,
+                      infinite: true,
+                    },
+                  },
+                  {
+                    breakpoint: 800,
+                    settings: {
+                      slidesToShow: 3,
+                      slidesToScroll: 3,
+                      infinite: true,
+                    },
+                  },
+                  {
+                    breakpoint: 639,
+                    settings: {
+                      slidesToShow: 3,
+                      slidesToScroll: 3,
+                      infinite: true,
+                    },
+                  },
+                  {
+                    breakpoint: 375,
+                    settings: {
+                      slidesToShow: 2,
+                      slidesToScroll: 2,
+                      infinite: true,
+                    },
+                  },
+                ]}
+              >
+                <div className="single-slide">
+                  <Link href="#">
+                    <div className="slide-img">
+                      <img src="/astrologer-person-img.jpg" alt="" />
+                    </div>
+                    <div className="slide-content">
+                      <p>Money Magnet Bracelet </p>
+                    </div>
+                  </Link>
+                </div>
+                  <div className="single-slide">
+                  <Link href="#">
+                    <div className="slide-img">
+                      <img src="/astrologer-person-img.jpg" alt="" />
+                    </div>
+                    <div className="slide-content">
+                      <p>Money Magnet Bracelet </p>
+                    </div>
+                  </Link>
+                </div>
+                  <div className="single-slide">
+                  <Link href="#">
+                    <div className="slide-img">
+                      <img src="/astrologer-person-img.jpg" alt="" />
+                    </div>
+                    <div className="slide-content">
+                      <p>Money Magnet Bracelet </p>
+                    </div>
+                  </Link>
+                </div>
+              </Slider>
             </div>
           </div>
         </div>
@@ -113,29 +173,77 @@ const AstromallShop = () => {
         <div className="container">
           <div className="astromall-slider-inner">
             <div className="heading-sec">
-              <h2>Top Selling</h2>
+              <h2>NEWLY LAUNCHED</h2>
             </div>
             <div className="slider-sec newly-launched-slider">
-              <div className="single-slide">
-                <a href="#">
-                  <div className="slide-img">
-                    <img src="" alt="" />
-                  </div>
-                  <div className="slide-content">
-                    <p>Money Magnet Bracelet </p>
-                  </div>
-                </a>
-              </div>
-              <div className="single-slide">
-                <a href="#">
-                  <div className="slide-img">
-                    <img src="" alt="" />
-                  </div>
-                  <div className="slide-content">
-                    <p>Money Magnet Bracelet </p>
-                  </div>
-                </a>
-              </div>
+               <Slider
+                {...sliderSettings}
+                responsive={[
+                  {
+                    breakpoint: 1198,
+                    settings: {
+                      slidesToShow: 3,
+                      slidesToScroll: 4,
+                      infinite: true,
+                    },
+                  },
+                  {
+                    breakpoint: 800,
+                    settings: {
+                      slidesToShow: 3,
+                      slidesToScroll: 3,
+                      infinite: true,
+                    },
+                  },
+                  {
+                    breakpoint: 639,
+                    settings: {
+                      slidesToShow: 3,
+                      slidesToScroll: 3,
+                      infinite: true,
+                    },
+                  },
+                  {
+                    breakpoint: 375,
+                    settings: {
+                      slidesToShow: 2,
+                      slidesToScroll: 2,
+                      infinite: true,
+                    },
+                  },
+                ]}
+              >
+                <div className="single-slide">
+                  <Link href="#">
+                    <div className="slide-img">
+                      <img src="/astrologer-person-img.jpg" alt="" />
+                    </div>
+                    <div className="slide-content">
+                      <p>Money Magnet Bracelet </p>
+                    </div>
+                  </Link>
+                </div>
+                  <div className="single-slide">
+                  <Link href="#">
+                    <div className="slide-img">
+                      <img src="/astrologer-person-img.jpg" alt="" />
+                    </div>
+                    <div className="slide-content">
+                      <p>Money Magnet Bracelet </p>
+                    </div>
+                  </Link>
+                </div>
+                  <div className="single-slide">
+                  <Link href="#">
+                    <div className="slide-img">
+                      <img src="/astrologer-person-img.jpg" alt="" />
+                    </div>
+                    <div className="slide-content">
+                      <p>Money Magnet Bracelet </p>
+                    </div>
+                  </Link>
+                </div>
+              </Slider>
             </div>
           </div>
         </div>
