@@ -10,7 +10,7 @@ const AstroMallShops = () => {
   const [loading, setLoading] = useState(false);
   const [shopListData, setShopListData] = useState([]);
   const [editMode, setEditMode] = useState(false);
-    const [editShopId, setEditShopId] = useState(null);
+  const [editShopId, setEditShopId] = useState(null);
 
   const getAstroShopData = async () => {
     try {
@@ -34,8 +34,10 @@ const AstroMallShops = () => {
     const offer_title = document.getElementById("offer_title").value;
     const offer_name = document.getElementById("offer_name").value;
     const description = document.getElementById("description").value;
-    const isDiscounted = document.getElementById("offer_checkbox").checked; // ✅
-console.log(isDiscounted,"isDiscounted");
+    const isDiscounted = document.getElementById("offer_checkbox").checked;
+    const Jewelry_product = document.getElementById(
+      "Jewelry_product_gem"
+    ).checked;
 
     if (!slug && name) {
       slug = name
@@ -61,7 +63,8 @@ console.log(isDiscounted,"isDiscounted");
     data.append("offer_title", offer_title);
     data.append("offer_name", offer_name);
     data.append("description", description);
-     data.append("discount_product", isDiscounted);
+    data.append("discount_product", isDiscounted);
+    data.append("Jewelry_product_gem", Jewelry_product);
 
     try {
       setLoading(true);
@@ -85,7 +88,8 @@ console.log(isDiscounted,"isDiscounted");
       document.getElementById("offer_title").value = "";
       document.getElementById("offer_name").value = "";
       document.getElementById("description").value = "";
-       document.getElementById("offer_checkbox").checked = false;
+      document.getElementById("offer_checkbox").checked = false;
+      document.getElementById("Jewelry_product_gem").checked = false;
     } catch (err) {
       console.error("Error uploading:", err);
       if (
@@ -105,84 +109,90 @@ console.log(isDiscounted,"isDiscounted");
     }
   };
 
-
-
   const handleEditShop = (shop) => {
-  document.getElementById("name_shop").value = shop.name;
-  document.getElementById("slug_shop").value = shop.slug;
-  document.getElementById("offer_title").value = shop.offer_title;
-  document.getElementById("offer_name").value = shop.offer_name;
-  document.getElementById("description").value = shop.description;
+    document.getElementById("name_shop").value = shop.name;
+    document.getElementById("slug_shop").value = shop.slug;
+    document.getElementById("offer_title").value = shop.offer_title;
+    document.getElementById("offer_name").value = shop.offer_name;
+    document.getElementById("description").value = shop.description;
+    document.getElementById("offer_checkbox").checked = shop.discount_product;
+    document.getElementById("Jewelry_product_gem").checked =
+      shop.Jewelry_product_gem;
 
-  setEditMode(true);
-  setEditShopId(shop._id);
-};
+    setEditMode(true);
+    setEditShopId(shop._id);
+  };
 
+  const handleUpdateShop = async () => {
+    const name = document.getElementById("name_shop").value;
+    const slug = document.getElementById("slug_shop").value;
+    const image = document.getElementById("astroMallImg").files[0];
+    const offer_title = document.getElementById("offer_title").value;
+    const offer_name = document.getElementById("offer_name").value;
+    const description = document.getElementById("description").value;
+    const isDiscounted = document.getElementById("offer_checkbox").checked;
+    const Jewelry_product = document.getElementById(
+      "Jewelry_product_gem"
+    ).checked;
 
-const handleUpdateShop = async () => {
-  const name = document.getElementById("name_shop").value;
-  const slug = document.getElementById("slug_shop").value;
-  const image = document.getElementById("astroMallImg").files[0];
-  const offer_title = document.getElementById("offer_title").value;
-  const offer_name = document.getElementById("offer_name").value;
-  const description = document.getElementById("description").value;
-
-  const data = new FormData();
-  data.append("name", name);
-  data.append("slug", slug);
-  data.append("offer_title", offer_title);
-  data.append("offer_name", offer_name);
-  data.append("description", description);
-  if (image) {
-    data.append("astroMallImg", image); // only append if new image is selected
-  }
-
-  try {
-    setLoading(true);
-    const res = await axios.put(
-      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-shope/${editShopId}`,
-      data
-    );
-
-    if (res.status === 200) {
-      toast.success("Updated Successfully", { position: "top-right" });
-      setEditMode(false);
-      setEditShopId(null);
-
-      await getAstroShopData(); // refresh list
-
-      // Clear inputs
-      document.getElementById("name_shop").value = "";
-      document.getElementById("slug_shop").value = "";
-      document.getElementById("astroMallImg").value = "";
-      document.getElementById("offer_title").value = "";
-      document.getElementById("offer_name").value = "";
-      document.getElementById("description").value = "";
+    const data = new FormData();
+    data.append("name", name);
+    data.append("slug", slug);
+    data.append("offer_title", offer_title);
+    data.append("offer_name", offer_name);
+    data.append("description", description);
+    data.append("discount_product", isDiscounted);
+    data.append("Jewelry_product_gem", Jewelry_product);
+    if (image) {
+      data.append("astroMallImg", image); // only append if new image is selected
     }
-  } catch (err) {
-    console.error("Update error:", err);
-    toast.error("Update Failed", { position: "top-right" });
-  } finally {
-    setLoading(false);
-  }
-};
 
+    try {
+      setLoading(true);
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-shope/${editShopId}`,
+        data
+      );
+
+      if (res.status === 200) {
+        toast.success("Updated Successfully", { position: "top-right" });
+        setEditMode(false);
+        setEditShopId(null);
+
+        await getAstroShopData(); // refresh list
+
+        // Clear inputs
+        document.getElementById("name_shop").value = "";
+        document.getElementById("slug_shop").value = "";
+        document.getElementById("astroMallImg").value = "";
+        document.getElementById("offer_title").value = "";
+        document.getElementById("offer_name").value = "";
+        document.getElementById("description").value = "";
+        document.getElementById("offer_checkbox").checked = false;
+        document.getElementById("Jewelry_product_gem").checked = false;
+      }
+    } catch (err) {
+      console.error("Update error:", err);
+      toast.error("Update Failed", { position: "top-right" });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleDeleteShop = async (deleteId) => {
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await axios.delete(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/delete-astro-shope/${deleteId}`
       );
-      if(response.status==200){
+      if (response.status == 200) {
         getAstroShopData();
       }
     } catch (err) {
       console.log("delete API error", err);
-       toast.error("Delete Failed", { position: "top-right" });
-    }
-    finally{
-      setLoading(false)
+      toast.error("Delete Failed", { position: "top-right" });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -230,12 +240,22 @@ const handleUpdateShop = async () => {
             <label>Description</label>
           </div>
           <textarea id="description" className="common-input-filed" />
-        </div>  
-          <div className="form-field">
+        </div>
+        <div className="form-field">
           <div className="remove-astrict label-content">
             <label>Do you want to offer discounts on items in your shop?</label>
           </div>
           <input id="offer_checkbox" type="checkbox" />
+        </div>
+
+        <div className="form-field">
+          <div className="remove-astrict label-content">
+            <label>
+              Are you adding a Spiritual Jewelry Product in the "Gemstone"
+              category?
+            </label>
+          </div>
+          <input id="Jewelry_product_gem" type="checkbox" />
         </div>
         {editMode ? (
           <button onClick={handleUpdateShop}>Update</button>
@@ -265,10 +285,18 @@ const handleUpdateShop = async () => {
                         <p>{item?.description}</p>
                       </div>
                       <div className="astro-mall-btn">
-                        <button onClick={()=>{handleDeleteShop(item?._id)}}>
+                        <button
+                          onClick={() => {
+                            handleDeleteShop(item?._id);
+                          }}
+                        >
                           <RiDeleteBin7Fill />
                         </button>
-                        <button onClick={()=>{handleEditShop(item)}}>
+                        <button
+                          onClick={() => {
+                            handleEditShop(item);
+                          }}
+                        >
                           <FaEdit />
                         </button>
                       </div>

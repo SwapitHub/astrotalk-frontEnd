@@ -82,7 +82,7 @@ const AstroMallProduct = () => {
                 {productListData.map((item, index) => {
                   return (
                     <div className="single-item" key={index}>
-                      <Link href={`shop/${item?.slug}`}>
+                      <Link href={`/shop/${params.slug}/${item?.slug}`}>
                         <div className="sales-tag">
                           <span>Book Now</span>
                         </div>

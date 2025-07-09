@@ -28,6 +28,7 @@ import ChangePassword from "./ChangePassword";
 import { useGlobalContext } from "@/context/HomeContext";
 import AstroMallShops from "./AstroMallShops";
 import AstroMallShopProduct from "./AstroMallShopProduct";
+import GemStoneProductGemJewelry from "./GemStoneProductGemJewelry";
 
 const AdminHome = () => {
   const router = useRouter();
@@ -384,6 +385,27 @@ const AdminHome = () => {
                               </span>
                             </a>
                           </li>
+
+                          <li
+                            className={
+                              updateButton === "astroShopGemJewelry"
+                                ? "active"
+                                : ""
+                            }
+                          >
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setUpdateButton("astroShopGemJewelry");
+                                setToggleSlideMobile(false);
+                              }}
+                            >
+                              <span className="list-text">
+                                Add GemStone Product Jewelry
+                              </span>
+                            </a>
+                          </li>
                         </ul>
                       </SlideToggle>
                     </li>
@@ -435,6 +457,7 @@ const AdminHome = () => {
                 {updateButton === 7 && <UserList />}
                 {updateButton === 3 && <Denomination />}
                 {updateButton === "astroShop" && <AstroMallShops />}
+                {updateButton === "astroShopGemJewelry" && <GemStoneProductGemJewelry/>}
                 {updateButton === "astroShopProduct" && (
                   <AstroMallShopProduct />
                 )}
@@ -442,6 +465,7 @@ const AdminHome = () => {
                 {updateButton === "profession" && <AddProfession />}
                 {updateButton === "ChatCommission" && <ChatCommission />}
                 {updateButton === "changePassword" && <ChangePassword />}
+
                 {["user", "astrologer", "admin"].includes(updateButton) && (
                   <AdminWallet updateButton={updateButton} />
                 )}
