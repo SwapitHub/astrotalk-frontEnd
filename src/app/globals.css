@@ -176,7 +176,7 @@ nav.navbar ul {justify-content: center; display: flex;}
 .talk-to-time-sec p span {color: #616161; font-size: 14px;}
 .talk-to-time-sec {margin-top: 5px;}
 .astrologer-call-button-ctm button, .astrologer-call-button-ctm-detail a, .astrologer-call-button-ctm a {color: #13853a; border: 1px solid #13853a; color: #13853a; padding: 10px 30px; border-radius: 8px; cursor: pointer; text-align: center; display: inline-block;}
-.astrologer-call-button-ctm a {padding: 5px 15px; font-size: 14px;}
+.astrologer-call-button-ctm a, .astrologer-call-button-ctm button {padding: 5px 15px; font-size: 14px;}
 .astrologer-call-button-ctm.chatStatus-false a {color: var(--primary_color); background-color: #fff; border: 1px solid var(--primary_color); padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 14px;}
 .astrologer-call-button-ctm.chatStatus-false span:not(.icon) {color: var(--primary_color); font-size: 12px; text-align: center; line-height: 1.2; display: inline-block; margin: 7px 0px 0px;}
 .astrologer-call-button-ctm.chatStatus-false a:hover {background-color: var(--primary_color); color: #fff;}
@@ -778,711 +778,217 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .astromall-wrapper {margin: 30px 0px 0px;}
 .astromall-search {text-align: center; display: flex; justify-content: center;}
 .astromall-search input {border: 1px solid #232323; border-radius: 5px 0px 0px 5px; height: 40px; padding: 0px 15px; font-size: 14px; font-family: inherit; min-width: 300px;} 
-.astromall-search button {
-    border-radius: 0px 5px 5px 0px;
-}
-.astromall-listing {
-    margin: 30px 0px 0px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-.astromall-listing > *, .astromall-listing > * a {
-    position: relative;
-}
-.product-img img {
-    width: 100%;
-    vertical-align: bottom;
-}
-.details-outer {
-    position: relative;
-    overflow: hidden;
-    border-radius: 8px;
-}
-.details-cont {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 10px;
-    background-color: rgba(0, 0, 0, .4);
-}
-.product-name {
-    color: #fff;
-    font-weight: 600;
-    font-size: 16px;
-    margin: 0 0 5px;
-}
-.details-cont p {
-    font-size: 13px;
-    -webkit-line-clamp: 1;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    color: #eee;
-    margin-bottom: 0;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-.sales-tag {
-    position: absolute;
-    top: 10px;
-    z-index: 1;
-    left: 0;
-    background-color: var(--primary_color);
-    color: #fff;
-    padding: 5px 10px 3px;
-}
-.astromall-slider-outer {
-    padding: 0 0 70px;
-}
-.astromall-slider-outer .heading-sec {
-    text-align: center;
-}
-.astromall-slider-outer .heading-sec h2 {
-    font-size: 24px;
-}
-.AstroMallShops-admin {
-    align-items: flex-start;
-}
-.AstroMallShops-admin .change-password {
-    position: sticky;
-    top: 120px;
-    min-width: 500px;
-}
-.AstroMallShops-admin .language-list {
-  width: auto;
-  flex-grow: 1;
-}
-.astro-mall-btn {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  display: flex;
-  gap: 5px;
-}
-.astro-mall-btn button {
-    padding: 0;
-    width: 30px;
-    height: 30px;
-}
-.AstroMallShops-admin {
-    flex-wrap: unset;
-}
-.astromall-slider-outer .slider-sec {
-    margin: 30px 0px 0px;
-}
-
+.astromall-search button {border-radius: 0px 5px 5px 0px;}
+.astromall-listing {margin: 30px 0px 0px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;}
+.astromall-listing > *, .astromall-listing > * a {position: relative;}
+.product-img img {width: 100%; vertical-align: bottom;}
+.details-outer {position: relative; overflow: hidden; border-radius: 8px;}
+.details-cont {position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px; background-color: rgba(0, 0, 0, .4);}
+.product-name {color: #fff; font-weight: 600; font-size: 16px; margin: 0 0 5px;}
+.details-cont p {font-size: 13px; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical; color: #eee; margin-bottom: 0; text-overflow: ellipsis; overflow: hidden;}
+.sales-tag {position: absolute; top: 10px; z-index: 1; left: 0; background-color: var(--primary_color); color: #fff; padding: 5px 10px 3px;}
+.astromall-slider-outer {padding: 0 0 70px;}
+.astromall-slider-outer .heading-sec {text-align: center;}
+.astromall-slider-outer .heading-sec h2 {font-size: 24px;}
+.AstroMallShops-admin {align-items: flex-start;}
+.AstroMallShops-admin .change-password {position: sticky; top: 120px; min-width: 500px;}
+.AstroMallShops-admin .language-list {width: auto; flex-grow: 1;}
+.astro-mall-btn {position: absolute; right: 10px; top: 10px; display: flex; gap: 5px;}
+.astro-mall-btn button {padding: 0; width: 30px; height: 30px;}
+.AstroMallShops-admin {flex-wrap: unset;}
+.astromall-slider-outer .slider-sec {margin: 30px 0px 0px;}
 /* single astromall page  */
-
-.products-details-outer {
-  padding: 40px 0px 60px;
-}
-.products-details-inner {
-  display: flex;
-  justify-content: space-between;
-}
-.product-details-right {
-  max-width: 57.106%;
-  flex: 0 0 100%;
-}
-.products-details-outer h1 {
-  text-align: left;
-  margin: 0 0 10px;
-}
-.product-price {
-  margin: 10px 0px 0px;
-}
-.product-price span {
-    font-size: 24px;
-    font-weight: 600;
-    margin-right: 10px;
-}
-.product-price span.old-amount {
-    text-decoration: line-through;
-}
-.product-price span.discount-text {
-  color: var(--primary_color);
-  font-size: 20px;
-}
-.product-add-ons {
-  margin: 30px 0px 0px;
-}
-.add-ons-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.product-add-ons-listing {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin: 15px 0px 0px;
-}
-.product-add-ons-listing > * {
-  flex: 1;
-  text-align: center;
-  background-color: #f2f2f2;
-  border-radius: 8px;
-  padding: 20px;
-}
-.addon-name {
-  font-weight: 600;
-  font-size: 16px;
-}
-.product-right-dropdown {
-  margin: 30px 0px 0px;
-}
-.product-right-dropdown select {
-  height: 45px;
-  border: 1px solid;
-  border-radius: 8px;
-  padding: 0px 20px;
-  font-family: inherit;
-}
-.product-right-btn {
-  margin: 20px 0px 0px;
-}
-.product-faqs-outer {
-  background-color: #f2f2f2;
-  padding: 60px 0px;
-}
-.single-faq {
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  margin: 0 0 8px;
-}
-.single-faq h3, .single-faq ul li:not(:last-child), .single-faq p {
-  margin: 0 0 5px;
-}
-.single-faq ul {
-  padding-left: 20px;
-}
-.single-faq ul li {
-  list-style-type: disc;
-}
-.product-testimonial-left-right-outer {
-  padding: 60px 0px;
-}
-.promise-box-sec {
-    background-color: var(--primary_color);
-    color: #fff;
-    border-radius: 8px;
-    padding: 30px;
-}
-.promise-btns {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 20px 0px 0px;
-}
-.promise-btns a {
-  display: inline-block;
-  background-color: #fff;
-  border-radius: 30px;
-  padding: 10px 30px;
-}
-.slider-sec .slick-slider {
-  padding: 0px 40px;
-}
-.single-slide {
-  padding: 0px 10px;
-}
-.slide-content {
-  padding: 20px;
-  text-align: center;
-}
-.slide-content p {
-  font-weight: 500;
-  font-size: 16px;
-  color: var(--body_content_color);
-}
-.single-slide a {
-  border: 1px solid #e2e2e2;
-  display: inline-block;
-  width: 100%;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
+.products-details-outer {padding: 40px 0px 60px;}
+.products-details-inner {display: flex; justify-content: space-between;}
+.product-details-right {max-width: 57.106%; flex: 0 0 100%;}
+.products-details-outer h1 {text-align: left; margin: 0 0 10px;}
+.product-price {margin: 10px 0px 0px;}
+.product-price span {font-size: 24px; font-weight: 600; margin-right: 10px;}
+.product-price span.old-amount {text-decoration: line-through;}
+.product-price span.discount-text {color: var(--primary_color); font-size: 20px;}
+.product-add-ons {margin: 30px 0px 0px;}
+.add-ons-head {display: flex; justify-content: space-between; align-items: center;}
+.product-add-ons-listing {display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 15px 0px 0px;}
+.product-add-ons-listing > * {flex: 1; text-align: center; background-color: #f2f2f2; border-radius: 8px; padding: 20px;}
+.addon-name {font-weight: 600; font-size: 16px;}
+.product-right-dropdown {margin: 30px 0px 0px;}
+.product-right-dropdown select {height: 45px; border: 1px solid; border-radius: 8px; padding: 0px 20px; font-family: inherit;}
+.product-right-btn {margin: 20px 0px 0px;}
+.product-faqs-outer {background-color: #f2f2f2; padding: 60px 0px;}
+.single-faq {padding: 20px; background-color: #fff; border-radius: 8px; margin: 0 0 8px;}
+.single-faq h3, .single-faq ul li:not(:last-child), .single-faq p {margin: 0 0 5px;}
+.single-faq ul {padding-left: 20px;}
+.single-faq ul li {list-style-type: disc;}
+.product-testimonial-left-right-outer {padding: 60px 0px;}
+.promise-box-sec {background-color: var(--primary_color); color: #fff; border-radius: 8px; padding: 30px;}
+.promise-btns {display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0px 0px;}
+.promise-btns a {display: inline-block; background-color: #fff; border-radius: 30px; padding: 10px 30px;}
+.slider-sec .slick-slider {padding: 0px 40px;}
+.single-slide {padding: 0px 10px;}
+.slide-content {padding: 20px; text-align: center;}
+.slide-content p {font-weight: 500; font-size: 16px; color: var(--body_content_color);}
+.single-slide a {border: 1px solid #e2e2e2; display: inline-block; width: 100%; border-radius: 8px; overflow: hidden;}
 /* Payment Checkout  */
-
-.payment-checkout-inner {
-  border: 2px solid var(--primary_color);
-  border-radius: 8px;
-}
-.summary-heading {
-  text-align: center;
-  background-color: var(--primary_color);
-  padding: 10px;
-}
-.summary-heading h3 {
-  color: #fff;
-}
-.cart_table table {
-  width: 100%;
-  border: 0px;
-  background-color: #f2f2f2;
-}
-.cart_table table td, .cart_table table th {
-  border: 0px;
-  border-bottom: 2px solid #ffffff;
-  padding: 10px;
-  width: 50%;
-  text-align: center;
-}
-.cart_table table td h6 {
-  font-size: 16px;
-  font-weight: normal;
-}
-.card-body-sec {
-  display: flex;
-  padding: 30px;
-}
-.card-body-left {
-  max-width: 40%;
-  flex: 0 0 100%;
-}
-.card-body-right {
-  padding-left: 40px;
-  flex-grow: 1;
-}
-.single-summary {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0px;
-}
-.order-listing {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-.single-payment-method {
-  text-align: center;
-  background-color: #f2f2f2;
-  border-radius: 8px;
-  padding: 20px 10px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.single-payment-method img {
-  max-height: 40px;
-}
-.payment-method-text {
-  margin: 12px 0px 0px;
-}
-.order-summary-content {
-  border-bottom: 1px solid #ccc;
-}
-.single-summary.total-amount {
-  border-top: 1px solid;
-}
-
+.payment-checkout-inner {border: 2px solid var(--primary_color); border-radius: 8px;}
+.summary-heading {text-align: center; background-color: var(--primary_color); padding: 10px;}
+.summary-heading h3 {color: #fff;}
+.cart_table table {width: 100%; border: 0px; background-color: #f2f2f2;}
+.cart_table table td, .cart_table table th {border: 0px; border-bottom: 2px solid #ffffff; padding: 10px; width: 50%; text-align: center;}
+.cart_table table td h6 {font-size: 16px; font-weight: normal;}
+.card-body-sec {display: flex; padding: 30px;}
+.card-body-left {max-width: 40%; flex: 0 0 100%;}
+.card-body-right {padding-left: 40px; flex-grow: 1;}
+.single-summary {display: flex; justify-content: space-between; padding: 10px 0px;}
+.order-listing {display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;}
+.single-payment-method {text-align: center; background-color: #f2f2f2; border-radius: 8px; padding: 20px 10px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center;}
+.single-payment-method img {max-height: 40px;}
+.payment-method-text {margin: 12px 0px 0px;}
+.order-summary-content {border-bottom: 1px solid #ccc;}
+.single-summary.total-amount {border-top: 1px solid;}
+/* Spiritual Services in Astrologer dashboard  */
+.spiritual-services-outer {max-width: 700px;}
+.spiritual-head-sec, .single-service {display: flex; align-items: center;}
+.spiritual-head-sec > *:not(:last-child) {border-right: 1px solid #d7d7d7;}
+.spiritual-head-sec {background-color: var(--primary_color); margin: 0 0 20px;}
+.spiritual-head-sec h2 {margin: 0px; color: #ffffff; font-size: 15px; font-weight: 600;}
+.spiritual-head-sec > * {padding: 10px 20px; flex: 1;}
+.single-service > * {flex: 1; margin: 0 0 20px;}
+.single-service-left input + label::before {content: ""; position: absolute; width: 20px; height: 20px; border: 2px solid var(--primary_color); border-radius: 50%; left: 20px; top: -1px; transition: all 0.3s;}
+.single-service-left input:checked + label::before {background-color: var(--primary_color);}
+.single-service-left input + label::after {content: ""; position: absolute; width: 10px; height: 5px; border-left: 2px solid #ffffff; border-bottom: 2px solid #ffffff; transform: rotate(-45deg); left: 26px; top: 6px; transition: all 0.3s; opacity: 0; visibility: hidden;}
+.single-service-left input:checked + label::after {opacity: 1; visibility: visible;}
+.single-service-left {position: relative; padding-left: 50px;}
+.single-service-left input {position: absolute; width: 100%; height: 100%; opacity: 0; z-index: 1; left: 0; top: 0;}
+.single-service-left input[type="checked"] + label::before {background-color: var(--primary_color);}
+.single-service-right input {height: 35px; border: 1px solid var(--body_content_color); border-radius: 5px; max-width: 120px; padding: 0px 15px; font-family: inherit;}
 /* ================== @ media css start here ================== */
-
 @media (max-width: 1400px) {
-  .outer-home-dashboard ul {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .AstroMallShops-admin .astromall-listing {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .outer-home-dashboard ul {grid-template-columns: repeat(3, 1fr);}
+  .AstroMallShops-admin .astromall-listing {grid-template-columns: repeat(2, 1fr);}
 }
 @media (max-width: 1199px) {
-  .header-left-logo img {
-    max-width: 80px;
-  }
-  nav.navbar > ul > li {
-    padding: 3px 10px;
-  }
-  .inner-header-sec.ctm-flex-row {
-    gap: 10px;
-  }
-  .astrologer {
-    padding-block: 60px;
-  }
-  .all-list-talk-to-astrologer {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .inner-talk-to-astrologer {
-    row-gap: 15pxs;
-  }
-  .talk-to-astrologer-left-content,
-  .talk-to-astrologer-right-content {
-    width: 100%;
-  }
-  .talk-to-astrologer-right-content,
-  .recharge-button {
-    margin-left: 0px;
-  }
-  .send-input-button {
-    max-width: calc(100% - 40px);
-    width: 100%;
-  }
-  .astrologer-chat .uder-and-astro-chat-bg {
-    height: calc(100vh - 209px);
-  }
-  .inner-popular-recharge-sec {
-    width: calc(100% / 5 - 16px);
-  }
-  .outer-home-dashboard ul {
-    grid-template-columns: repeat(2, 1fr);
-  }
-   .AstroMallShops-admin {
-    flex-wrap: wrap;
-  }
-  .AstroMallShops-admin .change-password {
-    position: static;
-    min-width: 100%;
-  }
-  .AstroMallShops-admin .language-list {
-    margin: 40px 0px 0px;
-    padding: 0px;
-  }
-  .product-add-ons-listing > * {
-    padding: 15px;
-  }
-   .order-listing {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  .header-left-logo img {max-width: 80px;}
+  nav.navbar > ul > li {padding: 3px 10px;}
+  .inner-header-sec.ctm-flex-row {gap: 10px;}
+  .astrologer {padding-block: 60px;}
+  .all-list-talk-to-astrologer {grid-template-columns: repeat(2, 1fr);}
+  .inner-talk-to-astrologer {row-gap: 15pxs;}
+  .talk-to-astrologer-left-content, .talk-to-astrologer-right-content {width: 100%;}
+  .talk-to-astrologer-right-content, .recharge-button {margin-left: 0px;}
+  .send-input-button {max-width: calc(100% - 40px); width: 100%;}
+  .astrologer-chat .uder-and-astro-chat-bg {height: calc(100vh - 209px);}
+  .inner-popular-recharge-sec {width: calc(100% / 5 - 16px);}
+  .outer-home-dashboard ul {grid-template-columns: repeat(2, 1fr);}
+   .AstroMallShops-admin {flex-wrap: wrap;}
+  .AstroMallShops-admin .change-password {position: static; min-width: 100%;}
+  .AstroMallShops-admin .language-list {margin: 40px 0px 0px; padding: 0px;}
+  .product-add-ons-listing > * {padding: 15px;}
+   .order-listing {grid-template-columns: repeat(3, 1fr);}
 }
 @media screen and (min-width: 768px) and (max-width: 991px) {
-  .container {
-    max-width: 750px;
-    margin-inline: auto;
-    padding: 0;
-  }
-  .send-input-button {
-    max-width: 750px;
-  }
+  .container {max-width: 750px; margin-inline: auto; padding: 0;}
+  .send-input-button {max-width: 750px;}
 }
 @media (max-width: 991px) {
-  .navbar {
-    display: none;
-    position: absolute;
-    top: 100%;
-    background-color: #fff;
-    left: 0;
-    width: 100%;
-    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.1);
-  }
-  nav.navbar ul {
-    flex-direction: column;
-  }
-  .header .mobile-toggle {
-    position: absolute;
-    right: 15px;
-    display: block;
-    cursor: pointer;
-  }
-  .header button,
-  .header-right-profil-icon {
-    margin-right: 45px;
-  }
-  .menu-opened .navbar {
-    display: block;
-  }
-  .inner-header-sec {
-    gap: 0px;
-  }
-  .header-left-logo img {
-    max-width: 80px;
-  }
-  nav.navbar > ul > li {
-    padding: 10px 20px;
-  }
-  .user-dashboard-profile img {
-    width: 50px;
-    height: 50px;
-  }
-  .profile_with_contact .image {
-    max-width: 33.33333333%;
-    flex: 0 0 33.33333333%;
-  }
-  .profile_with_contact .content {
-    flex: 0 0 66.66666667%;
-    max-width: 66.66666667%;
-  }
-  .admin-popup-main .admin-popup-outer-inner {
-    max-width: 100%;
-  }
-  .sort-right {
-    gap: 8px;
-  }
-  .inner-ctm-chat-with-astrologer {
-    width: calc(100% / 2 - 7px);
-  }
-  .inner-ctm-chat-with-astrologer {
-    width: calc(100% / 2 - 7px);
-  }
-  .uder-and-astro-chat-bg {
-    height: calc(100vh - 306px);
-  }
-  .inner-popular-recharge-sec {
-    width: calc(100% / 4 - 15px);
-  }
-  .outer-home-dashboard ul {
-    grid-template-columns: repeat(1, 1fr);
-  }
-  .talk-to-astrologer-right-content {
-    justify-content: center;
-  }
-  .astromall-listing, .product-add-ons-listing {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .order-listing {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .navbar {display: none; position: absolute; top: 100%; background-color: #fff; left: 0; width: 100%; box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.1);}
+  nav.navbar ul {flex-direction: column;}
+  .header .mobile-toggle {position: absolute; right: 15px; display: block; cursor: pointer;}
+  .header button, .header-right-profil-icon {margin-right: 45px;}
+  .menu-opened .navbar {display: block;}
+  .inner-header-sec {gap: 0px;}
+  .header-left-logo img {max-width: 80px;}
+  nav.navbar > ul > li {padding: 10px 20px;}
+  .user-dashboard-profile img {width: 50px; height: 50px;}
+  .profile_with_contact .image {max-width: 33.33333333%; flex: 0 0 33.33333333%;}
+  .profile_with_contact .content {flex: 0 0 66.66666667%; max-width: 66.66666667%;}
+  .admin-popup-main .admin-popup-outer-inner {max-width: 100%;}
+  .sort-right {gap: 8px;}
+  .inner-ctm-chat-with-astrologer {width: calc(100% / 2 - 7px);}
+  .inner-ctm-chat-with-astrologer {width: calc(100% / 2 - 7px);}
+  .uder-and-astro-chat-bg {height: calc(100vh - 306px);}
+  .inner-popular-recharge-sec {width: calc(100% / 4 - 15px);}
+  .outer-home-dashboard ul {grid-template-columns: repeat(1, 1fr);}
+  .talk-to-astrologer-right-content {justify-content: center;}
+  .astromall-listing, .product-add-ons-listing {grid-template-columns: repeat(2, 1fr);}
+  .order-listing {grid-template-columns: repeat(2, 1fr);}
 }
 @media (max-width: 767px) {
-  h1, .common-h1-heading {
-    font-size: 24px;
-    line-height: 36px;
-  }
+  h1, .common-h1-heading {font-size: 24px; line-height: 36px;}
   /* Header Section */
-  .header button,
-  .header-right-profil-icon {
-    margin-right: 30px;
-  }
-  .header-left-logo img {
-    max-width: 70px;
-  }
+  .header button,.header-right-profil-icon {margin-right: 30px;}
+  .header-left-logo img {max-width: 70px;}
   /* Dashboard Header  */
-  .user-opened .onhover-dropdown.mobile-user .onhover-show-div,
-  .notification-opened .onhover-dropdown.mobile-notification .onhover-show-div {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0px);
-  }
-  .mobile-close-sidebar {
-    display: flex;
-  }
-  .page-main-header {
-    margin-left: 0px;
-    width: 100%;
-  }
-  .dashboard-left-dashboard {
-    transform: translateX(-255px);
-    z-index: 11;
-  }
-  .slider-opened .dashboard-left-dashboard,
-  .slider-opened-mobile .dashboard-left-dashboard {
-    transform: translateX(0px);
-  }
-  .dashboard-right-content {
-    margin-left: 0;
-  }
-  .profile_with_contact {
-    flex-direction: column;
-    align-items: normal;
-  }
-  .profile_with_contact .image,
-  .profile_with_contact .content {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-  .btns_chat_call {
-    flex-direction: column;
-    gap: 0;
-    align-items: normal;
-  }
-  .btns_astrolgers_contact {
-    width: 100%;
-  }
-  .rating_review .row, .product-testimonial-left-right-inner {
-    grid-template-columns: repeat(1, 1fr);
-    gap: 0px;
-  }
-  .about_astrologer p {
-    font-size: 15px;
-  }
-  .details_of_conversation {
-    justify-content: center;
-    border-top: 1px solid #ccc;
-    padding-top: 10px;
-  }
-  .chat_details,
-  .chat_details {
-    font-size: 14px;
-  }
-  .about_astrologer p span {
-    font-size: 12px;
-  }
-  .inner-astrologer-detail:not(:last-child) {
-    margin: 0 0 20px;
-  }
-  .sort-filter-rating {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  button.slick-arrow {
-    width: 25px;
-    height: 25px;
-  }
-  button.slick-arrow::before {
-    width: 7px;
-    height: 7px;
-  }
-  .AddLanguage .language-add-data,
-  .AddLanguage .language-list {
-    width: 100%;
-  }
-  .AddLanguage .language-add-data {
-    padding: 0px 0 20px;
-    border-right: 0px;
-    border-bottom: 1px solid #cfcfcf;
-  }
-  .AddLanguage .language-list {
-    padding: 20px 0px 0px;
-  }
-  ul.notification-dropdown.onhover-show-div {
-    width: 295px;
-  }
-  .desktop {
-    display: none;
-  }
-  .mobile {
-    display: block;
-  }
-  .astrologer-registration-form,
-  .user-registration-form {
-    padding: 30px 20px;
-  }
-  .inner-form-filed-sec,
-  .inner-all-notifications-sec-box-maim {
-    width: 100%;
-  }
-  .wallet-ctm-tab-menu ul li button,
-  .wallet-ctm-tab-menu ul li a,
-  .my-wallet-recharge-button {
-    font-size: 14px;
-    padding: 10px 20px;
-  }
-  .inner-ctm-chat-with-astrologer {
-    width: 100%;
-  }
-  .dashboard-right-content .container {
-    padding: 0;
-  }
-  .my-wallet-table-sec table {
-    white-space: nowrap;
-  }
-  .inner-popular-recharge-sec {
-    width: calc(100% / 3 - 13.3333px);
-  }
-  .countdown-outer {
-    min-width: 340px;
-    max-width: calc(100% - 30px);
-  }
-  .inner-talk-to-astrologer-right-content > *:not(.search-box-top-btn) {
-    width: calc(100%/3 - 6.666667px);
-  }
-  .inner-talk-to-astrologer-right-content > *:not(.search-box-top-btn) > * {
-    width: 100%;
-    padding-inline: 0;
-    justify-content: center;
-  }
-  .search-box-top-btn {
-    width: 100%;
-  }
-  .search-box-filed {
-    width: calc(100% - 46px);
-    max-width: unset;
-  }
-  .search-button-filed {
-    width: 46px;
-  }
-  .talk-to-astrologer-left-content {
-    justify-content: center;
-  }
-  .sort-right {
-    gap: 20px;
-  }
-  .filter-content .tab-pane label span::before, .sort-radio input[type="radio"] + label::before {
-    top: 0px;
-  }
-  .filter-content .tab-pane label span::after, .sort-radio input[type="radio"] + label::after {
-    top: 7px;
-  }
-  .astro-dashboard-heading-btns-outer {
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  .astromall-sec-outer {
-    padding: 50px 0px;
-  }
-  section.astromall-slider-outer {
-    padding: 0 0 50px;
-  }
-  .products-details-inner {
-    flex-wrap: wrap;
-  }
-  .product-details-right {
-    max-width: 100%;
-  }
-  .products-details-outer {
-    padding: 40px 0px 40px;
-  }
-  .product-faqs-outer, .product-testimonial-left-right-outer {
-    padding: 40px 0px;
-  }
-  .product-promises-right {
-    margin: 30px 0px 0px;
-  }
-  .card-body-sec {
-    flex-wrap: wrap;
-    padding: 20px;
-  }
-  .card-body-left {
-    max-width: 100%;
-  }
-  .card-body-right {
-    padding-left: 0px;
-    padding-top: 10px;
-  }
-  .cart_table table td h6 {
-    font-size: 14px;
-  }
+  .user-opened .onhover-dropdown.mobile-user .onhover-show-div, .notification-opened .onhover-dropdown.mobile-notification .onhover-show-div {opacity: 1; visibility: visible; transform: translateY(0px);}
+  .mobile-close-sidebar {display: flex;}
+  .page-main-header {margin-left: 0px; width: 100%;}
+  .dashboard-left-dashboard {transform: translateX(-255px); z-index: 11;}
+  .slider-opened .dashboard-left-dashboard, .slider-opened-mobile .dashboard-left-dashboard {transform: translateX(0px);}
+  .dashboard-right-content {margin-left: 0;}
+  .profile_with_contact {flex-direction: column; align-items: normal;}
+  .profile_with_contact .image, .profile_with_contact .content {flex: 0 0 100%; max-width: 100%;}
+  .btns_chat_call {flex-direction: column; gap: 0; align-items: normal;}
+  .btns_astrolgers_contact {width: 100%;}
+  .rating_review .row, .product-testimonial-left-right-inner {grid-template-columns: repeat(1, 1fr); gap: 0px;}
+  .about_astrologer p {font-size: 15px;}
+  .details_of_conversation {justify-content: center; border-top: 1px solid #ccc; padding-top: 10px;}
+  .chat_details, .chat_details {font-size: 14px;}
+  .about_astrologer p span {font-size: 12px;}
+  .inner-astrologer-detail:not(:last-child) {margin: 0 0 20px;}
+  .sort-filter-rating {flex-wrap: wrap; gap: 10px;}
+  button.slick-arrow {width: 25px; height: 25px;}
+  button.slick-arrow::before {width: 7px; height: 7px;}
+  .AddLanguage .language-add-data, .AddLanguage .language-list {width: 100%;}
+  .AddLanguage .language-add-data {padding: 0px 0 20px; border-right: 0px; border-bottom: 1px solid #cfcfcf;}
+  .AddLanguage .language-list {padding: 20px 0px 0px;}
+  ul.notification-dropdown.onhover-show-div {width: 295px;}
+  .desktop {display: none;}
+  .mobile {display: block;}
+  .astrologer-registration-form, .user-registration-form {padding: 30px 20px;}
+  .inner-form-filed-sec, .inner-all-notifications-sec-box-maim {width: 100%;}
+  .wallet-ctm-tab-menu ul li button, .wallet-ctm-tab-menu ul li a, .my-wallet-recharge-button {font-size: 14px; padding: 10px 20px;}
+  .inner-ctm-chat-with-astrologer {width: 100%;}
+  .dashboard-right-content .container {padding: 0;}
+  .my-wallet-table-sec table {white-space: nowrap;}
+  .inner-popular-recharge-sec {width: calc(100% / 3 - 13.3333px);}
+  .countdown-outer {min-width: 340px; max-width: calc(100% - 30px);}
+  .inner-talk-to-astrologer-right-content > *:not(.search-box-top-btn) {width: calc(100%/3 - 6.666667px);}
+  .inner-talk-to-astrologer-right-content > *:not(.search-box-top-btn) > * {width: 100%; padding-inline: 0; justify-content: center;}
+  .search-box-top-btn {width: 100%;}
+  .search-box-filed {width: calc(100% - 46px); max-width: unset;}
+  .search-button-filed {width: 46px;}
+  .talk-to-astrologer-left-content {justify-content: center;}
+  .sort-right {gap: 20px;}
+  .filter-content .tab-pane label span::before, .sort-radio input[type="radio"] + label::before {top: 0px;}
+  .filter-content .tab-pane label span::after, .sort-radio input[type="radio"] + label::after {top: 7px;}
+  .astro-dashboard-heading-btns-outer {flex-wrap: wrap; gap: 20px;}
+  .astromall-sec-outer {padding: 50px 0px;}
+  section.astromall-slider-outer {padding: 0 0 50px;}
+  .products-details-inner {flex-wrap: wrap;}
+  .product-details-right {max-width: 100%;}
+  .products-details-outer {padding: 40px 0px 40px;}
+  .product-faqs-outer, .product-testimonial-left-right-outer {padding: 40px 0px;}
+  .product-promises-right {margin: 30px 0px 0px;}
+  .card-body-sec {flex-wrap: wrap; padding: 20px;}
+  .card-body-left {max-width: 100%;}
+  .card-body-right {padding-left: 0px; padding-top: 10px;}
+  .cart_table table td h6 {font-size: 14px;}
+  .single-service-left input + label::before {left: 0px;}
+  .single-service-left input + label::after {left: 6px;}
+  .single-service-left {position: relative; padding-left: 32px;}
+  .single-service-right input {border: 1px solid var(--body_content_color); border-radius: 5px; max-width: 100px;}
 }
 @media (max-width: 574px) {
-  .chat-left-logo {
-    gap: 10px;
-  }
-  .inner-chat-top-header {
-    padding: 10px;
-  }
-  .header-chat-content h4 {
-    font-size: 14px;
-  }
-  .send-otp {
-    max-width: calc(100% - 30px);
-  }
-  .send-otp .number--continious-popup,
-  .enter-otp {
-    padding: 0 20px 0px;
-  }
-  .inner-popular-recharge-sec {
-    width: calc(100% / 2 - 10px);
-  }
-  .sharePopUp {
-    min-width: calc(100% - 30px);
-  }
-  .sharePopUp > h3 {
-    font-size: 18px;
-  }
-  .astromall-listing {
-    grid-template-columns: repeat(1, 1fr);
-  }
-  .astromall-search input {
-    min-width: 250px;
-  }
-
+  .chat-left-logo {gap: 10px;}
+  .inner-chat-top-header {padding: 10px;}
+  .header-chat-content h4 {font-size: 14px;}
+  .send-otp {max-width: calc(100% - 30px);}
+  .send-otp .number--continious-popup, .enter-otp {padding: 0 20px 0px;}
+  .inner-popular-recharge-sec {width: calc(100% / 2 - 10px);}
+  .sharePopUp {min-width: calc(100% - 30px);}
+  .sharePopUp > h3 {font-size: 18px;}
+  .astromall-listing {grid-template-columns: repeat(1, 1fr);}
+  .astromall-search input {min-width: 250px;}
 }
 @media (max-width: 370px) {
-  .sort-right {
-    gap: 5px;
-  }
+  .sort-right {gap: 5px;}
 }

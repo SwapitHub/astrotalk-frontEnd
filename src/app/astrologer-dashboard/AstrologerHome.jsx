@@ -20,6 +20,8 @@ import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
 import { useGlobalContext } from "@/context/HomeContext";
 import Cookies from "js-cookie";
 import AstrologerGallery from "./AstrologerGallery";
+import SpiritualServices from "./SpiritualServices";
+import { GrServices } from "react-icons/gr";
 
 const AstrologerHome = () => {
   const { updateButton, setUpdateButton } = useGlobalContext();
@@ -135,7 +137,7 @@ const AstrologerHome = () => {
     if (registrationDetail?.blockUnblockAstro == true) {
       astroLogerLogout();
     }
-  }, [registrationDetail,astroLogerLogout]);
+  }, [registrationDetail, astroLogerLogout]);
 
   useEffect(() => {
     const className = "slider-opened";
@@ -236,6 +238,19 @@ const AstrologerHome = () => {
                         title="menu"
                         onClick={(e) => {
                           e.preventDefault();
+                          setUpdateButton("spiritual-services");
+                        }}
+                      >
+                        <GrServices />
+                        <span className="list-text">Spiritual Services</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        title="menu"
+                        onClick={(e) => {
+                          e.preventDefault();
                           setUpdateButton(4);
                         }}
                       >
@@ -312,6 +327,7 @@ const AstrologerHome = () => {
                   />
                 )}
                 {updateButton == 3 && <AstrologerWallet />}
+                {updateButton == "spiritual-services" && <SpiritualServices />}
                 {updateButton == 4 && (
                   <AstrologerGallery astrologerData={astrologerData} />
                 )}

@@ -243,7 +243,6 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData, registrat
     if (imageFile) {
       formData.append("image", imageFile);
     }
-console.log("imageFile",imageFile);
 
     try {
       const response = await axios.put(

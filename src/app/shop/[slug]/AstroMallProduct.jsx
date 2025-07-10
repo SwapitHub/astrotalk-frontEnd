@@ -8,11 +8,11 @@ const AstroMallProduct = () => {
   const [productListData, setProductListData] = useState([]);
   const [astrShopDetailData, setAstrShopDetailData] = useState([]);
   const params = useParams();
-  console.log(params.slug, "astrShopDetailData");
+  console.log(astrShopDetailData, "astrShopDetailData");
 
   useEffect(() => {
     const fetchShopDetail = async () => {
-      if ( !params.slug) return;
+      if (!params.slug) return;
 
       try {
         const res = await fetch(
@@ -82,7 +82,13 @@ const AstroMallProduct = () => {
                 {productListData.map((item, index) => {
                   return (
                     <div className="single-item" key={index}>
-                      <Link href={`/shop/${params.slug}/${item?.slug}`}>
+                      <Link
+                        href={`/shop/${params.slug}/${item?.slug}${
+                          astrShopDetailData.Jewelry_product_gem
+                            ? `?gemstone=true`
+                            : ""
+                        }`}
+                      >
                         <div className="sales-tag">
                           <span>Book Now</span>
                         </div>
@@ -91,7 +97,6 @@ const AstroMallProduct = () => {
                             <img src={item?.astroMallProductImg} alt="" />
                           </div>
                           <div className="details-cont">
-                            
                             {item?.discount_price ? (
                               <div className="details-cont">
                                 <div className="product-name">

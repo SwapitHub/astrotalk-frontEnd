@@ -1,14 +1,16 @@
 "use client";
 import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const ProductDetail = () => {
   const router = useRouter();
   const params = useParams();
+  const searchParams = useSearchParams();
+  const gemstone = searchParams.get("gemstone");
   const [productDetailData, setProductDetailData] = useState();
   const [gemStoneJewelryData, setGemStoneJewelryData] = useState();
-  console.log(productDetailData);
+  console.log(gemstone);
 
   const handleProductDetail = async () => {
     try {
@@ -96,25 +98,29 @@ const ProductDetail = () => {
                 </div>
               )}
 
-              <div className="product-add-ons">
-                <div className="add-ons-head">
-                  <h2>Please select add ons</h2>
-                  <a href="#">View all</a>
-                </div>
-                <div className="product-add-ons-listing">
-                  {gemStoneJewelryData?.map((item, index) => (
-                    <div className="single-add-on" key={index}>
-                      <div className="add-on-img">
-                        <img src={item?.astroGemstoneJewelryImg} alt="" />
+              {gemstone && (
+                <div className="product-add-ons">
+                  <div className="add-ons-head">
+                    <h2>Please select add ons</h2>
+                    <a href="#">View all</a>
+                  </div>
+                  <div className="product-add-ons-listing">
+                    {gemStoneJewelryData?.map((item, index) => (
+                      <div className="single-add-on" key={index}>
+                        <div className="add-on-img">
+                          <img src={item?.astroGemstoneJewelryImg} alt="" />
+                        </div>
+                        <div className="add-on-details">
+                          <div className="addon-name">{item?.name}</div>
+                          <div className="addon-price">
+                            ₹ {item?.actual_price}
+                          </div>
+                        </div>
                       </div>
-                      <div className="add-on-details">
-                        <div className="addon-name">{item?.name}</div>
-                        <div className="addon-price">₹ {item?.actual_price}</div>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="product-right-dropdown">
                 <select>
                   <option>Select Ring Size</option>
@@ -127,7 +133,11 @@ const ProductDetail = () => {
                 <button
                   onClick={() => {
                     router.push(
-                      `/shop/${params?.slug}/${params?.id}/orderReview?uID=2qwe23112`
+                      `/shop/${params?.slug}/${params?.id}/${
+                        !productDetailData?.starting_price
+                          ? `orderReview`
+                          : "consultant"
+                      }?uID=eyJjYXR`
                     );
                   }}
                 >

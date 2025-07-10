@@ -29,6 +29,7 @@ import { useGlobalContext } from "@/context/HomeContext";
 import AstroMallShops from "./AstroMallShops";
 import AstroMallShopProduct from "./AstroMallShopProduct";
 import GemStoneProductGemJewelry from "./GemStoneProductGemJewelry";
+import AddSpiritualServices from "./AddSpiritualServices";
 
 const AdminHome = () => {
   const router = useRouter();
@@ -326,6 +327,8 @@ const AdminHome = () => {
                               Change Password
                             </a>
                           </li>
+
+                          
                         </ul>
                       </SlideToggle>
                     </li>
@@ -406,6 +409,22 @@ const AdminHome = () => {
                               </span>
                             </a>
                           </li>
+                          <li
+                            className={
+                              updateButton === "spiritual-services" ? "active" : ""
+                            }
+                          >
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setUpdateButton("spiritual-services");
+                                setToggleSlideMobile(false);
+                              }}
+                            >
+                              Add Spiritual Services
+                            </a>
+                          </li>
                         </ul>
                       </SlideToggle>
                     </li>
@@ -465,6 +484,7 @@ const AdminHome = () => {
                 {updateButton === "profession" && <AddProfession />}
                 {updateButton === "ChatCommission" && <ChatCommission />}
                 {updateButton === "changePassword" && <ChangePassword />}
+                {updateButton === "spiritual-services" && <AddSpiritualServices />}
 
                 {["user", "astrologer", "admin"].includes(updateButton) && (
                   <AdminWallet updateButton={updateButton} />
