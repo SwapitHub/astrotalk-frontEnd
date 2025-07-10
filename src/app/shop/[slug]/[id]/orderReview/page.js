@@ -1,4 +1,4 @@
-import OrderReview from './orderReview'
+import OrderReview from './OrderReview'
 
 
 
