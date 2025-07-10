@@ -102,8 +102,8 @@ const ProductDetail = () => {
                   <a href="#">View all</a>
                 </div>
                 <div className="product-add-ons-listing">
-                  {gemStoneJewelryData?.map((item) => (
-                    <div className="single-add-on" key={item.id}>
+                  {gemStoneJewelryData?.map((item, index) => (
+                    <div className="single-add-on" key={index}>
                       <div className="add-on-img">
                         <img src={item?.astroGemstoneJewelryImg} alt="" />
                       </div>
