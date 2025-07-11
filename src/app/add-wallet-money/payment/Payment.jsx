@@ -1,4 +1,5 @@
 "use client";
+
 import RazorpayPayment from "@/app/component/RazorpayPayment";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
