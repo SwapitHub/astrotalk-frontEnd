@@ -1,10 +1,10 @@
 import Payment from "./Payment"
 
-const PaymentServer = () => {
- 
+const PaymentServer = ({searchParams}) => {
+    const pmtId = searchParams.pmt
     
   return (
-    <Payment />
+    <Payment pmtId={pmtId}/>
   )
 }
 

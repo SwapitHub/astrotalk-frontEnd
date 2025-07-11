@@ -1,15 +1,10 @@
 "use client";
-
 import RazorpayPayment from "@/app/component/RazorpayPayment";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const Payment = () => {
-   const searchParams = useSearchParams();
-  const pmtId = searchParams.get("pmt");
+const Payment = ({ pmtId }) => {
   const [priceDetail, setPriceDetail] = useState();
-
 
   useEffect(() => {
     if(pmtId){
