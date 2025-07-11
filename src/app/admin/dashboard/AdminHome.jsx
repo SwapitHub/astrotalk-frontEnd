@@ -409,7 +409,7 @@ const AdminHome = () => {
                               </span>
                             </a>
                           </li>
-                          <li
+                          {/* <li
                             className={
                               updateButton === "spiritual-services" ? "active" : ""
                             }
@@ -424,7 +424,7 @@ const AdminHome = () => {
                             >
                               Add Spiritual Services
                             </a>
-                          </li>
+                          </li> */}
                         </ul>
                       </SlideToggle>
                     </li>
@@ -484,7 +484,7 @@ const AdminHome = () => {
                 {updateButton === "profession" && <AddProfession />}
                 {updateButton === "ChatCommission" && <ChatCommission />}
                 {updateButton === "changePassword" && <ChangePassword />}
-                {updateButton === "spiritual-services" && <AddSpiritualServices />}
+                {/* {updateButton === "spiritual-services" && <AddSpiritualServices />} */}
 
                 {["user", "astrologer", "admin"].includes(updateButton) && (
                   <AdminWallet updateButton={updateButton} />

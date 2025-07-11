@@ -3,32 +3,13 @@ import axios from "axios";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import ShopIdGetGlobal from "./ShopIdGetGlobal";
 
 const AstroMallProduct = () => {
   const [productListData, setProductListData] = useState([]);
   const [astrShopDetailData, setAstrShopDetailData] = useState([]);
   const params = useParams();
-  console.log(astrShopDetailData, "astrShopDetailData");
-
-  useEffect(() => {
-    const fetchShopDetail = async () => {
-      if (!params.slug) return;
-
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-detail/${params.slug}`
-        );
-        console.log(res);
-
-        const result = await res.json();
-        setAstrShopDetailData(result.data); // Corrected: result.data, not res.data.data
-      } catch (error) {
-        console.error("Error fetching shop data:", error);
-      }
-    };
-
-    fetchShopDetail();
-  }, [params?.slug]);
+ 
 
   useEffect(() => {
     const getAstroProductData = async () => {
@@ -46,10 +27,14 @@ const AstroMallProduct = () => {
     };
 
     getAstroProductData();
-  }, [astrShopDetailData._id]);
+  }, [astrShopDetailData?._id]);
 
   return (
     <main>
+      <ShopIdGetGlobal
+        astrShopDetailData={astrShopDetailData}
+        setAstrShopDetailData={setAstrShopDetailData}
+      />
       <section className="astromall-sec-outer">
         <div className="container">
           <div className="astromall-sec-inner">

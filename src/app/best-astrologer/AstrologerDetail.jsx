@@ -58,6 +58,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
     setUserIds(userId);
   }, []);
 
+console.log(astrologerData);
 
    useEffect(() => {
       document.body.classList.remove(

@@ -99,6 +99,7 @@ const ProductDetail = () => {
               )}
 
               {gemstone && (
+                <>
                 <div className="product-add-ons">
                   <div className="add-ons-head">
                     <h2>Please select add ons</h2>
@@ -120,7 +121,7 @@ const ProductDetail = () => {
                     ))}
                   </div>
                 </div>
-              )}
+              
               <div className="product-right-dropdown">
                 <select>
                   <option>Select Ring Size</option>
@@ -129,15 +130,17 @@ const ProductDetail = () => {
                   <option>I don't know, please call me</option>
                 </select>
               </div>
+              </>
+              )}
               <div className="product-right-btn">
                 <button
                   onClick={() => {
                     router.push(
                       `/shop/${params?.slug}/${params?.id}/${
                         !productDetailData?.starting_price
-                          ? `orderReview`
+                          ? `orderReview?uID=eyJjYXR`
                           : "consultant"
-                      }?uID=eyJjYXR`
+                      }`
                     );
                   }}
                 >

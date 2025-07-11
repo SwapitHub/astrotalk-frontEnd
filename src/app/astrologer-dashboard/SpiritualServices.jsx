@@ -16,9 +16,11 @@ const SpiritualServices = () => {
     const handleGetServices = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-add-AdminServices-astrologer`
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-list-services`
         );
-        setServicesData(response.data);
+        console.log(response);
+        
+        setServicesData(response.data.data);
       } catch (err) {
         console.log("services get api err", err);
       }
@@ -37,6 +39,10 @@ const SpiritualServices = () => {
         selectedServices.push({
           service: item.AdminServices,
           service_price: priceInput.value,
+          shop_id: item._id,
+          shop_name: item.name,
+          shop_slug: item.slug,
+          shop_name: item.name,
         });
       }
     });
@@ -54,7 +60,7 @@ const SpiritualServices = () => {
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-spiritual-service`,
         {
           mobileNumber: astrologerPhone,
-          spiritual_services: selectedServices,
+          spiritual_services: selectedServices,          
         }
       );
       if (response.status == 200) {
@@ -92,7 +98,7 @@ const SpiritualServices = () => {
         <div className="single-service" key={item._id}>
           <div className="single-service-left">
             <input type="checkbox" id={`service-${item._id}`} />
-            <label htmlFor={`service-${item._id}`}>{item.AdminServices}</label>
+            <label htmlFor={`service-${item._id}`}>{item.name}</label>
           </div>
           <div className="single-service-right">
             <input

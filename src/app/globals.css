@@ -160,7 +160,7 @@ nav.navbar ul {justify-content: center; display: flex;}
   .all-list-talk-to-astrologer {display: grid;}
 }
 .inner-astrologer-detail {box-shadow: 0 0 10px #ccc; border-radius: 10px; display: flex; justify-content: space-between; flex-wrap: wrap; row-gap: 5px;}
-.inner-astrologer-detail > a {display: flex; justify-content: space-between; flex-wrap: wrap; row-gap: 5px; padding: 14px; width: 100%; position: relative; overflow: hidden;}
+.inner-astrologer-detail > a, .inner-astrologer-detail > .main-anchor {display: flex; justify-content: space-between; flex-wrap: wrap; row-gap: 5px; padding: 14px; width: 100%; position: relative; overflow: hidden;}
 .star-banner {background-color: var(--primary_color); color: #fff; position: absolute; font-size: 9px; padding: 1px 30px; transform: rotate(-43deg); left: -33px; top: 12px;}
 .astrologer-list-left {width: 70px;}
 .astrologer-list-center {width: calc(100% - 145px); padding-left: 10px;}
@@ -840,7 +840,9 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .card-body-right {padding-left: 40px; flex-grow: 1;}
 .single-summary {display: flex; justify-content: space-between; padding: 10px 0px;}
 .order-listing {display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;}
-.single-payment-method {text-align: center; background-color: #f2f2f2; border-radius: 8px; padding: 20px 10px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center;}
+.single-payment-method {text-align: center; background-color: #f2f2f2; border-radius: 8px; padding: 20px 10px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative;}
+.order-product-btn {position: absolute; width: 100%; height: 100%; left: 0; top: 0; opacity: 0;}
+.order-product-btn * {width: 100%; height: 100%;}
 .single-payment-method img {max-height: 40px;}
 .payment-method-text {margin: 12px 0px 0px;}
 .order-summary-content {border-bottom: 1px solid #ccc;}
