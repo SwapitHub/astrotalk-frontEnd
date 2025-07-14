@@ -106,7 +106,7 @@ const ChatCommission = () => {
           className={disableButton && "disable"}
           onClick={handleSubmitAddAdminCommission}
         >
-          Add AdminCommission
+          Chat Commission
         </button>
       </div>
 

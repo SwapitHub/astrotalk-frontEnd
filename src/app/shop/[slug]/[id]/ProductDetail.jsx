@@ -1,4 +1,7 @@
 "use client";
+import RingGemstonePopUp from "@/app/component/RingGemstonePopUp";
+import SelectAddGemstoneRing from "@/app/component/SelectAddGemstoneRing";
+import ThumbNellTabbing from "@/app/component/ThumbNellTabbing";
 import axios from "axios";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -10,7 +13,12 @@ const ProductDetail = () => {
   const gemstone = searchParams.get("gemstone");
   const [productDetailData, setProductDetailData] = useState();
   const [gemStoneJewelryData, setGemStoneJewelryData] = useState();
-  console.log(gemstone);
+  const [viewAllBtn, setViewAllBtn] = useState(false);
+  const [gemstoneData, setGemstoneData] = useState();
+
+  const discountPrice =
+    productDetailData?.actual_price - productDetailData?.discount_price;
+  const offPercentage = (discountPrice / productDetailData?.actual_price) * 100;
 
   const handleProductDetail = async () => {
     try {
@@ -40,8 +48,28 @@ const ProductDetail = () => {
     handleGemStoneJewelry();
   }, []);
 
+  useEffect(() => {
+    if (viewAllBtn) {
+      document.body.classList.add("ring-opened");
+    } else {
+      document.body.classList.remove("ring-opened");
+    }
+
+    return () => {
+      document.body.classList.remove("ring-opened");
+    };
+  }, [viewAllBtn]);
+
   return (
     <>
+      
+        <RingGemstonePopUp
+          setViewAllBtn={setViewAllBtn}
+          gemStoneJewelryData={gemStoneJewelryData}
+          gemstoneData={gemstoneData}
+          setGemstoneData={setGemstoneData}
+        />
+    
       <div className="breadcrumb-outer">
         <div className="container">
           <div className="breadcrumb">
@@ -74,7 +102,9 @@ const ProductDetail = () => {
       <section className="products-details-outer">
         <div className="container">
           <div className="products-details-inner">
-            <div className="product-images-left"></div>
+            <div className="product-images-left">
+              <ThumbNellTabbing />
+            </div>
             <div className="product-details-right">
               <div className="product-right-desc">
                 <h1>{productDetailData?.name}</h1>
@@ -94,54 +124,38 @@ const ProductDetail = () => {
                   <span className="old-amount">
                     ₹ {productDetailData?.actual_price}
                   </span>
-                  <span className="discount-text">35% OFF</span>
+                  <span className="discount-text">{offPercentage}% OFF</span>
                 </div>
               )}
 
               {gemstone && (
                 <>
-                <div className="product-add-ons">
-                  <div className="add-ons-head">
-                    <h2>Please select add ons</h2>
-                    <a href="#">View all</a>
-                  </div>
-                  <div className="product-add-ons-listing">
-                    {gemStoneJewelryData?.map((item, index) => (
-                      <div className="single-add-on" key={index}>
-                        <div className="add-on-img">
-                          <img src={item?.astroGemstoneJewelryImg} alt="" />
-                        </div>
-                        <div className="add-on-details">
-                          <div className="addon-name">{item?.name}</div>
-                          <div className="addon-price">
-                            ₹ {item?.actual_price}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              
-              <div className="product-right-dropdown">
-                <select>
-                  <option>Select Ring Size</option>
-                  <option>Free Size</option>
-                  <option>I know my Ring Size</option>
-                  <option>I don't know, please call me</option>
-                </select>
-              </div>
-              </>
+                  <SelectAddGemstoneRing
+                    setViewAllBtn={setViewAllBtn}
+                    gemStoneJewelryData={gemStoneJewelryData}
+                    gemstoneData={gemstoneData}
+                    setGemstoneData={setGemstoneData}
+                  />
+                </>
               )}
               <div className="product-right-btn">
                 <button
                   onClick={() => {
-                    router.push(
-                      `/shop/${params?.slug}/${params?.id}/${
-                        !productDetailData?.starting_price
-                          ? `orderReview?uID=eyJjYXR`
-                          : "consultant"
-                      }`
-                    );
+                    {
+                      gemstone
+                        ? router.push(
+                            `/shop/${params?.slug}/${
+                              params?.id
+                            }/${`fillIntake?uID=wewe32323`}`
+                          )
+                        : router.push(
+                            `/shop/${params?.slug}/${params?.id}/${
+                              !productDetailData?.starting_price
+                                ? `orderReview?uID=eyJjYXR`
+                                : "consultant"
+                            }`
+                          );
+                    }
                   }}
                 >
                   Book Now

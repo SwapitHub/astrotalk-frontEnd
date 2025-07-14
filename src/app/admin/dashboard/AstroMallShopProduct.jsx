@@ -258,6 +258,7 @@ const AstroMallShopProduct = () => {
             <label>Please choose a shop</label>
           </div>
           <select
+          className="common-input-filed"
             id="shop_id"
             onChange={(e) => {
               const selectedShop = shopListData.find(
@@ -363,7 +364,7 @@ const AstroMallShopProduct = () => {
                           <p>
                             {" "}
                             ₹ {item?.discount_price}{" "}
-                            <span>{item?.actual_price}</span>
+                            <span className="old-amount">{item?.actual_price}</span>
                           </p>
                         </div>
                       ) : (

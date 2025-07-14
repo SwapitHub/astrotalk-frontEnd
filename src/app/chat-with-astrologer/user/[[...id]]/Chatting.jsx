@@ -304,10 +304,8 @@ console.log(timeLeft, showUserData?.freeChatStatus === true);
 
 
   const endChatStatus = async () => {
-console.log("actualChargeUserChat",actualChargeUserChat);
 
     if (actualChargeUserChat == undefined) return;
-console.log("===============sasasa");
 
     if (showUserData?.freeChatStatus == true || showUserData?.chatStatus == true) {
       const response = await axios.put(

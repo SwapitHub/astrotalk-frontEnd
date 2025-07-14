@@ -308,7 +308,7 @@ const AdminHome = () => {
                                 setToggleSlideMobile(false);
                               }}
                             >
-                              Chat Commission
+                              All Commission
                             </a>
                           </li>
                           <li

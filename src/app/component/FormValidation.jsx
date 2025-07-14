@@ -3,8 +3,6 @@ export const validateAstrologerForm = (formType) => {
 
   // Common fields for all forms
 
- 
-
   // Form-specific validations
   if (formType === "astrologer") {
     const firstName = document.getElementById("fname")?.value.trim();
