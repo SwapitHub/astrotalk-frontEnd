@@ -39,7 +39,7 @@ const AstroMallProduct = () => {
         <div className="container">
           <div className="astromall-sec-inner">
             <div className="heading-box">
-              <h1 className="common-h1-heading">Astromall product</h1>
+              <h1 className="common-h1-heading">{params.slug} product</h1>
               <p>product Best Online Astrology Products And Services</p>
             </div>
             <div className="astromall-wrapper">
@@ -90,7 +90,7 @@ const AstroMallProduct = () => {
                                 <p>
                                   {" "}
                                   ₹ {item?.discount_price}{" "}
-                                  <span>{item?.actual_price}</span>
+                                  <span className="old-amount">₹ {item?.actual_price}</span>
                                 </p>
                               </div>
                             ) : (
@@ -112,51 +112,7 @@ const AstroMallProduct = () => {
           </div>
         </div>
       </section>
-      <section className="astromall-slider-outer">
-        <div className="container">
-          <div className="astromall-slider-inner">
-            <div className="heading-sec">
-              <h2>Top Selling</h2>
-            </div>
-            <div className="slider-sec top-selling-slider">
-              <div className="slider-outer">
-                {/* <!--- about section --> */}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="astromall-slider-outer">
-        <div className="container">
-          <div className="astromall-slider-inner">
-            <div className="heading-sec">
-              <h2>Top Selling</h2>
-            </div>
-            <div className="slider-sec newly-launched-slider">
-              <div className="single-slide">
-                <a href="#">
-                  <div className="slide-img">
-                    <img src="" alt="" />
-                  </div>
-                  <div className="slide-content">
-                    <p>Money Magnet Bracelet </p>
-                  </div>
-                </a>
-              </div>
-              <div className="single-slide">
-                <a href="#">
-                  <div className="slide-img">
-                    <img src="" alt="" />
-                  </div>
-                  <div className="slide-content">
-                    <p>Money Magnet Bracelet </p>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+   
     </main>
   );
 };

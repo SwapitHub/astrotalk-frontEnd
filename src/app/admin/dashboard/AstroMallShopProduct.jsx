@@ -50,6 +50,8 @@ const AstroMallShopProduct = () => {
     const image = document.getElementById("astroMallProductImg").files[0];
     const offer_name = document.getElementById("offer_name").value;
     const description = document.getElementById("description").value;
+    const top_selling = document.getElementById("top_selling").checked;
+
 
     const starting_price =
       document.getElementById("Starting_price")?.value || "";
@@ -89,6 +91,7 @@ const AstroMallShopProduct = () => {
     data.append("astroMallProductImg", image);
     data.append("offer_name", offer_name);
     data.append("description", description);
+    data.append("top_selling", top_selling);
 
     if (shopListSingleData) {
       data.append("actual_price", actual_price);
@@ -112,6 +115,7 @@ const AstroMallShopProduct = () => {
       document.getElementById("astroMallProductImg").value = "";
       document.getElementById("offer_name").value = "";
       document.getElementById("description").value = "";
+      document.getElementById("top_selling").checked = false;
 
       let startingPrice = document.getElementById("Starting_price");
       if (startingPrice) startingPrice.value = "";
@@ -135,6 +139,8 @@ const AstroMallShopProduct = () => {
     document.getElementById("offer_name").value = product.offer_name;
     document.getElementById("shop_id").value = product.shop_id;
     document.getElementById("description").value = product.description;
+    document.getElementById("top_selling").checked = product.top_selling;
+
     // First determine discount or not
     const isDiscountProduct = !!(
       product.actual_price && product.discount_price
@@ -166,6 +172,7 @@ const AstroMallShopProduct = () => {
     const image = document.getElementById("astroMallProductImg").files[0];
     const offer_name = document.getElementById("offer_name").value;
     const description = document.getElementById("description").value;
+    const top_selling = document.getElementById("top_selling").checked;
 
     const starting_price =
       document.getElementById("Starting_price")?.value || "";
@@ -179,6 +186,7 @@ const AstroMallShopProduct = () => {
     data.append("shop_id", shop_id);
     data.append("offer_name", offer_name);
     data.append("description", description);
+    data.append("top_selling", top_selling);
 
     if (image) data.append("astroMallProductImg", image);
     if (shopListSingleData) {
@@ -205,6 +213,7 @@ const AstroMallShopProduct = () => {
         document.getElementById("astroMallProductImg").value = "";
         document.getElementById("offer_name").value = "";
         document.getElementById("description").value = "";
+        document.getElementById("top_selling").checked = false;
 
         let startingPrice = document.getElementById("Starting_price");
         if (startingPrice) startingPrice.value = "";
@@ -258,7 +267,7 @@ const AstroMallShopProduct = () => {
             <label>Please choose a shop</label>
           </div>
           <select
-          className="common-input-filed"
+            className="common-input-filed"
             id="shop_id"
             onChange={(e) => {
               const selectedShop = shopListData.find(
@@ -329,11 +338,19 @@ const AstroMallShopProduct = () => {
             </div>
           </div>
         )}
+        
         <div className="form-field">
           <div className="remove-astrict label-content">
             <label>Description</label>
           </div>
           <textarea id="description" className="common-input-filed" />
+        </div>
+
+        <div className="form-field">
+          <div className="remove-astrict label-content top-selling field-checkbox">
+            <input type="checkbox" id="top_selling"/>
+            <label>Can you move this product to the Top Selling group?</label>
+          </div>
         </div>
         {editMode ? (
           <button onClick={handleUpdate}>Update</button>
@@ -364,7 +381,9 @@ const AstroMallShopProduct = () => {
                           <p>
                             {" "}
                             ₹ {item?.discount_price}{" "}
-                            <span className="old-amount">{item?.actual_price}</span>
+                            <span className="old-amount">
+                              ₹ {item?.actual_price}
+                            </span>
                           </p>
                         </div>
                       ) : (

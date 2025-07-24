@@ -3,6 +3,7 @@ import RingGemstonePopUp from "@/app/component/RingGemstonePopUp";
 import SelectAddGemstoneRing from "@/app/component/SelectAddGemstoneRing";
 import ThumbNellTabbing from "@/app/component/ThumbNellTabbing";
 import axios from "axios";
+import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -18,7 +19,9 @@ const ProductDetail = () => {
 
   const discountPrice =
     productDetailData?.actual_price - productDetailData?.discount_price;
-  const offPercentage = (discountPrice / productDetailData?.actual_price) * 100;
+  const offPercentage = Math.floor(
+    (discountPrice / productDetailData?.actual_price) * 100
+  );
 
   const handleProductDetail = async () => {
     try {
@@ -62,14 +65,13 @@ const ProductDetail = () => {
 
   return (
     <>
-      
-        <RingGemstonePopUp
-          setViewAllBtn={setViewAllBtn}
-          gemStoneJewelryData={gemStoneJewelryData}
-          gemstoneData={gemstoneData}
-          setGemstoneData={setGemstoneData}
-        />
-    
+      <RingGemstonePopUp
+        setViewAllBtn={setViewAllBtn}
+        gemStoneJewelryData={gemStoneJewelryData}
+        gemstoneData={gemstoneData}
+        setGemstoneData={setGemstoneData}
+      />
+
       <div className="breadcrumb-outer">
         <div className="container">
           <div className="breadcrumb">
@@ -103,7 +105,7 @@ const ProductDetail = () => {
         <div className="container">
           <div className="products-details-inner">
             <div className="product-images-left">
-              <ThumbNellTabbing />
+              <ThumbNellTabbing productDetailData={productDetailData} />
             </div>
             <div className="product-details-right">
               <div className="product-right-desc">
@@ -436,8 +438,8 @@ const ProductDetail = () => {
                   care executives.
                 </p>
                 <div className="promise-btns">
-                  <a href="#">Talk to Astrologer</a>
-                  <a href="#">Chat with Astrologer</a>
+                  {/* <a href="#">Talk to Astrologer</a> */}
+                  <Link href="/chat-with-astrologer">Chat with Astrologer</Link>
                 </div>
               </div>
             </div>
