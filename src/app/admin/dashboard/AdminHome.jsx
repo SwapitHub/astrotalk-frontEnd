@@ -30,6 +30,7 @@ import AstroMallShops from "./AstroMallShops";
 import AstroMallShopProduct from "./AstroMallShopProduct";
 import GemStoneProductGemJewelry from "./GemStoneProductGemJewelry";
 import AddSpiritualServices from "./AddSpiritualServices";
+import AdminShopWallet from "./AdminShopWallet";
 
 const AdminHome = () => {
   const router = useRouter();
@@ -37,6 +38,7 @@ const AdminHome = () => {
   const { updateButton, setUpdateButton } = useGlobalContext();
   const [astroListToggle, setAstroListToggle] = useState(false);
   const [adminWalletToggle, setAdminWalletToggle] = useState(false);
+  const [adminShopWalletToggle, setAdminShopWalletToggle] = useState(false);
   const [adminSideSettingToggle, setAdminSideSettingToggle] = useState(false);
   const [astroShopeList, setAstroShopeList] = useState(false);
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
@@ -172,7 +174,7 @@ const AdminHome = () => {
                         }}
                       >
                         <CiWallet />
-                        <span className="list-text">Wallet </span>
+                        <span className="list-text">Chatting Wallet </span>
                         <span className="list-arrow">
                           <MdOutlineKeyboardArrowRight />
                         </span>
@@ -226,6 +228,83 @@ const AdminHome = () => {
                         </ul>
                       </SlideToggle>
                     </li>
+
+                    <li
+                      className={
+                        updateButton === "shop-admin" ||
+                        updateButton === "shop-astrologer" ||
+                        updateButton === "shop-user"
+                          ? "active"
+                          : ""
+                      }
+                    >
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setAdminShopWalletToggle(!adminShopWalletToggle);
+                        }}
+                      >
+                        <CiWallet />
+                        <span className="list-text">Shopping Wallet </span>
+                        <span className="list-arrow">
+                          <MdOutlineKeyboardArrowRight />
+                        </span>
+                      </a>
+                      <SlideToggle isOpen={adminShopWalletToggle}>
+                        <ul>
+                          <li
+                            className={
+                              updateButton === "shop-admin" ? "active" : ""
+                            }
+                          >
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setUpdateButton("shop-admin");
+                                setToggleSlideMobile(false);
+                              }}
+                            >
+                              Shop Admin
+                            </a>
+                          </li>
+                          {/* <li
+                            className={
+                              updateButton === "shop-astrologer" ? "active" : ""
+                            }
+                          >
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setUpdateButton("shop-astrologer");
+                                setToggleSlideMobile(false);
+                              }}
+                            >
+                              Shop Astrologer
+                            </a>
+                          </li>
+                          <li
+                            className={
+                              updateButton === "shop-user" ? "active" : ""
+                            }
+                          >
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setUpdateButton("shop-user");
+                                setToggleSlideMobile(false);
+                              }}
+                            >
+                              Shop User
+                            </a>
+                          </li> */}
+                        </ul>
+                      </SlideToggle>
+                    </li>
+
                     <li className={updateButton === 3 ? "active" : ""}>
                       <a
                         href="#"
@@ -327,8 +406,6 @@ const AdminHome = () => {
                               Change Password
                             </a>
                           </li>
-
-                          
                         </ul>
                       </SlideToggle>
                     </li>
@@ -476,7 +553,9 @@ const AdminHome = () => {
                 {updateButton === 7 && <UserList />}
                 {updateButton === 3 && <Denomination />}
                 {updateButton === "astroShop" && <AstroMallShops />}
-                {updateButton === "astroShopGemJewelry" && <GemStoneProductGemJewelry/>}
+                {updateButton === "astroShopGemJewelry" && (
+                  <GemStoneProductGemJewelry />
+                )}
                 {updateButton === "astroShopProduct" && (
                   <AstroMallShopProduct />
                 )}
@@ -489,6 +568,9 @@ const AdminHome = () => {
                 {["user", "astrologer", "admin"].includes(updateButton) && (
                   <AdminWallet updateButton={updateButton} />
                 )}
+                {["shop-user", "shop-astrologer", "shop-admin"].includes(
+                  updateButton
+                ) && <AdminShopWallet updateButton={updateButton} />}
               </div>
             </div>
           </div>

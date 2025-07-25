@@ -1,5 +1,5 @@
 "use client";
-import RazorpayPayment from "@/app/component/RazorpayPayment";
+import ShopRazorPayPayment from "@/app/component/ShopRazorPayPayment";
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
@@ -74,6 +74,7 @@ const OrderReview = () => {
                   <thead>
                     <tr>
                       <th>PRODUCT</th>
+                      <th>ASTROLOGER</th>
                       <th>AMOUNT</th>
                     </tr>
                   </thead>
@@ -81,6 +82,9 @@ const OrderReview = () => {
                     <tr>
                       <td>
                         <h6>{serviceName}</h6>
+                      </td>
+                      <td>
+                        <h6>{astrologer?.name}</h6>
                       </td>
                       <td>
                         <p> ₹ {servicePrice}</p>
@@ -142,10 +146,12 @@ const OrderReview = () => {
                           Credit/Debit Card
                         </div>
                         <div className="order-product-btn">
-                          <RazorpayPayment
+                          <ShopRazorPayPayment
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
                             totalAmount={totalFinalPrice}
+                            astrologerName={astrologer?.name}
+                            productName={serviceName}
                           />
                         </div>
                       </div>
@@ -156,10 +162,13 @@ const OrderReview = () => {
                         />
                         <div className="payment-method-text">PhonePe</div>
                         <div className="order-product-btn">
-                          <RazorpayPayment
+                          <ShopRazorPayPayment
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
                             totalAmount={totalFinalPrice}
+                             astrologerName={astrologer?.name}
+                            productName={serviceName}
+
                           />
                         </div>
                       </div>
@@ -170,10 +179,13 @@ const OrderReview = () => {
                         />
                         <div className="payment-method-text">GPay</div>
                         <div className="order-product-btn">
-                          <RazorpayPayment
+                          <ShopRazorPayPayment
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
                             totalAmount={totalFinalPrice}
+                             astrologerName={astrologer?.name}
+                            productName={serviceName}
+
                           />
                         </div>
                       </div>
@@ -184,10 +196,13 @@ const OrderReview = () => {
                         />
                         <div className="payment-method-text">Paytm</div>
                         <div className="order-product-btn">
-                          <RazorpayPayment
+                          <ShopRazorPayPayment
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
                             totalAmount={totalFinalPrice}
+                             astrologerName={astrologer?.name}
+                            productName={serviceName}
+
                           />
                         </div>
                       </div>
@@ -198,10 +213,13 @@ const OrderReview = () => {
                         />
                         <div className="payment-method-text">BHIM</div>
                         <div className="order-product-btn">
-                          <RazorpayPayment
+                          <ShopRazorPayPayment
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
                             totalAmount={totalFinalPrice}
+                             astrologerName={astrologer?.name}
+                            productName={serviceName}
+
                           />
                         </div>
                       </div>
@@ -213,10 +231,13 @@ const OrderReview = () => {
                         />
                         <div className="payment-method-text">Other wallets</div>
                         <div className="order-product-btn">
-                          <RazorpayPayment
+                          <ShopRazorPayPayment
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
                             totalAmount={totalFinalPrice}
+                             astrologerName={astrologer?.name}
+                            productName={serviceName}
+
                           />
                         </div>
                       </div>
@@ -228,10 +249,13 @@ const OrderReview = () => {
                         />
                         <div className="payment-method-text">Paytm</div>
                         <div className="order-product-btn">
-                          <RazorpayPayment
+                          <ShopRazorPayPayment
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
                             totalAmount={totalFinalPrice}
+                             astrologerName={astrologer?.name}
+                            productName={serviceName}
+
                           />
                         </div>
                       </div>

@@ -6,30 +6,25 @@ import { FaSearch } from "react-icons/fa";
 import debounce from "lodash.debounce";
 import secureLocalStorage from "react-secure-storage";
 
-function AdminWallet({ updateButton }) {
+function AdminShopWallet({ updateButton }) {
   const [walletAdminData, setWalletAdminData] = useState([]);
   const [searchName, setSearchName] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-
-  const [pages, setPages] = useState(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("admin_wallet_pages");
-      return saved ? JSON.parse(saved) : { admin: 1, user: 1, astrologer: 1 };
-    }
-    return { admin: 1, user: 1, astrologer: 1 };
+  const [pages, setPages] = useState({
+    admin: 1,
+    user: 1,
+    astrologer: 1,
   });
-
   const [totalPages, setTotalPages] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
-  const [totalAvailableBalance, setTotalAvailableBalance] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  // Debounce search input to avoid frequent API calls
-  const debounceSearch = useCallback(
+  // Debounce search input
+  const debounceSearchHandler = useCallback(
     debounce((query) => {
       setDebouncedSearch(query);
-      setPages((prev) => ({ ...prev, [updateButton]: 1 })); // reset to page 1
+      setPages((prev) => ({ ...prev, [updateButton]: 1 })); // Reset to page 1 on search change
     }, 500),
     [updateButton]
   );
@@ -37,7 +32,7 @@ function AdminWallet({ updateButton }) {
   const handleSearchChange = (e) => {
     const query = e.target.value;
     setSearchName(query);
-    debounceSearch(query);
+    debounceSearchHandler(query);
   };
 
   const fetchTransactions = async () => {
@@ -46,27 +41,24 @@ function AdminWallet({ updateButton }) {
       const currentPage = pages[updateButton] || 1;
 
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/chat/WalletTransactionData`,
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/shop-order-list`,
         {
           params: {
             type: updateButton,
             page: currentPage,
-            limit: 5,
+            limit: 4, // Adjust the limit here based on your requirement
             search: debouncedSearch,
           },
         }
       );
-      secureLocalStorage.setItem(
-        "totalTransactionsData",
-        res.data.totalTransactions
-      );
-      setWalletAdminData(res.data.transactions);
-      setTotalPages(Math.ceil(res.data.totalTransactions / 5));
-      setHasNextPage(res.data.hasNextPage);
-      setHasPrevPage(res.data.hasPrevPage);
-      setTotalAvailableBalance(res.data.availableBalance);
+      console.log(res);
+
+      setWalletAdminData(res.data.orders);
+      setTotalPages(Math.ceil(res.data.pagination.totalPages / 4));
+      setHasNextPage(res.data.pagination.nextPage);
+      setHasPrevPage(res.data.pagination.currentPage);
     } catch (err) {
-      console.log(err, "admin wallet api error");
+      console.log("API Error:", err);
     } finally {
       setLoading(false);
     }
@@ -94,17 +86,6 @@ function AdminWallet({ updateButton }) {
 
   return (
     <div className="admin-wallet-main">
-      {updateButton === "admin" && (
-        <>
-          <div className="available-balance">
-            <p>
-              <strong>Available balance: </strong>
-              <span>₹ {Math.round(totalAvailableBalance)}</span>
-            </p>
-          </div>
-        </>
-      )}
-
       <div className="filter-button search-box-top-btn">
         <div className="search-box-filed">
           <input
@@ -131,22 +112,20 @@ function AdminWallet({ updateButton }) {
           <table border="1">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Available Balance</th>
+                <th>User Mobile</th>
+                <th>Astrologer Name</th>
                 <th>Transaction Amount</th>
-                <th>Description</th>
+                <th>Product Name</th>
                 <th>Date and Time</th>
               </tr>
             </thead>
             <tbody>
               {walletAdminData?.map((item) => (
                 <tr key={item._id}>
-                  <td>{item._id}</td>
-                  <td>{item.name}</td>
-                  <td>₹ {Math.round(item.availableBalance)}</td>
-                  <td>₹ {item.transactionAmount}</td>
-                  <td>{item.description}</td>
+                  <td>{item.userMobile}</td>
+                  <td>{item.astrologerName}</td>
+                  <td>₹ {Math.round(item.amount)}</td>
+                  <td>{item.productName}</td>
                   <td>{new Date(item.createdAt).toLocaleString()}</td>
                 </tr>
               ))}
@@ -178,4 +157,4 @@ function AdminWallet({ updateButton }) {
   );
 }
 
-export default AdminWallet;
+export default AdminShopWallet;

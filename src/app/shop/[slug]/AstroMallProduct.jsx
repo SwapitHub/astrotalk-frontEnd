@@ -90,7 +90,10 @@ const AstroMallProduct = () => {
                                 <p>
                                   {" "}
                                   ₹ {item?.discount_price}{" "}
-                                  <span className="old-amount">₹ {item?.actual_price}</span>
+                                  {item?.actual_price!=0 &&
+                                  
+                                   <span className="old-amount">₹ {item?.actual_price}</span>
+                                  }
                                 </p>
                               </div>
                             ) : (

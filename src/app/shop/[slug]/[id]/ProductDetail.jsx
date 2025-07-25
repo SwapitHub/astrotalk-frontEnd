@@ -6,16 +6,23 @@ import axios from "axios";
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import UserOtpLoginData from "@/app/component/UserOtpLoginData";
 
 const ProductDetail = () => {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
+  const userMobiles = Math.round(Cookies.get("userMobile"));
   const gemstone = searchParams.get("gemstone");
   const [productDetailData, setProductDetailData] = useState();
   const [gemStoneJewelryData, setGemStoneJewelryData] = useState();
   const [viewAllBtn, setViewAllBtn] = useState(false);
   const [gemstoneData, setGemstoneData] = useState();
+
+  const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
+
+  console.log(productDetailData, "productDetailData");
 
   const discountPrice =
     productDetailData?.actual_price - productDetailData?.discount_price;
@@ -72,6 +79,11 @@ const ProductDetail = () => {
         setGemstoneData={setGemstoneData}
       />
 
+      {otpPopUpDisplay && (
+        <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
+          <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
+        </div>
+      )}
       <div className="breadcrumb-outer">
         <div className="container">
           <div className="breadcrumb">
@@ -123,10 +135,17 @@ const ProductDetail = () => {
                   <span className="new-amount">
                     ₹ {productDetailData?.discount_price}
                   </span>
-                  <span className="old-amount">
+                  {
+                    productDetailData?.actual_price !=0 && 
+                     <span className="old-amount">
                     ₹ {productDetailData?.actual_price}
                   </span>
+                  }
+                 
+                 {
+                   productDetailData?.actual_price !=0 && 
                   <span className="discount-text">{offPercentage}% OFF</span>
+                 }
                 </div>
               )}
 
@@ -143,20 +162,20 @@ const ProductDetail = () => {
               <div className="product-right-btn">
                 <button
                   onClick={() => {
-                    {
-                      gemstone
-                        ? router.push(
-                            `/shop/${params?.slug}/${
-                              params?.id
-                            }/${`fillIntake?uID=wewe32323`}`
-                          )
-                        : router.push(
-                            `/shop/${params?.slug}/${params?.id}/${
-                              !productDetailData?.starting_price
-                                ? `orderReview?uID=eyJjYXR`
-                                : "consultant"
-                            }`
-                          );
+                    if (!userMobiles) {
+                      setOtpPopUpDisplay(true);
+                    } else {
+                      if (!productDetailData?.starting_price) {
+                        router.push(
+                          `/shop/${params?.slug}/${
+                            params?.id
+                          }/${`fillIntake?uID=wewe32323`}`
+                        );
+                      } else {
+                        router.push(
+                          `/shop/${params?.slug}/${params?.id}/consultant`
+                        );
+                      }
                     }
                   }}
                 >
