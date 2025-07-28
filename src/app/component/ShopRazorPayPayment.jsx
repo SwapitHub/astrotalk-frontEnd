@@ -8,7 +8,16 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { useEffect } from "react";
 
-const ShopRazorPayPayment = ({ totalFinalPrice, extraAmount, totalAmount, astrologerName,productName }) => {
+const ShopRazorPayPayment = ({
+  totalFinalPrice,
+  extraAmount,
+  totalAmount,
+  astrologerName,
+  productName,
+  productType,
+  productImg,
+  addressDetailData,
+}) => {
   const { error, isLoading, Razorpay } = useRazorpay();
 
   const router = useRouter();
@@ -24,6 +33,21 @@ const ShopRazorPayPayment = ({ totalFinalPrice, extraAmount, totalAmount, astrol
     try {
       setLoading(true);
 
+      const addressToSend = {
+        name: addressDetailData?.name,
+        mobile: addressDetailData?.mobile,
+        altMobile: addressDetailData?.altMobile,
+        email: addressDetailData?.email,
+        flat: addressDetailData?.flat,
+        locality: addressDetailData?.locality,
+        city: addressDetailData?.city,
+        state: addressDetailData?.state,
+        country: addressDetailData?.country,
+        pin: addressDetailData?.pin,
+        landmark: addressDetailData?.landmark,
+      };
+      const address = addressDetailData ?  addressToSend : "";
+
       // Create order on the server
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/create-order-shop`,
@@ -34,9 +58,13 @@ const ShopRazorPayPayment = ({ totalFinalPrice, extraAmount, totalAmount, astrol
           currency: "INR",
           userMobile: Math.round(userMobile),
           astrologerName,
-          productName
+          productName,
+          productType,
+          productImg,
+          address,
         }
       );
+      console.log(data, "data=====");
 
       const options = {
         key: "rzp_test_Y7VuzH5OqFVf3Q",
@@ -63,7 +91,7 @@ const ShopRazorPayPayment = ({ totalFinalPrice, extraAmount, totalAmount, astrol
                 }
               );
 
-              //   router.push("/shop");
+                router.push(`/success/${response?.razorpay_order_id}`);
               // Additional success logic here
             } else {
               // Delete the order record if verification fails

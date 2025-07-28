@@ -169,7 +169,7 @@ const ProductDetail = () => {
                         router.push(
                           `/shop/${params?.slug}/${
                             params?.id
-                          }/${`fillIntake?uID=wewe32323`}`
+                          }/${`fillIntake`}`
                         );
                       } else {
                         router.push(

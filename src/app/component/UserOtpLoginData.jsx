@@ -65,7 +65,6 @@ function UserOtpLoginData({ setOtpPopUpDisplay }) {
       languages: document.getElementById("language")?.value?.trim(),
       // mobileNumber: document.getElementById("mobileNumber")?.value.trim() || "",
     };
-    console.log(formData);
 
     try {
       const response = await axios.post(
@@ -91,7 +90,6 @@ function UserOtpLoginData({ setOtpPopUpDisplay }) {
       } catch (error) {
         console.warn("User not found, proceeding to create new user.");
       }
-      console.log(userMatch);
 
       if (!userMatch) {
         if (response.status == 200) {
@@ -161,7 +159,7 @@ function UserOtpLoginData({ setOtpPopUpDisplay }) {
               sameSite: "Strict",
             });
             window.dispatchEvent(new Event("userMobileUpdated"));
-            router.push("/chat-with-astrologer");
+            // router.push("/chat-with-astrologer");
           }
           console.log("User Updated:", response.data);
         } catch (error) {

@@ -2,8 +2,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 const FillIntake = () => {
+  const router = useRouter();
+const params = useParams();
+console.log(params);
+
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
@@ -25,27 +30,18 @@ const FillIntake = () => {
   };
 
   const validate = () => {
-    const {
-      name,
-      mobile,
-      email,
-      flat,
-      locality,
-      city,
-      state,
-      country,
-      pin,
-    } = formData;
+    const { name, mobile, email, flat, locality, city, state, country, pin } =
+      formData;
 
     if (
-      !name ||
-      !mobile ||
-      !email ||
-      !flat ||
-      !locality ||
-      !city ||
-      !state ||
-      !country ||
+      !name &&
+      !mobile &&
+      !email &&
+      !flat &&
+      !locality &&
+      !city &&
+      !state &&
+      !country &&
       !pin
     ) {
       toast.error("Please fill all required fields!");
@@ -75,7 +71,10 @@ const FillIntake = () => {
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/save-address`,
         formData
       );
+      console.log(res.data.data);
+      
       toast.success("Address saved successfully!");
+      router.push(`/shop/${params?.slug}/${params?.id}/orderReview?address-id=${res.data.data._id}`);
       setFormData({
         name: "",
         mobile: "",
@@ -101,47 +100,64 @@ const FillIntake = () => {
     <section className="address-outer">
       <div className="container">
         <div className="address-inner">
-            <div className="summary-heading">
-          <h3>Add New Address</h3>
+          <div className="summary-heading">
+            <h3>Add New Address</h3>
           </div>
           <div className="card-body">
             <div className="address-form">
-          <form onSubmit={handleSubmit}>
-            {[
-              { label: "Name", name: "name" },
-              { label: "Mobile Number", name: "mobile" },
-              { label: "Alternative Number", name: "altMobile", required: false },
-              { label: "Email", name: "email" },
-              { label: "Flat No", name: "flat" },
-              { label: "Locality", name: "locality" },
-              { label: "City", name: "city" },
-              { label: "State", name: "state" },
-              { label: "Country", name: "country" },
-              { label: "Pincode", name: "pin" },
-              { label: "Landmark", name: "landmark", required: false },
-            ].map((field) => (
-              <div className="form-group" key={field.name}>
-                <label>
-                  {field.label} {field.required === false ? "" : <span className="required">*</span>}
-                </label>
-                <input
-                  type="text"
-                  name={field.name}
-                  value={formData[field.name]}
-                  onChange={handleChange}
-                  placeholder={`Enter ${field.label}`}
-                  className="form-input common-input-filed"
-                />
-              </div>
-            ))}
+              <form onSubmit={handleSubmit}>
+                {[
+                  { label: "Name", name: "name" },
+                  { label: "Mobile Number", name: "mobile", type: "number" },
+                  {
+                    label: "Alternative Number",
+                    name: "altMobile",
+                    required: false,
+                    type: "number",
+                  },
+                  { label: "Email", name: "email" },
+                  { label: "Flat No", name: "flat" },
+                  { label: "Locality", name: "locality" },
+                  { label: "City", name: "city" },
+                  { label: "State", name: "state" },
+                  { label: "Country", name: "country" },
+                  { label: "Pincode", name: "pin" },
+                  { label: "Landmark", name: "landmark", required: false },
+                ].map((field) => (
+                  <div className="form-group" key={field.name}>
+                    <label>
+                      {field.label}{" "}
+                      {field.required === false ? (
+                        ""
+                      ) : (
+                        <span className="required">*</span>
+                      )}
+                    </label>
+                    <input
+                      type={field.type ? field.type : "text"}
+                      name={field.name}
+                      value={formData[field.name]}
+                      onChange={handleChange}
+                      placeholder={`Enter ${field.label}`}
+                      className="form-input common-input-filed"
+                      onInput={(e) => {
+                        field.type
+                          ? (e.target.value = e.target.value
+                              .replace(/\D/g, "")
+                              .slice(0, 10))
+                          : null;
+                      }}
+                    />
+                  </div>
+                ))}
 
-            <div className="form-group form-submit">
-              <button type="submit" disabled={loading}>
-                {loading ? "Saving..." : "Save Address"}
-              </button>
+                <div className="form-group form-submit">
+                  <button type="submit" disabled={loading}>
+                    {loading ? "Saving..." : "Save Address"}
+                  </button>
+                </div>
+              </form>
             </div>
-          </form>
-          </div>
           </div>
         </div>
       </div>

@@ -30,7 +30,8 @@ import AstroMallShops from "./AstroMallShops";
 import AstroMallShopProduct from "./AstroMallShopProduct";
 import GemStoneProductGemJewelry from "./GemStoneProductGemJewelry";
 import AddSpiritualServices from "./AddSpiritualServices";
-import AdminShopWallet from "./AdminShopWallet";
+import AdminShopWallet from "./AdminShopPujaWallet";
+import AdminShopProductWallet from "./AdminShopProductWallet";
 
 const AdminHome = () => {
   const router = useRouter();
@@ -232,7 +233,7 @@ const AdminHome = () => {
                     <li
                       className={
                         updateButton === "shop-admin" ||
-                        updateButton === "shop-astrologer" ||
+                        updateButton === "shop-ProductWallet" ||
                         updateButton === "shop-user"
                           ? "active"
                           : ""
@@ -266,26 +267,26 @@ const AdminHome = () => {
                                 setToggleSlideMobile(false);
                               }}
                             >
-                              Shop Admin
+                              Shop Puja
                             </a>
                           </li>
-                          {/* <li
+                          <li
                             className={
-                              updateButton === "shop-astrologer" ? "active" : ""
+                              updateButton === "shop-ProductWallet" ? "active" : ""
                             }
                           >
                             <a
                               href="#"
                               onClick={(e) => {
                                 e.preventDefault();
-                                setUpdateButton("shop-astrologer");
+                                setUpdateButton("shop-ProductWallet");
                                 setToggleSlideMobile(false);
                               }}
                             >
-                              Shop Astrologer
+                              Shop Product
                             </a>
                           </li>
-                          <li
+                          {/* <li
                             className={
                               updateButton === "shop-user" ? "active" : ""
                             }
@@ -568,9 +569,11 @@ const AdminHome = () => {
                 {["user", "astrologer", "admin"].includes(updateButton) && (
                   <AdminWallet updateButton={updateButton} />
                 )}
-                {["shop-user", "shop-astrologer", "shop-admin"].includes(
+                {["shop-user", "shop-admin"].includes(
                   updateButton
                 ) && <AdminShopWallet updateButton={updateButton} />}
+                {updateButton === "shop-ProductWallet" && <AdminShopProductWallet updateButton={updateButton}/>}
+
               </div>
             </div>
           </div>

@@ -4,17 +4,12 @@ import axios from "axios";
 import React, { useEffect, useState, useCallback } from "react";
 import { FaSearch } from "react-icons/fa";
 import debounce from "lodash.debounce";
-import secureLocalStorage from "react-secure-storage";
 
-function AdminShopWallet({ updateButton }) {
+function AdminShopProductWallet({ updateButton }) {
   const [walletAdminData, setWalletAdminData] = useState([]);
   const [searchName, setSearchName] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [pages, setPages] = useState({
-    admin: 1,
-    user: 1,
-    astrologer: 1,
-  });
+  const [page, setPage] = useState(1); // Use a single page state
   const [totalPages, setTotalPages] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
@@ -24,9 +19,9 @@ function AdminShopWallet({ updateButton }) {
   const debounceSearchHandler = useCallback(
     debounce((query) => {
       setDebouncedSearch(query);
-      setPages((prev) => ({ ...prev, [updateButton]: 1 })); // Reset to page 1 on search change
+      setPage(1); // Reset to page 1 on search change
     }, 500),
-    [updateButton]
+    []
   );
 
   const handleSearchChange = (e) => {
@@ -38,25 +33,25 @@ function AdminShopWallet({ updateButton }) {
   const fetchTransactions = async () => {
     try {
       setLoading(true);
-      const currentPage = pages[updateButton] || 1;
 
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/shop-order-list`,
         {
           params: {
             type: updateButton,
-            page: currentPage,
-            limit: 4, // Adjust the limit here based on your requirement
+            page: page,
+            limit: 2, // Adjust the limit here based on your requirement
             search: debouncedSearch,
+            productType: "astroProduct",
           },
         }
       );
       console.log(res);
 
       setWalletAdminData(res.data.orders);
-      setTotalPages(Math.ceil(res.data.pagination.totalPages / 4));
+      setTotalPages(Math.ceil(res.data.pagination.totalPages )); // Correct page calculation
       setHasNextPage(res.data.pagination.nextPage);
-      setHasPrevPage(res.data.pagination.currentPage);
+      setHasPrevPage(page > 1); // Has prev if currentPage > 1
     } catch (err) {
       console.log("API Error:", err);
     } finally {
@@ -68,20 +63,18 @@ function AdminShopWallet({ updateButton }) {
     if (updateButton) {
       fetchTransactions();
     }
-  }, [updateButton, debouncedSearch, pages[updateButton]]);
+  }, [updateButton, debouncedSearch, page]);
 
   const handleNext = () => {
-    setPages((prev) => ({
-      ...prev,
-      [updateButton]: prev[updateButton] + 1,
-    }));
+    if (!hasNextPage || loading) return;
+
+    setPage(page + 1); // Increment the page when clicking "Next"
   };
 
   const handlePrevious = () => {
-    setPages((prev) => ({
-      ...prev,
-      [updateButton]: prev[updateButton] - 1,
-    }));
+    if (!hasPrevPage || loading) return;
+
+    setPage(page - 1); // Decrement the page when clicking "Previous"
   };
 
   return (
@@ -113,20 +106,26 @@ function AdminShopWallet({ updateButton }) {
             <thead>
               <tr>
                 <th>User Mobile</th>
-                <th>Astrologer Name</th>
+                <th>User Status</th>
+                <th>User Name</th>
                 <th>Transaction Amount</th>
                 <th>Product Name</th>
+                <th>User Address</th>
                 <th>Date and Time</th>
+                <th>Product</th>
               </tr>
             </thead>
             <tbody>
               {walletAdminData?.map((item) => (
                 <tr key={item._id}>
                   <td>{item.userMobile}</td>
-                  <td>{item.astrologerName}</td>
+                  <td>{item.status}</td>
+                  <td>{item.addresses[0]?.name}</td>
                   <td>₹ {Math.round(item.amount)}</td>
                   <td>{item.productName}</td>
+                  <td>City - {item.addresses[0]?.city}, State - {item.addresses[0]?.state}</td>
                   <td>{new Date(item.createdAt).toLocaleString()}</td>
+                  <td><img src={item?.productImg} alt={item?.name} /></td>
                 </tr>
               ))}
             </tbody>
@@ -143,7 +142,7 @@ function AdminShopWallet({ updateButton }) {
           Previous
         </button>
         <span>
-          Page {pages[updateButton]} of {totalPages}
+          Page {page} of {totalPages}
         </span>
         <button
           onClick={handleNext}
@@ -157,4 +156,4 @@ function AdminShopWallet({ updateButton }) {
   );
 }
 
-export default AdminShopWallet;
+export default AdminShopProductWallet;

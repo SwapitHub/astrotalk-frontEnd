@@ -1,19 +1,56 @@
 "use client";
 import ShopRazorPayPayment from "@/app/component/ShopRazorPayPayment";
-import { useSearchParams } from "next/navigation";
+import axios from "axios";
+import { useParams, useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
 const OrderReview = () => {
+  const params = useParams();
   const searchParams = useSearchParams();
   const shop_id = searchParams.get("shop-id");
   const astrologer_id = searchParams.get("astrologer-id");
+  const address_id = searchParams.get("address-id");
 
   const [astrologer, setAstrologer] = useState(null);
   const [servicePrice, setServicePrice] = useState(null);
   const [serviceName, setServiceName] = useState();
+  const [productDetailData, setProductDetailData] = useState();
+  const [addressDetailData, setAddressDetailData] = useState();
 
-  console.log(astrologer);
-  console.log(serviceName);
+  console.log(productDetailData);
+
+
+  useEffect(() => {
+    const handleAddressDetail = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-save-address-detail/${address_id}`
+        );
+        console.log(response);
+
+        setAddressDetailData(response.data.data);
+      } catch (err) {
+        console.log("product detail data is not found", err);
+      }
+    };
+    handleAddressDetail();
+  }, [address_id]);
+
+  useEffect(() => {
+    const handleProductDetail = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-product-detail/${params?.id}`
+        );
+        console.log(response);
+
+        setProductDetailData(response.data.data);
+      } catch (err) {
+        console.log("product detail data is not found", err);
+      }
+    };
+    handleProductDetail();
+  }, [params?.id]);
 
   useEffect(() => {
     const fetchAstrologer = async () => {
@@ -43,7 +80,11 @@ const OrderReview = () => {
     fetchAstrologer();
   }, [astrologer_id, shop_id]);
 
-  const priceNumber = Math.round(parseInt(servicePrice) || 0);
+  const productPrice = address_id
+    ? productDetailData?.discount_price
+    : servicePrice;
+
+  const priceNumber = Math.round(parseInt(productPrice) || 0);
   const gstRate = 18 / 100;
   const totalGstPrice = Math.round(priceNumber * gstRate);
   const totalFinalPrice = Math.round(priceNumber + totalGstPrice);
@@ -74,20 +115,28 @@ const OrderReview = () => {
                   <thead>
                     <tr>
                       <th>PRODUCT</th>
-                      <th>ASTROLOGER</th>
+                      <th>{!address_id ? "ASTROLOGER" : "USER"}</th>
                       <th>AMOUNT</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td>
-                        <h6>{serviceName}</h6>
+                        <h6>
+                          { productDetailData?.name }
+                        </h6>
                       </td>
                       <td>
-                        <h6>{astrologer?.name}</h6>
+                        <h6>{address_id ? addressDetailData?.name:astrologer?.name}</h6>
                       </td>
                       <td>
-                        <p> ₹ {servicePrice}</p>
+                        <p>
+                          {" "}
+                          ₹{" "}
+                          {address_id
+                            ? productDetailData?.discount_price
+                            : servicePrice}
+                        </p>
                       </td>
                     </tr>
                   </tbody>
@@ -102,7 +151,14 @@ const OrderReview = () => {
                           <p>{serviceName} </p>
                         </div>
                         <div className="single-summary-right">
-                          <span> ₹ {servicePrice}.00</span>
+                          <span>
+                            {" "}
+                            ₹{" "}
+                            {address_id
+                              ? productDetailData?.discount_price
+                              : servicePrice}
+                            .00
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -112,7 +168,14 @@ const OrderReview = () => {
                           <p>Total Amount </p>
                         </div>
                         <div className="single-summary-right">
-                          <span> ₹ {servicePrice}.00</span>
+                          <span>
+                            {" "}
+                            ₹{" "}
+                            {address_id
+                              ? productDetailData?.discount_price
+                              : servicePrice}
+                            .00
+                          </span>
                         </div>
                       </div>
                       <div className="single-summary">
@@ -151,7 +214,14 @@ const OrderReview = () => {
                             extraAmount={0}
                             totalAmount={totalFinalPrice}
                             astrologerName={astrologer?.name}
-                            productName={serviceName}
+                            productName={
+                              productDetailData?.name
+                            }
+                            productType={
+                              address_id ? "astroProduct" : "astroPujaProduct"
+                            }
+                            addressDetailData={addressDetailData}
+                            productImg={productDetailData?.astroMallProductImg}
                           />
                         </div>
                       </div>
@@ -166,8 +236,16 @@ const OrderReview = () => {
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
                             totalAmount={totalFinalPrice}
-                             astrologerName={astrologer?.name}
-                            productName={serviceName}
+                            astrologerName={astrologer?.name}
+                            productName={
+                             productDetailData?.name
+                            }
+                            productType={
+                              address_id ? "astroProduct" : "astroPujaProduct"
+                            }
+                            addressDetailData={addressDetailData}
+                            productImg={productDetailData?.astroMallProductImg}
+
 
                           />
                         </div>
@@ -183,8 +261,15 @@ const OrderReview = () => {
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
                             totalAmount={totalFinalPrice}
-                             astrologerName={astrologer?.name}
-                            productName={serviceName}
+                            astrologerName={astrologer?.name}
+                            productName={
+                             productDetailData?.name
+                            }
+                            productType={
+                              address_id ? "astroProduct" : "astroPujaProduct"
+                            }
+                            addressDetailData={addressDetailData}
+                            productImg={productDetailData?.astroMallProductImg}
 
                           />
                         </div>
@@ -200,8 +285,15 @@ const OrderReview = () => {
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
                             totalAmount={totalFinalPrice}
-                             astrologerName={astrologer?.name}
-                            productName={serviceName}
+                            astrologerName={astrologer?.name}
+                            productName={
+                              productDetailData?.name
+                            }
+                            productType={
+                              address_id ? "astroProduct" : "astroPujaProduct"
+                            }
+                            addressDetailData={addressDetailData}
+                            productImg={productDetailData?.astroMallProductImg}
 
                           />
                         </div>
@@ -217,8 +309,15 @@ const OrderReview = () => {
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
                             totalAmount={totalFinalPrice}
-                             astrologerName={astrologer?.name}
-                            productName={serviceName}
+                            astrologerName={astrologer?.name}
+                            productName={
+                              productDetailData?.name
+                            }
+                            productType={
+                              address_id ? "astroProduct" : "astroPujaProduct"
+                            }
+                            addressDetailData={addressDetailData}
+                            productImg={productDetailData?.astroMallProductImg}
 
                           />
                         </div>
@@ -235,8 +334,15 @@ const OrderReview = () => {
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
                             totalAmount={totalFinalPrice}
-                             astrologerName={astrologer?.name}
-                            productName={serviceName}
+                            astrologerName={astrologer?.name}
+                            productName={
+                              productDetailData?.name
+                            }
+                            productType={
+                              address_id ? "astroProduct" : "astroPujaProduct"
+                            }
+                            addressDetailData={addressDetailData}
+                            productImg={productDetailData?.astroMallProductImg}
 
                           />
                         </div>
@@ -253,8 +359,15 @@ const OrderReview = () => {
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
                             totalAmount={totalFinalPrice}
-                             astrologerName={astrologer?.name}
-                            productName={serviceName}
+                            astrologerName={astrologer?.name}
+                            productName={
+                              productDetailData?.name
+                            }
+                            productType={
+                              address_id ? "astroProduct" : "astroPujaProduct"
+                            }
+                            addressDetailData={addressDetailData}
+                            productImg={productDetailData?.astroMallProductImg}
 
                           />
                         </div>
