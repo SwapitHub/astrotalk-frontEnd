@@ -70,6 +70,53 @@ const ProductDetail = () => {
     };
   }, [viewAllBtn]);
 
+  const handleBookNow = async () => {
+    if (!userMobiles) {
+      setOtpPopUpDisplay(true);
+      return;
+    }
+
+    const selectEl = document.getElementById("ringSizeSelect");
+    const inputEl = document.getElementById("ringSize");
+
+    let ring_size = "";
+    if (gemstoneData?.productType == "Ring") {
+      if (selectEl?.value === "I know my Ring Size") {
+        ring_size = inputEl?.value.trim();
+        if (!ring_size) {
+          alert("Please enter your ring size");
+          return;
+        }
+      } else {
+        ring_size = selectEl?.value;
+        if (!ring_size || ring_size === "Select Ring Size") {
+          alert("Please select a ring size");
+          return;
+        }
+      }
+    }
+    else{
+      ring_size=""
+    }
+
+    if (!productDetailData?.starting_price) {
+      try {
+        const res = await axios.put(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-any-field-astro-shope-product/${productDetailData?._id}`,
+          { ring_size, gemStone_product_price: gemstoneData?.actual_price }
+        );
+
+        if (res?.status === 200) {
+          router.push(`/shop/${params?.slug}/${params?.id}/fillIntake`);
+        }
+      } catch (error) {
+        console.error("Error updating ring size", error);
+      }
+    } else {
+      router.push(`/shop/${params?.slug}/${params?.id}/consultant`);
+    }
+  };
+
   return (
     <>
       <RingGemstonePopUp
@@ -135,17 +182,15 @@ const ProductDetail = () => {
                   <span className="new-amount">
                     ₹ {productDetailData?.discount_price}
                   </span>
-                  {
-                    productDetailData?.actual_price !=0 && 
-                     <span className="old-amount">
-                    ₹ {productDetailData?.actual_price}
-                  </span>
-                  }
-                 
-                 {
-                   productDetailData?.actual_price !=0 && 
-                  <span className="discount-text">{offPercentage}% OFF</span>
-                 }
+                  {productDetailData?.actual_price != 0 && (
+                    <span className="old-amount">
+                      ₹ {productDetailData?.actual_price}
+                    </span>
+                  )}
+
+                  {productDetailData?.actual_price != 0 && (
+                    <span className="discount-text">{offPercentage}% OFF</span>
+                  )}
                 </div>
               )}
 
@@ -162,21 +207,7 @@ const ProductDetail = () => {
               <div className="product-right-btn">
                 <button
                   onClick={() => {
-                    if (!userMobiles) {
-                      setOtpPopUpDisplay(true);
-                    } else {
-                      if (!productDetailData?.starting_price) {
-                        router.push(
-                          `/shop/${params?.slug}/${
-                            params?.id
-                          }/${`fillIntake`}`
-                        );
-                      } else {
-                        router.push(
-                          `/shop/${params?.slug}/${params?.id}/consultant`
-                        );
-                      }
-                    }
+                    handleBookNow();
                   }}
                 >
                   Book Now

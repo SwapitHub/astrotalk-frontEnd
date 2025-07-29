@@ -47,8 +47,11 @@ const GemStoneProductGemJewelry = () => {
     const name = document.getElementById("gem_name").value;
     const image = document.getElementById("astroGemstoneJewelryImg").files[0];
     const gemPrice = document.getElementById("gem_price").value;
+    const productType = document.querySelector(
+      'input[name="product_type"]:checked'
+    );
 
-    if (!image || !name || !gemPrice) {
+    if (!image || !name || !gemPrice || !productType) {
       toast.error("Please fill all fields", { position: "top-right" });
       return;
     }
@@ -57,6 +60,7 @@ const GemStoneProductGemJewelry = () => {
     data.append("name", name);
     data.append("actual_price", gemPrice);
     data.append("astroGemstoneJewelryImg", image);
+    data.append("productType", productType.value);
 
     try {
       setLoading(true);
@@ -71,6 +75,9 @@ const GemStoneProductGemJewelry = () => {
       document.getElementById("gem_name").value = "";
       document.getElementById("astroGemstoneJewelryImg").value = "";
       document.getElementById("gem_price").value = "";
+      document
+        .querySelectorAll('input[name="product_type"]')
+        .forEach((input) => (input.checked = false));
     } catch (err) {
       console.error("Error uploading:", err);
       toast.error("Upload Failed", { position: "top-right" });
@@ -79,24 +86,40 @@ const GemStoneProductGemJewelry = () => {
     }
   };
 
-  const handleEditProduct = (product) => {
-    document.getElementById("gem_name").value = product.name;
-    document.getElementById("gem_price").value = product.actual_price;
+ const handleEditProduct = (product) => {
+  // Set input values
+  document.getElementById("gem_name").value = product.name;
+  document.getElementById("gem_price").value = product.actual_price;
 
-    setEditMode(true);
-    setEditProductId(product._id);
-  };
+  // Set radio button based on productType value
+  if (product.productType) {
+    const radioToCheck = document.querySelector(
+      `input[name="product_type"][value="${product.productType}"]`
+    );
+    if (radioToCheck) {
+      radioToCheck.checked = true;
+    }
+  }
+
+  // Set edit state
+  setEditMode(true);
+  setEditProductId(product._id);
+};
+
 
   const handleUpdate = async () => {
     const gem_name = document.getElementById("gem_name").value;
     const gem_price = document.getElementById("gem_price").value;
     const image = document.getElementById("astroGemstoneJewelryImg").files[0];
+    const productType = document.querySelector(
+      'input[name="product_type"]:checked'
+    );
 
     const data = new FormData();
     data.append("name", gem_name);
     data.append("actual_price", gem_price);
+    data.append("productType", productType.value);
     if (image) data.append("astroGemstoneJewelryImg", image);
-   
 
     try {
       setLoading(true);
@@ -112,6 +135,9 @@ const GemStoneProductGemJewelry = () => {
         document.getElementById("gem_name").value = "";
         document.getElementById("gem_price").value = "";
         document.getElementById("astroGemstoneJewelryImg").value = "";
+        document
+          .querySelectorAll('input[name="product_type"]')
+          .forEach((input) => (input.checked = false));
       }
     } catch (err) {
       console.error("Update error:", err);
@@ -127,7 +153,12 @@ const GemStoneProductGemJewelry = () => {
       const response = await axios.delete(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/delete-astro-gemstone-jewelry/${deleteId}`
       );
-      if (response.status == 200) fetchProductList();
+      if (response.status == 200){
+        
+        fetchProductList();
+        toast.success("Delete Successfully", { position: "top-right" });
+
+      } 
     } catch (err) {
       console.log("delete API error", err);
       toast.error("Delete Failed", { position: "top-right" });
@@ -165,6 +196,32 @@ const GemStoneProductGemJewelry = () => {
           <input class="common-input-filed" id="gem_price" type="number" />
         </div>
 
+        <div className="form-field">
+          <div className="label-content">
+            <label>Product Type</label>
+          </div>
+          <label>
+            <input
+              className="common-input-field"
+              type="radio"
+              name="product_type"
+              value="Ring"
+              id="gem_ring"
+            />
+            Ring
+          </label>
+          <label>
+            <input
+              className="common-input-field"
+              type="radio"
+              name="product_type"
+              value="Pendant"
+              id="gem_pendant"
+            />
+            Pendant
+          </label>
+        </div>
+
         {editMode ? (
           <button onClick={handleUpdate}>Update</button>
         ) : (
@@ -178,22 +235,19 @@ const GemStoneProductGemJewelry = () => {
         ) : (
           <div className="astromall-listing">
             {productListData.map((item, index) => {
-                console.log(item);
-                
+
               return (
                 <>
                   <div className="single-item" key={index}>
-                   
                     <div className="details-outer">
                       <div className="product-img">
                         <img src={item?.astroGemstoneJewelryImg} alt="" />
                       </div>
-                      
-                        <div className="details-cont">
-                          <div className="product-name">{item?.name}</div>
-                          <p>Starting from ₹ {item?.actual_price}</p>
-                        </div>
-                    
+
+                      <div className="details-cont">
+                        <div className="product-name">{item?.name}</div>
+                        <p>Starting from ₹ {item?.actual_price}</p>
+                      </div>
 
                       <div className="astro-mall-btn">
                         <button

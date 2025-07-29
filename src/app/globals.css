@@ -905,6 +905,19 @@ span.required {color: red;}
 .single-popup-addon.active,.single-add-on.active {border: 2px solid var(--primary_color)}
 .name_product_modal {font-size: 11px; margin: 10px 0px 0px; font-weight: 500;}
 .price_modal_product {font-weight: 500;}
+/* Thanks/Success  */
+.success-outer {padding: 70px 0px;}
+.success-inner {background-color: #f2f2f2; border-radius: 8px;	padding: 50px;}
+.print-receipt {text-align: right;}
+.print-receipt span {display: inline-flex;	margin-left: auto; width: auto; background-color: rgb(191 37 84 / 15%); padding: 8px 20px;	border: 2px solid var(--primary_color);	border-radius: 8px; cursor: pointer;}
+.success-top-content {margin: 20px 0px 0px;}
+.success-top-content > :not(.success-order-details) {text-align: center;}
+.success-top-content > h2 {margin: 0 0 10px; font-size: 24px;}
+.success-order-details {margin: 30px 0px 0px; border-top: 1px solid #ccc; padding: 30px 0px 0px;}
+.success-order-details h3 {font-size: 20px;	margin: 0 0 10px;}
+.success-order-details ul li:not(:last-child) {margin: 0 0 10px;}
+.success-img {margin: 30px 0px 0px;}
+.success-img img {border-radius: 10px; height: 300px; object-fit: cover;}
 /* ================== @ media css start here ================== */
 @media (max-width: 1400px) {
   .outer-home-dashboard ul {grid-template-columns: repeat(3, 1fr);}
@@ -1023,6 +1036,13 @@ span.required {color: red;}
   .single-service-right input {border: 1px solid var(--body_content_color); border-radius: 5px; max-width: 100px;}
   .change-password, .address-outer .card-body {padding: 25px;}
   .address-form form > * {max-width: 100%;}
+  .success-inner {padding: 20px;}
+  .success-outer {padding: 50px 0px;}
+  .print-receipt span {padding: 5px 12px;}
+  .success-order-details {margin: 20px 0px 0px;	padding: 20px 0px 0px;}
+  .success-top-content > h2 {font-size: 20px;}
+  .success-order-details h3 {font-size: 18px;}
+  .success-order-details ul li:not(:last-child) {margin: 0 0 5px;}
 }
 @media (max-width: 574px) {
   .chat-left-logo {gap: 10px;}

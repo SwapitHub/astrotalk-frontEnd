@@ -13,12 +13,12 @@ const ShopRazorPayPayment = ({
   extraAmount,
   totalAmount,
   astrologerName,
-  productName,
   productType,
-  productImg,
   addressDetailData,
+  productDetailData,
 }) => {
   const { error, isLoading, Razorpay } = useRazorpay();
+  console.log(productDetailData);
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -46,7 +46,7 @@ const ShopRazorPayPayment = ({
         pin: addressDetailData?.pin,
         landmark: addressDetailData?.landmark,
       };
-      const address = addressDetailData ?  addressToSend : "";
+      const address = addressDetailData ? addressToSend : "";
 
       // Create order on the server
       const { data } = await axios.post(
@@ -58,9 +58,9 @@ const ShopRazorPayPayment = ({
           currency: "INR",
           userMobile: Math.round(userMobile),
           astrologerName,
-          productName,
+          productName: productDetailData?.name,
           productType,
-          productImg,
+          productImg: productDetailData?.astroMallProductImg,
           address,
         }
       );
@@ -84,15 +84,19 @@ const ShopRazorPayPayment = ({
             );
 
             if (verifyRes.data.success) {
-              toast.success(
-                "Payment successful! Thank you for your purchase.",
+              const res = await axios.put(
+                `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-any-field-payment-shop/${response?.razorpay_order_id}`,
                 {
-                  position: "top-right",
+                  ring_size: productDetailData?.ring_size || "",
+                  gemStone_product_price:
+                    productDetailData?.gemStone_product_price || 0,
                 }
               );
-
+              if (res?.status == 200) {
                 router.push(`/success/${response?.razorpay_order_id}`);
-              // Additional success logic here
+              }
+              console.log("Update Response:", res);
+              console.log("Razorpay Response:", response);
             } else {
               // Delete the order record if verification fails
               await axios.post(

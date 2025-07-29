@@ -49,7 +49,7 @@ function AdminShopProductWallet({ updateButton }) {
       console.log(res);
 
       setWalletAdminData(res.data.orders);
-      setTotalPages(Math.ceil(res.data.pagination.totalPages )); // Correct page calculation
+      setTotalPages(Math.ceil(res.data.pagination.totalPages)); // Correct page calculation
       setHasNextPage(res.data.pagination.nextPage);
       setHasPrevPage(page > 1); // Has prev if currentPage > 1
     } catch (err) {
@@ -112,6 +112,8 @@ function AdminShopProductWallet({ updateButton }) {
                 <th>Product Name</th>
                 <th>User Address</th>
                 <th>Date and Time</th>
+                <th>Ring Size</th>
+                <th>Gemstone Product</th>
                 <th>Product</th>
               </tr>
             </thead>
@@ -123,9 +125,16 @@ function AdminShopProductWallet({ updateButton }) {
                   <td>{item.addresses[0]?.name}</td>
                   <td>₹ {Math.round(item.amount)}</td>
                   <td>{item.productName}</td>
-                  <td>City - {item.addresses[0]?.city}, State - {item.addresses[0]?.state}</td>
+                  <td>
+                    City - {item.addresses[0]?.city}, State -{" "}
+                    {item.addresses[0]?.state}
+                  </td>
                   <td>{new Date(item.createdAt).toLocaleString()}</td>
-                  <td><img src={item?.productImg} alt={item?.name} /></td>
+                  <td>{item?.ring_size}</td>
+                  <td>₹  {item?.gemStone_product_price}</td>
+                  <td>
+                    <img src={item?.productImg} alt={item?.name} />
+                  </td>
                 </tr>
               ))}
             </tbody>

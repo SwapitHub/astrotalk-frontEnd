@@ -1,8 +1,39 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 
-const SelectAddGemstoneRing = ({ gemStoneJewelryData, setViewAllBtn,gemstoneData, 
-                    setGemstoneData }) => {
-  
+const SelectAddGemstoneRing = ({
+  gemStoneJewelryData,
+  setViewAllBtn,
+  gemstoneData,
+  setGemstoneData,
+}) => {
+useEffect(() => {
+  const selectEl = document.getElementById("ringSizeSelect");
+  const ringInputDiv = document.querySelector(".ring-size-text");
+
+  function handleRingSizeChange() {
+    const selected = selectEl?.value;
+    if (selected === "I know my Ring Size") {
+      ringInputDiv.style.display = "block";
+    } else {
+      ringInputDiv.style.display = "none";
+      document.getElementById("ringSize").value = ""; // reset input
+    }
+  }
+
+  if (selectEl && ringInputDiv) {
+    handleRingSizeChange(); // initial state
+    selectEl.addEventListener("change", handleRingSizeChange);
+  }
+
+  return () => {
+    if (selectEl) {
+      selectEl.removeEventListener("change", handleRingSizeChange);
+    }
+  };
+}, [gemstoneData]); // Re-run effect when gemstoneData changes
+
+
   return (
     <>
       <div className="product-add-ons">
@@ -13,7 +44,9 @@ const SelectAddGemstoneRing = ({ gemStoneJewelryData, setViewAllBtn,gemstoneData
         <div className="product-add-ons-listing">
           {gemStoneJewelryData?.slice(0, 4).map((item, index) => (
             <div
-              className={`single-add-on ${item?._id == gemstoneData?._id?"active":""}`}
+              className={`single-add-on ${
+                item?._id == gemstoneData?._id ? "active" : ""
+              }`}
               key={index}
               onClick={() => setGemstoneData(item)}
             >
@@ -28,28 +61,43 @@ const SelectAddGemstoneRing = ({ gemStoneJewelryData, setViewAllBtn,gemstoneData
           ))}
         </div>
       </div>
-      <div className="product-right-dropdown">
-        <select>
-          <option>Select Ring Size</option>
-          <option>Free Size</option>
-          <option>I know my Ring Size</option>
-          <option>I don't know, please call me</option>
-        </select>
-      </div>
-
-{
-    gemstoneData &&  <div className="booked_selected_items">
-        <div>
-          <div>
-            <img src={gemstoneData?.astroGemstoneJewelryImg} alt={gemstoneData?.name} />
+      {gemstoneData?.productType == "Ring" && (
+        <div className="product-main-size">
+          <div className="product-right-dropdown">
+            <select id="ringSizeSelect" defaultValue="">
+              <option value="">Select Ring Size</option>
+              <option value="Free Size">Free Size</option>
+              <option value="I know my Ring Size">I know my Ring Size</option>
+              <option value="I don't know, please call me">
+                I don't know, please call me
+              </option>
+            </select>
           </div>
-          <div className="name">{gemstoneData?.name}</div>
-          <div className="price">₹ {gemstoneData?.actual_price}</div>
+          <div className="ring-size-text" style={{ display: "none" }}>
+            <input
+              id="ringSize"
+              type="text"
+              placeholder="Enter your ring size"
+              // style={{ display: "none" }}
+            />
+          </div>
         </div>
-        <span className="close">X</span>
-      </div>
-}
-     
+      )}
+      {gemstoneData && (
+        <div className="booked_selected_items">
+          <div>
+            <div>
+              <img
+                src={gemstoneData?.astroGemstoneJewelryImg}
+                alt={gemstoneData?.name}
+              />
+            </div>
+            <div className="name">{gemstoneData?.name}</div>
+            <div className="price">₹ {gemstoneData?.actual_price}</div>
+          </div>
+          <span className="close">X</span>
+        </div>
+      )}
     </>
   );
 };
