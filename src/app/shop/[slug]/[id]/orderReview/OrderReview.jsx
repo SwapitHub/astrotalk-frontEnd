@@ -163,8 +163,7 @@ console.log(productPrice);
                         </div>
                       </div>
                     </div>
-                    {
-                      productDetailData?.gemStone_product_price && 
+                    
                     
                     <div className="summary-amount">
                       <div className="single-summary">
@@ -216,7 +215,7 @@ console.log(productPrice);
                         </div>
                       </div>
                     </div>
-                    }
+                   
                   </div>
                 </div>
                 <div className="card-body-right">

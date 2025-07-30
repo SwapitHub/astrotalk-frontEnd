@@ -241,6 +241,8 @@ const AstroMallShops = () => {
           </div>
           <textarea id="description" className="common-input-filed" />
         </div>
+
+
         <div className="form-field">
           <div className="remove-astrict label-content field-checkbox">
             <input id="offer_checkbox" type="checkbox" />
@@ -250,7 +252,7 @@ const AstroMallShops = () => {
 
         <div className="form-field">
           <div className="remove-astrict label-content field-checkbox">
-          <input id="Jewelry_product_gem" type="checkbox" />
+            <input id="Jewelry_product_gem" type="checkbox" />
             <label>
               Are you adding a Spiritual Jewelry Product in the "Gemstone"
               category?

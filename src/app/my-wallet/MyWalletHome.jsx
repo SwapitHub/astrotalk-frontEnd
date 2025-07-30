@@ -1,12 +1,13 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import MyWallet from "./MyWallet";
 import MyWalletPaymentLog from "./MyWalletPaymentLog";
+import MyWalletAstroMall from "./MyWalletAstroMall";
 // import MyWalletPaymentLog from "./myWalletPaymentLog";
 
 const MyWalletHome = () => {
-    const [transactionBtn, setTransactionBtn] = useState("Wallet")
-    
+  const [transactionBtn, setTransactionBtn] = useState("Wallet");
+
   return (
     <section className="my-wallet-sec-bg">
       <div className="container">
@@ -16,30 +17,41 @@ const MyWalletHome = () => {
               <ul>
                 <li>
                   <button
-                    className={`wallet-ctm-tab-a ${transactionBtn=="Wallet" && "wallet-ctm-active-a"} `}
-                    onClick={()=>setTransactionBtn("Wallet")}
+                    className={`wallet-ctm-tab-a ${
+                      transactionBtn == "Wallet" && "wallet-ctm-active-a"
+                    } `}
+                    onClick={() => setTransactionBtn("Wallet")}
                   >
                     Wallet Transactions
                   </button>
                 </li>
                 <li>
                   <button
-                    className={`wallet-ctm-tab-a ${transactionBtn=="PaymentLogs" && "wallet-ctm-active-a"}`}
-                    onClick={()=>setTransactionBtn("PaymentLogs")}
-
+                    className={`wallet-ctm-tab-a ${
+                      transactionBtn == "PaymentLogs" && "wallet-ctm-active-a"
+                    }`}
+                    onClick={() => setTransactionBtn("PaymentLogs")}
                   >
                     Payment Logs
                   </button>
                 </li>
+
+                <li>
+                  <button
+                    className={`wallet-ctm-tab-a ${
+                      transactionBtn == "WalletAstroMall" &&
+                      "wallet-ctm-active-a"
+                    }`}
+                    onClick={() => setTransactionBtn("WalletAstroMall")}
+                  >
+                    Wallet Transaction Astro Mall
+                  </button>
+                </li>
               </ul>
             </div>
-            {transactionBtn=="Wallet" &&
-                <MyWallet/>               
-            }
-            {
-                 transactionBtn == "PaymentLogs" && 
-                 <MyWalletPaymentLog/>
-            }
+            {transactionBtn == "Wallet" && <MyWallet />}
+            {transactionBtn == "PaymentLogs" && <MyWalletPaymentLog />}
+            {transactionBtn == "WalletAstroMall" && <MyWalletAstroMall />}
           </div>
         </div>
       </div>

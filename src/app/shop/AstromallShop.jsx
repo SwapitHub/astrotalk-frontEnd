@@ -6,6 +6,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import TopSellingSlider from "../component/TopSellingSlider";
+import NewlyLaunceSlider from "../component/NewlyLaunceSlider";
 
 const AstromallShop = () => {
   const [shopListData, setShopListData] = useState([]);
@@ -92,85 +93,7 @@ const AstromallShop = () => {
         </div>
       </section>
      <TopSellingSlider/>
-      <section className="astromall-slider-outer">
-        <div className="container">
-          <div className="astromall-slider-inner">
-            <div className="heading-sec">
-              <h2>NEWLY LAUNCHED</h2>
-            </div>
-            <div className="slider-sec newly-launched-slider">
-               <Slider
-                {...sliderSettings}
-                responsive={[
-                  {
-                    breakpoint: 1198,
-                    settings: {
-                      slidesToShow: 3,
-                      slidesToScroll: 4,
-                      infinite: true,
-                    },
-                  },
-                  {
-                    breakpoint: 800,
-                    settings: {
-                      slidesToShow: 3,
-                      slidesToScroll: 3,
-                      infinite: true,
-                    },
-                  },
-                  {
-                    breakpoint: 639,
-                    settings: {
-                      slidesToShow: 3,
-                      slidesToScroll: 3,
-                      infinite: true,
-                    },
-                  },
-                  {
-                    breakpoint: 375,
-                    settings: {
-                      slidesToShow: 2,
-                      slidesToScroll: 2,
-                      infinite: true,
-                    },
-                  },
-                ]}
-              >
-                <div className="single-slide">
-                  <Link href="#">
-                    <div className="slide-img">
-                      <img src="/astrologer-person-img.jpg" alt="" />
-                    </div>
-                    <div className="slide-content">
-                      <p>Money Magnet Bracelet </p>
-                    </div>
-                  </Link>
-                </div>
-                  <div className="single-slide">
-                  <Link href="#">
-                    <div className="slide-img">
-                      <img src="/astrologer-person-img.jpg" alt="" />
-                    </div>
-                    <div className="slide-content">
-                      <p>Money Magnet Bracelet </p>
-                    </div>
-                  </Link>
-                </div>
-                  <div className="single-slide">
-                  <Link href="#">
-                    <div className="slide-img">
-                      <img src="/astrologer-person-img.jpg" alt="" />
-                    </div>
-                    <div className="slide-content">
-                      <p>Money Magnet Bracelet </p>
-                    </div>
-                  </Link>
-                </div>
-              </Slider>
-            </div>
-          </div>
-        </div>
-      </section>
+     <NewlyLaunceSlider/>
     </main>
   );
 };

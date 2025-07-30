@@ -42,10 +42,9 @@ const Success = () => {
               part of your love story!
             </p>
             <div className="success-order-details">
-              <h3>Order Details</h3>
+              <h3>Order Details :</h3>
               <ul>
-                <li>
-                  icon
+                <li>                  
                   <span>Order Number : {orderDetailData?.order_id}</span>
                 </li>
                 <li>
@@ -54,7 +53,10 @@ const Success = () => {
                     {new Date(orderDetailData?.createdAt).toLocaleString()}
                   </span>
                 </li>
-                {orderDetailData?.gemStone_product_price && (
+                <li>                  
+                  <span>Mobile Number : {orderDetailData?.userMobile}</span>
+                </li>
+                {orderDetailData?.gemStone_product_price > 0 && (
                   <>
                     <li>
                       <span>

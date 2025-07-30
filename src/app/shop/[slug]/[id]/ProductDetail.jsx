@@ -8,6 +8,8 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import UserOtpLoginData from "@/app/component/UserOtpLoginData";
+import DOMPurify from "dompurify";
+import he from "he";
 
 const ProductDetail = () => {
   const router = useRouter();
@@ -19,6 +21,7 @@ const ProductDetail = () => {
   const [gemStoneJewelryData, setGemStoneJewelryData] = useState();
   const [viewAllBtn, setViewAllBtn] = useState(false);
   const [gemstoneData, setGemstoneData] = useState();
+  const [decodedHtml, setDecodedHtml] = useState("");
 
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
 
@@ -94,9 +97,8 @@ const ProductDetail = () => {
           return;
         }
       }
-    }
-    else{
-      ring_size=""
+    } else {
+      ring_size = "";
     }
 
     if (!productDetailData?.starting_price) {
@@ -116,6 +118,17 @@ const ProductDetail = () => {
       router.push(`/shop/${params?.slug}/${params?.id}/consultant`);
     }
   };
+
+
+  useEffect(() => {
+    if (productDetailData?.detail_information) {
+      const decoded = he.decode(productDetailData?.detail_information);
+
+      const sanitizedHtml = DOMPurify.sanitize(decoded);
+
+      setDecodedHtml(sanitizedHtml);
+    }
+  }, [productDetailData]);
 
   return (
     <>
@@ -219,27 +232,7 @@ const ProductDetail = () => {
       </section>
       <section className="product-faqs-outer">
         <div className="container">
-          <div className="product-faqs-inner">
-            <div className="single-faq">
-              <h3>What is the Origin & Carat Weight of the product ?</h3>
-              <p>Origin - Africa</p>
-              <p>Carat Weight - 4.55</p>
-            </div>
-            <div className="single-faq">
-              <h3>What are its Benefits?</h3>
-              <ul>
-                <li>
-                  Citrine expels negativity, instills positive energy, and
-                  reduces depression.
-                </li>
-                <li>
-                  Enhances clarity, boosts self-confidence, and promotes mental
-                  growth.
-                </li>
-                <li>Brings success and prosperity to the wearer.</li>
-              </ul>
-            </div>
-          </div>
+          <div dangerouslySetInnerHTML={{ __html: decodedHtml }} />
         </div>
       </section>
       <section className="product-testimonial-left-right-outer">

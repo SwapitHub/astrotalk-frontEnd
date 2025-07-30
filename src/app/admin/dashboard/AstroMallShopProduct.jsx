@@ -1,5 +1,6 @@
 "use client";
 import Loader from "@/app/component/Loader";
+import TextEditor from "@/app/component/TextEditor";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
@@ -13,6 +14,7 @@ const AstroMallShopProduct = () => {
   const [editMode, setEditMode] = useState(false);
   const [editProductId, setEditProductId] = useState(null);
   const [shopListSingleData, setShopListSingleData] = useState(false);
+  const [content, setContent] = useState("");
 
   console.log(shopListSingleData, "shopListSingleData");
 
@@ -51,6 +53,7 @@ const AstroMallShopProduct = () => {
     const offer_name = document.getElementById("offer_name").value;
     const description = document.getElementById("description").value;
     const top_selling = document.getElementById("top_selling").checked;
+    const newlyLaunched = document.getElementById("newlyLaunched").checked;
 
 
     const starting_price =
@@ -92,6 +95,8 @@ const AstroMallShopProduct = () => {
     data.append("offer_name", offer_name);
     data.append("description", description);
     data.append("top_selling", top_selling);
+    data.append("newlyLaunched", newlyLaunched);
+    data.append("detail_information", content);
 
     if (shopListSingleData) {
       data.append("actual_price", actual_price);
@@ -116,6 +121,8 @@ const AstroMallShopProduct = () => {
       document.getElementById("offer_name").value = "";
       document.getElementById("description").value = "";
       document.getElementById("top_selling").checked = false;
+      document.getElementById("newlyLaunched").checked = false;
+      setContent("")
 
       let startingPrice = document.getElementById("Starting_price");
       if (startingPrice) startingPrice.value = "";
@@ -140,7 +147,8 @@ const AstroMallShopProduct = () => {
     document.getElementById("shop_id").value = product.shop_id;
     document.getElementById("description").value = product.description;
     document.getElementById("top_selling").checked = product.top_selling;
-
+    document.getElementById("newlyLaunched").checked = product.newlyLaunched;
+  setContent(product?.detail_information)
     // First determine discount or not
     const isDiscountProduct = !!(
       product.actual_price && product.discount_price
@@ -173,6 +181,7 @@ const AstroMallShopProduct = () => {
     const offer_name = document.getElementById("offer_name").value;
     const description = document.getElementById("description").value;
     const top_selling = document.getElementById("top_selling").checked;
+    const newlyLaunched = document.getElementById("newlyLaunched").checked;
 
     const starting_price =
       document.getElementById("Starting_price")?.value || "";
@@ -187,6 +196,8 @@ const AstroMallShopProduct = () => {
     data.append("offer_name", offer_name);
     data.append("description", description);
     data.append("top_selling", top_selling);
+    data.append("newlyLaunched", newlyLaunched);
+    data.append("detail_information", content);
 
     if (image) data.append("astroMallProductImg", image);
     if (shopListSingleData) {
@@ -214,7 +225,8 @@ const AstroMallShopProduct = () => {
         document.getElementById("offer_name").value = "";
         document.getElementById("description").value = "";
         document.getElementById("top_selling").checked = false;
-
+        document.getElementById("newlyLaunched").checked = false;
+        setContent("")
         let startingPrice = document.getElementById("Starting_price");
         if (startingPrice) startingPrice.value = "";
 
@@ -345,11 +357,18 @@ const AstroMallShopProduct = () => {
           </div>
           <textarea id="description" className="common-input-filed" />
         </div>
+        <TextEditor setContent={setContent} content={content}/>
 
         <div className="form-field">
           <div className="remove-astrict label-content top-selling field-checkbox">
             <input type="checkbox" id="top_selling"/>
             <label>Can you move this product to the Top Selling group?</label>
+          </div>
+        </div>
+        <div className="form-field">
+          <div className="remove-astrict label-content top-selling field-checkbox">
+            <input type="checkbox" id="newlyLaunched"/>
+            <label>Can you move this product to the Top NEWLY LAUNCHED?</label>
           </div>
         </div>
         {editMode ? (

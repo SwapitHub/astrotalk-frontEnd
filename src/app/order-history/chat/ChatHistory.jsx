@@ -356,7 +356,6 @@ const ChatHistory = () => {
                     <Link
                       href="/order-history/chat"
                       className="wallet-ctm-tab-a wallet-ctm-active-a"
-                      data-id="wallet-ctm-tab2"
                     >
                       Chat
                     </Link>
@@ -365,17 +364,14 @@ const ChatHistory = () => {
                     <Link
                       href="/order-history/report"
                       className="wallet-ctm-tab-a"
-                      data-id="wallet-ctm-tab3"
                     >
                       Report
                     </Link>
                   </li>
                   <li>
                     <Link
-                      title="/order-history/astro-mall"
-                      href=""
+                      href="/order-history/astro-mall"
                       className="wallet-ctm-tab-a"
-                      data-id="wallet-ctm-tab4"
                     >
                       Astromall
                     </Link>
