@@ -16,7 +16,7 @@ console.log(params,astrShopDetailData);
         console.log(res);
 
         const result = await res.json();
-        setAstrShopDetailData(result.data); // Corrected: result.data, not res.data.data
+        setAstrShopDetailData(result.data); 
       } catch (error) {
         console.error("Error fetching shop data:", error);
       }

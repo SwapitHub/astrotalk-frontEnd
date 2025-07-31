@@ -22,6 +22,7 @@ import Cookies from "js-cookie";
 import AstrologerGallery from "./AstrologerGallery";
 import SpiritualServices from "./SpiritualServices";
 import { GrServices } from "react-icons/gr";
+import AstrologerOrderPujaWallet from "./AstrologerOrderPujaWallet";
 
 const AstrologerHome = () => {
   const { updateButton, setUpdateButton } = useGlobalContext();
@@ -34,7 +35,6 @@ const AstrologerHome = () => {
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
   const [registrationDetail, setRegistrationDetail] = useState();
 
-  console.log(registrationDetail?.blockUnblockAstro, "registrationDetail");
 
   useEffect(() => {
     const astrologerPhones = Cookies.get("astrologer-phone");
@@ -229,7 +229,21 @@ const AstrologerHome = () => {
                         }}
                       >
                         <CiWallet />
-                        <span className="list-text">Wallet </span>
+                        <span className="list-text">Wallet Chatting</span>
+                      </a>
+                    </li> 
+
+                    <li>
+                      <a
+                        href="#"
+                        title="menu"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setUpdateButton("WalletPuja");
+                        }}
+                      >
+                        <CiWallet />
+                        <span className="list-text">Wallet Puja Order</span>
                       </a>
                     </li>
                     <li>
@@ -335,6 +349,13 @@ const AstrologerHome = () => {
                   <AstrologerReview
                     astrologerData={astrologerData}
                     renderStars={renderStars}
+                  />
+                )}   
+                
+                {updateButton == "WalletPuja" && (
+                  <AstrologerOrderPujaWallet
+                    astrologerData={astrologerData}
+                  
                   />
                 )}
               </div>

@@ -5,13 +5,14 @@ import React, { useEffect, useState, useCallback } from "react";
 import { FaSearch } from "react-icons/fa";
 import debounce from "lodash.debounce";
 
-function AdminShopWallet() {
+function AstrologerOrderPujaWallet({astrologerData}) {
   const [walletAdminData, setWalletAdminData] = useState([]);
   const [searchName, setSearchName] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
+console.log(astrologerData);
 
   // Debounce search input
   const debounceSearchHandler = useCallback(
@@ -39,6 +40,7 @@ function AdminShopWallet() {
             limit: 2, // Adjust as needed
             search: debouncedSearch,
             productType: "astroPujaProduct",
+            astrologerName: astrologerData?.name
           },
         }
       );
@@ -144,4 +146,4 @@ function AdminShopWallet() {
   );
 }
 
-export default AdminShopWallet;
+export default AstrologerOrderPujaWallet;

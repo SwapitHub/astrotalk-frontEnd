@@ -175,7 +175,7 @@ nav.navbar ul {justify-content: center; display: flex;}
 .talk-to-time-sec p {color: var(--primary_color); font-size: 16px; font-weight: 600;}
 .talk-to-time-sec p span {color: #616161; font-size: 14px;}
 .talk-to-time-sec {margin-top: 5px;}
-.astrologer-call-button-ctm button, .astrologer-call-button-ctm-detail a, .astrologer-call-button-ctm a {color: #13853a; border: 1px solid #13853a; color: #13853a; padding: 10px 30px; border-radius: 8px; cursor: pointer; text-align: center; display: inline-block;}
+.astrologer-call-button-ctm button, .astrologer-call-button-ctm-detail a, .astrologer-call-button-ctm a {color: #13853a; border: 1px solid #13853a; color: #13853a; padding: 10px 30px; border-radius: 8px; cursor: pointer; text-align: center; display: inline-block; background-color: transparent;}
 .astrologer-call-button-ctm a, .astrologer-call-button-ctm button {padding: 5px 15px; font-size: 14px;}
 .astrologer-call-button-ctm.chatStatus-false a {color: var(--primary_color); background-color: #fff; border: 1px solid var(--primary_color); padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 14px;}
 .astrologer-call-button-ctm.chatStatus-false span:not(.icon) {color: var(--primary_color); font-size: 12px; text-align: center; line-height: 1.2; display: inline-block; margin: 7px 0px 0px;}
@@ -251,6 +251,7 @@ span.list-text {flex-grow: 1;}
 .dashboard-list ul li ul li a::before {content: ""; position: absolute; width: 4px; height: 4px; background-color: #fff; border-radius: 50%; left: 20px;}
 .dashboard-right-content table th, .dashboard-right-content table td {min-width: 130px; max-width: 260px;}
 .dashboard-right-content table th:last-child, .dashboard-right-content table td:last-child {min-width: 180px;}
+.dashboard-right-content td img {max-width: 100px; border-radius: 8px;}
 .dashboard-right-content h2 {margin: 0 0 15px;}
 .dashboard-right-content {padding: 20px 27px 0px; margin-left: 255px; flex-grow: 1; margin-top: 100px; transition: all 0.3s;}
 .slider-opened .dashboard-right-content {margin-left: 0px;}
@@ -421,11 +422,13 @@ button.disable {cursor: unset; opacity: 0.5;}
 .breadcrumb ul {margin: 0; list-style: none; padding: 25px 0 10px;}
 .breadcrumb ul span.icon {background: #ccc; padding: 0.13em 0em 0.13em 8px; color: var(--body_content_color); position: relative; height: 28px; min-width: 28px; display: block;}
 .breadcrumb ul span.icon svg {vertical-align: middle;}
-.breadcrumb ul li {text-decoration: none; display: flex; flex-wrap: wrap; gap: 5px 0px;}
-.breadcrumb ul li > a {position: relative; background-color: #ccc; color: var(--body_content_color);}
+.breadcrumb ul li {text-decoration: none; display: flex; flex-wrap: wrap; gap: 5px 0px; }
+.breadcrumb ul li > a {position: relative; background-color: #ccc; color: var(--body_content_color); padding: 0.25em 0.4em;}
 .breadcrumb ul li > a::after {content: ""; position: absolute; top: 50%; border-top: 14px solid #0000; border-bottom: 14px solid #0000; border-left: 14px solid #ccc; right: -14px; z-index: 1; transform: translateY(-50%);}
-.breadcrumb ul li > a:not(:first-child) {margin-left: 20px; padding: 0.25em 0.4em;}
-.breadcrumb ul li > a:not(:first-child)::before {content: ""; position: absolute; top: 50%; border-style: solid; border-width: 14px 0 14px 14px; left: -14px; transform: translateY(-50%); border-color: #ccc #ccc #ccc #0000;}.text {display: inline-block; background: var(--primary_color); color: #ffffff; padding: 0.13em 0.4em; position: relative; height: 28px; font-size: 16px; font-weight: 400; margin: 0 0 0 20px; text-transform: capitalize;}
+.breadcrumb ul li > a:not(:first-child) {margin-left: 20px;}
+.breadcrumb ul li > a:has(.icon) {padding: 0px;}
+.breadcrumb ul li > a:not(:first-child)::before {content: ""; position: absolute; top: 50%; border-style: solid; border-width: 14px 0 14px 14px; left: -14px; transform: translateY(-50%); border-color: #ccc #ccc #ccc #0000;}
+.text {display: inline-block; background: var(--primary_color); color: #ffffff; padding: 0.13em 0.4em; position: relative; height: 28px; font-size: 16px; font-weight: 400; margin: 0 0 0 20px; text-transform: capitalize;}
 .text::after {content: ""; position: absolute; top: 50%; border-style: solid; border-width: 14px 0 14px 14px; left: -14px; transform: translateY(-50%); border-color: var(--primary_color) var(--primary_color) var(--primary_color)  #0000;}
 .profile_with_contact {display: flex; align-items: flex-start; margin: 0 0 15px;}
 .profile_with_contact_slider {padding: 10px 0px 25px; background-color: #f2f2f2;}
@@ -775,18 +778,25 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .astromall-sec-outer {padding: 70px 0px;}
 .heading-box {text-align: center;}
 .heading-box h1 {margin: 0 0 10px;}
-.astromall-wrapper {margin: 30px 0px 0px;}
-.astromall-search {text-align: center; display: flex; justify-content: center;}
+.astromall-wrapper {margin: 30px 0px 0px; text-align: center;}
+.astromall-search {text-align: center; display: inline-flex; justify-content: center; position: relative;}
 .astromall-search input {border: 1px solid #232323; border-radius: 5px 0px 0px 5px; height: 40px; padding: 0px 15px; font-size: 14px; font-family: inherit; min-width: 300px;} 
 .astromall-search button {border-radius: 0px 5px 5px 0px;}
-.astromall-listing {margin: 30px 0px 0px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;}
+.suggestion-dropdown {position: absolute; z-index: 9; width: 100%; top: 100%; background-color: #fff; padding: 20px; box-shadow: 0px 20px 40px rgba(0, 0, 0, .15); border-radius: 8px;}
+.suggestion-dropdown li {display: flex; align-items: center; gap: 10px; text-align: left; margin-bottom: 10px;}
+.suggestion-dropdown li:last-child {margin-bottom: 0px;}
+.search-product-name {font-weight: 500;}
+.search-discount-price {display: block;}
+.search-product-img {max-width: 80px; border-radius: 5px; overflow: hidden;}
+.astromall-listing {margin: 30px 0px 0px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: left;}
 .astromall-listing > *, .astromall-listing > * a {position: relative;}
-.product-img img {width: 100%; vertical-align: bottom;}
+.product-img {position: relative; padding-bottom: 100%;}
+.product-img img {width: 100%; height: 100%; position: absolute; left: 0; top: 0; object-fit: cover;}
 .details-outer {position: relative; overflow: hidden; border-radius: 8px;}
 .details-cont {position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px; background-color: rgba(0, 0, 0, .4);}
 .product-name {color: #fff; font-weight: 600; font-size: 16px; margin: 0 0 5px;}
 .details-cont p {font-size: 13px; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical; color: #eee; margin-bottom: 0; text-overflow: ellipsis; overflow: hidden;}
-.sales-tag {position: absolute; top: 10px; z-index: 1; left: 0; background-color: var(--primary_color); color: #fff; padding: 5px 10px 3px;}
+.sales-tag {position: absolute; top: 10px; z-index: 1; left: 0; background-color: var(--primary_color); color: #fff; padding: 5px 10px 3px; width: max-content;}
 .astromall-slider-outer {padding: 0 0 70px;}
 .astromall-slider-outer .heading-sec {text-align: center;}
 .astromall-slider-outer .heading-sec h2 {font-size: 24px;}
@@ -797,6 +807,9 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .astro-mall-btn button {padding: 0; width: 30px; height: 30px;}
 .AstroMallShops-admin {flex-wrap: unset;}
 .astromall-slider-outer .slider-sec {margin: 30px 0px 0px;}
+.astromall-slider-outer .slick-track {display: flex;}
+.astromall-slider-outer .slick-slide {height: inherit;}
+.astromall-slider-outer .slick-slide > *, .astromall-slider-outer .slick-slide .single-slide {height: 100%;}
 /* single astromall page  */
 .products-details-outer {padding: 40px 0px 60px;}
 .products-details-inner {display: flex; justify-content: space-between;}
@@ -811,8 +824,9 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .product-add-ons-listing {display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 15px 0px 0px;}
 .product-add-ons-listing > * {flex: 1; text-align: center; background-color: #f2f2f2; border-radius: 8px; padding: 20px; cursor: pointer;}
 .addon-name {font-weight: 600; font-size: 15px; margin: 15px 0px 5px; line-height: 1.3;}
-.product-right-dropdown {margin: 30px 0px 0px;}
+.product-main-size {margin: 30px 0px 0px; display: flex; gap: 10px;}
 .product-right-dropdown select {height: 45px; border: 1px solid; border-radius: 8px; padding: 0px 20px; font-family: inherit;}
+.ring-size-text input {height: 45px; border: 1px solid; border-radius: 8px; padding: 0 20px; font-family: inherit; width: max-content;}
 .product-right-btn {margin: 20px 0px 0px;}
 .product-faqs-outer {background-color: #f2f2f2; padding: 60px 0px;}
 .single-faq {padding: 20px; background-color: #fff; border-radius: 8px; margin: 0 0 8px;}
@@ -827,7 +841,7 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .single-slide {padding: 0px 10px;}
 .slide-content {padding: 20px; text-align: center;}
 .slide-content p {font-weight: 500; font-size: 16px; color: var(--body_content_color);}
-.single-slide a {border: 1px solid #e2e2e2; display: inline-block; width: 100%; border-radius: 8px; overflow: hidden;}
+.single-slide a {border: 1px solid #e2e2e2; display: inline-block; width: 100%; border-radius: 8px; overflow: hidden; height: 100%; vertical-align: bottom;}
 .add-on-img img {max-height: 45px;}
 .booked_selected_items {background-color: rgb(191 37 84 / 15%); border: 2px solid var(--primary_color); margin: 20px 0px 0px; border-radius: 8px; overflow: hidden; max-width: 350px; display: inline-flex; padding: 15px; gap: 20px; align-items: center;}
 .booked_selected_items > * {display: flex; align-items: center; gap: 15px;} 
@@ -835,7 +849,7 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .booked_selected_items .close {background-color: #fff; padding: 0; width: 25px; height: 25px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; box-shadow: 0px 1px 1px rgba(0, 0, 0, .5);}
 .product-images-left-inner {display: flex; gap: 10px;}
 .slider-left-nav {max-width: 25%; flex: 0 0 100%;}
-.slider-left-nav > * {border-radius: 8px; overflow: hidden; border: 2px solid var(--primary_color); margin: 0 0 10px; cursor: pointer}
+.slider-left-nav > * {border-radius: 8px; overflow: hidden; border: 2px solid var(--primary_color); margin: 0 0 10px; cursor: pointer;}
 .slider-left-nav > *:last-child {margin: 0;}
 .slider-right-img {flex-grow: 1;}
 .slider-large-img {width: 100%; height: 100%;}
@@ -850,7 +864,7 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .card-body-sec {display: flex; padding: 30px;}
 .card-body-left {max-width: 40%; flex: 0 0 100%;}
 .card-body-right {padding-left: 40px; flex-grow: 1;}
-.single-summary {display: flex; justify-content: space-between; padding: 10px 0px;}
+.single-summary {display: flex; justify-content: space-between; padding: 10px 0pnpm i DUMPuryfyx;}
 .order-listing {display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;}
 .single-payment-method {text-align: center; background-color: #f2f2f2; border-radius: 8px; padding: 20px 10px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative;}
 .order-product-btn {position: absolute; width: 100%; height: 100%; left: 0; top: 0; opacity: 0;}
@@ -876,6 +890,7 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .single-service-left input[type="checked"] + label::before {background-color: var(--primary_color);}
 .single-service-right input {height: 35px; border: 1px solid var(--body_content_color); border-radius: 5px; max-width: 120px; padding: 0px 15px; font-family: inherit;}
 /* astromall address */
+.address-outer {padding: 70px 0px;}
 .address-outer .card-body {background-color: #f2f2f2; padding: 50px;}
 .address-form form {display: flex; flex-wrap: wrap; gap: 30px 20px;}
 .address-form form > * {max-width: calc(100%/3 - 16.66666px); flex: 0 0 100%;}
@@ -905,6 +920,8 @@ span.required {color: red;}
 .single-popup-addon.active,.single-add-on.active {border: 2px solid var(--primary_color)}
 .name_product_modal {font-size: 11px; margin: 10px 0px 0px; font-weight: 500;}
 .price_modal_product {font-weight: 500;}
+/* Select Consultants  */
+.consultant-listing-outer {padding: 20px 0px 70px;}
 /* Thanks/Success  */
 .success-outer {padding: 70px 0px;}
 .success-inner {background-color: #f2f2f2; border-radius: 8px;	padding: 50px;}
@@ -929,7 +946,7 @@ span.required {color: red;}
   .inner-header-sec.ctm-flex-row {gap: 10px;}
   .astrologer {padding-block: 60px;}
   .all-list-talk-to-astrologer {grid-template-columns: repeat(2, 1fr);}
-  .inner-talk-to-astrologer {row-gap: 15pxs;}
+  .inner-talk-to-astrologer {row-gap: 15px;}
   .talk-to-astrologer-left-content, .talk-to-astrologer-right-content {width: 100%;}
   .talk-to-astrologer-right-content, .recharge-button {margin-left: 0px;}
   .send-input-button {max-width: calc(100% - 40px); width: 100%;}
@@ -1043,6 +1060,7 @@ span.required {color: red;}
   .success-top-content > h2 {font-size: 20px;}
   .success-order-details h3 {font-size: 18px;}
   .success-order-details ul li:not(:last-child) {margin: 0 0 5px;}
+  .ring-size-text input {width: 100px;}
 }
 @media (max-width: 574px) {
   .chat-left-logo {gap: 10px;}

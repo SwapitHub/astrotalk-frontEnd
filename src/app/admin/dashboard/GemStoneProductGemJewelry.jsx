@@ -86,26 +86,25 @@ const GemStoneProductGemJewelry = () => {
     }
   };
 
- const handleEditProduct = (product) => {
-  // Set input values
-  document.getElementById("gem_name").value = product.name;
-  document.getElementById("gem_price").value = product.actual_price;
+  const handleEditProduct = (product) => {
+    // Set input values
+    document.getElementById("gem_name").value = product.name;
+    document.getElementById("gem_price").value = product.actual_price;
 
-  // Set radio button based on productType value
-  if (product.productType) {
-    const radioToCheck = document.querySelector(
-      `input[name="product_type"][value="${product.productType}"]`
-    );
-    if (radioToCheck) {
-      radioToCheck.checked = true;
+    // Set radio button based on productType value
+    if (product.productType) {
+      const radioToCheck = document.querySelector(
+        `input[name="product_type"][value="${product.productType}"]`
+      );
+      if (radioToCheck) {
+        radioToCheck.checked = true;
+      }
     }
-  }
 
-  // Set edit state
-  setEditMode(true);
-  setEditProductId(product._id);
-};
-
+    // Set edit state
+    setEditMode(true);
+    setEditProductId(product._id);
+  };
 
   const handleUpdate = async () => {
     const gem_name = document.getElementById("gem_name").value;
@@ -153,12 +152,10 @@ const GemStoneProductGemJewelry = () => {
       const response = await axios.delete(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/delete-astro-gemstone-jewelry/${deleteId}`
       );
-      if (response.status == 200){
-        
+      if (response.status == 200) {
         fetchProductList();
         toast.success("Delete Successfully", { position: "top-right" });
-
-      } 
+      }
     } catch (err) {
       console.log("delete API error", err);
       toast.error("Delete Failed", { position: "top-right" });
@@ -195,32 +192,34 @@ const GemStoneProductGemJewelry = () => {
           </div>
           <input class="common-input-filed" id="gem_price" type="number" />
         </div>
-
-        <div className="form-field">
-          <div className="label-content">
+        <div class="form-field">
+          <div class="label-content">
             <label>Product Type</label>
           </div>
-          <label>
-            <input
+          <div class="man-input-filed-sec">
+            <div class="inner-radio">
+             <input
               className="common-input-field"
               type="radio"
               name="product_type"
               value="Ring"
               id="gem_ring"
             />
-            Ring
-          </label>
-          <label>
-            <input
+              <label>Ring</label>
+            </div>
+            <div class="inner-radio">
+              <input
               className="common-input-field"
               type="radio"
               name="product_type"
               value="Pendant"
               id="gem_pendant"
             />
-            Pendant
-          </label>
+              <label>Pendant</label>
+            </div>
+          </div>
         </div>
+      
 
         {editMode ? (
           <button onClick={handleUpdate}>Update</button>
@@ -235,7 +234,6 @@ const GemStoneProductGemJewelry = () => {
         ) : (
           <div className="astromall-listing">
             {productListData.map((item, index) => {
-
               return (
                 <>
                   <div className="single-item" key={index}>

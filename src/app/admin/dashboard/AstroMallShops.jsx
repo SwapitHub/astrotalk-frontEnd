@@ -1,5 +1,6 @@
 "use client";
 import Loader from "@/app/component/Loader";
+import TextEditor from "@/app/component/TextEditor";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
@@ -11,6 +12,7 @@ const AstroMallShops = () => {
   const [shopListData, setShopListData] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [editShopId, setEditShopId] = useState(null);
+  const [shopContent, setShopContent] = useState("");
 
   const getAstroShopData = async () => {
     try {
@@ -38,6 +40,7 @@ const AstroMallShops = () => {
     const Jewelry_product = document.getElementById(
       "Jewelry_product_gem"
     ).checked;
+    setShopContent("");
 
     if (!slug && name) {
       slug = name
@@ -65,6 +68,7 @@ const AstroMallShops = () => {
     data.append("description", description);
     data.append("discount_product", isDiscounted);
     data.append("Jewelry_product_gem", Jewelry_product);
+    data.append("detail_shop_information", shopContent);
 
     try {
       setLoading(true);
@@ -118,6 +122,7 @@ const AstroMallShops = () => {
     document.getElementById("offer_checkbox").checked = shop.discount_product;
     document.getElementById("Jewelry_product_gem").checked =
       shop.Jewelry_product_gem;
+    setShopContent(shop?.detail_shop_information);
 
     setEditMode(true);
     setEditShopId(shop._id);
@@ -143,6 +148,8 @@ const AstroMallShops = () => {
     data.append("description", description);
     data.append("discount_product", isDiscounted);
     data.append("Jewelry_product_gem", Jewelry_product);
+    data.append("detail_shop_information", shopContent);
+
     if (image) {
       data.append("astroMallImg", image); // only append if new image is selected
     }
@@ -170,6 +177,7 @@ const AstroMallShops = () => {
         document.getElementById("description").value = "";
         document.getElementById("offer_checkbox").checked = false;
         document.getElementById("Jewelry_product_gem").checked = false;
+        setShopContent("");
       }
     } catch (err) {
       console.error("Update error:", err);
@@ -242,7 +250,10 @@ const AstroMallShops = () => {
           <textarea id="description" className="common-input-filed" />
         </div>
 
-
+        <div className="shop-detail">
+          <h2>Shop Detail</h2>
+          <TextEditor value={shopContent} onChange={setShopContent} />
+        </div>
         <div className="form-field">
           <div className="remove-astrict label-content field-checkbox">
             <input id="offer_checkbox" type="checkbox" />

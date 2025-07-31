@@ -1,25 +1,23 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
-const TextEditor = ({setContent, content}) => {
-
+const TextEditor = ({ value, onChange }) => {
   return (
     <div className="text-editor-main">
-      <h2>Create Post</h2>
       <Editor
-        apiKey="kpqq505a0mmv0d18kt4d44ykv02w98wrl8ojl272ue8ryafb" // Optional — works without it
-        initialValue={content}
+        apiKey={process.env.NEXT_PUBLIC_TEXT_EDITOR_KEY}
+        // initialValue={value}
+        value={value} // make it controlled
         init={{
           height: 300,
           menubar: false,
-          plugins: ['code', 'link', 'lists', 'image'],
-          toolbar:   'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | outdent indent | code preview',         
-        
+          plugins: ['code', 'link', 'lists', 'image', 'preview'],
+          toolbar:
+            'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | outdent indent | code preview',
         }}
-        onEditorChange={(newContent) => setContent(newContent)}
+        onEditorChange={(newContent) => onChange(newContent)}
       />
-      {/* <button onClick={() => console.log(content)}>Submit</button> */}
     </div>
   );
 };

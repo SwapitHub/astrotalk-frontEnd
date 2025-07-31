@@ -4,30 +4,57 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import ShopIdGetGlobal from "./ShopIdGetGlobal";
+import DOMPurify from "dompurify";
+import he from "he";
 
 const AstroMallProduct = () => {
+  const params = useParams();
   const [productListData, setProductListData] = useState([]);
   const [astrShopDetailData, setAstrShopDetailData] = useState([]);
-  const params = useParams();
- 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [decodedHtml, setDecodedHtml] = useState("");
 
   useEffect(() => {
     const getAstroProductData = async () => {
-      if (!astrShopDetailData._id) return;
+      if (!astrShopDetailData?._id) return;
+
+      setLoading(true);
 
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-product-shop-id/${astrShopDetailData._id}`
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-product-shop-id/${astrShopDetailData._id}`,
+          {
+            params: searchTerm ? { search: searchTerm } : {},
+          }
         );
 
         setProductListData(res.data.data);
       } catch (error) {
         console.log("API error", error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    getAstroProductData();
-  }, [astrShopDetailData?._id]);
+    // Debounce by 300ms
+    const debounceTimer = setTimeout(() => {
+      getAstroProductData();
+    }, 400);
+
+    return () => clearTimeout(debounceTimer);
+  }, [astrShopDetailData?._id, searchTerm]);
+
+
+ useEffect(() => {
+    if (astrShopDetailData?.detail_shop_information) {
+      const decoded = he.decode(astrShopDetailData?.detail_shop_information);
+
+      const sanitizedHtml = DOMPurify.sanitize(decoded);
+
+      setDecodedHtml(sanitizedHtml);
+    }
+  }, [astrShopDetailData]);
 
   return (
     <main>
@@ -47,6 +74,8 @@ const AstroMallProduct = () => {
                 <input
                   type="search"
                   placeholder="Let's find what you're looking for..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <button>
                   <svg
@@ -90,10 +119,11 @@ const AstroMallProduct = () => {
                                 <p>
                                   {" "}
                                   ₹ {item?.discount_price}{" "}
-                                  {item?.actual_price!=0 &&
-                                  
-                                   <span className="old-amount">₹ {item?.actual_price}</span>
-                                  }
+                                  {item?.actual_price != 0 && (
+                                    <span className="old-amount">
+                                      ₹ {item?.actual_price}
+                                    </span>
+                                  )}
                                 </p>
                               </div>
                             ) : (
@@ -115,7 +145,12 @@ const AstroMallProduct = () => {
           </div>
         </div>
       </section>
-   
+
+     <section className="product-faqs-outer">
+        <div className="container">
+          <div dangerouslySetInnerHTML={{ __html: decodedHtml }} />
+        </div>
+      </section>
     </main>
   );
 };

@@ -15,8 +15,29 @@ const AstroMallShopProduct = () => {
   const [editProductId, setEditProductId] = useState(null);
   const [shopListSingleData, setShopListSingleData] = useState(false);
   const [content, setContent] = useState("");
+  const [shopId, setShopId] = useState();
+  const [astrShopDetailData, setAstrShopDetailData] = useState("");
 
-  console.log(shopListSingleData, "shopListSingleData");
+  console.log(shopId, "shopId", astrShopDetailData);
+
+  useEffect(() => {
+    if (!shopId) return;
+    const fetchShopDetail = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-detail/${shopId}`
+        );
+        console.log(res);
+
+        const result = await res.json();
+        setAstrShopDetailData(result.data);
+      } catch (error) {
+        console.error("Error fetching shop data:", error);
+      }
+    };
+
+    fetchShopDetail();
+  }, [shopId]);
 
   const fetchProductList = async () => {
     try {
@@ -55,13 +76,12 @@ const AstroMallShopProduct = () => {
     const top_selling = document.getElementById("top_selling").checked;
     const newlyLaunched = document.getElementById("newlyLaunched").checked;
 
-
     const starting_price =
       document.getElementById("Starting_price")?.value || "";
     const actual_price = document.getElementById("actual_price")?.value || "";
     const discount_price =
       document.getElementById("discount_price")?.value || "";
-
+    setShopId(shop_id);
     if (!slug && name) {
       slug = name
         .toLowerCase()
@@ -97,6 +117,7 @@ const AstroMallShopProduct = () => {
     data.append("top_selling", top_selling);
     data.append("newlyLaunched", newlyLaunched);
     data.append("detail_information", content);
+    data.append("shop_slug", astrShopDetailData?.slug);
 
     if (shopListSingleData) {
       data.append("actual_price", actual_price);
@@ -122,8 +143,7 @@ const AstroMallShopProduct = () => {
       document.getElementById("description").value = "";
       document.getElementById("top_selling").checked = false;
       document.getElementById("newlyLaunched").checked = false;
-      setContent("")
-
+      setContent("");
       let startingPrice = document.getElementById("Starting_price");
       if (startingPrice) startingPrice.value = "";
 
@@ -148,12 +168,13 @@ const AstroMallShopProduct = () => {
     document.getElementById("description").value = product.description;
     document.getElementById("top_selling").checked = product.top_selling;
     document.getElementById("newlyLaunched").checked = product.newlyLaunched;
-  setContent(product?.detail_information)
+    setContent(product?.detail_information);
     // First determine discount or not
     const isDiscountProduct = !!(
       product.actual_price && product.discount_price
     );
     setShopListSingleData(isDiscountProduct);
+    setShopId(product.shop_id);
 
     // Delay price setting so that inputs get mounted
     setTimeout(() => {
@@ -188,6 +209,7 @@ const AstroMallShopProduct = () => {
     const actual_price = document.getElementById("actual_price")?.value || "";
     const discount_price =
       document.getElementById("discount_price")?.value || "";
+    setShopId(shop_id);
 
     const data = new FormData();
     data.append("name", name);
@@ -198,6 +220,7 @@ const AstroMallShopProduct = () => {
     data.append("top_selling", top_selling);
     data.append("newlyLaunched", newlyLaunched);
     data.append("detail_information", content);
+    data.append("shop_slug", astrShopDetailData?.slug);
 
     if (image) data.append("astroMallProductImg", image);
     if (shopListSingleData) {
@@ -226,7 +249,7 @@ const AstroMallShopProduct = () => {
         document.getElementById("description").value = "";
         document.getElementById("top_selling").checked = false;
         document.getElementById("newlyLaunched").checked = false;
-        setContent("")
+        setContent("");
         let startingPrice = document.getElementById("Starting_price");
         if (startingPrice) startingPrice.value = "";
 
@@ -350,24 +373,29 @@ const AstroMallShopProduct = () => {
             </div>
           </div>
         )}
-        
+
         <div className="form-field">
           <div className="remove-astrict label-content">
             <label>Description</label>
           </div>
           <textarea id="description" className="common-input-filed" />
         </div>
-        <TextEditor setContent={setContent} content={content}/>
+        <div className="product-detail">
+          <h2>Product Detail</h2>
+          <TextEditor value={content} onChange={setContent} />
+        </div>
+
+       
 
         <div className="form-field">
           <div className="remove-astrict label-content top-selling field-checkbox">
-            <input type="checkbox" id="top_selling"/>
+            <input type="checkbox" id="top_selling" />
             <label>Can you move this product to the Top Selling group?</label>
           </div>
         </div>
         <div className="form-field">
           <div className="remove-astrict label-content top-selling field-checkbox">
-            <input type="checkbox" id="newlyLaunched"/>
+            <input type="checkbox" id="newlyLaunched" />
             <label>Can you move this product to the Top NEWLY LAUNCHED?</label>
           </div>
         </div>
