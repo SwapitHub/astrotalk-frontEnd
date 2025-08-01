@@ -6,16 +6,44 @@ const TextEditor = ({ value, onChange }) => {
   return (
     <div className="text-editor-main">
       <Editor
-        apiKey="kpqq505a0mmv0d18kt4d44ykv02w98wrl8ojl272ue8ryafb"
+        // apiKey={process.env.NEXT_PUBLIC_TEXT_EDITOR_KEY}
         // initialValue={value}
         value={value} // make it controlled
         init={{
           height: 300,
           menubar: false,
-          plugins: ['code', 'link', 'lists', 'image', 'preview'],
+          selector: "textarea",
+          plugins: [
+            // Core editing features
+            "anchor",
+            "autolink",
+            "charmap",
+            "codesample",
+            "emoticons",
+            "image",
+            "link",
+            "lists",
+
+            "visualblocks",
+
+            // Your account includes a free trial of TinyMCE premium features
+            // Try the most popular premium features until Aug 13, 2025:
+            "checklist",
+            "mediaembed",
+            "casechange",
+            "formatpainter",
+            "pageembed",
+            "a11ychecker",
+            "tinymcespellchecker",
+            "permanentpen",
+            "powerpaste",
+            "advtable",
+            "advcode",
+            "editimage",
+            "advtemplate",
+          ],
           toolbar:
-            'h1 h2 h3 | formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | outdent indent | code preview',
-            
+            "undo redo | blocks  fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments |  align lineheight | checklist numlist bullist indent outdent ",
         }}
         onEditorChange={(newContent) => onChange(newContent)}
       />
