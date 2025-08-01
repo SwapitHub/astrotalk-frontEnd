@@ -801,7 +801,7 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .astromall-slider-outer .heading-sec {text-align: center;}
 .astromall-slider-outer .heading-sec h2 {font-size: 24px;}
 .AstroMallShops-admin {align-items: flex-start;}
-.AstroMallShops-admin .change-password {position: sticky; top: 120px; min-width: 500px; max-height: calc(100vh - 120px); overflow-y: auto;}
+.AstroMallShops-admin .change-password {position: sticky; top: 120px; min-width: 500px; max-height: calc(100vh - 120px); overflow-y: auto; max-width: 500px;}
 .AstroMallShops-admin .language-list {width: auto; flex-grow: 1;}
 .astro-mall-btn {position: absolute; right: 10px; top: 10px; display: flex; gap: 5px;}
 .astro-mall-btn button {padding: 0; width: 30px; height: 30px;}
@@ -901,6 +901,11 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .label-content.field-checkbox label {margin: 0;}
 .label-content.field-checkbox input {margin: 6px 8px 0px 0px;}
 span.required {color: red;}
+.error-text {
+  color: red;
+  font-size: 12px;
+}
+
 .form-submit button, .addon-popup-btn button {padding: 10px 20px;}
 /* Addon popup  */
 .addon-popup-inner {margin: 0 auto; background: #fff; box-shadow: 0 11px 15px -7px #0003, 0 24px 38px 3px #00000024, 0 9px 46px 8px #0000001f; padding: 24px; border-radius: 10px; max-width: 570px;}

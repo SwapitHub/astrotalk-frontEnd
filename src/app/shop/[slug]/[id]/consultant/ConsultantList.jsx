@@ -54,10 +54,12 @@ const ConsultantList = () => {
             <div className="consultant-heading">
               <h1>Select Consultant</h1>
             </div>
-            <div className="consultant-listing-sec all-list-talk-to-astrologer" >
-            {astrologerServiceListData.map((item, index) => (
-              
-                <div className="single-consultant inner-astrologer-detail" key={index}>
+            <div className="consultant-listing-sec all-list-talk-to-astrologer">
+              {astrologerServiceListData.map((item, index) => (
+                <div
+                  className="single-consultant inner-astrologer-detail"
+                  key={index}
+                >
                   <div className="main-anchor">
                     <div className="star-banner">Celebrity</div>
                     <div className="astrologer-list-left">
@@ -191,9 +193,8 @@ const ConsultantList = () => {
                     </div>
                   </div>
                 </div>
-              
-            ))}
-          </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

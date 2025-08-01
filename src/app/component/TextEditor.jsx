@@ -14,7 +14,8 @@ const TextEditor = ({ value, onChange }) => {
           menubar: false,
           plugins: ['code', 'link', 'lists', 'image', 'preview'],
           toolbar:
-            'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | outdent indent | code preview',
+            'h1 h2 h3 | formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | outdent indent | code preview',
+            
         }}
         onEditorChange={(newContent) => onChange(newContent)}
       />

@@ -8,6 +8,7 @@ const FillIntake = () => {
   const router = useRouter();
 const params = useParams();
 console.log(params);
+const [formErrors, setFormErrors] = useState({});
 
   const [formData, setFormData] = useState({
     name: "",
@@ -29,41 +30,38 @@ console.log(params);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const validate = () => {
-    const { name, mobile, email, flat, locality, city, state, country, pin } =
-      formData;
+ const validate = () => {
+  const errors = {};
+  const { name, mobile, email, flat, locality, city, state, country, pin } = formData;
 
-    if (
-      !name &&
-      !mobile &&
-      !email &&
-      !flat &&
-      !locality &&
-      !city &&
-      !state &&
-      !country &&
-      !pin
-    ) {
-      toast.error("Please fill all required fields!");
-      return false;
-    }
+  if (!name) errors.name = "Name is required";
+  if (!mobile) errors.mobile = "Mobile number is required";
+  else if (!/^\d{10}$/.test(mobile)) errors.mobile = "Mobile number must be 10 digits";
 
-    if (!/^\d{10}$/.test(mobile)) {
-      toast.error("Invalid mobile number");
-      return false;
-    }
+  if (!email) errors.email = "Email is required";
+  else if (!/\S+@\S+\.\S+/.test(email)) errors.email = "Invalid email address";
 
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      toast.error("Invalid email address");
-      return false;
-    }
+  if (!flat) errors.flat = "Flat No is required";
+  if (!locality) errors.locality = "Locality is required";
+  if (!city) errors.city = "City is required";
+  if (!state) errors.state = "State is required";
+  if (!country) errors.country = "Country is required";
+  if (!pin) errors.pin = "Pincode is required";
 
-    return true;
-  };
+  setFormErrors(errors);
+
+  // if (Object.keys(errors).length > 0) {
+  //   toast.error("Please fix the highlighted errors.");
+  //   return false;
+  // }
+
+  return true;
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validate()) return;
+    if (!validate()) return; // stops here on error
 
     setLoading(true);
     try {
@@ -89,7 +87,7 @@ console.log(params);
         landmark: "",
       });
     } catch (error) {
-      toast.error("Error saving address");
+      // toast.error("Error saving address");
       console.error(error);
     } finally {
       setLoading(false);
@@ -148,6 +146,9 @@ console.log(params);
                           : null;
                       }}
                     />
+                   {formErrors[field.name] && (
+      <span className="error-text">{formErrors[field.name]}</span>
+    )}
                   </div>
                 ))}
 

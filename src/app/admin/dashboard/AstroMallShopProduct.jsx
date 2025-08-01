@@ -16,9 +16,10 @@ const AstroMallShopProduct = () => {
   const [shopListSingleData, setShopListSingleData] = useState(false);
   const [content, setContent] = useState("");
   const [shopId, setShopId] = useState();
+  const [showImage, setShowImage] = useState();
   const [astrShopDetailData, setAstrShopDetailData] = useState("");
 
-  console.log(shopId, "shopId", astrShopDetailData);
+  console.log(shopId, "shopId", showImage);
 
   useEffect(() => {
     if (!shopId) return;
@@ -75,6 +76,7 @@ const AstroMallShopProduct = () => {
     const description = document.getElementById("description").value;
     const top_selling = document.getElementById("top_selling").checked;
     const newlyLaunched = document.getElementById("newlyLaunched").checked;
+    const images = document.getElementById("astroMallImages").files;
 
     const starting_price =
       document.getElementById("Starting_price")?.value || "";
@@ -82,6 +84,7 @@ const AstroMallShopProduct = () => {
     const discount_price =
       document.getElementById("discount_price")?.value || "";
     setShopId(shop_id);
+
     if (!slug && name) {
       slug = name
         .toLowerCase()
@@ -119,6 +122,9 @@ const AstroMallShopProduct = () => {
     data.append("detail_information", content);
     data.append("shop_slug", astrShopDetailData?.slug);
 
+    for (let i = 0; i < images.length; i++) {
+      data.append("astroMallImages", images[i]);
+    }
     if (shopListSingleData) {
       data.append("actual_price", actual_price);
       data.append("discount_price", discount_price);
@@ -139,6 +145,7 @@ const AstroMallShopProduct = () => {
       document.getElementById("name_product").value = "";
       document.getElementById("slug_product").value = "";
       document.getElementById("astroMallProductImg").value = "";
+      document.getElementById("astroMallImages").value = "";
       document.getElementById("offer_name").value = "";
       document.getElementById("description").value = "";
       document.getElementById("top_selling").checked = false;
@@ -168,6 +175,8 @@ const AstroMallShopProduct = () => {
     document.getElementById("description").value = product.description;
     document.getElementById("top_selling").checked = product.top_selling;
     document.getElementById("newlyLaunched").checked = product.newlyLaunched;
+    setShowImage(product);
+
     setContent(product?.detail_information);
     // First determine discount or not
     const isDiscountProduct = !!(
@@ -203,6 +212,7 @@ const AstroMallShopProduct = () => {
     const description = document.getElementById("description").value;
     const top_selling = document.getElementById("top_selling").checked;
     const newlyLaunched = document.getElementById("newlyLaunched").checked;
+    const images = document.getElementById("astroMallImages").files;
 
     const starting_price =
       document.getElementById("Starting_price")?.value || "";
@@ -221,8 +231,13 @@ const AstroMallShopProduct = () => {
     data.append("newlyLaunched", newlyLaunched);
     data.append("detail_information", content);
     data.append("shop_slug", astrShopDetailData?.slug);
-
+    if (images && images.length > 0) {
+      for (let i = 0; i < images.length; i++) {
+        data.append("astroMallImages", images[i]);
+      }
+    }
     if (image) data.append("astroMallProductImg", image);
+    if (images) data.append("astroMallImages", images);
     if (shopListSingleData) {
       data.append("actual_price", actual_price);
       data.append("discount_price", discount_price);
@@ -245,10 +260,12 @@ const AstroMallShopProduct = () => {
         document.getElementById("slug_product").value = "";
         document.getElementById("shop_id").value = "";
         document.getElementById("astroMallProductImg").value = "";
+        document.getElementById("astroMallImages").value = "";
         document.getElementById("offer_name").value = "";
         document.getElementById("description").value = "";
         document.getElementById("top_selling").checked = false;
         document.getElementById("newlyLaunched").checked = false;
+        setShowImage("");
         setContent("");
         let startingPrice = document.getElementById("Starting_price");
         if (startingPrice) startingPrice.value = "";
@@ -282,9 +299,44 @@ const AstroMallShopProduct = () => {
     }
   };
 
+  const deleteProductImgInner = async (deleteId, showImage) => {
+    try {
+      setLoading(true);
+
+      // Delete image from backend & Cloudinary
+      const response = await axios.delete(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/delete-astro-product-single-image/${deleteId}`
+      );
+
+      if (response.status === 200) {
+        toast.success("Image deleted", { position: "top-right" });
+
+        // Filter out the deleted image from current showImage.images
+        const updatedImages = showImage.images.filter(
+          (img) => img._id !== deleteId
+        );
+
+        // Update showImage state
+        setShowImage({ ...showImage, images: updatedImages });
+      }
+    } catch (err) {
+      console.error("Delete API error", err);
+      toast.error("Delete Failed", { position: "top-right" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="AddLanguage AstroMallShops-admin">
       <div className="change-password">
+        <div className="form-field">
+          {showImage && (
+            <div className="banner-img">
+              <img src={showImage?.astroMallProductImg} alt="banner img" />
+            </div>
+          )}
+        </div>
         <div className="form-field">
           <div className="label-content">
             <label>Upload image</label>
@@ -292,10 +344,37 @@ const AstroMallShopProduct = () => {
           <input
             type="file"
             id="astroMallProductImg"
+            name="astroMallProductImg"
             accept="image/*"
             className="common-input-filed"
           />
+
+          <div className="label-content">
+            <label>Upload multiple images</label>
+          </div>
+          <input
+            type="file"
+            id="astroMallImages"
+            name="astroMallImages"
+            accept="image/*"
+            multiple
+            className="common-input-filed"
+          />
         </div>
+        {showImage?.images?.length > 0 && (
+          <div className="tabbing-img">
+            {showImage?.images.map((item) => (
+              <div className="tab-img">
+                <span
+                  onClick={() => deleteProductImgInner(item?._id, showImage)}
+                >
+                  <RiDeleteBin7Fill />
+                </span>
+                <img src={item?.url} />
+              </div>
+            ))}
+          </div>
+        )}
 
         <div className="form-field">
           <div className="label-content">
@@ -384,8 +463,6 @@ const AstroMallShopProduct = () => {
           <h2>Product Detail</h2>
           <TextEditor value={content} onChange={setContent} />
         </div>
-
-       
 
         <div className="form-field">
           <div className="remove-astrict label-content top-selling field-checkbox">
