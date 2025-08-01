@@ -331,13 +331,6 @@ const AstroMallShopProduct = () => {
     <div className="AddLanguage AstroMallShops-admin">
       <div className="change-password">
         <div className="form-field">
-          {showImage && (
-            <div className="banner-img">
-              <img src={showImage?.astroMallProductImg} alt="banner img" />
-            </div>
-          )}
-        </div>
-        <div className="form-field">
           <div className="label-content">
             <label>Upload image</label>
           </div>
@@ -348,7 +341,13 @@ const AstroMallShopProduct = () => {
             accept="image/*"
             className="common-input-filed"
           />
-
+          {showImage && (
+            <div className="banner-img">
+              <img src={showImage?.astroMallProductImg} alt="banner img" />
+            </div>
+          )}
+        </div>
+        <div className="form-field">
           <div className="label-content">
             <label>Upload multiple images</label>
           </div>
@@ -360,22 +359,22 @@ const AstroMallShopProduct = () => {
             multiple
             className="common-input-filed"
           />
-        </div>
-        {showImage?.images?.length > 0 && (
-          <div className="tabbing-img">
-            {showImage?.images.map((item) => (
-              <div className="tab-img">
-                <span
-                  onClick={() => deleteProductImgInner(item?._id, showImage)}
-                >
-                  <RiDeleteBin7Fill />
-                </span>
-                <img src={item?.url} />
-              </div>
-            ))}
-          </div>
-        )}
 
+          {showImage?.images?.length > 0 && (
+            <div className="tabbing-img">
+              {showImage?.images.map((item) => (
+                <div className="tab-img">
+                  <span
+                    onClick={() => deleteProductImgInner(item?._id, showImage)}
+                  >
+                    <RiDeleteBin7Fill />
+                  </span>
+                  <img src={item?.url} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
         <div className="form-field">
           <div className="label-content">
             <label>Please choose a shop</label>
