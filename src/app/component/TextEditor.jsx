@@ -6,7 +6,7 @@ const TextEditor = ({ value, onChange }) => {
   return (
     <div className="text-editor-main">
       <Editor
-        // apiKey={process.env.NEXT_PUBLIC_TEXT_EDITOR_KEY}
+        apiKey={process.env.NEXT_PUBLIC_TEXT_EDITOR_KEY}
         // initialValue={value}
         value={value} // make it controlled
         init={{
