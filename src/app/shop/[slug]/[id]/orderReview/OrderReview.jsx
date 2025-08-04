@@ -1,5 +1,6 @@
 "use client";
 import ShopRazorPayPayment from "@/app/component/ShopRazorPayPayment";
+import CustomHookCommission from "@/app/hook/CustomHookCommission";
 import axios from "axios";
 import { useParams, useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
@@ -17,8 +18,9 @@ const OrderReview = () => {
   const [productDetailData, setProductDetailData] = useState();
   const [addressDetailData, setAddressDetailData] = useState();
 
-  console.log(productDetailData);
-
+  const { data: pujaCommission } = CustomHookCommission({
+    fetchUrl: `${process.env.NEXT_PUBLIC_WEBSITE_URL}/add-AdminCommission-puja-astrologer`,
+  });
 
   useEffect(() => {
     const handleAddressDetail = async () => {
@@ -81,14 +83,18 @@ const OrderReview = () => {
   }, [astrologer_id, shop_id]);
 
   const productPrice = address_id
-    ? Math.round(parseInt(productDetailData?.discount_price) || 0) + Math.round(parseInt(productDetailData?.gemStone_product_price) || 0)
+    ? Math.round(parseInt(productDetailData?.discount_price) || 0) +
+      Math.round(parseInt(productDetailData?.gemStone_product_price) || 0)
     : servicePrice;
-console.log(productPrice);
+  console.log(productPrice);
 
   const priceNumber = Math.round(parseInt(productPrice) || 0);
   const gstRate = 18 / 100;
   const totalGstPrice = Math.round(priceNumber * gstRate);
   const totalFinalPrice = Math.round(priceNumber + totalGstPrice);
+  const adminCommission =
+    (pujaCommission[0]?.AdminCommissionsPuja * servicePrice) / 100;
+  console.log(adminCommission);
 
   return (
     <>
@@ -123,12 +129,14 @@ console.log(productPrice);
                   <tbody>
                     <tr>
                       <td>
-                        <h6>
-                          { productDetailData?.name }
-                        </h6>
+                        <h6>{productDetailData?.name}</h6>
                       </td>
                       <td>
-                        <h6>{address_id ? addressDetailData?.name:astrologer?.name}</h6>
+                        <h6>
+                          {address_id
+                            ? addressDetailData?.name
+                            : astrologer?.name}
+                        </h6>
                       </td>
                       <td>
                         <p>
@@ -149,7 +157,11 @@ console.log(productPrice);
                     <div className="order-summary-content">
                       <div className="single-summary">
                         <div className="single-summary-left">
-                          <p>{serviceName?serviceName:  productDetailData?.name }   </p>
+                          <p>
+                            {serviceName
+                              ? serviceName
+                              : productDetailData?.name}{" "}
+                          </p>
                         </div>
                         <div className="single-summary-right">
                           <span>
@@ -163,14 +175,13 @@ console.log(productPrice);
                         </div>
                       </div>
                     </div>
-                    
-                    
+
                     <div className="summary-amount">
                       <div className="single-summary">
                         <div className="single-summary-left">
-                          <p>Gemstone Amount </p>
-                        </div> 
-                        
+                          <p>{productDetailData?.ring_size ? "Gemstone Ring Product" : "Gemstone Pendant Product"}</p>
+                        </div>
+
                         <div className="single-summary-right">
                           <span>
                             {" "}
@@ -185,15 +196,12 @@ console.log(productPrice);
                       <div className="single-summary">
                         <div className="single-summary-left">
                           <p>Total Amount </p>
-                        </div> 
-                        
+                        </div>
+
                         <div className="single-summary-right">
                           <span>
                             {" "}
-                            ₹{" "}
-                            {address_id
-                              ? productPrice
-                              : servicePrice}
+                            ₹ {address_id ? productPrice : servicePrice}
                             .00
                           </span>
                         </div>
@@ -215,7 +223,6 @@ console.log(productPrice);
                         </div>
                       </div>
                     </div>
-                   
                   </div>
                 </div>
                 <div className="card-body-right">
@@ -233,13 +240,15 @@ console.log(productPrice);
                           <ShopRazorPayPayment
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
-                            totalAmount={totalFinalPrice}
+                            totalAmount={productPrice}
                             astrologerName={astrologer?.name}
                             productType={
                               address_id ? "astroProduct" : "astroPujaProduct"
                             }
-                            productDetailData={productDetailData}                            
+                            productDetailData={productDetailData}
                             addressDetailData={addressDetailData}
+                            totalGstPrice={totalGstPrice}
+                            adminCommission={adminCommission || 0}
                           />
                         </div>
                       </div>
@@ -253,13 +262,15 @@ console.log(productPrice);
                           <ShopRazorPayPayment
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
-                            totalAmount={totalFinalPrice}
+                            totalAmount={productPrice}
                             astrologerName={astrologer?.name}
                             productType={
                               address_id ? "astroProduct" : "astroPujaProduct"
                             }
-                            productDetailData={productDetailData}                            
+                            productDetailData={productDetailData}
                             addressDetailData={addressDetailData}
+                            totalGstPrice={totalGstPrice}
+                            adminCommission={adminCommission || 0}
                           />
                         </div>
                       </div>
@@ -273,13 +284,15 @@ console.log(productPrice);
                           <ShopRazorPayPayment
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
-                            totalAmount={totalFinalPrice}
+                            totalAmount={productPrice}
                             astrologerName={astrologer?.name}
                             productType={
                               address_id ? "astroProduct" : "astroPujaProduct"
                             }
-                            productDetailData={productDetailData}                            
+                            productDetailData={productDetailData}
                             addressDetailData={addressDetailData}
+                            totalGstPrice={totalGstPrice}
+                            adminCommission={adminCommission || 0}
                           />
                         </div>
                       </div>
@@ -293,13 +306,15 @@ console.log(productPrice);
                           <ShopRazorPayPayment
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
-                            totalAmount={totalFinalPrice}
+                            totalAmount={productPrice}
                             astrologerName={astrologer?.name}
                             productType={
                               address_id ? "astroProduct" : "astroPujaProduct"
                             }
-                            productDetailData={productDetailData}                            
+                            productDetailData={productDetailData}
                             addressDetailData={addressDetailData}
+                            totalGstPrice={totalGstPrice}
+                            adminCommission={adminCommission || 0}
                           />
                         </div>
                       </div>
@@ -313,13 +328,15 @@ console.log(productPrice);
                           <ShopRazorPayPayment
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
-                            totalAmount={totalFinalPrice}
+                            totalAmount={productPrice}
                             astrologerName={astrologer?.name}
                             productType={
                               address_id ? "astroProduct" : "astroPujaProduct"
                             }
-                            productDetailData={productDetailData}                            
+                            productDetailData={productDetailData}
                             addressDetailData={addressDetailData}
+                            totalGstPrice={totalGstPrice}
+                            adminCommission={adminCommission || 0}
                           />
                         </div>
                       </div>
@@ -334,17 +351,15 @@ console.log(productPrice);
                           <ShopRazorPayPayment
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
-                            totalAmount={totalFinalPrice}
+                            totalAmount={productPrice}
                             astrologerName={astrologer?.name}
-                            productName={
-                              productDetailData?.name
-                            }
                             productType={
                               address_id ? "astroProduct" : "astroPujaProduct"
                             }
+                            productDetailData={productDetailData}
                             addressDetailData={addressDetailData}
-                            productImg={productDetailData?.astroMallProductImg}
-
+                            totalGstPrice={totalGstPrice}
+                            adminCommission={adminCommission || 0}
                           />
                         </div>
                       </div>
@@ -359,17 +374,15 @@ console.log(productPrice);
                           <ShopRazorPayPayment
                             totalFinalPrice={totalFinalPrice}
                             extraAmount={0}
-                            totalAmount={totalFinalPrice}
+                            totalAmount={productPrice}
                             astrologerName={astrologer?.name}
-                            productName={
-                              productDetailData?.name
-                            }
                             productType={
                               address_id ? "astroProduct" : "astroPujaProduct"
                             }
+                            productDetailData={productDetailData}
                             addressDetailData={addressDetailData}
-                            productImg={productDetailData?.astroMallProductImg}
-
+                            totalGstPrice={totalGstPrice}
+                            adminCommission={adminCommission || 0}
                           />
                         </div>
                       </div>

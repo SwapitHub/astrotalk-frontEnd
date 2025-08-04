@@ -16,9 +16,10 @@ const ShopRazorPayPayment = ({
   productType,
   addressDetailData,
   productDetailData,
+  totalGstPrice,
+  adminCommission,
 }) => {
   const { error, isLoading, Razorpay } = useRazorpay();
-  console.log(productDetailData);
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -90,6 +91,8 @@ const ShopRazorPayPayment = ({
                   ring_size: productDetailData?.ring_size || "",
                   gemStone_product_price:
                     productDetailData?.gemStone_product_price || 0,
+                  gstAmount: totalGstPrice,
+                  adminCommission,
                 }
               );
               if (res?.status == 200) {

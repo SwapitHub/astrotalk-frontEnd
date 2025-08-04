@@ -817,6 +817,7 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .tab-img span:has(svg) {position: absolute; right: 10px; top: 10px; background-color: var(--primary_color); width: 20px; height: 20px; display: inline-flex; justify-content: center; align-items: center; color: #fff; border-radius: 4px; cursor: pointer;}
 .AstroMallShops-admin .form-field .tab-img img {margin: 0px;}
 /* single astromall page  */
+.AddAdminCommissions-puja.AddLanguage {padding-top: 25px;}
 .products-details-outer {padding: 40px 0px 60px;}
 .products-details-inner {display: flex; justify-content: space-between;}
 .product-details-right {max-width: 57.106%; flex: 0 0 100%; padding-left: 30px;}

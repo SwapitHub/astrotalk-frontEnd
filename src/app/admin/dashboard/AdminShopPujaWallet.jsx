@@ -97,7 +97,10 @@ function AdminShopWallet() {
                 <th>User Mobile</th>
                 <th>User Status</th>
                 <th>Astrologer Name</th>
+                <th>Astrologer Balance</th>
                 <th>Transaction Amount</th>
+                <th>Admin commission</th>
+                <th>GST</th>
                 <th>Product Name</th>
                 <th>Date and Time</th>
                 <th>Product</th>
@@ -110,7 +113,11 @@ function AdminShopWallet() {
                     <td>{item.userMobile}</td>
                     <td>{item.status}</td>
                     <td>{item.astrologerName}</td>
-                    <td>₹ {Math.round(item.amount)}</td>
+                    <td>₹ { Math.round(item.totalAmount) - Math.round(item.adminCommission) || 0}</td>
+
+                    <td>₹ {Math.round(item.totalAmount) + Math.round(item.gstAmount) || 0}</td>
+                    <td>₹ {Math.round(item.adminCommission) || 0}</td>
+                    <td>₹ {item.gstAmount || 0}</td>
                     <td>{item.productName}</td>
                     <td>{new Date(item.createdAt).toLocaleString()}</td>
                     <td>

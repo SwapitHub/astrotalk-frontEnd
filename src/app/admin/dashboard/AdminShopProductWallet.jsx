@@ -109,11 +109,12 @@ function AdminShopProductWallet({ updateButton }) {
                 <th>User Status</th>
                 <th>User Name</th>
                 <th>Transaction Amount</th>
+                <th>GST</th>
                 <th>Product Name</th>
                 <th>User Address</th>
                 <th>Date and Time</th>
                 <th>Ring Size</th>
-                <th>Gemstone Product</th>
+                <th>Gemstone Product Amount</th>
                 <th>Product</th>
               </tr>
             </thead>
@@ -123,15 +124,16 @@ function AdminShopProductWallet({ updateButton }) {
                   <td>{item.userMobile}</td>
                   <td>{item.status}</td>
                   <td>{item.addresses[0]?.name}</td>
-                  <td>₹ {Math.round(item.amount)}</td>
+                  <td>₹ {Math.round(item.totalAmount) + Math.round(item.gstAmount) + Math.round(item.gemStone_product_price)}</td>
+                  <td>₹ {item.gstAmount}</td>
                   <td>{item.productName}</td>
                   <td>
                     City - {item.addresses[0]?.city}, State -{" "}
                     {item.addresses[0]?.state}
                   </td>
                   <td>{new Date(item.createdAt).toLocaleString()}</td>
-                  <td>{item?.ring_size}</td>
-                  <td>₹  {item?.gemStone_product_price}</td>
+                  <td>{item?.ring_size || "pendant"}</td>
+                  <td>₹  {Math.round(item?.totalAmount) - Math.round(item?.gemStone_product_price)}</td>
                   <td>
                     <img src={item?.productImg} alt={item?.name} />
                   </td>

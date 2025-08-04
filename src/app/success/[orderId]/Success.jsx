@@ -24,9 +24,7 @@ const Success = () => {
     handleOrderDetail();
   }, [params?.orderId]);
 
-
-  
- const handlePrint = () => {
+  const handlePrint = () => {
     window.print();
   };
 
@@ -34,7 +32,9 @@ const Success = () => {
     <section className="success-outer">
       <div className="container">
         <div className="success-inner">
-          <div className="print-receipt"><button onClick={handlePrint}>Print Receipt</button></div>
+          <div className="print-receipt">
+            <button onClick={handlePrint}>Print Receipt</button>
+          </div>
           <div className="success-top-content">
             <h2>Thank You for Your Order!</h2>
             <p>
@@ -44,7 +44,7 @@ const Success = () => {
             <div className="success-order-details">
               <h3>Order Details :</h3>
               <ul>
-                <li>                  
+                <li>
                   <span>Order Number : {orderDetailData?.order_id}</span>
                 </li>
                 <li>
@@ -53,17 +53,11 @@ const Success = () => {
                     {new Date(orderDetailData?.createdAt).toLocaleString()}
                   </span>
                 </li>
-                <li>                  
+                <li>
                   <span>Mobile Number : {orderDetailData?.userMobile}</span>
                 </li>
                 {orderDetailData?.gemStone_product_price > 0 && (
                   <>
-                    <li>
-                      <span>
-                        Gemstone product price : ₹{" "}
-                        {orderDetailData?.gemStone_product_price}
-                      </span>
-                    </li>
                     {orderDetailData?.ring_size && (
                       <li>
                         <span>
@@ -83,8 +77,25 @@ const Success = () => {
                     </span>
                   </li>
                 )}
-
-                <li>Total Amount : ₹ {orderDetailData?.totalAmount}</li>
+                <li>
+                  <span>
+                    {orderDetailData?.ring_size
+                      ? "Gemstone Ring product price"
+                      : "Gemstone Pendant product price"}{" "}
+                    : ₹ {orderDetailData?.gemStone_product_price}
+                  </span>
+                </li>
+                <li>Product GST Amount : ₹ {orderDetailData?.gstAmount}</li>
+                <li>
+                  Product Amount : ₹{" "}
+                  {Math.round(orderDetailData?.totalAmount) -
+                    Math.round(orderDetailData?.gemStone_product_price)}
+                </li>
+                <li>
+                  Total Amount : ₹{" "}
+                  {Math.round(orderDetailData?.totalAmount) +
+                    Math.round(orderDetailData?.gstAmount)}
+                </li>
               </ul>
             </div>
           </div>
