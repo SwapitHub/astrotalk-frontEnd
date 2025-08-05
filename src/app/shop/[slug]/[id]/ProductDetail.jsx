@@ -25,7 +25,7 @@ const ProductDetail = () => {
 
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
 
-  console.log(productDetailData, "productDetailData");
+  console.log(gemstoneData, "gemstoneData");
 
   const discountPrice =
     productDetailData?.actual_price - productDetailData?.discount_price;
@@ -105,7 +105,7 @@ const ProductDetail = () => {
       try {
         const res = await axios.put(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-any-field-astro-shope-product/${productDetailData?._id}`,
-          { ring_size, gemStone_product_price: gemstoneData?.actual_price }
+          { ring_size, gemStone_product_price: ring_size ? gemstoneData?.actual_price: "" }
         );
 
         if (res?.status === 200) {

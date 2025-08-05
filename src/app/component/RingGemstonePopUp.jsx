@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 const RingGemstonePopUp = ({ setViewAllBtn, gemStoneJewelryData, gemstoneData, setGemstoneData }) => {
 console.log(gemstoneData);
 
-  useEffect(() => {
-    if (gemStoneJewelryData && gemStoneJewelryData.length > 0) {
-      setGemstoneData(gemStoneJewelryData[0]);
-    }
-  }, [gemStoneJewelryData]);
+  // useEffect(() => {
+  //   if (gemStoneJewelryData && gemStoneJewelryData.length > 0) {
+  //     setGemstoneData(gemStoneJewelryData[0]);
+  //   }
+  // }, [gemStoneJewelryData]);
   return (
     <>
       <div className="addon-popup-outer">

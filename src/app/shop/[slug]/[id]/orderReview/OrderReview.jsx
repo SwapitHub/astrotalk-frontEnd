@@ -17,6 +17,7 @@ const OrderReview = () => {
   const [serviceName, setServiceName] = useState();
   const [productDetailData, setProductDetailData] = useState();
   const [addressDetailData, setAddressDetailData] = useState();
+console.log(astrologer);
 
   const { data: pujaCommission } = CustomHookCommission({
     fetchUrl: `${process.env.NEXT_PUBLIC_WEBSITE_URL}/add-AdminCommission-puja-astrologer`,
@@ -178,20 +179,28 @@ const OrderReview = () => {
 
                     <div className="summary-amount">
                       <div className="single-summary">
-                        <div className="single-summary-left">
-                          <p>{productDetailData?.ring_size ? "Gemstone Ring Product" : "Gemstone Pendant Product"}</p>
-                        </div>
+                        {!astrologer_id && (
+                          <div className="single-summary-left">
+                            <p>
+                              {productDetailData?.ring_size
+                                ? "Gemstone Ring Product"
+                                : "Gemstone Pendant Product"}
+                            </p>
+                          </div>
+                        )}
 
-                        <div className="single-summary-right">
-                          <span>
-                            {" "}
-                            ₹{" "}
-                            {address_id
-                              ? productDetailData?.gemStone_product_price
-                              : servicePrice}
-                            .00
-                          </span>
-                        </div>
+                        {!astrologer_id && (
+                          <div className="single-summary-right">
+                            <span>
+                              {" "}
+                              ₹{" "}
+                              {address_id
+                                ? productDetailData?.gemStone_product_price
+                                : servicePrice}
+                              .00
+                            </span>
+                          </div>
+                        )}
                       </div>
                       <div className="single-summary">
                         <div className="single-summary-left">
@@ -242,6 +251,7 @@ const OrderReview = () => {
                             extraAmount={0}
                             totalAmount={productPrice}
                             astrologerName={astrologer?.name}
+                            astrologerPhone={astrologer?.mobileNumber}
                             productType={
                               address_id ? "astroProduct" : "astroPujaProduct"
                             }
@@ -264,6 +274,7 @@ const OrderReview = () => {
                             extraAmount={0}
                             totalAmount={productPrice}
                             astrologerName={astrologer?.name}
+                            astrologerPhone={astrologer?.mobileNumber}
                             productType={
                               address_id ? "astroProduct" : "astroPujaProduct"
                             }
@@ -286,6 +297,7 @@ const OrderReview = () => {
                             extraAmount={0}
                             totalAmount={productPrice}
                             astrologerName={astrologer?.name}
+                            astrologerPhone={astrologer?.mobileNumber}
                             productType={
                               address_id ? "astroProduct" : "astroPujaProduct"
                             }
@@ -308,6 +320,7 @@ const OrderReview = () => {
                             extraAmount={0}
                             totalAmount={productPrice}
                             astrologerName={astrologer?.name}
+                            astrologerPhone={astrologer?.mobileNumber}
                             productType={
                               address_id ? "astroProduct" : "astroPujaProduct"
                             }
@@ -330,6 +343,7 @@ const OrderReview = () => {
                             extraAmount={0}
                             totalAmount={productPrice}
                             astrologerName={astrologer?.name}
+                            astrologerPhone={astrologer?.mobileNumber}
                             productType={
                               address_id ? "astroProduct" : "astroPujaProduct"
                             }
@@ -353,6 +367,7 @@ const OrderReview = () => {
                             extraAmount={0}
                             totalAmount={productPrice}
                             astrologerName={astrologer?.name}
+                            astrologerPhone={astrologer?.mobileNumber}
                             productType={
                               address_id ? "astroProduct" : "astroPujaProduct"
                             }
@@ -376,6 +391,7 @@ const OrderReview = () => {
                             extraAmount={0}
                             totalAmount={productPrice}
                             astrologerName={astrologer?.name}
+                            astrologerPhone={astrologer?.mobileNumber}
                             productType={
                               address_id ? "astroProduct" : "astroPujaProduct"
                             }

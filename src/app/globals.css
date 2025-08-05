@@ -332,7 +332,7 @@ section.all-notifications-sec-bg {margin-top: 50px; margin-bottom: 50px;}
 /* table */
 .my-wallet-table-sec table {width: 100%; border-collapse: collapse;}
 .my-wallet-table-sec table tr th {text-align: start; padding: 10px;}
-.my-wallet-table-sec table tr td {text-align: start; font-size: 14px; padding: 10px; border-bottom: 1px solid #ccc;}
+.my-wallet-table-sec table tr td {text-align: start; font-size: 14px; padding: 10px; border-bottom: 1px solid #ccc; min-width: 140px;}
 .delete-button-icon i {color: #ff0000; font-size: 12px;}
 .my-wallet-table-sec table tr:last-child td {border-bottom: 0;}
 .invoice-button-ctm {padding: 4px 14px; background-color: var(--primary_color); border-radius: 5px; color: #fff; border: 1px solid var(--primary_color); font-size: 14px; display: inline-block;}
@@ -861,8 +861,7 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .slider-right-img {flex-grow: 1;}
 .slider-large-img {width: 100%; height: 100%;}
 .slider-large-img img {width: 100%; height: 100%; object-fit: cover; border-radius: 10px;}
-.slide-img {position: relative; padding-bottom: 56.25%;}
-.slide-img img {position: absolute; width: 100%; height: 100%; object-fit: cover;}
+.slide-img img { width: 100%; height: 230px; object-fit: cover;}
 /* Payment Checkout  */
 .payment-checkout-inner {border: 2px solid var(--primary_color); border-radius: 8px;}
 .summary-heading {text-align: center; background-color: var(--primary_color); padding: 10px;}
@@ -944,6 +943,132 @@ span.required {color: red;}
 .success-order-details ul li:not(:last-child) {margin: 0 0 10px;}
 .success-img {margin: 30px 0px 0px;}
 .success-img img {border-radius: 10px; height: 300px; object-fit: cover;}
+
+.footer {
+    background: #454545;
+    padding-block: 20px 0;
+}
+.footer .container {
+    max-width: 1140px;
+    margin-inline: auto;
+}
+
+/* top content */
+.footer .top-content {
+    border-bottom: 1px solid #7d7d7d;
+    padding: 0 0 30px;
+    margin-bottom: 30px;
+}
+.footer .top-content * {
+    color: #fff;
+}
+.footer .top-content h2,
+.footer-menu h3 {
+    font-size: 17px;
+    margin: 0 0 17px;
+}
+
+/* menu */
+.footer-menu {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 24px;
+    padding:0 0 20px;
+}
+.footer-menu h3 {
+    color: #fff;
+}
+.footer-col ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.footer-col ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 14px;
+    transition: all 0.3s linear;
+    display:inline-block;
+}
+.footer-col ul li a img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.footer-col ul li + li {
+    margin-top:6px;
+}
+.footer-col .top-col {
+    margin: 0 0 40px;
+}
+.discript_text-link {
+    margin: 24px 0;
+}
+.discript_text-link a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 14px;
+}
+.discript_text-link .icon {
+    display: inline-block;
+    margin-right: 3px;
+}
+.email-wrapper,.secure_col {
+    margin: 0 0 24px;
+}
+.email-wrapper a {
+    text-decoration: none;
+    color: #fff;
+}
+.download-app ul {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.footer .download-app ul li {
+    margin: 0;
+}
+.footer-social {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0 10px;
+    gap: 30px;
+}
+.footer .secure_col .icon {
+    display: block;
+    background-color: #eee;
+    border-radius: 30%;
+    padding: 12px;
+    width: 50px;
+    height:50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.footer .secure_col .icon img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    width:26px;
+}
+.footer .secure_col ul li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.footer .secure_col ul li + li {
+    margin-top: 15px;
+}
+/* copyright */
+
+.copyright {
+    background: #121212;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    padding-block: 20px;
+}
 /* ================== @ media css start here ================== */
 @media (max-width: 1400px) {
   .outer-home-dashboard ul {grid-template-columns: repeat(3, 1fr);}
@@ -995,6 +1120,10 @@ span.required {color: red;}
   .astromall-listing, .product-add-ons-listing {grid-template-columns: repeat(2, 1fr);}
   .order-listing {grid-template-columns: repeat(2, 1fr);}
   .address-form form > * {max-width: calc(100%/2 - 13.33333px);}
+   .footer-menu {
+    grid-template-columns: repeat(3, 1fr);
+}
+
 }
 @media (max-width: 767px) {
   h1, .common-h1-heading {font-size: 24px; line-height: 36px;}
@@ -1070,6 +1199,10 @@ span.required {color: red;}
   .success-order-details h3 {font-size: 18px;}
   .success-order-details ul li:not(:last-child) {margin: 0 0 5px;}
   .ring-size-text input {width: 100px;}
+   .footer-menu {
+    grid-template-columns: repeat(1, 1fr);
+}
+
 }
 @media (max-width: 574px) {
   .chat-left-logo {gap: 10px;}

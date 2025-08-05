@@ -95,7 +95,7 @@ useEffect(() => {
             <div className="name">{gemstoneData?.name}</div>
             <div className="price">₹ {gemstoneData?.actual_price}</div>
           </div>
-          <span className="close">X</span>
+          <span className="close" onClick={()=> setGemstoneData()}>X</span>
         </div>
       )}
     </>

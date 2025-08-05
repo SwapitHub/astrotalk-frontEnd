@@ -44,10 +44,7 @@ const MyWalletAstroMall = () => {
         }
       );
 
-      const {
-        orders = [],
-        pagination = {},
-      } = res.data;
+      const { orders = [], pagination = {} } = res.data;
 
       setWalletTransactions(orders);
       setPage(pagination.currentPage || 1);
@@ -62,7 +59,10 @@ const MyWalletAstroMall = () => {
   };
 
   return (
-    <div className="wallet-ctm-tab wallet-ctm-tab-active" data-id="wallet-ctm-tab1">
+    <div
+      className="wallet-ctm-tab wallet-ctm-tab-active"
+      data-id="wallet-ctm-tab1"
+    >
       <div className="my-wallet-sec-heading-content">
         <h1 className="common-h1-heading">Transactions</h1>
       </div>
@@ -76,11 +76,14 @@ const MyWalletAstroMall = () => {
               <thead>
                 <tr>
                   <th>Product Name</th>
+                  <th>Product Type</th>
                   <th>Product</th>
+                  <th>Product Amount</th>
+                  <th>GST</th>
                   <th>Total Amount</th>
                   <th>Address</th>
                   <th>Date Time</th>
-                  <th>Actions</th>
+                  <th>Order Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -95,22 +98,35 @@ const MyWalletAstroMall = () => {
                     <tr key={idx}>
                       <td>{item.productName}</td>
                       <td>
+                        {item.productType == "astroPujaProduct"
+                          ? `Astrologer Puja (Phone - ${item?.astrologerPhone}, Name - ${item?.astrologerName})`
+                          : "AstroLoger Product"}
+                      </td>
+                      <td>
                         <img
                           src={item?.productImg}
                           alt="product"
-                          style={{ width: "50px", height: "50px", objectFit: "cover" }}
+                          style={{
+                            width: "50px",
+                            height: "50px",
+                            objectFit: "cover",
+                          }}
                         />
                       </td>
                       <td>₹ {item.totalAmount}</td>
+                      <td>₹ {item.gstAmount}</td>
                       <td>
-                        City: {item.addresses?.[0]?.city}, State: {item.addresses?.[0]?.state}, Country: {item.addresses?.[0]?.country}
+                        ₹{" "}
+                        {Math.round(item.gstAmount) +
+                          Math.round(item.totalAmount)}
+                      </td>
+                      <td>
+                        City: {item.addresses?.[0]?.city}, State:{" "}
+                        {item.addresses?.[0]?.state}, Country:{" "}
+                        {item.addresses?.[0]?.country}
                       </td>
                       <td>{new Date(item.createdAt).toLocaleString()}</td>
-                      <td className="delete-button-icon">
-                        <a href="#" title="Remove">
-                          <i className="fa-solid fa-trash"></i>
-                        </a>
-                      </td>
+                      <td>Processing</td>
                     </tr>
                   ))
                 )}

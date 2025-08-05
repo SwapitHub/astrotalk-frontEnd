@@ -116,6 +116,7 @@ function AdminShopProductWallet({ updateButton }) {
                 <th>Ring Size</th>
                 <th>Gemstone Product Amount</th>
                 <th>Product</th>
+                <th>Product Order Status</th>
               </tr>
             </thead>
             <tbody>
@@ -137,6 +138,7 @@ function AdminShopProductWallet({ updateButton }) {
                   <td>
                     <img src={item?.productImg} alt={item?.name} />
                   </td>
+                  <td>pending</td>
                 </tr>
               ))}
             </tbody>
