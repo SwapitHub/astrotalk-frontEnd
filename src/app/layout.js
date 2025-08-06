@@ -1,9 +1,9 @@
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import ToastWrapper from "./ToastWrapper";
-import Header from "./header/Header";
 import { HomeContext } from "@/context/HomeContext";
 import FooterServer from "./footer/page";
+import HeaderServer from "./header/pages";
 
 export default function RootLayout({ children }) {
   return (
@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
       <body>
         <ToastWrapper>
           <HomeContext>
-            <Header />
+            <HeaderServer />
             {children}
             <FooterServer/>
           </HomeContext>

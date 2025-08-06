@@ -40,7 +40,7 @@ console.log(astrologerData);
             limit: 2, // Adjust as needed
             search: debouncedSearch,
             productType: "astroPujaProduct",
-            astrologerName: astrologerData?.name
+            astrologerName: astrologerData?.name || "null"
           },
         }
       );

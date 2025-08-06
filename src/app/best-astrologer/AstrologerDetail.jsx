@@ -19,7 +19,7 @@ import Link from "next/link";
 import UserOtpLoginData from "../component/UserOtpLoginData";
 import RequestPopUp from "../component/RequestPopUp";
 import { useRouter } from "next/navigation";
-import AstrologerReview from "../astrologer-dashboard/AstrologerReview";
+import AstrologerReview from "../astrologer/AstrologerReview";
 import Cookies from "js-cookie";
 
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {

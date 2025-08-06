@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 import UserOtpLoginData from "@/app/component/UserOtpLoginData";
 import DOMPurify from "dompurify";
 import he from "he";
+import { toast } from "react-toastify";
 
 const ProductDetail = () => {
   const router = useRouter();
@@ -87,13 +88,18 @@ const ProductDetail = () => {
       if (selectEl?.value === "I know my Ring Size") {
         ring_size = inputEl?.value.trim();
         if (!ring_size) {
-          alert("Please enter your ring size");
+         
+            toast.warn("Please enter your ring size", {
+            position: "top-right",
+          });
           return;
         }
       } else {
         ring_size = selectEl?.value;
         if (!ring_size || ring_size === "Select Ring Size") {
-          alert("Please select a ring size");
+          toast.warn("Please select a ring size", {
+            position: "top-right",
+          });
           return;
         }
       }
@@ -105,7 +111,11 @@ const ProductDetail = () => {
       try {
         const res = await axios.put(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-any-field-astro-shope-product/${productDetailData?._id}`,
-          { ring_size, gemStone_product_price: ring_size ? gemstoneData?.actual_price: "" }
+          {
+            ring_size,
+            gemStone_product_price:gemstoneData?.actual_price || "",
+            product_type_gem:gemstoneData?.productType ||  ""
+          }
         );
 
         if (res?.status === 200) {
@@ -118,7 +128,6 @@ const ProductDetail = () => {
       router.push(`/shop/${params?.slug}/${params?.id}/consultant`);
     }
   };
-
 
   useEffect(() => {
     if (productDetailData?.detail_information) {

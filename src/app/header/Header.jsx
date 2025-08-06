@@ -3,7 +3,7 @@ import Link from "next/link";
 import OtpData from "../component/OtpData";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import secureLocalStorage from "react-secure-storage";
 import UserOtpLoginData from "../component/UserOtpLoginData";
 import Cookies from "js-cookie";
@@ -11,7 +11,8 @@ import Loader from "../component/Loader";
 
 const Header = () => {
   const router = useRouter();
-
+  const pathname = usePathname();
+  const parts = pathname.split("/");
   const [otpPopUpDisplayAstro, setOtpPopUpDisplayAstro] = useState(false);
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
   const [userDetailData, setUserDetailData] = useState();
@@ -143,7 +144,7 @@ const Header = () => {
 
   return (
     <>
-      {!admin_id && !astrologerPhone && (
+      {parts[1] == "admin" || parts[1] == "astrologer" ?("") : (
         <header className="header">
           {otpPopUpDisplay == true && (
             <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>

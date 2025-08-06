@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import Loader from "../component/Loader";
 
-const MyWalletAstroMall = () => {
+const MyWalletAstroProduct = () => {
   const [walletTransactions, setWalletTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -40,6 +40,7 @@ const MyWalletAstroMall = () => {
             page: pageNumber,
             limit: limit,
             userMobile: userMobile,
+            productType: "astroProduct",
           },
         }
       );
@@ -76,13 +77,14 @@ const MyWalletAstroMall = () => {
               <thead>
                 <tr>
                   <th>Product Name</th>
-                  <th>Product Type</th>
                   <th>Product</th>
+                <th>Product type (ring size)</th>
                   <th>Product Amount</th>
                   <th>GST</th>
                   <th>Total Amount</th>
                   <th>Address</th>
                   <th>Date Time</th>
+                  <th>Order number</th>
                   <th>Order Status</th>
                 </tr>
               </thead>
@@ -97,11 +99,7 @@ const MyWalletAstroMall = () => {
                   walletTransactions.map((item, idx) => (
                     <tr key={idx}>
                       <td>{item.productName}</td>
-                      <td>
-                        {item.productType == "astroPujaProduct"
-                          ? `Astrologer Puja (Phone - ${item?.astrologerPhone}, Name - ${item?.astrologerName})`
-                          : "AstroLoger Product"}
-                      </td>
+
                       <td>
                         <img
                           src={item?.productImg}
@@ -113,6 +111,8 @@ const MyWalletAstroMall = () => {
                           }}
                         />
                       </td>
+
+                  <td>{item?.product_type_gem=="Ring"?item?.ring_size: item?.product_type_gem=="Pendant"?"Pendant": "no size"}</td>
                       <td>₹ {item.totalAmount}</td>
                       <td>₹ {item.gstAmount}</td>
                       <td>
@@ -126,7 +126,15 @@ const MyWalletAstroMall = () => {
                         {item.addresses?.[0]?.country}
                       </td>
                       <td>{new Date(item.createdAt).toLocaleString()}</td>
-                      <td>Processing</td>
+                      <td>{item?.order_id}</td>
+
+                      <td>
+                        {item?.product_order_complete
+                          ? "Completed"
+                          : item?.product_order_status
+                          ? "Dispatched"
+                          : "Processing"}
+                      </td>
                     </tr>
                   ))
                 )}
@@ -160,4 +168,4 @@ const MyWalletAstroMall = () => {
   );
 };
 
-export default MyWalletAstroMall;
+export default MyWalletAstroProduct;

@@ -77,14 +77,16 @@ const Success = () => {
                     </span>
                   </li>
                 )}
-                <li>
-                  <span>
-                    {orderDetailData?.ring_size
-                      ? "Gemstone Ring product price"
-                      : "Gemstone Pendant product price"}{" "}
-                    : ₹ {orderDetailData?.gemStone_product_price}
-                  </span>
-                </li>
+                {orderDetailData?.product_type_gem && (
+                  <li>
+                    <span>
+                      {orderDetailData?.ring_size
+                        ? "Gemstone Ring product price"
+                        : "Gemstone Pendant product price"}{" "}
+                      : ₹ {orderDetailData?.gemStone_product_price}
+                    </span>
+                  </li>
+                )}
                 <li>Product GST Amount : ₹ {orderDetailData?.gstAmount}</li>
                 <li>
                   Product Amount : ₹{" "}

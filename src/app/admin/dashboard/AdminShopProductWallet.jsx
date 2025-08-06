@@ -59,6 +59,47 @@ function AdminShopProductWallet({ updateButton }) {
     }
   };
 
+  const handleProductOrder = async (orderId) => {
+    setLoading(true);
+
+    try {
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-any-field-payment-shop/${orderId}`,
+        {
+          product_order_status: true,
+        }
+      );
+
+      if (res?.status == 200) {
+        fetchTransactions();
+      }
+    } catch (err) {
+      console.log(err, "update order product api error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleProductOrderCompete = async (orderId) => {
+    setLoading(true);
+
+    try {
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-any-field-payment-shop/${orderId}`,
+        {
+          product_order_complete: true,
+        }
+      );
+
+      if (res?.status == 200) {
+        fetchTransactions();
+      }
+    } catch (err) {
+      console.log(err, "update order product api error");
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
     if (updateButton) {
       fetchTransactions();
@@ -113,9 +154,10 @@ function AdminShopProductWallet({ updateButton }) {
                 <th>Product Name</th>
                 <th>User Address</th>
                 <th>Date and Time</th>
-                <th>Ring Size</th>
+                <th>Product type (ring size)</th>
                 <th>Gemstone Product Amount</th>
                 <th>Product</th>
+                <th>Product Order Number</th>
                 <th>Product Order Status</th>
               </tr>
             </thead>
@@ -125,7 +167,12 @@ function AdminShopProductWallet({ updateButton }) {
                   <td>{item.userMobile}</td>
                   <td>{item.status}</td>
                   <td>{item.addresses[0]?.name}</td>
-                  <td>₹ {Math.round(item.totalAmount) + Math.round(item.gstAmount) + Math.round(item.gemStone_product_price)}</td>
+                  <td>
+                    ₹{" "}
+                    {Math.round(item.totalAmount) +
+                      Math.round(item.gstAmount) +
+                      Math.round(item.gemStone_product_price)}
+                  </td>
                   <td>₹ {item.gstAmount}</td>
                   <td>{item.productName}</td>
                   <td>
@@ -133,12 +180,33 @@ function AdminShopProductWallet({ updateButton }) {
                     {item.addresses[0]?.state}
                   </td>
                   <td>{new Date(item.createdAt).toLocaleString()}</td>
-                  <td>{item?.ring_size || "pendant"}</td>
-                  <td>₹  {Math.round(item?.totalAmount) - Math.round(item?.gemStone_product_price)}</td>
+                  <td>{item?.product_type_gem || "no size"}</td>
+                  <td>
+                    ₹{" "}
+                    {Math.round(item?.totalAmount) -
+                      Math.round(item?.gemStone_product_price)}
+                  </td>
                   <td>
                     <img src={item?.productImg} alt={item?.name} />
                   </td>
-                  <td>pending</td>
+                  <td>{item?.order_id}</td>
+                  <td>
+                    {!item?.product_order_status ? (
+                      <button
+                        onClick={() => handleProductOrder(item?.order_id)}
+                      >
+                        Processing
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() =>
+                          handleProductOrderCompete(item?.order_id)
+                        }
+                      >
+                       {item?.product_order_complete?"completed": "Dispatched"} 
+                      </button>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>

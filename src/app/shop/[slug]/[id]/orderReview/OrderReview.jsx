@@ -179,7 +179,7 @@ console.log(astrologer);
 
                     <div className="summary-amount">
                       <div className="single-summary">
-                        {!astrologer_id && (
+                        {productDetailData?.product_type_gem && (
                           <div className="single-summary-left">
                             <p>
                               {productDetailData?.ring_size
@@ -189,7 +189,7 @@ console.log(astrologer);
                           </div>
                         )}
 
-                        {!astrologer_id && (
+                        {productDetailData?.product_type_gem && (
                           <div className="single-summary-right">
                             <span>
                               {" "}

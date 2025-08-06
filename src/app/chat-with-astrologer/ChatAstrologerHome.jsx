@@ -174,7 +174,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
     const handleScroll = () => {
       if (
         window.innerHeight + window.scrollY >=
-          document.body.offsetHeight - 100 &&
+          document.body.offsetHeight - 400 &&
         hasMore &&
         !isFetchingMore &&
         !isLoading

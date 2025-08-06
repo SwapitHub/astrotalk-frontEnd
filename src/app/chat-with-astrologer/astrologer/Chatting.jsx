@@ -45,7 +45,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
       astrologerNotificationStatus == false ||
       astrologerNotificationStatus == undefined
     ) {
-      router.push("/");
+      router.push("/astrologer");
     }
   }, [astrologerNotificationStatus]);
 

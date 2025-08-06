@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import MyWallet from "./MyWallet";
 import MyWalletPaymentLog from "./MyWalletPaymentLog";
-import MyWalletAstroMall from "./MyWalletAstroMall";
+import MyWalletAstroPuja from "./MyWalletAstroPuja";
+import MyWalletAstroProduct from "./MyWalletAstroProduct";
 // import MyWalletPaymentLog from "./myWalletPaymentLog";
 
 const MyWalletHome = () => {
@@ -44,14 +45,27 @@ const MyWalletHome = () => {
                     }`}
                     onClick={() => setTransactionBtn("WalletAstroMall")}
                   >
-                    Wallet Transaction Astro Mall
+                    Wallet Transaction Astro Puja
+                  </button>
+                </li>
+
+                 <li>
+                  <button
+                    className={`wallet-ctm-tab-a ${
+                      transactionBtn == "WalletAstroProduct" &&
+                      "wallet-ctm-active-a"
+                    }`}
+                    onClick={() => setTransactionBtn("WalletAstroProduct")}
+                  >
+                    Wallet Transaction Astro Product
                   </button>
                 </li>
               </ul>
             </div>
             {transactionBtn == "Wallet" && <MyWallet />}
             {transactionBtn == "PaymentLogs" && <MyWalletPaymentLog />}
-            {transactionBtn == "WalletAstroMall" && <MyWalletAstroMall />}
+            {transactionBtn == "WalletAstroMall" && <MyWalletAstroPuja />}
+            {transactionBtn == "WalletAstroProduct" && <MyWalletAstroProduct />}
           </div>
         </div>
       </div>

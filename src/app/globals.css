@@ -947,21 +947,26 @@ span.required {color: red;}
 .footer {
     background: #454545;
     padding-block: 20px 0;
+    margin-top: 186px;
 }
-.footer .container {
-    max-width: 1140px;
-    margin-inline: auto;
-}
+
 
 /* top content */
 .footer .top-content {
-    border-bottom: 1px solid #7d7d7d;
-    padding: 0 0 30px;
-    margin-bottom: 30px;
+    padding: 40px;
+    margin-bottom: 50px;
+    margin-top: -114px;
+    background: #bf2554;
+    box-shadow: 0 0 20px -8px #00000057;
+    border-radius: 12px;
+    position: relative;
+    z-index: 1;
 }
+
 .footer .top-content * {
     color: #fff;
 }
+
 .footer .top-content h2,
 .footer-menu h3 {
     font-size: 17px;
@@ -971,63 +976,78 @@ span.required {color: red;}
 /* menu */
 .footer-menu {
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 24px;
-    padding:0 0 20px;
+    padding: 0 0 20px;
 }
+
 .footer-menu h3 {
     color: #fff;
 }
+
 .footer-col ul {
     margin: 0;
     padding: 0;
     list-style: none;
 }
+
 .footer-col ul li a {
     text-decoration: none;
     color: #fff;
     font-size: 14px;
     transition: all 0.3s linear;
-    display:inline-block;
+    display: inline-block;
 }
+
 .footer-col ul li a img {
     width: 100%;
     height: auto;
     display: block;
 }
-.footer-col ul li + li {
-    margin-top:6px;
+
+.footer-col ul li+li {
+    margin-top: 6px;
 }
+
 .footer-col .top-col {
     margin: 0 0 40px;
 }
+
 .discript_text-link {
     margin: 24px 0;
 }
+
 .discript_text-link a {
     text-decoration: none;
     color: #fff;
     font-size: 14px;
 }
+
 .discript_text-link .icon {
     display: inline-block;
     margin-right: 3px;
 }
-.email-wrapper,.secure_col {
+
+.email-wrapper,
+.secure_col {
     margin: 0 0 24px;
 }
+
 .email-wrapper a {
     text-decoration: none;
     color: #fff;
 }
+
 .download-app ul {
     display: flex;
     align-items: center;
     gap: 10px;
 }
+
 .footer .download-app ul li {
     margin: 0;
 }
+
 .footer-social {
     display: flex;
     justify-content: space-between;
@@ -1035,31 +1055,36 @@ span.required {color: red;}
     margin: 15px 0 10px;
     gap: 30px;
 }
+
 .footer .secure_col .icon {
     display: block;
     background-color: #eee;
     border-radius: 30%;
     padding: 12px;
     width: 50px;
-    height:50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 .footer .secure_col .icon img {
     max-width: 100%;
     height: auto;
     display: block;
-    width:26px;
+    width: 26px;
 }
+
 .footer .secure_col ul li a {
     display: flex;
     align-items: center;
     gap: 10px;
 }
-.footer .secure_col ul li + li {
+
+.footer .secure_col ul li+li {
     margin-top: 15px;
 }
+
 /* copyright */
 
 .copyright {
@@ -1069,6 +1094,329 @@ span.required {color: red;}
     font-size: 14px;
     padding-block: 20px;
 }
+
+
+/* home page start */
+.home-heading {
+    text-align: center;
+    text-transform: uppercase;
+    margin: 0 0 30px;
+}
+
+.home-heading h2 {
+    font-size: 28px;
+    line-height: 1.3;
+}
+
+
+/************ banner section ************/
+
+.banner {
+    padding: 50px 0;
+    position: relative;
+}
+
+.banner .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: repeating-linear-gradient(37deg, #fea701, #ffb00f 145px);
+    border-radius: 30px;
+    padding: 60px;
+}
+
+.banner .right-col {
+    flex: 0 0 35%;
+    max-width: 35%;
+}
+
+.banner .right-col img {
+    width: 100%;
+    display: block;
+}
+
+.banner .left-col h1 {
+    font-size: 37px;
+    line-height: 50px;
+    text-transform: uppercase;
+    margin: 0 0 14px;
+    text-align:left;
+}
+
+.banner .left-col {
+    flex: 0 0 49%;
+    max-width: 49%;
+}
+
+.banner .left-col h2 {
+    text-transform: uppercase;
+}
+
+.banner .btn-wrapper {
+    margin-top: 30px;
+}
+
+.banner .btn-wrapper .btn {
+    background-color: #bf2554;
+    border: 1px solid #bf2554;
+    color: #fff;
+    border-radius: 5px;
+    padding: 9px 30px;
+    font-size: 14px;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    text-transform: capitalize;
+}
+
+
+/************ Four Column Section ************/
+
+
+.four-col {
+    padding: 60px 0 80px;
+    position: relative;
+    background: #f7f7f7;
+}
+
+.four-col .row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px 42px;
+}
+
+.four-col .row .col {
+    background: #fff;
+    padding: 30px 20px;
+    box-shadow: 0 0 21px -2px #00000038, 21px 20px 0 -8px #bf2554;
+    border-radius: 13px;
+    text-align: center;
+}
+
+.four-col .icon i {
+    color: #bd2553;
+    font-size: 22px;
+    margin: 0 0 17px;
+}
+
+
+/************ Astrology services section ************/
+
+
+.astrology_seciton .astro-inner {
+    max-width: 953px;
+    margin-inline:auto;
+}
+
+.astrology_seciton .col {
+    background: #bf25541c;
+    padding: 40px 60px;
+    border-radius: 100vmax;
+    position: relative;
+    padding-left: 100px;
+    position: relative;
+    box-shadow: 0 0 10px -3px #00000029;
+}
+
+.astrology_seciton .row .col::before {
+    counter-increment: my-sec-counter;
+    content: counter(my-sec-counter);
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: -41px;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 0 10px #bf2554;
+    font-size: 45px;
+}
+
+.astrology_seciton .row .col:nth-child(2n)::before {
+    right: -41px;
+    left: auto;
+}
+
+.astrology_seciton .col:nth-child(2n) {
+    background: #fff;
+    text-align: right;
+    padding-left: 60px;
+    padding-right: 100px;
+    position: relative;
+    left: 50px;
+}
+
+.astrology_seciton .col a {
+    text-decoration: none;
+}
+
+.astrology_seciton .content-wrap h3 {
+    color: #000;
+    margin: 0 0 16px;
+}
+
+.astrology_seciton .content-wrap p {
+    color: #000;
+}
+
+.astrology_seciton .row {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    counter-reset: my-sec-counter;
+}
+
+
+/************ counter section ************/
+
+.counter_seciton {
+    background: url(/bg-image.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    padding: 80px 0;
+    position: relative;
+    isolation: isolate;
+}
+
+.counter_seciton::after {
+    content: "";
+    background: #000000bf;
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    filter: blur(14px);
+}
+
+.counter_seciton .col * {
+    color: #fff;
+}
+
+.counter_seciton .row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 40px;
+}
+
+
+/************ Astrotalk slider section ************/
+
+.section-spacing {
+    padding-block: 50px;
+}
+
+.astrotalk_slider .slider-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.astrotalk_slider .slider-row img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.astrotalk_slider .slide-col {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px 4px #0000001c;
+}
+
+.astrotalk_slider .img {
+    margin-inline: auto;
+}
+
+.astrotalk_slider .des-text {
+    padding: 30px;
+}
+
+/************ Latest blog ************/
+
+.latest-blog-post {
+    background: #f7f7f7;
+}
+
+/************Our Astrologer ************/
+
+.our_astrologer {
+    background: #bf25541c;
+}
+
+.astrotalk_slider .des-text .name {
+    font-weight: bold;
+    margin: 0 0 9px;
+    font-size: 22px;
+}
+
+/************ FAQ ************/
+
+.faq-answer {
+    display: none;
+    padding: 10px 0;
+}
+
+.faq-item.active .faq-answer {
+    display: block;
+}
+
+.faq-question {
+    cursor: pointer;
+    font-weight: bold;
+    padding: 10px 0;
+    font-size: 18px;
+}
+
+.faq-item {
+    background: #f7f7f7;
+    border-radius: 16px;
+    padding: 17px 30px;
+    position: relative;
+}
+
+.faq-section .faq-item+.faq-item {
+    margin-top: 12px;
+}
+
+.faq-section .icon {
+    display: block;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top: 27px;
+    right: 30px;
+}
+
+.faq-section .icon::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: #000;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.faq-section .icon::before {
+    content: "";
+    height: 100%;
+    width: 3px;
+    background: #000;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.faq-item.active .icon::before {
+    opacity: 0;
+}
+/* home page end */
+
 /* ================== @ media css start here ================== */
 @media (max-width: 1400px) {
   .outer-home-dashboard ul {grid-template-columns: repeat(3, 1fr);}
@@ -1092,6 +1440,34 @@ span.required {color: red;}
   .AstroMallShops-admin .language-list {margin: 40px 0px 0px; padding: 0px;}
   .product-add-ons-listing > * {padding: 15px;}
    .order-listing {grid-template-columns: repeat(3, 1fr);}
+   /* home page start */
+      .banner .left-col {
+        flex: 0 0 58%;
+        max-width: 58%;
+    }
+
+    .astrology_seciton .col:nth-child(2n) {
+        left: 0;
+    }
+
+    .astrology_seciton .row .col::before {
+        width: 70px;
+        height: 70px;
+        font-size: 37px;
+        box-shadow: 0 0 0 6px #bf2554;
+    }
+
+    .astrology_seciton .col {
+        margin-left: 40px;
+        padding-left: 61px;
+    }
+
+    .astrology_seciton .col:nth-child(2n) {
+        margin-left: 0;
+        margin-right: 40px;
+        padding-right: 60px;
+    }
+   /* home page end */
 }
 @media screen and (min-width: 768px) and (max-width: 991px) {
   .container {max-width: 750px; margin-inline: auto; padding: 0;}
@@ -1123,7 +1499,16 @@ span.required {color: red;}
    .footer-menu {
     grid-template-columns: repeat(3, 1fr);
 }
+/* home page start */
+ .four-col .row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+    }
 
+    .astrotalk_slider .slider-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+/* home page end */
 }
 @media (max-width: 767px) {
   h1, .common-h1-heading {font-size: 24px; line-height: 36px;}
@@ -1199,10 +1584,90 @@ span.required {color: red;}
   .success-order-details h3 {font-size: 18px;}
   .success-order-details ul li:not(:last-child) {margin: 0 0 5px;}
   .ring-size-text input {width: 100px;}
+  .footer {
+    margin-top: 155px;
+}
+.footer .top-content {
+    padding: 20px;
+}
    .footer-menu {
     grid-template-columns: repeat(1, 1fr);
 }
+/* home page start */
+ .section-spacing {
+        padding-block: 44px;
+    }
 
+    .banner {
+        padding-block: 30px;
+    }
+
+    .banner .row {
+        flex-direction: column;
+        align-items: normal;
+        gap: 30px;
+        padding: 20px;
+    }
+
+    .banner .left-col,
+    .banner .right-col {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .banner .left-col h1 {
+        font-size: 34px;
+    }
+
+    .banner .left-col h2 {
+        font-size: 20px;
+    }
+
+    .astrology_seciton .row .col::before {
+        width: 48px;
+        height: 48px;
+        font-size: 30px;
+        box-shadow: 0 0 0 5px #bf2554;
+    }
+
+    .astrology_seciton .col {
+        padding: 40px 21px;
+        padding-left: 26px;
+        border-radius: 43px;
+    }
+
+    .astrology_seciton .col:nth-child(2n) {
+        padding-right: 26px;
+        padding-left: 21px;
+    }
+
+    .counter_seciton {
+        padding-block: 50px;
+    }
+
+    .counter_seciton .row {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .faq-section .icon {
+        width: 22px;
+        height: 22px;
+    }
+/* home page end */
+
+}
+@media(max-width:639px) {
+    .astrotalk_slider .slider-row {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .astrotalk_slider .slider-row img {
+        width: 100%;
+    }
+
+    .four-col .row {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }
 @media (max-width: 574px) {
   .chat-left-logo {gap: 10px;}

@@ -1,28 +1,25 @@
 "use client";
+import { useGlobalContext } from "@/context/HomeContext";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { CiWallet } from "react-icons/ci";
+import { FaHeadSideCough } from "react-icons/fa";
+import { GrServices } from "react-icons/gr";
+import { ImProfile } from "react-icons/im";
+import { IoMdLogOut } from "react-icons/io";
+import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
+import { MdOutlineDashboard, MdOutlinePreview } from "react-icons/md";
+import { TfiGallery } from "react-icons/tfi";
+import DashboardHeader from "../header/DashboardHeader";
+import AstrologerGallery from "./AstrologerGallery";
+import AstrologerOrderPujaWallet from "./AstrologerOrderPujaWallet";
 import AstrologerProfile from "./AstrologerProfile";
+import AstrologerReview from "./AstrologerReview";
 import AstrologerWallet from "./AstrologerWallet";
 import DashBoardData_1 from "./DashBoardData_1";
-import secureLocalStorage from "react-secure-storage";
-import axios from "axios";
-import Link from "next/link";
-import DashboardHeader from "../header/DashboardHeader";
-import { useRouter } from "next/navigation";
-import { MdOutlineDashboard, MdOutlinePreview } from "react-icons/md";
-import { ImProfile } from "react-icons/im";
-import { CiWallet } from "react-icons/ci";
-import { TfiGallery } from "react-icons/tfi";
-import { FaHeadSideCough } from "react-icons/fa";
-import { IoMdLogOut } from "react-icons/io";
-import { SiFreedesktopdotorg } from "react-icons/si";
-import AstrologerReview from "./AstrologerReview";
-import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
-import { useGlobalContext } from "@/context/HomeContext";
-import Cookies from "js-cookie";
-import AstrologerGallery from "./AstrologerGallery";
 import SpiritualServices from "./SpiritualServices";
-import { GrServices } from "react-icons/gr";
-import AstrologerOrderPujaWallet from "./AstrologerOrderPujaWallet";
 
 const AstrologerHome = () => {
   const { updateButton, setUpdateButton } = useGlobalContext();
@@ -49,11 +46,11 @@ const AstrologerHome = () => {
     }
   }, [astrologerData]);
 
-  useEffect(() => {
-    if (!astrologerPhone) {
-      router.push("/");
-    }
-  }, [astrologerPhone]);
+  // useEffect(() => {
+  //   if (!astrologerPhone) {
+  //     router.push("/");
+  //   }
+  // }, [astrologerPhone]);
 
   useEffect(() => {
     axios

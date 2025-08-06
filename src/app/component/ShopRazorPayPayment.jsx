@@ -64,6 +64,7 @@ const ShopRazorPayPayment = ({
           productName: productDetailData?.name,
           productType,
           productImg: productDetailData?.astroMallProductImg,
+          product_type_gem: productDetailData?.product_type_gem,
           address,
         }
       );
