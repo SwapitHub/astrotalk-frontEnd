@@ -33,7 +33,7 @@ const TopSellingSlider = () => {
     handleTopSelling();
   }, []);
   return (
-    <section className="astromall-slider-outer">
+    <section className="astromall-slider-outer ">
       <div className="container">
         <div className="astromall-slider-inner">
           <div className="heading-sec">
@@ -79,7 +79,7 @@ const TopSellingSlider = () => {
             >
               {topSellingListData?.map((item, index) => (
                 <div className="single-slide" key={index}>
-                  <Link href={`/shop/${item?.shop_slug}/${item.slug}/${item?.gemStone_product_price?`?gemstone=true`:""}`}>
+                  <Link href={`/shop/${item?.shop_slug}/${item.slug}/${item?.shop_product_type=="gemstone_product"?`?gemstone=true`:""}`}>
                     <div className="slide-img">
                       <img src={item?.astroMallProductImg} alt="" />
                     </div>

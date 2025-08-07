@@ -1,10 +1,26 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import OtpData from "../component/OtpData";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 const Footer = () => {
   const pathname = usePathname();
   const parts = pathname.split("/");
+  const [otpPopUpDisplayAstro, setOtpPopUpDisplayAstro] = useState(false);
+  const [astrologerPhone, setAstrologerPhone] = useState();
+
+  useEffect(() => {
+    const astrologerPhone = Cookies.get("astrologer-phone");
+    setAstrologerPhone(astrologerPhone);
+  }, []);
+
+  const handleOtpPop = () => {
+    if (!astrologerPhone) {
+      setOtpPopUpDisplayAstro(true);
+    }
+  };
 
   return (
     <>
@@ -32,85 +48,68 @@ const Footer = () => {
                   <h3>Horoscope</h3>
                   <ul>
                     <li>
-                      <a href="">Today's Horoscope</a>
+                      <Link href="">Today's Horoscope</Link>
                     </li>
                     <li>
-                      <a href=""> Today's Love Horoscope</a>
+                      <Link href=""> Today's Love Horoscope</Link>
                     </li>
                   </ul>
                 </div>
                 <div class="discript_text-link">
-                  <a href="">
+                  <Link href="">
                     {" "}
                     <span class="icon"></span> We are available 24x7 on chat
                     support <span class="footer-btn">click to start chat</span>{" "}
-                  </a>
+                  </Link>
                 </div>
                 <div class="email-wrapper">
-                  <a href="">contact@astrotalk.com</a>
+                  <Link href="">contact@astrotalk.com</Link>
                 </div>
                 <div class="footer-social">
                   <div class="icons">
-                    <a href=""></a>
+                    <Link href=""></Link>
                   </div>
                   <div class="icons">
-                    <a href=""></a>
+                    <Link href=""></Link>
                   </div>
                   <div class="icons">
-                    <a href=""></a>
+                    <Link href=""></Link>
                   </div>
                   <div class="icons">
-                    <a href=""></a>
+                    <Link href=""></Link>
                   </div>
                 </div>
               </div>
-              <div class="footer-col">
-                <h3>Important Links</h3>
-                <ul>
-                  <li>
-                    <a href="">Astromall</a>
-                  </li>
-                  <li>
-                    <a href="">Astrotalk Store</a>
-                  </li>
-                </ul>
-              </div>
+            
               <div class="footer-col">
                 <div class="top-col">
                   <h3>Important Links</h3>
                   <ul>
                     <li>
-                      <a href="">Collaboration</a>
+                      <Link href="/shop">Astromall</Link>
                     </li>
                     <li>
-                      <a href="">Tarot</a>
+                      <Link href="/chat-with-astrologer">chat now</Link>
                     </li>
                   </ul>
                 </div>
-                <div class="bottom-col">
-                  <h3>Shop our products</h3>
-                  <ul>
-                    <li>
-                      <a href="">Evil Eye</a>
-                    </li>
-                    <li>
-                      <a href="">Rudraksha</a>
-                    </li>
-                    <li>
-                      <a href="">Karungali</a>
-                    </li>
-                  </ul>
-                </div>
+                
               </div>
               <div class="footer-col">
                 <div class="top-col">
                   <h3>Astrologer</h3>
                   <ul>
                     <li>
-                      <a href=""> Astrologer Login</a>
+                      <OtpData
+                        setOtpPopUpDisplayAstro={setOtpPopUpDisplayAstro}
+                        otpPopUpDisplayAstro={otpPopUpDisplayAstro}
+                      />
+                      <span onClick={handleOtpPop}>
+                        Astrologer Login
+                      </span>
                     </li>
                     <li>
-                      <a href=""> Astrologer Registration</a>
+                      <Link href="/signup"> Astrologer Registration</Link>
                     </li>
                   </ul>
                 </div>
@@ -119,46 +118,57 @@ const Footer = () => {
                     <h3>Secure</h3>
                     <ul>
                       <li>
-                        <a href="">
+                        <Link href="">
                           <span class="icon">
                             <img src="/private_home.png" alt="private_home" />
                           </span>
                           <span class="icon-text">Private & Confidential</span>
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a href="">
+                        <Link href="">
                           <span class="icon">
                             <img src="/verifired.png" alt="verifired" />
                           </span>
                           <span class="icon-text">Verified Astrologers</span>
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a href="">
+                        <Link href="">
                           <span class="icon">
                             <img src="/secure_pay.png" alt="secure_pay" />
                           </span>
                           <span class="icon-text">Secure Payments</span>
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
                   <div class="download-app">
                         <ul>
-                            <li><a href=""><img src="/android.png" alt=""/></a></li>
-                            <li><a href=""><img src="/ios.png" alt=""/></a></li>
+                            <li><Link href=""><img src="/android.png" alt=""/></Link></li>
+                            <li><Link href=""><img src="/ios.png" alt=""/></Link></li>
                         </ul>
                     </div>
                 </div> */}
               </div>
+              <div class="footer-col">
+                  <h3>Shop our products</h3>
+                  <ul>
+                    <li>
+                      <Link href="/shop/evil-eye-nazar">Evil Eye</Link>
+                    </li>
+                    <li>
+                      <Link href="/shop/affordable-gemstone-rudraksha">Gemstone</Link>
+                    </li>
+                   
+                  </ul>
+                </div>
             </div>
           </div>
           {/* <!---- Footer Menus ---> */}
           <div class="copyright">
             <p>
-              Copyright © 2025 Astrotalk (Powered by MASKYETI SOLUTIONS PRIVATE
-              LIMITED). All Rights Reserved
+              Copyright © 2025 Astrotalk (Powered by Swap It Hub). All Rights Reserved
             </p>
           </div>
         </footer>

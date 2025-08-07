@@ -144,7 +144,9 @@ const Header = () => {
 
   return (
     <>
-      {parts[1] == "admin" || parts[1] == "astrologer" ?("") : (
+      {parts[1] == "admin" || parts[1] == "astrologer" ? (
+        ""
+      ) : (
         <header className="header">
           {otpPopUpDisplay == true && (
             <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
@@ -208,7 +210,7 @@ const Header = () => {
                       Login Astrologer Dashboard
                     </span>
                   </li>
-                    <li>
+                  <li>
                     <Link
                       href={`${"/shop"}`}
                       onClick={() => {
@@ -219,23 +221,10 @@ const Header = () => {
                         setToggleMobile(false);
                       }}
                     >
-                     Astromall
+                      Astromall
                     </Link>
                   </li>
-                  <li>
-                    <Link
-                      href="/signup"
-                      onClick={() => {
-                        setIsLoading(true);
-                        setTimeout(() => {
-                          setIsLoading(false);
-                        }, 2000);
-                        setToggleMobile(false);
-                      }}
-                    >
-                      Astrologer Registration
-                    </Link>
-                  </li>
+
                   {/* <li>
                   <Link href="/admin">Admin</Link>
                 </li> */}

@@ -77,6 +77,10 @@ const AstroMallShopProduct = () => {
     const top_selling = document.getElementById("top_selling").checked;
     const newlyLaunched = document.getElementById("newlyLaunched").checked;
     const images = document.getElementById("astroMallImages").files;
+    const selectedProductTypeId = document.querySelector(
+      'input[name="product_type"]:checked'
+    )?.id;
+    console.log(selectedProductTypeId, "selectedProductTypeId");
 
     const starting_price =
       document.getElementById("Starting_price")?.value || "";
@@ -94,7 +98,14 @@ const AstroMallShopProduct = () => {
         .replace(/-+/g, "-");
     }
 
-    if (!image || !offer_name || !name || !slug || !shop_id) {
+    if (
+      !image ||
+      !offer_name ||
+      !name ||
+      !slug ||
+      !shop_id ||
+      !selectedProductTypeId
+    ) {
       toast.error("Please fill all fields", { position: "top-right" });
       return;
     }
@@ -120,6 +131,7 @@ const AstroMallShopProduct = () => {
     data.append("top_selling", top_selling);
     data.append("newlyLaunched", newlyLaunched);
     data.append("detail_information", content);
+    data.append("shop_product_type", selectedProductTypeId);
     data.append("shop_slug", astrShopDetailData?.slug);
 
     for (let i = 0; i < images.length; i++) {
@@ -151,6 +163,10 @@ const AstroMallShopProduct = () => {
       document.getElementById("top_selling").checked = false;
       document.getElementById("newlyLaunched").checked = false;
       setContent("");
+
+      const radios = document.querySelectorAll('input[name="product_type"]');
+      radios.forEach((radio) => (radio.checked = false));
+
       let startingPrice = document.getElementById("Starting_price");
       if (startingPrice) startingPrice.value = "";
 
@@ -175,9 +191,16 @@ const AstroMallShopProduct = () => {
     document.getElementById("description").value = product.description;
     document.getElementById("top_selling").checked = product.top_selling;
     document.getElementById("newlyLaunched").checked = product.newlyLaunched;
+    
     setShowImage(product);
 
     setContent(product?.detail_information);
+
+ const selectedRadio = document.querySelector(`input[name="product_type"][id="${product.shop_product_type}"]`);
+  if (selectedRadio) {
+    selectedRadio.checked = true;  // Select the corresponding radio button
+  }
+
     // First determine discount or not
     const isDiscountProduct = !!(
       product.actual_price && product.discount_price
@@ -220,6 +243,11 @@ const AstroMallShopProduct = () => {
     const discount_price =
       document.getElementById("discount_price")?.value || "";
     setShopId(shop_id);
+const selectedProductTypeId = document.querySelector(
+      'input[name="product_type"]:checked'
+    )?.id;
+console.log(selectedProductTypeId,"selectedProductTypeId-2");
+
 
     const data = new FormData();
     data.append("name", name);
@@ -230,6 +258,7 @@ const AstroMallShopProduct = () => {
     data.append("top_selling", top_selling);
     data.append("newlyLaunched", newlyLaunched);
     data.append("detail_information", content);
+    data.append("shop_product_type", selectedProductTypeId);
     data.append("shop_slug", astrShopDetailData?.slug);
     if (images && images.length > 0) {
       for (let i = 0; i < images.length; i++) {
@@ -267,6 +296,10 @@ const AstroMallShopProduct = () => {
         document.getElementById("newlyLaunched").checked = false;
         setShowImage("");
         setContent("");
+
+          const radios = document.querySelectorAll('input[name="product_type"]');
+      radios.forEach((radio) => (radio.checked = false));
+
         let startingPrice = document.getElementById("Starting_price");
         if (startingPrice) startingPrice.value = "";
 
@@ -451,6 +484,38 @@ const AstroMallShopProduct = () => {
             </div>
           </div>
         )}
+        <div className="product-type-main">
+          <div className="label-content">
+            <label>Product Type</label>
+          </div>
+          <div className="product-type-radio">
+            <label>Astrologer Puja</label>
+            <input
+              type="radio"
+              id="astrologer_puja"
+              name="product_type"
+              className="common-input-filed"
+            />
+          </div>
+          <div className="product-type-radio">
+            <label>Gemstone Product</label>
+            <input
+              type="radio"
+              id="gemstone_product"
+              name="product_type"
+              className="common-input-filed"
+            />
+          </div>
+          <div className="product-type-radio">
+            <label>Another Product</label>
+            <input
+              type="radio"
+              id="another_product"
+              name="product_type"
+              className="common-input-filed"
+            />
+          </div>
+        </div>
 
         <div className="form-field">
           <div className="remove-astrict label-content">

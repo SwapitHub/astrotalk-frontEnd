@@ -330,7 +330,7 @@ const ProductDetail = () => {
                       <img alt="" />
                     </div>
                     <div className="name-text">
-                      <span>Mohan LAL</span>
+                      <span>Rosan LAL</span>
                     </div>
                   </div>
                   <div className="rating-stars">
@@ -404,7 +404,7 @@ const ProductDetail = () => {
                       <img alt="" />
                     </div>
                     <div className="name-text">
-                      <span>Mohan LAL</span>
+                      <span>Denesh Sharma</span>
                     </div>
                   </div>
                   <div className="rating-stars">
@@ -469,7 +469,7 @@ const ProductDetail = () => {
                     </ul>
                   </div>
                   <div className="review-content">
-                    <p>Just Loved it amazing quality</p>
+                    <p>Good</p>
                   </div>
                 </div>
               </div>

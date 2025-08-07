@@ -24,7 +24,7 @@ import SpiritualServices from "./SpiritualServices";
 const AstrologerHome = () => {
   const { updateButton, setUpdateButton } = useGlobalContext();
   console.log(updateButton, "updateButtonGlobal");
-  const [astrologerPhone, setAstrologerPhone] = useState();
+  const [astrologerPhone, setAstrologerPhone] = useState([]);
   const router = useRouter();
   // const [updateButton, setUpdateButton] = useState(updateButtonGlobal);
   const [successMessageProfile, setSuccessMessageProfile] = useState();
@@ -32,9 +32,17 @@ const AstrologerHome = () => {
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
   const [registrationDetail, setRegistrationDetail] = useState();
 
+  useEffect(() => {
+    if (!astrologerPhone) {
+      router.push("/");
+    }
+  }, [astrologerPhone]);
 
   useEffect(() => {
     const astrologerPhones = Cookies.get("astrologer-phone");
+
+    if (astrologerPhone == undefined) return;
+
     setAstrologerPhone(astrologerPhones);
   }, []);
 
@@ -45,12 +53,6 @@ const AstrologerHome = () => {
       setUpdateButton(1);
     }
   }, [astrologerData]);
-
-  // useEffect(() => {
-  //   if (!astrologerPhone) {
-  //     router.push("/");
-  //   }
-  // }, [astrologerPhone]);
 
   useEffect(() => {
     axios
@@ -190,7 +192,7 @@ const AstrologerHome = () => {
                 </div>
                 <div className="dashboard-list">
                   <ul>
-                    <li>
+                    <li className={updateButton === 1 ? "active" : ""}>
                       <a
                         href="#"
                         title="menu"
@@ -203,7 +205,7 @@ const AstrologerHome = () => {
                         <span className="list-text">Dashboard</span>
                       </a>
                     </li>
-                    <li>
+                    <li className={updateButton === 2 ? "active" : ""}>
                       <a
                         href="#"
                         title="menu"
@@ -216,7 +218,7 @@ const AstrologerHome = () => {
                         <span className="list-text">Manage Profile</span>
                       </a>
                     </li>
-                    <li>
+                    <li className={updateButton === 3 ? "active" : ""}>
                       <a
                         href="#"
                         title="menu"
@@ -228,9 +230,9 @@ const AstrologerHome = () => {
                         <CiWallet />
                         <span className="list-text">Wallet Chatting</span>
                       </a>
-                    </li> 
+                    </li>
 
-                    <li>
+                    <li className={updateButton === "WalletPuja" ? "active" : ""}>
                       <a
                         href="#"
                         title="menu"
@@ -243,7 +245,7 @@ const AstrologerHome = () => {
                         <span className="list-text">Wallet Puja Order</span>
                       </a>
                     </li>
-                    <li>
+                    <li className={updateButton === "spiritual-services" ? "active" : ""}>
                       <a
                         href="#"
                         title="menu"
@@ -256,7 +258,7 @@ const AstrologerHome = () => {
                         <span className="list-text">Spiritual Services</span>
                       </a>
                     </li>
-                    <li>
+                    <li className={updateButton === 4 ? "active" : ""}>
                       <a
                         href="#"
                         title="menu"
@@ -269,7 +271,7 @@ const AstrologerHome = () => {
                         <span className="list-text">Gallery</span>
                       </a>
                     </li>
-                    <li>
+                    <li className={updateButton === 5 ? "active" : ""}>
                       <a
                         href="#"
                         title="menu"
@@ -282,7 +284,7 @@ const AstrologerHome = () => {
                         <span className="list-text">My Review</span>
                       </a>
                     </li>
-                    <li>
+                    <li className={updateButton === 6 ? "active" : ""}>
                       <a
                         href="#"
                         title="menu"
@@ -347,13 +349,10 @@ const AstrologerHome = () => {
                     astrologerData={astrologerData}
                     renderStars={renderStars}
                   />
-                )}   
-                
+                )}
+
                 {updateButton == "WalletPuja" && (
-                  <AstrologerOrderPujaWallet
-                    astrologerData={astrologerData}
-                  
-                  />
+                  <AstrologerOrderPujaWallet astrologerData={astrologerData} />
                 )}
               </div>
             </div>
