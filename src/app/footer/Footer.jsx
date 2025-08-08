@@ -16,7 +16,6 @@ const Footer = () => {
     "get-footerProduct-astrologer"
   );
 
-  console.log(footerData);
 
   useEffect(() => {
     const astrologerPhone = Cookies.get("astrologer-phone");

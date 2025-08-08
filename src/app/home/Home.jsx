@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import Banner from "./Banner";
 import Astrology from "./astrology";
 import TopSellingSlider from "../component/TopSellingSlider";
