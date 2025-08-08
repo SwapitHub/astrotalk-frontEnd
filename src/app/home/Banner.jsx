@@ -5,35 +5,89 @@ import { IoCallOutline } from "react-icons/io5";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { LiaPlaceOfWorshipSolid } from "react-icons/lia";
 import { useRouter } from "next/navigation";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import useCustomGetApi from "../hook/CustomHookGetApi";
 
 const Banner = () => {
+  const { data: bannerData } = useCustomGetApi("get-banner-home");
+  console.log(bannerData);
+
   const router = useRouter();
+  const sliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 700,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: false,
+    autoplaySpeed: 2000,
+  };
 
   return (
     <>
       {/* <!---- Banner Section Start ---> */}
-
-     
-        <section className="banner">
-          <div className="container">
-            <div className="row">
-              <div className="left-col">
-                <h1>200+ Celebs recommend Astrotalk</h1>
-                <h2>Chat With Astrologer</h2>
-                <div className="btn-wrapper">
-                  <Link href="/chat-with-astrologer" className="btn">
-                    chat now
-                  </Link>
+      <div className="banner-main">
+        <Slider
+          {...sliderSettings}
+          responsive={[
+            {
+              breakpoint: 1198,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 4,
+                infinite: true,
+              },
+            },
+            {
+              breakpoint: 800,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                infinite: true,
+              },
+            },
+            {
+              breakpoint: 639,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                infinite: true,
+              },
+            },
+            {
+              breakpoint: 375,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2,
+                infinite: true,
+              },
+            },
+          ]}
+        >
+          {bannerData?.map((item) => (
+            <section className="banner" key={item?._id}>
+              <div className="container">
+                <div className="row">
+                  <div className="left-col">
+                    <h1>{item?.banner_heading}</h1>
+                    <p>{item?.banner_desc}</p>
+                    <div className="btn-wrapper">
+                      <Link href={item?.banner_btn_link} className="btn">
+                        {item?.banner_btn_name}
+                      </Link>
+                    </div>
+                  </div>
+                  <div className="right-col">
+                    <img src="/blue-circle.png" />
+                  </div>
                 </div>
               </div>
-              <div className="right-col">
-                <img src="/blue-circle.png" />
-              </div>
-            </div>
-          </div>
-        </section>
-     
-
+            </section>
+          ))}
+        </Slider>
+      </div>
       {/* <!---- Banner Section End here---> */}
 
       {/* <!---- Four Col Section start here---> */}
@@ -89,6 +143,7 @@ const Banner = () => {
           </div>
         </div>
       </section>
+
       {/* <!---- Four Col Section end here---> */}
     </>
   );

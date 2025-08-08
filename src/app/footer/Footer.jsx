@@ -4,12 +4,19 @@ import { usePathname } from "next/navigation";
 import OtpData from "../component/OtpData";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { HiOutlineMail } from "react-icons/hi";
+import useCustomGetApi from "../hook/CustomHookGetApi";
 
 const Footer = () => {
   const pathname = usePathname();
   const parts = pathname.split("/");
   const [otpPopUpDisplayAstro, setOtpPopUpDisplayAstro] = useState(false);
   const [astrologerPhone, setAstrologerPhone] = useState();
+  const { data: footerData, loading } = useCustomGetApi(
+    "get-footerProduct-astrologer"
+  );
+
+  console.log(footerData);
 
   useEffect(() => {
     const astrologerPhone = Cookies.get("astrologer-phone");
@@ -56,14 +63,17 @@ const Footer = () => {
                   </ul>
                 </div>
                 <div class="discript_text-link">
-                  <Link href="">
+                  <Link href="/chat-with-astrologer">
                     {" "}
                     <span class="icon"></span> We are available 24x7 on chat
                     support <span class="footer-btn">click to start chat</span>{" "}
                   </Link>
                 </div>
                 <div class="email-wrapper">
-                  <Link href="">contact@astrotalk.com</Link>
+                  <Link href="mailto:contact@astrotalk.com">
+                    <HiOutlineMail />
+                    <span>Email ID:</span>contact@astrotalk.com
+                  </Link>
                 </div>
                 <div class="footer-social">
                   <div class="icons">
@@ -80,7 +90,7 @@ const Footer = () => {
                   </div>
                 </div>
               </div>
-            
+
               <div class="footer-col">
                 <div class="top-col">
                   <h3>Important Links</h3>
@@ -93,7 +103,6 @@ const Footer = () => {
                     </li>
                   </ul>
                 </div>
-                
               </div>
               <div class="footer-col">
                 <div class="top-col">
@@ -104,9 +113,7 @@ const Footer = () => {
                         setOtpPopUpDisplayAstro={setOtpPopUpDisplayAstro}
                         otpPopUpDisplayAstro={otpPopUpDisplayAstro}
                       />
-                      <span onClick={handleOtpPop}>
-                        Astrologer Login
-                      </span>
+                      <span onClick={handleOtpPop}>Astrologer Login</span>
                     </li>
                     <li>
                       <Link href="/signup"> Astrologer Registration</Link>
@@ -152,23 +159,24 @@ const Footer = () => {
                 </div> */}
               </div>
               <div class="footer-col">
-                  <h3>Shop our products</h3>
-                  <ul>
-                    <li>
-                      <Link href="/shop/evil-eye-nazar">Evil Eye</Link>
+                <h3>Shop our products</h3>
+                <ul>
+                  {footerData.map((item) => (
+                    <li key={item?.id}>
+                      <Link href={item?.footerProductLink}>
+                        {item?.footerProductName}
+                      </Link>
                     </li>
-                    <li>
-                      <Link href="/shop/affordable-gemstone-rudraksha">Gemstone</Link>
-                    </li>
-                   
-                  </ul>
-                </div>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
           {/* <!---- Footer Menus ---> */}
           <div class="copyright">
             <p>
-              Copyright © 2025 Astrotalk (Powered by Swap It Hub). All Rights Reserved
+              Copyright © 2025 Astrotalk (Powered by Swap It Hub). All Rights
+              Reserved
             </p>
           </div>
         </footer>

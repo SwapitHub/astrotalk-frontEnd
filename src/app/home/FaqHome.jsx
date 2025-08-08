@@ -12,7 +12,7 @@ const FaqHome = () => {
           <div className="faq-section">
             <div className="faq-item" data-id="q1">
               <div className="faq-row">
-                <div className="faq-question" onClick={() => setToggleFaq(1)}>
+                <div className="faq-question" onClick={() => setToggleFaq(toggleFaq === 1 ? null : 1)}>
                   What is your return policy?
                 </div>
                 <div className="icon"></div>
@@ -25,7 +25,7 @@ const FaqHome = () => {
 
             <div className="faq-item" data-id="q2">
               <div className="faq-row">
-                <div className="faq-question" onClick={() => setToggleFaq(2)}>How long does shipping take?</div>
+                <div className="faq-question" onClick={() => setToggleFaq(toggleFaq === 2 ? null : 2)}>How long does shipping take?</div>
                 <div className="icon"></div>
               </div>
               <div className={`faq-answer ${toggleFaq == 2 ? "active" : ""}`}>
@@ -36,7 +36,7 @@ const FaqHome = () => {
 
             <div className="faq-item" data-id="q3">
               <div className="faq-row">
-                <div className="faq-question" onClick={() => setToggleFaq(3)}>Do you ship internationally?</div>
+                <div className="faq-question" onClick={() => setToggleFaq(toggleFaq === 3 ? null : 3)}>Do you ship internationally?</div>
                 <div className="icon"></div>
               </div>
               <div className={`faq-answer ${toggleFaq == 3 ? "active" : ""}`}>

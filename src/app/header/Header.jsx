@@ -202,6 +202,9 @@ const Header = () => {
                     </Link>
                   </li>
                   <li>
+                    <Link href="">Talk to Astrologer</Link>
+                  </li>
+                  <li>
                     <OtpData
                       setOtpPopUpDisplayAstro={setOtpPopUpDisplayAstro}
                       otpPopUpDisplayAstro={otpPopUpDisplayAstro}

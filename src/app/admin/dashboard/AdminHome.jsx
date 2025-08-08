@@ -21,7 +21,7 @@ import DashboardHeader from "@/app/header/DashboardHeader";
 import { PiUserListDuotone } from "react-icons/pi";
 import { CiSettings, CiWallet } from "react-icons/ci";
 import { TfiGallery } from "react-icons/tfi";
-import { IoMdLogOut } from "react-icons/io";
+import { IoIosHome, IoMdLogOut } from "react-icons/io";
 import { TbBrandDenodo } from "react-icons/tb";
 import { FaHeadSideCough, FaShoppingBag } from "react-icons/fa";
 import ChangePassword from "./ChangePassword";
@@ -32,6 +32,8 @@ import GemStoneProductGemJewelry from "./GemStoneProductGemJewelry";
 import AddSpiritualServices from "./AddSpiritualServices";
 import AdminShopWallet from "./AdminShopPujaWallet";
 import AdminShopProductWallet from "./AdminShopProductWallet";
+import AddFooter from "./home/AddFooter";
+import BannerHome from "./home/BannerHome";
 
 const AdminHome = () => {
   const router = useRouter();
@@ -40,6 +42,7 @@ const AdminHome = () => {
   const [astroListToggle, setAstroListToggle] = useState(false);
   const [adminWalletToggle, setAdminWalletToggle] = useState(false);
   const [adminShopWalletToggle, setAdminShopWalletToggle] = useState(false);
+  const [adminHomeContentToggle, setAdminHomeContentToggle] = useState(false);
   const [adminSideSettingToggle, setAdminSideSettingToggle] = useState(false);
   const [astroShopeList, setAstroShopeList] = useState(false);
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
@@ -272,7 +275,9 @@ const AdminHome = () => {
                           </li>
                           <li
                             className={
-                              updateButton === "shop-ProductWallet" ? "active" : ""
+                              updateButton === "shop-ProductWallet"
+                                ? "active"
+                                : ""
                             }
                           >
                             <a
@@ -306,6 +311,66 @@ const AdminHome = () => {
                       </SlideToggle>
                     </li>
 
+                    <li
+                      className={
+                        updateButton === "footer" ||
+                        updateButton === "home-banner"
+                          ? "active"
+                          : ""
+                      }
+                    >
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setAdminHomeContentToggle(!adminHomeContentToggle);
+                        }}
+                      >
+                        <IoIosHome />
+
+                        <span className="list-text">Home Content</span>
+                        <span className="list-arrow">
+                          <MdOutlineKeyboardArrowRight />
+                        </span>
+                      </a>
+                      <SlideToggle isOpen={adminHomeContentToggle}>
+                        <ul>
+                          <li
+                            className={
+                              updateButton === "footer" ? "active" : ""
+                            }
+                          >
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setUpdateButton("footer");
+                                setToggleSlideMobile(false);
+                              }}
+                            >
+                              Footer Content
+                            </a>
+                          </li>
+                          <li
+                            className={
+                              updateButton === "home-banner" ? "active" : ""
+                            }
+                          >
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setUpdateButton("home-banner");
+                                setToggleSlideMobile(false);
+                              }}
+                            >
+                              Home Banner
+                            </a>
+                          </li>
+                        </ul>
+                      </SlideToggle>
+                    </li>
+
                     <li className={updateButton === 3 ? "active" : ""}>
                       <a
                         href="#"
@@ -315,9 +380,10 @@ const AdminHome = () => {
                         }}
                       >
                         <TbBrandDenodo />
-                        <span className="list-text">Denomination</span>
+                        <span className="list-text">Denomination Amount</span>
                       </a>
                     </li>
+
                     <li
                       className={
                         updateButton === "language" ||
@@ -564,16 +630,18 @@ const AdminHome = () => {
                 {updateButton === "profession" && <AddProfession />}
                 {updateButton === "ChatCommission" && <ChatCommission />}
                 {updateButton === "changePassword" && <ChangePassword />}
-                {/* {updateButton === "spiritual-services" && <AddSpiritualServices />} */}
-
+                {updateButton === "home-banner" && <BannerHome />}
+                {updateButton === "footer" && <AddFooter />}
+                
                 {["user", "astrologer", "admin"].includes(updateButton) && (
                   <AdminWallet updateButton={updateButton} />
                 )}
-                {["shop-user", "shop-admin"].includes(
-                  updateButton
-                ) && <AdminShopWallet updateButton={updateButton} />}
-                {updateButton === "shop-ProductWallet" && <AdminShopProductWallet updateButton={updateButton}/>}
-
+                {["shop-user", "shop-admin"].includes(updateButton) && (
+                  <AdminShopWallet updateButton={updateButton} />
+                )}
+                {updateButton === "shop-ProductWallet" && (
+                  <AdminShopProductWallet updateButton={updateButton} />
+                )}
               </div>
             </div>
           </div>
