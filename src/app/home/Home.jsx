@@ -1,3 +1,5 @@
+"use client"
+
 import Banner from "./Banner";
 import Astrology from "./astrology";
 import TopSellingSlider from "../component/TopSellingSlider";
