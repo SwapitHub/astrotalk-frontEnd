@@ -202,7 +202,7 @@ const Header = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="">Talk to Astrologer</Link>
+                    <Link href="/talk-to-astrologer">Talk to Astrologer</Link>
                   </li>
                   <li>
                     <OtpData

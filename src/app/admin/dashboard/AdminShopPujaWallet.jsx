@@ -66,6 +66,48 @@ function AdminShopWallet() {
     if (page > 1) setPage((prev) => prev - 1);
   };
 
+  const handleProductOrder = async (orderId) => {
+    setLoading(true);
+
+    try {
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-any-field-payment-shop/${orderId}`,
+        {
+          product_order_status: true,
+        }
+      );
+
+      if (res?.status == 200) {
+        fetchTransactions();
+      }
+    } catch (err) {
+      console.log(err, "update order product api error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleProductOrderCompete = async (orderId) => {
+    setLoading(true);
+
+    try {
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-any-field-payment-shop/${orderId}`,
+        {
+          product_order_complete: true,
+        }
+      );
+
+      if (res?.status == 200) {
+        fetchTransactions();
+      }
+    } catch (err) {
+      console.log(err, "update order product api error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="admin-wallet-main">
       {/* 🔍 Search Bar */}
@@ -84,6 +126,7 @@ function AdminShopWallet() {
             <FaSearch />
           </button>
         </div>
+        <div className="search-help-text"><p>Search product based on product id</p></div>
       </div>
 
       {/* 🌀 Loader or Table */}
@@ -103,7 +146,9 @@ function AdminShopWallet() {
                 <th>GST</th>
                 <th>Product Name</th>
                 <th>Date and Time</th>
+                <th>Product Order Number</th>
                 <th>Product</th>
+                <th>Product Order Status</th>
               </tr>
             </thead>
             <tbody>
@@ -113,15 +158,43 @@ function AdminShopWallet() {
                     <td>{item.userMobile}</td>
                     <td>{item.status}</td>
                     <td>{item.astrologerName}</td>
-                    <td>₹ { Math.round(item.totalAmount) - Math.round(item.adminCommission) || 0}</td>
+                    <td>
+                      ₹{" "}
+                      {Math.round(item.totalAmount) -
+                        Math.round(item.adminCommission) || 0}
+                    </td>
 
-                    <td>₹ {Math.round(item.totalAmount) + Math.round(item.gstAmount) || 0}</td>
+                    <td>
+                      ₹{" "}
+                      {Math.round(item.totalAmount) +
+                        Math.round(item.gstAmount) || 0}
+                    </td>
                     <td>₹ {Math.round(item.adminCommission) || 0}</td>
                     <td>₹ {item.gstAmount || 0}</td>
                     <td>{item.productName}</td>
                     <td>{new Date(item.createdAt).toLocaleString()}</td>
+                    <td>{item.payment_id}</td>
                     <td>
                       <img src={item?.productImg} alt={item?.name} />
+                    </td>
+                    <td>
+                      {!item?.product_order_status ? (
+                        <button
+                          onClick={() => handleProductOrder(item?.order_id)}
+                        >
+                          Processing
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() =>
+                            handleProductOrderCompete(item?.order_id)
+                          }
+                        >
+                          {item?.product_order_complete
+                            ? "completed"
+                            : "Dispatched"}
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))

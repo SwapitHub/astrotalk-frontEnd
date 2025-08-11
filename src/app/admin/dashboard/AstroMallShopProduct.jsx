@@ -484,36 +484,38 @@ console.log(selectedProductTypeId,"selectedProductTypeId-2");
             </div>
           </div>
         )}
-        <div className="product-type-main">
+        <div className="product-type-main form-field">
           <div className="label-content">
             <label>Product Type</label>
           </div>
-          <div className="product-type-radio">
-            <label>Astrologer Puja</label>
+          <div className="man-input-filed-sec">
+          <div className="inner-radio">
             <input
               type="radio"
               id="astrologer_puja"
               name="product_type"
               className="common-input-filed"
             />
+            <label>Astrologer Puja</label>
           </div>
-          <div className="product-type-radio">
-            <label>Gemstone Product</label>
+          <div className="inner-radio">
             <input
               type="radio"
               id="gemstone_product"
               name="product_type"
               className="common-input-filed"
             />
+            <label>Gemstone Product</label>
           </div>
-          <div className="product-type-radio">
-            <label>Another Product</label>
+          <div className="inner-radio">
             <input
               type="radio"
               id="another_product"
               name="product_type"
               className="common-input-filed"
             />
+            <label>Another Product</label>
+          </div>
           </div>
         </div>
 
@@ -523,8 +525,10 @@ console.log(selectedProductTypeId,"selectedProductTypeId-2");
           </div>
           <textarea id="description" className="common-input-filed" />
         </div>
-        <div className="product-detail">
-          <h2>Product Detail</h2>
+        <div className="product-detail form-field">
+          <div className="remove-astrict label-content">
+            <label>Product Detail</label>
+          </div>
           <TextEditor value={content} onChange={setContent} />
         </div>
 

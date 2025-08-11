@@ -5,14 +5,14 @@ import React, { useEffect, useState, useCallback } from "react";
 import { FaSearch } from "react-icons/fa";
 import debounce from "lodash.debounce";
 
-function AstrologerOrderPujaWallet({astrologerData}) {
+function AstrologerOrderPujaWallet({ astrologerData }) {
   const [walletAdminData, setWalletAdminData] = useState([]);
   const [searchName, setSearchName] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
-console.log(astrologerData);
+  console.log(astrologerData);
 
   // Debounce search input
   const debounceSearchHandler = useCallback(
@@ -40,7 +40,7 @@ console.log(astrologerData);
             limit: 2, // Adjust as needed
             search: debouncedSearch,
             productType: "astroPujaProduct",
-            astrologerName: astrologerData?.name || "null"
+            astrologerName: astrologerData?.name || "null",
           },
         }
       );
@@ -66,6 +66,48 @@ console.log(astrologerData);
 
   const handlePrevious = () => {
     if (page > 1) setPage((prev) => prev - 1);
+  };
+
+  const handleProductOrder = async (orderId) => {
+    setLoading(true);
+
+    try {
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-any-field-payment-shop/${orderId}`,
+        {
+          product_order_status: true,
+        }
+      );
+
+      if (res?.status == 200) {
+        fetchTransactions();
+      }
+    } catch (err) {
+      console.log(err, "update order product api error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleProductOrderCompete = async (orderId) => {
+    setLoading(true);
+
+    try {
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-any-field-payment-shop/${orderId}`,
+        {
+          product_order_complete: true,
+        }
+      );
+
+      if (res?.status == 200) {
+        fetchTransactions();
+      }
+    } catch (err) {
+      console.log(err, "update order product api error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -106,6 +148,7 @@ console.log(astrologerData);
                 <th>Product Name</th>
                 <th>Date and Time</th>
                 <th>Product</th>
+                <th>Product Order Status</th>
               </tr>
             </thead>
             <tbody>
@@ -115,14 +158,41 @@ console.log(astrologerData);
                     <td>{item.userMobile}</td>
                     <td>{item.status}</td>
                     <td>{item.astrologerName}</td>
-                    <td>₹ { Math.round(item.totalAmount) - Math.round(item.adminCommission) || 0}</td>
-                    <td>₹ {Math.round(item.totalAmount) +  Math.round(item.gstAmount)|| 0}</td>
-                    <td>₹ { Math.round(item.adminCommission) || 0}</td>
-                    <td>₹ { Math.round(item.gstAmount) || 0}</td>
+                    <td>
+                      ₹{" "}
+                      {Math.round(item.totalAmount) -
+                        Math.round(item.adminCommission) || 0}
+                    </td>
+                    <td>
+                      ₹{" "}
+                      {Math.round(item.totalAmount) +
+                        Math.round(item.gstAmount) || 0}
+                    </td>
+                    <td>₹ {Math.round(item.adminCommission) || 0}</td>
+                    <td>₹ {Math.round(item.gstAmount) || 0}</td>
                     <td>{item.productName}</td>
                     <td>{new Date(item.createdAt).toLocaleString()}</td>
                     <td>
                       <img src={item?.productImg} alt={item?.name} />
+                    </td>
+                    <td>
+                      {!item?.product_order_status ? (
+                        <button
+                          onClick={() => handleProductOrder(item?.order_id)}
+                        >
+                          Processing
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() =>
+                            handleProductOrderCompete(item?.order_id)
+                          }
+                        >
+                          {item?.product_order_complete
+                            ? "completed"
+                            : "Dispatched"}
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))

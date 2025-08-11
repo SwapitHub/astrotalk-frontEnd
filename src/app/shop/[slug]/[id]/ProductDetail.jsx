@@ -11,6 +11,7 @@ import UserOtpLoginData from "@/app/component/UserOtpLoginData";
 import DOMPurify from "dompurify";
 import he from "he";
 import { toast } from "react-toastify";
+import Loader from "@/app/component/Loader";
 
 const ProductDetail = () => {
   const router = useRouter();
@@ -26,7 +27,6 @@ const ProductDetail = () => {
 
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
 
-  console.log(gemstoneData, "gemstoneData");
 
   const discountPrice =
     productDetailData?.actual_price - productDetailData?.discount_price;
@@ -88,8 +88,7 @@ const ProductDetail = () => {
       if (selectEl?.value === "I know my Ring Size") {
         ring_size = inputEl?.value.trim();
         if (!ring_size) {
-         
-            toast.warn("Please enter your ring size", {
+          toast.warn("Please enter your ring size", {
             position: "top-right",
           });
           return;
@@ -113,8 +112,8 @@ const ProductDetail = () => {
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-any-field-astro-shope-product/${productDetailData?._id}`,
           {
             ring_size,
-            gemStone_product_price:gemstoneData?.actual_price || "",
-            product_type_gem:gemstoneData?.productType ||  ""
+            gemStone_product_price: gemstoneData?.actual_price || "",
+            product_type_gem: gemstoneData?.productType || "",
           }
         );
 
@@ -140,7 +139,7 @@ const ProductDetail = () => {
   }, [productDetailData]);
 
   return (
-    <>
+    <div className="product-detail-main">
       <RingGemstonePopUp
         setViewAllBtn={setViewAllBtn}
         gemStoneJewelryData={gemStoneJewelryData}
@@ -153,12 +152,15 @@ const ProductDetail = () => {
           <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
         </div>
       )}
+
+      {!productDetailData && <Loader />}
+
       <div className="breadcrumb-outer">
         <div className="container">
           <div className="breadcrumb">
             <ul>
               <li>
-                <a href="/chat-with-astrologer">
+                <Link href="/chat-with-astrologer">
                   <span className="icon">
                     <svg
                       stroke="currentColor"
@@ -173,9 +175,9 @@ const ProductDetail = () => {
                       <path d="m490.91 244.15-74.8-71.56V64a16 16 0 0 0-16-16h-48a16 16 0 0 0-16 16v32l-57.92-55.38C272.77 35.14 264.71 32 256 32c-8.68 0-16.72 3.14-22.14 8.63l-212.7 203.5c-6.22 6-7 15.87-1.34 22.37A16 16 0 0 0 43 267.56L250.5 69.28a8 8 0 0 1 11.06 0l207.52 198.28a16 16 0 0 0 22.59-.44c6.14-6.36 5.63-16.86-.76-22.97z"></path>
                     </svg>
                   </span>
-                </a>
-                <a href="#">Astromall</a>
-                <a href="#">Gemstone</a>
+                </Link>
+                <Link href="/shop">Astromall</Link>
+                <Link href={`/shop/${productDetailData?.shop_slug}`}>{gemstone?"Gemstone": productDetailData?.name}</Link>
                 <span className="text">{productDetailData?.name}</span>
               </li>
             </ul>
@@ -239,8 +241,9 @@ const ProductDetail = () => {
           </div>
         </div>
       </section>
+      
       <section className="product-faqs-outer">
-        <div className="container">
+        <div className="container">          
           <div dangerouslySetInnerHTML={{ __html: decodedHtml }} />
         </div>
       </section>
@@ -498,7 +501,7 @@ const ProductDetail = () => {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

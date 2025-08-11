@@ -74,8 +74,12 @@ const AddLanguage = () => {
     <div className="AddLanguage">
       <div className="language-add-data">
         <h2>Add a New Language</h2>
-        <input type="text" placeholder="Language Name" id="language" />
-        <button onClick={handleSubmitAddLanguage}>Add Language</button>
+        <div className="admin-form-box">
+          <div className="form-field">
+            <input type="text" placeholder="Language Name" id="language" className="common-input-filed" />
+          </div>
+          <button onClick={handleSubmitAddLanguage}>Add Language</button>
+        </div>
       </div>
 
       <div className="language-list">

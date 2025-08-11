@@ -135,6 +135,8 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
       console.error("Error fetching astrologers:", err);
       setError(err);
       if (currentPage === 1) setShowAstrologer([]);
+      setIsLoading(false);
+
     } finally {
       setIsLoading(false);
       setIsFetchingMore(false);

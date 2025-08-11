@@ -58,7 +58,6 @@ export const AstrologerDetail = ({ astrologerData }) => {
     setUserIds(userId);
   }, []);
 
-console.log(astrologerData);
 
    useEffect(() => {
       document.body.classList.remove(
@@ -337,9 +336,9 @@ console.log(astrologerData);
                 <div className="img">
                   <img src={`${astrologerData?.profileImage}`}/>
                 </div>
-                <button type="button" className="follow-button">
+                {/* <button type="button" className="follow-button">
                   Follow
-                </button>
+                </button> */}
               </div>
               <div className="content">
                 <div className="astrologer_name">
@@ -418,7 +417,7 @@ console.log(astrologerData);
                               onChangeId(
                                 astrologerData._id,
                                 astrologerData.mobileNumber,
-                                item.profileImage,
+                                astrologerData.profileImage,
                                 astrologerData.name,
                                 astrologerData.charges,
                                 astrologerData.experience
@@ -442,7 +441,7 @@ console.log(astrologerData);
                               onChangeId(
                                 astrologerData._id,
                                 astrologerData.mobileNumber,
-                                item.profileImage,
+                                astrologerData.profileImage,
                                 astrologerData.name,
                                 astrologerData.charges,
                                 astrologerData.experience

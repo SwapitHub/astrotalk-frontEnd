@@ -87,15 +87,17 @@ const AddFooter = () => {
     <div className="AddLanguage AddFooter">
       <div className="language-add-data">
         <h2>Shop our products</h2>
-        <div className="Shop-products">
-          <label>Product Name</label>
-          <input type="text" placeholder="product name" id="products_name" />
+        <div className="admin-form-box">
+        <div className="Shop-products form-field">
+          <div className="label-content"><label>Product Name</label></div>
+          <input type="text" placeholder="product name" id="products_name" className="common-input-filed" />
         </div>
-        <div className="Shop-products">
-          <label>Product Link</label>
-          <input type="text" placeholder="product Link" id="products_link" />
+        <div className="Shop-products form-field">
+          <div className="label-content"><label>Product Link</label></div>
+          <input type="text" placeholder="product Link" id="products_link" className="common-input-filed" />
         </div>
         <button onClick={handleSubmitAddFooter}>Add Products Name</button>
+        </div>
       </div>
 
       <div className="language-list">
@@ -106,9 +108,9 @@ const AddFooter = () => {
           <ul>
             {footerProductListData.map((item) => (
               <li key={item._id}>
-                <div className="product-detail">
-                <div className="link-product">Name : {item.footerProductName}</div>
-                <div className="link-product">Link : {item.footerProductLink}</div>
+                <div className="footer-product-detail">
+                <div className="footer-product-name">Name : {item.footerProductName}</div>
+                <div className="footer-product-link">Link : {item.footerProductLink}</div>
                 </div>
                 <button onClick={() => deleteFooterProduct(item._id)}>
                   Remove

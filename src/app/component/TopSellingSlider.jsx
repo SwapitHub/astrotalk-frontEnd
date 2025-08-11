@@ -47,31 +47,23 @@ const TopSellingSlider = () => {
                   breakpoint: 1198,
                   settings: {
                     slidesToShow: 3,
-                    slidesToScroll: 4,
+                    slidesToScroll: 1,
                     infinite: true,
                   },
                 },
                 {
                   breakpoint: 800,
                   settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true,
-                  },
-                },
-                {
-                  breakpoint: 639,
-                  settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true,
-                  },
-                },
-                {
-                  breakpoint: 375,
-                  settings: {
                     slidesToShow: 2,
-                    slidesToScroll: 2,
+                    slidesToScroll: 1,
+                    infinite: true,
+                  },
+                },
+                {
+                  breakpoint: 576,
+                  settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
                     infinite: true,
                   },
                 },

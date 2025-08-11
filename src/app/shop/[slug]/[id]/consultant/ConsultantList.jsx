@@ -42,8 +42,8 @@ const ConsultantList = () => {
       <div className="breadcrumb container">
         <ul>
           <li>
-            <Link href="#">Evil Eye Removal (Buri Nazar Nivaran)</Link>
-            <Link href="#">Evil Eye (Nazar Lagna) for Family</Link>
+            <Link href={`/shop/${params?.slug}`}>{params?.slug.replace(/-/g," ")}</Link>
+            <Link href={`/shop/${params?.slug}/${params?.id}`}>{params?.slug.replace(/-/g," ")}</Link>
             <span className="text">Consultant List</span>
           </li>
         </ul>

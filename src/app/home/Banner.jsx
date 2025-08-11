@@ -29,47 +29,15 @@ const Banner = () => {
   return (
     <>
       {/* <!---- Banner Section Start ---> */}
-      <div className="banner-main">
+      <section className="banner-main">
+        <div className="container">
         <Slider
           {...sliderSettings}
-          responsive={[
-            {
-              breakpoint: 1198,
-              settings: {
-                slidesToShow: 3,
-                slidesToScroll: 4,
-                infinite: true,
-              },
-            },
-            {
-              breakpoint: 800,
-              settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3,
-                infinite: true,
-              },
-            },
-            {
-              breakpoint: 639,
-              settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3,
-                infinite: true,
-              },
-            },
-            {
-              breakpoint: 375,
-              settings: {
-                slidesToShow: 2,
-                slidesToScroll: 2,
-                infinite: true,
-              },
-            },
-          ]}
+          
+         
         >
           {bannerData?.map((item) => (
-            <section className="banner" key={item?._id}>
-              <div className="container">
+            <div className="banner" key={item?._id}>
                 <div className="row">
                   <div className="left-col">
                     <h1>{item?.banner_heading}</h1>
@@ -83,12 +51,12 @@ const Banner = () => {
                   <div className="right-col">
                     <img src="/blue-circle.png" />
                   </div>
-                </div>
               </div>
-            </section>
+            </div>
           ))}
         </Slider>
-      </div>
+        </div>
+      </section>
       {/* <!---- Banner Section End here---> */}
 
       {/* <!---- Four Col Section start here---> */}

@@ -98,7 +98,7 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
       setMessage(response.data.message);
 
       if (response.data.success == true) {
-        router.push("/astrologer-dashboard");
+        router.push("/astrologer");
         setOtpPopUpDisplayAstro(false);
         setOtpSent(false);
         Cookies.set("astrologer-phone", phone, {

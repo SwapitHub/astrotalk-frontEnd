@@ -118,53 +118,57 @@ const BannerHome = () => {
     <div className="AddLanguage gallery-main banner-home">
       <div className="language-add-data">
         <h2>Create New Banner</h2>
-
-        <div className="banner-main">
-          <div className="banner-inner">
-            <label>Choose Image:</label>
+        <div className="admin-form-box">
+          <div className="form-field">
+            <div className="label-content"><label>Choose Image:</label></div>
             <input
+            className="common-input-filed"
               type="file"
               id="banner_image"
               accept="image/*"
               ref={fileInputRef}
             />
           </div>
-          <div className="banner-inner">
-            <label>Heading Text:</label>
+          <div className="form-field">
+            <div className="label-content"><label>Heading Text:</label></div>
             <input
+             className="common-input-filed"
               type="text"
               id="banner_heading"
               placeholder="Enter heading"
             />
           </div>
 
-          <div className="banner-inner">
-            <label>Button Name:</label>
+          <div className="form-field">
+            <div className="label-content"><label>Button Name:</label></div>
             <input
+            className="common-input-filed"
               type="text"
               id="banner_btn_name"
               placeholder="Enter btn name"
             />
           </div>
-          <div className="banner-inner">
-            <label>Button Link:</label>
+          <div className="form-field">
+            <div className="label-content"><label>Button Link:</label></div>
             <input
+            className="common-input-filed"
               type="text"
               id="banner_btn_link"
               placeholder="Enter btn Link"
             />
           </div>
-          <div className="banner-inner">
-            <label>Description:</label>
+          <div className="form-field">
+            <div className="label-content"><label>Description:</label></div>
             <input
+            className="common-input-filed"
               type="text"
               id="banner_desc"
               placeholder="Enter description"
             />
           </div>
+        <button onClick={handleSubmitAddBannerHome}>Add Banner</button>
         </div>
 
-        <button onClick={handleSubmitAddBannerHome}>Add Banner</button>
       </div>
 
       <div className="language-list">
@@ -175,18 +179,25 @@ const BannerHome = () => {
           <ul>
             {bannerHomeListData?.map((item) => (
               <li key={item._id}>
-                <span>{item?.banner_heading}</span>
-                <span>{item?.banner_desc}</span>
-                <span>{item?.banner_btn_name}</span>
-                <span>{item?.banner_btn_link}</span>
-                <img src={item?.singleImages?.img_url} alt="banner" />
-                <button
+                <span className="banner-content">
+                  <span className="banner-heading">{item?.banner_heading}</span>
+                  <span className="banner-desc">{item?.banner_desc}</span>
+                  <span className="banner-btn">
+                    <span className="btn-text">{item?.banner_btn_name}</span>
+                    <span className="btn-link">{item?.banner_btn_link}</span>
+                  </span>
+                  <button
                   onClick={() =>
                     deleteBannerHome(item?.singleImages?.cloudinary_id)
                   }
                 >
                   Remove
                 </button>
+                </span>
+                <span className="banner-img">
+                <img src={item?.singleImages?.img_url} alt="banner" />
+                </span>
+                
               </li>
             ))}
           </ul>

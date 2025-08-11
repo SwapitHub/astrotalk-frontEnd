@@ -84,6 +84,8 @@ const MyWalletAstroPuja = () => {
                   <th>GST</th>
                   <th>Total Amount</th>
                   <th>Date Time</th>
+                  <th>Order Status</th>
+
                 </tr>
               </thead>
               <tbody>
@@ -122,6 +124,13 @@ const MyWalletAstroPuja = () => {
                       </td>
                       
                       <td>{new Date(item.createdAt).toLocaleString()}</td>
+                        <td>
+                        {item?.product_order_complete
+                          ? "Completed"
+                          : item?.product_order_status
+                          ? "Dispatched"
+                          : "Processing"}
+                      </td>
                     </tr>
                   ))
                 )}

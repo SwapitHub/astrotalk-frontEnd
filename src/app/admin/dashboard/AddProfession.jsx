@@ -68,8 +68,12 @@ const AddProfessions = () => {
     <div className="AddProfessions AddLanguage">
       <div className="language-add-data">
         <h2>Add a New Profession</h2>
-        <input type="text" placeholder="Profession Name" id="profession" />
+        <div className="admin-form-box">
+          <div className="form-field">
+        <input type="text" placeholder="Profession Name" id="profession"  className="common-input-filed" />
+        </div>
         <button onClick={handleSubmitAddProfession}>Add Profession</button>
+        </div>
       </div>
 
       <div className="language-list">

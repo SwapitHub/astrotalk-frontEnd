@@ -49,11 +49,15 @@ const ChatCommission = () => {
       <div className="AddAdminCommissions AddLanguage">
         <div className="language-add-data">
           <h2>Admin to Astrologer Chat Commission (Based on Percentage)</h2>
+          <div className="admin-form-box">
+            <div className="form-field">
           <input
+           className="common-input-filed"
             type="number"
             placeholder="Admin Commission"
             id="AdminCommission"
           />
+          </div>
           <button
             disabled={chatCommission.length > 0}
             className={chatCommission.length > 0 ? "disable" : ""}
@@ -61,6 +65,7 @@ const ChatCommission = () => {
           >
             Chat Commission
           </button>
+          </div>
         </div>
 
         <div className="language-list">
@@ -84,11 +89,15 @@ const ChatCommission = () => {
       <div className="AddAdminCommissions-puja AddLanguage">
         <div className="language-add-data">
           <h2>Admin to Astrologer Puja Commission (Based on Percentage)</h2>
+          <div className="admin-form-box">
+            <div className="form-field">
           <input
+           className="common-input-filed"
             type="number"
             placeholder="Admin Puja Commission"
             id="AdminCommissionPuja"
           />
+          </div>
           <button
             disabled={pujaCommission.length > 0}
             className={pujaCommission.length > 0 ? "disable" : ""}
@@ -96,6 +105,7 @@ const ChatCommission = () => {
           >
             Puja Commission
           </button>
+          </div>
         </div>
 
         <div className="language-list">

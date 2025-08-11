@@ -250,8 +250,10 @@ const AstroMallShops = () => {
           <textarea id="description" className="common-input-filed" />
         </div>
 
-        <div className="shop-detail">
-          <h2>Shop Detail</h2>
+        <div className="shop-detail form-field">
+          <div className="label-content">
+          <label>Shop Detail</label>
+          </div>
           <TextEditor value={shopContent} onChange={setShopContent} />
         </div>
         <div className="form-field">

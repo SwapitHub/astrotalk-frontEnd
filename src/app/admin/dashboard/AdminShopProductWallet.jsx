@@ -100,6 +100,7 @@ function AdminShopProductWallet({ updateButton }) {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     if (updateButton) {
       fetchTransactions();
@@ -137,6 +138,7 @@ function AdminShopProductWallet({ updateButton }) {
             <FaSearch />
           </button>
         </div>
+        <div className="search-help-text"><p>Search product based on product id</p></div>
       </div>
 
       {loading ? (
@@ -203,7 +205,9 @@ function AdminShopProductWallet({ updateButton }) {
                           handleProductOrderCompete(item?.order_id)
                         }
                       >
-                       {item?.product_order_complete?"completed": "Dispatched"} 
+                        {item?.product_order_complete
+                          ? "completed"
+                          : "Dispatched"}
                       </button>
                     )}
                   </td>
