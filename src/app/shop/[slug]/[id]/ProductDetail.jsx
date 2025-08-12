@@ -242,15 +242,16 @@ const ProductDetail = () => {
           </div>
         </div>
       </section>
-      {console.log((decodedHtml=="<p>undefined</p>" ))
-}
-      {((decodedHtml !== "<p>undefined</p>" && decodedHtml !== "undefined") && decodedHtml.trim().length > 0)  && (
-        <section className="product-faqs-outer">
-          <div className="container">
-            <div dangerouslySetInnerHTML={{ __html: decodedHtml }} />
-          </div>
-        </section>
-      )}
+      {console.log(decodedHtml == "<p>undefined</p>")}
+      {decodedHtml !== "<p>undefined</p>" &&
+        decodedHtml !== "undefined" &&
+        decodedHtml.trim().length > 0 && (
+          <section className="product-faqs-outer">
+            <div className="container">
+              <div dangerouslySetInnerHTML={{ __html: decodedHtml }} />
+            </div>
+          </section>
+        )}
       <section className="product-testimonial-left-right-outer">
         <div className="container">
           <div className="product-testimonial-left-right-inner">

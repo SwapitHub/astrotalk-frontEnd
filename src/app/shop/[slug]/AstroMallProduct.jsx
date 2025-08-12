@@ -144,15 +144,16 @@ const AstroMallProduct = () => {
           </div>
         </div>
       </section>
-{console.log((decodedHtml.length > 0))
-}
-{decodedHtml.length > 0 &&
-      <section className="product-faqs-outer">
-        <div className="container">
-          <div dangerouslySetInnerHTML={{ __html: decodedHtml }} />
-        </div>
-      </section>
-      }
+      {console.log(decodedHtml.length > 0)}
+      {decodedHtml !== "<p>undefined</p>" &&
+        decodedHtml !== "undefined" &&
+        decodedHtml.trim().length > 0 && (
+          <section className="product-faqs-outer">
+            <div className="container">
+              <div dangerouslySetInnerHTML={{ __html: decodedHtml }} />
+            </div>
+          </section>
+        )}
     </main>
   );
 };
