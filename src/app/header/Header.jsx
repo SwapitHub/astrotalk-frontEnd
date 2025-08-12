@@ -141,11 +141,13 @@ const Header = () => {
 
     return () => clearTimeout(timer);
   }, [hideProfilePopup]);
-console.log(parts,"parts");
+  console.log(parts, "parts");
 
   return (
     <>
-      {parts[1] == "admin" || parts[1] == "astrologer" || (parts[1] == "chat-with-astrologer" && parts[2]=="astrologer")   ? (
+      {parts[1] == "admin" ||
+      parts[1] == "astrologer" ||
+      (parts[1] == "chat-with-astrologer" && parts[2] == "astrologer") ? (
         ""
       ) : (
         <header className="header">
