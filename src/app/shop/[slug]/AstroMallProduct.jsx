@@ -45,8 +45,7 @@ const AstroMallProduct = () => {
     return () => clearTimeout(debounceTimer);
   }, [astrShopDetailData?._id, searchTerm]);
 
-
- useEffect(() => {
+  useEffect(() => {
     if (astrShopDetailData?.detail_shop_information) {
       const decoded = he.decode(astrShopDetailData?.detail_shop_information);
 
@@ -67,7 +66,7 @@ const AstroMallProduct = () => {
           <div className="astromall-sec-inner">
             <div className="heading-box">
               <h1 className="common-h1-heading">{params.slug} product</h1>
-              <p>product Best Online Astrology Products And Services</p>
+              <p>Product Best Online Astrology Products And Services</p>
             </div>
             <div className="astromall-wrapper">
               <div className="astromall-search">
@@ -145,12 +144,15 @@ const AstroMallProduct = () => {
           </div>
         </div>
       </section>
-
-     <section className="product-faqs-outer">
+{console.log((decodedHtml.length > 0))
+}
+{decodedHtml.length > 0 &&
+      <section className="product-faqs-outer">
         <div className="container">
           <div dangerouslySetInnerHTML={{ __html: decodedHtml }} />
         </div>
       </section>
+      }
     </main>
   );
 };

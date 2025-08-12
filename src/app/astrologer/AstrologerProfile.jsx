@@ -6,14 +6,21 @@ import { toast } from "react-toastify";
 import { validateAstrologerForm } from "../component/FormValidation";
 import secureLocalStorage from "react-secure-storage";
 import Cookies from "js-cookie";
+import Loader from "../component/Loader";
 
-const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData, registrationDetail, setRegistrationDetail }) => {
+const AstrologerProfile = ({
+  setSuccessMessageProfile,
+  astrologerData,
+  registrationDetail,
+  setRegistrationDetail,
+}) => {
   const [astrologerPhone, setAstrologerPhone] = useState();
   const [astroUpdateDetail, setAstroUpdateDetail] = useState();
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState();
   const [professionsList, setProfessionsList] = useState([]);
   const [languageListData, setLanguageListData] = useState([]);
+  const [loader, setLoader] = useState(false);
 
   const [name, setName] = useState("");
   const [experience, setExperience] = useState("");
@@ -203,7 +210,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData, registrat
 
   const handleBusinessProfileUpdate = async (mobileNumber) => {
     const formData = new FormData();
-
+    setLoader(true);
     // Basic fields
     const selectedGender =
       document.querySelector('input[name="gender"]:checked')?.value || "";
@@ -259,13 +266,16 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData, registrat
           position: "top-right",
         });
 
-        // window.location.reload();
+        window.location.reload();
       }
 
       console.log("Profile update response:", response.data);
       // Show success toast or UI update here
     } catch (err) {
       console.error("Update failed:", err);
+    }finally{
+    setLoader(false);
+
     }
   };
 
@@ -303,20 +313,29 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData, registrat
   };
 
   return (
-    
+    <>
+      {loader && <Loader />}
+
       <div
         className={`astrologer-registration-form ${
           astrologerData?.completeProfile == true ? "update-profile" : ""
         }`}
       >
         {astrologerData?.completeProfile !== true && (
-          <h2>Please Complete the Profile then you connect the user.</h2>
+          <h2>Please complete your profile before connecting with the user.</h2>
         )}
         <form action="">
           <div className="user-profile-pick-main">
             <div className="user-profile-pick">
               <a href="#" title="">
-                <img src="./user-icon-image.png" alt="user-icon" />
+                <img
+                  src={
+                    astroUpdateDetail?.profileImage
+                      ? astroUpdateDetail?.profileImage
+                      : "./user-icon-image.png"
+                  }
+                  alt="user-icon"
+                />
                 <span>
                   <i className="fa-solid fa-ellipsis-vertical"></i>
                 </span>
@@ -607,7 +626,7 @@ const AstrologerProfile = ({ setSuccessMessageProfile, astrologerData, registrat
           </div>
         </form>
       </div>
-    
+    </>
   );
 };
 

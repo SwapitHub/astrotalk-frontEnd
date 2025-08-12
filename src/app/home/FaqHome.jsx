@@ -8,7 +8,7 @@ const FaqHome = () => {
       <section className="faq_section section-spacing">
         <div className="container">
           <div className="home-heading">
-            <h2>Faqs</h2>
+            <h2>FAQ'S</h2>
           </div>
           <div className="faq-section">
             <div className="faq-item" data-id="q1">

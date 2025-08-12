@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { useRef } from "react";
 import secureLocalStorage from "react-secure-storage";
 import EndChatPopUp from "@/app/component/EndChatPopUp";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
@@ -17,6 +17,11 @@ const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
 
 export default function Chatting({ astrologer, AdminCommissionData }) {
   const router = useRouter();
+      const pathname = usePathname();
+  const segments = pathname.split("/").filter(Boolean);
+  const chatAstro_1 = segments[0];
+  const chatAstro_2 = segments[1];
+  
   const astrologerPhone = Cookies.get("astrologer-phone");
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [timeLeft, setTimeLeft] = useState(null);
@@ -38,7 +43,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
     useState(() => Cookies.get("AstrologerNotificationStatus"));
 
  
-  console.log("showUserData", showUserData);
+  console.log("pathname", chatAstro_1,chatAstro_2);
 
   useEffect(() => {
     if (

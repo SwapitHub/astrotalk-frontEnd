@@ -5,26 +5,30 @@ const useCustomGetApi = (fetchUrl) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  
   const fetchGetData = async () => {
     try {
+      if (!fetchUrl) return;
       setLoading(true);
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/${fetchUrl}`
-      );
+
+      const fullUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/${fetchUrl}`;
+
+      const res = await axios.get(fullUrl);
       setData(res.data || []);
     } catch (err) {
       console.error("Fetch error:", err);
-      // toast.error("Failed to fetch data"); (optional)
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchGetData();
+    if (fetchUrl) {
+      fetchGetData();
+    }
   }, [fetchUrl]); // Make sure it runs again if URL changes
 
-  return { data, loading };
+  return { data, loading, setLoading, fetchGetData };
 };
 
 export default useCustomGetApi;

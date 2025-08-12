@@ -142,7 +142,7 @@ function AdminShopWallet() {
                 <th>Astrologer Name</th>
                 <th>Astrologer Balance</th>
                 <th>Transaction Amount</th>
-                <th>Admin commission</th>
+                <th>Admin Commission</th>
                 <th>GST</th>
                 <th>Product Name</th>
                 <th>Date and Time</th>

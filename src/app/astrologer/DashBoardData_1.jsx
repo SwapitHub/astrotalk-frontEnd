@@ -131,8 +131,8 @@ console.log("sessionValue",sessionValue);
         <div className="outer-home-dashboard">
           <div className="inner-home-dashboard">
             <ul>
-              <li>
-                <Link href="#" onClick={() => setUpdateButton(2)}>
+              <li onClick={() => setUpdateButton(2)}>
+                
                   <span>
                     <ImProfile />
                   </span>
@@ -140,10 +140,10 @@ console.log("sessionValue",sessionValue);
                     <span> Profile</span>
                     {/* <span>123</span> */}
                   </div>
-                </Link>
+              
               </li>
-              <li>
-                <Link href="#" onClick={() => setUpdateButton(3)}>
+              <li onClick={() => setUpdateButton(3)}>
+                
                   <span>
                     <IoWalletSharp />
                   </span>
@@ -151,10 +151,10 @@ console.log("sessionValue",sessionValue);
                     <span> Wallet</span>
                     {/* <span>123</span> */}
                   </div>
-                </Link>
+                
               </li>
-              <li>
-                <Link href="#" onClick={() => setUpdateButton(5)}>
+              <li onClick={() => setUpdateButton(5)}>
+                
                   <span>
                     <MdOutlinePreview />
                   </span>
@@ -162,10 +162,10 @@ console.log("sessionValue",sessionValue);
                     <span> Review</span>
                     {/* <span>123</span> */}
                   </div>
-                </Link>
+              
               </li>
-              <li>
-                <Link href="#" onClick={() => setUpdateButton(4)}>
+              <li onClick={() => setUpdateButton(4)}>
+                
                   <span>
                     <TfiGallery />
                   </span>
@@ -173,7 +173,7 @@ console.log("sessionValue",sessionValue);
                     <span> Gallery</span>
                     {/* <span>123</span> */}
                   </div>
-                </Link>
+                
               </li>
             </ul>
           </div>

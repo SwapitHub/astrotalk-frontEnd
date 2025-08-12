@@ -9,7 +9,7 @@ const NewlyLaunceSlider = () => {
   const [topSellingListData, setTopSellingListData] = useState();
   const sliderSettings = {
     dots: false,
-    infinite: true,
+     infinite: topSellingListData?.length > 1,
     speed: 700,
     slidesToShow: 4,
     slidesToScroll: 1,
@@ -71,6 +71,8 @@ const NewlyLaunceSlider = () => {
             >
               {topSellingListData?.map((item, index) => (
                 <div className="single-slide" key={index}>
+                  {console.log(item)
+                  }
                   <Link href={`/shop/${item?.shop_slug}/${item.slug}/${item?.shop_product_type=="gemstone_product"?`?gemstone=true`:""}`}>
                     <div className="slide-img">
                       <img src={item?.astroMallProductImg} alt="" />

@@ -68,48 +68,6 @@ function AstrologerOrderPujaWallet({ astrologerData }) {
     if (page > 1) setPage((prev) => prev - 1);
   };
 
-  const handleProductOrder = async (orderId) => {
-    setLoading(true);
-
-    try {
-      const res = await axios.put(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-any-field-payment-shop/${orderId}`,
-        {
-          product_order_status: true,
-        }
-      );
-
-      if (res?.status == 200) {
-        fetchTransactions();
-      }
-    } catch (err) {
-      console.log(err, "update order product api error");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleProductOrderCompete = async (orderId) => {
-    setLoading(true);
-
-    try {
-      const res = await axios.put(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-any-field-payment-shop/${orderId}`,
-        {
-          product_order_complete: true,
-        }
-      );
-
-      if (res?.status == 200) {
-        fetchTransactions();
-      }
-    } catch (err) {
-      console.log(err, "update order product api error");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <div className="admin-wallet-main">
       {/* 🔍 Search Bar */}
@@ -177,21 +135,13 @@ function AstrologerOrderPujaWallet({ astrologerData }) {
                     </td>
                     <td>
                       {!item?.product_order_status ? (
-                        <button
-                          onClick={() => handleProductOrder(item?.order_id)}
-                        >
-                          Processing
-                        </button>
+                        <span>Processing</span>
                       ) : (
-                        <button
-                          onClick={() =>
-                            handleProductOrderCompete(item?.order_id)
-                          }
-                        >
+                        <span>
                           {item?.product_order_complete
                             ? "completed"
                             : "Dispatched"}
-                        </button>
+                        </span>
                       )}
                     </td>
                   </tr>

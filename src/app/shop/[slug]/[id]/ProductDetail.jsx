@@ -27,7 +27,6 @@ const ProductDetail = () => {
 
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
 
-
   const discountPrice =
     productDetailData?.actual_price - productDetailData?.discount_price;
   const offPercentage = Math.floor(
@@ -177,7 +176,9 @@ const ProductDetail = () => {
                   </span>
                 </Link>
                 <Link href="/shop">Astromall</Link>
-                <Link href={`/shop/${productDetailData?.shop_slug}`}>{gemstone?"Gemstone": productDetailData?.name}</Link>
+                <Link href={`/shop/${productDetailData?.shop_slug}`}>
+                  {gemstone ? "Gemstone" : productDetailData?.name}
+                </Link>
                 <span className="text">{productDetailData?.name}</span>
               </li>
             </ul>
@@ -241,12 +242,15 @@ const ProductDetail = () => {
           </div>
         </div>
       </section>
-      
-      <section className="product-faqs-outer">
-        <div className="container">          
-          <div dangerouslySetInnerHTML={{ __html: decodedHtml }} />
-        </div>
-      </section>
+      {console.log((decodedHtml=="<p>undefined</p>" ))
+}
+      {(decodedHtml !== "<p>undefined</p>" && decodedHtml.trim().length > 0)  && (
+        <section className="product-faqs-outer">
+          <div className="container">
+            <div dangerouslySetInnerHTML={{ __html: decodedHtml }} />
+          </div>
+        </section>
+      )}
       <section className="product-testimonial-left-right-outer">
         <div className="container">
           <div className="product-testimonial-left-right-inner">

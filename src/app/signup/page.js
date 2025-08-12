@@ -18,7 +18,6 @@ const AstrologerRegistration = () => {
     if (Object.keys(validationErrors).length > 0) {
       return;
     }
-    console.log("kjkjhkjhkj");
 
     // ✅ Collect multiple checked languages
     const selectedLanguages = Array.from(

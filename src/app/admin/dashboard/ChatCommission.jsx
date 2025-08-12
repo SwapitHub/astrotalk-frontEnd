@@ -51,20 +51,26 @@ const ChatCommission = () => {
           <h2>Admin to Astrologer Chat Commission (Based on Percentage)</h2>
           <div className="admin-form-box">
             <div className="form-field">
-          <input
-           className="common-input-filed"
-            type="number"
-            placeholder="Admin Commission"
-            id="AdminCommission"
-          />
-          </div>
-          <button
-            disabled={chatCommission.length > 0}
-            className={chatCommission.length > 0 ? "disable" : ""}
-            onClick={handleAddChat}
-          >
-            Chat Commission
-          </button>
+              <input
+                className="common-input-filed"
+                type="number"
+                placeholder="Admin Commission"
+                id="AdminCommission"
+                min="0"
+                onKeyDown={(e) => {
+                  if (e.key === "-" || e.key === "e") {
+                    e.preventDefault();
+                  }
+                }}
+              />
+            </div>
+            <button
+              disabled={chatCommission.length > 0}
+              className={chatCommission.length > 0 ? "disable" : ""}
+              onClick={handleAddChat}
+            >
+              Chat Commission
+            </button>
           </div>
         </div>
 
@@ -91,20 +97,26 @@ const ChatCommission = () => {
           <h2>Admin to Astrologer Puja Commission (Based on Percentage)</h2>
           <div className="admin-form-box">
             <div className="form-field">
-          <input
-           className="common-input-filed"
-            type="number"
-            placeholder="Admin Puja Commission"
-            id="AdminCommissionPuja"
-          />
-          </div>
-          <button
-            disabled={pujaCommission.length > 0}
-            className={pujaCommission.length > 0 ? "disable" : ""}
-            onClick={handleAddPuja}
-          >
-            Puja Commission
-          </button>
+              <input
+                className="common-input-filed"
+                type="number"
+                placeholder="Admin Puja Commission"
+                id="AdminCommissionPuja"
+                min="0"
+                onKeyDown={(e) => {
+                  if (e.key === "-" || e.key === "e") {
+                    e.preventDefault();
+                  }
+                }}
+              />
+            </div>
+            <button
+              disabled={pujaCommission.length > 0}
+              className={pujaCommission.length > 0 ? "disable" : ""}
+              onClick={handleAddPuja}
+            >
+              Puja Commission
+            </button>
           </div>
         </div>
 

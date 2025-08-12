@@ -40,8 +40,7 @@ const MyWalletAstroPuja = () => {
             page: pageNumber,
             limit: limit,
             userMobile: userMobile,
-            productType:"astroPujaProduct"
-
+            productType: "astroPujaProduct",
           },
         }
       );
@@ -85,7 +84,6 @@ const MyWalletAstroPuja = () => {
                   <th>Total Amount</th>
                   <th>Date Time</th>
                   <th>Order Status</th>
-
                 </tr>
               </thead>
               <tbody>
@@ -122,9 +120,9 @@ const MyWalletAstroPuja = () => {
                         {Math.round(item.gstAmount) +
                           Math.round(item.totalAmount)}
                       </td>
-                      
+
                       <td>{new Date(item.createdAt).toLocaleString()}</td>
-                        <td>
+                      <td>
                         {item?.product_order_complete
                           ? "Completed"
                           : item?.product_order_status

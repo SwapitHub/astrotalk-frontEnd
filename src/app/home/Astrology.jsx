@@ -10,7 +10,7 @@ const Astrology = () => {
         <div className="container">
           <div className="astro-inner">
             <div className="home-heading">
-              <h2>Complimentary astrology services</h2>
+              <h2>Complimentary Astrology Services</h2>
             </div>
             <div className="row">
               <div className="col">

@@ -27,18 +27,16 @@ const AdminDashBoardData = ({ setUpdateButton }) => {
           <p>Astrotalk Admin Panel</p>
         </div>
         <ul>
-          <li>
-            <Link href="#" onClick={() => setUpdateButton("changePassword")}>
-              <span>
-               <RiLockPasswordLine />
-              </span>
-              <div className="inner-text">
-                <span>Change Password</span>
-              </div>
-            </Link>
+          <li onClick={() => setUpdateButton("changePassword")}>
+            <span>
+              <RiLockPasswordLine />
+            </span>
+            <div className="inner-text">
+              <span>Change Password</span>
+            </div>
           </li>
-          <li>
-            <Link href="#" onClick={() => setUpdateButton(7)}>
+          <li onClick={() => setUpdateButton(7)}>
+           
               <span>
                 <PiUserListDuotone />
               </span>
@@ -46,10 +44,10 @@ const AdminDashBoardData = ({ setUpdateButton }) => {
                 <span> User List</span>
                 <span className="number">{totalUsersList}</span>
               </div>
-            </Link>
+           
           </li>
-          <li>
-            <Link href="#" onClick={() => setUpdateButton("pending")}>
+          <li onClick={() => setUpdateButton("pending")}>
+            
               <span>
                 <PiUserListDuotone />
               </span>
@@ -57,10 +55,10 @@ const AdminDashBoardData = ({ setUpdateButton }) => {
                 <span>AstroLoger Pending</span>
                 <span className="number">{totalAstroPending}</span>
               </div>
-            </Link>
+            
           </li>
-          <li>
-            <Link href="#" onClick={() => setUpdateButton("active")}>
+          <li onClick={() => setUpdateButton("active")}>
+           
               <span>
                 <PiUserListDuotone />
               </span>
@@ -68,10 +66,10 @@ const AdminDashBoardData = ({ setUpdateButton }) => {
                 <span>AstroLoger Active</span>
                 <span className="number">{totalAstroActive}</span>
               </div>
-            </Link>
+           
           </li>
-          <li>
-            <Link href="#" onClick={() => setUpdateButton("admin")}>
+          <li onClick={() => setUpdateButton("admin")}>
+            
               <span>
                 <IoWalletSharp />
               </span>
@@ -79,10 +77,10 @@ const AdminDashBoardData = ({ setUpdateButton }) => {
                 <span>Wallet Admin</span>
                 <span className="number">{totalTransactionsData}</span>
               </div>
-            </Link>
+           
           </li>
-          <li>
-            <Link href="#" onClick={() => setUpdateButton("astrologer")}>
+          <li onClick={() => setUpdateButton("astrologer")}>
+           
               <span>
                 <IoWalletSharp />
               </span>
@@ -90,10 +88,10 @@ const AdminDashBoardData = ({ setUpdateButton }) => {
                 <span>Wallet Astrologer</span>
                 <span className="number">{totalTransactionsData}</span>
               </div>
-            </Link>
+            
           </li>
-          <li>
-            <Link href="#" onClick={() => setUpdateButton("user")}>
+          <li onClick={() => setUpdateButton("user")}>
+           
               <span>
                 <IoWalletSharp />
               </span>
@@ -101,10 +99,10 @@ const AdminDashBoardData = ({ setUpdateButton }) => {
                 <span>Wallet User</span>
                 <span className="number">{totalTransactionsData}</span>
               </div>
-            </Link>
+           
           </li>
-          <li>
-            <Link href="#" onClick={() => setUpdateButton(3)}>
+          <li onClick={() => setUpdateButton(3)}>
+            
               <span>
                 <LiaSortAmountUpSolid />
               </span>
@@ -112,10 +110,10 @@ const AdminDashBoardData = ({ setUpdateButton }) => {
                 <span>Denomination Amount</span>
                 {/* <span>123</span> */}
               </div>
-            </Link>
+            
           </li>
-          <li>
-            <Link href="#" onClick={() => setUpdateButton("language")}>
+          <li onClick={() => setUpdateButton("language")}>
+            
               <span>
                 <GrLanguage />
               </span>
@@ -123,10 +121,10 @@ const AdminDashBoardData = ({ setUpdateButton }) => {
                 <span> Languages</span>
                 {/* <span>123</span> */}
               </div>
-            </Link>
+            
           </li>
-          <li>
-            <Link href="#" onClick={() => setUpdateButton("profession")}>
+          <li onClick={() => setUpdateButton("profession")}>
+           
               <span>
                 <SiLinuxprofessionalinstitute />
               </span>
@@ -134,10 +132,10 @@ const AdminDashBoardData = ({ setUpdateButton }) => {
                 <span> Profession</span>
                 {/* <span>123</span> */}
               </div>
-            </Link>
+            
           </li>
-          <li>
-            <Link href="#" onClick={() => setUpdateButton("ChatCommission")}>
+          <li onClick={() => setUpdateButton("ChatCommission")}>
+            
               <span>
                 <FaRocketchat />
               </span>
@@ -145,19 +143,9 @@ const AdminDashBoardData = ({ setUpdateButton }) => {
                 <span> Admin Chat Commission</span>
                 {/* <span>123</span> */}
               </div>
-            </Link>
+           
           </li>
-          <li>
-            <Link href="#">
-              <span>
-                <TfiGallery />
-              </span>
-              <div className="inner-text">
-                <span> Gallery</span>
-                {/* <span>123</span> */}
-              </div>
-            </Link>
-          </li>
+          
         </ul>
       </div>
     </div>

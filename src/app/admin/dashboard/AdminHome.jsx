@@ -371,18 +371,7 @@ const AdminHome = () => {
                       </SlideToggle>
                     </li>
 
-                    <li className={updateButton === 3 ? "active" : ""}>
-                      <a
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setUpdateButton(3);
-                        }}
-                      >
-                        <TbBrandDenodo />
-                        <span className="list-text">Denomination Amount</span>
-                      </a>
-                    </li>
+                    
 
                     <li
                       className={
@@ -439,6 +428,22 @@ const AdminHome = () => {
                               }}
                             >
                               Add Profession
+                            </a>
+                          </li>
+                          <li
+                            className={
+                              updateButton === "Denomination" ? "active" : ""
+                            }
+                          >
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setUpdateButton("Denomination");
+                                setToggleSlideMobile(false);
+                              }}
+                            >
+                              Add Denomination Amount
                             </a>
                           </li>
                           <li
@@ -618,7 +623,7 @@ const AdminHome = () => {
                 {updateButton === "active" && <AstroLogerList />}
                 {updateButton === "pending" && <AstrologerPendingList />}
                 {updateButton === 7 && <UserList />}
-                {updateButton === 3 && <Denomination />}
+                {updateButton === "Denomination" && <Denomination />}
                 {updateButton === "astroShop" && <AstroMallShops />}
                 {updateButton === "astroShopGemJewelry" && (
                   <GemStoneProductGemJewelry />

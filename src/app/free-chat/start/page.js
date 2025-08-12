@@ -248,7 +248,7 @@ const todayDate = new Date().toISOString().split('T')[0];
                       )}
                     </div>
                     <div className="inner-form-filed-sec">
-                      <div className="label-content">
+                      <div className="label-content remove-astrict">
                         <label for="Gender">
                           Do you know your time of birth?
                           <span>(क्या आप अपना जन्म समय जानते हैं?)</span>
@@ -293,8 +293,8 @@ const todayDate = new Date().toISOString().split('T')[0];
                     </div>
 
                     <div className="inner-form-filed-sec you-born-ctm-filed erch-input-filed">
-                      <div className="label-content">
-                        <label for="Languages">
+                      <div className="label-content remove-astrict">
+                        <label for="Languages ">
                           Where were you born?
                           <span>(आपका जन्म कहां हुआ था?)</span>
                         </label>
