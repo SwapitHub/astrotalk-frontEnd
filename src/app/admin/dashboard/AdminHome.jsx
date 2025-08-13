@@ -34,6 +34,7 @@ import AdminShopWallet from "./AdminShopPujaWallet";
 import AdminShopProductWallet from "./AdminShopProductWallet";
 import AddFooter from "./home/AddFooter";
 import BannerHome from "./home/BannerHome";
+import SeoMetaData from "./SeoMetaData";
 
 const AdminHome = () => {
   const router = useRouter();
@@ -391,7 +392,7 @@ const AdminHome = () => {
                         }}
                       >
                         <CiSettings />
-                        <span className="list-text">Site Setting </span>
+                        <span className="list-text">Site Settings </span>
                         <span className="list-arrow">
                           <MdOutlineKeyboardArrowRight />
                         </span>
@@ -443,7 +444,7 @@ const AdminHome = () => {
                                 setToggleSlideMobile(false);
                               }}
                             >
-                              Add Denomination Amount
+                              Denomination Amount
                             </a>
                           </li>
                           <li
@@ -460,6 +461,22 @@ const AdminHome = () => {
                               }}
                             >
                               All Commission
+                            </a>
+                          </li>
+                          <li
+                            className={
+                              updateButton === "seoMetaData" ? "active" : ""
+                            }
+                          >
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setUpdateButton("seoMetaData");
+                                setToggleSlideMobile(false);
+                              }}
+                            >
+                              SEO Meta Data
                             </a>
                           </li>
                           <li
@@ -637,6 +654,7 @@ const AdminHome = () => {
                 {updateButton === "changePassword" && <ChangePassword />}
                 {updateButton === "home-banner" && <BannerHome />}
                 {updateButton === "footer" && <AddFooter />}
+                {updateButton === "seoMetaData" && <SeoMetaData />}
                 
                 {["user", "astrologer", "admin"].includes(updateButton) && (
                   <AdminWallet updateButton={updateButton} />

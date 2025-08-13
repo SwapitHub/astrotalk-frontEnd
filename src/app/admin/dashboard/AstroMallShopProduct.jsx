@@ -1,6 +1,6 @@
 "use client";
 import Loader from "@/app/component/Loader";
-import TextEditor from "@/app/component/TextEditor";
+import SummernoteEditor from "@/app/component/SummernoteEditor";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
@@ -414,14 +414,17 @@ console.log(selectedProductTypeId,"selectedProductTypeId-2");
           </div>
           <select
             className="common-input-filed"
+            value={shopId || ''}
             id="shop_id"
             onChange={(e) => {
               const selectedShop = shopListData.find(
                 (item) => item._id === e.target.value
               );
               setShopListSingleData(selectedShop?.discount_product || false);
+              setShopId(e.target.value);
             }}
           >
+             <option value="">-- Select Shop --</option>
             {shopListData?.map((item, index) => (
               <option key={item._id} value={item._id}>
                 {item.name}
@@ -529,7 +532,7 @@ console.log(selectedProductTypeId,"selectedProductTypeId-2");
           <div className="remove-astrict label-content">
             <label>Product Detail</label>
           </div>
-          <TextEditor value={content} onChange={setContent} />
+          <SummernoteEditor value={content} onChange={setContent}/>
         </div>
 
         <div className="form-field">

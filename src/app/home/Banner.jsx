@@ -9,11 +9,9 @@ import { useRouter } from "next/navigation";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import useCustomGetApi from "../hook/CustomHookGetApi";
 
-const Banner = () => {
-  const { data: bannerData } = useCustomGetApi("get-banner-home");
-  console.log(bannerData);
+const Banner = ({homeBannerData}) => {
+ 
 
   const router = useRouter();
   const sliderSettings = {
@@ -36,7 +34,7 @@ const Banner = () => {
           
          
         >
-          {bannerData?.map((item) => (
+          {homeBannerData?.map((item) => (
             <div className="banner" key={item?._id}>
                 <div className="row">
                   <div className="left-col">

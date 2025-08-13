@@ -1,5 +1,6 @@
 "use client";
 import Loader from "@/app/component/Loader";
+import SummernoteEditor from "@/app/component/SummernoteEditor";
 import TextEditor from "@/app/component/TextEditor";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -254,7 +255,8 @@ const AstroMallShops = () => {
           <div className="label-content">
           <label>Shop Detail</label>
           </div>
-          <TextEditor value={shopContent} onChange={setShopContent} />
+          
+          <SummernoteEditor value={shopContent} onChange={setShopContent} />
         </div>
         <div className="form-field">
           <div className="remove-astrict label-content field-checkbox">

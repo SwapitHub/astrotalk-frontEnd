@@ -5,11 +5,10 @@ import "slick-carousel/slick/slick-theme.css";
 import Link from "next/link";
 import axios from "axios";
 
-const NewlyLaunceSlider = () => {
-  const [topSellingListData, setTopSellingListData] = useState();
+const NewlyLaunceSlider = ({NewlyLaunchedSlider}) => {
   const sliderSettings = {
     dots: false,
-     infinite: topSellingListData?.length > 1,
+     infinite: NewlyLaunchedSlider?.length > 1,
     speed: 700,
     slidesToShow: 4,
     slidesToScroll: 1,
@@ -17,21 +16,8 @@ const NewlyLaunceSlider = () => {
     autoplaySpeed: 2000,
   };
 
-  console.log(topSellingListData);
 
-  useEffect(() => {
-    const handleTopSelling = async () => {
-      try {
-        const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-product-list-newly-launched/newlyLaunched`
-        );
-        setTopSellingListData(res.data.data);
-      } catch (error) {
-        console.log("API error", error);
-      }
-    };
-    handleTopSelling();
-  }, []);
+  
   return (
     <section className="astromall-slider-outer">
       <div className="container">
@@ -69,7 +55,7 @@ const NewlyLaunceSlider = () => {
                 },
               ]}
             >
-              {topSellingListData?.map((item, index) => (
+              {NewlyLaunchedSlider?.map((item, index) => (
                 <div className="single-slide" key={index}>
                   {console.log(item)
                   }

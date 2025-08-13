@@ -9,7 +9,7 @@ import TopSellingSlider from "../component/TopSellingSlider";
 import NewlyLaunceSlider from "../component/NewlyLaunceSlider";
 import SearchProductSuggestion from "../component/SearchProductSuggestion";
 
-const AstromallShop = () => {
+const AstromallShop = ({topSellingSlider,NewlyLaunchedSlider}) => {
   const [shopListData, setShopListData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   useEffect(() => {
@@ -96,8 +96,8 @@ const AstromallShop = () => {
           </div>
         </div>
       </section>
-      <TopSellingSlider />
-      <NewlyLaunceSlider />
+      <TopSellingSlider topSellingSlider={topSellingSlider}/>
+      <NewlyLaunceSlider NewlyLaunchedSlider={NewlyLaunchedSlider}/>
     </main>
   );
 };

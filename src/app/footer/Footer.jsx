@@ -74,7 +74,7 @@ const Footer = () => {
                     <span>Email ID:</span>contact@astrotalk.com
                   </Link>
                 </div>
-                <div class="footer-social">
+                {/* <div class="footer-social">
                   <div class="icons">
                     <Link href=""></Link>
                   </div>
@@ -87,7 +87,7 @@ const Footer = () => {
                   <div class="icons">
                     <Link href=""></Link>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               <div class="footer-col">

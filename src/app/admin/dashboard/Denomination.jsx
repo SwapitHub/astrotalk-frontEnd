@@ -61,7 +61,7 @@ const Denomination = () => {
   return (
     <div className="AddLanguage Denomination">
       <div className="language-add-data">
-        <h2>Add a New Language</h2>
+        <h2>Add a New Denomination</h2>
         <div className="admin-form-box">
           <div className="form-field Amount">
             <label>Enter Amount</label>
@@ -97,7 +97,7 @@ const Denomination = () => {
       </div>
 
       <div className="language-list">
-        <h2>Available Languages</h2>
+        <h2>Available Denomination</h2>
         {loading ? (
           <Loader />
         ) : (

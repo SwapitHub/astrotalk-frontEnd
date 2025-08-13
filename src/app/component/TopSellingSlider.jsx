@@ -5,8 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Link from "next/link";
 import axios from "axios";
 
-const TopSellingSlider = () => {
-  const [topSellingListData, setTopSellingListData] = useState();
+const TopSellingSlider = ({topSellingSlider}) => {
   const sliderSettings = {
     dots: false,
     infinite: true,
@@ -17,21 +16,20 @@ const TopSellingSlider = () => {
     autoplaySpeed: 2000,
   };
 
-  console.log(topSellingListData);
 
-  useEffect(() => {
-    const handleTopSelling = async () => {
-      try {
-        const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-product-list-top-selling/top_selling`
-        );
-        setTopSellingListData(res.data.data);
-      } catch (error) {
-        console.log("API error", error);
-      }
-    };
-    handleTopSelling();
-  }, []);
+  // useEffect(() => {
+  //   const handleTopSelling = async () => {
+  //     try {
+  //       const res = await axios.get(
+  //         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-product-list-top-selling/top_selling`
+  //       );
+  //       setTopSellingListData(res.data.data);
+  //     } catch (error) {
+  //       console.log("API error", error);
+  //     }
+  //   };
+  //   handleTopSelling();
+  // }, []);
   return (
     <section className="astromall-slider-outer ">
       <div className="container">
@@ -69,7 +67,7 @@ const TopSellingSlider = () => {
                 },
               ]}
             >
-              {topSellingListData?.map((item, index) => (
+              {topSellingSlider?.map((item, index) => (
                 <div className="single-slide" key={index}>
                   <Link href={`/shop/${item?.shop_slug}/${item.slug}/${item?.shop_product_type=="gemstone_product"?`?gemstone=true`:""}`}>
                     <div className="slide-img">
