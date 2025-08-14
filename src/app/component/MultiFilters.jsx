@@ -282,6 +282,7 @@ const MultiFilters = ({
                   <button onClick={handleChangeClearAll}>Clear All </button>
                 </div>
                 {skillsListData?.map((item) => (
+                  <div className="man-input-filed-sec">
                   <label key={item._id}>
                     <input
                       type="checkbox"
@@ -306,6 +307,7 @@ const MultiFilters = ({
                     />
                     <span>{item.professions}</span>
                   </label>
+                  </div>
                 ))}
               </div>
 
@@ -317,6 +319,7 @@ const MultiFilters = ({
               >
                 {languageListData?.map((lang) => {
                   return (
+                    <div className="man-input-filed-sec">
                     <label key={lang._id}>
                       <input
                         type="checkbox"
@@ -341,6 +344,7 @@ const MultiFilters = ({
                       />
                       <span>{lang.languages}</span>
                     </label>
+                    </div>
                   );
                 })}
               </div>
@@ -351,6 +355,7 @@ const MultiFilters = ({
               >
                 {["Male", "Female"].map((item) => {
                   return (
+                    <div className="man-input-filed-sec">
                     <label key={item}>
                       <input
                         type="checkbox"
@@ -375,6 +380,7 @@ const MultiFilters = ({
                       />{" "}
                       <span>{item}</span>
                     </label>
+                    </div>
                   );
                 })}
               </div>
@@ -386,6 +392,7 @@ const MultiFilters = ({
               >
                 {["India", "Outside_India"].map((item) => {
                   return (
+                    <div className="man-input-filed-sec">
                     <label key={item}>
                       <input
                         type="checkbox"
@@ -409,6 +416,7 @@ const MultiFilters = ({
                       />{" "}
                       <span>{item}</span>
                     </label>
+                    </div>
                   );
                 })}
               </div>
@@ -417,12 +425,16 @@ const MultiFilters = ({
                 className={`tab-pane ${activeTab === "offer" ? "active" : ""}`}
                 id="offer"
               >
-                <label>
-                  <input type="checkbox" name="Offer" /> <span>Active</span>
-                </label>
-                <label>
-                  <input type="checkbox" name="Offer" /> <span>Not Active</span>
-                </label>
+                <div className="man-input-filed-sec">
+                  <label>
+                    <input type="checkbox" name="Offer" /> <span>Active</span>
+                  </label>
+                </div>
+                <div className="man-input-filed-sec">
+                  <label>
+                    <input type="checkbox" name="Offer" /> <span>Not Active</span>
+                  </label>
+                </div>
               </div>
 
               <div
@@ -453,6 +465,7 @@ const MultiFilters = ({
                     desc: "Includes all verified astrologers, hired after 5 rounds of interviews",
                   },
                 ].map(({ value, label, desc }) => (
+                  <div className="man-input-filed-sec">
                   <label key={value}>
                     <input
                       type="checkbox"
@@ -480,6 +493,7 @@ const MultiFilters = ({
                     <span>{label}</span>
                     <p>{desc}</p>
                   </label>
+                  </div>
                 ))}
               </div>
             </div>

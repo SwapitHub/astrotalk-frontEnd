@@ -13,6 +13,8 @@ const GemStoneProductGemJewelry = () => {
   const [editMode, setEditMode] = useState(false);
   const [editProductId, setEditProductId] = useState(null);
   const [shopListSingleData, setShopListSingleData] = useState(false);
+  const [message, setMessage] = useState("");
+
 
   console.log(shopListSingleData, "shopListSingleData");
 
@@ -52,8 +54,8 @@ const GemStoneProductGemJewelry = () => {
     );
 
     if (!image || !name || !gemPrice || !productType) {
-      toast.error("Please fill all fields", { position: "top-right" });
-      return;
+      
+      return setMessage("All Fields Are Required !");;
     }
 
     const data = new FormData();
@@ -71,6 +73,7 @@ const GemStoneProductGemJewelry = () => {
       if (res?.status == 201) {
         toast.success("Added Successfully", { position: "top-right" });
         fetchProductList();
+        setMessage("")
       }
       document.getElementById("gem_name").value = "";
       document.getElementById("astroGemstoneJewelryImg").value = "";
@@ -224,7 +227,12 @@ const GemStoneProductGemJewelry = () => {
         {editMode ? (
           <button onClick={handleUpdate}>Update</button>
         ) : (
+          <>
           <button onClick={handleSubmit}>Submit</button>
+        <p className="error-msg">{message}</p>
+
+          </>
+          
         )}
       </div>
       <div className="language-list">

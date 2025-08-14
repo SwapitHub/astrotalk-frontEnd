@@ -535,17 +535,17 @@ console.log(selectedProductTypeId,"selectedProductTypeId-2");
           <SummernoteEditor value={content} onChange={setContent}/>
         </div>
 
-        <div className="form-field">
-          <div className="remove-astrict label-content top-selling field-checkbox">
+        <div className="form-field man-input-filed-sec">
+          <label className="remove-astrict label-content top-selling field-checkbox">
             <input type="checkbox" id="top_selling" />
-            <label>Can you move this product to the Top Selling group?</label>
-          </div>
+            <span>Can you move this product to the Top Selling group?</span>
+          </label>
         </div>
-        <div className="form-field">
-          <div className="remove-astrict label-content top-selling field-checkbox">
+        <div className="form-field man-input-filed-sec">
+          <label className="remove-astrict label-content top-selling field-checkbox">
             <input type="checkbox" id="newlyLaunched" />
-            <label>Can you move this product to the Top NEWLY LAUNCHED?</label>
-          </div>
+            <span>Can you move this product to the Top NEWLY LAUNCHED?</span>
+          </label>
         </div>
         {editMode ? (
           <button onClick={handleUpdate}>Update</button>

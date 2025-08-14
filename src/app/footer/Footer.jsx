@@ -16,7 +16,6 @@ const Footer = () => {
     "get-footerProduct-astrologer"
   );
 
-
   useEffect(() => {
     const astrologerPhone = Cookies.get("astrologer-phone");
     setAstrologerPhone(astrologerPhone);
@@ -30,7 +29,9 @@ const Footer = () => {
 
   return (
     <>
-      {parts[1] == "admin" || parts[1] == "astrologer" || (parts[1] == "chat-with-astrologer" && parts[2]=="astrologer") ? (
+      {parts[1] == "admin" ||
+      parts[1] == "astrologer" ||
+      (parts[1] == "chat-with-astrologer" && parts[2] == "astrologer") ? (
         ""
       ) : (
         <footer class="footer">
@@ -64,7 +65,7 @@ const Footer = () => {
                 <div class="discript_text-link">
                   <Link href="/chat-with-astrologer">
                     {" "}
-                    <span class="icon"></span> We are available 24x7 on chat
+                    <span class="icon"></span>We are available 24x7 on chat
                     support <span class="footer-btn">click to start chat</span>{" "}
                   </Link>
                 </div>

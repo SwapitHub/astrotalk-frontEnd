@@ -7,13 +7,13 @@ import { toast } from "react-toastify";
 const AddProfessions = () => {
   const [professionsList, setProfessionsList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleSubmitAddProfession = async () => {
     const profession = document.getElementById("profession")?.value.trim();
 
-    if (!profession) {
-      toast.warning("Please enter a profession name.", { position: "top-right" });
-      return;
+   if (!profession) {
+      return setMessage("Profession Field Is Required !");
     }
 
     try {
@@ -26,6 +26,7 @@ const AddProfessions = () => {
         toast.success("Profession added successfully!", { position: "top-right" });
         document.getElementById("profession").value = "";
         fetchProfessionsList();
+        setMessage("")
       }
     } catch (error) {
       console.error("Add profession error:", error);
@@ -73,6 +74,8 @@ const AddProfessions = () => {
         <input type="text" placeholder="Profession Name" id="profession"  className="common-input-filed" />
         </div>
         <button onClick={handleSubmitAddProfession}>Add Profession</button>
+          <p className="error-msg">{message}</p>
+
         </div>
       </div>
 

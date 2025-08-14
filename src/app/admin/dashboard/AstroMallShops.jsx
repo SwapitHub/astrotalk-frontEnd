@@ -258,21 +258,21 @@ const AstroMallShops = () => {
           
           <SummernoteEditor value={shopContent} onChange={setShopContent} />
         </div>
-        <div className="form-field">
-          <div className="remove-astrict label-content field-checkbox">
+        <div className="form-field man-input-filed-sec">
+          <label className="remove-astrict label-content field-checkbox">
             <input id="offer_checkbox" type="checkbox" />
-            <label>Do you want to offer discounts on items in your shop?</label>
-          </div>
+            <span>Do you want to offer discounts on items in your shop?</span>
+          </label>
         </div>
 
-        <div className="form-field">
-          <div className="remove-astrict label-content field-checkbox">
+        <div className="form-field man-input-filed-sec">
+          <label className="remove-astrict label-content field-checkbox">
             <input id="Jewelry_product_gem" type="checkbox" />
-            <label>
+            <span>
               Are you adding a Spiritual Jewelry Product in the "Gemstone"
               category?
-            </label>
-          </div>
+            </span>
+          </label>
         </div>
         {editMode ? (
           <button onClick={handleUpdateShop}>Update</button>

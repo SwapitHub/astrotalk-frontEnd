@@ -32,6 +32,7 @@ const SortByFilter = ({
             {/* <label>
               <input type="radio" name="sort" /> <span>Popularity</span>
             </label> */}
+            <div className="man-input-filed-sec">
             <label>
               <input
                 type="radio"
@@ -40,8 +41,10 @@ const SortByFilter = ({
                 checked={sortFilterCharges === "experience_high_to_low"}
                 onChange={handleSortChange}
               />{" "}
-              <span>Experience : High to Low</span>
+              <label>Experience : High to Low</label>
             </label>
+            </div>
+            <div className="man-input-filed-sec">
             <label>
               <input
                 type="radio"
@@ -50,8 +53,10 @@ const SortByFilter = ({
                 checked={sortFilterCharges === "experience_low_to_high"}
                 onChange={handleSortChange}
               />{" "}
-              <span>Experience : Low to High</span>
+              <label>Experience : Low to High</label>
             </label>
+            </div>
+            <div className="man-input-filed-sec">
             <label>
               <input
                 type="radio"
@@ -60,8 +65,10 @@ const SortByFilter = ({
                 checked={sortFilterCharges === "order_high_to_low"}
                 onChange={handleSortChange}
               />{" "}
-              <span>Total orders : High to Low</span>
+              <label>Total orders : High to Low</label>
             </label>
+            </div>
+            <div className="man-input-filed-sec">
             <label>
               <input
                 type="radio"
@@ -70,8 +77,10 @@ const SortByFilter = ({
                 checked={sortFilterCharges === "order_low_to_high"}
                 onChange={handleSortChange}
               />{" "}
-              <span>Total orders : Low to High</span>
+              <label>Total orders : Low to High</label>
             </label>
+            </div>
+            <div className="man-input-filed-sec">
             <label>
               <input
                 type="radio"
@@ -80,8 +89,10 @@ const SortByFilter = ({
                 checked={sortFilterCharges === "charges_high_to_low"}
                 onChange={handleSortChange}
               />{" "}
-              <span>Price : High to Low</span>
+              <label>Price : High to Low</label>
             </label>
+            </div>
+            <div className="man-input-filed-sec">
             <label>
               <input
                 type="radio"
@@ -90,8 +101,9 @@ const SortByFilter = ({
                 checked={sortFilterCharges === "charges_low_to_high"}
                 onChange={handleSortChange}
               />{" "}
-              <span>Price : Low to High</span>
+              <label>Price : Low to High</label>
             </label>
+            </div>
             {/* <label>
               <input type="radio" name="sort" />{" "}
               <span>Rating : High to Low</span>

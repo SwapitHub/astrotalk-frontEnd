@@ -28,7 +28,11 @@ const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   forceNew: true,
 });
 
-const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
+const ChatWithAstrologer = ({
+  languageListData,
+  skillsListData,
+  chatAstrologerLit,
+}) => {
   const router = useRouter();
   const [showAstrologer, setShowAstrologer] = useState(null);
 
@@ -136,7 +140,6 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
       setError(err);
       if (currentPage === 1) setShowAstrologer([]);
       setIsLoading(false);
-
     } finally {
       setIsLoading(false);
       setIsFetchingMore(false);
@@ -525,7 +528,7 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
                 <div className="heading-button">
                   <span>Talk to Astrologer</span>
                 </div>
-                {userData?.freeChatStatus == true && (
+                {!userData?.freeChatStatus == true && (
                   <div className="free-chat-btn">
                     <Link
                       // href="#"
@@ -769,6 +772,160 @@ const ChatWithAstrologer = ({ languageListData, skillsListData }) => {
               <p>No results found</p>
             )}
           </div>
+          {/* // server rendering side code start here */}
+          <div
+            className="all-list-talk-to-astrologer"
+            style={{ display: "none" }}
+          >
+            {chatAstrologerLit?.map((item) => {
+              return (
+                <>
+                  {item.profileStatus == true && (
+                    <div className="inner-astrologer-detail">
+                      <Link
+                        href={`/best-astrologer/${item?.name}`}
+                        key={item.id}
+                      >
+                        {item.topAstrologer && (
+                          <div className="star-banner">
+                            {item.topAstrologer == "celebrity"
+                              ? "Celebrity"
+                              : item.topAstrologer == "rising_star"
+                              ? "Rising Star"
+                              : item.topAstrologer == "top_choice"
+                              ? "Top Choice"
+                              : ""}
+                          </div>
+                        )}
+
+                        <div className="astrologer-list-left">
+                          <div className="astrologer-profile">
+                            <img
+                              src={`${item?.profileImage}`}
+                              alt={item?.name}
+                            />
+                          </div>
+                          <div className="five-star-rating">
+                            <ul className="stars">
+                              <li>{renderStars(item?.averageRating)}</li>
+                            </ul>
+                          </div>
+                          <div className="talk-to-total-orders">
+                            <p> {item?.totalOrders} orders</p>
+                          </div>
+                        </div>
+                        <div className="astrologer-list-center">
+                          <div className="talk-to-name-sec">
+                            <h5>{item.name}</h5>
+                            <div className="skills">
+                              {item.professions.map((item) => {
+                                return <span>{item}</span>;
+                              })}
+                            </div>
+                          </div>
+                          <div className="talk-to-language">
+                            {item.languages.map((item) => {
+                              return <span>{item}</span>;
+                            })}
+                          </div>
+                          <div className="exp-year-sec">
+                            <p>
+                              Exp:{" "}
+                              <span className="ctm-carly-breaks">
+                                {item.experience}
+                              </span>{" "}
+                              Years
+                            </p>
+                          </div>
+                          <div className="talk-to-time-sec">
+                            <p>
+                              ₹ {item.charges}{" "}
+                              <span>
+                                {/* <span className="ctm-carly-breaks">
+                                {item.minute}
+                              </span> */}
+                                <span className="ctm-carly-breaks">/</span> min
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                        <div className="astrologer-list-right">
+                          <div className="Verified-Sticker-icon">
+                            <img
+                              src="./Verified-Sticker.png"
+                              alt="Verified Sticker"
+                            />
+                          </div>
+
+                          {item.chatStatus == false ? (
+                            <div className="astrologer-call-button-ctm">
+                              {!userData?.name ? (
+                                <Link href="/free-chat/start">Chat</Link>
+                              ) : userAmount >= item.charges * 2 ? (
+                                <Link
+                                  href="#"
+                                  onClick={() => {
+                                    onChangeId(
+                                      item._id,
+                                      item.mobileNumber,
+                                      item.profileImage,
+                                      item.name,
+                                      item.charges,
+                                      item.experience
+                                    );
+                                  }}
+                                >
+                                  Chat
+                                </Link>
+                              ) : !userMobile || !userIds ? (
+                                <Link href="#" onClick={handelUserLogin}>
+                                  chat
+                                </Link>
+                              ) : (
+                                <Link
+                                  href="#"
+                                  onClick={() =>
+                                    onChangeId(
+                                      item._id,
+                                      item.mobileNumber,
+                                      item.profileImage,
+                                      item.name,
+                                      item.charges,
+                                      item.experience
+                                    )
+                                  }
+                                >
+                                  chat
+                                </Link>
+                              )}
+                            </div>
+                          ) : (
+                            <div className="astrologer-call-button-ctm chatStatus-false">
+                              <Link
+                                href={
+                                  userData?.chatStatus
+                                    ? `/chat-with-astrologer/user/${userIds}`
+                                    : "#"
+                                }
+                                // onClick={() =>
+                                //   onChangeId(item._id, item.mobileNumber)
+                                // }
+                              >
+                                Chat
+                              </Link>
+                              <span>waiting 5 minutes</span>
+                            </div>
+                          )}
+                        </div>
+                      </Link>
+                    </div>
+                  )}
+                </>
+              );
+            })}
+            {isFetchingMore && <Loader />}
+          </div>
+          {/* // server side code end here */}
         </div>
       </section>
     </main>

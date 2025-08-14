@@ -7,13 +7,12 @@ import { toast } from "react-toastify";
 const AddLanguage = () => {
   const [languageListData, setLanguageListData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleSubmitAddLanguage = async () => {
     const language = document.getElementById("language").value.trim();
-
     if (!language) {
-      toast.warning("Please enter a language name.", { position: "top-right" });
-      return;
+      return setMessage("Language Field Is Required !");
     }
 
     try {
@@ -25,9 +24,12 @@ const AddLanguage = () => {
       );
 
       if (response.data.message === "success") {
-        toast.success("Language added successfully!", { position: "top-right" });
+        toast.success("Language added successfully!", {
+          position: "top-right",
+        });
         document.getElementById("language").value = "";
         fetchLanguageList(); // Refresh list
+        setMessage("");
       }
     } catch (error) {
       console.error("Add language error:", error);
@@ -41,7 +43,7 @@ const AddLanguage = () => {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/add-Language-astrologer`
       );
-      setLanguageListData(response.data); 
+      setLanguageListData(response.data);
     } catch (error) {
       console.error("Fetch language list error:", error);
       toast.error("Failed to fetch languages.", { position: "top-right" });
@@ -57,7 +59,9 @@ const AddLanguage = () => {
       );
 
       if (res.data.message === "success") {
-        toast.success("Language removed successfully!", { position: "top-right" });
+        toast.success("Language removed successfully!", {
+          position: "top-right",
+        });
         fetchLanguageList(); // Refresh list after delete
       }
     } catch (err) {
@@ -76,24 +80,28 @@ const AddLanguage = () => {
         <h2>Add a New Language</h2>
         <div className="admin-form-box">
           <div className="form-field">
-            <input type="text" placeholder="Language Name" id="language" className="common-input-filed" />
+            <input
+              type="text"
+              placeholder="Language Name"
+              id="language"
+              className="common-input-filed"
+            />
           </div>
           <button onClick={handleSubmitAddLanguage}>Add Language</button>
+          <p className="error-msg">{message}</p>
         </div>
       </div>
 
       <div className="language-list">
         <h2>Available Languages</h2>
         {loading ? (
-           <Loader/>
+          <Loader />
         ) : (
           <ul>
             {languageListData.map((item) => (
               <li key={item._id}>
                 {item.languages}
-                <button onClick={() => deleteLanguage(item._id)}>
-                  Remove
-                </button>
+                <button onClick={() => deleteLanguage(item._id)}>Remove</button>
               </li>
             ))}
           </ul>

@@ -138,7 +138,9 @@ function AdminShopProductWallet({ updateButton }) {
             <FaSearch />
           </button>
         </div>
-        <div className="search-help-text"><p>Search product based on product id</p></div>
+        <div className="search-help-text">
+          <p>Search product based on product id</p>
+        </div>
       </div>
 
       {loading ? (
@@ -218,25 +220,29 @@ function AdminShopProductWallet({ updateButton }) {
         </div>
       )}
 
-      <div className="admin-wallet-inner">
-        <button
-          onClick={handlePrevious}
-          disabled={!hasPrevPage || loading}
-          className={!hasPrevPage ? "disable" : ""}
-        >
-          Previous
-        </button>
-        <span>
-          Page {page} of {totalPages}
-        </span>
-        <button
-          onClick={handleNext}
-          disabled={!hasNextPage || loading}
-          className={!hasNextPage ? "disable" : ""}
-        >
-          Next
-        </button>
-      </div>
+      {totalPages > 0 ? (
+        <div className="admin-wallet-inner">
+          <button
+            onClick={handlePrevious}
+            disabled={!hasPrevPage || loading}
+            className={!hasPrevPage ? "disable" : ""}
+          >
+            Previous
+          </button>
+          <span>
+            Page {page} of {totalPages}
+          </span>
+          <button
+            onClick={handleNext}
+            disabled={!hasNextPage || loading}
+            className={!hasNextPage ? "disable" : ""}
+          >
+            Next
+          </button>
+        </div>
+      ) : (
+        <p className="data-not-found">Data Not Found</p>
+      )}
     </div>
   );
 }

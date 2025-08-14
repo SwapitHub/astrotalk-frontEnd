@@ -216,9 +216,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
     autoplay: false,
     autoplaySpeed: 2000,
   };
-  const handelUserLogin = () => {
-    setOtpPopUpDisplay(true);
-  };
+  
 
   useEffect(() => {
     if (isLoadingRequest) {
@@ -430,8 +428,11 @@ export const AstrologerDetail = ({ astrologerData }) => {
                             Chat{" "}
                           </Link>
                         ) : !userMobile || !userIds ? (
-                          <Link href="#" onClick={handelUserLogin}>
-                            chat
+                          <Link href="/free-chat/start" className="btns_astrolgers_contact">
+                            <span className="icon">
+                              <SiMessenger />
+                            </span>
+                            Chat
                           </Link>
                         ) : (
                           <Link
@@ -451,7 +452,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
                             <span className="icon">
                               <SiMessenger />
                             </span>
-                            chat
+                            Chat
                           </Link>
                         )}
                       </div>

@@ -17,6 +17,8 @@ select {appearance: none; background-image: linear-gradient(45deg, transparent 5
 .loader + .all-list-talk-to-astrologer {display: none;}
 .talk-to-astrologer-bg .loader, section.my-order-hisrory-bg .loader, .my-wallet-table-sec .loader{background-color: #ffffff; z-index: 1; width: 100%; min-height: 150px; grid-column: span 2;}
 .outer-table {overflow-x: auto;}
+textarea {min-height: 100px; resize: none;}
+.note-fullscreen-body .change-password {z-index: 99;}
 /* Main Div Flex Start*/
 .ctm-flex-row {display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 20px;}
 /* Justify Content Start*/
@@ -119,24 +121,26 @@ nav.navbar ul {justify-content: center; display: flex;}
 .filter-button i {font-size: 14px; color: #232323; margin-right: 5px; display: inline-block;}
 .heading-button span {font-size: 24px; font-weight: 700;}
 .search-button-filed button i {color: #fff;}
-.talk-to-astrologer-left-content {width: 45%;}
+.talk-to-astrologer-left-content {width: 45%;  gap: 10px 20px;}
+.free-chat-btn a {vertical-align: middle;}
 .talk-to-astrologer-left-content, .talk-to-astrologer-right-content {display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;}
 .talk-to-astrologer-right-content {justify-content: flex-end; width: calc(55% - 50px); margin-left: 50px;}
 .search-box-top-btn {display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; background-color: #fff; color: #232323; border-radius: 5px; font-size: 16px; cursor: pointer; width: max-content;}
 .dashboard-right-content .filter-button.search-box-top-btn {margin: 0px 0px 20px; width: auto; display: inline-flex; gap: 15px; justify-content: unset;}
 .dashboard-right-content .search-box-filed {max-width: max-content; width: auto;}
 .dashboard-right-content .search-button-filed {width: auto; margin-left: -15px;}
-.dashboard-right-content .search-button-filed button {border-top-left-radius: 0px; border-bottom-left-radius: 0px; border: 0px;}
+.dashboard-right-content .search-button-filed button:not(.note-btn) {border-top-left-radius: 0px; border-bottom-left-radius: 0px; border: 0px;}
 .dashboard-right-content .search-box-top-btn input {min-width: 250px;}
 .search-box-top-btn input:focus {border: none;}
-.search-box-top-btn input {border: none; height: 100%; border-radius: 5px 0 0 5px; outline: none; padding: 5px 12px; font-size: 15px; font-family: inherit; max-width: 100%;}
+.search-box-top-btn input {border: none; height: 100%; border-radius: 5px 0 0 5px; outline: none; padding: 5px 12px; font-size: 15px; font-family: inherit; max-width: 100%; width: 100%;}
+.talk-to-astrologer-wrap > p {text-align: center;  margin: 40px 0px 0px;}
 .search-box-filed {width: 80%; height: 40px; border: 1px solid #232323; border-radius: 5px 0 0 5px; max-width: 195px;}
 .search-button-filed {width: 20%;}
 .search-button-filed button {width: 100%; background-color: var(--primary_color); width: 100%; height: 40px; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; border: none; outline: none; font-size: 16px; color: #fff; border: 1px solid var(--primary_color); border-radius: 0 5px 5px 0; cursor: pointer;}
 .inner-talk-to-astrologer-right-content {display: flex; gap: 10px; align-items: center; flex-wrap: wrap;}
 .search-button-filed input::placeholder {color: #232323 !important; font-size: 16px;}
 .inner-form-filed-sec.full {width: 100%;}
-.inner-form-filed-sec {width: calc(100% / 2 - 10px); position: relative;}
+.inner-form-filed-sec {width: calc(100% / 2 - 20px); position: relative;}
 .registration-heading .astrologer-call-button-ctm {position: inherit;}
 .inner-form-filed-sec textarea {border-radius: 5px; width: 100%;color: #232323; font-weight: 400; font-size: 16px; line-height: normal; outline-style: none; padding: 10px; box-shadow: none !important; background: transparent !important; border: 1px solid #d9d9d9; height: 100px;}
 .outer-home-dashboard ul {display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;}
@@ -204,7 +208,7 @@ h1, .common-h1-heading {font-size: 34px; line-height: 50px; text-transform: capi
 .common-input-filed {border-radius: 5px; width: 100%; font-size: 16px; line-height: normal; padding: 10px 15px; font-family: inherit; height: 42px;}
 .man-input-filed-sec input::placeholder, input#fname::placeholder {color: #232323 !important;}
 .common-input-filed:not([type="file"]):not([type="radio"]):not([type="checkbox"]):not(.man-input-filed-sec) {border: 0px; background-color: #fff; box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);}
-.label-content label {font-size: 16px; margin-bottom: 10px; display: block; position: relative; max-width: max-content;}
+.label-content label {font-size: 16px; margin-bottom: 4px; display: block; position: relative; max-width: max-content;}
 .label-content label:after {content: "*"; color: #ff0000cc; display: inline; right: -14px; top: -4px; font-size: 20px;}
 .remove-astrict  label::after {display: none;}
 .input-gender-sec label {margin: 0 5px;}
@@ -252,7 +256,7 @@ span.list-text {flex-grow: 1;}
 .dashboard-right-content table th:last-child, .dashboard-right-content table td:last-child {min-width: 180px;}
 .dashboard-right-content td img {max-width: 100px; border-radius: 8px;}
 .dashboard-right-content h2 {margin: 0 0 15px;}
-.dashboard-right-content {padding: 20px 27px; margin-left: 255px; flex-grow: 1; margin-top: 100px; transition: all 0.3s;}
+.dashboard-right-content {padding: 20px 27px 30px; margin-left: 255px; flex-grow: 1; margin-top: 100px; transition: all 0.3s;}
 .slider-opened .dashboard-right-content {margin-left: 0px;}
 .dashborad-right-content-inner {display: flex; flex-wrap: wrap; gap: 30px;}
 .dashboard-column {width: calc(25% - 24px);}
@@ -512,14 +516,7 @@ span.star.full, span.star {color: #6c757d;}
 /* 24-04-2025 */
 .sort-modal {width: 300px;}
 .sort-header {display: flex; justify-content: space-between; font-weight: bold; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 10px;}
-.sort-options label {display: block; padding: 8px 0; cursor: pointer;}
-.sort-options input[type="radio"] {margin-right: 10px; accent-color: teal;}
-.sort-modal .sort-options label span {position: relative; padding-left: 25px;}
-.sort-modal .sort-options label input {display: none;}
-.sort-modal .sort-options label span::before {content: ""; width: 16px; height: 16px; border-radius: 50%; position: absolute; left: 0; background-color: #fff; top: 1.5px; border: 2px solid var(--primary_color);}
-.sort-modal .sort-options label span::after {content: ""; position: absolute; left: 5px; top: 8px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; width: 8px; height: 3px; transform: rotate(-45deg); display: none;}
-.sort-modal .sort-options label input:checked + span::after {display: block;}
-.sort-modal .sort-options label input:checked + span::before {background-color: var(--primary_color);}
+.sort-options label {cursor: pointer; display: block;}
 .AddLanguage .language-add-data {border-right: 1px solid #cfcfcf;}
 .header {position: relative; z-index: 2; background-color: #fff;}
 .user-filter-popup, .multi-user-filter-popup, .sort-user-filter-popup, .loading-user-filter-popup, .delete-chat-popup, .share-open-popup, .ring-opened {position: relative; overflow: hidden;}
@@ -540,19 +537,15 @@ span.star.full, span.star {color: #6c757d;}
 .filter-content label {display: block; margin-bottom: 8px; cursor: pointer;}
 .filter-footer {clear: both; display: flex; justify-content: space-between; padding-top: 15px;}
 .apply-button {background-color: yellow; border: 1px solid #ccc; padding: 8px 16px; cursor: pointer;}
+.filter-content .tab-pane:not(#skill) {padding: 10px 0px 0px;}
+.sort-options > *:not(:last-child) {margin: 0 0 10px;}
+.sort-modal button.reset {margin: 20px 0px 0px;}
+.filter-content input[type="checkbox"] + span {font-weight: 600;}
 /* Custom checkbox styling */
-.filter-content .tab-pane label {margin-top: 13px;}
-.filter-content .tab-pane label span, .sort-radio input[type="radio"] + label {position: relative; padding-left: 25px;}
-.filter-content .tab-pane label input {display: none;}
-.filter-content .tab-pane label span::before, .sort-radio input[type="radio"] + label::before {content: ""; border-radius: 50%; position: absolute; left: 0; background-color: #fff; width: 16px; height: 16px; top: 1.5px; border: 2px solid var(--primary_color);}
-.filter-content .tab-pane label span::after, .sort-radio input[type="radio"] + label::after {content: ""; position: absolute; transform: rotate(-45deg); left: 5px; top: 8px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; width: 8px; height: 3px; opacity: 0; transition: all 0.3s;}
-.filter-content .tab-pane label input:checked + span::after, .sort-radio input[type="radio"]:checked + label::after {opacity: 1;}
-.filter-content .tab-pane label input:checked + span::before {background-color: var(--primary_color);}
 .main-recharge-popup > * {width: 100%;}
 .filter-footer button {display: inline-block; padding: 7px 20px;}
 li.active > a {opacity: 1 !important;}
-/* 24-04-2025 */
-/* 25-04-2025 */
+/* 24-04-2025 *//* 25-04-2025 */
 .filter-outer {display: flex; justify-content: space-between;}
 .filter-tabs {width: 35%;}
 .inner-form-filed-sec label span, span.ctm-carly-breaks {font-family: inherit;}
@@ -781,8 +774,8 @@ ul.notification-dropdown.onhover-show-div li + li:hover {background-color: #f8f8
 .update-profile .label-content label::after {display: none;}
 .typing-indicator {position: absolute; z-index: 9; bottom: 20px; left: 30px; color: var(--primary_color);}
 .change-password, .admin-form-box {background-color: #f2f2f2; padding: 50px;}
-.change-password .form-field:not(:last-child), .admin-form-box .form-field:not(:last-child), .admin-login-form .form-field:not(:last-child), .AstroMallShops-admin .actual-price {margin: 0 0 30px;}
-.change-password p {color: red; padding-top: 15px;}
+.change-password .form-field:not(:last-child), .admin-form-box .form-field:not(:last-child), .admin-login-form .form-field:not(:last-child), .AstroMallShops-admin .actual-price {margin: 0 0 20px;}
+.change-password p, .error-msg {color: red; padding-top: 15px;}
 .admin-popup-main {position: relative;}
 .admin-popup-main .loader {position: absolute; z-index: 9; width: 100%; height: 100%; top: 10px; left: 0; background-color: #fff;}
 nav.navbar > ul > li > span {cursor: pointer;}
@@ -810,7 +803,7 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .details-cont {position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px; background-color: rgba(0, 0, 0, .4); min-height: 70px;}
 .product-name {color: #fff; font-weight: 600; font-size: 16px; margin: 0 0 5px;}
 .details-cont p {font-size: 13px; -webkit-line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical; color: #eee; margin-bottom: 0; text-overflow: ellipsis; overflow: hidden;}
-.sales-tag {position: absolute; top: 10px; z-index: 1; left: 0; background-color: var(--primary_color); color: #fff; padding: 5px 10px 3px; width: max-content;}
+.sales-tag {position: absolute; top: 10px; z-index: 1; left: 0; background-color: var(--primary_color); color: #fff; padding: 5px 10px 3px; width: max-content; max-width: calc(100% - 80px);}
 .astromall-slider-outer {padding: 0 0 70px;}
 .astromall-slider-outer .heading-sec {text-align: center;}
 .astromall-slider-outer .heading-sec h2 {font-size: 24px;}
@@ -819,7 +812,7 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .AstroMallShops-admin .change-password {position: sticky; top: 120px; min-width: 500px; max-height: calc(100vh - 120px); overflow-y: auto; max-width: 500px;}
 .AstroMallShops-admin .language-list {width: auto; flex-grow: 1;}
 .astro-mall-btn {position: absolute; right: 10px; top: 10px; display: flex; gap: 5px;}
-.astro-mall-btn button {padding: 0; width: 30px; height: 30px;}
+.astro-mall-btn button {padding: 2px 0px 0px !important; width: 30px; height: 30px;}
 .AstroMallShops-admin {flex-wrap: unset;}
 .astromall-slider-outer .slider-sec {margin: 30px 0px 0px;}
 .astromall-slider-outer .slick-track {display: flex;}
@@ -897,12 +890,14 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .single-summary.total-amount {border-top: 1px solid;}
 /* Spiritual Services in Astrologer dashboard  */
 .spiritual-services-outer {max-width: 700px;}
+.spiritual-services-outer h1 {margin: 0 0 20px; text-align: left;}
 .spiritual-head-sec, .single-service {display: flex; align-items: center;}
 .spiritual-head-sec > *:not(:last-child) {border-right: 1px solid #d7d7d7;}
-.spiritual-head-sec {background-color: var(--primary_color); margin: 0 0 20px;}
+.spiritual-head-sec {background-color: var(--primary_color);}
 .spiritual-head-sec h2 {margin: 0px; color: #ffffff; font-size: 15px; font-weight: 600;}
 .spiritual-head-sec > * {padding: 10px 20px; flex: 1;}
-.single-service > * {flex: 1; margin: 0 0 20px;}
+.single-service {background: #f2f2f2; padding: 10px 0px;}
+.single-service > * {flex: 1;}
 .single-service-left input + label::before {content: ""; position: absolute; width: 20px; height: 20px; border: 2px solid var(--primary_color); border-radius: 50%; left: 20px; top: -1px; transition: all 0.3s;}
 .single-service-left input:checked + label::before {background-color: var(--primary_color);}
 .single-service-left input + label::after {content: ""; position: absolute; width: 10px; height: 5px; border-left: 2px solid #ffffff; border-bottom: 2px solid #ffffff; transform: rotate(-45deg); left: 26px; top: 6px; transition: all 0.3s; opacity: 0; visibility: hidden;}
@@ -911,6 +906,7 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .single-service-left input {position: absolute; width: 100%; height: 100%; opacity: 0; z-index: 1; left: 0; top: 0;}
 .single-service-left input[type="checked"] + label::before {background-color: var(--primary_color);}
 .single-service-right input {height: 35px; border: 1px solid var(--body_content_color); border-radius: 5px; max-width: 120px; padding: 0px 15px; font-family: inherit;}
+.spiritual-services-outer > button {margin: 20px 0px 0px;}
 /* astromall address */
 .address-outer {padding: 70px 0px;}
 .address-outer .card-body {background-color: #f2f2f2; padding: 50px;}
@@ -967,14 +963,16 @@ span.required {color: red;}
 .footer-menu {display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 0 0 20px;}
 .footer-menu h3 {color: #fff;}
 .footer-col ul {margin: 0; padding: 0; list-style: none;}
-.footer-col ul li a, .footer-col ul li span {text-decoration: none; color: #fff; font-size: 14px; transition: all 0.3s linear; display: inline-block;}
+.footer-col ul li a, .footer-col ul li span {text-decoration: none; color: #fff; font-size: 14px; transition: all 0.3s linear; display: inline-block; cursor: pointer;}
+.footer-col ul li a:hover, .footer-col ul li span:hover {color: var(--primary_color);}
 .footer-col ul li a img {width: 100%; height: auto; display: block;}
 .footer-col ul li + li {margin-top: 6px;}
 .discript_text-link {margin: 24px 0;}
 .discript_text-link a {text-decoration: none; color: #fff; font-size: 14px;}
 .discript_text-link .icon {display: inline-block; margin-right: 3px;}
 .email-wrapper, .secure_col {margin: 0 0 24px;}
-.email-wrapper a {text-decoration: none; color: #fff;}
+.email-wrapper a {text-decoration: none; color: #fff; display: flex; align-items: center; gap: 5px;}
+.email-wrapper a svg {width: 18px; height: 18px; margin: 0 0 1px;}
 .download-app ul {display: flex; align-items: center; gap: 10px;}
 .footer .download-app ul li {margin: 0;}
 .footer-social {display: flex; justify-content: space-between; align-items: center; margin: 15px 0 10px; gap: 30px;}
@@ -1028,9 +1026,22 @@ span.required {color: red;}
 .faq-section .icon::after {content: ""; position: absolute; width: 100%; height: 3px; background: #000; top: 50%; transform: translateY(-50%);}
 .faq-section .icon::before {content: ""; height: 100%; width: 3px; background: #000; position: absolute; left: 50%; transform: translateX(-50%);}
 .faq-item.active .icon::before {opacity: 0;}
+p.data-not-found {margin: 30px 0px 0px; text-align: center;}
+ 
+/*.field-checkbox input[type="checkbox"] + label::before {content: "";position: absolute;width: 20px;height: 20px;border: 1px solid;border-radius: 3px;left: 0;box-sizing: border-box;transition: all 0.3s;}
+.field-checkbox {position: relative; display: flex; gap: 10px;}
+.field-checkbox input[type="checkbox"] {position: relative;z-index: 1;width: 20px;height: 20px;opacity: 0;}
+.field-checkbox input[type="checkbox"] + label::after {content: "";  position: absolute; width: 8px; height: 4px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); left: 5px; top: 5px; transition: all 0.3s; opacity: 0; visibility: hidden;}
+.field-checkbox input[type="checkbox"]:checked + label::before {background-color: var(--primary_color); border-color: var(--primary_color);}
+.field-checkbox input[type="checkbox"]:checked + label::after {opacity: 1; visibility: visible;}
+.field-checkbox.label-content label {position: static;} */
+
 /* ================== @ media css start here ================== */
-@media (max-width: 1400px) {
+@media (max-width: 1600px) {
   .outer-home-dashboard ul {grid-template-columns: repeat(3, 1fr);}
+  .AstroMallShops-admin .astromall-listing {grid-template-columns: repeat(2, 1fr);}
+}
+@media (max-width: 1600px) {
   .AstroMallShops-admin .astromall-listing {grid-template-columns: repeat(2, 1fr);}
 }
 @media (max-width: 1199px) {
@@ -1092,8 +1103,9 @@ span.required {color: red;}
   .four-col .row {grid-template-columns: repeat(2, 1fr); gap: 40px;}
 /* home page end */
   .AddLanguage .language-add-data, .AddLanguage .language-list {width: 100%;}
-  .AddLanguage .language-add-data {padding: 0px 0 20px; border-right: 0px; border-bottom: 1px solid #cfcfcf;}
+  .AddLanguage .language-add-data {padding: 0px 0 0px; border-right: 0px; border-bottom: 0px solid #cfcfcf;}
   .AddLanguage .language-list {padding: 20px 0px 0px;}
+  .AddAdminCommissions-puja.AddLanguage {margin: 39px 0px 0px; border-top: 1px solid #cfcfcf;}
 }
 @media (max-width: 767px) {
   h1, .common-h1-heading {font-size: 24px; line-height: 36px;}
@@ -1109,7 +1121,7 @@ span.required {color: red;}
   .dashboard-right-content {margin-left: 0;}
   .profile_with_contact {flex-direction: column; align-items: normal; gap: 30px; text-align: center;}
   .profile_with_contact .image, .profile_with_contact .content {flex: 0 0 100%; max-width: 100%;}
-  .astrologer_name, .skills, .talk-to-language, .lang-outer {justify-content: center;}
+  .astrologer_name, .profile_with_contact .skills, .profile_with_contact .talk-to-language, .profile_with_contact .lang-outer {justify-content: center;}
   .btns_chat_call {flex-direction: column; gap: 0; align-items: normal;}
   .btns_astrolgers_contact {width: 100%;}
   .rating_review .row, .product-testimonial-left-right-inner {grid-template-columns: repeat(1, 1fr); gap: 0px;}
@@ -1139,8 +1151,6 @@ span.required {color: red;}
   .search-button-filed {width: 46px;}
   .talk-to-astrologer-left-content {justify-content: center;}
   .sort-right {gap: 20px;}
-  .filter-content .tab-pane label span::before, .sort-radio input[type="radio"] + label::before {top: 0px;}
-  .filter-content .tab-pane label span::after, .sort-radio input[type="radio"] + label::after {top: 7px;}
   .astro-dashboard-heading-btns-outer {flex-wrap: wrap; gap: 20px;}
   .astromall-sec-outer {padding: 50px 0px;}
   .astromall-slider-outer {padding: 0 0 50px;}
@@ -1191,6 +1201,8 @@ span.required {color: red;}
   .admin-banner {border-radius: 20px 20px 0px 0px; padding: 30px; width: 100%;}
   .admin-login-form {padding: 30px; width: 100%; border-radius: 0px 0px 20px 20px;}
   .admin-login-left-content h1 {font-size: 24px;}
+  .change-password .form-field:not(:last-child), .admin-form-box .form-field:not(:last-child), .admin-login-form .form-field:not(:last-child), .AstroMallShops-admin .actual-price {margin: 0 0 15px;}
+  .single-service {padding: 10px;}
 }
 @media(max-width:639px) {
     .four-col .row {grid-template-columns: repeat(1, 1fr);}

@@ -12,16 +12,17 @@ const Denomination = () => {
     loading,
     fetchGetData,
   } = useCustomGetApi("denomination-admin");
+  const [message, setMessage] = useState("");
 
   const handleSubmitAmount = async () => {
     const formData = {
       amount: document.getElementById("amount").value,
       extraAmount: document.getElementById("extra-amount").value,
     };
-
     if (!formData.amount || !formData.extraAmount) {
-      console.log("Please fill in all fields");
+      return setMessage("All Fields Are Required !");
     }
+    
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_WEBSITE_URL}/denomination-admin`,
       {
@@ -38,6 +39,7 @@ const Denomination = () => {
         position: "top-right",
       });
       fetchGetData();
+      setMessage("")
     }
   };
 
@@ -64,9 +66,11 @@ const Denomination = () => {
         <h2>Add a New Denomination</h2>
         <div className="admin-form-box">
           <div className="form-field Amount">
-            <label>Enter Amount</label>
+            <div className="label-content">
+              <label>Enter Amount</label>
+            </div>
             <input
-              type="text"
+              type="number"
               placeholder="enter amount"
               id="amount"
               className="common-input-filed"
@@ -74,25 +78,30 @@ const Denomination = () => {
           </div>
 
           <div className="form-field">
-            <label>Enter extra Amount</label>
+            <div className="label-content">
+              <label>Enter extra Amount</label>
+            </div>
             <input
-              type="text"
+              type="number"
               placeholder="enter extra amount"
               id="extra-amount"
               className="common-input-filed"
             />
           </div>
 
-          <div className="form-field">
-            <label>Add popular</label>
-            <input
-              type="checkbox"
-              onChange={() => setMostPopularData(!mostPopularData)}
-              placeholder="enter extra amount"
-              id="mostPopular"
-            />
+          <div className="form-field field-checkbox man-input-filed-sec">
+            <label>
+              <input
+                type="checkbox"
+                onChange={() => setMostPopularData(!mostPopularData)}
+                placeholder="enter extra amount"
+                id="mostPopular"
+              />
+              <span>Add popular</span>
+            </label>
           </div>
           <button onClick={handleSubmitAmount}>Submit</button>
+          <p className="error-msg">{message}</p>
         </div>
       </div>
 

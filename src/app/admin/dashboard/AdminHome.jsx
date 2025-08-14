@@ -460,7 +460,7 @@ const AdminHome = () => {
                                 setToggleSlideMobile(false);
                               }}
                             >
-                              All Commission
+                              All Commissions
                             </a>
                           </li>
                           <li

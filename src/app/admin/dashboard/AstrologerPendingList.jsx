@@ -17,17 +17,15 @@ function AstrologerPendingList() {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-list?astroStatus=false&page=${pageNumber}&limit=5`
       );
-      console.log( res.data.totalAstrologers);
+      console.log(res.data.totalAstrologers);
 
       setPendingData(res.data.astrologers);
-     
 
-      
       setPage(res.data.page);
       setTotalPages(res.data.totalPages);
       setHasNextPage(res.data.hasNextPage);
       setHasPrevPage(res.data.hasPrevPage);
-       secureLocalStorage.setItem(
+      secureLocalStorage.setItem(
         "totalAstroPending",
         res.data.totalAstrologers
       );
@@ -48,7 +46,7 @@ function AstrologerPendingList() {
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-astro-status/${id}`,
         { astroStatus: newStatus }
       );
-      fetchAstrologers(page);     
+      fetchAstrologers(page);
 
       if (response.status == "200") {
         try {
@@ -123,25 +121,29 @@ function AstrologerPendingList() {
           </table>
         </div>
       )}
-      <div className="admin-wallet-inner">
-        <button
-          onClick={() => setPage(page - 1)}
-          disabled={!hasPrevPage || loading}
-          className={!hasPrevPage ? "disable" : ""}
-        >
-          Previous
-        </button>
-        <span>
-          Page {page} of {totalPages}
-        </span>
-        <button
-          onClick={() => setPage(page + 1)}
-          disabled={!hasNextPage || loading}
-          className={!hasNextPage ? "disable" : ""}
-        >
-          Next
-        </button>
-      </div>
+      {totalPages > 0 ? (
+        <div className="admin-wallet-inner">
+          <button
+            onClick={() => setPage(page - 1)}
+            disabled={!hasPrevPage || loading}
+            className={!hasPrevPage ? "disable" : ""}
+          >
+            Previous
+          </button>
+          <span>
+            Page {page} of {totalPages}
+          </span>
+          <button
+            onClick={() => setPage(page + 1)}
+            disabled={!hasNextPage || loading}
+            className={!hasNextPage ? "disable" : ""}
+          >
+            Next
+          </button>
+        </div>
+      ) : (
+        <p className="data-not-found">Data Not Found</p>
+      )}
     </>
   );
 }

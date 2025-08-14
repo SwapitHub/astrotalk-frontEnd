@@ -46,7 +46,7 @@ function AdminShopWallet() {
       const { orders, pagination } = res.data;
 
       setWalletAdminData(orders);
-      setTotalPages(pagination.totalPages || 1);
+      setTotalPages(pagination.totalPages || 0);
     } catch (err) {
       console.log("API Error:", err);
     } finally {
@@ -126,7 +126,9 @@ function AdminShopWallet() {
             <FaSearch />
           </button>
         </div>
-        <div className="search-help-text"><p>Search product based on product id</p></div>
+        <div className="search-help-text">
+          <p>Search product based on product id</p>
+        </div>
       </div>
 
       {/* 🌀 Loader or Table */}
@@ -209,17 +211,22 @@ function AdminShopWallet() {
       )}
 
       {/* ⏮️ Pagination Controls */}
-      <div className="admin-wallet-inner">
-        <button onClick={handlePrevious} disabled={page <= 1 || loading}>
-          Previous
-        </button>
-        <span>
-          Page {page} of {totalPages}
-        </span>
-        <button onClick={handleNext} disabled={page >= totalPages || loading}>
-          Next
-        </button>
-      </div>
+      {totalPages > 0 ? (
+        
+        <div className="admin-wallet-inner">
+          <button onClick={handlePrevious} disabled={page <= 0 || loading}>
+            Previous
+          </button>
+          <span>
+            Page {page} of {totalPages}
+          </span>
+          <button onClick={handleNext} disabled={page >= totalPages || loading}>
+            Next
+          </button>
+        </div>
+      ) : (
+        <p className="data-not-found">Data Not Found</p>
+      )}
     </div>
   );
 }

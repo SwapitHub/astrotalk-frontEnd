@@ -98,7 +98,7 @@ function AdminWallet({ updateButton }) {
         <>
           <div className="available-balance">
             <p>
-              <strong>Available balance: </strong>
+              <strong>Available Balance: </strong>
               <span>₹ {Math.round(totalAvailableBalance)}</span>
             </p>
           </div>
@@ -154,26 +154,29 @@ function AdminWallet({ updateButton }) {
           </table>
         </div>
       )}
-
-      <div className="admin-wallet-inner">
-        <button
-          onClick={handlePrevious}
-          disabled={!hasPrevPage || loading}
-          className={!hasPrevPage ? "disable" : ""}
-        >
-          Previous
-        </button>
-        <span>
-          Page {pages[updateButton]} of {totalPages}
-        </span>
-        <button
-          onClick={handleNext}
-          disabled={!hasNextPage || loading}
-          className={!hasNextPage ? "disable" : ""}
-        >
-          Next
-        </button>
-      </div>
+      {totalPages > 0 ? (
+        <div className="admin-wallet-inner">
+          <button
+            onClick={handlePrevious}
+            disabled={!hasPrevPage || loading}
+            className={!hasPrevPage ? "disable" : ""}
+          >
+            Previous
+          </button>
+          <span>
+            Page {pages[updateButton]} of {totalPages}
+          </span>
+          <button
+            onClick={handleNext}
+            disabled={!hasNextPage || loading}
+            className={!hasNextPage ? "disable" : ""}
+          >
+            Next
+          </button>
+        </div>
+      ) : (
+        <p className="data-not-found">Data Not Found</p>
+      )}
     </div>
   );
 }

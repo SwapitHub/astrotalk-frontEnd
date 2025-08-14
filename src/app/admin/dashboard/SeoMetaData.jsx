@@ -6,6 +6,7 @@ import Loader from "@/app/component/Loader";
 import { toast } from "react-toastify";
 
 const SeoMetaData = () => {
+  const [message, setMessage] = useState("");
   const [seoList, setSeoList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -67,16 +68,11 @@ const SeoMetaData = () => {
     const { _id, page, slug, meta_title, meta_description, keywords } = form;
 
     if (!page || !slug || !meta_title || !meta_description || !keywords) {
-      toast.warn("Please fill all fields");
-      return;
+      return setMessage("All Fields Are Required !");
     }
 
     try {
-      console.log("res=====1");
-
       if (isUpdating) {
-        console.log("res=====1");
-
         // Update existing metadata by _id
         const res = await axios.put(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/put-seo-meta-data/${_id}`,
@@ -86,22 +82,22 @@ const SeoMetaData = () => {
           toast.success("SEO metadata updated successfully");
           resetForm();
           fetchSeoData(currentPage);
+          setMessage("");
         }
       } else {
-
         // Add new metadata
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/post-seo-meta-data`,
           { page, slug, meta_title, meta_description, keywords }
         );
 
-        if (res.status == 200) {
+        if (res.status == 200 || res.status == 201) {
           toast.success("SEO metadata added successfully");
           resetForm();
           fetchSeoData();
+          setMessage("");
         } else {
-          toast.error("Error submitting SEO metadata");
-          console.error(error);
+          toast.error("Error submitting SEO metadata not get");
         }
       }
     } catch (error) {
@@ -145,12 +141,14 @@ const SeoMetaData = () => {
   };
 
   return (
-    <div className="seo-meta-data-manager" style={{ padding: "20px" }}>
+    <div className="seo-meta-data-manager">
       <h2>{isUpdating ? "Update SEO Metadata" : "Add New SEO Metadata"}</h2>
 
-      <div className="admin-form-box" style={{ marginBottom: "30px" }}>
+      <div className="admin-form-box">
         <div className="form-field">
-          <label>Page</label>
+          <div className="label-content">
+            <label>Page</label>
+          </div>
           <input
             type="text"
             name="page"
@@ -162,7 +160,9 @@ const SeoMetaData = () => {
         </div>
 
         <div className="form-field">
-          <label>Slug</label>
+          <div className="label-content">
+            <label>Slug</label>
+          </div>
           <input
             type="text"
             name="slug"
@@ -174,7 +174,9 @@ const SeoMetaData = () => {
         </div>
 
         <div className="form-field">
-          <label>Meta Title</label>
+          <div className="label-content">
+            <label>Meta Title</label>
+          </div>
           <input
             type="text"
             name="meta_title"
@@ -186,7 +188,9 @@ const SeoMetaData = () => {
         </div>
 
         <div className="form-field">
-          <label>Meta Description</label>
+          <div className="label-content">
+            <label>Meta Description</label>
+          </div>
           <textarea
             name="meta_description"
             value={form.meta_description}
@@ -198,7 +202,9 @@ const SeoMetaData = () => {
         </div>
 
         <div className="form-field">
-          <label>Keywords (comma separated)</label>
+          <div className="label-content">
+            <label>Keywords (comma separated)</label>
+          </div>
           <input
             type="text"
             name="keywords"
@@ -212,6 +218,8 @@ const SeoMetaData = () => {
         <button onClick={handleSubmit} style={{ marginRight: "10px" }}>
           {isUpdating ? "Update SEO Metadata" : "Add SEO Metadata"}
         </button>
+        <p className="error-msg">{message}</p>
+
         {isUpdating && (
           <button onClick={resetForm} type="button">
             Cancel
@@ -227,64 +235,65 @@ const SeoMetaData = () => {
         <p>No SEO metadata found.</p>
       ) : (
         <>
-          <table
-            className="seo-table"
-            style={{ width: "100%", marginTop: 20, borderCollapse: "collapse" }}
-          >
-            <thead>
-              <tr style={{ backgroundColor: "#eee" }}>
-                <th style={{ border: "1px solid #ccc", padding: "8px" }}>
-                  Page
-                </th>
-                <th style={{ border: "1px solid #ccc", padding: "8px" }}>
-                  Slug
-                </th>
-                <th style={{ border: "1px solid #ccc", padding: "8px" }}>
-                  Meta Title
-                </th>
-                <th style={{ border: "1px solid #ccc", padding: "8px" }}>
-                  Meta Description
-                </th>
-                <th style={{ border: "1px solid #ccc", padding: "8px" }}>
-                  Keywords
-                </th>
-                <th style={{ border: "1px solid #ccc", padding: "8px" }}>
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {seoList.map((item) => (
-                <tr key={item._id}>
-                  <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                    {item.page}
-                  </td>
-                  <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                    {item.slug}
-                  </td>
-                  <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                    {item.meta_title}
-                  </td>
-                  <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                    {item.meta_description}
-                  </td>
-                  <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                    {item.keywords}
-                  </td>
-                  <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                    <button onClick={() => handleEdit(item)}>Edit</button>
-                    <button
-                      style={{ marginLeft: 8 }}
-                      onClick={() => handleDelete(item._id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
+          <div className="outer-table">
+            <table
+              className="seo-table"
+              style={{ width: "100%", borderCollapse: "collapse" }}
+            >
+              <thead>
+                <tr style={{ backgroundColor: "#eee" }}>
+                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    Page
+                  </th>
+                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    Slug
+                  </th>
+                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    Meta Title
+                  </th>
+                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    Meta Description
+                  </th>
+                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    Keywords
+                  </th>
+                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    Actions
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-
+              </thead>
+              <tbody>
+                {seoList.map((item) => (
+                  <tr key={item._id}>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      {item.page}
+                    </td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      {item.slug}
+                    </td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      {item.meta_title}
+                    </td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      {item.meta_description}
+                    </td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      {item.keywords}
+                    </td>
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      <button onClick={() => handleEdit(item)}>Edit</button>
+                      <button
+                        style={{ marginLeft: 8 }}
+                        onClick={() => handleDelete(item._id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           {totalPages > 0 && (
             <div
               style={{

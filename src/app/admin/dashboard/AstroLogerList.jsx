@@ -74,10 +74,14 @@ function AstroLogerList() {
                   <td>{item.mobileNumber}</td>
                   <td>
                     <button
-                      onClick={() => updateBlockUnblockAstro(item._id, item?.blockUnblockAstro ? false : true)}
+                      onClick={() =>
+                        updateBlockUnblockAstro(
+                          item._id,
+                          item?.blockUnblockAstro ? false : true
+                        )
+                      }
                     >
                       {item?.blockUnblockAstro ? "Unblock" : "Block"}
-                      
                     </button>
                   </td>
                 </tr>
@@ -86,25 +90,29 @@ function AstroLogerList() {
           </table>
         </div>
       )}
-      <div className="admin-wallet-inner">
-        <button
-          onClick={() => setPage(page - 1)}
-          disabled={!hasPrevPage || loading}
-          className={!hasPrevPage ? "disable" : ""}
-        >
-          Previous
-        </button>
-        <span>
-          Page {page} of {totalPages}
-        </span>
-        <button
-          onClick={() => setPage(page + 1)}
-          disabled={!hasNextPage || loading}
-          className={!hasNextPage ? "disable" : ""}
-        >
-          Next
-        </button>
-      </div>
+      {totalPages > 0 ? (
+        <div className="admin-wallet-inner">
+          <button
+            onClick={() => setPage(page - 1)}
+            disabled={!hasPrevPage || loading}
+            className={!hasPrevPage ? "disable" : ""}
+          >
+            Previous
+          </button>
+          <span>
+            Page {page} of {totalPages}
+          </span>
+          <button
+            onClick={() => setPage(page + 1)}
+            disabled={!hasNextPage || loading}
+            className={!hasNextPage ? "disable" : ""}
+          >
+            Next
+          </button>
+        </div>
+      ) : (
+        <p className="data-not-found">Data Not Found</p>
+      )}
     </>
   );
 }

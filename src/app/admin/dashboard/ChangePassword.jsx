@@ -11,9 +11,9 @@ const ChangePassword = () => {
 
   const handleSubmit = async () => {
     if (oldPassword == "" || newPassword == "" || confirmPassword == "") {
-      return setMessage("All filed is Required !");
+      return setMessage("All Fields Are Required !");
     } else if (newPassword !== confirmPassword) {
-      return setMessage("New passwords do not match");
+      return setMessage("New Passwords Do Not Match !");
     }
 
     try {
