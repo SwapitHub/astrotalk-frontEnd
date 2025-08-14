@@ -1,11 +1,9 @@
-import AdminHome from "./AdminHome";
+'use client';
 
- const AdminHomeServer = () => {
-  return (
-   <>
-   <AdminHome/>
-   </>
-  )
+import dynamic from 'next/dynamic';
+
+const AdminHome = dynamic(() => import('./AdminHome'), { ssr: false });
+
+export default function DashboardPage() {
+  return <AdminHome />;
 }
-
-export default AdminHomeServer;
