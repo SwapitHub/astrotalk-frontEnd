@@ -31,7 +31,7 @@ export async function generateMetadata() {
         {
           url:
             data?.data?.logo ||
-            "https://assets.rocksama.com/public/images/banner/banner_1716268943.png",
+            "/astrotalk-logo.webp",
           width: 800,
           height: 600,
           alt: data?.data?.logo_alt || "Default Image Alt",
@@ -48,7 +48,7 @@ export async function generateMetadata() {
       description: data?.data?.meta_description || "Default Description",
       images: [
         data?.data?.logo ||
-          "https://assets.rocksama.com/public/images/banner/banner_1716268943.png",
+          "/astrotalk-logo.webp",
       ],
     },
   };

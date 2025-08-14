@@ -57,7 +57,7 @@ console.log("data===", data);
           {
             url:
               data?.data?.logo ||
-              "https://assets.rocksama.com/public/images/banner/banner_1716268943.png",
+              "/astrotalk-logo.webp",
             width: 800,
             height: 600,
             alt: data?.data?.logo_alt || "Astrologer Image",

@@ -528,7 +528,7 @@ const ChatWithAstrologer = ({
                 <div className="heading-button">
                   <span>Talk to Astrologer</span>
                 </div>
-                {!userData?.freeChatStatus == true && (
+                {userData?.freeChatStatus == true && (
                   <div className="free-chat-btn">
                     <Link
                       // href="#"
