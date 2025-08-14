@@ -654,7 +654,7 @@ const AdminHome = () => {
                 {updateButton === "changePassword" && <ChangePassword />}
                 {updateButton === "home-banner" && <BannerHome />}
                 {updateButton === "footer" && <AddFooter />}
-                {/* {updateButton === "seoMetaData" && <SeoMetaData />} */}
+                {updateButton === "seoMetaData" && <SeoMetaData />}
                 
                 {["user", "astrologer", "admin"].includes(updateButton) && (
                   <AdminWallet updateButton={updateButton} />
