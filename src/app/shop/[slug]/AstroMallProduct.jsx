@@ -3,14 +3,12 @@ import axios from "axios";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import ShopIdGetGlobal from "./ShopIdGetGlobal";
 import DOMPurify from "dompurify";
 import he from "he";
 
-const AstroMallProduct = () => {
+const AstroMallProduct = ({astrShopDetailData}) => {
   const params = useParams();
   const [productListData, setProductListData] = useState([]);
-  const [astrShopDetailData, setAstrShopDetailData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [decodedHtml, setDecodedHtml] = useState("");
@@ -57,10 +55,7 @@ const AstroMallProduct = () => {
 
   return (
     <main>
-      <ShopIdGetGlobal
-        astrShopDetailData={astrShopDetailData}
-        setAstrShopDetailData={setAstrShopDetailData}
-      />
+    
       <section className="astromall-sec-outer">
         <div className="container">
           <div className="astromall-sec-inner">

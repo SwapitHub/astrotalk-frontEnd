@@ -12,7 +12,7 @@ const ProfilePopUp = ({ astroDetailData }) => {
   const router = useRouter();
   const { setUpdateButton } = useGlobalContext();
   const [astrologerPhone, setAstrologerPhone] = useState();
-  const admin_id = secureLocalStorage.getItem("admin_id");
+  const admin_id = sessionStorage.getItem("admin_id");
 
   useEffect(() => {
     const astrologerPhones = Cookies.get("astrologer-phone");
@@ -20,7 +20,7 @@ const ProfilePopUp = ({ astroDetailData }) => {
   }, []);
 
   const handleAdminLogOut = () => {
-    secureLocalStorage.removeItem("admin_id");
+    sessionStorage.removeItem("admin_id");
     window.dispatchEvent(new Event("admin_id_updated"));
     router.push("/admin");
   };
