@@ -9,22 +9,22 @@ import TopSellingSlider from "../component/TopSellingSlider";
 import NewlyLaunceSlider from "../component/NewlyLaunceSlider";
 import SearchProductSuggestion from "../component/SearchProductSuggestion";
 
-const AstromallShop = ({topSellingSlider,NewlyLaunchedSlider}) => {
-  const [shopListData, setShopListData] = useState([]);
+const AstromallShop = ({topSellingSlider,NewlyLaunchedSlider, shopListData}) => {
+  // const [shopListData, setShopListData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  useEffect(() => {
-    const getAstroShopData = async () => {
-      try {
-        const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-list`
-        );
-        setShopListData(res.data.data);
-      } catch (error) {
-        console.log("API error", error);
-      }
-    };
-    getAstroShopData();
-  }, []);
+  // useEffect(() => {
+  //   const getAstroShopData = async () => {
+  //     try {
+  //       const res = await axios.get(
+  //         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-list`
+  //       );
+  //       setShopListData(res.data.data);
+  //     } catch (error) {
+  //       console.log("API error", error);
+  //     }
+  //   };
+  //   getAstroShopData();
+  // }, []);
 
   const sliderSettings = {
     dots: false,

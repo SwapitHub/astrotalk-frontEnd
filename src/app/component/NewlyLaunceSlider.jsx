@@ -23,7 +23,7 @@ const NewlyLaunceSlider = ({NewlyLaunchedSlider}) => {
       <div className="container">
         <div className="astromall-slider-inner">
           <div className="heading-sec">
-            <h2>NEWLY LAUNCHED</h2>
+            <h2>Newly Launched</h2>
           </div>
           <div className="slider-sec top-selling-slider">
             <Slider

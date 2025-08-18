@@ -311,6 +311,7 @@ const AstrologerProfile = ({
       setEditLanguages((prev) => prev.filter((item) => item !== value));
     }
   };
+console.log(astroUpdateDetail);
 
   return (
     <>
@@ -609,12 +610,8 @@ const AstrologerProfile = ({
           </div>
 
           <div className="reg-sumbit-button">
-            {astrologerData?.completeProfile !== true ? (
-              <button type="button" onClick={handleBusinessProfile}>
-                Submit
-              </button>
-            ) : (
-              <button
+            {astroUpdateDetail?.completeProfile == true ? (
+             <button
                 type="button"
                 onClick={() => {
                   handleBusinessProfileUpdate(registrationDetail?.mobileNumber);
@@ -622,6 +619,11 @@ const AstrologerProfile = ({
               >
                 Update Profile
               </button>
+            ) : (
+               <button type="button" onClick={handleBusinessProfile}>
+                Submit
+              </button>
+              
             )}
           </div>
         </form>

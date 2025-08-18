@@ -40,6 +40,26 @@ const fetchNewlyLaunchedSlider = async () => {
   }
 };
 
+const fetchGetAstroShopDataSlider = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-list`,
+      {
+        next: { revalidate: 60 }, // Cache for 60 seconds
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch astrologer data');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching astrologer data:', error);
+    return null;
+  }
+};
+
 export async function generateMetadata() {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-seo-meta-by-slug/shop`,
@@ -98,11 +118,12 @@ export async function generateMetadata() {
 const AstromallShopServer = async () => {
   const topSellingSlider = await fetchTopSellingSlider(); 
     const NewlyLaunchedSlider = await fetchNewlyLaunchedSlider(); 
+    const shopListData = await fetchGetAstroShopDataSlider(); 
 
 
   return (
     <>
-      <AstromallShop topSellingSlider={topSellingSlider?.data} NewlyLaunchedSlider={NewlyLaunchedSlider?.data}/>
+      <AstromallShop topSellingSlider={topSellingSlider?.data} NewlyLaunchedSlider={NewlyLaunchedSlider?.data} shopListData={shopListData?.data}/>
     </>
   );
 };

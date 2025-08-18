@@ -35,7 +35,7 @@ const TopSellingSlider = ({topSellingSlider}) => {
       <div className="container">
         <div className="astromall-slider-inner">
           <div className="heading-sec">
-            <h2>TOP SELLING</h2>
+            <h2>Top Selling</h2>
           </div>
           <div className="slider-sec top-selling-slider">
             <Slider

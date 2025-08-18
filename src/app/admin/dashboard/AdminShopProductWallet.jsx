@@ -59,40 +59,19 @@ function AdminShopProductWallet({ updateButton }) {
     }
   };
 
-  const handleProductOrder = async (orderId) => {
+  const updateOrderStatus = async (orderId, status, complete) => {
     setLoading(true);
-
     try {
       const res = await axios.put(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-any-field-payment-shop/${orderId}`,
         {
-          product_order_status: true,
+          product_order_status: status,
+          product_order_complete: complete,
         }
       );
 
-      if (res?.status == 200) {
-        fetchTransactions();
-      }
-    } catch (err) {
-      console.log(err, "update order product api error");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleProductOrderCompete = async (orderId) => {
-    setLoading(true);
-
-    try {
-      const res = await axios.put(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-any-field-payment-shop/${orderId}`,
-        {
-          product_order_complete: true,
-        }
-      );
-
-      if (res?.status == 200) {
-        fetchTransactions();
+      if (res?.status === 200) {
+        fetchTransactions(); // Refresh data
       }
     } catch (err) {
       console.log(err, "update order product api error");
@@ -195,23 +174,31 @@ function AdminShopProductWallet({ updateButton }) {
                   </td>
                   <td>{item?.order_id}</td>
                   <td>
-                    {!item?.product_order_status ? (
-                      <button
-                        onClick={() => handleProductOrder(item?.order_id)}
-                      >
-                        Processing
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() =>
-                          handleProductOrderCompete(item?.order_id)
-                        }
-                      >
-                        {item?.product_order_complete
+                    <select
+                      value={
+                        !item?.product_order_status
+                          ? "processing"
+                          : item?.product_order_complete
                           ? "completed"
-                          : "Dispatched"}
-                      </button>
-                    )}
+                          : "dispatched"
+                      }
+                      onChange={(e) => {
+                        const selected = e.target.value;
+
+                        if (selected === "processing") {
+                          updateOrderStatus(item?.order_id, false, false);
+                        } else if (selected === "dispatched") {
+                          updateOrderStatus(item?.order_id, true, false);
+                        } else if (selected === "completed") {
+                          updateOrderStatus(item?.order_id, true, true);
+                        }
+                      }}
+                      disabled={loading}
+                    >
+                      <option value="processing">Processing</option>
+                      <option value="dispatched">Dispatched</option>
+                      <option value="completed">Completed</option>
+                    </select>
                   </td>
                 </tr>
               ))}

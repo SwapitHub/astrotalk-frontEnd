@@ -82,6 +82,7 @@ const MyWalletAstroPuja = () => {
                   <th>Product Amount</th>
                   <th>GST</th>
                   <th>Total Amount</th>
+                  <th>Product Order Number</th>
                   <th>Date Time</th>
                   <th>Order Status</th>
                 </tr>
@@ -120,6 +121,8 @@ const MyWalletAstroPuja = () => {
                         {Math.round(item.gstAmount) +
                           Math.round(item.totalAmount)}
                       </td>
+
+                      <td>{item.payment_id}</td>
 
                       <td>{new Date(item.createdAt).toLocaleString()}</td>
                       <td>
