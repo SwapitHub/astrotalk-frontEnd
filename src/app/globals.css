@@ -11,6 +11,7 @@ img {max-width: 100%; vertical-align: bottom;}
 a {text-decoration: none; transition: all 0.3s; color: var(--primary_color);}
 li {list-style: none;}
 button, .product-right-btn a {cursor: pointer; transition: all 0.3s; font-family: inherit; padding: 4px 14px; background-color: var(--primary_color); border-radius: 5px; color: #fff; border: 1px solid var(--primary_color); font-size: 14px; display: inline-block;}
+button:hover, .product-right-btn a:hover {background-color: transparent; color: var(--primary_color);}
 select {appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--body_content_color) 50%), linear-gradient(135deg, var(--body_content_color) 50%, transparent 50%), linear-gradient(to right, #fff, #fff); background-position: calc(100% - 20px) calc(1em + 6px), calc(100% - 15px) calc(1em + 6px), calc(100% - 2.5em) 0.5em; background-size: 5px 5px, 5px 5px, 1px 1.5em; background-repeat: no-repeat;}
 .loader {min-height: 450px; text-align: center; display: flex; align-items: center; justify-content: center; background-image: url("https://i.pinimg.com/originals/e6/8c/c3/e68cc33983bed347554ce23fe2bd08bd.gif"); background-position: center; background-repeat: no-repeat; background-size: 170px; background-color: transparent; font-size: 0px;}
 .product-detail-main .loader, .dashboard-right-content .loader {width: 100%; min-height: 100vh; position: fixed; bottom: 0px; background-color: #fff; z-index: 10;} 
@@ -36,7 +37,7 @@ textarea {min-height: 100px; resize: none;}
 .header {padding: 10px 0; box-shadow: 0 0 10px #d7d7d7;}
 nav.navbar > ul > li {padding: 3px 20px;}
 nav.navbar ul li a {color: inherit;}
-nav.navbar ul li a:hover {color: var(--primary_color);}
+nav.navbar ul li a:hover, nav.navbar ul li span:hover {color: var(--primary_color);}
 .header-left-logo img {max-width: 105px;}
 nav.navbar ul {justify-content: center; display: flex;}
 .header button, .notification-box a, .button-outer button {display: inline-block; border: 1px solid var(--body_content_color); background-color: var(--body_content_color); color: #fff; padding: 8px 20px; border-radius: 8px; font-size: 14px;}
@@ -181,8 +182,8 @@ nav.navbar ul {justify-content: center; display: flex;}
 .astrologer-call-button-ctm button, .astrologer-call-button-ctm-detail a, .astrologer-call-button-ctm a {color: #13853a; border: 1px solid #13853a; color: #13853a; padding: 10px 30px; border-radius: 8px; cursor: pointer; text-align: center; display: inline-block; background-color: transparent;}
 .astrologer-call-button-ctm a, .astrologer-call-button-ctm button {padding: 5px 15px; font-size: 14px;}
 .astrologer-call-button-ctm.chatStatus-false a {color: var(--primary_color); background-color: #fff; border: 1px solid var(--primary_color); padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 14px;}
-.astrologer-call-button-ctm.chatStatus-false span:not(.icon) {color: var(--primary_color); font-size: 12px; text-align: center; line-height: 1.2; display: inline-block; margin: 7px 0px 0px;}
-.astrologer-call-button-ctm.chatStatus-false a:hover {background-color: var(--primary_color); color: #fff;}
+.astrologer-call-button-ctm.chatStatus-false span:not(.icon) {color: var(--primary_color); font-size: 12px; line-height: 1.2; display: inline-block; margin: 7px 0px 0px;}
+.astrologer-call-button-ctm.chatStatus-false a:hover {background-color: var(--primary_color); color: #fff; border-color: var(--primary_color);}
 .astrologer-call-button-ctm button:hover, .astrologer-call-button-ctm-detail a:hover, .astrologer-call-button-ctm a:hover {background-color: #28ba51; border-color: #28ba51; color: #fff;}
 .Verified-Sticker-icon {text-align: right;}
 .Verified-Sticker-icon img {max-width: 18px;}
@@ -275,7 +276,7 @@ p.error {display: block; width: 100%; margin: 7px 0px 0px;}
 .send-otp span.close-icon span {height: 18px; width: 2px; background-color: #ffffff; display: inline-block; transform: rotate(45deg); position: absolute;}
 .send-otp span.close-icon span:last-child {transform: rotate(-45deg);}
 .send-otp .number--continious-popup > p {margin: 0; font-size: 17px; text-align: center; padding: 20px; color: #454545;}
-.send-otp .number--continious-popup > button, .enter-otp > button, .left-col-resend p button {background-color: var(--primary_color); color: #fff; border: none; width: 100%; margin-top: 20px; padding: 10px 20px; border-radius: 10px; font-size: 14px; box-shadow: 0 0 4px 2px #ddd; display: flex; align-items: center; justify-content: center; position: relative; transition: 0.3sease-in-out; cursor: pointer;}
+.send-otp .number--continious-popup > button, .enter-otp > button, .left-col-resend p button {width: 100%; margin-top: 20px; padding: 10px 20px; border-radius: 10px; font-size: 14px; display: flex; align-items: center; justify-content: center; position: relative;}
 .send-otp input {border-radius: 5px; width: 100%; color: #232323; font-weight: 400; font-size: 16px; line-height: normal; outline-style: none; padding: 10px; box-shadow: none; background: transparent; border-bottom: 1px solid #d9d9d9; border: 1px solid #d9d9d9; height: 40px;}
 .send-otp span.close-icon.back {left: 10px;}
 .send-otp .enter-otp h2 {font-size: 18px; text-align: center; padding: 20px 0;}
@@ -615,7 +616,7 @@ input::file-selector-button {background-color: transparent; border: 1px solid #2
 .talk-to-total-orders {text-align: center;}
 .close-icon {position: absolute; right: 20px; top: 20px;}
 .close-icon button {font-size: 0px; width: 30px; height: 30px; border: 0; display: flex; align-items: center; justify-content: center;}
-.close-icon button::before, .close-icon button::after {content: ""; position: absolute; width: 2px; height: 13px; background-color: var(--body_content_color); transform: rotate(45deg);}
+.close-icon button::before, .close-icon button::after {content: ""; position: absolute; width: 2px; height: 13px; background-color: #ffffff; transform: rotate(45deg);}
 .close-icon button::after {transform: rotate(-45deg);}
 /* End Rating Popup  */
 /* 29-04-2025 */
@@ -638,7 +639,8 @@ h2.review-heading {margin: 0 0 15px; font-weight: 600; font-size: 18px;}
 .free-chat-main > a {color: var(--primary_color); font-size: 16px; font-weight: 500; border-bottom: 1px solid;}
 .free-chat {margin: 40px 0px 0px;}
 .free-chat > .img:not(:last-child) {margin: 0 0 30px;}
-.free-chat > a {display: inline-block; background-color: var(--primary_color); color: #fff; border-radius: 8px; padding: 11px 30px; font-size: 16px; text-transform: capitalize; margin: 20px 0px 0px;}
+.free-chat > a {display: inline-block; background-color: var(--primary_color); border: 1px solid var(--primary_color); color: #fff; border-radius: 8px; padding: 11px 30px; font-size: 16px; text-transform: capitalize; margin: 20px 0px 0px;}
+.free-chat > a:hover {background-color: transparent; color: var(--primary_color);}
 .name-text {font-size: 16px; font-weight: 600;}
 /* Dashboard Header  */
 .page-main-header {backdrop-filter: blur(5px); position: fixed; top: 0; z-index: 10; width: calc(100% - 255px); display: flex; align-items: center; margin-left: 255px; transition: 0.3s; padding: calc(10px + (15 - 10) * ((100vw - 320px) / (1920 - 320))) calc(5px + (27 - 5) * ((100vw - 320px) / (1920 - 320))) 0; border-radius: 10px; height: auto;}
@@ -772,7 +774,7 @@ ul.notification-dropdown.onhover-show-div li + li:hover {background-color: #f8f8
 .inner-astrologer-registration {text-align: center;}
 .inner-astrologer-registration .astrologer-main-dashboard-btn {display: flex; justify-content: center; align-items: center; gap: 20px; margin: 30px 0px 0px;}
 .update-profile .label-content label::after {display: none;}
-.typing-indicator {position: absolute; z-index: 9; bottom: 20px; left: 30px; color: var(--primary_color);}
+.typing-indicator {position: absolute; z-index: 9; bottom: 100px; left: 30px; color: var(--primary_color);}
 .change-password, .admin-form-box {background-color: #f2f2f2; padding: 50px;}
 .change-password .form-field:not(:last-child), .admin-form-box .form-field:not(:last-child), .admin-login-form .form-field:not(:last-child), .AstroMallShops-admin .actual-price {margin: 0 0 20px;}
 .change-password p, .error-msg {color: red; padding-top: 15px;}
@@ -849,7 +851,8 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .product-testimonial-left-right-outer {padding: 60px 0px;}
 .promise-box-sec {background-color: var(--primary_color); color: #fff; border-radius: 8px; padding: 30px;}
 .promise-btns {display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0px 0px;}
-.promise-btns a {display: inline-block; background-color: #fff; border-radius: 30px; padding: 10px 30px;}
+.promise-btns a {display: inline-block; background-color: #fff; border-radius: 8px; padding: 10px 30px; border: 1px solid #ffffff;}
+.promise-btns a:hover {background-color: transparent; color: #ffffff;}
 .slider-sec .slick-slider {padding: 0px 40px;}
 .single-slide {padding: 0px 10px;}
 .slide-content {padding: 20px; text-align: center;}
@@ -962,8 +965,8 @@ span.required {color: red;}
 .footer-menu {display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 0 0 20px;}
 .footer-menu h3 {color: #fff;}
 .footer-col ul {margin: 0; padding: 0; list-style: none;}
-.footer-col ul li a, .footer-col ul li span {text-decoration: none; color: #fff; font-size: 14px; transition: all 0.3s linear; display: inline-block; cursor: pointer;}
-.footer-col ul li a:hover, .footer-col ul li span:hover {color: var(--primary_color);}
+.footer-col ul li a, .footer-col ul li span {text-decoration: none; color: #fff; font-size: 14px; transition: all 0.3s linear; display: inline-block; cursor: pointer; text-transform: capitalize;}
+.footer-col ul li a:hover, .footer-col ul li span:hover, .discript_text-link a:hover, .footer a:hover {color: var(--primary_color);}
 .footer-col ul li .outer-send-otp-main a, .footer-col ul li .outer-send-otp-main span {color: var(--body_content_color);}
 .footer-col ul li a img {width: 100%; height: auto; display: block;}
 .footer-col ul li + li {margin-top: 6px;}
@@ -985,21 +988,25 @@ span.required {color: red;}
 .home-heading {text-align: center; margin: 0 0 30px;}
 .home-heading h2, .astromall-slider-outer .heading-sec h2 {font-size: 32px; line-height: 1.3;}
 .banner {padding: 50px 0; position: relative;}
-.banner .row {display: flex; justify-content: space-between; align-items: center; background: repeating-linear-gradient(37deg, #fea701, #ffb00f 145px); border-radius: 30px; padding: 60px;}
+.banner .row {display: flex; justify-content: space-between; align-items: center; background: repeating-linear-gradient(37deg, #fea701, #ffb00f 145px); border-radius: 30px; padding: 60px; margin: 0px 10px;}
 .banner .right-col {flex: 0 0 35%; max-width: 35%;}
 .banner .right-col img {width: 100%; display: block;}
 .banner .left-col h1 {font-size: 37px; line-height: 50px; margin: 0 0 14px; text-align:left;}
 .banner .left-col {flex: 0 0 49%; max-width: 49%;}
 .banner .btn-wrapper {margin-top: 30px;}
-.banner .btn-wrapper .btn {background-color: #bf2554; border: 1px solid #bf2554; color: #fff; border-radius: 5px; padding: 9px 30px; font-size: 14px; display: inline-block; text-align: center; text-decoration: none; text-transform: capitalize;}
+.banner .btn-wrapper .btn {background-color: var(--primary_color); border: 1px solid var(--primary_color); color: #fff; border-radius: 5px; padding: 9px 30px; font-size: 14px; display: inline-block; text-align: center; text-decoration: none; text-transform: capitalize;}
+.banner .btn-wrapper .btn:hover {background-color: #fff; color: var(--primary_color); border-color: #ffffff;}
 .faq-answer.active { display: block;}
 .four-col {padding: 60px 0 80px; position: relative; background: #f7f7f7;}
-.four-col .row {display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 42px;}
+.four-col .row {display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 30px;}
 .four-col .row > a {color: var(--body_content_color);}
-.four-col .row .col {background: #fff; padding: 30px 20px; box-shadow: 0 0 21px -2px #00000038, 21px 20px 0 -8px #bf2554; border-radius: 13px; text-align: center;}
+.four-col .row .col {z-index: 1; padding: 30px 20px; border-radius: 13px; text-align: center; position: relative; box-shadow: 0px 0px 14px rgba(0, 0, 0, .1);}
+.four-col .row .col::before, .four-col .row .col::after {content: ""; position: absolute; width: 100%; height: 100%; background-color: var(--primary_color); border-radius: 13px; z-index: -1; left: 10px; top: 10px; transition: all 0.3s;}
+.four-col .row .col:hover::before {left: 5px; top: 5px;}
+.four-col .row .col::after {background-color: #ffffff; left: 0; top: 0px;}
 .four-col .row .col .icon svg {width: 30px; height: 40px; color: var(--primary_color);}
 .astrology_seciton .astro-inner {max-width: 953px; margin-inline:auto;}
-.astrology_seciton .col {background: #bf25541c; padding: 40px 60px; border-radius: 100vmax; position: relative; padding-left: 100px; position: relative; box-shadow: 0 0 10px -3px #00000029;}
+.astrology_seciton .col {background: #bf25541c; padding: 40px 60px; border-radius: 10px; position: relative; padding-left: 100px; position: relative; box-shadow: 0 0 10px -3px #00000029;}
 .astrology_seciton .row .col::before {counter-increment: my-sec-counter; content: counter(my-sec-counter); position: absolute; width: 90px; height: 90px; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; left: -41px; top: 50%; transform: translateY(-50%); box-shadow: 0 0 0 10px var(--primary_color); font-size: 45px;}
 .astrology_seciton .row .col:nth-child(2n)::before {right: -41px; left: auto;}
 .astrology_seciton .col:nth-child(2n) {background: #fff; text-align: right; padding-left: 60px; padding-right: 100px; position: relative; left: 50px;}
@@ -1057,7 +1064,7 @@ td select {padding: 3px 20px 3px 10px; border-radius: 5px; background-position: 
    /* home page start */
     .banner .left-col {flex: 0 0 58%; max-width: 58%;}
     .astrology_seciton .col:nth-child(2n) {left: 0;}
-    .astrology_seciton .row .col::before {width: 70px; height: 70px; font-size: 37px; box-shadow: 0 0 0 6px #bf2554;}
+    .astrology_seciton .row .col::before {width: 70px; height: 70px; font-size: 37px; box-shadow: 0 0 0 6px var(--primary_color);}
     .astrology_seciton .col {margin-left: 40px; padding-left: 61px;}
     .astrology_seciton .col:nth-child(2n) {margin-left: 0; margin-right: 40px; padding-right: 60px;}
    /* home page end */
@@ -1180,7 +1187,7 @@ td select {padding: 3px 20px 3px 10px; border-radius: 5px; background-position: 
   .banner .left-col, .banner .right-col {flex: 0 0 100%; max-width: 100%;}
   .banner .left-col h1 {font-size: 30px; line-height: 40px;}
   .banner .left-col h2 {font-size: 20px;}
-  .astrology_seciton .row .col::before {width: 48px; height: 48px; font-size: 30px; box-shadow: 0 0 0 5px #bf2554;}
+  .astrology_seciton .row .col::before {width: 48px; height: 48px; font-size: 30px; box-shadow: 0 0 0 5px var(--primary_color);}
   .astrology_seciton .col {padding: 40px 21px; padding-left: 26px; border-radius: 43px;}
   .astrology_seciton .col:nth-child(2n) {padding-right: 26px; padding-left: 21px;}
   .counter_seciton {padding-block: 50px;}
