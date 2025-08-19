@@ -1,9 +1,9 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import secureLocalStorage from "react-secure-storage";
 import Loader from "../component/Loader";
+import Cookies from "js-cookie";
 
 const Admin = () => {
   const router = useRouter();
@@ -16,7 +16,7 @@ const Admin = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const admin_id = secureLocalStorage.getItem("admin_id");
+  const admin_id = Cookies.get("admin_id");
 
   useEffect(() => {
     // Redirect to dashboard if already logged in
@@ -40,6 +40,7 @@ const Admin = () => {
       if (admin?.email === email && admin?.password === password) {
         setIsLoading(true); // Start loader
         secureLocalStorage.setItem("admin_id", admin._id);
+        Cookies.set("admin_id", admin._id);
         router.push("/admin/dashboard");
         window.dispatchEvent(new Event("admin_id_updated"));
       } else {
@@ -48,7 +49,7 @@ const Admin = () => {
     } catch (err) {
       console.error("Login error:", err);
       setError(err.message || "Login failed");
-    } 
+    }
     // finally {
     //   setIsLoading(false); // Stop loader
     // }

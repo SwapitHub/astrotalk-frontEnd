@@ -40,8 +40,8 @@ nav.navbar ul li a {color: inherit;}
 nav.navbar ul li a:hover, nav.navbar ul li span:hover {color: var(--primary_color);}
 .header-left-logo img {max-width: 105px;}
 nav.navbar ul {justify-content: center; display: flex;}
-.header button, .notification-box a, .button-outer button {display: inline-block; border: 1px solid var(--body_content_color); background-color: var(--body_content_color); color: #fff; padding: 8px 20px; border-radius: 8px; font-size: 14px;}
-.header button:hover {background-color: transparent; color: var(--body_content_color);}
+.header .inner-header-sec button, .notification-box a, .button-outer button {display: inline-block; border: 1px solid var(--body_content_color); background-color: var(--body_content_color); color: #fff; padding: 8px 20px; border-radius: 8px; font-size: 14px;}
+.header .inner-header-sec button:hover {background-color: transparent; color: var(--body_content_color);}
 .header .mobile-toggle {display: none;}
 .header .mobile-toggle span {display: block; width: 24px; height: 2px; background-color: #000; margin: 4px 0px;}
 /*  Chat Section */
@@ -1078,7 +1078,7 @@ td select {padding: 3px 20px 3px 10px; border-radius: 5px; background-position: 
   .navbar {display: none; position: absolute; top: 100%; background-color: #fff; left: 0; width: 100%; box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.1);}
   nav.navbar ul {flex-direction: column;}
   .header .mobile-toggle {position: absolute; right: 15px; display: block; cursor: pointer;}
-  .header button, .header-right-profil-icon {margin-right: 45px;}
+  .header .inner-header-sec button, .header-right-profil-icon {margin-right: 45px;}
   .menu-opened .navbar {display: block;}
   .inner-header-sec {gap: 0px;}
   .header-left-logo img {max-width: 80px;}

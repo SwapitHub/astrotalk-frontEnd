@@ -19,7 +19,6 @@ const AstroMallShopProduct = () => {
   const [showImage, setShowImage] = useState();
   const [astrShopDetailData, setAstrShopDetailData] = useState("");
 
-  console.log(shopId, "shopId", showImage);
 
   useEffect(() => {
     if (!shopId) return;
@@ -71,6 +70,9 @@ const AstroMallShopProduct = () => {
     const name = document.getElementById("name_product").value;
     let slug = document.getElementById("slug_product").value;
     let shop_id = document.getElementById("shop_id").value;
+    let meta_description = document.getElementById("meta_description").value;
+    let meta_title = document.getElementById("meta_title").value;
+    let meta_keywords = document.getElementById("meta_keywords").value;
     const image = document.getElementById("astroMallProductImg").files[0];
     const offer_name = document.getElementById("offer_name").value;
     const description = document.getElementById("description").value;
@@ -104,7 +106,10 @@ const AstroMallShopProduct = () => {
       !name ||
       !slug ||
       !shop_id ||
-      !selectedProductTypeId
+      !selectedProductTypeId || 
+      !meta_description ||
+      !meta_title ||
+      !meta_keywords
     ) {
       toast.error("Please fill all fields", { position: "top-right" });
       return;
@@ -133,6 +138,9 @@ const AstroMallShopProduct = () => {
     data.append("detail_information", content);
     data.append("shop_product_type", selectedProductTypeId);
     data.append("shop_slug", astrShopDetailData?.slug);
+    data.append("meta_description", meta_description);
+    data.append("meta_title", meta_title);
+    data.append("meta_keyword", meta_keywords);
 
     for (let i = 0; i < images.length; i++) {
       data.append("astroMallImages", images[i]);
@@ -155,6 +163,9 @@ const AstroMallShopProduct = () => {
         fetchProductList();
       }
       document.getElementById("name_product").value = "";
+      document.getElementById("meta_description").value = "";
+      document.getElementById("meta_title").value = "";
+      document.getElementById("meta_keywords").value = "";
       document.getElementById("slug_product").value = "";
       document.getElementById("astroMallProductImg").value = "";
       document.getElementById("astroMallImages").value = "";
@@ -185,6 +196,9 @@ const AstroMallShopProduct = () => {
 
   const handleEditProduct = (product) => {
     document.getElementById("name_product").value = product.name;
+    document.getElementById("meta_description").value = product.meta_description;
+    document.getElementById("meta_title").value = product.meta_title;
+    document.getElementById("meta_keywords").value = product.meta_keyword;
     document.getElementById("slug_product").value = product.slug;
     document.getElementById("offer_name").value = product.offer_name;
     document.getElementById("shop_id").value = product.shop_id;
@@ -228,6 +242,9 @@ const AstroMallShopProduct = () => {
 
   const handleUpdate = async () => {
     const name = document.getElementById("name_product").value;
+    const meta_description = document.getElementById("meta_description").value;
+    const meta_title = document.getElementById("meta_title").value;
+    const meta_keywords = document.getElementById("meta_keywords").value;
     const slug = document.getElementById("slug_product").value;
     const shop_id = document.getElementById("shop_id").value;
     const image = document.getElementById("astroMallProductImg").files[0];
@@ -246,11 +263,13 @@ const AstroMallShopProduct = () => {
 const selectedProductTypeId = document.querySelector(
       'input[name="product_type"]:checked'
     )?.id;
-console.log(selectedProductTypeId,"selectedProductTypeId-2");
 
 
     const data = new FormData();
     data.append("name", name);
+    data.append("meta_description", meta_description);
+    data.append("meta_title", meta_title);
+    data.append("meta_keyword", meta_keywords);
     data.append("slug", slug);
     data.append("shop_id", shop_id);
     data.append("offer_name", offer_name);
@@ -286,6 +305,9 @@ console.log(selectedProductTypeId,"selectedProductTypeId-2");
         setEditProductId(null);
         fetchProductList();
         document.getElementById("name_product").value = "";
+        document.getElementById("meta_description").value = "";
+        document.getElementById("meta_title").value = "";
+        document.getElementById("meta_keywords").value = "";
         document.getElementById("slug_product").value = "";
         document.getElementById("shop_id").value = "";
         document.getElementById("astroMallProductImg").value = "";
@@ -546,6 +568,44 @@ console.log(selectedProductTypeId,"selectedProductTypeId-2");
             <input type="checkbox" id="newlyLaunched" />
             <span>Can you move this product to the Top NEWLY LAUNCHED?</span>
           </label>
+        </div>
+          <div className="form-field">
+          <div className="label-content">
+            <label>Meta Title</label>
+          </div>
+          <input
+            type="text"
+            name="meta_title"
+            id="meta_title"
+            placeholder="Meta title for SEO"
+            className="common-input-filed"
+          />
+        </div>
+
+        <div className="form-field">
+          <div className="label-content">
+            <label>Meta Description</label>
+          </div>
+          <textarea
+            name="meta_description"
+           id="meta_description"
+            placeholder="Meta description for SEO"
+            className="common-input-filed"
+           
+          />
+        </div>
+
+        <div className="form-field">
+          <div className="label-content">
+            <label>Keywords (comma separated)</label>
+          </div>
+          <input
+            type="text"
+            name="keywords"
+           id="meta_keywords"
+            placeholder="keywords, separated, by, commas"
+            className="common-input-filed"
+          />
         </div>
         {editMode ? (
           <button onClick={handleUpdate}>Update</button>

@@ -36,116 +36,95 @@ const AdminDashBoardData = ({ setUpdateButton }) => {
             </div>
           </li>
           <li onClick={() => setUpdateButton(7)}>
-           
-              <span>
-                <PiUserListDuotone />
-              </span>
-              <div className="inner-text">
-                <span> User List</span>
-                <span className="number">{totalUsersList}</span>
-              </div>
-           
+            <span>
+              <PiUserListDuotone />
+            </span>
+            <div className="inner-text">
+              <span> User List</span>
+              <span className="number">{totalUsersList}</span>
+            </div>
           </li>
           <li onClick={() => setUpdateButton("pending")}>
-            
-              <span>
-                <PiUserListDuotone />
-              </span>
-              <div className="inner-text">
-                <span>AstroLoger Pending</span>
-                <span className="number">{totalAstroPending}</span>
-              </div>
-            
+            <span>
+              <PiUserListDuotone />
+            </span>
+            <div className="inner-text">
+              <span>AstroLoger Pending</span>
+              <span className="number">{totalAstroPending}</span>
+            </div>
           </li>
           <li onClick={() => setUpdateButton("active")}>
-           
-              <span>
-                <PiUserListDuotone />
-              </span>
-              <div className="inner-text">
-                <span>AstroLoger Active</span>
-                <span className="number">{totalAstroActive}</span>
-              </div>
-           
+            <span>
+              <PiUserListDuotone />
+            </span>
+            <div className="inner-text">
+              <span>Astrologer Active</span>
+              <span className="number">{totalAstroActive}</span>
+            </div>
           </li>
           <li onClick={() => setUpdateButton("admin")}>
-            
-              <span>
-                <IoWalletSharp />
-              </span>
-              <div className="inner-text">
-                <span>Wallet Admin</span>
-                <span className="number">{totalTransactionsData}</span>
-              </div>
-           
+            <span>
+              <IoWalletSharp />
+            </span>
+            <div className="inner-text">
+              <span>Wallet Admin</span>
+              <span className="number">{totalTransactionsData}</span>
+            </div>
           </li>
           <li onClick={() => setUpdateButton("astrologer")}>
-           
-              <span>
-                <IoWalletSharp />
-              </span>
-              <div className="inner-text">
-                <span>Wallet Astrologer</span>
-                <span className="number">{totalTransactionsData}</span>
-              </div>
-            
+            <span>
+              <IoWalletSharp />
+            </span>
+            <div className="inner-text">
+              <span>Wallet Astrologer</span>
+              <span className="number">{totalTransactionsData}</span>
+            </div>
           </li>
           <li onClick={() => setUpdateButton("user")}>
-           
-              <span>
-                <IoWalletSharp />
-              </span>
-              <div className="inner-text">
-                <span>Wallet User</span>
-                <span className="number">{totalTransactionsData}</span>
-              </div>
-           
+            <span>
+              <IoWalletSharp />
+            </span>
+            <div className="inner-text">
+              <span>Wallet User</span>
+              <span className="number">{totalTransactionsData}</span>
+            </div>
           </li>
-          <li onClick={() => setUpdateButton(3)}>
-            
-              <span>
-                <LiaSortAmountUpSolid />
-              </span>
-              <div className="inner-text">
-                <span>Denomination Amount</span>
-                {/* <span>123</span> */}
-              </div>
-            
+          <li onClick={() => setUpdateButton("Denomination")}>
+            <span>
+              <LiaSortAmountUpSolid />
+            </span>
+            <div className="inner-text">
+              <span>Denomination Amount</span>
+              {/* <span>123</span> */}
+            </div>
           </li>
           <li onClick={() => setUpdateButton("language")}>
-            
-              <span>
-                <GrLanguage />
-              </span>
-              <div className="inner-text">
-                <span> Languages</span>
-                {/* <span>123</span> */}
-              </div>
-            
+            <span>
+              <GrLanguage />
+            </span>
+            <div className="inner-text">
+              <span> Languages</span>
+              {/* <span>123</span> */}
+            </div>
           </li>
           <li onClick={() => setUpdateButton("profession")}>
-           
-              <span>
-                <SiLinuxprofessionalinstitute />
-              </span>
-              <div className="inner-text">
-                <span> Profession</span>
-                {/* <span>123</span> */}
-              </div>
-            
+            <span>
+              <SiLinuxprofessionalinstitute />
+            </span>
+            <div className="inner-text">
+              <span> Profession</span>
+              {/* <span>123</span> */}
+            </div>
           </li>
           <li onClick={() => setUpdateButton("ChatCommission")}>
-            
-              <span>
-                <FaRocketchat />
-              </span>
-              <div className="inner-text">
-                <span> Admin Chat Commission</span>
-                {/* <span>123</span> */}
-              </div>
-           
+            <span>
+              <FaRocketchat />
+            </span>
+            <div className="inner-text">
+              <span> Admin Chat Commission</span>
+              {/* <span>123</span> */}
+            </div>
           </li>
-          
         </ul>
       </div>
     </div>

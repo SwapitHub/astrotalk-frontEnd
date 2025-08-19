@@ -13,19 +13,19 @@ import he from "he";
 import { toast } from "react-toastify";
 import Loader from "@/app/component/Loader";
 
-const ProductDetail = () => {
+const ProductDetail = ({productDetailData}) => {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
   const userMobiles = Math.round(Cookies.get("userMobile"));
   const gemstone = searchParams.get("gemstone");
-  const [productDetailData, setProductDetailData] = useState();
   const [gemStoneJewelryData, setGemStoneJewelryData] = useState();
   const [viewAllBtn, setViewAllBtn] = useState(false);
   const [gemstoneData, setGemstoneData] = useState();
   const [decodedHtml, setDecodedHtml] = useState("");
 
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
+console.log(params,"params");
 
   const discountPrice =
     productDetailData?.actual_price - productDetailData?.discount_price;
@@ -33,17 +33,7 @@ const ProductDetail = () => {
     (discountPrice / productDetailData?.actual_price) * 100
   );
 
-  const handleProductDetail = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-product-detail/${params?.id}`
-      );
 
-      setProductDetailData(response.data.data);
-    } catch (err) {
-      console.log("product detail data is not found", err);
-    }
-  };
 
   const handleGemStoneJewelry = async () => {
     try {
@@ -57,7 +47,6 @@ const ProductDetail = () => {
   };
 
   useEffect(() => {
-    handleProductDetail();
     handleGemStoneJewelry();
   }, []);
 

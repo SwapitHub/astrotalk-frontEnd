@@ -35,10 +35,12 @@ import AdminShopProductWallet from "./AdminShopProductWallet";
 import AddFooter from "./home/AddFooter";
 import BannerHome from "./home/BannerHome";
 import SeoMetaData from "./SeoMetaData";
+import Cookies from "js-cookie";
+
 
 const AdminHome = () => {
   const router = useRouter();
-  const admin_id = secureLocalStorage.getItem("admin_id");
+  const admin_id = Cookies.get("admin_id");
   const { updateButton, setUpdateButton } = useGlobalContext();
   const [astroListToggle, setAstroListToggle] = useState(false);
   const [adminWalletToggle, setAdminWalletToggle] = useState(false);
@@ -56,6 +58,7 @@ const AdminHome = () => {
 
   const handleAdminLogOut = () => {
     secureLocalStorage.removeItem("admin_id");
+    Cookies.remove("admin_id");
     window.dispatchEvent(new Event("admin_id_updated"));
     router.push("/admin");
   };
@@ -379,7 +382,9 @@ const AdminHome = () => {
                         updateButton === "language" ||
                         updateButton === "profession" ||
                         updateButton === "ChatCommission" ||
-                        updateButton === "changePassword"
+                        updateButton === "changePassword" ||
+                        updateButton === "Denomination" ||
+                        updateButton === "seoMetaData" 
                           ? "active"
                           : ""
                       }
@@ -442,6 +447,7 @@ const AdminHome = () => {
                                 e.preventDefault();
                                 setUpdateButton("Denomination");
                                 setToggleSlideMobile(false);
+                                
                               }}
                             >
                               Denomination Amount
@@ -500,7 +506,11 @@ const AdminHome = () => {
                     </li>
 
                     <li
-                      className={updateButton === "astroShop" ? "active" : ""}
+                      className={
+                        updateButton === "astroShop" || 
+                        updateButton === "astroShopProduct" || 
+                        updateButton === "astroShopGemJewelry" 
+                         ? "active" : ""}
                     >
                       <a
                         href="#"

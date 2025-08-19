@@ -1,13 +1,11 @@
 "use client";
-import Link from "next/link";
-import OtpData from "../component/OtpData";
-import { useEffect, useState } from "react";
 import axios from "axios";
-import { usePathname, useRouter } from "next/navigation";
-import secureLocalStorage from "react-secure-storage";
-import UserOtpLoginData from "../component/UserOtpLoginData";
 import Cookies from "js-cookie";
-import Loader from "../component/Loader";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import OtpData from "../component/OtpData";
+import UserOtpLoginData from "../component/UserOtpLoginData";
 
 const Header = () => {
   const router = useRouter();
@@ -22,16 +20,15 @@ const Header = () => {
   const [hideProfilePopup, setHideProfilePopup] = useState(false);
 
   const [admin_id, setAdmin_id] = useState(() =>
-    secureLocalStorage.getItem("admin_id")
+    Cookies.get("admin_id")
   );
 
   // console.log(astrologerPhone,astroDetailData);
   const [userMobile, setUserMobile] = useState();
-  console.log(admin_id, userMobile);
 
   useEffect(() => {
     const handleStorageChange = () => {
-      const updatedId = secureLocalStorage.getItem("admin_id");
+      const updatedId = Cookies.get("admin_id");
       setAdmin_id(updatedId);
     };
 
