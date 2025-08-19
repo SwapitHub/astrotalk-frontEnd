@@ -24,12 +24,14 @@ const fetchShopDetail = async (id) => {
 export async function generateMetadata({ params }) {
   const { id } = params;
   const astrShopDetailData = await fetchShopDetail(id);
-
+  if (!astrShopDetailData) return;
   return {
     title: astrShopDetailData?.data?.meta_title || "Default Title",
     description:
       astrShopDetailData?.data?.meta_description || "Default Description",
-    keywords: astrShopDetailData?.data?.meta_keyword || data?.data?.meta_title,
+    keywords:
+      astrShopDetailData?.data?.meta_keyword ||
+      astrShopDetailData?.data?.meta_title,
 
     openGraph: {
       title: astrShopDetailData?.data?.meta_title || "Default Title",

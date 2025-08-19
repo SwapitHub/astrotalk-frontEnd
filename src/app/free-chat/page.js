@@ -6,7 +6,7 @@ const FreeChat = () => {
   return (
     <div className="container">
       <div className="free-chat-main">
-        <Link href="/chat-with-astrologecr">Explore More</Link>
+        <Link href="/chat-with-astrologer">Explore More</Link>
 
         <div className="free-chat">
           <div className="img">

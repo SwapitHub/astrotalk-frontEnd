@@ -41,7 +41,7 @@ nav.navbar ul li a:hover, nav.navbar ul li span:hover {color: var(--primary_colo
 .header-left-logo img {max-width: 105px;}
 nav.navbar ul {justify-content: center; display: flex;}
 .header .inner-header-sec button, .notification-box a, .button-outer button {display: inline-block; border: 1px solid var(--body_content_color); background-color: var(--body_content_color); color: #fff; padding: 8px 20px; border-radius: 8px; font-size: 14px;}
-.header .inner-header-sec button:hover {background-color: transparent; color: var(--body_content_color);}
+.header button:hover {background-color: transparent; color: var(--body_content_color);}
 .header .mobile-toggle {display: none;}
 .header .mobile-toggle span {display: block; width: 24px; height: 2px; background-color: #000; margin: 4px 0px;}
 /*  Chat Section */
@@ -53,7 +53,8 @@ nav.navbar ul {justify-content: center; display: flex;}
 .header-chat-content * {color: #ffffff;}
 .header-chat-content h4 {font-size: 16px;}
 .header-chat-content p {font-size: 14px;}
-.chat-right-end-btn button {color: var(--primary_color); border-radius: 5px; border: 1px solid var(--primary_color); padding: 8px 14px; background-color: #fff; font-size: 14px;cursor: pointer;}
+.chat-right-end-btn button {color: var(--primary_color); border-radius: 5px; border: 1px solid #ffffff; padding: 8px 14px; background-color: #fff; font-size: 14px;cursor: pointer;}
+.chat-right-end-btn button:hover {background-color: transparent; color: #fff; border-color: #ffffff;}
 .header-chat-logo a img {height: 48px; width: 48px; border-radius: 100%; object-fit: cover; object-position: center top;}
 .header-chat-logo, .header-chat-content {max-width: max-content;}
 .uder-and-astro-chat-bg {background-image: url(/astro-bg-img.webp); background-repeat: repeat; background-size: auto; height: calc(100vh - 230px); overflow: auto; padding: 20px 0;}
@@ -94,7 +95,7 @@ nav.navbar ul {justify-content: center; display: flex;}
 .message.outgoing p, .message.incoming p {font-size: 13px; margin-bottom: 2px; word-break: break-word; color: #616161;}
 .chat-input {position: relative; width: 100%;}
 .chat-input input {width: 100%; padding: 0px 96px 0px 20px; border: none; border-radius: 50px; height: 59px; outline: none; font-family: inherit;}
-.chat-input button {background-color: var(--primary_color); color: white; border: none; padding: 9px 20px; cursor: pointer; border-radius: 50px; position: absolute; right: 13px; top: 10px;}
+.chat-input button {padding: 9px 20px; cursor: pointer; border-radius: 50px; position: absolute; right: 11px; top: 8.5px;}
 /* Notification popup  */
 .notification-astro {position: fixed; right: 20px; top: 20px; z-index: 9;}
 .notification-box {background-color: var(--primary_color); color: white; padding: 15px; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); z-index: 1000; min-width: 300px;}
@@ -156,7 +157,7 @@ nav.navbar ul {justify-content: center; display: flex;}
 .astro-dashboard-heading-btns-outer .inner-astrologer-registration .astrologer-main-dashboard-btn {margin: 0px;}
 .astrologer-main-dashboard-btn a svg {vertical-align: middle; width: 23px; height: 23px;}
 /* Recharge Popup */
-.main-recharge-popup {margin: 0 auto; text-align: center; display: flex; justify-content: center; background: #fff; max-width: 400px; align-items: center; box-shadow: 0 11px 15px -7px #0003, 0 24px 38px 3px #00000024, 0 9px 46px 8px #0000001f; padding: 24px; border-radius: 10px;}
+.main-recharge-popup {margin: 0 auto; text-align: center; display: flex; justify-content: center; background: #fff; max-width: 400px; align-items: center; box-shadow: 0 11px 15px -7px #0003, 0 24px 38px 3px #00000024, 0 9px 46px 8px #0000001f; padding: 15px 20px 24px; border-radius: 10px;}
 .recharge-popup .button button {color: #313131; border: 1px solid #919191; border-radius: 5px; padding: 5px 20px; font-size: 14px; text-decoration: none; transition: all 0.3s ease-in-out; cursor: pointer; background-color: initial; margin-right: 10px; margin-top: 15px;}
 .recharge-popup p {font-size: 16px; line-height: 24px;}
 .all-list-talk-to-astrologer {margin-top: 30px; grid-template-columns: repeat(3, 1fr); gap: 20px;}
@@ -183,6 +184,7 @@ nav.navbar ul {justify-content: center; display: flex;}
 .astrologer-call-button-ctm a, .astrologer-call-button-ctm button {padding: 5px 15px; font-size: 14px;}
 .astrologer-call-button-ctm.chatStatus-false a {color: var(--primary_color); background-color: #fff; border: 1px solid var(--primary_color); padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 14px;}
 .astrologer-call-button-ctm.chatStatus-false span:not(.icon) {color: var(--primary_color); font-size: 12px; line-height: 1.2; display: inline-block; margin: 7px 0px 0px;}
+.inner-astrologer-detail .astrologer-call-button-ctm.chatStatus-false span:not(.icon) {text-align: center;}
 .astrologer-call-button-ctm.chatStatus-false a:hover {background-color: var(--primary_color); color: #fff; border-color: var(--primary_color);}
 .astrologer-call-button-ctm button:hover, .astrologer-call-button-ctm-detail a:hover, .astrologer-call-button-ctm a:hover {background-color: #28ba51; border-color: #28ba51; color: #fff;}
 .Verified-Sticker-icon {text-align: right;}
@@ -516,7 +518,7 @@ span.star.full, span.star {color: #6c757d;}
 /* astrologer_profile_Section detail end */
 /* 24-04-2025 */
 .sort-modal {width: 300px;}
-.sort-header {display: flex; justify-content: space-between; font-weight: bold; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 10px;}
+.sort-header {display: flex; justify-content: space-between; font-weight: bold; border-bottom: 1px solid #ddd; padding-bottom: 15px; margin-bottom: 15px;}
 .sort-options label {cursor: pointer; display: block;}
 .AddLanguage .language-add-data {border-right: 1px solid #cfcfcf;}
 .header {position: relative; z-index: 2; background-color: #fff;}
@@ -626,12 +628,12 @@ input::file-selector-button {background-color: transparent; border: 1px solid #2
 .sort-filter-rating {background-color: var(--primary_color); padding: 10px 15px; border-radius: 10px; display: flex; margin-bottom: 10px; justify-content: space-between; align-items: center;}
 .sort-filter-rating * {color: #ffffff;}
 .sort-left h6 {font-size: 16px; font-weight: 600;}
-.sort-right {display: flex; align-items: center; gap: 20px;}
-.sort-radio {display: flex; align-items: center; gap: 7px; position: relative;}
-.sort-radio input {position: absolute; opacity: 0; z-index: 1; width: 100%; cursor: pointer;}
-.sort-radio input[type="radio"] + label::before {border-color: #ffffff; background-color: transparent;}
-.sort-radio input[type="radio"]:checked + label::before {background-color: #ffffff;}
-.sort-radio input[type="radio"] + label::after {border-color: var(--primary_color);}
+.sort-right {display: flex; align-items: center; gap: 30px;}
+.sort-radio {display: flex; align-items: center; gap: 7px; position: relative; padding-left: 25px;}
+.sort-radio input {position: absolute; opacity: 0; z-index: 1; width: 100%; cursor: pointer; left: 0px;}
+.sort-radio input[type="radio"] + label::before {content: ""; position: absolute; width: 15px; height: 15px; border: 2px solid #ffffff; left: 0px; top: 2px; background-color: #fff; box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3); border-radius: 50%;}
+.sort-radio input[type="radio"] + label::after {content: ""; position: absolute; width: 9px; height: 9px; border-radius: 50%; background-color: var(--primary_color); left: 5px; top: 7px; opacity: 0; visibility: hidden;}
+.sort-radio input[type="radio"]:checked + label::after {opacity: 1; visibility: visible;}
 .single-review {background-color: #fff; min-height: 70px; padding: 15px; margin-bottom: 10px; border-radius: 10px;}
 .single-review:last-child {margin-bottom: 0px;}
 h2.review-heading {margin: 0 0 15px; font-weight: 600; font-size: 18px;}
@@ -1034,7 +1036,7 @@ span.required {color: red;}
 .faq-section .icon::before {content: ""; height: 100%; width: 3px; background: #000; position: absolute; left: 50%; transform: translateX(-50%);}
 .faq-item.active .icon::before {opacity: 0;}
 p.data-not-found {margin: 30px 0px 0px; text-align: center;}
-td select {padding: 3px 20px 3px 10px; border-radius: 5px; background-position: calc(100% - 14px) calc(1em - 4px), calc(100% - 9px) calc(1em - 4px), calc(100% - 2.5em) 0.5em;}
+td select {padding: 3px 25px 3px 10px; border-radius: 5px; background-position: calc(100% - 14px) calc(1em - 4px), calc(100% - 9px) calc(1em - 4px), calc(100% - 2.5em) 0.5em;}
 /* ================== @ media css start here ================== */
 @media (max-width: 1600px) {
   .outer-home-dashboard ul {grid-template-columns: repeat(3, 1fr);}
@@ -1109,7 +1111,7 @@ td select {padding: 3px 20px 3px 10px; border-radius: 5px; background-position: 
 @media (max-width: 767px) {
   h1, .common-h1-heading {font-size: 24px; line-height: 36px;}
   /* Header Section */
-  .header button,.header-right-profil-icon {margin-right: 30px;}
+  .header .inner-header-sec button,.header-right-profil-icon {margin-right: 30px;}
   .header-left-logo img {max-width: 70px;}
   /* Dashboard Header  */
   .user-opened .onhover-dropdown.mobile-user .onhover-show-div, .notification-opened .onhover-dropdown.mobile-notification .onhover-show-div {opacity: 1; visibility: visible; transform: translateY(0px);}

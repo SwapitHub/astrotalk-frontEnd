@@ -118,7 +118,7 @@ const ChatWithAstrologer = ({
     if (skipFetch) return;
     setError(null);
     if (currentPage === 1) setIsLoading(true);
-    let limit = 4;
+    let limit = 3;
     try {
       const response = await axios.get(`
         ${

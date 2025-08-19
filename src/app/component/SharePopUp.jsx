@@ -32,6 +32,7 @@ const SharePopUp = ({
         <Link
           href={`/chat-with-astrologer/user/${showUserIdToAst}/?user=order-history&astrologerIdToAst=${astrologerIdToAst}`}
           className="text-blue-600 underline"
+          onClick={()=>{setShareOpenPopup(false)}}
         >
           {process.env.NEXT_PUBLIC_BASE_URL}/chat-with-astrologer/user/
           {showUserIdToAst}/?user=order-history&astrologerIdToAst=

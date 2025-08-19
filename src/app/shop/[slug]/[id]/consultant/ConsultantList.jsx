@@ -11,9 +11,7 @@ const ConsultantList = () => {
   const [astrologerServiceListData, setAstrologerServiceListData] = useState(
     []
   );
-  console.log(astrologerServiceListData);
-  console.log(astrShopDetailData);
-  console.log(params);
+  
 
   const handleGetAstrologer = async () => {
     try {
