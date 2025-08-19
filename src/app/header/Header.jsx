@@ -19,9 +19,7 @@ const Header = () => {
   const [toggleMobile, setToggleMobile] = useState(false);
   const [hideProfilePopup, setHideProfilePopup] = useState(false);
 
-  const [admin_id, setAdmin_id] = useState(() =>
-    Cookies.get("admin_id")
-  );
+  const [admin_id, setAdmin_id] = useState(() => Cookies.get("admin_id"));
 
   // console.log(astrologerPhone,astroDetailData);
   const [userMobile, setUserMobile] = useState();
@@ -155,6 +153,10 @@ const Header = () => {
               )}
             </div>
           )}
+          <OtpData
+            setOtpPopUpDisplayAstro={setOtpPopUpDisplayAstro}
+            otpPopUpDisplayAstro={otpPopUpDisplayAstro}
+          />
           <div className="container">
             <div className="inner-header-sec ctm-flex-row ctm-align-items-center ctm-justify-content-between">
               <div className="header-left-logo">
@@ -205,10 +207,6 @@ const Header = () => {
                     <Link href="/talk-to-astrologer">Talk to Astrologer</Link>
                   </li>
                   <li>
-                    <OtpData
-                      setOtpPopUpDisplayAstro={setOtpPopUpDisplayAstro}
-                      otpPopUpDisplayAstro={otpPopUpDisplayAstro}
-                    />
                     <span onClick={handleOtpPop}>
                       Login Astrologer Dashboard
                     </span>

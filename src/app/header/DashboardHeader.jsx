@@ -1,13 +1,11 @@
 "use client";
+import axios from "axios";
+import Cookies from "js-cookie";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import secureLocalStorage from "react-secure-storage";
 import AstroNotification from "../component/AstroNotification";
 import ProfilePopUp from "../component/ProfilePopUp";
-import HeaderDashNotification from "../component/HeaderDashNotification";
-import axios from "axios";
-import Cookies from "js-cookie";
 
 const DashboardHeader = ({ setToggleSlideMobile }) => {
 

@@ -481,7 +481,7 @@ span.banner-heading, .footer-product-name {font-weight: 600; font-size: 18px; ma
 .profile_with_contact_slider .slick-slide img {border-radius: 10px; width: 100%;}
 .slick-arrow.slick-next {right: -10px;}
 .slick-arrow.slick-prev {left: -10px;}
-button.slick-arrow {z-index: 9; width: 40px; height: 40px; border-radius: 50%; background-color: var(--primary_color) !important;}
+button.slick-arrow {z-index: 1; width: 40px; height: 40px; border-radius: 50%; background-color: var(--primary_color) !important;}
 button.slick-arrow::before {content: ""; width: 10px; height: 10px; border-top: 2px solid #fff; border-left: 2px solid #fff; display: inline-block; transform: rotate(-45deg); margin: 0 0 0 4px; opacity: 1;}
 button.slick-arrow.slick-next::before {transform: rotate(135deg); margin: 0 4px 0px 0px;}
 /* about us */

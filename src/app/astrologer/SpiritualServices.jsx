@@ -106,6 +106,11 @@ const SpiritualServices = () => {
               id={`price-${item._id}`}
               placeholder="Enter price"
               min="0"
+                onKeyDown={(e) => {
+                  if (e.key === "-" || e.key === "e") {
+                    e.preventDefault();
+                  }
+                }}
             />
           </div>
         </div>

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "@/app/component/Loader";
 import { toast } from "react-toastify";
+import DescriptionCell from "@/app/component/DescriptionCell";
 
 const SeoMetaData = () => {
   const [message, setMessage] = useState("");
@@ -275,10 +276,16 @@ const SeoMetaData = () => {
                       {item.meta_title}
                     </td>
                     <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                      {item.meta_description}
+                      <DescriptionCell
+                        description={item.meta_description}
+                        totalWord={20}
+                      />
                     </td>
                     <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                      {item.keywords}
+                      <DescriptionCell
+                        description={item.keywords}
+                        totalWord={10}
+                      />
                     </td>
                     <td style={{ border: "1px solid #ccc", padding: "8px" }}>
                       <button onClick={() => handleEdit(item)}>Edit</button>
