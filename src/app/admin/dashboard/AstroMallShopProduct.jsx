@@ -15,6 +15,7 @@ const AstroMallShopProduct = () => {
   const [editProductId, setEditProductId] = useState(null);
   const [shopListSingleData, setShopListSingleData] = useState(false);
   const [content, setContent] = useState("");
+  const [descriptionContent, setDescriptionContent] = useState("");
   const [shopId, setShopId] = useState();
   const [showImage, setShowImage] = useState();
   const [astrShopDetailData, setAstrShopDetailData] = useState("");
@@ -75,7 +76,6 @@ const AstroMallShopProduct = () => {
     let meta_keywords = document.getElementById("meta_keywords").value;
     const image = document.getElementById("astroMallProductImg").files[0];
     const offer_name = document.getElementById("offer_name").value;
-    const description = document.getElementById("description").value;
     const top_selling = document.getElementById("top_selling").checked;
     const newlyLaunched = document.getElementById("newlyLaunched").checked;
     const images = document.getElementById("astroMallImages").files;
@@ -132,7 +132,7 @@ const AstroMallShopProduct = () => {
     data.append("shop_id", shop_id);
     data.append("astroMallProductImg", image);
     data.append("offer_name", offer_name);
-    data.append("description", description);
+    data.append("description", descriptionContent);
     data.append("top_selling", top_selling);
     data.append("newlyLaunched", newlyLaunched);
     data.append("detail_information", content);
@@ -170,11 +170,10 @@ const AstroMallShopProduct = () => {
       document.getElementById("astroMallProductImg").value = "";
       document.getElementById("astroMallImages").value = "";
       document.getElementById("offer_name").value = "";
-      document.getElementById("description").value = "";
       document.getElementById("top_selling").checked = false;
       document.getElementById("newlyLaunched").checked = false;
       setContent("");
-
+setDescriptionContent("")
       const radios = document.querySelectorAll('input[name="product_type"]');
       radios.forEach((radio) => (radio.checked = false));
 
@@ -202,13 +201,13 @@ const AstroMallShopProduct = () => {
     document.getElementById("slug_product").value = product.slug;
     document.getElementById("offer_name").value = product.offer_name;
     document.getElementById("shop_id").value = product.shop_id;
-    document.getElementById("description").value = product.description;
     document.getElementById("top_selling").checked = product.top_selling;
     document.getElementById("newlyLaunched").checked = product.newlyLaunched;
     
     setShowImage(product);
 
     setContent(product?.detail_information);
+setDescriptionContent(product?.description)
 
  const selectedRadio = document.querySelector(`input[name="product_type"][id="${product.shop_product_type}"]`);
   if (selectedRadio) {
@@ -249,7 +248,6 @@ const AstroMallShopProduct = () => {
     const shop_id = document.getElementById("shop_id").value;
     const image = document.getElementById("astroMallProductImg").files[0];
     const offer_name = document.getElementById("offer_name").value;
-    const description = document.getElementById("description").value;
     const top_selling = document.getElementById("top_selling").checked;
     const newlyLaunched = document.getElementById("newlyLaunched").checked;
     const images = document.getElementById("astroMallImages").files;
@@ -273,7 +271,7 @@ const selectedProductTypeId = document.querySelector(
     data.append("slug", slug);
     data.append("shop_id", shop_id);
     data.append("offer_name", offer_name);
-    data.append("description", description);
+    data.append("description", descriptionContent);
     data.append("top_selling", top_selling);
     data.append("newlyLaunched", newlyLaunched);
     data.append("detail_information", content);
@@ -313,11 +311,11 @@ const selectedProductTypeId = document.querySelector(
         document.getElementById("astroMallProductImg").value = "";
         document.getElementById("astroMallImages").value = "";
         document.getElementById("offer_name").value = "";
-        document.getElementById("description").value = "";
         document.getElementById("top_selling").checked = false;
         document.getElementById("newlyLaunched").checked = false;
         setShowImage("");
         setContent("");
+setDescriptionContent("");
 
           const radios = document.querySelectorAll('input[name="product_type"]');
       radios.forEach((radio) => (radio.checked = false));
@@ -548,7 +546,8 @@ const selectedProductTypeId = document.querySelector(
           <div className="remove-astrict label-content">
             <label>Description</label>
           </div>
-          <textarea id="description" className="common-input-filed" />
+          <SummernoteEditor value={descriptionContent} onChange={setDescriptionContent}/>
+
         </div>
         <div className="product-detail form-field">
           <div className="remove-astrict label-content">

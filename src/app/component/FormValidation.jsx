@@ -6,7 +6,10 @@ export const validateAstrologerForm = (formType) => {
   // Form-specific validations
   if (formType === "astrologer") {
     const firstName = document.getElementById("fname")?.value.trim();
-
+    const aadhaarFile = document.getElementById("aadhaarCard")?.value.trim();
+    const certificateFile = document
+      .getElementById("certificate")
+      ?.value.trim();
     // Astrologer registration specific fields
     const dateOfBirth = document.getElementById("birthday")?.value;
     const skills = document.getElementById("Skills")?.value;
@@ -65,8 +68,14 @@ export const validateAstrologerForm = (formType) => {
     if (!gender) {
       errors.gender = "Gender is required";
     }
+    if (!aadhaarFile) {
+      errors.aadhaarFile = "Aadhaar card is required";
+    }
+    if (!certificateFile) {
+      errors.certificateFile = "Certificate is required";
+    }
   } else if (formType === "astroProfile") {
-    const professions =    Array.from(
+    const professions = Array.from(
       document.querySelectorAll('input[name="profession"]:checked')
     ).map((input) => input.value);
 
@@ -86,8 +95,7 @@ export const validateAstrologerForm = (formType) => {
       errors.languages = "Please select at least one language";
     }
 
-
-    if (!professions ||  professions.length <= 0) {
+    if (!professions || professions.length <= 0) {
       errors.professions = "Please select at least one Skill";
     }
 
@@ -126,36 +134,38 @@ export const validateAstrologerForm = (formType) => {
     if (!gender) {
       errors.gender = "Gender is required";
     }
-  }else{
-    const country = document.querySelector('input[name="country"]:checked')?.value
-    const gender =  document.querySelector('input[name="gender"]:checked')?.value
-    const Offer =  document.querySelector('input[name="Offer"]:checked')?.value
-    const top_astrologer =  document.querySelector('input[name="top_astrologer"]:checked')?.value
-    const professions =    Array.from(
+  } else {
+    const country = document.querySelector(
+      'input[name="country"]:checked'
+    )?.value;
+    const gender = document.querySelector(
+      'input[name="gender"]:checked'
+    )?.value;
+    const Offer = document.querySelector('input[name="Offer"]:checked')?.value;
+    const top_astrologer = document.querySelector(
+      'input[name="top_astrologer"]:checked'
+    )?.value;
+    const professions = Array.from(
       document.querySelectorAll('input[name="professions"]:checked')
     ).map((input) => input.value);
-
-  
 
     const selectedLanguages = Array.from(
       document.querySelectorAll('input[name="languages"]:checked')
     ).map((input) => input.value);
 
-  
-
     if (!selectedLanguages || selectedLanguages.length <= 0) {
       errors.languages = "Please select at least one language";
     }
 
-
-    if (!professions ||  professions.length <= 0) {
+    if (!professions || professions.length <= 0) {
       errors.professions = "Please select at least one Skill";
     }
-  
+
     if (!country) errors.country = "Must select at least one Country";
     if (!gender) errors.gender = "Must select at least one Gender";
     // if (!Offer) errors.Offer = "Must select at least one Offer";
-    if (!top_astrologer) errors.top_astrologer = "Must select at least one Top Astrologers";
+    if (!top_astrologer)
+      errors.top_astrologer = "Must select at least one Top Astrologers";
   }
 
   return errors;

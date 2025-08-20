@@ -21,6 +21,7 @@ const ProfilePopUp = ({ astroDetailData }) => {
 
   const handleAdminLogOut = () => {
     secureLocalStorage.removeItem("admin_id");
+    Cookies.remove("admin_id");
     window.dispatchEvent(new Event("admin_id_updated"));
     router.push("/admin");
   };

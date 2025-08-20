@@ -14,6 +14,7 @@ import UserOtpLoginData from "../component/UserOtpLoginData";
 import { useRouter } from "next/navigation";
 import RequestPopUp from "../component/RequestPopUp";
 import Cookies from "js-cookie";
+import useDebounce from "../hook/useDebounce";
 
 // const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
@@ -34,6 +35,9 @@ const ChatWithAstrologer = ({
   chatAstrologerLit,
 }) => {
   const router = useRouter();
+
+  const [searchName, setSearchName] = useState("");
+  const debouncedSearchName = useDebounce(searchName, 2000);
   const [showAstrologer, setShowAstrologer] = useState(null);
 
   const [userIds, setUserIds] = useState();
@@ -41,7 +45,6 @@ const ChatWithAstrologer = ({
   const [showRecharge, setShowRecharge] = useState(false);
   const [userData, setUserData] = useState();
   const [astroMobileNum, setAstroMobileNum] = useState();
-  const [searchName, setSearchName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingRequest, setIsLoadingRequest] = useState(
     secureLocalStorage.getItem("IsLoadingRequestStore")
@@ -123,7 +126,7 @@ const ChatWithAstrologer = ({
       const response = await axios.get(`
         ${
           process.env.NEXT_PUBLIC_WEBSITE_URL
-        }/astrologer-businessProfile?name=${searchName}&sortby=${
+        }/astrologer-businessProfile?name=${debouncedSearchName}&sortby=${
         sortFilterCharges || ""
       }&page=${currentPage}&limit=${limit}&languages=${findLanguageListData}&professions=${findSkillsListData}&gender=${genderData}&country=${countryData}&minAverageRating=${averageRating}&profileStatus=true
       `);
@@ -146,7 +149,7 @@ const ChatWithAstrologer = ({
     }
   }, [
     currentPage,
-    searchName,
+    debouncedSearchName,
     sortFilterCharges,
     findLanguageListData,
     findSkillsListData,
@@ -161,7 +164,7 @@ const ChatWithAstrologer = ({
     setCurrentPage(1);
     setHasMore(true);
   }, [
-    searchName,
+    debouncedSearchName,
     sortFilterCharges,
     findLanguageListData,
     findSkillsListData,

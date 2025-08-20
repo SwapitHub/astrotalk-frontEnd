@@ -1,6 +1,7 @@
 "use client";
 import Loader from "@/app/component/Loader";
 import axios from "axios";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 function AstrologerPendingList() {
@@ -82,6 +83,8 @@ function AstrologerPendingList() {
                 <th>ID</th>
                 <th>Name</th>
                 <th>Mobile Number</th>
+                <th>Aadhar Card</th>
+                <th>Certificate</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -91,6 +94,16 @@ function AstrologerPendingList() {
                   <td>{item._id}</td>
                   <td>{item.name}</td>
                   <td>{item?.mobileNumber}</td>
+                  <td>
+                    <Link href={`${item?.aadhaarCard}`} target="_blank">
+                      <img src={item?.aadhaarCard} alt={item.name} />
+                    </Link>
+                  </td>
+                  <td>
+                    <Link href={`${item?.certificate}`} target="_blank">
+                      <img src={item?.certificate} alt={item.name} />
+                    </Link>
+                  </td>
 
                   <td>
                     <button

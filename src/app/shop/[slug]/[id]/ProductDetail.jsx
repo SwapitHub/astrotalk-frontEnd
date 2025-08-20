@@ -13,7 +13,7 @@ import he from "he";
 import { toast } from "react-toastify";
 import Loader from "@/app/component/Loader";
 
-const ProductDetail = ({productDetailData}) => {
+const ProductDetail = ({ productDetailData }) => {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
@@ -23,17 +23,16 @@ const ProductDetail = ({productDetailData}) => {
   const [viewAllBtn, setViewAllBtn] = useState(false);
   const [gemstoneData, setGemstoneData] = useState();
   const [decodedHtml, setDecodedHtml] = useState("");
+  const [decodedHtmlDescription, setDecodedHtmlDescription] = useState("");
 
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
-console.log(params,"params");
+  console.log(params, "params");
 
   const discountPrice =
     productDetailData?.actual_price - productDetailData?.discount_price;
   const offPercentage = Math.floor(
     (discountPrice / productDetailData?.actual_price) * 100
   );
-
-
 
   const handleGemStoneJewelry = async () => {
     try {
@@ -125,6 +124,15 @@ console.log(params,"params");
       setDecodedHtml(sanitizedHtml);
     }
   }, [productDetailData]);
+  useEffect(() => {
+    if (productDetailData?.description) {
+      const decoded = he.decode(productDetailData?.description);
+
+      const sanitizedHtml = DOMPurify.sanitize(decoded);
+
+      setDecodedHtmlDescription(sanitizedHtml);
+    }
+  }, [productDetailData]);
 
   return (
     <div className="product-detail-main">
@@ -183,7 +191,17 @@ console.log(params,"params");
             <div className="product-details-right">
               <div className="product-right-desc">
                 <h1>{productDetailData?.name}</h1>
-                <p>{productDetailData?.description}</p>
+                {decodedHtmlDescription !== "<p>undefined</p>" &&
+                  decodedHtmlDescription !== "undefined" &&
+                  decodedHtmlDescription.trim().length > 0 && (
+                    <p>
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: decodedHtmlDescription,
+                        }}
+                      />
+                    </p>
+                  )}
               </div>
               {productDetailData?.starting_price ? (
                 <div className="product-price">
@@ -231,7 +249,6 @@ console.log(params,"params");
           </div>
         </div>
       </section>
-      {console.log(decodedHtml == "<p>undefined</p>")}
       {decodedHtml !== "<p>undefined</p>" &&
         decodedHtml !== "undefined" &&
         decodedHtml.trim().length > 0 && (
@@ -401,7 +418,7 @@ console.log(params,"params");
                       <img alt="" />
                     </div>
                     <div className="name-text">
-                      <span>Denesh Sharma</span>
+                      <span>Dinesh Sharma</span>
                     </div>
                   </div>
                   <div className="rating-stars">

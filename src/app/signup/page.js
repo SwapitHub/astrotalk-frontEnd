@@ -13,76 +13,83 @@ const AstrologerRegistration = () => {
   const handleSubmitSignup = async () => {
     const validationErrors = validateAstrologerForm("astrologer");
     setErrors(validationErrors);
-    console.log(validationErrors);
 
     if (Object.keys(validationErrors).length > 0) {
       return;
     }
 
-    // ✅ Collect multiple checked languages
+    // ✅ Collect selected languages
     const selectedLanguages = Array.from(
       document.querySelectorAll('input[name="languages"]:checked')
     ).map((input) => input.value);
 
-    const formData = {
-      first_name: document.getElementById("fname").value,
-      date_of_birth: document.getElementById("birthday").value,
-      gender: document.querySelector('input[name="gender"]:checked')?.value,
-      languages: selectedLanguages,
-      skills: document.getElementById("Skills")?.value || "",
-      deviceUse: document.getElementById("deviceUse").value,
-      email: document.getElementById("emails").value,
-      mobileNumber: document.getElementById("mobileNumber").value,
-    };
+    // ✅ Get files
+    const aadhaarFile = document.getElementById("aadhaarCard")?.files?.[0];
+    const certificateFile = document.getElementById("certificate")?.files?.[0];
 
-    console.log(formData); // Check the array of languages
+    // ✅ Validate required fields
+    const firstName = document.getElementById("fname").value;
+    const dob = document.getElementById("birthday").value;
+    const gender = document.querySelector(
+      'input[name="gender"]:checked'
+    )?.value;
+    const skills = document.getElementById("Skills").value;
+    const deviceUse = document.getElementById("deviceUse").value;
+    const email = document.getElementById("emails").value;
+    const mobileNumber = document.getElementById("mobileNumber").value;
 
-    // Basic required field validation
     if (
-      !formData.first_name ||
-      !formData.date_of_birth ||
-      formData.languages.length === 0 ||
-      !formData.skills ||
-      !formData.deviceUse ||
-      !formData.email ||
-      !formData.mobileNumber
+      !firstName ||
+      !dob ||
+      !gender ||
+      selectedLanguages.length === 0 ||
+      !skills ||
+      !deviceUse ||
+      !email ||
+      !mobileNumber ||
+      !aadhaarFile ||
+      !certificateFile
     ) {
       console.warn("All form fields are required.");
       return;
     }
 
     try {
+      const formData = new FormData();
+
+      formData.append("name", firstName);
+      formData.append("dateOfBirth", dob);
+      formData.append("gender", gender);
+      formData.append("skills", skills);
+      formData.append("deviceUse", deviceUse);
+      formData.append("email", email);
+      formData.append("mobileNumber", mobileNumber);
+      formData.append("astroStatus", false); // default
+
+      // ✅ Append languages
+      selectedLanguages.forEach((lang) => {
+        formData.append("languages[]", lang);
+      });
+
+      // ✅ Append files
+      if (aadhaarFile) formData.append("aadhaarCard", aadhaarFile);
+      if (certificateFile) formData.append("certificate", certificateFile);
+
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-registration`,
+        formData,
         {
-          name: formData.first_name,
-          dateOfBirth: formData.date_of_birth,
-          gender: formData.gender,
-          languages: formData.languages, // ✅ Array of languages
-          skills: formData.skills,
-          deviceUse: formData.deviceUse,
-          email: formData.email,
-          mobileNumber: formData.mobileNumber,
-          astroStatus: false,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
 
       if (response.data.message === "success") {
-        // Reset fields
-        document.getElementById("fname").value = "";
-        document.getElementById("birthday").value = "";
-        document.getElementById("emails").value = "";
-        document.getElementById("mobileNumber").value = "";
-        document.querySelectorAll('input[name="gender"]').forEach((radio) => {
-          radio.checked = false;
-        });
-        document
-          .querySelectorAll('input[name="languages"]')
-          .forEach((checkbox) => {
-            checkbox.checked = false;
-          });
-        setSuccessMessage(response.data.message);
-        console.log("Form reset successfully.");
+        // ✅ Reset form
+        document.querySelector("form").reset();
+        setSuccessMessage("success");
+        toast.success("Registration successful", { position: "top-right" });
       }
 
       console.log("Registration successful:", response.data);
@@ -90,7 +97,7 @@ const AstrologerRegistration = () => {
       toast.error("Email or mobile number already registered", {
         position: "top-right",
       });
-      console.log("Error in registration api");
+      console.error("Error in registration API:", error);
     }
   };
 
@@ -109,7 +116,7 @@ const AstrologerRegistration = () => {
   useEffect(() => {
     fetchLanguageList();
   }, []);
-  
+
   return (
     <main className="main-content">
       {successMessage == "success" ? (
@@ -126,18 +133,24 @@ const AstrologerRegistration = () => {
                   <img src="./thanku-img.png" alt="Thank You" />
                 </div>
                 <div className="thanks-section-content">
+                  <p>Thank you for registering as an astrologer with us!</p>
+
                   <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Maxime esse obcaecati amet beatae,
+                    Our team will now carefully review your profile and the
+                    documents you have submitted. This process typically takes
+                    between 24 to 48 hours.
                   </p>
+
                   <p>
-                    Lorem ipsam repudiandae suscipit eveniet voluptates porro.
-                    Accusamus eius at praesentium libero neque deleniti amet
-                    temporibus ex commodi illo,
+                    Once your details are verified and approved, you will
+                    receive a confirmation email or message with login access
+                    and further instructions.
                   </p>
+
                   <p>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    alias in consequuntur
+                    We appreciate your interest in joining our platform and look
+                    forward to having you share your expertise with those
+                    seeking guidance.
                   </p>
                 </div>
               </div>
@@ -156,6 +169,44 @@ const AstrologerRegistration = () => {
               <div className="astrologer-registration-form">
                 <form action="">
                   <div className="form-filed-section-bg">
+                    <div className="inner-form-filed-sec">
+                      <div className="label-content">
+                        <label htmlFor="aadhaarCard">
+                          Upload Aadhaar Card{" "}
+                          <span>(आधार कार्ड अपलोड करें)</span>
+                        </label>
+                      </div>
+                      <input
+                        type="file"
+                        id="aadhaarCard"
+                        name="aadhaarCard"
+                        accept=".jpg,.jpeg,.png,.pdf"
+                        className="common-input-filed"
+                      />
+                      {errors.aadhaarFile && (
+                        <p className="error">{errors.aadhaarFile}</p>
+                      )}
+                    </div>
+
+                    <div className="inner-form-filed-sec">
+                      <div className="label-content">
+                        <label htmlFor="certificate">
+                          Upload Certificate{" "}
+                          <span>(प्रमाणपत्र अपलोड करें)</span>
+                        </label>
+                      </div>
+                      <input
+                        type="file"
+                        id="certificate"
+                        name="certificate"
+                        accept=".jpg,.jpeg,.png,.pdf"
+                        className="common-input-filed"
+                      />
+                      {errors.certificateFile && (
+                        <p className="error">{errors.certificateFile}</p>
+                      )}
+                    </div>
+
                     <div className="inner-form-filed-sec">
                       <div className="label-content">
                         <label for="Name">

@@ -605,19 +605,7 @@ const AdminHome = () => {
                       </SlideToggle>
                     </li>
 
-                    <li className={updateButton === 6 ? "active" : ""}>
-                      <a
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setUpdateButton(6);
-                          setToggleSlideMobile(false);
-                        }}
-                      >
-                        <FaHeadSideCough />
-                        <span className="list-text">Id Proof</span>
-                      </a>
-                    </li>
+                   
                     <li className={updateButton === 7 ? "active" : ""}>
                       <a
                         href="#"

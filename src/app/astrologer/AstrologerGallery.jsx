@@ -22,11 +22,15 @@ console.log("galleryListData",galleryListData);
       
     } catch (error) {
       console.error("Fetch gallery list error:", error);
-      toast.error("Failed to fetch gallery.", { position: "top-right" });
+      // toast.error("Failed to fetch gallery.", { position: "top-right" });
     } finally {
       setLoading(false);
     }
   };
+  
+  useEffect(() => {
+    fetchGalleryList();
+  }, []);
 
   const handleMultipleChange = (e) => {
     setMultipleImages([...e.target.files]);
@@ -99,9 +103,7 @@ console.log("galleryListData",galleryListData);
     }
   };
 
-  useEffect(() => {
-    fetchGalleryList();
-  }, []);
+
 
   return (
     <div className="AddLanguage gallery-main">
