@@ -3,6 +3,8 @@ import Loader from "@/app/component/Loader";
 import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { MdDelete } from "react-icons/md";
+import secureLocalStorage from "react-secure-storage";
 
 function AstrologerPendingList() {
   const [pendingData, setPendingData] = useState([]);
@@ -71,6 +73,21 @@ function AstrologerPendingList() {
     }
   };
 
+const deleteAstrologer = async (mobile) => {
+  try {
+    const result = await axios.delete(
+      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/delete-astrologer-list/${mobile}`
+    );
+    
+    if (result.status === 200) {
+      fetchAstrologers()
+    }
+  } catch (err) {
+    console.log("API error", err.response || err.message);
+  }
+};
+
+
   return (
     <>
       {loading ? (
@@ -85,7 +102,7 @@ function AstrologerPendingList() {
                 <th>Mobile Number</th>
                 <th>Aadhar Card</th>
                 <th>Certificate</th>
-                <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -126,6 +143,15 @@ function AstrologerPendingList() {
                       }}
                     >
                       {item.astroStatus ? "Active" : "Confirm"}
+                    </button>
+
+                    <button
+                      className="delete-btn"
+                      onClick={() => {
+                        deleteAstrologer(item.mobileNumber);
+                      }}
+                    >
+                      <MdDelete />
                     </button>
                   </td>
                 </tr>

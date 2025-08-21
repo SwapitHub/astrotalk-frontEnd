@@ -9,7 +9,6 @@ const AstrologerGallery = ({astrologerData}) => {
   const [loading, setLoading] = useState(false);
   const [multipleImages, setMultipleImages] = useState([]);
   const fileInputRef = useRef(null);
-console.log("galleryListData",galleryListData);
 
   const fetchGalleryList = async () => {
     try {

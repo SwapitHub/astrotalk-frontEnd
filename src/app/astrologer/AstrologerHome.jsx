@@ -20,6 +20,7 @@ import AstrologerReview from "./AstrologerReview";
 import AstrologerWallet from "./AstrologerWallet";
 import DashBoardData_1 from "./DashBoardData_1";
 import SpiritualServices from "./SpiritualServices";
+import { AstroDocument } from "./AstroDocument";
 
 const AstrologerHome = () => {
   const { updateButton, setUpdateButton } = useGlobalContext();
@@ -348,6 +349,12 @@ const AstrologerHome = () => {
                   <AstrologerReview
                     astrologerData={astrologerData}
                     renderStars={renderStars}
+                  />
+                )}  
+                
+                {updateButton == 6 && (
+                  <AstroDocument
+                   registrationDetail={registrationDetail}
                   />
                 )}
 

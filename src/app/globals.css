@@ -15,11 +15,15 @@ button:hover, .product-right-btn a:hover {background-color: transparent; color: 
 select {appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--body_content_color) 50%), linear-gradient(135deg, var(--body_content_color) 50%, transparent 50%), linear-gradient(to right, #fff, #fff); background-position: calc(100% - 20px) calc(1em + 6px), calc(100% - 15px) calc(1em + 6px), calc(100% - 2.5em) 0.5em; background-size: 5px 5px, 5px 5px, 1px 1.5em; background-repeat: no-repeat;}
 .loader {min-height: 450px; text-align: center; display: flex; align-items: center; justify-content: center; background-image: url("https://i.pinimg.com/originals/e6/8c/c3/e68cc33983bed347554ce23fe2bd08bd.gif"); background-position: center; background-repeat: no-repeat; background-size: 170px; background-color: transparent; font-size: 0px;}
 .product-detail-main .loader, .dashboard-right-content .loader {width: 100%; min-height: 100vh; position: fixed; bottom: 0px; background-color: #fff; z-index: 10;} 
+.dashboard-right-content .loader {position: absolute; left: 0px; top: 0px;}
 .loader + .all-list-talk-to-astrologer {display: none;}
-.talk-to-astrologer-bg .loader, section.my-order-hisrory-bg .loader, .my-wallet-table-sec .loader{background-color: #ffffff; z-index: 1; width: 100%; min-height: 150px; grid-column: span 2;}
+.talk-to-astrologer-bg .loader, section.my-order-hisrory-bg .loader, .my-wallet-table-sec .loader{background-color: #ffffff; z-index: 1; width: 100%; min-height: 150px; grid-column: span 3;}
 .outer-table {overflow-x: auto;}
 textarea {min-height: 100px; resize: none;}
 .note-fullscreen-body .change-password {z-index: 99;}
+.note-editor.note-frame .note-editing-area .note-editable{
+  background: #fff;
+}
 /* Main Div Flex Start*/
 .ctm-flex-row {display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 20px;}
 /* Justify Content Start*/
@@ -259,7 +263,7 @@ span.list-text {flex-grow: 1;}
 .dashboard-right-content table th:last-child, .dashboard-right-content table td:last-child {min-width: 180px;}
 .dashboard-right-content td img {max-width: 100px; border-radius: 8px;}
 .dashboard-right-content h2 {margin: 0 0 15px;}
-.dashboard-right-content {padding: 20px 27px 30px; margin-left: 255px; flex-grow: 1; margin-top: 100px; transition: all 0.3s;}
+.dashboard-right-content {padding: 20px 27px 30px; margin-left: 255px; flex-grow: 1; margin-top: 100px; transition: all 0.3s; position: relative;}
 .slider-opened .dashboard-right-content {margin-left: 0px;}
 .dashborad-right-content-inner {display: flex; flex-wrap: wrap; gap: 30px;}
 .dashboard-column {width: calc(25% - 24px);}
@@ -411,7 +415,7 @@ body.user-recharge:before {content: ""; width: 100%; position: absolute; backgro
 .admin-login-left-content h1 {font-size: 30px; margin: 0 0 5px;}
 /* 26-march-2025 */
 /* 22-april-2025 */
-.dashboard-right-content button:not(.note-btn) {background-color: var(--primary_color); border: 0; color: #fff; border-radius: 8px; display: inline-block; padding: 8px 20px; font-size: 15px; line-height: normal;}
+.dashboard-right-content button:not(.note-btn) {background-color: var(--primary_color); border: 0; color: #fff; border-radius: 8px; display: inline-block; padding: 8px 20px; font-size: 15px; line-height: normal; min-width: 102px;}
 .Denomination-form input {border: 1px solid #cecece; padding: 0 10px; height: 40px; font-size: 14px; color: #000; line-height: normal;border-radius: 3px; background-color: #f9f9f9; width: 100%;}
 .Denomination-form input[type="checkbox"] {width: 20px; height: 20px;}
 .Denomination-form .amount {margin-top: 10px;}
@@ -481,7 +485,7 @@ span.banner-heading, .footer-product-name {font-weight: 600; font-size: 18px; ma
 .profile_with_contact_slider .slick-slide img {border-radius: 10px; width: 100%;}
 .slick-arrow.slick-next {right: -10px;}
 .slick-arrow.slick-prev {left: -10px;}
-button.slick-arrow {z-index: 1; width: 40px; height: 40px; border-radius: 50%; background-color: var(--primary_color) !important;}
+button.slick-arrow {z-index: 9; width: 40px; height: 40px; border-radius: 50%; background-color: var(--primary_color) !important;}
 button.slick-arrow::before {content: ""; width: 10px; height: 10px; border-top: 2px solid #fff; border-left: 2px solid #fff; display: inline-block; transform: rotate(-45deg); margin: 0 0 0 4px; opacity: 1;}
 button.slick-arrow.slick-next::before {transform: rotate(135deg); margin: 0 4px 0px 0px;}
 /* about us */
@@ -1037,6 +1041,11 @@ span.required {color: red;}
 .faq-item.active .icon::before {opacity: 0;}
 p.data-not-found {margin: 30px 0px 0px; text-align: center;}
 td select {padding: 3px 25px 3px 10px; border-radius: 5px; background-position: calc(100% - 14px) calc(1em - 4px), calc(100% - 9px) calc(1em - 4px), calc(100% - 2.5em) 0.5em;}
+
+.main-doc {display: grid; gap: 30px; grid-template-columns: repeat(3, 1fr); margin: 30px 0px 0px;}
+.main-doc > * {border: 1px solid;}
+.main-doc h3 {text-align: center; padding: 10px;}
+
 /* ================== @ media css start here ================== */
 @media (max-width: 1600px) {
   .outer-home-dashboard ul {grid-template-columns: repeat(3, 1fr);}
@@ -1071,6 +1080,7 @@ td select {padding: 3px 25px 3px 10px; border-radius: 5px; background-position: 
     .astrology_seciton .col:nth-child(2n) {margin-left: 0; margin-right: 40px; padding-right: 60px;}
    /* home page end */
    .Denomination .language-list ul {grid-template-columns: repeat(2, 1fr);}
+   .main-doc {gap: 10px;}
 }
 @media screen and (min-width: 768px) and (max-width: 991px) {
   .container {max-width: 750px; margin-inline: auto; padding: 0;}
@@ -1107,6 +1117,7 @@ td select {padding: 3px 25px 3px 10px; border-radius: 5px; background-position: 
   .AddLanguage .language-add-data {padding: 0px 0 0px; border-right: 0px; border-bottom: 0px solid #cfcfcf;}
   .AddLanguage .language-list {padding: 20px 0px 0px;}
   .AddAdminCommissions-puja.AddLanguage {margin: 39px 0px 0px; border-top: 1px solid #cfcfcf;}
+  .main-doc {gap: 10px;  grid-template-columns: repeat(2, 1fr);}
 }
 @media (max-width: 767px) {
   h1, .common-h1-heading {font-size: 24px; line-height: 36px;}
