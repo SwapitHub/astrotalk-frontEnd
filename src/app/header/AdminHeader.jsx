@@ -1,22 +1,17 @@
 "use client";
-import axios from "axios";
+import { useGlobalContext } from "@/context/HomeContext";
 import Cookies from "js-cookie";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import AstroNotification from "../component/AstroNotification";
-import ProfilePopUp from "../component/ProfilePopUp";
+import secureLocalStorage from "react-secure-storage";
 
-const DashboardHeader = ({ setToggleSlideMobile }) => {
+const AdminHeader = ({ setToggleSlideMobile }) => {
+  const { setUpdateButton } = useGlobalContext();
+  const router = useRouter()
+
   const [toggleSlide, setToggleSlide] = useState(false);
   const [astroDetailData, setAstroDetailData] = useState();
-
-  const [astrologerPhone, setAstrologerPhone] = useState();
-
-  useEffect(() => {
-    const astrologerPhones = Cookies.get("astrologer-phone");
-    setAstrologerPhone(astrologerPhones);
-  }, []);
 
   const toggleFullScreen = () => {
     const elem = document.documentElement;
@@ -30,24 +25,6 @@ const DashboardHeader = ({ setToggleSlideMobile }) => {
       document.exitFullscreen();
     }
   };
-
-  useEffect(() => {
-    const fetchAstroDetailData = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerPhone}`
-        );
-        setAstroDetailData(response?.data);
-        console.log("astroDetailData", response);
-      } catch (error) {
-        console.log(error, "user detail api error");
-      }
-    };
-
-    if (astrologerPhone) {
-      fetchAstroDetailData();
-    }
-  }, [astrologerPhone]);
 
   const [notificationMobile, setNotificationMobile] = useState();
   const [userMobile, setUserMobile] = useState();
@@ -78,7 +55,15 @@ const DashboardHeader = ({ setToggleSlideMobile }) => {
       document.body.classList.remove("slider-opened");
     };
   }, [notificationMobile, userMobile, toggleSlide]);
-
+  const handleAdminLogOut = () => {
+    secureLocalStorage.removeItem("admin_id");
+    Cookies.remove("admin_id");
+    window.dispatchEvent(new Event("admin_id_updated"));
+    router.push("/admin");
+  };
+  const openProfile = () => {
+    setUpdateButton("language");
+  };
   return (
     <div className="page-main-header">
       <div className="main-header-right ">
@@ -199,17 +184,56 @@ const DashboardHeader = ({ setToggleSlideMobile }) => {
               onClick={() => setUserMobile((prev) => !prev)}
             >
               <div className="media">
-                <img
-                  src={`${astroDetailData?.profileImage}`}
-                  alt="user-profile"
-                />
+                <img src="/user-profile-icon.jpg" alt="user-profile" />
 
                 <div className="dotted-animation">
                   <span className="animate-circle"></span>
                   <span className="main-circle"></span>
                 </div>
               </div>
-              <ProfilePopUp astroDetailData={astroDetailData} />
+<ul className="profile-dropdown onhover-show-div">
+              <li>
+                <Link href="#" onClick={openProfile}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    className="feather feather-settings"
+                  >
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                  </svg>
+                  Settings
+                </Link>
+              </li>
+              <li>
+              <button onClick={handleAdminLogOut}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  className="feather feather-log-out"
+                >
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                <span>Admin Logout</span>
+              </button>
+              </li>
+              </ul>
             </li>
           </ul>
           <div className="d-lg-none mobile-toggle">
@@ -231,19 +255,9 @@ const DashboardHeader = ({ setToggleSlideMobile }) => {
             </svg>
           </div>
         </div>
-
-        {astrologerPhone && (
-          <>
-            <IoMdNotificationsOutline />
-            <AstroNotification
-              astrologerPhone={astrologerPhone}
-              astroDetailData={astroDetailData}
-            />
-          </>
-        )}
       </div>
     </div>
   );
 };
 
-export default DashboardHeader;
+export default AdminHeader;

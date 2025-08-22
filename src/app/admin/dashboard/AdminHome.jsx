@@ -17,7 +17,6 @@ import {
   MdOutlinePreview,
 } from "react-icons/md";
 import SlideToggle from "@/app/component/SlideToggle";
-import DashboardHeader from "@/app/header/DashboardHeader";
 import { PiUserListDuotone } from "react-icons/pi";
 import { CiSettings, CiWallet } from "react-icons/ci";
 import { TfiGallery } from "react-icons/tfi";
@@ -36,6 +35,7 @@ import AddFooter from "./home/AddFooter";
 import BannerHome from "./home/BannerHome";
 import SeoMetaData from "./SeoMetaData";
 import Cookies from "js-cookie";
+import AdminHeader from "@/app/header/AdminHeader";
 
 
 const AdminHome = () => {
@@ -75,7 +75,7 @@ const AdminHome = () => {
 
   return (
     <main className="main-content">
-      <DashboardHeader setToggleSlideMobile={setToggleSlideMobile} />
+      <AdminHeader setToggleSlideMobile={setToggleSlideMobile} />
       <div className="dashboard-main-outer">
         <div className="container">
           <div className="dashboard-inner-main super-admin">

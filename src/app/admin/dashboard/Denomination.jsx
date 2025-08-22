@@ -119,7 +119,7 @@ const Denomination = () => {
                       <span>₹ {item?.amount}</span>
                     </div>
                     <div class="extra-discount">
-                      <span>₹ {item?.extraAmount}</span>
+                      <span>₹ {item?.extraAmount} Extra</span>
                     </div>
                     {item?.mostPopular && (
                       <div class="most-popular-tag">

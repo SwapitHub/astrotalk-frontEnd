@@ -12,20 +12,11 @@ const ProfilePopUp = ({ astroDetailData }) => {
   const router = useRouter();
   const { setUpdateButton } = useGlobalContext();
   const [astrologerPhone, setAstrologerPhone] = useState();
-  const admin_id = secureLocalStorage.getItem("admin_id");
 
   useEffect(() => {
     const astrologerPhones = Cookies.get("astrologer-phone");
     setAstrologerPhone(astrologerPhones);
   }, []);
-
-  const handleAdminLogOut = () => {
-    secureLocalStorage.removeItem("admin_id");
-    Cookies.remove("admin_id");
-    window.dispatchEvent(new Event("admin_id_updated"));
-    router.push("/admin");
-  };
-console.log(astrologerPhone,"astrologerPhone");
 
   const astroLogerLogout = async () => {
     try {
@@ -63,15 +54,11 @@ console.log(astrologerPhone,"astrologerPhone");
   };
 
   const openProfile = () => {
-    setUpdateButton(astrologerPhone ? 2 : "language");
+    setUpdateButton(2);
   };
   return (
     <>
-    {
-      (admin_id || astroDetailData ) &&
-    
-    <ul className="profile-dropdown onhover-show-div">
-      {astrologerPhone && (
+      <ul className="profile-dropdown onhover-show-div">
         <>
           <li className="name">
             <Link href="#">
@@ -100,53 +87,29 @@ console.log(astrologerPhone,"astrologerPhone");
             </Link>
           </li>
         </>
-      )}
-{astrologerPhone && 
-      <li>
-        <Link href="#" onClick={openProfile}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            className="feather feather-user"
-          >
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
-          Profile
-        </Link>
-      </li>
-      }
-      {!astrologerPhone &&
-      <li>
-        <Link href="#" onClick={openProfile}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            className="feather feather-settings"
-          >
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-          </svg>
-          Settings
-        </Link>
-      </li>
-}
-      <li>
-        {astrologerPhone ? (
+
+        <li>
+          <Link href="#" onClick={openProfile}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              className="feather feather-user"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Profile
+          </Link>
+        </li>
+
+        <li>
           <button onClick={astroLogerLogout}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -167,30 +130,8 @@ console.log(astrologerPhone,"astrologerPhone");
 
             <span>Astrologer Logout </span>
           </button>
-        ) : (
-          <button onClick={handleAdminLogOut}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              className="feather feather-log-out"
-            >
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-              <polyline points="16 17 21 12 16 7"></polyline>
-              <line x1="21" y1="12" x2="9" y2="12"></line>
-            </svg>
-            <span>Admin Logout</span>
-          </button>
-        )}
-      </li>
-    </ul>
-    }
+        </li>
+      </ul>
     </>
   );
 };

@@ -259,7 +259,7 @@ const Header = () => {
                         </div>
                         <div className="user-dashboard-profile-drop-down-menu">
                           <ul>
-                            {!astrologerPhone && (
+                            
                               <>
                                 <li>
                                   <Link
@@ -292,7 +292,7 @@ const Header = () => {
                                   </Link>
                                 </li>
                               </>
-                            )}
+                           
                             <li>
                               <span className="logout" onClick={userLogout}>
                                 Logout

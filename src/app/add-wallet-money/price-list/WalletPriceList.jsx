@@ -27,17 +27,24 @@ const WalletPriceList = () => {
   }, []);
 
   useEffect(() => {
-    axios
-      .get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
-      )
-      .then((res) => {
-        setUserData(res.data);
-      })
-      .catch((err) => {
-        console.log(err, "user login api error");
-      });
-  }, []);
+    const userData = async () => {
+      await axios
+        .get(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${userMobile}`
+        )
+        .then((res) => {
+          setUserData(res.data);
+        })
+        .catch((err) => {
+          console.log(err, "user login api error");
+        });
+    };
+    if (userMobile) {
+      userData();
+    }
+  }, [userMobile]);
+  console.log(userData, userMobile);
+
   return (
     <section className="add-money-wallet-bg">
       <div className="container">
@@ -46,7 +53,7 @@ const WalletPriceList = () => {
           <div className="Available-balance-sec">
             <p>Available balance:</p>
             <div className="Walle-amount">
-              <span>₹ {userData?.totalAmount || 0}</span>
+              <span>₹ {userData?.data?.totalAmount || 0}</span>
             </div>
           </div>
         </div>

@@ -485,7 +485,7 @@ span.banner-heading, .footer-product-name {font-weight: 600; font-size: 18px; ma
 .profile_with_contact_slider .slick-slide img {border-radius: 10px; width: 100%;}
 .slick-arrow.slick-next {right: -10px;}
 .slick-arrow.slick-prev {left: -10px;}
-button.slick-arrow {z-index: 9; width: 40px; height: 40px; border-radius: 50%; background-color: var(--primary_color) !important;}
+button.slick-arrow {z-index: 1; width: 40px; height: 40px; border-radius: 50%; background-color: var(--primary_color) !important;}
 button.slick-arrow::before {content: ""; width: 10px; height: 10px; border-top: 2px solid #fff; border-left: 2px solid #fff; display: inline-block; transform: rotate(-45deg); margin: 0 0 0 4px; opacity: 1;}
 button.slick-arrow.slick-next::before {transform: rotate(135deg); margin: 0 4px 0px 0px;}
 /* about us */
@@ -740,6 +740,8 @@ ul.notification-dropdown.onhover-show-div li + li:hover {background-color: #f8f8
 .onhover-show-div {top: 80px; position: absolute; z-index: 8; background-color: #fff; -webkit-transition: all linear 0.3s; transition: all linear 0.3s;}
 .onhover-show-div li a svg path, .onhover-show-div li a svg line {color: #313131 !important;}
 .onhover-dropdown {position: relative; font-size: 14px;}
+td button + button { margin-left: 5px;}
+.dashboard-right-content button:not(.note-btn).delete-btn { min-width: auto; padding: 5px 8px;}
 .onhover-dropdown .onhover-show-div {top: 50px; position: absolute; z-index: 10; background-color: #fff; transition: all linear 0.3s; min-width: 160px; text-align: left; box-shadow: 0px 1px 2px 0px #cacaca; transform: translateY(30px); right: 0; opacity: 0; visibility: hidden;}
 @media (min-width: 768px) {
   .onhover-dropdown:hover .onhover-show-div {opacity: 1; visibility: visible; transform: translateY(0px);}
