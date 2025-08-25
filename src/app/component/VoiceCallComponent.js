@@ -136,7 +136,7 @@ const CallComponent = () => {
   };
 
   // ===============================
-  // CALL ACTIONS
+  // CALL ACTIONS   
   // ===============================
   const startCall = async (withVideo) => {
     if (!targetId) return alert("Enter target socket ID.");
@@ -155,13 +155,33 @@ const CallComponent = () => {
       peerConnection.current.close();
       peerConnection.current = null;
     }
-    socket.emit("end-call", { targetSocketId: targetId });
-    setInCall(false);
 
+    // ✅ Stop local stream tracks (turns off cam/mic)
+    if (localStream.current) {
+      localStream.current.getTracks().forEach((track) => track.stop());
+      localStream.current = null;
+    }
+
+    // ✅ Clear video elements
+    if (localVideoRef.current) {
+      localVideoRef.current.srcObject = null;
+    }
     if (remoteVideoRef.current) {
       remoteVideoRef.current.srcObject = null;
     }
+
+    setInCall(false);
+
+    // 🔥 Notify the other user
+    if (targetId) {
+      socket.emit("end-call", { targetSocketId: targetId });
+    }
+
+    // (optional) Reset targetId so you don’t accidentally reuse it
+    // setTargetId("");
   };
+
+
 
   // ===============================
   // UI
@@ -178,23 +198,23 @@ const CallComponent = () => {
         style={{ width: "100%", marginBottom: 10 }}
       />
 
-      {!inCall ? (
-        <div style={{ marginBottom: 10 }}>
-          <button onClick={() => startCall(false)} style={{ marginRight: 10 }}>
-            🎤 Start Audio Call
-          </button>
-          <button onClick={() => startCall(true)}>
-            📹 Start Video Call
-          </button>
-        </div>
-      ) : (
-        <button
-          onClick={endCall}
-          style={{ backgroundColor: "red", color: "white" }}
-        >
-          ❌ End Call
+
+      <div style={{ marginBottom: 10 }}>
+        <button onClick={() => startCall(false)} style={{ marginRight: 10 }}>
+          🎤 Start Audio Call
         </button>
-      )}
+        <button onClick={() => startCall(true)}>
+          📹 Start Video Call
+        </button>
+      </div>
+
+      <button
+        onClick={endCall}
+        style={{ backgroundColor: "red", color: "white" }}
+      >
+        ❌ End Call
+      </button>
+
 
       <div style={{ display: "flex", gap: "20px", marginTop: 20 }}>
         <div>

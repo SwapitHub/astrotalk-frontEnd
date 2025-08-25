@@ -62,7 +62,7 @@ export default function Home() {
   return <>
 
   {/*{<HomeServer />}*/}
-  <VideoCall/>
+  {/* <VideoCall/> */}
   <VoiceCallComponent/>
   </>;
 }
