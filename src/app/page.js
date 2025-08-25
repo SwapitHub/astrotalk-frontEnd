@@ -1,3 +1,5 @@
+import VideoCall from "./component/VideoCall";
+import VoiceCallComponent from "./component/VoiceCallComponent";
 import HomeServer from "./home/page";
 
 export async function generateMetadata() {
@@ -57,5 +59,10 @@ export async function generateMetadata() {
 
 
 export default function Home() {
-  return <>{<HomeServer />}</>;
+  return <>
+
+  {/*{<HomeServer />}*/}
+  <VideoCall/>
+  <VoiceCallComponent/>
+  </>;
 }
