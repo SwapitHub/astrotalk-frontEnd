@@ -61,8 +61,8 @@ export async function generateMetadata() {
 export default function Home() {
   return <>
 
-  {/*{<HomeServer />}*/}
+  {<HomeServer />}
   {/* <VideoCall/> */}
-  <VoiceCallComponent/>
+  {/* <VoiceCallComponent/> */}
   </>;
 }

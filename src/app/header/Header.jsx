@@ -207,10 +207,13 @@ const Header = () => {
                     <Link href="/talk-to-astrologer">Talk to Astrologer</Link>
                   </li>
                   <li>
+                    <Link href="/call">Add Call</Link>
+                  </li>
+                  {/* <li>
                     <span onClick={handleOtpPop}>
                       Login Astrologer Dashboard
                     </span>
-                  </li>
+                  </li> */}
                   <li>
                     <Link
                       href={`${"/shop"}`}
