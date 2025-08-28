@@ -36,6 +36,7 @@ import BannerHome from "./home/BannerHome";
 import SeoMetaData from "./SeoMetaData";
 import Cookies from "js-cookie";
 import AdminHeader from "@/app/header/AdminHeader";
+import SeminarRegistration from "./SeminarRegistration";
 
 
 const AdminHome = () => {
@@ -384,6 +385,7 @@ const AdminHome = () => {
                         updateButton === "ChatCommission" ||
                         updateButton === "changePassword" ||
                         updateButton === "Denomination" ||
+                        updateButton === "seminar" ||
                         updateButton === "seoMetaData" 
                           ? "active"
                           : ""
@@ -499,6 +501,22 @@ const AdminHome = () => {
                               }}
                             >
                               Change Password
+                            </a>
+                          </li>
+                          <li
+                            className={
+                              updateButton === "seminar" ? "active" : ""
+                            }
+                          >
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setUpdateButton("seminar");
+                                setToggleSlideMobile(false);
+                              }}
+                            >
+                              Seminar Registration
                             </a>
                           </li>
                         </ul>
@@ -653,6 +671,8 @@ const AdminHome = () => {
                 {updateButton === "home-banner" && <BannerHome />}
                 {updateButton === "footer" && <AddFooter />}
                 {updateButton === "seoMetaData" && <SeoMetaData />}
+                {updateButton === "seminar" && <SeminarRegistration />}
+
                 
                 {["user", "astrologer", "admin"].includes(updateButton) && (
                   <AdminWallet updateButton={updateButton} />

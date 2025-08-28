@@ -10,7 +10,7 @@ import { MdCallEnd, MdOutlineVideocam } from "react-icons/md";
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, { autoConnect: false });
 
 const Call = () => {
-  const router = useRouter()
+  const router = useRouter();
   const { roomId } = useParams();
   const [myId, setMyId] = useState("");
   const [remoteUsers, setRemoteUsers] = useState({}); // socketId -> MediaStream
@@ -49,7 +49,9 @@ const Call = () => {
     });
 
     socket.on("answer", async ({ senderSocketId, answer }) => {
-      pcs[senderSocketId]?.setRemoteDescription(new RTCSessionDescription(answer));
+      pcs[senderSocketId]?.setRemoteDescription(
+        new RTCSessionDescription(answer)
+      );
     });
 
     socket.on("ice-candidate", ({ senderSocketId, candidate }) => {
@@ -76,7 +78,10 @@ const Call = () => {
   const pcs = {};
 
   const startLocalStream = async () => {
-    localStream.current = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    localStream.current = await navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true,
+    });
     localVideoRef.current.srcObject = localStream.current;
   };
 
@@ -87,7 +92,9 @@ const Call = () => {
     pcs[remoteSocketId] = pc;
 
     // Add local tracks
-    localStream.current.getTracks().forEach((track) => pc.addTrack(track, localStream.current));
+    localStream.current
+      .getTracks()
+      .forEach((track) => pc.addTrack(track, localStream.current));
 
     // Handle remote track
     pc.ontrack = (event) => {
@@ -108,8 +115,6 @@ const Call = () => {
 
     return pc;
   };
-
-
 
   // END CALL FUNCTION
   const endCall = () => {
@@ -133,7 +138,7 @@ const Call = () => {
     // Optionally disconnect socket
     socket.disconnect();
 
-    router.push("/") 
+    router.push("/");
   };
 
   return (
@@ -154,7 +159,12 @@ const Call = () => {
         {/* Remote videos */}
         <div
           className="remote-videos"
-          style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: 20 }}
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "10px",
+            marginTop: 20,
+          }}
         >
           {Object.entries(remoteUsers).map(([id, stream]) => (
             <video
@@ -179,8 +189,12 @@ const Call = () => {
                 <div className="video_row">
                   <div className="col main-video">
                     <div className="icons">
-                      <div className="mic"> <AiOutlineAudio /> {/* <AiOutlineAudioMuted /> */} </div> </div> <div className="placeholder_img">
-
+                      <div className="mic">
+                        {" "}
+                        <AiOutlineAudio /> {/* <AiOutlineAudioMuted /> */}{" "}
+                      </div>{" "}
+                    </div>{" "}
+                    <div className="placeholder_img">
                       {/* My video main videos*/}
                       <video
                         ref={localVideoRef}
@@ -189,50 +203,57 @@ const Call = () => {
                         playsInline
                         style={{ width: 200, background: "#000" }}
                       />
-
-
                     </div>
                   </div>
                   {/* remote videos other user videos*/}
                   {Object.entries(remoteUsers).map(([id, stream]) => (
                     <>
-
                       <div className="col">
                         <div className="icons">
-                          <div className="mic"> <AiOutlineAudio /> {/* <AiOutlineAudioMuted /> */} </div> </div> <div className="placeholder_img">
-
+                          <div className="mic">
+                            {" "}
+                            <AiOutlineAudio /> {/* <AiOutlineAudioMuted /> */}{" "}
+                          </div>{" "}
+                        </div>{" "}
+                        <div className="placeholder_img">
                           <video
                             key={id}
                             autoPlay
                             playsInline
                             ref={(videoEl) => {
-                              if (videoEl && !videoEl.srcObject) videoEl.srcObject = stream;
+                              if (videoEl && !videoEl.srcObject)
+                                videoEl.srcObject = stream;
                             }}
                             style={{ width: 200, background: "#000" }}
                           />
-
-
                         </div>
                       </div>
-                    </>))}
-
+                    </>
+                  ))}
                 </div>
                 <div className="video_call_controls">
                   <div className="video_call_row">
-                    <div className="v-cntrl"> <AiOutlineAudio /> {/* <AiOutlineAudioMuted /> */}
+                    <div className="v-cntrl">
+                      {" "}
+                      <AiOutlineAudio /> {/* <AiOutlineAudioMuted /> */}
                     </div>
-                    <div className="v-cntrl"> <MdOutlineVideocam /> {/* <MdOutlineVideocamOff /> */}
+                    <div className="v-cntrl">
+                      {" "}
+                      <MdOutlineVideocam /> {/* <MdOutlineVideocamOff /> */}
                     </div>
-                    <div className="v-cntrl"><IoDownloadOutline /></div>
-                    <div className="v-cntrl"><IoSettingsOutline />
+                    <div className="v-cntrl">
+                      <IoDownloadOutline />
                     </div>
-                    <div className="v-cntrl call-end" onClick={endCall}><MdCallEnd />
+                    <div className="v-cntrl">
+                      <IoSettingsOutline />
+                    </div>
+                    <div className="v-cntrl call-end" onClick={endCall}>
+                      <MdCallEnd />
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="chat_col">
-              </div>
+              <div className="chat_col"></div>
             </div>
           </div>
         </div>

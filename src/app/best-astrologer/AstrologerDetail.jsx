@@ -58,16 +58,12 @@ export const AstrologerDetail = ({ astrologerData }) => {
     setUserIds(userId);
   }, []);
 
-
-   useEffect(() => {
-      document.body.classList.remove(
-        "loading-user-filter-popup"
-      );   
-       if (isLoadingRequest) {
-        document.body.classList.add("loading-user-filter-popup");
-      }
-    }, [isLoadingRequest]);
-
+  useEffect(() => {
+    document.body.classList.remove("loading-user-filter-popup");
+    if (isLoadingRequest) {
+      document.body.classList.add("loading-user-filter-popup");
+    }
+  }, [isLoadingRequest]);
 
   useEffect(() => {
     if (userMobile) {
@@ -216,7 +212,6 @@ export const AstrologerDetail = ({ astrologerData }) => {
     autoplay: false,
     autoplaySpeed: 2000,
   };
-  
 
   useEffect(() => {
     if (isLoadingRequest) {
@@ -332,7 +327,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
             <div className="profile_with_contact">
               <div className="image">
                 <div className="img">
-                  <img src={`${astrologerData?.profileImage}`}/>
+                  <img src={`${astrologerData?.profileImage}`} />
                 </div>
                 {/* <button type="button" className="follow-button">
                   Follow
@@ -428,7 +423,10 @@ export const AstrologerDetail = ({ astrologerData }) => {
                             Chat{" "}
                           </Link>
                         ) : !userMobile || !userIds ? (
-                          <Link href="/free-chat/start" className="btns_astrolgers_contact">
+                          <Link
+                            href="/free-chat/start"
+                            className="btns_astrolgers_contact"
+                          >
                             <span className="icon">
                               <SiMessenger />
                             </span>
@@ -479,56 +477,55 @@ export const AstrologerDetail = ({ astrologerData }) => {
             </div>
 
             {/* <!--- slider --> */}
-            {
-              galleryData[0]?.multipleImages?.length>0 && 
-               <div className="slider-outer">
-              <Slider
-                {...sliderSettings}
-                responsive={[
-                  {
-                    breakpoint: 1198,
-                    settings: {
-                      slidesToShow: 3,
-                      slidesToScroll: 4,
-                      infinite: true,
+            {galleryData[0]?.multipleImages?.length > 0 && (
+              <div className="slider-outer">
+                <Slider
+                  {...sliderSettings}
+                  responsive={[
+                    {
+                      breakpoint: 1198,
+                      settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 4,
+                        infinite: true,
+                      },
                     },
-                  },
-                  {
-                    breakpoint: 800,
-                    settings: {
-                      slidesToShow: 3,
-                      slidesToScroll: 3,
-                      infinite: true,
+                    {
+                      breakpoint: 800,
+                      settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 3,
+                        infinite: true,
+                      },
                     },
-                  },
-                  {
-                    breakpoint: 639,
-                    settings: {
-                      slidesToShow: 3,
-                      slidesToScroll: 3,
-                      infinite: true,
+                    {
+                      breakpoint: 639,
+                      settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 3,
+                        infinite: true,
+                      },
                     },
-                  },
-                  {
-                    breakpoint: 375,
-                    settings: {
-                      slidesToShow: 2,
-                      slidesToScroll: 2,
-                      infinite: true,
+                    {
+                      breakpoint: 375,
+                      settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2,
+                        infinite: true,
+                      },
                     },
-                  },
-                ]}
-              >
-                {galleryData[0]?.multipleImages?.map((item) => (
-                  <div className="astro-img">
-                    <img src={item?.img_url} alt="" />
-                  </div>
-                ))}
-              </Slider>
-              {/* <!--- about section --> */}
-            </div>
-            }
-           
+                  ]}
+                >
+                  {galleryData[0]?.multipleImages?.map((item) => (
+                    <div className="astro-img">
+                      <img src={item?.img_url} alt="" />
+                    </div>
+                  ))}
+                </Slider>
+                {/* <!--- about section --> */}
+              </div>
+            )}
+
             <div className="about_us">
               <h2>About me</h2>
               <p>{astrologerData.Description}</p>

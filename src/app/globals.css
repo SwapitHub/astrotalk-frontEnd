@@ -10,7 +10,7 @@ body {font-family: var(--primary_font); color: var(--body_content_color); font-s
 img {max-width: 100%; vertical-align: bottom;}
 a {text-decoration: none; transition: all 0.3s; color: var(--primary_color);}
 li {list-style: none;}
-button, .product-right-btn a {cursor: pointer; transition: all 0.3s; font-family: inherit; padding: 4px 14px; background-color: var(--primary_color); border-radius: 5px; color: #fff; border: 1px solid var(--primary_color); font-size: 14px; display: inline-block;}
+button, .product-right-btn a {cursor: pointer; transition: all 0.3s; font-family: inherit; padding: 4px 14px; background-color: var(--primary_color); border-radius: 5px; color: #fff; border: 1px solid var(--primary_color); font-size: 14px; display: inline-block; text-transform: capitalize;}
 button:hover, .product-right-btn a:hover {background-color: transparent; color: var(--primary_color);}
 select {appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--body_content_color) 50%), linear-gradient(135deg, var(--body_content_color) 50%, transparent 50%), linear-gradient(to right, #fff, #fff); background-position: calc(100% - 20px) calc(1em + 6px), calc(100% - 15px) calc(1em + 6px), calc(100% - 2.5em) 0.5em; background-size: 5px 5px, 5px 5px, 1px 1.5em; background-repeat: no-repeat;}
 .loader {min-height: 450px; text-align: center; display: flex; align-items: center; justify-content: center; background-image: url("https://i.pinimg.com/originals/e6/8c/c3/e68cc33983bed347554ce23fe2bd08bd.gif"); background-position: center; background-repeat: no-repeat; background-size: 170px; background-color: transparent; font-size: 0px;}
@@ -135,7 +135,7 @@ nav.navbar ul {justify-content: center; display: flex;}
 .dashboard-right-content .filter-button.search-box-top-btn {margin: 0px 0px 20px; width: auto; display: inline-flex; gap: 15px; justify-content: unset;}
 .dashboard-right-content .search-box-filed {max-width: max-content; width: auto;}
 .dashboard-right-content .search-button-filed {width: auto; margin-left: -15px;}
-.dashboard-right-content .search-button-filed button:not(.note-btn) {border-top-left-radius: 0px; border-bottom-left-radius: 0px; border: 0px;}
+.dashboard-right-content .search-button-filed button:not(.note-btn) {border-top-left-radius: 0px; border-bottom-left-radius: 0px; border: 0px; min-width: auto;}
 .dashboard-right-content .search-box-top-btn input {min-width: 250px;}
 .search-box-top-btn input:focus {border: none;}
 .search-box-top-btn input {border: none; height: 100%; border-radius: 5px 0 0 5px; outline: none; padding: 5px 12px; font-size: 15px; font-family: inherit; max-width: 100%; width: 100%;}
@@ -162,130 +162,9 @@ nav.navbar ul {justify-content: center; display: flex;}
 .astrologer-main-dashboard-btn a svg {vertical-align: middle; width: 23px; height: 23px;}
 /* Recharge Popup */
 .main-recharge-popup {margin: 0 auto; text-align: center; display: flex; justify-content: center; background: #fff; max-width: 400px; align-items: center; box-shadow: 0 11px 15px -7px #0003, 0 24px 38px 3px #00000024, 0 9px 46px 8px #0000001f; padding: 15px 20px 24px; border-radius: 10px;}
-.recharge-popup .button button {color: #313131; border: 1px solid #919191; border-radius: 5px; padding: 5px 20px; font-size: 14px; text-decoration: none; transition: all 0.3s ease-in-out; cursor: pointer; background-color: initial; margin-right: 10px; margin-top: 15px;}
+.recharge-popup .button button {color: #313131; border: 1px solid #919191; border-radius: 5px; padding: 5px 20px; font-size: 14px; text-decoration: none; transition: all 0.3s ease-in-out; cursor: pointer; background-color: initial; margin-right: 10px; margin-top: 15px; min-width: 92px;}
 .recharge-popup p {font-size: 16px; line-height: 24px;}
 .all-list-talk-to-astrologer {margin-top: 30px; grid-template-columns: repeat(3, 1fr); gap: 20px;}
-.video_call_seciton {
-    padding: 70px 0;
-}
-.video-chat-row {
-    display: flex;
-    justify-content: space-between;
-}
-
-.video-chat-row .video_col {
-    flex: 0 0 76%;
-    max-width: 76%;
-    position: relative;
-}
-
-.video-chat-row .chat_col {
-    flex: 0 0 22%;
-    max-width: 22%;
-}
-
-.video_row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-}
-
-.video_row .col {
-    position: relative;
-    overflow: hidden;
-    border-radius: 20px;
-    padding-bottom: 46.43%;
-    background-color:#000;
-}
-
-.video_row .col .video_inner video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.video_row .col .mic {
-    position: absolute;
-    bottom: 16px;
-    left: 14px;
-    width: 40px;
-    height: 40px;
-    background: #3c414470;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    color: #fff;
-}
-
-.video_row .col .mic i {
-    color: #fff;
-}
-.placeholder_img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.placeholder_img img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    max-width: 69px;
-}
-/**** Video Control ****/
-.video_call_row {
-    display: flex;
-    justify-content: center;
-    gap: 18px;
-    padding: 13px 25px;
-}
-
-.video_call_controls {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -49px;
-    overflow: hidden;
-    border-radius: 100vmax;
-}
-
-.video_call_controls::after {
-    content: "";
-    -webkit-backdrop-filter: blur(5px);
-    backdrop-filter: blur(5px);
-    background-color: #00000029;
-    content: "";
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: -1;
-}
-
-.video_call_row .v-cntrl {
-    width: 50px;
-    height: 50px;
-    background: #3c4144;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    color: #fff;
-}
-
-.v-cntrl.call-end {
-    background: #ea4335;
-}
-
 @media (min-width: 768px) {
   .all-list-talk-to-astrologer {display: grid;}
 }
@@ -306,7 +185,7 @@ nav.navbar ul {justify-content: center; display: flex;}
 .talk-to-time-sec p span {color: #616161; font-size: 14px;}
 .talk-to-time-sec {margin-top: 5px;}
 .astrologer-call-button-ctm button, .astrologer-call-button-ctm-detail a, .astrologer-call-button-ctm a {color: #13853a; border: 1px solid #13853a; color: #13853a; padding: 10px 30px; border-radius: 8px; cursor: pointer; text-align: center; display: inline-block; background-color: transparent;}
-.astrologer-call-button-ctm a, .astrologer-call-button-ctm button {padding: 5px 15px; font-size: 14px;}
+.astrologer-call-button-ctm a, .astrologer-call-button-ctm button {padding: 5px 15px; font-size: 14px; text-transform: capitalize;}
 .astrologer-call-button-ctm.chatStatus-false a {color: var(--primary_color); background-color: #fff; border: 1px solid var(--primary_color); padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 14px;}
 .astrologer-call-button-ctm.chatStatus-false span:not(.icon) {color: var(--primary_color); font-size: 12px; line-height: 1.2; display: inline-block; margin: 7px 0px 0px;}
 .inner-astrologer-detail .astrologer-call-button-ctm.chatStatus-false span:not(.icon) {text-align: center;}
@@ -864,6 +743,30 @@ ul.notification-dropdown.onhover-show-div li + li:hover {background-color: #f8f8
 td button + button { margin-left: 5px;}
 .dashboard-right-content button:not(.note-btn).delete-btn { min-width: auto; padding: 5px 8px;}
 .onhover-dropdown .onhover-show-div {top: 50px; position: absolute; z-index: 10; background-color: #fff; transition: all linear 0.3s; min-width: 160px; text-align: left; box-shadow: 0px 1px 2px 0px #cacaca; transform: translateY(30px); right: 0; opacity: 0; visibility: hidden;}
+.user-registration-form .form-filed-section-bg {margin-top: 0px;}
+.admin-detail-popup .error-message {margin: 0 0 10px;}
+.email-wrapper {white-space: nowrap;}
+
+
+.video_call_seciton {padding: 70px 0;}
+.video-chat-row {display: flex; justify-content: space-between;}
+.video-chat-row .video_col {flex: 0 0 76%; max-width: 76%; position: relative;}
+.video-chat-row .chat_col {flex: 0 0 22%; max-width: 22%;}
+.video_row {display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;}
+.video_row .col {position: relative; overflow: hidden; border-radius: 20px; padding-bottom: 46.43%; background-color:#000;}
+.video_row .col .video_inner video {width: 100%; height: 100%; object-fit: cover;}
+.video_row .col .mic {position: absolute; bottom: 16px; left: 14px; width: 40px; height: 40px; background: #3c414470; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; color: #fff;}
+.video_row .col .mic i {color: #fff;}
+.placeholder_img {position: absolute; width: 100%; height: 100%; top: 0; left: 0; display: flex; justify-content: center; align-items: center;}
+.placeholder_img img {width: 100%; height: auto; object-fit: contain; max-width: 69px;}
+/**** Video Control ****/
+.video_call_row {display: flex; justify-content: center; gap: 18px; padding: 13px 25px;}
+.video_call_controls {position: absolute; left: 50%; transform: translateX(-50%); bottom: -49px; overflow: hidden; border-radius: 100vmax;}
+.video_call_controls::after {content: ""; -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); background-color: #00000029; content: ""; height: 100%; left: 0; position: absolute; top: 0; width: 100%; z-index: -1;}
+.video_call_row .v-cntrl {width: 50px; height: 50px; background: #3c4144; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 20px; color: #fff;}
+.v-cntrl.call-end {background: #ea4335;}
+
+
 @media (min-width: 768px) {
   .onhover-dropdown:hover .onhover-show-div {opacity: 1; visibility: visible; transform: translateY(0px);}
 }
@@ -991,7 +894,8 @@ nav.navbar > ul > li > span {cursor: pointer;}
 .booked_selected_items {background-color: rgb(191 37 84 / 15%); border: 2px solid var(--primary_color); margin: 20px 0px 0px; border-radius: 8px; overflow: hidden; max-width: 350px; display: inline-flex; padding: 15px; gap: 20px; align-items: center;}
 .booked_selected_items > * {display: flex; align-items: center; gap: 15px;} 
 .booked_selected_items img {max-width: 60px;}
-.booked_selected_items .close {background-color: #fff; padding: 0; width: 25px; height: 25px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; box-shadow: 0px 1px 1px rgba(0, 0, 0, .5);}
+.booked_selected_items .close {background-color: #fff; padding: 0; width: 25px; height: 25px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; box-shadow: 0px 1px 1px rgba(0, 0, 0, .5); cursor: pointer; font-size: 0px;}
+.booked_selected_items .close::before, .booked_selected_items .close::after {content: ""; position: absolute; width: 10px; height: 2px; background-color: #000; transform: rotate(45deg);}
 .product-images-left-inner {display: flex; gap: 10px;}
 .slider-left-nav {max-width: 25%; flex: 0 0 100%;}
 .slider-left-nav > * {border-radius: 8px; overflow: hidden; border: 2px solid var(--primary_color); margin: 0 0 10px; cursor: pointer;}
@@ -1052,7 +956,7 @@ nav.navbar > ul > li > span {cursor: pointer;}
 span.required {color: red;}
 .form-submit button, .addon-popup-btn button {padding: 10px 20px;}
 /* Addon popup  */
-.addon-popup-inner {margin: 0 auto; background: #fff; box-shadow: 0 11px 15px -7px #0003, 0 24px 38px 3px #00000024, 0 9px 46px 8px #0000001f; padding: 24px; border-radius: 10px; max-width: 570px;}
+.addon-popup-inner {margin: 0 auto; background: #fff; box-shadow: 0 11px 15px -7px #0003, 0 24px 38px 3px #00000024, 0 9px 46px 8px #0000001f; padding: 24px; border-radius: 10px; width: 570px; position: relative;}
 .addon-popup-outer h2 {text-align: center;}
 .popup-addons-listing {display: flex; flex-wrap: wrap; gap: 10px;}
 .popup-addons-listing  > * {max-width: calc(100%/2 - 5px); flex: 0 0 100%;}
@@ -1164,13 +1068,16 @@ span.required {color: red;}
 .faq-item.active .icon::before {opacity: 0;}
 p.data-not-found {margin: 30px 0px 0px; text-align: center;}
 td select {padding: 3px 25px 3px 10px; border-radius: 5px; background-position: calc(100% - 14px) calc(1em - 4px), calc(100% - 9px) calc(1em - 4px), calc(100% - 2.5em) 0.5em;}
-
 .main-doc {display: grid; gap: 30px; grid-template-columns: repeat(3, 1fr); margin: 30px 0px 0px;}
 .main-doc > * {border: 1px solid;}
 .main-doc h3 {text-align: center; padding: 10px;}
-.email-wrapper {
-    white-space: nowrap;
-}
+.email-wrapper {white-space: nowrap;}
+.addon-popup-outer span.close {position: absolute; right: 0px; top: 0;  width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; font-size: 0; cursor: pointer;}
+.addon-popup-outer span.close::before, .addon-popup-outer span.close::after {content: ""; width: 14px; height: 2px; background-color: #000; transform: rotate(45deg); position: absolute;}
+.addon-popup-outer span.close::after, .booked_selected_items .close::after {transform: rotate(-45deg);}
+.end-chat-popup .recharge-popup .button button {background-color: var(--primary_color); border-color: var(--primary_color); color: #ffffff;}
+.end-chat-popup .recharge-popup .button button:first-child {color: var(--primary_color); background-color: transparent;}
+
 /* ================== @ media css start here ================== */
 @media (max-width: 1600px) {
   .outer-home-dashboard ul {grid-template-columns: repeat(3, 1fr);}
@@ -1243,9 +1150,7 @@ td select {padding: 3px 25px 3px 10px; border-radius: 5px; background-position: 
   .AddLanguage .language-list {padding: 20px 0px 0px;}
   .AddAdminCommissions-puja.AddLanguage {margin: 39px 0px 0px; border-top: 1px solid #cfcfcf;}
   .main-doc {gap: 10px;  grid-template-columns: repeat(2, 1fr);}
-   .video_row {
-        grid-template-columns: repeat(2, 1fr);
-    }
+  .video_row {grid-template-columns: repeat(2, 1fr);}
 }
 @media (max-width: 767px) {
   h1, .common-h1-heading {font-size: 24px; line-height: 36px;}
@@ -1344,31 +1249,17 @@ td select {padding: 3px 25px 3px 10px; border-radius: 5px; background-position: 
   .change-password .form-field:not(:last-child), .admin-form-box .form-field:not(:last-child), .admin-login-form .form-field:not(:last-child), .AstroMallShops-admin .actual-price {margin: 0 0 15px;}
   .single-service {padding: 10px;}
   .home-heading h2, .astromall-slider-outer .heading-sec h2 {font-size: 24px;}
-  .video_call_seciton {
-        padding: 60px 0;
-    }
-    .video-chat-row {
-        flex-direction: column;
-        gap: 50px;
-    }
-    .video-chat-row .video_col,
-    .video-chat-row .chat_col {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-    .video-chat-row .chat_col {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-    .video_row {
-        grid-template-columns: repeat(1, 1fr);
-    }
-    .video_call_row {
-        flex-wrap: wrap;
-    }
-    .video_call_controls {
-        border-radius: 20px;
-    }
+  .video_call_seciton {padding: 60px 0;}
+  .video-chat-row {flex-direction: column; gap: 50px;}
+  .video-chat-row .video_col, .video-chat-row .chat_col {flex: 0 0 100%; max-width: 100%;}
+  .video-chat-row .chat_col {flex: 0 0 100%; max-width: 100%;}
+  .video_row {grid-template-columns: repeat(1, 1fr);}
+  .video_call_row {flex-wrap: wrap;}
+  .video_call_controls {border-radius: 20px;}
+  .addon-popup-outer {width: 100%;}
+  .addon-popup-inner {max-width: calc(100% - 30px); }
+  .popup-addons-sec {flex-wrap: wrap;}
+  .popup-addons-sec > * {flex: 0 0 100%; max-width: 100%;}
 }
 @media(max-width:639px) {
     .four-col .row {grid-template-columns: repeat(1, 1fr);}
@@ -1384,9 +1275,9 @@ td select {padding: 3px 25px 3px 10px; border-radius: 5px; background-position: 
   .sharePopUp > h3 {font-size: 18px;}
   .astromall-listing, .AstroMallShops-admin .astromall-listing {grid-template-columns: repeat(1, 1fr);}
   .astromall-search input {min-width: 250px;}
-   .video_call_controls {
-        width: 100%;
-    }
+  .video_call_controls, .ring-size-text {width: 100%;}
+  .product-main-size {flex-wrap: wrap;}
+  .ring-size-text input {width: 225px;}
 }
 @media (max-width: 370px) {
   .sort-right {gap: 5px;}
