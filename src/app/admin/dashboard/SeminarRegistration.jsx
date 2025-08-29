@@ -1,24 +1,27 @@
-import DescriptionCell from '@/app/component/DescriptionCell';
-import Loader from '@/app/component/Loader';
-import useCustomGetApi from '@/app/hook/CustomHookGetApi';
-import React, { useState } from 'react';
+import DescriptionCell from "@/app/component/DescriptionCell";
+import Loader from "@/app/component/Loader";
+import useCustomGetApi from "@/app/hook/CustomHookGetApi";
+import axios from "axios";
+import React, { useState } from "react";
 
 const SeminarRegistration = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    topic: '',
-    date: '',
-    time: '',
-    location: '',
-    email: '',
-    phone: '',
-    description: '',
-    image: null,  // to hold the image file
+    name: "",
+    topic: "",
+    date: "",
+    time: "",
+    location: "",
+    email: "",
+    phone: "",
+    description: "",
+    image: null,
   });
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const { data: seminarData } = useCustomGetApi(
+  const [editMode, setEditMode] = useState(false); // New state to track edit mode
+  const [editingSeminarId, setEditingSeminarId] = useState(null);
+  const { data: seminarData, fetchGetData } = useCustomGetApi(
     "get-seminar-list-data"
   );
   const topics = [
@@ -27,21 +30,39 @@ const SeminarRegistration = () => {
     "Career Predictions",
     "Vastu Shastra",
     "Palmistry",
-    "Health Astrology"
+    "Health Astrology",
   ];
-
+  const handleEdit = (seminar) => {
+    setFormData({
+      name: seminar.name,
+      topic: seminar.seminar_topic,
+      date: seminar.date_of_seminar,
+      time: seminar.time_of_seminar,
+      location: seminar.location_seminar,
+      email: seminar.email,
+      phone: seminar.mobile_number,
+      description: seminar.seminar_detail,
+      image: seminar?.singleImages?.img_url, // You may want to handle image here
+    });
+    setEditMode(true);
+    setEditingSeminarId(seminar._id); // Save the ID of the seminar being edited
+  };
   const validate = () => {
     const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = 'Name is required.';
-    if (!formData.topic) newErrors.topic = 'Topic is required.';
-    if (!formData.date) newErrors.date = 'Date is required.';
-    else if (new Date(formData.date) < new Date()) newErrors.date = 'Date must be in the future.';
-    if (!formData.time) newErrors.time = 'Time is required.';
-    if (!formData.location.trim()) newErrors.location = 'Location is required.';
-    if (!formData.email.trim()) newErrors.email = 'Email is required.';
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Email is invalid.';
-    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required.';
-    else if (!/^\d{10}$/.test(formData.phone)) newErrors.phone = 'Phone number must be 10 digits.';
+    if (!formData.name?.trim()) newErrors.name = "Name is required.";
+    if (!formData.topic) newErrors.topic = "Topic is required.";
+    if (!formData.date) newErrors.date = "Date is required.";
+    else if (new Date(formData.date) < new Date())
+      newErrors.date = "Date must be in the future.";
+    if (!formData.time) newErrors.time = "Time is required.";
+    if (!formData.location?.trim())
+      newErrors.location = "Location is required.";
+    if (!formData.email?.trim()) newErrors.email = "Email is required.";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      newErrors.email = "Email is invalid.";
+    if (!formData.phone?.trim()) newErrors.phone = "Phone number is required.";
+    else if (!/^\d{10}$/.test(formData.phone))
+      newErrors.phone = "Phone number must be 10 digits.";
     return newErrors;
   };
 
@@ -58,123 +79,244 @@ const SeminarRegistration = () => {
     e.preventDefault();
     const validationErrors = validate();
     setErrors(validationErrors);
-
-    // If there are validation errors, prevent submission
     if (Object.keys(validationErrors).length > 0) return;
 
-    setLoading(true); // Show loading indicator
+    setLoading(true);
+    const formDataToSubmit = new FormData();
+    formDataToSubmit.append("name", formData.name);
+    formDataToSubmit.append("seminar_topic", formData.topic);
+    formDataToSubmit.append("date_of_seminar", formData.date);
+    formDataToSubmit.append("time_of_seminar", formData.time);
+    formDataToSubmit.append("location_seminar", formData.location);
+    formDataToSubmit.append("email", formData.email);
+    formDataToSubmit.append("mobile_number", formData.phone);
+    formDataToSubmit.append("seminar_detail", formData.description);
+    if (formData.image) formDataToSubmit.append("image", formData.image);
 
     try {
-      const formDataToSubmit = new FormData();
-      console.log(formDataToSubmit);
-      
-      formDataToSubmit.append('name', formData.name);
-      formDataToSubmit.append('seminar_topic', formData.topic);
-      formDataToSubmit.append('date_of_seminar', formData.date);
-      formDataToSubmit.append('time_of_seminar', formData.time);
-      formDataToSubmit.append('location_seminar', formData.location);
-      formDataToSubmit.append('email', formData.email);
-      formDataToSubmit.append('mobile_number', formData.phone);
-      formDataToSubmit.append('seminar_detail', formData.description);
-      formDataToSubmit.append('image', formData.image);
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/post-seminar-data`, {
-        method: "POST",
-        body: formDataToSubmit,
-      });
+      let response;
+      if (editMode) {
+        // Update existing seminar
+        response = await fetch(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/put-seminar-list-data/${editingSeminarId}`,
+          {
+            method: "PUT",
+            body: formDataToSubmit,
+          }
+        );
+      } else {
+        // Create new seminar
+        response = await fetch(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/post-seminar-data`,
+          {
+            method: "POST",
+            body: formDataToSubmit,
+          }
+        );
+      }
 
       const result = await response.json();
-      
       if (response.ok) {
-        alert('Seminar data submitted successfully!');
-        // Reset form or perform other actions after success
+        fetchGetData(); // Refresh seminar list
+        setFormData({
+          name: "",
+          topic: "",
+          date: "",
+          time: "",
+          location: "",
+          email: "",
+          phone: "",
+          description: "",
+          image: null,
+        });
+        setEditMode(false); // Reset edit mode after submission
+        setEditingSeminarId(null); // Reset editing seminar ID
       } else {
-        alert('Error submitting seminar data: ' + result.error);
+        console.log("Error:", result.error);
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert('An error occurred while submitting the form.');
+      console.error("Error:", error);
     } finally {
-      setLoading(false); // Hide loading indicator
+      setLoading(false);
     }
   };
 
+  const handleDelete = async (deleteId) => {
+    try {
+      const response = await axios.delete(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/delete-seminar-list-data/${deleteId}`
+      );
+      console.log(response, "deleteId response");
+      if (response.status == 200) {
+        fetchGetData();
+      }
+    } catch (err) {
+      console.log("error", err);
+    }
+  };
   return (
     <div>
       <h2>Astrologer Seminar Invitation Form</h2>
-      <div className='admin-form-box'>
-      <form onSubmit={handleSubmit} noValidate>
-        <div className='form-field'>
-          <div className='label-content'>
-            <label>Name of Astrologer:</label></div>
-          <input type="text" name="name" value={formData.name} onChange={handleChange} className='common-input-filed'/>
-          {errors.name && <span style={{ color: 'red' }}>{errors.name}</span>}
-        </div>
+      <div className="admin-form-box">
+        <form onSubmit={handleSubmit} noValidate>
+          <div className="form-field">
+            <div className="label-content">
+              <label>Name of Astrologer:</label>
+            </div>
+            <input
+              type="text"
+              name="name"
+              value={formData?.name}
+              onChange={handleChange}
+              className="common-input-filed"
+            />
+            {errors.name && <span style={{ color: "red" }}>{errors.name}</span>}
+          </div>
 
-        {/* Topic */}
-        <div className='form-field'>
-          <div className='label-content'><label>Seminar Topic:</label></div>
-          <select className='common-input-filed' name="topic" value={formData.topic} onChange={handleChange}>
-            <option value="">-- Select Topic --</option>
-            {topics.map((topic) => (
-              <option key={topic} value={topic}>
-                {topic}
-              </option>
-            ))}
-          </select>
-          {errors.topic && <span style={{ color: 'red' }}>{errors.topic}</span>}
-        </div>
+          {/* Topic */}
+          <div className="form-field">
+            <div className="label-content">
+              <label>Seminar Topic:</label>
+            </div>
+            <select
+              className="common-input-filed"
+              name="topic"
+              value={formData.topic}
+              onChange={handleChange}
+            >
+              <option value="">-- Select Topic --</option>
+              {topics.map((topic) => (
+                <option key={topic} value={topic}>
+                  {topic}
+                </option>
+              ))}
+            </select>
+            {errors.topic && (
+              <span style={{ color: "red" }}>{errors.topic}</span>
+            )}
+          </div>
 
-        {/* Date */}
-        <div className='form-field'>
-          <div className='label-content'><label>Date of Seminar:</label></div>
-          <input className='common-input-filed' type="date" name="date" value={formData.date} onChange={handleChange} />
-          {errors.date && <span style={{ color: 'red' }}>{errors.date}</span>}
-        </div>
+          {/* Date */}
+          <div className="form-field">
+            <div className="label-content">
+              <label>Date of Seminar:</label>
+            </div>
+            <input
+              className="common-input-filed"
+              type="date"
+              name="date"
+              onChange={handleChange}
+              value={formData?.date}
+            />
+            {errors.date && <span style={{ color: "red" }}>{errors.date}</span>}
+          </div>
 
-        {/* Time */}
-        <div className='form-field'>
-          <div className='label-content'><label>Time:</label></div>
-          <input className="common-input-filed" type="time" name="time" value={formData.time} onChange={handleChange} />
-          {errors.time && <span style={{ color: 'red' }}>{errors.time}</span>}
-        </div>
+          {/* Time */}
+          <div className="form-field">
+            <div className="label-content">
+              <label>Time:</label>
+            </div>
+            <input
+              className="common-input-filed"
+              type="time"
+              name="time"
+              onChange={handleChange}
+              value={formData?.time}
+            />
+            {errors.time && <span style={{ color: "red" }}>{errors.time}</span>}
+          </div>
 
-        <div className='form-field'>
-          <div className='label-content'><label>Location:</label></div>
-          <input className='common-input-filed' type="text" name="location" value={formData.location} onChange={handleChange} />
-          {errors.location && <span style={{ color: 'red' }}>{errors.location}</span>}
-        </div>
+          <div className="form-field">
+            <div className="label-content">
+              <label>Location:</label>
+            </div>
+            <input
+              className="common-input-filed"
+              type="text"
+              name="location"
+              onChange={handleChange}
+              value={formData?.location}
+            />
+            {errors.location && (
+              <span style={{ color: "red" }}>{errors.location}</span>
+            )}
+          </div>
 
-        <div className='form-field'>
-          <div className='label-content'> <label>Contact Email:</label></div>
-          <input className="common-input-filed" type="email" name="email" value={formData.email} onChange={handleChange} />
-          {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
-        </div>
-        <div className='form-field'>
-          <div className='label-content'><label>Contact Number:</label></div>
-          <input className="common-input-filed" type="text" name="phone" value={formData.phone} onChange={handleChange} />
-          {errors.phone && <span style={{ color: 'red' }}>{errors.phone}</span>}
-        </div>
+          <div className="form-field">
+            <div className="label-content">
+              {" "}
+              <label>Contact Email:</label>
+            </div>
+            <input
+              className="common-input-filed"
+              type="email"
+              name="email"
+              onChange={handleChange}
+              value={formData?.email}
+            />
+            {errors.email && (
+              <span style={{ color: "red" }}>{errors.email}</span>
+            )}
+          </div>
+          <div className="form-field">
+            <div className="label-content">
+              <label>Contact Number:</label>
+            </div>
+            <input
+              className="common-input-filed"
+              type="text"
+              name="phone"
+              onChange={handleChange}
+              value={formData?.phone}
+            />
+            {errors.phone && (
+              <span style={{ color: "red" }}>{errors.phone}</span>
+            )}
+          </div>
 
-        <div className='form-field'>
-          <div className='label-content'><label>Additional Details (Optional):</label></div>
-          <textarea className="common-input-filed" name="description" rows="4" value={formData.description} onChange={handleChange}></textarea>
-        </div>
+          <div className="form-field">
+            <div className="label-content">
+              <label>Additional Details (Optional):</label>
+            </div>
+            <textarea
+              className="common-input-filed"
+              name="description"
+              rows="4"
+              onChange={handleChange}
+              value={formData?.description}
+            ></textarea>
+          </div>
 
-        <div className='form-field'>
-          <div className='label-content'> <label>Upload Image (Optional):</label></div>
-          <input type="file" name="image" onChange={handleFileChange} />
-          {formData.image && <img src={URL.createObjectURL(formData.image)} alt="Preview" style={{ maxWidth: '100px', marginTop: '10px' }} />}
-        </div>
+          <div className="form-field">
+            <div className="label-content">
+              {" "}
+              <label>Upload Image (Optional):</label>
+            </div>
+            <input type="file" name="image" onChange={handleFileChange} />
+            {/* {console.log(formData?.image.name )
+            } */}
+            {formData?.image && (
+              <img
+                src={formData?.image?.name ? URL.createObjectURL(formData?.image) : formData?.image}
+                alt="Preview"
+                style={{ maxWidth: "100px", marginTop: "10px" }}
+              />
+            )}
+          </div>
 
-        <br />
-        <button type="submit" disabled={loading}>
-          {loading ? "Submitting..." : "Send Invitation"}
-        </button>
-      </form>
-</div>
+          <button type="submit" disabled={loading}>
+            {loading
+              ? "Submitting..."
+              : editMode
+              ? "Update Seminar"
+              : "Send Invitation"}
+          </button>
+          <input type="checkbox" />
+          <label>Are you add seminar banner on home page</label>
+        </form>
+      </div>
 
-       <h2>Seminar All Astrologer Data</h2>
+      <h2>Seminar All Astrologer Data</h2>
 
       {loading ? (
         <Loader />
@@ -192,7 +334,7 @@ const SeminarRegistration = () => {
                   <th style={{ border: "1px solid #ccc", padding: "8px" }}>
                     Astrologer Img
                   </th>
-                    <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
                     Astrologer Name
                   </th>
                   <th style={{ border: "1px solid #ccc", padding: "8px" }}>
@@ -227,8 +369,8 @@ const SeminarRegistration = () => {
                     <td style={{ border: "1px solid #ccc", padding: "8px" }}>
                       {item.seminar_topic}
                     </td>
-                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>                   
-                      {item?.time_of_seminar} ,   {item?.date_of_seminar}                       
+                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                      {item?.time_of_seminar} , {item?.date_of_seminar}
                     </td>
                     <td style={{ border: "1px solid #ccc", padding: "8px" }}>
                       <DescriptionCell

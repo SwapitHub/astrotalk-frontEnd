@@ -765,6 +765,180 @@ td button + button { margin-left: 5px;}
 .video_call_controls::after {content: ""; -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); background-color: #00000029; content: ""; height: 100%; left: 0; position: absolute; top: 0; width: 100%; z-index: -1;}
 .video_call_row .v-cntrl {width: 50px; height: 50px; background: #3c4144; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 20px; color: #fff;}
 .v-cntrl.call-end {background: #ea4335;}
+.seminar-bannner {
+    padding:80px 0 80px;
+    border-radius: 34px;
+    overflow: hidden;
+}
+.seminar-bannner .container {
+    padding: 0;
+     max-width: 1140px;
+}
+.seminar_wrapper {
+    background: linear-gradient(124deg, #bf2554 52%, #bf2554eb 40%);
+    overflow: hidden;
+    padding: 30px 60px;
+    border-radius: 20px;
+}
+
+.seminar-banner-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.seminar-banner-row .left_col {
+    flex: 0 0 60%;
+    max-width: 60%;
+}
+
+.seminar-banner-row .right_col {
+    flex: 0 0 30%;
+    max-width: 30%;
+}
+
+.seminar-banner-row .right_col img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 15px solid #fff;
+    box-shadow: 0 0 2px 2px #00000024;
+}
+
+.seminar-banner-row .left_col h1 {
+    text-transform: uppercase;
+    font-size:58px;
+    line-height: 1.2;
+    margin: 0 0 20px;
+    color: #fff;
+    text-align: left;
+}
+
+.seminar-banner-row .left_col h1 span {
+    color: #121212;
+}
+
+.seminar-banner-row .left_col h1 strong {
+    font-size:85px;
+    line-height: 1;
+    position: relative;
+    top: 12px;
+}
+
+.seminar-banner-row .left_col .content {
+    margin: 0 0 21px;
+}
+
+.seminar_btn button {
+    background-color: #fea701;
+    border: 1px solid #fea701;
+    border-radius: 5px;
+    padding: 9px 30px;
+    font-size: 14px;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: all 0.3s linear;
+    font-weight: bold;
+    color: #000;
+}
+
+.seminar_btn button:hover {
+    background-color: #fff;
+    border: 1px solid #fff;
+    color: rgb(191 37 84);
+}
+
+.seminar_user_row .heading {
+    font-weight: bold;
+    font-size: 19px;
+}
+
+.seminar-banner-row .seminar_user_row {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 40px;
+}
+
+.seminar_date_location .text-date,
+.seminar-banner-row .left_col p {
+    color: #fff;
+}
+.seminar_date_location .text-date {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.seminar_date_location .text-date svg {
+    font-size: 19px;
+}
+
+.seminar-banner-row .seminar_user_row .col {
+    position: relative;
+    isolation: isolate;
+}
+
+.seminar-banner-row .seminar_user_row .col:first-child::after {
+    content: "";
+    background: #fff;
+    position: absolute;
+    width: 88%;
+    height: calc(100% + 77px);
+    top: -168px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+    box-shadow: 0 0 11px 5px #00000024;
+}
+
+.seminar-banner-row .seminar_user_row .col:nth-child(2)::after {
+    content: "";
+    background: #fff;
+    position: absolute;
+    width: 88%;
+    height: calc(100% + 216px);
+    bottom: -349px;
+    left: 19px;
+    z-index: -1;
+    box-shadow: 0 0 11px 5px #00000024;
+}
+
+.seminar-banner-row .seminar_user_row .col .author {
+    text-align: center;
+    padding: 0 40px;
+    margin: 0 0 11px;
+}
+
+.seminar-banner-row .seminar_user_row .col:nth-child(2) {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.seminar-banner-row .seminar_user_row .col:nth-child(2) .author {
+    margin: 11px 0 0;
+}
+
+.seminar_date_location .row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width:667px;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: #ffffff26;
+    padding: 20px 40px;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
+.seminar_date_location .icon>i {
+    font-size: 26px;
+    margin: 0 0 13px;
+    color: #fff;
+}
 
 
 @media (min-width: 768px) {
@@ -1018,10 +1192,11 @@ span.required {color: red;}
 .footer .secure_col ul li + li {margin-top: 15px;}
 .copyright {background: #121212; text-align: center; color: #fff; font-size: 14px; padding: 20px;}
 /* home page start */
+.banner-main{background: repeating-linear-gradient(37deg, #fea701, #ffb00f 145px);}
 .home-heading {text-align: center; margin: 0 0 30px;}
 .home-heading h2, .astromall-slider-outer .heading-sec h2 {font-size: 32px; line-height: 1.3;}
-.banner {padding: 50px 0; position: relative;}
-.banner .row {display: flex; justify-content: space-between; align-items: center; background: repeating-linear-gradient(37deg, #fea701, #ffb00f 145px); border-radius: 30px; padding: 60px; margin: 0px 10px;}
+.banner {padding: 50px 0; position: relative; }
+.banner .row {display: flex; justify-content: space-between; align-items: center; border-radius: 30px; padding: 60px; margin: 0px 10px;}
 .banner .right-col {flex: 0 0 35%; max-width: 35%;}
 .banner .right-col img {width: 100%; display: block;}
 .banner .left-col h1 {font-size: 37px; line-height: 50px; margin: 0 0 14px; text-align:left;}
@@ -1087,6 +1262,13 @@ td select {padding: 3px 25px 3px 10px; border-radius: 5px; background-position: 
   .AstroMallShops-admin .astromall-listing {grid-template-columns: repeat(2, 1fr);}
 }
 @media (max-width: 1199px) {
+    .seminar-banner-row .left_col h1 strong {
+        font-size: 80px;
+    }
+
+    .seminar_wrapper {
+        padding:30px;
+    }
   .header-left-logo img {max-width: 80px;}
   nav.navbar > ul > li {padding: 3px 10px;}
   .inner-header-sec.ctm-flex-row {gap: 10px;}
@@ -1119,6 +1301,9 @@ td select {padding: 3px 25px 3px 10px; border-radius: 5px; background-position: 
   .send-input-button {max-width: 750px;}
 }
 @media (max-width: 991px) {
+  .seminar-bannner {
+        padding-block: 50px;
+    }
   .navbar {display: none; position: absolute; top: 100%; background-color: #fff; left: 0; width: 100%; box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.1);}
   nav.navbar ul {flex-direction: column;}
   .header .mobile-toggle {position: absolute; right: 15px; display: block; cursor: pointer;}
@@ -1260,9 +1445,59 @@ td select {padding: 3px 25px 3px 10px; border-radius: 5px; background-position: 
   .addon-popup-inner {max-width: calc(100% - 30px); }
   .popup-addons-sec {flex-wrap: wrap;}
   .popup-addons-sec > * {flex: 0 0 100%; max-width: 100%;}
+  .seminar-banner-row {
+        flex-direction: column;
+        align-items: normal;
+        gap: 50px;
+    }
+
+    .seminar-banner-row .left_col,
+    .seminar-banner-row .right_col {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .seminar-banner-row .seminar_user_row .col:first-child::after {
+        opacity: 0;
+    }
+
+    .seminar-banner-row .seminar_user_row .col {
+        max-width: 391px;
+        margin-inline: auto;
+
+    }
+
+    .seminar-banner-row .seminar_user_row {
+        position: relative;
+        isolation: isolate;
+        padding-top: 40px;
+    }
+
+    .seminar-banner-row .seminar_user_row::before {
+        content: "";
+        width: 73%;
+        background: #fff;
+        height: 81%;
+        top: 0;
+        left: 50%;
+        position: absolute;
+        z-index: -1;
+        transform: translateX(-50%);
+    }
+
+    .seminar-banner-row .left_col h1 {
+        font-size: 44px;
+    }
+
+    .seminar-banner-row .left_col h1 strong {
+        font-size: 63px;
+    }
 }
 @media(max-width:639px) {
     .four-col .row {grid-template-columns: repeat(1, 1fr);}
+      .seminar_date_location .row {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 @media (max-width: 574px) {
   .chat-left-logo {gap: 10px;}
@@ -1278,6 +1513,9 @@ td select {padding: 3px 25px 3px 10px; border-radius: 5px; background-position: 
   .video_call_controls, .ring-size-text {width: 100%;}
   .product-main-size {flex-wrap: wrap;}
   .ring-size-text input {width: 225px;}
+   .seminar_date_location .row {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }
 @media (max-width: 370px) {
   .sort-right {gap: 5px;}
