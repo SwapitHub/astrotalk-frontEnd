@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react'
 import { FaRocketchat } from 'react-icons/fa';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
@@ -6,6 +7,8 @@ import { IoCallOutline } from 'react-icons/io5';
 import { LiaPlaceOfWorshipSolid } from 'react-icons/lia';
 
 const AstrologerBanner = () => {
+  const router = useRouter();
+
   return (
       <section className="section-spacing four-col">
         <div className="container">

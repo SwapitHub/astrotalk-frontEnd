@@ -10,15 +10,22 @@ import Banner from "./Banner";
 import SeminarBanner from "./SeminarBanner";
 import AstrologerBanner from "./AstrologerBanner";
 
-const Home = ({ homeBannerData, topSellingSlider, NewlyLaunchedSlider,NewlySeminarList }) => {
+const Home = ({
+  homeBannerData,
+  topSellingSlider,
+  NewlyLaunchedSlider,
+  NewlySeminarList,
+}) => {
   console.log(NewlySeminarList);
-  
+
   return (
     <>
       <main className="home-main">
         <Banner homeBannerData={homeBannerData} />
-        <SeminarBanner NewlySeminarList={NewlySeminarList}/>
-        <AstrologerBanner/>
+        {NewlySeminarList?.seminar_status == true && (
+          <SeminarBanner NewlySeminarList={NewlySeminarList} />
+        )}
+        <AstrologerBanner />
         <Astrology />
 
         <TopSellingSlider topSellingSlider={topSellingSlider} />
