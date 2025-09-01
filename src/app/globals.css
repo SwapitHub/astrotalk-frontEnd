@@ -4100,7 +4100,7 @@ td button + button {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: -49px;
+  bottom: -80px;
   overflow: hidden;
   border-radius: 100vmax;
 }
@@ -6455,6 +6455,7 @@ td select {
   }
   .video_call_controls {
     border-radius: 20px;
+    bottom: -155px;
   }
   .addon-popup-outer {
     width: 100%;
