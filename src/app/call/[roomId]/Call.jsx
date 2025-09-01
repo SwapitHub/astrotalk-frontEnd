@@ -3,14 +3,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { io } from "socket.io-client";
 
-import { AiOutlineAudio } from "react-icons/ai";
+import { AiOutlineAudio, AiOutlineAudioMuted } from "react-icons/ai";
 import { IoDownloadOutline, IoSettingsOutline } from "react-icons/io5";
-import { MdCallEnd, MdOutlineVideocam } from "react-icons/md";
+import { MdCallEnd, MdOutlineVideocam, MdOutlineVideocamOff } from "react-icons/md";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, { autoConnect: false });
 
 const Call = () => {
-  const router = useRouter()
+  const router = useRouter();
   const { roomId } = useParams();
   const [myId, setMyId] = useState("");
   const [remoteUsers, setRemoteUsers] = useState({}); // socketId -> MediaStream
@@ -18,6 +18,11 @@ const Call = () => {
 
   const localVideoRef = useRef(null);
   const localStream = useRef(null);
+
+  const [voiceMedia, setVoiceMedia] = useState(true)
+  const [videoMedia, setVideoMedia] = useState(true)
+  const [remoteMicStatus, setRemoteMicStatus] = useState({}); // { socketId: true/false }
+
 
   useEffect(() => {
     socket.connect();
@@ -49,7 +54,9 @@ const Call = () => {
     });
 
     socket.on("answer", async ({ senderSocketId, answer }) => {
-      pcs[senderSocketId]?.setRemoteDescription(new RTCSessionDescription(answer));
+      pcs[senderSocketId]?.setRemoteDescription(
+        new RTCSessionDescription(answer)
+      );
     });
 
     socket.on("ice-candidate", ({ senderSocketId, candidate }) => {
@@ -76,7 +83,10 @@ const Call = () => {
   const pcs = {};
 
   const startLocalStream = async () => {
-    localStream.current = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    localStream.current = await navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true,
+    });
     localVideoRef.current.srcObject = localStream.current;
   };
 
@@ -87,7 +97,9 @@ const Call = () => {
     pcs[remoteSocketId] = pc;
 
     // Add local tracks
-    localStream.current.getTracks().forEach((track) => pc.addTrack(track, localStream.current));
+    localStream.current
+      .getTracks()
+      .forEach((track) => pc.addTrack(track, localStream.current));
 
     // Handle remote track
     pc.ontrack = (event) => {
@@ -108,8 +120,6 @@ const Call = () => {
 
     return pc;
   };
-
-
 
   // END CALL FUNCTION
   const endCall = () => {
@@ -133,28 +143,66 @@ const Call = () => {
     // Optionally disconnect socket
     socket.disconnect();
 
-    router.push("/") 
+    window.location.href = "/";
+
   };
+
+  const toggleAudio = () => {
+    const audioTrack = localStream.current?.getAudioTracks()[0];
+    if (audioTrack) {
+      audioTrack.enabled = !audioTrack.enabled;
+      setVoiceMedia(audioTrack.enabled);
+
+      // 🔴 Emit to other users
+      socket.emit("toggle-mic", {
+        roomId,
+        userId: myId,
+        isMicOn: audioTrack.enabled,
+      });
+    }
+  };
+
+
+  const toggleVideo = () => {
+    const videoTrack = localStream.current?.getVideoTracks()[0];
+    if (videoTrack) {
+      videoTrack.enabled = !videoTrack.enabled;
+      setVideoMedia(videoTrack.enabled);
+    }
+  };
+
+  socket.on("user-mic-toggled", ({ socketId, isMicOn }) => {
+    setRemoteMicStatus((prev) => ({
+      ...prev,
+      [socketId]: isMicOn,
+    }));
+  });
+
 
   return (
     <main>
       <div style={{ padding: 20 }}>
-        <h2>Meeting Room: {roomId}</h2>
+        {/* <h2>Meeting Room: {roomId}</h2> */}
         <p>My ID: {myId}</p>
 
         {/* My video */}
-        <video
+        {/* <video
           ref={localVideoRef}
           autoPlay
           muted
           playsInline
           style={{ width: 200, background: "#000" }}
-        />
+        /> */}
 
         {/* Remote videos */}
-        <div
+        {/* <div
           className="remote-videos"
-          style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: 20 }}
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "10px",
+            marginTop: 20,
+          }}
         >
           {Object.entries(remoteUsers).map(([id, stream]) => (
             <video
@@ -167,7 +215,7 @@ const Call = () => {
               style={{ width: 200, background: "#000" }}
             />
           ))}
-        </div>
+        </div> */}
       </div>
 
       {/* Controls */}
@@ -179,8 +227,14 @@ const Call = () => {
                 <div className="video_row">
                   <div className="col main-video">
                     <div className="icons">
-                      <div className="mic"> <AiOutlineAudio /> {/* <AiOutlineAudioMuted /> */} </div> </div> <div className="placeholder_img">
-
+                      <div className="mic">
+                        {" "}
+                        {
+                          voiceMedia ? <AiOutlineAudio /> : <AiOutlineAudioMuted />
+                        }
+                      </div>{" "}
+                    </div>{" "}
+                    <div className="placeholder_img">
                       {/* My video main videos*/}
                       <video
                         ref={localVideoRef}
@@ -189,50 +243,66 @@ const Call = () => {
                         playsInline
                         style={{ width: 200, background: "#000" }}
                       />
-
-
                     </div>
                   </div>
                   {/* remote videos other user videos*/}
                   {Object.entries(remoteUsers).map(([id, stream]) => (
                     <>
-
                       <div className="col">
                         <div className="icons">
-                          <div className="mic"> <AiOutlineAudio /> {/* <AiOutlineAudioMuted /> */} </div> </div> <div className="placeholder_img">
+                          <div className="mic">
+                            {" "}
 
+                            {remoteMicStatus[id] === false ? <AiOutlineAudioMuted /> : <AiOutlineAudio />}
+
+                          </div>{" "}
+                        </div>{" "}
+                        <div className="placeholder_img">
                           <video
                             key={id}
                             autoPlay
                             playsInline
+                            muted={remoteMicStatus[id] === false} 
                             ref={(videoEl) => {
                               if (videoEl && !videoEl.srcObject) videoEl.srcObject = stream;
                             }}
                             style={{ width: 200, background: "#000" }}
                           />
 
-
                         </div>
                       </div>
-                    </>))}
-
+                    </>
+                  ))}
                 </div>
                 <div className="video_call_controls">
                   <div className="video_call_row">
-                    <div className="v-cntrl"> <AiOutlineAudio /> {/* <AiOutlineAudioMuted /> */}
+                    <div className="v-cntrl" onClick={toggleAudio}>
+                      {" "}
+                      {
+                        voiceMedia ? <AiOutlineAudio /> : <AiOutlineAudioMuted />
+                      }
+
+
                     </div>
-                    <div className="v-cntrl"> <MdOutlineVideocam /> {/* <MdOutlineVideocamOff /> */}
+                    <div className="v-cntrl" onClick={toggleVideo}>
+                      {" "}
+                      {videoMedia ?
+                        <MdOutlineVideocam /> :
+                        <MdOutlineVideocamOff />}
                     </div>
-                    <div className="v-cntrl"><IoDownloadOutline /></div>
-                    <div className="v-cntrl"><IoSettingsOutline />
+                    <div className="v-cntrl">
+                      <IoDownloadOutline />
                     </div>
-                    <div className="v-cntrl call-end" onClick={endCall}><MdCallEnd />
+                    <div className="v-cntrl">
+                      <IoSettingsOutline />
+                    </div>
+                    <div className="v-cntrl call-end" onClick={endCall}>
+                      <MdCallEnd />
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="chat_col">
-              </div>
+              <div className="chat_col"></div>
             </div>
           </div>
         </div>

@@ -26,7 +26,7 @@ const useCustomGetApi = (fetchUrl) => {
     if (fetchUrl) {
       fetchGetData();
     }
-  }, [fetchUrl]); // Make sure it runs again if URL changes
+  }, [fetchUrl]); 
 
   return { data, loading, setLoading, fetchGetData };
 };

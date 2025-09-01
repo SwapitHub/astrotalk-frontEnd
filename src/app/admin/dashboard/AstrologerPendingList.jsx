@@ -73,20 +73,19 @@ function AstrologerPendingList() {
     }
   };
 
-const deleteAstrologer = async (mobile) => {
-  try {
-    const result = await axios.delete(
-      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/delete-astrologer-list/${mobile}`
-    );
-    
-    if (result.status === 200) {
-      fetchAstrologers()
-    }
-  } catch (err) {
-    console.log("API error", err.response || err.message);
-  }
-};
+  const deleteAstrologer = async (mobile) => {
+    try {
+      const result = await axios.delete(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/delete-astrologer-list/${mobile}`
+      );
 
+      if (result.status === 200) {
+        fetchAstrologers();
+      }
+    } catch (err) {
+      console.log("API error", err.response || err.message);
+    }
+  };
 
   return (
     <>
