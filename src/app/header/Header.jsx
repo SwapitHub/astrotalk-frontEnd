@@ -204,10 +204,32 @@ const Header = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/talk-to-astrologer">Talk to Astrologer</Link>
+                    <Link
+                      href="/talk-to-astrologer"
+                      onClick={() => {
+                        setIsLoading(true);
+                        setTimeout(() => {
+                          setIsLoading(false);
+                        }, 2000);
+                        setToggleMobile(false);
+                      }}
+                    >
+                      Talk to Astrologer
+                    </Link>
                   </li>
                   <li>
-                    <Link href="/call">Add Call</Link>
+                    <Link
+                      href="/call"
+                      onClick={() => {
+                        setIsLoading(true);
+                        setTimeout(() => {
+                          setIsLoading(false);
+                        }, 2000);
+                        setToggleMobile(false);
+                      }}
+                    >
+                      Add Call
+                    </Link>
                   </li>
                   {/* <li>
                     <span onClick={handleOtpPop}>
@@ -262,40 +284,39 @@ const Header = () => {
                         </div>
                         <div className="user-dashboard-profile-drop-down-menu">
                           <ul>
-                            
-                              <>
-                                <li>
-                                  <Link
-                                    href="/notification"
-                                    title="notification"
-                                    onClick={() => setHideProfilePopup(true)}
-                                  >
-                                    Notification
-                                  </Link>
-                                </li>
-                                <li>
-                                  <Link
-                                    href="/my-wallet"
-                                    title="Wallet Transactions"
-                                    onClick={() => setHideProfilePopup(true)}
-                                  >
-                                    Wallet Transactions{" "}
-                                    <span className="amount-ctm-content">
-                                      &#8377; {userDetailData?.totalAmount}
-                                    </span>
-                                  </Link>
-                                </li>
-                                <li>
-                                  <Link
-                                    href="/order-history/chat"
-                                    title="order history"
-                                    onClick={() => setHideProfilePopup(true)}
-                                  >
-                                    Order History
-                                  </Link>
-                                </li>
-                              </>
-                           
+                            <>
+                              <li>
+                                <Link
+                                  href="/notification"
+                                  title="notification"
+                                  onClick={() => setHideProfilePopup(true)}
+                                >
+                                  Notification
+                                </Link>
+                              </li>
+                              <li>
+                                <Link
+                                  href="/my-wallet"
+                                  title="Wallet Transactions"
+                                  onClick={() => setHideProfilePopup(true)}
+                                >
+                                  Wallet Transactions{" "}
+                                  <span className="amount-ctm-content">
+                                    &#8377; {userDetailData?.totalAmount}
+                                  </span>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link
+                                  href="/order-history/chat"
+                                  title="order history"
+                                  onClick={() => setHideProfilePopup(true)}
+                                >
+                                  Order History
+                                </Link>
+                              </li>
+                            </>
+
                             <li>
                               <span className="logout" onClick={userLogout}>
                                 Logout

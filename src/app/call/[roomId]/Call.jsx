@@ -5,7 +5,12 @@ import { io } from "socket.io-client";
 
 import { AiOutlineAudio, AiOutlineAudioMuted } from "react-icons/ai";
 import { IoDownloadOutline, IoSettingsOutline } from "react-icons/io5";
-import { MdCallEnd, MdOutlineVideocam, MdOutlineVideocamOff } from "react-icons/md";
+import {
+  MdCallEnd,
+  MdOutlineVideocam,
+  MdOutlineVideocamOff,
+} from "react-icons/md";
+import ScreenShare from "@/app/component/ScreenShare";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, { autoConnect: false });
 
@@ -19,10 +24,9 @@ const Call = () => {
   const localVideoRef = useRef(null);
   const localStream = useRef(null);
 
-  const [voiceMedia, setVoiceMedia] = useState(true)
-  const [videoMedia, setVideoMedia] = useState(true)
+  const [voiceMedia, setVoiceMedia] = useState(true);
+  const [videoMedia, setVideoMedia] = useState(true);
   const [remoteMicStatus, setRemoteMicStatus] = useState({}); // { socketId: true/false }
-
 
   useEffect(() => {
     socket.connect();
@@ -144,7 +148,6 @@ const Call = () => {
     socket.disconnect();
 
     window.location.href = "/";
-
   };
 
   const toggleAudio = () => {
@@ -162,7 +165,6 @@ const Call = () => {
     }
   };
 
-
   const toggleVideo = () => {
     const videoTrack = localStream.current?.getVideoTracks()[0];
     if (videoTrack) {
@@ -177,7 +179,6 @@ const Call = () => {
       [socketId]: isMicOn,
     }));
   });
-
 
   return (
     <main>
@@ -229,9 +230,11 @@ const Call = () => {
                     <div className="icons">
                       <div className="mic">
                         {" "}
-                        {
-                          voiceMedia ? <AiOutlineAudio /> : <AiOutlineAudioMuted />
-                        }
+                        {voiceMedia ? (
+                          <AiOutlineAudio />
+                        ) : (
+                          <AiOutlineAudioMuted />
+                        )}
                       </div>{" "}
                     </div>{" "}
                     <div className="placeholder_img">
@@ -252,9 +255,11 @@ const Call = () => {
                         <div className="icons">
                           <div className="mic">
                             {" "}
-
-                            {remoteMicStatus[id] === false ? <AiOutlineAudioMuted /> : <AiOutlineAudio />}
-
+                            {remoteMicStatus[id] === false ? (
+                              <AiOutlineAudioMuted />
+                            ) : (
+                              <AiOutlineAudio />
+                            )}
                           </div>{" "}
                         </div>{" "}
                         <div className="placeholder_img">
@@ -262,13 +267,13 @@ const Call = () => {
                             key={id}
                             autoPlay
                             playsInline
-                            muted={remoteMicStatus[id] === false} 
+                            muted={remoteMicStatus[id] === false}
                             ref={(videoEl) => {
-                              if (videoEl && !videoEl.srcObject) videoEl.srcObject = stream;
+                              if (videoEl && !videoEl.srcObject)
+                                videoEl.srcObject = stream;
                             }}
                             style={{ width: 200, background: "#000" }}
                           />
-
                         </div>
                       </div>
                     </>
@@ -278,17 +283,22 @@ const Call = () => {
                   <div className="video_call_row">
                     <div className="v-cntrl" onClick={toggleAudio}>
                       {" "}
-                      {
-                        voiceMedia ? <AiOutlineAudio /> : <AiOutlineAudioMuted />
-                      }
-
-
+                      {voiceMedia ? (
+                        <AiOutlineAudio />
+                      ) : (
+                        <AiOutlineAudioMuted />
+                      )}
                     </div>
                     <div className="v-cntrl" onClick={toggleVideo}>
                       {" "}
-                      {videoMedia ?
-                        <MdOutlineVideocam /> :
-                        <MdOutlineVideocamOff />}
+                      {videoMedia ? (
+                        <MdOutlineVideocam />
+                      ) : (
+                        <MdOutlineVideocamOff />
+                      )}
+                    </div>
+                    <div className="v-cntrl">
+                      <ScreenShare pcsd={pcsd} localVideoRef={localVideoRef} />
                     </div>
                     <div className="v-cntrl">
                       <IoDownloadOutline />
