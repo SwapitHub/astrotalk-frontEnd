@@ -247,7 +247,7 @@ const Header = () => {
                         setToggleMobile(false);
                       }}
                     >
-                      Astromall
+                      Shop
                     </Link>
                   </li>
 

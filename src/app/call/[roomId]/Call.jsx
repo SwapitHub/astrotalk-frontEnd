@@ -7,6 +7,8 @@ import { AiOutlineAudio, AiOutlineAudioMuted } from "react-icons/ai";
 import { IoDownloadOutline, IoSettingsOutline } from "react-icons/io5";
 import {
   MdCallEnd,
+  MdOutlineScreenShare,
+  MdOutlineStopScreenShare,
   MdOutlineVideocam,
   MdOutlineVideocamOff,
 } from "react-icons/md";
@@ -23,6 +25,8 @@ const Call = () => {
 
   const localVideoRef = useRef(null);
   const localStream = useRef(null);
+  const [isScreenSharing, setIsScreenSharing] = useState(false);
+  const screenTrackRef = useRef(null);
 
   const [voiceMedia, setVoiceMedia] = useState(true);
   const [videoMedia, setVideoMedia] = useState(true);
@@ -38,45 +42,48 @@ const Call = () => {
       socket.emit("join-room", { roomId, userId: socket.id });
     });
 
-    socket.on("user-joined", async ({ socketId }) => {
-      const pc = createPeerConnection(socketId);
+   // OFFER
+socket.on("user-joined", async ({ socketId }) => {
+  const pc = createPeerConnection(socketId);
 
-      const offer = await pc.createOffer();
-      await pc.setLocalDescription(offer);
+  const offer = await pc.createOffer();
+  await pc.setLocalDescription(offer);
 
-      socket.emit("offer", { roomId, targetSocketId: socketId, offer });
-    });
+  socket.emit("offer", { roomId, targetSocketId: socketId, offer });
+});
 
-    socket.on("offer", async ({ senderSocketId, offer }) => {
-      const pc = createPeerConnection(senderSocketId);
-      await pc.setRemoteDescription(new RTCSessionDescription(offer));
+   // OFFER RECEIVED
+socket.on("offer", async ({ senderSocketId, offer }) => {
+  const pc = createPeerConnection(senderSocketId);
+  await pc.setRemoteDescription(new RTCSessionDescription(offer));
 
-      const answer = await pc.createAnswer();
-      await pc.setLocalDescription(answer);
+  const answer = await pc.createAnswer();
+  await pc.setLocalDescription(answer);
 
-      socket.emit("answer", { targetSocketId: senderSocketId, answer });
-    });
+  socket.emit("answer", { targetSocketId: senderSocketId, answer });
+});
 
-    socket.on("answer", async ({ senderSocketId, answer }) => {
-      pcs[senderSocketId]?.setRemoteDescription(
-        new RTCSessionDescription(answer)
-      );
-    });
+// ANSWER RECEIVED
+socket.on("answer", async ({ senderSocketId, answer }) => {
+  pcsd.current[senderSocketId]?.setRemoteDescription(
+    new RTCSessionDescription(answer)
+  );
+});
 
-    socket.on("ice-candidate", ({ senderSocketId, candidate }) => {
-      pcs[senderSocketId]?.addIceCandidate(new RTCIceCandidate(candidate));
-    });
+  socket.on("ice-candidate", ({ senderSocketId, candidate }) => {
+  pcsd.current[senderSocketId]?.addIceCandidate(new RTCIceCandidate(candidate));
+});
 
-    socket.on("user-left", ({ socketId }) => {
-      if (pcs[socketId]) pcs[socketId].close();
-      delete pcs[socketId];
+ socket.on("user-left", ({ socketId }) => {
+  if (pcsd.current[socketId]) pcsd.current[socketId].close();
+  delete pcsd.current[socketId];
 
-      setRemoteUsers((prev) => {
-        const updated = { ...prev };
-        delete updated[socketId];
-        return updated;
-      });
-    });
+  setRemoteUsers((prev) => {
+    const updated = { ...prev };
+    delete updated[socketId];
+    return updated;
+  });
+});
 
     return () => {
       socket.disconnect();
@@ -84,7 +91,6 @@ const Call = () => {
   }, []);
 
   // Keep track of PeerConnections separately
-  const pcs = {};
 
   const startLocalStream = async () => {
     localStream.current = await navigator.mediaDevices.getUserMedia({
@@ -94,36 +100,39 @@ const Call = () => {
     localVideoRef.current.srcObject = localStream.current;
   };
 
-  const createPeerConnection = (remoteSocketId) => {
-    const pc = new RTCPeerConnection({
-      iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
-    });
-    pcs[remoteSocketId] = pc;
+ const createPeerConnection = (remoteSocketId) => {
+  const pc = new RTCPeerConnection({
+    iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+  });
 
-    // Add local tracks
-    localStream.current
-      .getTracks()
-      .forEach((track) => pc.addTrack(track, localStream.current));
+  pcsd.current[remoteSocketId] = pc; // ✅ save only here
 
-    // Handle remote track
-    pc.ontrack = (event) => {
-      setRemoteUsers((prev) => ({
-        ...prev,
-        [remoteSocketId]: event.streams[0],
-      }));
-    };
+  // Add local tracks (camera/audio by default)
+  localStream.current?.getTracks().forEach((track) => {
+    pc.addTrack(track, localStream.current);
+  });
 
-    pc.onicecandidate = (event) => {
-      if (event.candidate) {
-        socket.emit("ice-candidate", {
-          targetSocketId: remoteSocketId,
-          candidate: event.candidate,
-        });
-      }
-    };
-
-    return pc;
+  // Handle remote track
+  pc.ontrack = (event) => {
+    setRemoteUsers((prev) => ({
+      ...prev,
+      [remoteSocketId]: event.streams[0],
+    }));
   };
+
+  // ICE
+  pc.onicecandidate = (event) => {
+    if (event.candidate) {
+      socket.emit("ice-candidate", {
+        targetSocketId: remoteSocketId,
+        candidate: event.candidate,
+      });
+    }
+  };
+
+  return pc;
+};
+
 
   // END CALL FUNCTION
   const endCall = () => {
@@ -179,6 +188,73 @@ const Call = () => {
       [socketId]: isMicOn,
     }));
   });
+
+
+
+
+
+
+//  const toggleScreenShare = async () => {
+//   if (!isScreenSharing) {
+//     const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+//     const screenTrack = screenStream.getVideoTracks()[0];
+//     screenTrackRef.current = screenTrack;
+
+//     // Replace in all peer connections
+//     Object.values(pcsd.current).forEach((pc) => {
+//       const sender = pc.getSenders().find((s) => s.track?.kind === "video");
+//       if (sender) sender.replaceTrack(screenTrack);
+//     });
+
+//     // Show my preview
+//     localVideoRef.current.srcObject = screenStream;
+
+//     socket.emit("start-screen-share", { roomId, userId: myId });
+//     screenTrack.onended = stopScreenShare;
+//     setIsScreenSharing(true);
+//   } else {
+//     stopScreenShare();
+//   }
+// };
+
+
+//   const stopScreenShare = () => {
+//     if (screenTrackRef.current) {
+//       screenTrackRef.current.stop();
+//       screenTrackRef.current = null;
+//     }
+
+//     // Revert back to camera video track
+//     const cameraTrack = localStream.current?.getVideoTracks()[0];
+//     if (cameraTrack) {
+//       Object.values(pcsd.current).forEach((pc) => {
+//         const sender = pc.getSenders().find((s) => s.track?.kind === "video");
+//         if (sender) sender.replaceTrack(cameraTrack);
+//       });
+//       if (localVideoRef.current) {
+//         localVideoRef.current.srcObject = localStream.current;
+//       }
+//     }
+
+
+//     socket.emit("stop-screen-share", { roomId, userId: myId });
+//     setIsScreenSharing(false);
+//   };
+
+//   useEffect(() => {
+//     socket.on("user-started-screen-share", ({ socketId }) => {
+//       console.log(`🖥️ User ${socketId} started screen sharing`);
+//     });
+
+//     socket.on("user-stopped-screen-share", ({ socketId }) => {
+//       console.log(`🛑 User ${socketId} stopped screen sharing`);
+//     });
+
+//     return () => {
+//       socket.off("user-started-screen-share");
+//       socket.off("user-stopped-screen-share");
+//     };
+//   }, []);
 
   return (
     <main>
@@ -298,8 +374,9 @@ const Call = () => {
                       )}
                     </div>
                     <div className="v-cntrl">
-                      <ScreenShare pcsd={pcsd} localVideoRef={localVideoRef} />
+                      <ScreenShare pcsd={pcsd} socket={socket} localStream={localStream} localVideoRef={localVideoRef} roomId={roomId} myId={myId}/>
                     </div>
+
                     <div className="v-cntrl">
                       <IoDownloadOutline />
                     </div>
