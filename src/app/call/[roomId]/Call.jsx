@@ -320,7 +320,6 @@ socket.on("answer", async ({ senderSocketId, answer }) => {
                         autoPlay
                         muted
                         playsInline
-                        style={{ width: 200, background: "#000" }}
                       />
                     </div>
                   </div>
@@ -348,7 +347,6 @@ socket.on("answer", async ({ senderSocketId, answer }) => {
                               if (videoEl && !videoEl.srcObject)
                                 videoEl.srcObject = stream;
                             }}
-                            style={{ width: 200, background: "#000" }}
                           />
                         </div>
                       </div>
