@@ -141,8 +141,8 @@ const Header = () => {
   return (
     <>
       {parts[1] == "admin" ||
-      parts[1] == "astrologer" ||
-      (parts[1] == "chat-with-astrologer" && parts[2] == "astrologer") ? (
+        parts[1] == "astrologer" ||
+        (parts[1] == "chat-with-astrologer" && parts[2] == "astrologer") ? (
         ""
       ) : (
         <header className="header">
@@ -161,7 +161,7 @@ const Header = () => {
             <div className="inner-header-sec ctm-flex-row ctm-align-items-center ctm-justify-content-between">
               <div className="header-left-logo">
                 <Link href="/" title="WeddingByte">
-                  <img src="/astrotalk-logo.webp" alt="WeddingByte" />
+                  <img src="/logo-main.png" alt="WeddingByte" />
                 </Link>
               </div>
 
@@ -175,7 +175,7 @@ const Header = () => {
               </div>
               <nav className="navbar">
                 <ul>
-                  <li>
+                  {/* <li>
                     <Link
                       href={`${userMobile ? "/free-chat/start" : "/free-chat"}`}
                       onClick={() => {
@@ -188,7 +188,7 @@ const Header = () => {
                     >
                       Chat Now
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link
                       href={`${"/chat-with-astrologer"}`}
@@ -204,6 +204,21 @@ const Header = () => {
                     </Link>
                   </li>
                   <li>
+                    <span>Astrologer</span>
+                    <ul>
+                      <li>
+                        <OtpData
+                          setOtpPopUpDisplayAstro={setOtpPopUpDisplayAstro}
+                          otpPopUpDisplayAstro={otpPopUpDisplayAstro}
+                        />
+                        <span onClick={handleOtpPop}>Astrologer Login</span>
+                      </li>
+                      <li>
+                        <Link href="/signup"> Astrologer Registration</Link>
+                      </li>
+                    </ul>
+                  </li>
+                  {/* <li>
                     <Link
                       href="/talk-to-astrologer"
                       onClick={() => {
@@ -216,7 +231,7 @@ const Header = () => {
                     >
                       Talk to Astrologer
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link
                       href="/call"
@@ -329,7 +344,26 @@ const Header = () => {
                   </div>
                 </div>
               ) : (
-                <button onClick={handelUserLogin}>User Login</button>
+                <>
+
+                  <div className="header-user">
+                    <div className="header-user-icon">
+                      <img src="/user-icon-image.png" alt="user icon" />
+                    </div>
+                    <div className="header-user-drop-down">
+                      <ul>
+                        <li>
+                          <Link href="/free-chat/start">User Registration </Link>
+
+                        </li>
+                        <li>
+                          <span onClick={handelUserLogin}>User Login</span>
+
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </>
               )}
             </div>
           </div>

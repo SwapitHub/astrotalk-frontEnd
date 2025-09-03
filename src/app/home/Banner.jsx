@@ -6,8 +6,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const Banner = ({homeBannerData}) => {
- 
+const Banner = ({ homeBannerData }) => {
+
 
   const sliderSettings = {
     dots: false,
@@ -23,14 +23,15 @@ const Banner = ({homeBannerData}) => {
     <>
       {/* <!---- Banner Section Start ---> */}
       <section className="banner-main">
+        <img src="/ast-new-bg-2.jpg" alt="banner" />
         <div className="container">
-        <Slider
-          {...sliderSettings}
-          
-         
-        >
-          {homeBannerData?.map((item) => (
-            <div className="banner" key={item?._id}>
+          <Slider
+            {...sliderSettings}
+
+
+          >
+            {homeBannerData?.map((item) => (
+              <div className="banner" key={item?._id}>
                 <div className="row">
                   <div className="left-col">
                     <h1>{item?.banner_heading}</h1>
@@ -44,15 +45,15 @@ const Banner = ({homeBannerData}) => {
                   <div className="right-col">
                     <img src="/blue-circle.png" />
                   </div>
+                </div>
               </div>
-            </div>
-          ))}
-        </Slider>
+            ))}
+          </Slider>
         </div>
       </section>
       {/* <!---- Banner Section End here---> */}
 
-     
+
     </>
   );
 };
