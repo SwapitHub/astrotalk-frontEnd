@@ -42,48 +42,48 @@ const Call = () => {
       socket.emit("join-room", { roomId, userId: socket.id });
     });
 
-   // OFFER
-socket.on("user-joined", async ({ socketId }) => {
-  const pc = createPeerConnection(socketId);
+    // OFFER
+    socket.on("user-joined", async ({ socketId }) => {
+      const pc = createPeerConnection(socketId);
 
-  const offer = await pc.createOffer();
-  await pc.setLocalDescription(offer);
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
 
-  socket.emit("offer", { roomId, targetSocketId: socketId, offer });
-});
+      socket.emit("offer", { roomId, targetSocketId: socketId, offer });
+    });
 
-   // OFFER RECEIVED
-socket.on("offer", async ({ senderSocketId, offer }) => {
-  const pc = createPeerConnection(senderSocketId);
-  await pc.setRemoteDescription(new RTCSessionDescription(offer));
+    // OFFER RECEIVED
+    socket.on("offer", async ({ senderSocketId, offer }) => {
+      const pc = createPeerConnection(senderSocketId);
+      await pc.setRemoteDescription(new RTCSessionDescription(offer));
 
-  const answer = await pc.createAnswer();
-  await pc.setLocalDescription(answer);
+      const answer = await pc.createAnswer();
+      await pc.setLocalDescription(answer);
 
-  socket.emit("answer", { targetSocketId: senderSocketId, answer });
-});
+      socket.emit("answer", { targetSocketId: senderSocketId, answer });
+    });
 
-// ANSWER RECEIVED
-socket.on("answer", async ({ senderSocketId, answer }) => {
-  pcsd.current[senderSocketId]?.setRemoteDescription(
-    new RTCSessionDescription(answer)
-  );
-});
+    // ANSWER RECEIVED
+    socket.on("answer", async ({ senderSocketId, answer }) => {
+      pcsd.current[senderSocketId]?.setRemoteDescription(
+        new RTCSessionDescription(answer)
+      );
+    });
 
-  socket.on("ice-candidate", ({ senderSocketId, candidate }) => {
-  pcsd.current[senderSocketId]?.addIceCandidate(new RTCIceCandidate(candidate));
-});
+    socket.on("ice-candidate", ({ senderSocketId, candidate }) => {
+      pcsd.current[senderSocketId]?.addIceCandidate(new RTCIceCandidate(candidate));
+    });
 
- socket.on("user-left", ({ socketId }) => {
-  if (pcsd.current[socketId]) pcsd.current[socketId].close();
-  delete pcsd.current[socketId];
+    socket.on("user-left", ({ socketId }) => {
+      if (pcsd.current[socketId]) pcsd.current[socketId].close();
+      delete pcsd.current[socketId];
 
-  setRemoteUsers((prev) => {
-    const updated = { ...prev };
-    delete updated[socketId];
-    return updated;
-  });
-});
+      setRemoteUsers((prev) => {
+        const updated = { ...prev };
+        delete updated[socketId];
+        return updated;
+      });
+    });
 
     return () => {
       socket.disconnect();
@@ -100,38 +100,46 @@ socket.on("answer", async ({ senderSocketId, answer }) => {
     localVideoRef.current.srcObject = localStream.current;
   };
 
- const createPeerConnection = (remoteSocketId) => {
-  const pc = new RTCPeerConnection({
-    iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
-  });
+  const createPeerConnection = (remoteSocketId) => {
+    const pc = new RTCPeerConnection({
+      iceServers: [
+        { urls: "stun:stun.l.google.com:19302" }, // STUN
+        {
+          urls: "turn:relay1.expressturn.com:3478", // Public TURN service (for testing)
+          username: "expressturn",
+          credential: "expressturn",
+        },
+      ],
+    });
 
-  pcsd.current[remoteSocketId] = pc; // ✅ save only here
 
-  // Add local tracks (camera/audio by default)
-  localStream.current?.getTracks().forEach((track) => {
-    pc.addTrack(track, localStream.current);
-  });
+    pcsd.current[remoteSocketId] = pc; // ✅ save only here
 
-  // Handle remote track
-  pc.ontrack = (event) => {
-    setRemoteUsers((prev) => ({
-      ...prev,
-      [remoteSocketId]: event.streams[0],
-    }));
+    // Add local tracks (camera/audio by default)
+    localStream.current?.getTracks().forEach((track) => {
+      pc.addTrack(track, localStream.current);
+    });
+
+    // Handle remote track
+    pc.ontrack = (event) => {
+      setRemoteUsers((prev) => ({
+        ...prev,
+        [remoteSocketId]: event.streams[0],
+      }));
+    };
+
+    // ICE
+    pc.onicecandidate = (event) => {
+      if (event.candidate) {
+        socket.emit("ice-candidate", {
+          targetSocketId: remoteSocketId,
+          candidate: event.candidate,
+        });
+      }
+    };
+
+    return pc;
   };
-
-  // ICE
-  pc.onicecandidate = (event) => {
-    if (event.candidate) {
-      socket.emit("ice-candidate", {
-        targetSocketId: remoteSocketId,
-        candidate: event.candidate,
-      });
-    }
-  };
-
-  return pc;
-};
 
 
   // END CALL FUNCTION
@@ -194,67 +202,67 @@ socket.on("answer", async ({ senderSocketId, answer }) => {
 
 
 
-//  const toggleScreenShare = async () => {
-//   if (!isScreenSharing) {
-//     const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-//     const screenTrack = screenStream.getVideoTracks()[0];
-//     screenTrackRef.current = screenTrack;
+  //  const toggleScreenShare = async () => {
+  //   if (!isScreenSharing) {
+  //     const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+  //     const screenTrack = screenStream.getVideoTracks()[0];
+  //     screenTrackRef.current = screenTrack;
 
-//     // Replace in all peer connections
-//     Object.values(pcsd.current).forEach((pc) => {
-//       const sender = pc.getSenders().find((s) => s.track?.kind === "video");
-//       if (sender) sender.replaceTrack(screenTrack);
-//     });
+  //     // Replace in all peer connections
+  //     Object.values(pcsd.current).forEach((pc) => {
+  //       const sender = pc.getSenders().find((s) => s.track?.kind === "video");
+  //       if (sender) sender.replaceTrack(screenTrack);
+  //     });
 
-//     // Show my preview
-//     localVideoRef.current.srcObject = screenStream;
+  //     // Show my preview
+  //     localVideoRef.current.srcObject = screenStream;
 
-//     socket.emit("start-screen-share", { roomId, userId: myId });
-//     screenTrack.onended = stopScreenShare;
-//     setIsScreenSharing(true);
-//   } else {
-//     stopScreenShare();
-//   }
-// };
-
-
-//   const stopScreenShare = () => {
-//     if (screenTrackRef.current) {
-//       screenTrackRef.current.stop();
-//       screenTrackRef.current = null;
-//     }
-
-//     // Revert back to camera video track
-//     const cameraTrack = localStream.current?.getVideoTracks()[0];
-//     if (cameraTrack) {
-//       Object.values(pcsd.current).forEach((pc) => {
-//         const sender = pc.getSenders().find((s) => s.track?.kind === "video");
-//         if (sender) sender.replaceTrack(cameraTrack);
-//       });
-//       if (localVideoRef.current) {
-//         localVideoRef.current.srcObject = localStream.current;
-//       }
-//     }
+  //     socket.emit("start-screen-share", { roomId, userId: myId });
+  //     screenTrack.onended = stopScreenShare;
+  //     setIsScreenSharing(true);
+  //   } else {
+  //     stopScreenShare();
+  //   }
+  // };
 
 
-//     socket.emit("stop-screen-share", { roomId, userId: myId });
-//     setIsScreenSharing(false);
-//   };
+  //   const stopScreenShare = () => {
+  //     if (screenTrackRef.current) {
+  //       screenTrackRef.current.stop();
+  //       screenTrackRef.current = null;
+  //     }
 
-//   useEffect(() => {
-//     socket.on("user-started-screen-share", ({ socketId }) => {
-//       console.log(`🖥️ User ${socketId} started screen sharing`);
-//     });
+  //     // Revert back to camera video track
+  //     const cameraTrack = localStream.current?.getVideoTracks()[0];
+  //     if (cameraTrack) {
+  //       Object.values(pcsd.current).forEach((pc) => {
+  //         const sender = pc.getSenders().find((s) => s.track?.kind === "video");
+  //         if (sender) sender.replaceTrack(cameraTrack);
+  //       });
+  //       if (localVideoRef.current) {
+  //         localVideoRef.current.srcObject = localStream.current;
+  //       }
+  //     }
 
-//     socket.on("user-stopped-screen-share", ({ socketId }) => {
-//       console.log(`🛑 User ${socketId} stopped screen sharing`);
-//     });
 
-//     return () => {
-//       socket.off("user-started-screen-share");
-//       socket.off("user-stopped-screen-share");
-//     };
-//   }, []);
+  //     socket.emit("stop-screen-share", { roomId, userId: myId });
+  //     setIsScreenSharing(false);
+  //   };
+
+  //   useEffect(() => {
+  //     socket.on("user-started-screen-share", ({ socketId }) => {
+  //       console.log(`🖥️ User ${socketId} started screen sharing`);
+  //     });
+
+  //     socket.on("user-stopped-screen-share", ({ socketId }) => {
+  //       console.log(`🛑 User ${socketId} stopped screen sharing`);
+  //     });
+
+  //     return () => {
+  //       socket.off("user-started-screen-share");
+  //       socket.off("user-stopped-screen-share");
+  //     };
+  //   }, []);
 
   return (
     <main>
@@ -372,7 +380,7 @@ socket.on("answer", async ({ senderSocketId, answer }) => {
                       )}
                     </div>
                     <div className="v-cntrl">
-                      <ScreenShare pcsd={pcsd} socket={socket} localStream={localStream} localVideoRef={localVideoRef} roomId={roomId} myId={myId}/>
+                      <ScreenShare pcsd={pcsd} socket={socket} localStream={localStream} localVideoRef={localVideoRef} roomId={roomId} myId={myId} />
                     </div>
 
                     <div className="v-cntrl">
