@@ -4082,6 +4082,7 @@ width: 700px;
   align-items: center;
   cursor: pointer;
   color: #fff;
+  z-index: 1;
 }
 .video_row .col .mic i {
   color: #fff;
