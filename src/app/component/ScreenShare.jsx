@@ -10,9 +10,20 @@ socket,
 localStream,
 localVideoRef,
 roomId,
-myId
+myId,
+setGetSocketId,
+setIsScreenSharing,
+isScreenSharing
 }) => {
-  const [isScreenSharing, setIsScreenSharing] = useState(false);
+
+ console.log(pcsd,
+socket,
+localStream,
+localVideoRef,
+roomId,
+myId,
+isScreenSharing,"isScreenSharing");
+ 
     const screenTrackRef = useRef(null);
 
    const toggleScreenShare = async () => {
@@ -34,7 +45,8 @@ myId
       screenTrack.onended = stopScreenShare;
       setIsScreenSharing(true);
     } else {
-      stopScreenShare();
+      alert("wait some time")
+      
     }
   };
   
@@ -65,10 +77,12 @@ myId
     useEffect(() => {
       socket.on("user-started-screen-share", ({ socketId }) => {
         console.log(`🖥️ User ${socketId} started screen sharing`);
+        setGetSocketId(socketId)
       });
-  
       socket.on("user-stopped-screen-share", ({ socketId }) => {
         console.log(`🛑 User ${socketId} stopped screen sharing`);
+        setGetSocketId(null)
+
       });
   
       return () => {

@@ -25,12 +25,20 @@ const Call = () => {
 
   const localVideoRef = useRef(null);
   const localStream = useRef(null);
-  const [isScreenSharing, setIsScreenSharing] = useState(false);
   const screenTrackRef = useRef(null);
-
+  
   const [voiceMedia, setVoiceMedia] = useState(true);
   const [videoMedia, setVideoMedia] = useState(true);
   const [remoteMicStatus, setRemoteMicStatus] = useState({}); // { socketId: true/false }
+  const [getSocketId, setGetSocketId] = useState(null);
+  const [isScreenSharing, setIsScreenSharing] = useState(false);
+  console.log(getSocketId,isScreenSharing, "getSocketId");
+
+
+ useEffect(() => {
+  setIsScreenSharing(!!getSocketId);
+}, [getSocketId]);
+
 
   useEffect(() => {
     socket.connect();
@@ -310,7 +318,7 @@ const Call = () => {
             <div className="video-chat-row">
               <div className="video_col">
                 <div className="video_row">
-                  <div className="col main-video">
+                  <div className={`col main-video ${getSocketId==null  ? "user-screen-share" : ""}`}>
                     <div className="icons">
                       <div className="mic">
                         {" "}
@@ -334,7 +342,7 @@ const Call = () => {
                   {/* remote videos other user videos*/}
                   {Object.entries(remoteUsers).map(([id, stream]) => (
                     <>
-                      <div className="col">
+                      <div className={`col ${id === getSocketId ? "screen-share" : ""}`}>
                         <div className="icons">
                           <div className="mic">
                             {" "}
@@ -380,7 +388,8 @@ const Call = () => {
                       )}
                     </div>
                     <div className="v-cntrl">
-                      <ScreenShare pcsd={pcsd} socket={socket} localStream={localStream} localVideoRef={localVideoRef} roomId={roomId} myId={myId} />
+                      <ScreenShare pcsd={pcsd} socket={socket} localStream={localStream} localVideoRef={localVideoRef} roomId={roomId} myId={myId} setGetSocketId={setGetSocketId} setIsScreenSharing={setIsScreenSharing}
+                        isScreenSharing={isScreenSharing} />
                     </div>
 
                     <div className="v-cntrl">

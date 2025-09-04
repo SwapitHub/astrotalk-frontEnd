@@ -4044,17 +4044,20 @@ td button + button {
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
 }
-.col.main-video {
-    width: 313px !important;
-    height: 155px;
+.col.main-video.user-screen-share {
+    width: 500px !important;
 }
+
+.video_row .col.screen-share {
+width: 700px;
+}
+
 .video_row .col {
   position: relative;
   overflow: hidden;
   border-radius: 20px;
   padding-bottom: 46.43%;
   background-color: #000;
-  width: 700px;
 }
 .placeholder_img video {
     width: 100%;
