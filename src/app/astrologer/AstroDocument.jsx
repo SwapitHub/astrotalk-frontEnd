@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React from "react";
 
 export const AstroDocument = ({ registrationDetail }) => {
@@ -8,21 +7,21 @@ export const AstroDocument = ({ registrationDetail }) => {
       <div className="main-doc">
         <div className="aadhar-card">
           <h3>Aadhar Card</h3>
-          <Link href={registrationDetail?.aadhaarCard} target="_blank">
+          <a href={registrationDetail.aadhaarCard} target="_blank">
             <img
-              src={registrationDetail?.aadhaarCard}
+              src={registrationDetail.aadhaarCard}
               alt={registrationDetail?.name}
             />
-          </Link>
+          </a>
         </div>
         <div className="aadhar-card certificate">
           <h3>Certificate</h3>
-          <Link href={registrationDetail?.certificate} target="_blank">
+          <a href={registrationDetail.certificate} target="_blank">
             <img
-              src={registrationDetail?.certificate}
+              src={registrationDetail.certificate}
               alt={registrationDetail?.name}
             />
-          </Link>
+          </a>
         </div>
       </div>
     </div>

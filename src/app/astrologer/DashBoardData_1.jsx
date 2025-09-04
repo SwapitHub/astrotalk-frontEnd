@@ -13,7 +13,7 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
   const [isOnline, setIsOnline] = useState();
   const [sessionValue, setSessionValue] = useState();
  console.log(astrologerData.profileStatus,isOnline);
-console.log("sessionValue",sessionValue);
+console.log("sessionValue",astrologerData.mobileNumber);
 
   useEffect(() => {
     if (isOnline) {

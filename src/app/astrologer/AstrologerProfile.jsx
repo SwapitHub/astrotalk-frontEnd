@@ -41,6 +41,7 @@ const AstrologerProfile = ({
   }, []);
 
   useEffect(() => {
+    if(!astrologerPhone) return;
     axios
       .get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerPhone}`
@@ -55,6 +56,7 @@ const AstrologerProfile = ({
   }, [astrologerPhone]);
 
   useEffect(() => {
+    if(!astrologerPhone) return;
     axios
       .get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-detail/${astrologerPhone}`
