@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import OtpData from "../component/OtpData";
 import UserOtpLoginData from "../component/UserOtpLoginData";
+import { FaUser } from "react-icons/fa";
 
 const Header = () => {
   const router = useRouter();
@@ -161,7 +162,7 @@ const Header = () => {
             <div className="inner-header-sec ctm-flex-row ctm-align-items-center ctm-justify-content-between">
               <div className="header-left-logo">
                 <Link href="/" title="WeddingByte">
-                  <img src="/logo-main.png" alt="WeddingByte" />
+                  <img src="/logo.png" alt="WeddingByte" />
                 </Link>
               </div>
 
@@ -203,9 +204,9 @@ const Header = () => {
                       Chat with Astrologer
                     </Link>
                   </li>
-                  <li>
+                  <li className="has-submenu">
                     <span>Astrologer</span>
-                    <ul>
+                    <ul className="submenu">
                       <li>
                         <OtpData
                           setOtpPopUpDisplayAstro={setOtpPopUpDisplayAstro}
@@ -277,18 +278,16 @@ const Header = () => {
                   <div className="user-dashboard-profile ctm-text-end">
                     <div className="user-dashboard-profile-main-pro">
                       <Link href="#" title="dashboard">
-                        <img
-                          src={`/user-profile-icon.jpg`}
-                          alt="user-profile"
-                        />
+                        <FaUser />
+
+
                       </Link>
                       <div className="user-dashboard-profile-menu">
                         <div className="user-inner-dashbord-pic">
                           <Link href="#" title="Profile">
-                            <img
-                              src={`/user-profile-icon.jpg`}
-                              alt="user-profile"
-                            />
+                            <FaUser />
+
+
                           </Link>
                           <div className="user-inner-dashbord-content">
                             <h5>{userDetailData?.name || ""}</h5>
@@ -348,7 +347,7 @@ const Header = () => {
 
                   <div className="header-user">
                     <div className="header-user-icon">
-                      <img src="/user-icon-image.png" alt="user icon" />
+                      <FaUser />
                     </div>
                     <div className="header-user-drop-down">
                       <ul>

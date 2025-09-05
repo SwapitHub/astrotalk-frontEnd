@@ -26,18 +26,18 @@ const Call = () => {
   const localVideoRef = useRef(null);
   const localStream = useRef(null);
   const screenTrackRef = useRef(null);
-  
+
   const [voiceMedia, setVoiceMedia] = useState(true);
   const [videoMedia, setVideoMedia] = useState(true);
   const [remoteMicStatus, setRemoteMicStatus] = useState({}); // { socketId: true/false }
   const [getSocketId, setGetSocketId] = useState(null);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
-  console.log(getSocketId,isScreenSharing, "getSocketId");
+  console.log(getSocketId, isScreenSharing, "getSocketId");
 
 
- useEffect(() => {
-  setIsScreenSharing(!!getSocketId);
-}, [getSocketId]);
+  useEffect(() => {
+    setIsScreenSharing(!!getSocketId);
+  }, [getSocketId]);
 
 
   useEffect(() => {
@@ -206,9 +206,21 @@ const Call = () => {
   });
 
 
+  const videoRef = useRef(null);
 
-
-
+  const toggleFullScreen = () => {
+    if (videoRef.current) {
+      if (!document.fullscreenElement) {
+        videoRef.current.requestFullscreen().catch((err) => {
+          console.error(
+            `Error attempting to enable full-screen mode: ${err.message}`
+          );
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    }
+  };
 
   //  const toggleScreenShare = async () => {
   //   if (!isScreenSharing) {
@@ -318,7 +330,7 @@ const Call = () => {
             <div className="video-chat-row">
               <div className="video_col">
                 <div className="video_row">
-                  <div className={`col main-video ${getSocketId==null  ? "user-screen-share" : ""}`}>
+                  <div className={`col main-video ${getSocketId == null ? "user-screen-share" : ""}`}>
                     <div className="icons">
                       <div className="mic">
                         {" "}
@@ -344,15 +356,34 @@ const Call = () => {
                     <>
                       <div className={`col ${id === getSocketId ? "screen-share" : ""}`}>
                         <div className="icons">
+                          <span className="full-screen" onClick={toggleFullScreen}>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="feather feather-maximize-2"
+                            >
+                              <polyline points="15 3 21 3 21 9"></polyline>
+                              <polyline points="9 21 3 21 3 15"></polyline>
+                              <line x1="21" y1="3" x2="14" y2="10"></line>
+                              <line x1="3" y1="21" x2="10" y2="14"></line>
+                            </svg>
+                          </span>
                           <div className="mic">
-                            {" "}
                             {remoteMicStatus[id] === false ? (
                               <AiOutlineAudioMuted />
                             ) : (
                               <AiOutlineAudio />
                             )}
-                          </div>{" "}
-                        </div>{" "}
+                          </div>
+                        </div>
+
                         <div className="placeholder_img">
                           <video
                             key={id}
@@ -360,8 +391,10 @@ const Call = () => {
                             playsInline
                             muted={remoteMicStatus[id] === false}
                             ref={(videoEl) => {
-                              if (videoEl && !videoEl.srcObject)
+                              if (videoEl && !videoEl.srcObject) {
                                 videoEl.srcObject = stream;
+                                videoRef.current = videoEl; // Save the reference
+                              }
                             }}
                           />
                         </div>

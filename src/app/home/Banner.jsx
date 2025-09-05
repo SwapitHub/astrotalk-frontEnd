@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Link from "next/link";
 import React from "react";
 
@@ -7,8 +7,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const Banner = ({ homeBannerData }) => {
-
-
   const sliderSettings = {
     dots: false,
     infinite: true,
@@ -22,17 +20,24 @@ const Banner = ({ homeBannerData }) => {
   return (
     <>
       {/* <!---- Banner Section Start ---> */}
-      <section className="banner-main">
-        <img src="/ast-new-bg-2.jpg" alt="banner" />
+      <section
+        className="banner-main"
+        style={{
+          backgroundImage: "url('./ast-new-bg-2.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         <div className="container">
-          <Slider
-            {...sliderSettings}
-
-
-          >
+          <Slider {...sliderSettings}>
             {homeBannerData?.map((item) => (
               <div className="banner" key={item?._id}>
                 <div className="row">
+                  <div className="right-col">
+                    <img src="/horoscope-circle-image.png" />
+                  </div>
+
                   <div className="left-col">
                     <h1>{item?.banner_heading}</h1>
                     <p>{item?.banner_desc}</p>
@@ -42,9 +47,6 @@ const Banner = ({ homeBannerData }) => {
                       </Link>
                     </div>
                   </div>
-                  <div className="right-col">
-                    <img src="/blue-circle.png" />
-                  </div>
                 </div>
               </div>
             ))}
@@ -52,8 +54,6 @@ const Banner = ({ homeBannerData }) => {
         </div>
       </section>
       {/* <!---- Banner Section End here---> */}
-
-
     </>
   );
 };

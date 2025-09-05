@@ -129,9 +129,8 @@ const AdminHeader = ({ setToggleSlideMobile }) => {
         <div className="nav-right col">
           <ul className="nav-menus">
             <li>
-              <Link
+              <span
                 className="text-dark"
-                href="#!"
                 onClick={() => toggleFullScreen()}
               >
                 <svg
@@ -151,7 +150,7 @@ const AdminHeader = ({ setToggleSlideMobile }) => {
                   <line x1="21" y1="3" x2="14" y2="10"></line>
                   <line x1="3" y1="21" x2="10" y2="14"></line>
                 </svg>
-              </Link>
+              </span>
             </li>
 
             {/* <li
