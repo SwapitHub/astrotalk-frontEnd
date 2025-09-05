@@ -1,10 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react'
-import { FaRocketchat } from 'react-icons/fa';
-import { HiOutlineShoppingBag } from 'react-icons/hi';
-import { IoCallOutline } from 'react-icons/io5';
-import { LiaPlaceOfWorshipSolid } from 'react-icons/lia';
+import { PiChatCircleDotsLight, PiHandsPrayingThin, PiPhoneCallLight, PiShoppingCartLight } from 'react-icons/pi';
 
 const AstrologerBanner = () => {
   const router = useRouter();
@@ -16,7 +13,7 @@ const AstrologerBanner = () => {
             <Link href="/chat-with-astrologer">
               <div className="col">
                 <div className="icon">
-                  <FaRocketchat />
+                  <PiChatCircleDotsLight />
                 </div>
                 <div className="col-text">
                   <h3>Chat with Astrologer</h3>
@@ -26,7 +23,7 @@ const AstrologerBanner = () => {
             <Link href="/talk-to-astrologer">
               <div className="col">
                 <div className="icon">
-                  <IoCallOutline />
+                  <PiPhoneCallLight />
                 </div>
                 <div className="col-text">
                   <h3>Talk to Astrologer</h3>
@@ -36,7 +33,7 @@ const AstrologerBanner = () => {
             <Link href="/shop">
               <div className="col">
                 <div className="icon">
-                  <HiOutlineShoppingBag />
+                  <PiShoppingCartLight />
                 </div>
                 <div className="col-text">
                   <h3>Astromall Shop</h3>
@@ -52,7 +49,7 @@ const AstrologerBanner = () => {
             >
               <div className="col">
                 <div className="icon">
-                  <LiaPlaceOfWorshipSolid />
+                  <PiHandsPrayingThin />
                 </div>
                 <div className="col-text">
                   <h3> Book A Pooja</h3>

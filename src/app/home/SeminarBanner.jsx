@@ -46,25 +46,7 @@ const SeminarBanner = ({ NewlySeminarList }) => {
                   Book your seat today
                 </button>
               </div>
-            </div>
-            <div class="right_col">
-              <div class="seminar_user_row">
-                <div class="col">
-                  <div class="author">
-                    <div class="heading">{NewlySeminarList?.name}</div>
-                    <div class="para">{NewlySeminarList?.seminar_topic}</div>
-                  </div>
-                  <div class="img">
-                    <img
-                      src={NewlySeminarList?.singleImages?.img_url}
-                      alt={NewlySeminarList?.name}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="seminar_date_location">
+              <div class="seminar_date_location">
             <div class="row">
               <div class="sm-dl-col">
                 <div class="icon">
@@ -95,6 +77,25 @@ const SeminarBanner = ({ NewlySeminarList }) => {
               </div>
             </div>
           </div>
+            </div>
+            <div class="right_col">
+              <div class="seminar_user_row">
+                <div class="col">
+                  <div class="author">
+                    <div class="heading">{NewlySeminarList?.name}</div>
+                    <div class="para">{NewlySeminarList?.seminar_topic}</div>
+                  </div>
+                  <div class="img">
+                    <img
+                      src={NewlySeminarList?.singleImages?.img_url}
+                      alt={NewlySeminarList?.name}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
         </div>
       </div>
     </section>

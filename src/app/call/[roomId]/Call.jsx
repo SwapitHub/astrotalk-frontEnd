@@ -13,6 +13,8 @@ import {
   MdOutlineVideocamOff,
 } from "react-icons/md";
 import ScreenShare from "@/app/component/ScreenShare";
+import { BsRecordCircle } from "react-icons/bs";
+import RecordingScreen from "@/app/component/RecordingScreen";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, { autoConnect: false });
 
@@ -206,19 +208,19 @@ const Call = () => {
   });
 
 
-const videoRef = useRef(null);
+  const videoRef = useRef(null);
 
-const toggleFullScreen = () => {
-  if (videoRef.current) {
-    if (!document.fullscreenElement) {
-      videoRef.current.requestFullscreen().catch((err) => {
-        console.error(`Fullscreen error: ${err.message}`);
-      });
-    } else {
-      document.exitFullscreen();
+  const toggleFullScreen = () => {
+    if (videoRef.current) {
+      if (!document.fullscreenElement) {
+        videoRef.current.requestFullscreen().catch((err) => {
+          console.error(`Fullscreen error: ${err.message}`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
     }
-  }
-};
+  };
 
 
   //  const toggleScreenShare = async () => {
@@ -423,10 +425,10 @@ const toggleFullScreen = () => {
                       <ScreenShare pcsd={pcsd} socket={socket} localStream={localStream} localVideoRef={localVideoRef} roomId={roomId} myId={myId} setGetSocketId={setGetSocketId} setIsScreenSharing={setIsScreenSharing}
                         isScreenSharing={isScreenSharing} />
                     </div>
-
                     <div className="v-cntrl">
-                      <IoDownloadOutline />
+                      <RecordingScreen/>
                     </div>
+                    
                     <div className="v-cntrl">
                       <IoSettingsOutline />
                     </div>
