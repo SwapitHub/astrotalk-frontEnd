@@ -206,21 +206,20 @@ const Call = () => {
   });
 
 
-  const videoRef = useRef(null);
+const videoRef = useRef(null);
 
-  const toggleFullScreen = () => {
-    if (videoRef.current) {
-      if (!document.fullscreenElement) {
-        videoRef.current.requestFullscreen().catch((err) => {
-          console.error(
-            `Error attempting to enable full-screen mode: ${err.message}`
-          );
-        });
-      } else {
-        document.exitFullscreen();
-      }
+const toggleFullScreen = () => {
+  if (videoRef.current) {
+    if (!document.fullscreenElement) {
+      videoRef.current.requestFullscreen().catch((err) => {
+        console.error(`Fullscreen error: ${err.message}`);
+      });
+    } else {
+      document.exitFullscreen();
     }
-  };
+  }
+};
+
 
   //  const toggleScreenShare = async () => {
   //   if (!isScreenSharing) {

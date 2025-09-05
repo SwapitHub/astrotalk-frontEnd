@@ -5529,6 +5529,27 @@ span.required {
   font-size: 14px;
   padding: 20px;
 }
+video:fullscreen {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover; /* or "contain" based on preference */
+  background: black;
+}
+
+video:-webkit-full-screen {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  background: black;
+}
+
+video:-moz-full-screen {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  background: black;
+}
+
 /* home page start */
 .banner-main {
   position: relative;
