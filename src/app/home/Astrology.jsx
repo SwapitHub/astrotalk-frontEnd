@@ -14,7 +14,7 @@ const Astrology = () => {
             </div>
             <div className="row">
               <div className="col">
-                <Link href="">
+                <Link href="https://weddingbyte.com/daily-horoscope" target='_blank'>
                   <div className="content-wrap">
                     <h3>Today's Horoscope</h3>
                     <p>
@@ -27,9 +27,9 @@ const Astrology = () => {
                 </Link>
               </div>
               <div className="col">
-                <Link href="">
+                <Link href="https://weddingbyte.com/kundli" target='_blank'>
                   <div className="content-wrap">
-                    <h3>Free Kundli</h3>
+                    <h3>Free Kundli Online</h3>
                     <p>
                       {" "}
                       Generate your free online kundli report from Astrotalk.
@@ -41,20 +41,18 @@ const Astrology = () => {
               </div>
 
               <div className="col">
-                <Link href="">
+                <Link href="https://weddingbyte.com/e-invites" target='_blank'>
                   <div className="content-wrap">
-                    <h3>Compatibility</h3>
+                    <h3>E-Invites</h3>
                     <p>
                       {" "}
-                      Confused by love? Remove the doubts & find the sparks!
-                      Check the compatibility with your partner using our tool
-                      and ignite a love that lasts forever.{" "}
+                     Elegant e-invites: Quick, eco-friendly, customizable. Create unforgettable moments effortlessly. Join us digitally!{" "}
                     </p>
                   </div>
                 </Link>
               </div>
               <div className="col">
-                <Link href="">
+                <Link href="https://weddingbyte.com/kundli-matching" target='_blank'>
                   <div className="content-wrap">
                     <h3>Kundli Matching</h3>
                     <p>

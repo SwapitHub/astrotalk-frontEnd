@@ -45,7 +45,7 @@ const ChatWithAstrologer = ({
   const [showRecharge, setShowRecharge] = useState(false);
   const [userData, setUserData] = useState();
   const [astroMobileNum, setAstroMobileNum] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isLoadingRequest, setIsLoadingRequest] = useState(
     secureLocalStorage.getItem("IsLoadingRequestStore")
   );
@@ -124,11 +124,9 @@ const ChatWithAstrologer = ({
     let limit = 3;
     try {
       const response = await axios.get(`
-        ${
-          process.env.NEXT_PUBLIC_WEBSITE_URL
-        }/astrologer-businessProfile?name=${debouncedSearchName}&sortby=${
-        sortFilterCharges || ""
-      }&page=${currentPage}&limit=${limit}&languages=${findLanguageListData}&professions=${findSkillsListData}&gender=${genderData}&country=${countryData}&minAverageRating=${averageRating}&profileStatus=true
+        ${process.env.NEXT_PUBLIC_WEBSITE_URL
+        }/astrologer-businessProfile?name=${debouncedSearchName}&sortby=${sortFilterCharges || ""
+        }&page=${currentPage}&limit=${limit}&languages=${findLanguageListData}&professions=${findSkillsListData}&gender=${genderData}&country=${countryData}&minAverageRating=${averageRating}&profileStatus=true
       `);
 
       const profiles = response.data.profiles;
@@ -182,7 +180,7 @@ const ChatWithAstrologer = ({
     const handleScroll = () => {
       if (
         window.innerHeight + window.scrollY >=
-          document.body.offsetHeight - 400 &&
+        document.body.offsetHeight - 400 &&
         hasMore &&
         !isFetchingMore &&
         !isLoading
@@ -556,11 +554,10 @@ const ChatWithAstrologer = ({
                 <div className="inner-talk-to-astrologer-right-content">
                   <div className="recharge-btm">
                     <Link
-                      href={`${
-                        !userMobile || !userIds
-                          ? "#"
-                          : `/add-wallet-money/price-list`
-                      }`}
+                      href={`${!userMobile || !userIds
+                        ? "#"
+                        : `/add-wallet-money/price-list`
+                        }`}
                       title="Recharge"
                       className="recharge-button"
                       onClick={() => {
@@ -595,7 +592,7 @@ const ChatWithAstrologer = ({
                       <FaSortAmountDownAlt /> Sort by{" "}
                     </button>
                   </div>
-                  <div className="filter-button search-box-top-btn">
+                  <div className="search-box-top-btn">
                     <div className="search-box-filed">
                       <input
                         type="search"
@@ -636,10 +633,10 @@ const ChatWithAstrologer = ({
                                 {item.topAstrologer == "celebrity"
                                   ? "Celebrity"
                                   : item.topAstrologer == "rising_star"
-                                  ? "Rising Star"
-                                  : item.topAstrologer == "top_choice"
-                                  ? "Top Choice"
-                                  : ""}
+                                    ? "Rising Star"
+                                    : item.topAstrologer == "top_choice"
+                                      ? "Top Choice"
+                                      : ""}
                               </div>
                             )}
 
@@ -673,26 +670,27 @@ const ChatWithAstrologer = ({
                                   return <span>{item}</span>;
                                 })}
                               </div>
-                              <div className="exp-year-sec">
-                                <p>
-                                  Exp:{" "}
-                                  <span className="ctm-carly-breaks">
-                                    {item.experience}
-                                  </span>{" "}
-                                  Years
-                                </p>
-                              </div>
-                              <div className="talk-to-time-sec">
-                                <p>
-                                  ₹ {item.charges}{" "}
-                                  <span>
-                                    {/* <span className="ctm-carly-breaks">
+                              <div className="time-exp-outer">
+                                <div className="exp-year-sec">
+                                  <p>
+                                    Exp:{" "}
+                                    <span className="ctm-carly-breaks">
+                                      {item.experience}
+                                    </span>{" "}
+                                    Years
+                                  </p>
+                                </div>
+                                <div className="talk-to-time-sec">
+                                  <p>
+                                    ₹ {item.charges}{" "}
+                                    <span>
+                                      {/* <span className="ctm-carly-breaks">
                                 {item.minute}
                               </span> */}
-                                    <span className="ctm-carly-breaks">/</span>{" "}
-                                    min
-                                  </span>
-                                </p>
+                                      <span className="ctm-carly-breaks">/</span> min
+                                    </span>
+                                  </p>
+                                </div>
                               </div>
                             </div>
                             <div className="astrologer-list-right">
@@ -753,9 +751,9 @@ const ChatWithAstrologer = ({
                                         ? `/chat-with-astrologer/user/${userIds}`
                                         : "#"
                                     }
-                                    // onClick={() =>
-                                    //   onChangeId(item._id, item.mobileNumber)
-                                    // }
+                                  // onClick={() =>
+                                  //   onChangeId(item._id, item.mobileNumber)
+                                  // }
                                   >
                                     Chat
                                   </Link>
@@ -794,10 +792,10 @@ const ChatWithAstrologer = ({
                             {item.topAstrologer == "celebrity"
                               ? "Celebrity"
                               : item.topAstrologer == "rising_star"
-                              ? "Rising Star"
-                              : item.topAstrologer == "top_choice"
-                              ? "Top Choice"
-                              : ""}
+                                ? "Rising Star"
+                                : item.topAstrologer == "top_choice"
+                                  ? "Top Choice"
+                                  : ""}
                           </div>
                         )}
 
@@ -831,25 +829,27 @@ const ChatWithAstrologer = ({
                               return <span>{item}</span>;
                             })}
                           </div>
-                          <div className="exp-year-sec">
-                            <p>
-                              Exp:{" "}
-                              <span className="ctm-carly-breaks">
-                                {item.experience}
-                              </span>{" "}
-                              Years
-                            </p>
-                          </div>
-                          <div className="talk-to-time-sec">
-                            <p>
-                              ₹ {item.charges}{" "}
-                              <span>
-                                {/* <span className="ctm-carly-breaks">
+                          <div className="time-exp-outer">
+                            <div className="exp-year-sec">
+                              <p>
+                                Exp:{" "}
+                                <span className="ctm-carly-breaks">
+                                  {item.experience}
+                                </span>{" "}
+                                Years
+                              </p>
+                            </div>
+                            <div className="talk-to-time-sec">
+                              <p>
+                                ₹ {item.charges}{" "}
+                                <span>
+                                  {/* <span className="ctm-carly-breaks">
                                 {item.minute}
                               </span> */}
-                                <span className="ctm-carly-breaks">/</span> min
-                              </span>
-                            </p>
+                                  <span className="ctm-carly-breaks">/</span> min
+                                </span>
+                              </p>
+                            </div>
                           </div>
                         </div>
                         <div className="astrologer-list-right">
@@ -910,9 +910,9 @@ const ChatWithAstrologer = ({
                                     ? `/chat-with-astrologer/user/${userIds}`
                                     : "#"
                                 }
-                                // onClick={() =>
-                                //   onChangeId(item._id, item.mobileNumber)
-                                // }
+                              // onClick={() =>
+                              //   onChangeId(item._id, item.mobileNumber)
+                              // }
                               >
                                 Chat
                               </Link>

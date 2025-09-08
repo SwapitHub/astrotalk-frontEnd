@@ -16,11 +16,11 @@ button, .product-right-btn a {cursor: pointer; transition: all 0.3s; font-family
 button:hover, .product-right-btn a:hover {background-color: transparent; color: var(--primary_color);}
 .slick-slide {outline: none !important;}
 select {appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--body_content_color) 50%), linear-gradient(135deg, var(--body_content_color) 50%, transparent 50%), linear-gradient(to right, #fff, #fff); background-position: calc(100% - 20px) calc(1em + 6px), calc(100% - 15px) calc(1em + 6px), calc(100% - 2.5em) 0.5em; background-size: 5px 5px, 5px 5px, 1px 1.5em; background-repeat: no-repeat;}
-.loader {min-height: 450px; text-align: center; display: flex; align-items: center; justify-content: center; background-image: url("https://i.pinimg.com/originals/e6/8c/c3/e68cc33983bed347554ce23fe2bd08bd.gif"); background-position: center; background-repeat: no-repeat; background-size: 170px; background-color: transparent; font-size: 0px;}
+.loader {min-height: 450px; text-align: center; display: flex; align-items: center; justify-content: center; background-image: url("../../public/loader-new.gif"); background-position: center; background-repeat: no-repeat; background-size: 70px; background-color: transparent; font-size: 0px;}
 .product-detail-main .loader, .dashboard-right-content .loader {width: 100%; min-height: 100vh; position: fixed; bottom: 0px; background-color: #fff; z-index: 10;}
 .dashboard-right-content .loader {position: absolute; left: 0px; top: 0px;}
 .loader + .all-list-talk-to-astrologer {display: none;}
-.talk-to-astrologer-bg .loader, section.my-order-hisrory-bg .loader, .my-wallet-table-sec .loader {background-color: #ffffff; z-index: 1; width: 100%; min-height: 150px; grid-column: span 3;}
+.talk-to-astrologer-bg .loader, section.my-order-hisrory-bg .loader, .my-wallet-table-sec .loader { z-index: 1; width: 100%; min-height: 150px; grid-column: span 3;}
 .outer-table {overflow-x: auto;}
 textarea {min-height: 100px; resize: none;}
 .note-fullscreen-body .change-password {z-index: 99;}
@@ -47,15 +47,16 @@ nav.navbar > ul > li > a {color: #ffffff;}
 nav.navbar > ul > li > span {cursor: pointer; color: #ffffff;}
 nav.navbar ul li a:hover, nav.navbar ul li span:hover {color: var(--primary_color);}
 .header-left-logo img {max-width: 130px;}
-.header .inner-header-sec button, .notification-box a, .button-outer button {display: inline-block; border: 1px solid var(--body_content_color); background-color: var(--body_content_color); color: #fff; padding: 8px 20px; border-radius: 8px; font-size: 14px;}
+.header .inner-header-sec button, .notification-box a, .button-outer button {display: inline-block; border: 1px solid var(--body_content_color); background-color: var(--body_content_color); color: var(--primary_color); padding: 8px 20px; border-radius: 8px; font-size: 14px;}
 .header button:hover {background-color: transparent; color: var(--body_content_color);}
 .header .mobile-toggle {display: none;}
 .header .mobile-toggle span {display: block; width: 24px; height: 2px; background-color: #000; margin: 4px 0px;}
 .header-user-icon img {max-width: 40px;}
 .header-user, .has-submenu {position: relative; cursor: pointer;}
-.header-user-drop-down, .submenu {position: absolute; z-index: 1; background-color: #fff; border-radius: 5px; padding: 20px; left: 50%; transform: translateX(-50%); opacity: 0; visibility: hidden; transition: all 0.3s; width: max-content;}
+.header-user-drop-down, .submenu {position: absolute; z-index: 1; background-color: var(--secondary_color); border-radius: 5px; padding: 20px; left: 50%; transform: translateX(-50%); opacity: 0; visibility: hidden; transition: all 0.3s; width: max-content;}
 .header-user:hover .header-user-drop-down, li.has-submenu:hover .submenu { opacity: 1; visibility: visible;}
 .header-user-icon svg {font-size: 20px; vertical-align: middle;}
+.submenu a, .header-user-drop-down a {color: #ffffff;}
 /*  Chat Section */
 .chat-top-header {
   padding: 20px 0px 0px;
@@ -408,13 +409,6 @@ nav.navbar ul li a:hover, nav.navbar ul li span:hover {color: var(--primary_colo
   padding: 50px 0;
   position: relative;
 }
-.inner-talk-to-astrologer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  row-gap: 30px;
-}
 .recharge-button {
   background-color: #28ba51;
   border: 1px solid #28ba51;
@@ -455,30 +449,25 @@ nav.navbar ul li a:hover, nav.navbar ul li span:hover {color: var(--primary_colo
   display: inline-block;
 }
 .heading-button span {
-  font-size: 24px;
+  font-size: 30px;
   font-weight: 700;
 }
 .search-button-filed button i {
   color: #fff;
 }
-.talk-to-astrologer-left-content {
-  width: 45%;
-  gap: 10px 20px;
-}
 .free-chat-btn a {
   vertical-align: middle;
 }
-.talk-to-astrologer-left-content,
-.talk-to-astrologer-right-content {
+.talk-to-astrologer-left-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  margin: 0 0 30px;
 }
 .talk-to-astrologer-right-content {
-  justify-content: flex-end;
-  width: calc(55% - 50px);
-  margin-left: 50px;
+    background-color: var(--secondary_color);
+    padding: 20px;
 }
 .search-box-top-btn {
   display: flex;
@@ -671,6 +660,7 @@ nav.navbar ul li a:hover, nav.navbar ul li span:hover {color: var(--primary_colo
     0 9px 46px 8px #0000001f;
   padding: 15px 20px 24px;
   border-radius: 10px;
+  columns: #000000;
 }
 .recharge-popup .button button {
   color: #313131;
@@ -689,6 +679,7 @@ nav.navbar ul li a:hover, nav.navbar ul li span:hover {color: var(--primary_colo
 .recharge-popup p {
   font-size: 16px;
   line-height: 24px;
+  color: #000000;
 }
 .all-list-talk-to-astrologer {
   margin-top: 30px;
@@ -700,49 +691,30 @@ nav.navbar ul li a:hover, nav.navbar ul li span:hover {color: var(--primary_colo
     display: grid;
   }
 }
-.inner-astrologer-detail {
-  box-shadow: 0 0 10px #ccc;
-  border-radius: 10px;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  row-gap: 5px;
-}
 .inner-astrologer-detail > a,
 .inner-astrologer-detail > .main-anchor {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  row-gap: 5px;
   padding: 14px;
   width: 100%;
   position: relative;
+  height: 100%;
+  text-align: center;
   overflow: hidden;
+  border: 2px dashed;
+  flex-direction: column;
 }
 .star-banner {
   background-color: var(--primary_color);
   color: #fff;
   position: absolute;
-  font-size: 9px;
-  padding: 1px 30px;
+  font-size: 12px;
+  padding: 4px 33px;
   transform: rotate(-43deg);
   left: -33px;
   top: 12px;
 }
-.astrologer-list-left {
-  width: 70px;
-}
 .astrologer-list-center {
-  width: calc(100% - 145px);
-  padding-left: 10px;
-}
-.astrologer-list-right {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  max-width: 67px;
-  margin: 0 auto;
+  padding-top: 10px;
 }
 .outer-hide-div-img-text .price {
   margin: 5px 0px;
@@ -752,40 +724,35 @@ nav.navbar ul li a:hover, nav.navbar ul li span:hover {color: var(--primary_colo
   height: auto;
 }
 .astrologer-profile img {
-  height: 70px;
-  width: 70px;
+  height: 90px;
+  width: 90px;
   object-fit: cover;
   border-radius: 50%;
   object-position: top;
   background-color: #eeeeee;
 }
 .talk-to-name-sec h5 {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--body_content_color);
   margin-bottom: 5px;
   text-transform: capitalize;
 }
-.talk-to-name-sec p {
-  color: #616161;
+.talk-to-name-sec p,
+.talk-to-language p span,
+.exp-year-sec p,
+.talk-to-time-sec p span {
+  color: #ffffff;
+  opacity: .7;
   font-size: 14px;
 }
 .talk-to-language {
   margin: 5px 0;
 }
-.talk-to-language p span,
-.exp-year-sec p {
-  color: #616161;
-  font-size: 14px;
-}
 .talk-to-time-sec p {
   color: var(--primary_color);
   font-size: 16px;
   font-weight: 600;
-}
-.talk-to-time-sec p span {
-  color: #616161;
-  font-size: 14px;
 }
 .talk-to-time-sec {
   margin-top: 5px;
@@ -793,19 +760,15 @@ nav.navbar ul li a:hover, nav.navbar ul li span:hover {color: var(--primary_colo
 .astrologer-call-button-ctm button,
 .astrologer-call-button-ctm-detail a,
 .astrologer-call-button-ctm a {
-  color: #13853a;
-  border: 1px solid #13853a;
-  color: #13853a;
-  padding: 10px 30px;
-  border-radius: 8px;
+  color: #ffffff;
+  border: 1px solid var(--primary_color);
+  border-radius: 50px;
   cursor: pointer;
   text-align: center;
   display: inline-block;
-  background-color: transparent;
-}
-.astrologer-call-button-ctm a,
-.astrologer-call-button-ctm button {
-  padding: 5px 15px;
+  background-color: var(--primary_color);
+  padding: 10px 15px;
+  width: 100%;
   font-size: 14px;
   text-transform: capitalize;
 }
@@ -825,9 +788,7 @@ nav.navbar ul li a:hover, nav.navbar ul li span:hover {color: var(--primary_colo
   display: inline-block;
   margin: 7px 0px 0px;
 }
-.inner-astrologer-detail
-  .astrologer-call-button-ctm.chatStatus-false
-  span:not(.icon) {
+.inner-astrologer-detail .astrologer-call-button-ctm.chatStatus-false span:not(.icon) {
   text-align: center;
 }
 .astrologer-call-button-ctm.chatStatus-false a:hover {
@@ -838,15 +799,16 @@ nav.navbar ul li a:hover, nav.navbar ul li span:hover {color: var(--primary_colo
 .astrologer-call-button-ctm button:hover,
 .astrologer-call-button-ctm-detail a:hover,
 .astrologer-call-button-ctm a:hover {
-  background-color: #28ba51;
-  border-color: #28ba51;
-  color: #fff;
 }
 .Verified-Sticker-icon {
   text-align: right;
+  position: absolute;
+  right: 14px;
+  top: 14px;
 }
 .Verified-Sticker-icon img {
   max-width: 18px;
+  vertical-align: top;
 }
 .five-star-rating ul {
   display: flex;
@@ -868,7 +830,7 @@ nav.navbar ul li a:hover, nav.navbar ul li span:hover {color: var(--primary_colo
   width: 12px;
 }
 .talk-to-total-orders p {
-  color: #616161;
+  color: rgba(255, 255, 255, .7);
   font-size: 12px;
 }
 /* Astrologer Registratio */
@@ -938,7 +900,7 @@ h1,
 }
 .astrologer-registration-form,
 .user-registration-form {
-  background: #f2f2f2;
+  background: var(--secondary_color);
   padding: 50px;
   margin: 20px auto 0px;
 }
@@ -1036,19 +998,8 @@ ul.check-box-drop-worn {
   display: flex;
 }
 .reg-sumbit-button button {
-  background-color: var(--primary_color);
   width: 100%;
-  height: 50px;
-  font-size: 16px;
-  line-height: 30px;
-  color: rgb(255, 255, 255);
-  font-weight: 600;
-  text-transform: capitalize;
   margin-top: 50px;
-  cursor: pointer;
-  border-radius: 5px;
-  border: 1px solid var(--primary_color);
-  text-align: center;
 }
 .reg-sumbit-button {
   max-width: 450px;
@@ -1087,7 +1038,7 @@ ul.check-box-drop-worn {
   width: 255px;
   overflow-x: hidden;
   overflow-y: auto;
-  background-color: var(--body_content_color);
+  background-color: var(--secondary_color);
   position: fixed;
   top: 0;
   left: 0;
@@ -1279,7 +1230,7 @@ span.list-text {
 .dashboard-right-content table {
   width: 100%;
   text-align: center;
-  background-color: #f7f7f7;
+  background-color: transparent;
 }
 .dashboard-right-content table,
 .dashboard-right-content th,
@@ -1477,9 +1428,10 @@ p.error {
 .user-inner-dashbord-content h5 {
   font-size: 24px;
   margin: 10px 0 0px;
+  color: var(--heading_color);
 }
 .user-inner-dashbord-content a {
-  color: inherit;
+  color: var(--heading_color);
   pointer-events: none;
 }
 .user-inner-dashbord-pic {
@@ -1528,6 +1480,9 @@ p.error {
   margin-left: auto;
   padding-block: 14px;
 }
+.user-dashboard-profile-main-pro > a {
+  color: #ffffff;
+}
 /*  Notifications Section */
 .banner-notifications-bg {
   margin-top: 50px;
@@ -1547,9 +1502,7 @@ p.error {
 }
 .inner-all-notifications-sec-box-maim {
   width: calc(100% / 2 - 10px);
-  background-color: #fff;
-  box-shadow: 0 0 10px #ccc;
-  border-radius: 10px;
+  background-color: var(--secondary_color);
   padding: 20px;
 }
 .inner-all-notifications-sec-box-maim h4 {
@@ -1563,7 +1516,6 @@ p.error {
 .time-box span {
   font-size: 13px;
   margin-top: 5px;
-  color: #232323;
 }
 section.all-notifications-sec-bg {
   margin-top: 50px;
@@ -1704,11 +1656,7 @@ section.add-money-wallet-bg {
 .Walle-amount span {
   font-size: 18px;
   font-weight: 700;
-  color: #232323;
   margin-top: 10px;
-}
-.Available-balance-sec p {
-  color: #232323;
 }
 .inner-add-money-wallet {
   text-align: center;
@@ -1764,7 +1712,7 @@ section.add-money-wallet-bg {
 table,
 th,
 td {
-  border: 1px solid black;
+  border: 1px solid rgba(255, 255, 255, .3);
   border-collapse: collapse;
 }
 /* Order History Section */
@@ -2164,7 +2112,7 @@ span.banner-heading,
   padding-block: 100px;
 }
 .astrologer_profile_Section {
-  background-color: #f2f2f2;
+  background-color: var(--secondary_color);
 }
 .breadcrumb ul {
   margin: 0;
@@ -2252,12 +2200,11 @@ span.banner-heading,
 }
 .profile_with_contact_slider {
   padding: 10px 0px 25px;
-  background-color: #f2f2f2;
+  background-color: var(--secondary_color);
 }
 .profile_with_contact_slider-inner {
   padding: 15px;
-  background-color: #fff;
-  border-radius: 10px;
+  background-color: var(--body_bg);
 }
 .profile_with_contact .image {
   flex: 0 0 25%;
@@ -2424,9 +2371,8 @@ button.slick-arrow.slick-next::before {
   padding: 25px 0 50px;
 }
 .rating_col {
-  border-radius: 10px;
   padding: 14px;
-  background-color: #f2f2f2;
+  background-color: var(--secondary_color);
 }
 .rating_review .row,
 .product-testimonial-left-right-inner {
@@ -2473,7 +2419,6 @@ span.star {
   font-weight: 600;
   font-size: 15px;
   text-align: center;
-  color: #616161;
 }
 .status_bar_ratting {
   display: flex;
@@ -2485,7 +2430,7 @@ span.star {
   margin-right: 10px;
   width: 25px;
   height: 25px;
-  background-color: #ffffff;
+  background-color: var(--secondary_dark);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -2493,7 +2438,7 @@ span.star {
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.15);
 }
 .progress.width_custom {
-  background-color: #ffffff;
+  background-color: var(--secondary_dark);
   width: 80%;
   border-radius: 10px;
   height: 12px;
@@ -2535,8 +2480,7 @@ span.star {
   margin-top: 10px;
 }
 .assistantBox .assHeading {
-  background-color: #f2f2f2;
-  border-radius: 10px;
+  background-color: var(--secondary_color);
   margin: 0 0 10px;
   padding: 15px 20px;
 }
@@ -2554,6 +2498,14 @@ span.star {
     font-size: 20px;
     color: #fff;
     cursor: pointer;
+    width: 30px;
+    display: inline-flex;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+}
+.user-seminar-form span.close-icon svg {
+  vertical-align: middle;
 }
 .sort-header {
   display: flex;
@@ -2566,6 +2518,7 @@ span.star {
 .sort-options label {
   cursor: pointer;
   display: block;
+  color: #000000;
 }
 .AddLanguage .language-add-data {
   border-right: 1px solid #cfcfcf;
@@ -2640,6 +2593,7 @@ span.star {
 .sort-header,
 .filter-header {
   align-items: center;
+  color: #000000;
 }
 .sort-header > button,
 .filter-header > button,
@@ -2653,9 +2607,8 @@ span.star {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.5);
   padding: 3px 0px 0px;
-  background-color: #ddd;
+  background-color: var(--secondary_color);
   cursor: pointer;
   color: var(--body_content_color);
 }
@@ -2686,11 +2639,15 @@ span.star {
   background-color: #f0f0f0;
   color: var(--body_content_color);
   border-radius: 0px;
+  color: #000;
+  transition: all 0.3s;
+  font-size: 14px;
 }
 .tab-btn.active {
   font-weight: bold;
   background-color: #fff;
-  border-left: 4px solid #008080;
+   font-weight: 700;
+  border-left: 4px solid var(--primary_color);
 }
 .filter-content {
   float: right;
@@ -2731,6 +2688,7 @@ span.star {
 }
 .filter-content input[type="checkbox"] + span {
   font-weight: 600;
+  color: #000000;
 }
 /* Custom checkbox styling */
 .main-recharge-popup > * {
@@ -2763,14 +2721,6 @@ span.ctm-carly-breaks {
 }
 .filter-header > span {
   font-weight: bold;
-}
-.tab-btn {
-  transition: all 0.3s;
-  font-size: 14px;
-}
-.tab-btn.active {
-  font-weight: 700;
-  border-left: 4px solid var(--primary_color);
 }
 .filter-footer {
   border-top: 1px solid #d5d5d5;
@@ -2883,9 +2833,9 @@ input[type="file"] {
 }
 input::file-selector-button {
   background-color: transparent;
-  border: 1px solid #2f2f2f;
+  border: 1px solid #ffffff;
   border-radius: 100px;
-  color: #2f2f2f;
+  color: #ffffff;
   cursor: pointer;
   font-size: 15px;
   margin-right: 20px;
@@ -2984,6 +2934,7 @@ input::file-selector-button {
 .lang-outer {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 .skills span,
 .talk-to-language span,
@@ -3028,7 +2979,7 @@ input::file-selector-button {
   position: fixed;
   left: 50%;
   top: 50%;
-  background-color: #fff;
+  background-color: var(--secondary_color);
   z-index: 9;
   transform: translate(-50%, -50%);
   padding: 20px;
@@ -3042,6 +2993,7 @@ input::file-selector-button {
 }
 .countdown-outer h1 {
   margin: 0 0 10px;
+  font-size: 30px;
 }
 /* Rating Popup  */
 .rating-popup {
@@ -3049,7 +3001,7 @@ input::file-selector-button {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  background-color: #ffffff;
+  background-color: var(--secondary_color);
   z-index: 9;
   padding: 50px;
   border-radius: 10px;
@@ -3123,6 +3075,7 @@ input::file-selector-button {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0px;
 }
 .close-icon button::before,
 .close-icon button::after {
@@ -3145,8 +3098,7 @@ input::file-selector-button {
   overflow-x: hidden;
   overflow-y: auto;
   padding: 12px;
-  border-radius: 10px;
-  background-color: #f2f2f2;
+  background-color: var(--secondary_color);
 }
 .profile-image-name {
   display: flex;
@@ -3155,7 +3107,6 @@ input::file-selector-button {
 .sort-filter-rating {
   background-color: var(--primary_color);
   padding: 10px 15px;
-  border-radius: 10px;
   display: flex;
   margin-bottom: 10px;
   justify-content: space-between;
@@ -3217,11 +3168,10 @@ input::file-selector-button {
   visibility: visible;
 }
 .single-review {
-  background-color: #fff;
+  background-color: var(--body_bg);
   min-height: 70px;
   padding: 15px;
   margin-bottom: 10px;
-  border-radius: 10px;
 }
 .single-review:last-child {
   margin-bottom: 0px;
@@ -4012,6 +3962,9 @@ td button + button {
     animation: moveAndHighlight 1s infinite;
     transform: rotate(-45deg);
 }
+.seminar-bannner .label-content label {
+    color: var(--heading_color);
+}
 @keyframes moveAndHighlight {
   0% {
     background-color: #f03a2d; 
@@ -4338,7 +4291,7 @@ td button + button {
 }
 .change-password,
 .admin-form-box {
-  background-color: #f2f2f2;
+  background-color: var(--secondary_color);
   padding: 50px;
 }
 .change-password .form-field:not(:last-child),
@@ -4635,7 +4588,7 @@ td button + button {
 .product-add-ons-listing > * {
   flex: 1;
   text-align: center;
-  background-color: #f2f2f2;
+  background-color:var(--secondary_color);
   border-radius: 8px;
   padding: 20px;
   cursor: pointer;
@@ -4670,7 +4623,7 @@ td button + button {
   margin: 20px 0px 0px;
 }
 .product-faqs-outer {
-  background-color: #f2f2f2;
+  background-color: var(--secondary_color);
   padding: 60px 0px;
 }
 .single-faq {
@@ -4837,12 +4790,12 @@ td button + button {
 .cart_table table {
   width: 100%;
   border: 0px;
-  background-color: #f2f2f2;
+  background-color: var(--secondary_color);
 }
 .cart_table table td,
 .cart_table table th {
   border: 0px;
-  border-bottom: 2px solid #ffffff;
+  border-bottom: 2px solid var(--body_bg);
   padding: 10px;
   width: 50%;
   text-align: center;
@@ -4875,7 +4828,7 @@ td button + button {
 }
 .single-payment-method {
   text-align: center;
-  background-color: #f2f2f2;
+  background-color: var(--secondary_color);
   border-radius: 8px;
   padding: 20px 10px;
   box-sizing: border-box;
@@ -4939,7 +4892,7 @@ td button + button {
   flex: 1;
 }
 .single-service {
-  background: #f2f2f2;
+  background: var(--secondary_color);
   padding: 10px 0px;
 }
 .single-service > * {
@@ -5009,7 +4962,7 @@ td button + button {
   padding: 70px 0px;
 }
 .address-outer .card-body {
-  background-color: #f2f2f2;
+  background-color: var(--secondary_color);
   padding: 50px;
 }
 .address-form form {
@@ -5052,11 +5005,8 @@ span.required {
 /* Addon popup  */
 .addon-popup-inner {
   margin: 0 auto;
-  background: #fff;
-  box-shadow: 0 11px 15px -7px #0003, 0 24px 38px 3px #00000024,
-    0 9px 46px 8px #0000001f;
+  background: var(--secondary_color);
   padding: 24px;
-  border-radius: 10px;
   width: 570px;
   position: relative;
 }
@@ -5108,7 +5058,7 @@ span.required {
   text-align: center;
 }
 .single-popup-addon {
-  background-color: #f2f2f2;
+  background-color: var(--body_bg);
   border-radius: 8px;
   padding: 10px;
   cursor: pointer;
@@ -5135,7 +5085,7 @@ span.required {
   padding: 70px 0px;
 }
 .success-inner {
-  background-color: #f2f2f2;
+  background-color: var(--secondary_color);
   border-radius: 8px;
   padding: 50px;
 }
@@ -5670,7 +5620,7 @@ td select {
   content: "";
   width: 14px;
   height: 2px;
-  background-color: #000;
+  background-color: #ffffff;
   transform: rotate(45deg);
   position: absolute;
 }
