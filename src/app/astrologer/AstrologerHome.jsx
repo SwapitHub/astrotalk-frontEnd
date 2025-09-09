@@ -188,7 +188,7 @@ const AstrologerHome = () => {
                 </div>
                 <div className="left-sidebar-logo">
                   <a href="#" title="">
-                    <img src="/astrotalk-logo.webp" alt="Logo" />
+                    <img src="/apple-touch-icon.png" alt="Logo" />
                   </a>
                 </div>
                 <div className="dashboard-list">

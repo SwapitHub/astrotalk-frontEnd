@@ -8,7 +8,7 @@ import HeaderServer from "./header/pages";
 
 export async function generateMetadata() {
 
-  const favicon =  "/astrotalk-logo.webp";
+  const favicon =  "/apple-touch-icon.png";
   return {
     icons: {
       icon: favicon,
