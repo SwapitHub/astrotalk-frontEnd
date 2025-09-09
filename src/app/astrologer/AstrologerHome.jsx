@@ -188,7 +188,7 @@ const AstrologerHome = () => {
                 </div>
                 <div className="left-sidebar-logo">
                   <a href="#" title="">
-                    <img src="/apple-touch-icon.png" alt="Logo" />
+                    <img src="/logo.png" alt="Logo" />
                   </a>
                 </div>
                 <div className="dashboard-list">

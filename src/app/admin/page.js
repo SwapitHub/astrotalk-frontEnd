@@ -63,7 +63,7 @@ const Admin = () => {
           <div className="admin-detail-popup">
             <div className="admin-banner">
               <div className="admin-login-logo">
-                <img src="/astrotalk-logo.webp" alt="" />
+                <img src="/logo.png" alt="" />
               </div>
               <div className="admin-login-left-content">
                 <h1>Welcome to Astrotalk</h1>

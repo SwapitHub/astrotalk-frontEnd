@@ -104,7 +104,7 @@ const AstroMallProduct = ({astrShopDetailData}) => {
                           <div className="product-img">
                             <img src={item?.astroMallProductImg} alt="" />
                           </div>
-                          <div className="details-cont">
+                          
                             {item?.discount_price ? (
                               <div className="details-cont">
                                 <div className="product-name">
@@ -129,7 +129,7 @@ const AstroMallProduct = ({astrShopDetailData}) => {
                               </div>
                             )}
                           </div>
-                        </div>
+                        
                       </Link>
                     </div>
                   );

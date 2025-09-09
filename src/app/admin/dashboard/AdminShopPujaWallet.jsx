@@ -90,7 +90,7 @@ function AdminShopWallet() {
   return (
     <div className="admin-wallet-main">
       {/* 🔍 Search Bar */}
-      <div className="filter-button search-box-top-btn">
+      <div className="search-box-top-btn">
         <div className="search-box-filed">
           <input
             type="search"

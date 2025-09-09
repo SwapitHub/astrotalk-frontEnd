@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import MeetingLinkPopup from "../component/MeetingLinkPopup";
 import { useEffect, useState } from "react";
+import secureLocalStorage from "react-secure-storage";
 
 export default function CreateMeetingLink() {
   const router = useRouter();
@@ -13,6 +14,7 @@ export default function CreateMeetingLink() {
 
   const createMeeting = () => {
     const roomId = uuidv4();
+    secureLocalStorage.setItem("roomId",roomId)
     setLiveLink(roomId);
     setLiveLinkPopUp(true);
   };

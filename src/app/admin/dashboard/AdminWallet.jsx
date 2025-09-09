@@ -105,7 +105,7 @@ function AdminWallet({ updateButton }) {
         </>
       )}
 
-      <div className="filter-button search-box-top-btn">
+      <div className="search-box-top-btn">
         <div className="search-box-filed">
           <input
             type="search"

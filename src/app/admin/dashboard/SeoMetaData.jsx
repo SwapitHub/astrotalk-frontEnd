@@ -242,23 +242,23 @@ const SeoMetaData = () => {
               style={{ width: "100%", borderCollapse: "collapse" }}
             >
               <thead>
-                <tr style={{ backgroundColor: "#eee" }}>
-                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                <tr>
+                  <th>
                     Page
                   </th>
-                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                  <th >
                     Slug
                   </th>
-                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                  <th >
                     Meta Title
                   </th>
-                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                  <th>
                     Meta Description
                   </th>
-                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                  <th>
                     Keywords
                   </th>
-                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                  <th >
                     Actions
                   </th>
                 </tr>
@@ -266,28 +266,28 @@ const SeoMetaData = () => {
               <tbody>
                 {seoList.map((item) => (
                   <tr key={item._id}>
-                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    <td >
                       {item.page}
                     </td>
-                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    <td>
                       {item.slug}
                     </td>
-                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    <td>
                       {item.meta_title}
                     </td>
-                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    <td>
                       <DescriptionCell
                         description={item.meta_description}
                         totalWord={20}
                       />
                     </td>
-                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    <td>
                       <DescriptionCell
                         description={item.keywords}
                         totalWord={10}
                       />
                     </td>
-                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    <td>
                       <button onClick={() => handleEdit(item)}>Edit</button>
                       <button
                         style={{ marginLeft: 8 }}

@@ -350,7 +350,17 @@ const SeminarRegistration = () => {
               />
             )}
           </div>
-
+    <div className="form-field field-checkbox man-input-filed-sec">
+                <label>
+              <input
+                type="checkbox"
+                name="seminar_status"
+                checked={formData.seminar_status}
+                onChange={handleChange}
+              />
+              <span>Show seminar banner on Home page</span>
+              </label>
+          </div>
           <button type="submit" disabled={loading}>
             {loading
               ? "Submitting..."
@@ -358,13 +368,8 @@ const SeminarRegistration = () => {
               ? "Update Seminar"
               : "Send Invitation"}
           </button>
-          <input
-            type="checkbox"
-            name="seminar_status"
-            checked={formData.seminar_status}
-            onChange={handleChange}
-          />
-          <label>Are you add seminar banner on home page</label>
+          
+
         </form>
       </div>
 
@@ -382,26 +387,26 @@ const SeminarRegistration = () => {
               style={{ width: "100%", borderCollapse: "collapse" }}
             >
               <thead>
-                <tr style={{ backgroundColor: "#eee" }}>
-                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                <tr>
+                  <th>
                     Astrologer Img
                   </th>
-                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                  <th>
                     Astrologer Name
                   </th>
-                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                  <th>
                     Astrologer Mobile
                   </th>
-                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                  <th>
                     Astrologer seminar topic
                   </th>
-                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                  <th>
                     Astrologer Time and Date
                   </th>
-                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                  <th>
                     Astrologer Detail
                   </th>
-                  <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                  <th>
                     Seminar Status
                   </th>
                 </tr>
@@ -409,28 +414,28 @@ const SeminarRegistration = () => {
               <tbody>
                 {seminarData?.data.map((item) => (
                   <tr key={item._id}>
-                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    <td>
                       <img src={item?.singleImages?.img_url} alt="" />
                     </td>
-                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    <td>
                       {item.name}
                     </td>
-                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    <td>
                       {item.mobile_number}
                     </td>
-                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    <td>
                       {item.seminar_topic}
                     </td>
-                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    <td>
                       {item?.time_of_seminar} , {item?.date_of_seminar}
                     </td>
-                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    <td>
                       <DescriptionCell
                         description={item.seminar_detail}
                         totalWord={10}
                       />
                     </td>
-                    <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                    <td>
                       <button onClick={() => handleEdit(item)}>Edit</button>
                       <button
                         style={{ marginLeft: 8 }}

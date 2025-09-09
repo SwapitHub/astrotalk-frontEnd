@@ -1,20 +1,18 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 
+import RecordingScreen from "@/app/component/RecordingScreen";
+import ScreenShare from "@/app/component/ScreenShare";
 import { AiOutlineAudio, AiOutlineAudioMuted } from "react-icons/ai";
-import { IoDownloadOutline, IoSettingsOutline } from "react-icons/io5";
+import { IoSettingsOutline } from "react-icons/io5";
 import {
   MdCallEnd,
-  MdOutlineScreenShare,
-  MdOutlineStopScreenShare,
   MdOutlineVideocam,
-  MdOutlineVideocamOff,
+  MdOutlineVideocamOff
 } from "react-icons/md";
-import ScreenShare from "@/app/component/ScreenShare";
-import { BsRecordCircle } from "react-icons/bs";
-import RecordingScreen from "@/app/component/RecordingScreen";
+import secureLocalStorage from "react-secure-storage";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, { autoConnect: false });
 
@@ -34,8 +32,10 @@ const Call = () => {
   const [remoteMicStatus, setRemoteMicStatus] = useState({}); // { socketId: true/false }
   const [getSocketId, setGetSocketId] = useState(null);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
-  console.log(getSocketId, isScreenSharing, "getSocketId");
+  const [showJoinRoom, setShowJoinRoom] = useState(false);
 
+  const [roomIdShow, setRoomIdShow] = useState(secureLocalStorage.getItem("roomId"))
+console.log(roomIdShow);
 
   useEffect(() => {
     setIsScreenSharing(!!getSocketId);
@@ -223,225 +223,175 @@ const Call = () => {
   };
 
 
-  //  const toggleScreenShare = async () => {
-  //   if (!isScreenSharing) {
-  //     const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-  //     const screenTrack = screenStream.getVideoTracks()[0];
-  //     screenTrackRef.current = screenTrack;
 
-  //     // Replace in all peer connections
-  //     Object.values(pcsd.current).forEach((pc) => {
-  //       const sender = pc.getSenders().find((s) => s.track?.kind === "video");
-  //       if (sender) sender.replaceTrack(screenTrack);
-  //     });
-
-  //     // Show my preview
-  //     localVideoRef.current.srcObject = screenStream;
-
-  //     socket.emit("start-screen-share", { roomId, userId: myId });
-  //     screenTrack.onended = stopScreenShare;
-  //     setIsScreenSharing(true);
-  //   } else {
-  //     stopScreenShare();
-  //   }
-  // };
-
-
-  //   const stopScreenShare = () => {
-  //     if (screenTrackRef.current) {
-  //       screenTrackRef.current.stop();
-  //       screenTrackRef.current = null;
-  //     }
-
-  //     // Revert back to camera video track
-  //     const cameraTrack = localStream.current?.getVideoTracks()[0];
-  //     if (cameraTrack) {
-  //       Object.values(pcsd.current).forEach((pc) => {
-  //         const sender = pc.getSenders().find((s) => s.track?.kind === "video");
-  //         if (sender) sender.replaceTrack(cameraTrack);
-  //       });
-  //       if (localVideoRef.current) {
-  //         localVideoRef.current.srcObject = localStream.current;
-  //       }
-  //     }
-
-
-  //     socket.emit("stop-screen-share", { roomId, userId: myId });
-  //     setIsScreenSharing(false);
-  //   };
-
-  //   useEffect(() => {
-  //     socket.on("user-started-screen-share", ({ socketId }) => {
-  //       console.log(`🖥️ User ${socketId} started screen sharing`);
-  //     });
-
-  //     socket.on("user-stopped-screen-share", ({ socketId }) => {
-  //       console.log(`🛑 User ${socketId} stopped screen sharing`);
-  //     });
-
-  //     return () => {
-  //       socket.off("user-started-screen-share");
-  //       socket.off("user-stopped-screen-share");
-  //     };
-  //   }, []);
 
   return (
     <main>
-      <div style={{ padding: 20 }}>
-        {/* <h2>Meeting Room: {roomId}</h2> */}
-        <p>My ID: {myId}</p>
+      <div className="container">
+        {!showJoinRoom ?
+          <div className="show-room-join">
+            <div className="left-show-room">
+              <div className="live-video">
+                <video
+                  ref={localVideoRef}
+                  autoPlay
+                  muted
+                  playsInline
+                />
+              </div>
 
-        {/* My video */}
-        {/* <video
-          ref={localVideoRef}
-          autoPlay
-          muted
-          playsInline
-          style={{ width: 200, background: "#000" }}
-        /> */}
-
-        {/* Remote videos */}
-        {/* <div
-          className="remote-videos"
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "10px",
-            marginTop: 20,
-          }}
-        >
-          {Object.entries(remoteUsers).map(([id, stream]) => (
-            <video
-              key={id}
-              autoPlay
-              playsInline
-              ref={(videoEl) => {
-                if (videoEl && !videoEl.srcObject) videoEl.srcObject = stream;
-              }}
-              style={{ width: 200, background: "#000" }}
-            />
-          ))}
-        </div> */}
-      </div>
-
-      {/* Controls */}
-      <div className="video_call_seciton">
-        <div className="container">
-          <div className="video_call_innner">
-            <div className="video-chat-row">
-              <div className="video_col">
-                <div className="video_row">
-                  <div className={`col main-video ${getSocketId == null ? "user-screen-share" : ""}`}>
-                    <div className="icons">
-                      <div className="mic">
-                        {" "}
-                        {voiceMedia ? (
-                          <AiOutlineAudio />
-                        ) : (
-                          <AiOutlineAudioMuted />
-                        )}
-                      </div>{" "}
-                    </div>{" "}
-                    <div className="placeholder_img">
-                      {/* My video main videos*/}
-                      <video
-                        ref={localVideoRef}
-                        autoPlay
-                        muted
-                        playsInline
-                      />
-                    </div>
+              <div className="video_call_controls-join">
+                <div className="video_call_row">
+                  <div className="v-cntrl" onClick={toggleAudio}>
+                    {" "}
+                    {voiceMedia ? (
+                      <AiOutlineAudio />
+                    ) : (
+                      <AiOutlineAudioMuted />
+                    )}
                   </div>
-                  {/* remote videos other user videos*/}
-                  {Object.entries(remoteUsers).map(([id, stream]) => (
-                    <>
-                      <div className={`col ${id === getSocketId ? "screen-share" : ""}`}>
-                        <div className="icons">
-                          <span className="full-screen" onClick={toggleFullScreen}>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              className="feather feather-maximize-2"
-                            >
-                              <polyline points="15 3 21 3 21 9"></polyline>
-                              <polyline points="9 21 3 21 3 15"></polyline>
-                              <line x1="21" y1="3" x2="14" y2="10"></line>
-                              <line x1="3" y1="21" x2="10" y2="14"></line>
-                            </svg>
-                          </span>
-                          <div className="mic">
-                            {remoteMicStatus[id] === false ? (
-                              <AiOutlineAudioMuted />
-                            ) : (
-                              <AiOutlineAudio />
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="placeholder_img">
-                          <video
-                            key={id}
-                            autoPlay
-                            playsInline
-                            muted={remoteMicStatus[id] === false}
-                            ref={(videoEl) => {
-                              if (videoEl && !videoEl.srcObject) {
-                                videoEl.srcObject = stream;
-                                videoRef.current = videoEl; // Save the reference
-                              }
-                            }}
-                          />
-                        </div>
-                      </div>
-                    </>
-                  ))}
-                </div>
-                <div className="video_call_controls">
-                  <div className="video_call_row">
-                    <div className="v-cntrl" onClick={toggleAudio}>
-                      {" "}
-                      {voiceMedia ? (
-                        <AiOutlineAudio />
-                      ) : (
-                        <AiOutlineAudioMuted />
-                      )}
-                    </div>
-                    <div className="v-cntrl" onClick={toggleVideo}>
-                      {" "}
-                      {videoMedia ? (
-                        <MdOutlineVideocam />
-                      ) : (
-                        <MdOutlineVideocamOff />
-                      )}
-                    </div>
-                    <div className="v-cntrl">
-                      <ScreenShare pcsd={pcsd} socket={socket} localStream={localStream} localVideoRef={localVideoRef} roomId={roomId} myId={myId} setGetSocketId={setGetSocketId} setIsScreenSharing={setIsScreenSharing}
-                        isScreenSharing={isScreenSharing} />
-                    </div>
-                    <div className="v-cntrl">
-                      <RecordingScreen/>
-                    </div>
-                    
-                    <div className="v-cntrl">
-                      <IoSettingsOutline />
-                    </div>
-                    <div className="v-cntrl call-end" onClick={endCall}>
-                      <MdCallEnd />
-                    </div>
+                  <div className="v-cntrl" onClick={toggleVideo}>
+                    {" "}
+                    {videoMedia ? (
+                      <MdOutlineVideocam />
+                    ) : (
+                      <MdOutlineVideocamOff />
+                    )}
                   </div>
                 </div>
               </div>
-              <div className="chat_col"></div>
+            </div>
+
+            <div className="right-show-room">
+              <h2>Ready to join</h2>
+              <p>No one else is here</p>
+              {roomIdShow ? 
+              <button onClick={() => setShowJoinRoom(true)}>Join Now</button> :
+              <button onClick={() => setShowJoinRoom(true)}>Ask to join</button>
+}
             </div>
           </div>
-        </div>
+          :
+
+          <div className="video_call_seciton">
+            <div className="container">
+              <div className="video_call_innner">
+                <div className="video-chat-row">
+                  <div className="video_col">
+                    <div className="video_row">
+                      <div className={`col main-video ${getSocketId == null ? "user-screen-share" : ""}`}>
+                        <div className="icons">
+                          <div className="mic">
+                            {" "}
+                            {voiceMedia ? (
+                              <AiOutlineAudio />
+                            ) : (
+                              <AiOutlineAudioMuted />
+                            )}
+                          </div>{" "}
+                        </div>{" "}
+                        <div className="placeholder_img">
+                          {/* My video main videos*/}
+                          <video
+                            ref={localVideoRef}
+                            autoPlay
+                            muted
+                            playsInline
+                          />
+                        </div>
+                      </div>
+                      {/* remote videos other user videos*/}
+                      {Object.entries(remoteUsers).map(([id, stream]) => (
+                        <>
+                          <div className={`col ${id === getSocketId ? "screen-share" : ""}`}>
+                            <div className="icons">
+                              <span className="full-screen" onClick={toggleFullScreen}>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  className="feather feather-maximize-2"
+                                >
+                                  <polyline points="15 3 21 3 21 9"></polyline>
+                                  <polyline points="9 21 3 21 3 15"></polyline>
+                                  <line x1="21" y1="3" x2="14" y2="10"></line>
+                                  <line x1="3" y1="21" x2="10" y2="14"></line>
+                                </svg>
+                              </span>
+                              <div className="mic">
+                                {remoteMicStatus[id] === false ? (
+                                  <AiOutlineAudioMuted />
+                                ) : (
+                                  <AiOutlineAudio />
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="placeholder_img">
+                              <video
+                                key={id}
+                                autoPlay
+                                playsInline
+                                muted={remoteMicStatus[id] === false}
+                                ref={(videoEl) => {
+                                  if (videoEl && !videoEl.srcObject) {
+                                    videoEl.srcObject = stream;
+                                    videoRef.current = videoEl; // Save the reference
+                                  }
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </>
+                      ))}
+                    </div>
+                    <div className="video_call_controls">
+                      <div className="video_call_row">
+                        <div className="v-cntrl" onClick={toggleAudio}>
+                          {" "}
+                          {voiceMedia ? (
+                            <AiOutlineAudio />
+                          ) : (
+                            <AiOutlineAudioMuted />
+                          )}
+                        </div>
+                        <div className="v-cntrl" onClick={toggleVideo}>
+                          {" "}
+                          {videoMedia ? (
+                            <MdOutlineVideocam />
+                          ) : (
+                            <MdOutlineVideocamOff />
+                          )}
+                        </div>
+                        <div className="v-cntrl">
+                          <ScreenShare pcsd={pcsd} socket={socket} localStream={localStream} localVideoRef={localVideoRef} roomId={roomId} myId={myId} setGetSocketId={setGetSocketId} setIsScreenSharing={setIsScreenSharing}
+                            isScreenSharing={isScreenSharing} />
+                        </div>
+                        <div className="v-cntrl">
+                          <RecordingScreen />
+                        </div>
+
+                        <div className="v-cntrl">
+                          <IoSettingsOutline />
+                        </div>
+                        <div className="v-cntrl call-end" onClick={endCall}>
+                          <MdCallEnd />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="chat_col"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
       </div>
     </main>
   );
