@@ -106,7 +106,7 @@ const AstroMallShopProduct = () => {
       !name ||
       !slug ||
       !shop_id ||
-      !selectedProductTypeId || 
+      !selectedProductTypeId ||
       !meta_description ||
       !meta_title ||
       !meta_keywords
@@ -173,7 +173,7 @@ const AstroMallShopProduct = () => {
       document.getElementById("top_selling").checked = false;
       document.getElementById("newlyLaunched").checked = false;
       setContent("");
-setDescriptionContent("")
+      setDescriptionContent("")
       const radios = document.querySelectorAll('input[name="product_type"]');
       radios.forEach((radio) => (radio.checked = false));
 
@@ -203,16 +203,16 @@ setDescriptionContent("")
     document.getElementById("shop_id").value = product.shop_id;
     document.getElementById("top_selling").checked = product.top_selling;
     document.getElementById("newlyLaunched").checked = product.newlyLaunched;
-    
+
     setShowImage(product);
 
     setContent(product?.detail_information);
-setDescriptionContent(product?.description)
+    setDescriptionContent(product?.description)
 
- const selectedRadio = document.querySelector(`input[name="product_type"][id="${product.shop_product_type}"]`);
-  if (selectedRadio) {
-    selectedRadio.checked = true;  // Select the corresponding radio button
-  }
+    const selectedRadio = document.querySelector(`input[name="product_type"][id="${product.shop_product_type}"]`);
+    if (selectedRadio) {
+      selectedRadio.checked = true;  // Select the corresponding radio button
+    }
 
     // First determine discount or not
     const isDiscountProduct = !!(
@@ -258,7 +258,7 @@ setDescriptionContent(product?.description)
     const discount_price =
       document.getElementById("discount_price")?.value || "";
     setShopId(shop_id);
-const selectedProductTypeId = document.querySelector(
+    const selectedProductTypeId = document.querySelector(
       'input[name="product_type"]:checked'
     )?.id;
 
@@ -315,10 +315,10 @@ const selectedProductTypeId = document.querySelector(
         document.getElementById("newlyLaunched").checked = false;
         setShowImage("");
         setContent("");
-setDescriptionContent("");
+        setDescriptionContent("");
 
-          const radios = document.querySelectorAll('input[name="product_type"]');
-      radios.forEach((radio) => (radio.checked = false));
+        const radios = document.querySelectorAll('input[name="product_type"]');
+        radios.forEach((radio) => (radio.checked = false));
 
         let startingPrice = document.getElementById("Starting_price");
         if (startingPrice) startingPrice.value = "";
@@ -444,7 +444,7 @@ setDescriptionContent("");
               setShopId(e.target.value);
             }}
           >
-             <option value="">-- Select Shop --</option>
+            <option value="">-- Select Shop --</option>
             {shopListData?.map((item, index) => (
               <option key={item._id} value={item._id}>
                 {item.name}
@@ -512,33 +512,33 @@ setDescriptionContent("");
             <label>Product Type</label>
           </div>
           <div className="man-input-filed-sec">
-          <div className="inner-radio">
-            <input
-              type="radio"
-              id="astrologer_puja"
-              name="product_type"
-              className="common-input-filed"
-            />
-            <label>Astrologer Puja</label>
-          </div>
-          <div className="inner-radio">
-            <input
-              type="radio"
-              id="gemstone_product"
-              name="product_type"
-              className="common-input-filed"
-            />
-            <label>Gemstone Product</label>
-          </div>
-          <div className="inner-radio">
-            <input
-              type="radio"
-              id="another_product"
-              name="product_type"
-              className="common-input-filed"
-            />
-            <label>Another Product</label>
-          </div>
+            <div className="inner-radio">
+              <input
+                type="radio"
+                id="astrologer_puja"
+                name="product_type"
+                className="common-input-filed"
+              />
+              <label>Astrologer Puja</label>
+            </div>
+            <div className="inner-radio">
+              <input
+                type="radio"
+                id="gemstone_product"
+                name="product_type"
+                className="common-input-filed"
+              />
+              <label>Gemstone Product</label>
+            </div>
+            <div className="inner-radio">
+              <input
+                type="radio"
+                id="another_product"
+                name="product_type"
+                className="common-input-filed"
+              />
+              <label>Another Product</label>
+            </div>
           </div>
         </div>
 
@@ -546,14 +546,14 @@ setDescriptionContent("");
           <div className="remove-astrict label-content">
             <label>Description</label>
           </div>
-          <SummernoteEditor value={descriptionContent} onChange={setDescriptionContent}/>
+          <SummernoteEditor value={descriptionContent} onChange={setDescriptionContent} />
 
         </div>
         <div className="product-detail form-field">
           <div className="remove-astrict label-content">
             <label>Product Detail</label>
           </div>
-          <SummernoteEditor value={content} onChange={setContent}/>
+          <SummernoteEditor value={content} onChange={setContent} />
         </div>
 
         <div className="form-field man-input-filed-sec">
@@ -568,7 +568,7 @@ setDescriptionContent("");
             <span>Can you move this product to the Top NEWLY LAUNCHED?</span>
           </label>
         </div>
-          <div className="form-field">
+        <div className="form-field">
           <div className="label-content">
             <label>Meta Title</label>
           </div>
@@ -587,10 +587,10 @@ setDescriptionContent("");
           </div>
           <textarea
             name="meta_description"
-           id="meta_description"
+            id="meta_description"
             placeholder="Meta description for SEO"
             className="common-input-filed"
-           
+
           />
         </div>
 
@@ -601,7 +601,7 @@ setDescriptionContent("");
           <input
             type="text"
             name="keywords"
-           id="meta_keywords"
+            id="meta_keywords"
             placeholder="keywords, separated, by, commas"
             className="common-input-filed"
           />

@@ -5,6 +5,7 @@ import axios from "axios";
 import Loader from "@/app/component/Loader";
 import { toast } from "react-toastify";
 import DescriptionCell from "@/app/component/DescriptionCell";
+import { MdDelete, MdEditSquare } from "react-icons/md";
 
 const SeoMetaData = () => {
   const [message, setMessage] = useState("");
@@ -288,13 +289,14 @@ const SeoMetaData = () => {
                       />
                     </td>
                     <td>
-                      <button onClick={() => handleEdit(item)}>Edit</button>
+                      <div className="edit-delete-btn">
+                      <button onClick={() => handleEdit(item)}><MdEditSquare /></button>
                       <button
-                        style={{ marginLeft: 8 }}
                         onClick={() => handleDelete(item._id)}
                       >
-                        Delete
+                        <MdDelete />
                       </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

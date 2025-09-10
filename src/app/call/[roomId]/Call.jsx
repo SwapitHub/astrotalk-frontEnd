@@ -33,7 +33,7 @@ const Call = () => {
   const [remoteMicStatus, setRemoteMicStatus] = useState({});
   const [getSocketId, setGetSocketId] = useState(null);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
-  const [showJoinRoom, setShowJoinRoom] = useState(false);
+  const [showJoinRoom, setShowJoinRoom] = useState(true);
   const [getUserCall, setGetUserCall] = useState();
   const [loader, setLoder] = useState(false)
   const [roomIdShow, setRoomIdShow] = useState(
@@ -258,6 +258,15 @@ const Call = () => {
       roomId,
     });
   }
+
+    useEffect(() => {
+    if (showJoinRoom) {
+      document.body.classList.add("show-user-room");
+    } else {
+      document.body.classList.remove("show-user-room");
+    }
+  }, [showJoinRoom]);
+  
   return (
     <main>
       {
@@ -270,6 +279,7 @@ const Call = () => {
             <div className="left-show-room">
               <div className="live-video">
                 <video ref={localVideoRef} autoPlay muted playsInline />
+                
               </div>
 
               <div className="video_call_controls-join">

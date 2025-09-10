@@ -75,7 +75,7 @@ const SeminarRegistration = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
- if (name === "time") {
+    if (name === "time") {
       // Convert to 12-hour format with AM/PM
       const timeParts = value.split(":");
       let hours = parseInt(timeParts[0], 10);
@@ -246,7 +246,7 @@ const SeminarRegistration = () => {
               type="time"
               name="time"
               onChange={handleChange}
-               value={formData.time.split(" ")[0] || ""}
+              value={formData.time.split(" ")[0] || ""}
             />
             {errors.time && <span style={{ color: "red" }}>{errors.time}</span>}
           </div>
@@ -302,7 +302,7 @@ const SeminarRegistration = () => {
             <div className="label-content">
               <label>
                 Add Seminar Link:{" "}
-               (Zoom / Google Meet)
+                (Zoom / Google Meet)
               </label>
             </div>
             <input
@@ -350,8 +350,8 @@ const SeminarRegistration = () => {
               />
             )}
           </div>
-    <div className="form-field field-checkbox man-input-filed-sec">
-                <label>
+          <div className="form-field field-checkbox man-input-filed-sec">
+            <label>
               <input
                 type="checkbox"
                 name="seminar_status"
@@ -359,16 +359,16 @@ const SeminarRegistration = () => {
                 onChange={handleChange}
               />
               <span>Show seminar banner on Home page</span>
-              </label>
+            </label>
           </div>
           <button type="submit" disabled={loading}>
             {loading
               ? "Submitting..."
               : editMode
-              ? "Update Seminar"
-              : "Send Invitation"}
+                ? "Update Seminar"
+                : "Send Invitation"}
           </button>
-          
+
 
         </form>
       </div>
