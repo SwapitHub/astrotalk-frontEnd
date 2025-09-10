@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import DOMPurify from "dompurify";
 import he from "he";
 
-const AstroMallProduct = ({astrShopDetailData}) => {
+const AstroMallProduct = ({ astrShopDetailData }) => {
   const params = useParams();
   const [productListData, setProductListData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -55,7 +55,7 @@ const AstroMallProduct = ({astrShopDetailData}) => {
 
   return (
     <main>
-    
+
       <section className="astromall-sec-outer">
         <div className="container">
           <div className="astromall-sec-inner">
@@ -91,11 +91,10 @@ const AstroMallProduct = ({astrShopDetailData}) => {
                   return (
                     <div className="single-item" key={index}>
                       <Link
-                        href={`/shop/${params.slug}/${item?.slug}${
-                          astrShopDetailData.Jewelry_product_gem
+                        href={`/shop/${params.slug}/${item?.slug}${astrShopDetailData.Jewelry_product_gem
                             ? `?gemstone=true`
                             : ""
-                        }`}
+                          }`}
                       >
                         <div className="sales-tag">
                           <span>Book Now</span>
@@ -104,32 +103,32 @@ const AstroMallProduct = ({astrShopDetailData}) => {
                           <div className="product-img">
                             <img src={item?.astroMallProductImg} alt="" />
                           </div>
-                          
-                            {item?.discount_price ? (
-                              <div className="details-cont">
-                                <div className="product-name">
-                                  {item?.offer_name}
-                                </div>
-                                <p>
-                                  {" "}
-                                  ₹ {item?.discount_price}{" "}
-                                  {item?.actual_price != 0 && (
-                                    <span className="old-amount">
-                                      ₹ {item?.actual_price}
-                                    </span>
-                                  )}
-                                </p>
+
+                          {item?.discount_price ? (
+                            <div className="details-cont">
+                              <div className="product-name">
+                                {item?.offer_name}
                               </div>
-                            ) : (
-                              <div className="details-cont">
-                                <div className="product-name">
-                                  {item?.offer_name}
-                                </div>
-                                <p>Starting from ₹ {item?.starting_price}</p>
+                              <p>
+                                {" "}
+                                ₹ {item?.discount_price}{" "}
+                                {item?.actual_price != 0 && (
+                                  <span className="old-amount">
+                                    ₹ {item?.actual_price}
+                                  </span>
+                                )}
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="details-cont">
+                              <div className="product-name">
+                                {item?.offer_name}
                               </div>
-                            )}
-                          </div>
-                        
+                              <p>Starting from ₹ {item?.starting_price}</p>
+                            </div>
+                          )}
+                        </div>
+
                       </Link>
                     </div>
                   );

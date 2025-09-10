@@ -13,6 +13,7 @@ import {
   MdOutlineVideocamOff,
 } from "react-icons/md";
 import secureLocalStorage from "react-secure-storage";
+import Loader from "@/app/component/Loader";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, { autoConnect: false });
 
@@ -29,15 +30,16 @@ const Call = () => {
 
   const [voiceMedia, setVoiceMedia] = useState(true);
   const [videoMedia, setVideoMedia] = useState(true);
-  const [remoteMicStatus, setRemoteMicStatus] = useState({}); // { socketId: true/false }
+  const [remoteMicStatus, setRemoteMicStatus] = useState({});
   const [getSocketId, setGetSocketId] = useState(null);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [showJoinRoom, setShowJoinRoom] = useState(false);
-
+  const [getUserCall, setGetUserCall] = useState();
+  const [loader, setLoder] = useState(false)
   const [roomIdShow, setRoomIdShow] = useState(
     secureLocalStorage.getItem("roomId")
   );
-  console.log(roomIdShow);
+  console.log(showJoinRoom, "showJoinRoom");
 
   useEffect(() => {
     setIsScreenSharing(!!getSocketId);
@@ -223,27 +225,45 @@ const Call = () => {
   };
 
   useEffect(() => {
-    socket.on("join-user-call-send", ({ roomId }) => {
-      console.log("User asked to join call for room:", roomId);
+    socket.on("join-user-call-new-notification", ({ roomId }) => {
+      console.log("User asked to join call for room:", roomId.roomId);
+      setGetUserCall(roomId.roomId)
+    });
+
+    socket.on("accept-join-user-call-new-notification", ({ roomId }) => {
+      console.log("User asked to join call for room:", roomId.roomId);
+      setShowJoinRoom(true)
+      setLoder(false)
+      setGetUserCall()
     });
 
     return () => {
-      socket.off("join-user-call-send");
+      socket.off("join-user-call-new-notification");
+      socket.off("accept-join-user-call-new-notification");
+
     };
   }, [socket]);
-  
+
   const handleAskToJoin = () => {
-    
+    setLoder(true)
     socket.emit("join-user-call", {
       roomId,
     });
   };
 
+  const handleAdmitUser = () => {
+    setGetUserCall()
+
+    socket.emit("accept-join-user-call", {
+      roomId,
+    });
+  }
   return (
     <main>
-      <div className="admit-view-popup">
-
-      </div>
+      {
+        loader &&
+        <Loader />
+      }
       <div className="container">
         {!showJoinRoom ? (
           <div className="show-room-join">
@@ -272,9 +292,13 @@ const Call = () => {
 
             <div className="right-show-room">
               <h2>Ready to join</h2>
-              <p>No one else is here</p>
-              {roomIdShow==roomId ? (
-                <button onClick={() => setShowJoinRoom(true)}>Join Now</button>
+
+              {roomIdShow == roomId ? (
+                <>
+                  {getUserCall ? <p>another user wait on room</p> : <p>No one else is here</p>}
+
+                  <button onClick={() => setShowJoinRoom(true)}>Join Now</button>
+                </>
               ) : (
                 <button onClick={handleAskToJoin}>Ask to join</button>
               )}
@@ -282,15 +306,23 @@ const Call = () => {
           </div>
         ) : (
           <div className="video_call_seciton">
+            {
+              getUserCall &&
+              <div className="admit-view-popup">
+                <p>Some one join call</p>
+                <button onClick={handleAdmitUser}>Admit</button>
+                <button onClick={() => { setGetUserCall() }}>Cancel</button>
+
+              </div>
+            }
             <div className="container">
               <div className="video_call_innner">
                 <div className="video-chat-row">
                   <div className="video_col">
                     <div className="video_row">
                       <div
-                        className={`col main-video ${
-                          getSocketId == null ? "user-screen-share" : ""
-                        }`}
+                        className={`col main-video ${getSocketId == null ? "user-screen-share" : ""
+                          }`}
                       >
                         <div className="icons">
                           <div className="mic">
@@ -314,60 +346,59 @@ const Call = () => {
                       </div>
                       {/* remote videos other user videos*/}
                       {Object.entries(remoteUsers).map(([id, stream]) => (
-                        <>
-                          <div
-                            className={`col ${
-                              id === getSocketId ? "screen-share" : ""
-                            }`}
-                          >
-                            <div className="icons">
-                              <span
-                                className="full-screen"
-                                onClick={toggleFullScreen}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  className="feather feather-maximize-2"
-                                >
-                                  <polyline points="15 3 21 3 21 9"></polyline>
-                                  <polyline points="9 21 3 21 3 15"></polyline>
-                                  <line x1="21" y1="3" x2="14" y2="10"></line>
-                                  <line x1="3" y1="21" x2="10" y2="14"></line>
-                                </svg>
-                              </span>
-                              <div className="mic">
-                                {remoteMicStatus[id] === false ? (
-                                  <AiOutlineAudioMuted />
-                                ) : (
-                                  <AiOutlineAudio />
-                                )}
-                              </div>
-                            </div>
 
-                            <div className="placeholder_img">
-                              <video
-                                key={id}
-                                autoPlay
-                                playsInline
-                                muted={remoteMicStatus[id] === false}
-                                ref={(videoEl) => {
-                                  if (videoEl && !videoEl.srcObject) {
-                                    videoEl.srcObject = stream;
-                                    videoRef.current = videoEl; // Save the reference
-                                  }
-                                }}
-                              />
+                        <div key={id}
+                          className={`col ${id === getSocketId ? "screen-share" : ""
+                            }`}
+                        >
+                          <div className="icons">
+                            <span
+                              className="full-screen"
+                              onClick={toggleFullScreen}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="feather feather-maximize-2"
+                              >
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <polyline points="9 21 3 21 3 15"></polyline>
+                                <line x1="21" y1="3" x2="14" y2="10"></line>
+                                <line x1="3" y1="21" x2="10" y2="14"></line>
+                              </svg>
+                            </span>
+                            <div className="mic">
+                              {remoteMicStatus[id] === false ? (
+                                <AiOutlineAudioMuted />
+                              ) : (
+                                <AiOutlineAudio />
+                              )}
                             </div>
                           </div>
-                        </>
+
+                          <div className="placeholder_img">
+                            <video
+                              key={id}
+                              autoPlay
+                              playsInline
+                              muted={remoteMicStatus[id] === false}
+                              ref={(videoEl) => {
+                                if (videoEl && !videoEl.srcObject) {
+                                  videoEl.srcObject = stream;
+                                  videoRef.current = videoEl; // Save the reference
+                                }
+                              }}
+                            />
+                          </div>
+                        </div>
+
                       ))}
                     </div>
                     <div className="video_call_controls">

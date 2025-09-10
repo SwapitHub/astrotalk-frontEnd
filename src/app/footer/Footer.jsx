@@ -34,10 +34,10 @@ const Footer = () => {
       (parts[1] == "chat-with-astrologer" && parts[2] == "astrologer") ? (
         ""
       ) : (
-        <footer class="footer">
-          <div class="container">
+        <footer className="footer">
+          <div className="container">
             {/* <!---- Footer Top Content ---> */}
-            <div class="top-content">
+            <div className="top-content">
               <h2>About Astrotalk</h2>
               <p>
                 Astrotalk is the best astrology website for online Astrology
@@ -49,9 +49,9 @@ const Footer = () => {
               </p>
             </div>
             {/* <!---- Footer Menus ---> */}
-            <div class="footer-menu">
-              <div class="footer-col">
-                <div class="top-col">
+            <div className="footer-menu">
+              <div className="footer-col">
+                <div className="top-col">
                   <h3>Horoscope</h3>
                   <ul>
                     <li>
@@ -62,37 +62,37 @@ const Footer = () => {
                     </li>
                   </ul>
                 </div>
-                <div class="discript_text-link">
+                <div className="discript_text-link">
                   <Link href="/chat-with-astrologer">
                     {" "}
-                    <span class="icon"></span>We are available 24x7 on chat
-                    support <span class="footer-btn">click to start chat</span>{" "}
+                    <span className="icon"></span>We are available 24x7 on chat
+                    support <span className="footer-btn">click to start chat</span>{" "}
                   </Link>
                 </div>
-                <div class="email-wrapper">
+                <div className="email-wrapper">
                   <Link href="mailto:contact@astrotalk.com">
                     <HiOutlineMail />
                     <span>Email ID:</span>contact@astrotalk.com
                   </Link>
                 </div>
-                {/* <div class="footer-social">
-                  <div class="icons">
+                {/* <div className="footer-social">
+                  <div className="icons">
                     <Link href=""></Link>
                   </div>
-                  <div class="icons">
+                  <div className="icons">
                     <Link href=""></Link>
                   </div>
-                  <div class="icons">
+                  <div className="icons">
                     <Link href=""></Link>
                   </div>
-                  <div class="icons">
+                  <div className="icons">
                     <Link href=""></Link>
                   </div>
                 </div> */}
               </div>
 
-              <div class="footer-col">
-                <div class="top-col">
+              <div className="footer-col">
+                <div className="top-col">
                   <h3>Important Links</h3>
                   <ul>
                     <li>
@@ -104,8 +104,8 @@ const Footer = () => {
                   </ul>
                 </div>
               </div>
-              <div class="footer-col">
-                <div class="top-col">
+              <div className="footer-col">
+                <div className="top-col">
                   <h3>Astrologer</h3>
                   <ul>
                     <li>
@@ -120,37 +120,37 @@ const Footer = () => {
                     </li>
                   </ul>
                 </div>
-                {/* <div class="bottom-col">
-                  <div class="secure_col">
+                {/* <div className="bottom-col">
+                  <div className="secure_col">
                     <h3>Secure</h3>
                     <ul>
                       <li>
                         <Link href="">
-                          <span class="icon">
+                          <span className="icon">
                             <img src="/private_home.png" alt="private_home" />
                           </span>
-                          <span class="icon-text">Private & Confidential</span>
+                          <span className="icon-text">Private & Confidential</span>
                         </Link>
                       </li>
                       <li>
                         <Link href="">
-                          <span class="icon">
+                          <span className="icon">
                             <img src="/verifired.png" alt="verifired" />
                           </span>
-                          <span class="icon-text">Verified Astrologers</span>
+                          <span className="icon-text">Verified Astrologers</span>
                         </Link>
                       </li>
                       <li>
                         <Link href="">
-                          <span class="icon">
+                          <span className="icon">
                             <img src="/secure_pay.png" alt="secure_pay" />
                           </span>
-                          <span class="icon-text">Secure Payments</span>
+                          <span className="icon-text">Secure Payments</span>
                         </Link>
                       </li>
                     </ul>
                   </div>
-                  <div class="download-app">
+                  <div className="download-app">
                         <ul>
                             <li><Link href=""><img src="/android.png" alt=""/></Link></li>
                             <li><Link href=""><img src="/ios.png" alt=""/></Link></li>
@@ -158,11 +158,11 @@ const Footer = () => {
                     </div>
                 </div> */}
               </div>
-              <div class="footer-col">
+              <div className="footer-col">
                 <h3>Shop our products</h3>
                 <ul>
-                  {footerData.map((item) => (
-                    <li key={item?.id}>
+                  {footerData.map((item, id) => (
+                    <li key={id}>
                       <Link href={item?.footerProductLink}>
                         {item?.footerProductName}
                       </Link>
@@ -173,7 +173,7 @@ const Footer = () => {
             </div>
           </div>
           {/* <!---- Footer Menus ---> */}
-          <div class="copyright">
+          <div className="copyright">
             <p>
               Copyright © 2025 Astrotalk (Powered by Swap It Hub). All Rights
               Reserved
