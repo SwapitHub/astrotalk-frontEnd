@@ -59,8 +59,8 @@ const SeminarRegistration = () => {
     if (!formData.seminar_link)
       newErrors.seminar_link = "seminar_link is required.";
     if (!formData.date) newErrors.date = "Date is required.";
-    else if (new Date(formData.date) < new Date())
-      newErrors.date = "Date must be in the future.";
+    // else if (new Date(formData.date) < new Date())
+    //   newErrors.date = "Date must be in the future.";
     if (!formData.time) newErrors.time = "Time is required.";
     if (!formData.location?.trim())
       newErrors.location = "Location is required.";

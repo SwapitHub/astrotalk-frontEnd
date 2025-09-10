@@ -142,8 +142,8 @@ const Header = () => {
   return (
     <>
       {parts[1] == "admin" ||
-        parts[1] == "astrologer" ||
-        (parts[1] == "chat-with-astrologer" && parts[2] == "astrologer") ? (
+      parts[1] == "astrologer" ||
+      (parts[1] == "chat-with-astrologer" && parts[2] == "astrologer") ? (
         ""
       ) : (
         <header className="header">
@@ -279,15 +279,11 @@ const Header = () => {
                     <div className="user-dashboard-profile-main-pro">
                       <Link href="#" title="dashboard">
                         <FaUser />
-
-
                       </Link>
                       <div className="user-dashboard-profile-menu">
                         <div className="user-inner-dashbord-pic">
                           <Link href="#" title="Profile">
                             <FaUser />
-
-
                           </Link>
                           <div className="user-inner-dashbord-content">
                             <h5>{userDetailData?.name || ""}</h5>
@@ -344,7 +340,6 @@ const Header = () => {
                 </div>
               ) : (
                 <>
-
                   <div className="header-user">
                     <div className="header-user-icon">
                       <FaUser />
@@ -352,12 +347,12 @@ const Header = () => {
                     <div className="header-user-drop-down">
                       <ul>
                         <li>
-                          <Link href="/free-chat/start">User Registration </Link>
-
+                          <Link href="/free-chat/start">
+                            User Registration{" "}
+                          </Link>
                         </li>
                         <li>
                           <span onClick={handelUserLogin}>User Login</span>
-
                         </li>
                       </ul>
                     </div>
