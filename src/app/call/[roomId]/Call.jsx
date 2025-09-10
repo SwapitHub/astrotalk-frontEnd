@@ -10,7 +10,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import {
   MdCallEnd,
   MdOutlineVideocam,
-  MdOutlineVideocamOff
+  MdOutlineVideocamOff,
 } from "react-icons/md";
 import secureLocalStorage from "react-secure-storage";
 
@@ -34,13 +34,14 @@ const Call = () => {
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [showJoinRoom, setShowJoinRoom] = useState(false);
 
-  const [roomIdShow, setRoomIdShow] = useState(secureLocalStorage.getItem("roomId"))
-console.log(roomIdShow);
+  const [roomIdShow, setRoomIdShow] = useState(
+    secureLocalStorage.getItem("roomId")
+  );
+  console.log(roomIdShow);
 
   useEffect(() => {
     setIsScreenSharing(!!getSocketId);
   }, [getSocketId]);
-
 
   useEffect(() => {
     socket.connect();
@@ -81,7 +82,9 @@ console.log(roomIdShow);
     });
 
     socket.on("ice-candidate", ({ senderSocketId, candidate }) => {
-      pcsd.current[senderSocketId]?.addIceCandidate(new RTCIceCandidate(candidate));
+      pcsd.current[senderSocketId]?.addIceCandidate(
+        new RTCIceCandidate(candidate)
+      );
     });
 
     socket.on("user-left", ({ socketId }) => {
@@ -122,7 +125,6 @@ console.log(roomIdShow);
       ],
     });
 
-
     pcsd.current[remoteSocketId] = pc; // ✅ save only here
 
     // Add local tracks (camera/audio by default)
@@ -150,7 +152,6 @@ console.log(roomIdShow);
 
     return pc;
   };
-
 
   // END CALL FUNCTION
   const endCall = () => {
@@ -207,7 +208,6 @@ console.log(roomIdShow);
     }));
   });
 
-
   const videoRef = useRef(null);
 
   const toggleFullScreen = () => {
@@ -222,33 +222,41 @@ console.log(roomIdShow);
     }
   };
 
+  useEffect(() => {
+    socket.on("join-user-call-send", ({ roomId }) => {
+      console.log("User asked to join call for room:", roomId);
+    });
 
-
+    return () => {
+      socket.off("join-user-call-send");
+    };
+  }, [socket]);
+  
+  const handleAskToJoin = () => {
+    
+    socket.emit("join-user-call", {
+      roomId,
+    });
+  };
 
   return (
     <main>
+      <div className="admit-view-popup">
+
+      </div>
       <div className="container">
-        {!showJoinRoom ?
+        {!showJoinRoom ? (
           <div className="show-room-join">
             <div className="left-show-room">
               <div className="live-video">
-                <video
-                  ref={localVideoRef}
-                  autoPlay
-                  muted
-                  playsInline
-                />
+                <video ref={localVideoRef} autoPlay muted playsInline />
               </div>
 
               <div className="video_call_controls-join">
                 <div className="video_call_row">
                   <div className="v-cntrl" onClick={toggleAudio}>
                     {" "}
-                    {voiceMedia ? (
-                      <AiOutlineAudio />
-                    ) : (
-                      <AiOutlineAudioMuted />
-                    )}
+                    {voiceMedia ? <AiOutlineAudio /> : <AiOutlineAudioMuted />}
                   </div>
                   <div className="v-cntrl" onClick={toggleVideo}>
                     {" "}
@@ -265,21 +273,25 @@ console.log(roomIdShow);
             <div className="right-show-room">
               <h2>Ready to join</h2>
               <p>No one else is here</p>
-              {roomIdShow ? 
-              <button onClick={() => setShowJoinRoom(true)}>Join Now</button> :
-              <button onClick={() => setShowJoinRoom(true)}>Ask to join</button>
-}
+              {roomIdShow==roomId ? (
+                <button onClick={() => setShowJoinRoom(true)}>Join Now</button>
+              ) : (
+                <button onClick={handleAskToJoin}>Ask to join</button>
+              )}
             </div>
           </div>
-          :
-
+        ) : (
           <div className="video_call_seciton">
             <div className="container">
               <div className="video_call_innner">
                 <div className="video-chat-row">
                   <div className="video_col">
                     <div className="video_row">
-                      <div className={`col main-video ${getSocketId == null ? "user-screen-share" : ""}`}>
+                      <div
+                        className={`col main-video ${
+                          getSocketId == null ? "user-screen-share" : ""
+                        }`}
+                      >
                         <div className="icons">
                           <div className="mic">
                             {" "}
@@ -303,9 +315,16 @@ console.log(roomIdShow);
                       {/* remote videos other user videos*/}
                       {Object.entries(remoteUsers).map(([id, stream]) => (
                         <>
-                          <div className={`col ${id === getSocketId ? "screen-share" : ""}`}>
+                          <div
+                            className={`col ${
+                              id === getSocketId ? "screen-share" : ""
+                            }`}
+                          >
                             <div className="icons">
-                              <span className="full-screen" onClick={toggleFullScreen}>
+                              <span
+                                className="full-screen"
+                                onClick={toggleFullScreen}
+                              >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="24"
@@ -370,8 +389,17 @@ console.log(roomIdShow);
                           )}
                         </div>
                         <div className="v-cntrl">
-                          <ScreenShare pcsd={pcsd} socket={socket} localStream={localStream} localVideoRef={localVideoRef} roomId={roomId} myId={myId} setGetSocketId={setGetSocketId} setIsScreenSharing={setIsScreenSharing}
-                            isScreenSharing={isScreenSharing} />
+                          <ScreenShare
+                            pcsd={pcsd}
+                            socket={socket}
+                            localStream={localStream}
+                            localVideoRef={localVideoRef}
+                            roomId={roomId}
+                            myId={myId}
+                            setGetSocketId={setGetSocketId}
+                            setIsScreenSharing={setIsScreenSharing}
+                            isScreenSharing={isScreenSharing}
+                          />
                         </div>
                         <div className="v-cntrl">
                           <RecordingScreen />
@@ -391,7 +419,7 @@ console.log(roomIdShow);
               </div>
             </div>
           </div>
-        }
+        )}
       </div>
     </main>
   );

@@ -57,6 +57,7 @@ nav.navbar ul li a:hover, nav.navbar ul li span:hover {color: var(--primary_colo
 .header-user, .has-submenu {position: relative; cursor: pointer;}
 .header-user {padding: 40px 0px;}
 .header-user-drop-down, .submenu {position: absolute; z-index: 1; background-color: var(--secondary_color); padding: 20px; left: 50%; transform: translateX(-50%); opacity: 0; visibility: hidden; transition: all 0.3s; width: max-content; top: 100%;}
+.header-user-drop-down {right: 0; left: auto; transform: none;}
 .header-user:hover .header-user-drop-down, li.has-submenu:hover .submenu { opacity: 1; visibility: visible;}
 .header-user-icon svg {font-size: 20px; vertical-align: middle;}
 .submenu a, .header-user-drop-down a {color: #ffffff;}
@@ -473,6 +474,7 @@ ul.submenu > li:not(:last-child), .header-user-drop-down ul li:not(:last-child) 
   display: flex;
   justify-content: flex-end;
   flex-grow: 1;
+  gap: 15px;
 }
 .dashboard-right-content .filter-button.search-box-top-btn {
   margin: 0px 0px 20px;
@@ -484,7 +486,9 @@ ul.submenu > li:not(:last-child), .header-user-drop-down ul li:not(:last-child) 
 }
 .dashboard-right-content .search-box-top-btn {
   justify-content: flex-start;
+  align-items: center;
   margin: 0 0 20px;
+  gap: 5px;
 }
 .dashboard-right-content .search-box-filed {
   max-width: max-content;
@@ -506,6 +510,9 @@ ul.submenu > li:not(:last-child), .header-user-drop-down ul li:not(:last-child) 
 }
 .search-box-top-btn input::placeholder {
   color: #ffffff;
+}
+.search-help-text {
+    margin-left: 15px;
 }
 .talk-to-astrologer-wrap > p {
   text-align: center;
@@ -763,10 +770,6 @@ ul.submenu > li:not(:last-child), .header-user-drop-down ul li:not(:last-child) 
   color: #fff;
   border-color: var(--primary_color);
 }
-.astrologer-call-button-ctm button:hover,
-.astrologer-call-button-ctm-detail a:hover,
-.astrologer-call-button-ctm a:hover {
-}
 .Verified-Sticker-icon {
   text-align: right;
   position: absolute;
@@ -792,6 +795,7 @@ ul.submenu > li:not(:last-child), .header-user-drop-down ul li:not(:last-child) 
   width: 14px;
   fill: goldenrod;
   stroke: goldenrod;
+  vertical-align: middle;
 }
 .five-star-rating ul li svg {
   width: 12px;
@@ -2004,7 +2008,6 @@ body.user-recharge:before {
   margin-top: 10px;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
 }
 .gallery-main .language-add-data > label {
   margin: 0 0 10px;
@@ -2133,11 +2136,15 @@ span.banner-heading,
   justify-content: space-between;
   gap: 50px;
   flex-wrap: wrap;
+  align-items: flex-start;
 }
 .slider-outer {
-    order: 3;
-    max-width: 100%;
-    flex: 0 0 100%;
+  order: 3;
+  max-width: 100%;
+  flex: 0 0 100%;
+}
+.slider-outer .astro-img {
+  padding: 0px 10px;
 }
 .profile_with_contact .image img {
   width: 100px;
@@ -2276,31 +2283,47 @@ button.slick-arrow.slick-next::before {
 .profile_with_contact_slider .about_us h2 {
   font-size: 30px;
   font-weight: 600;
-  margin-bottom: 10px;
   text-transform: capitalize;
+  margin: 0px;
 }
 .profile_with_contact_slider .about_us p {
   margin: 0;
+}
+.rating-row {
+  margin: 30px 0px 0px;
+}
+.rating-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 /* rating */
 .rating_review {
   padding: 25px 0 50px;
 }
+.ratting-review {
+  display: flex;
+  gap: 20px;
+  margin: 20px 0px 0px;
+}
 .rating_col {
   padding: 14px;
   background-color: var(--secondary_color);
 }
-.rating_review .row,
-.product-testimonial-left-right-inner {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  align-self: flex-start;
+.reviews-sec {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+.product-promises-right {
+    margin: 50px 0px 0px;
 }
 .rating_col h2,
 .product-testimonial-left-right-outer h2,
 h2.check_similar_text {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 600;
   text-align: left;
 }
@@ -2308,17 +2331,11 @@ h2.check_similar_text {
 .product-testimonial-left-right-outer h2 {
   margin: 0 0 10px;
 }
-.review {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-}
 .rating_star {
-  width: 40%;
   text-align: center;
-}
-.ratting-review {
-  width: 60%;
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
 .ratting_number {
   text-align: center;
@@ -2339,14 +2356,14 @@ span.star {
 .status_bar_ratting {
   display: flex;
   align-items: center;
-  margin: 0 0 10px;
+  flex: 1;
 }
 .number_progress_bar {
   font-size: 14px;
   margin-right: 10px;
   width: 25px;
   height: 25px;
-  background-color: var(--secondary_dark);
+  background-color: var(--primary_color);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -2355,7 +2372,7 @@ span.star {
 }
 .progress.width_custom {
   background-color: var(--secondary_dark);
-  width: 80%;
+  width:calc(100% - 35px);
   border-radius: 10px;
   height: 12px;
   overflow: hidden;
@@ -2385,9 +2402,6 @@ span.star {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
-}
-.similar_consultants_section {
-  height: fit-content;
 }
 .assistantBox a.float-lg-end {
   margin-left: auto;
@@ -2997,11 +3011,13 @@ input::file-selector-button {
 /* Similar Consultants Reviews on Single Astrologers Page  */
 .reviews-similiar-conslt-outer,
 .reviews-sec {
-  max-height: 600px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding: 12px;
+  padding: 20px;
   background-color: var(--secondary_color);
+}
+.similar-conslt-reviews-sec {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 .profile-image-name {
   display: flex;
@@ -3011,7 +3027,7 @@ input::file-selector-button {
   background-color: var(--primary_color);
   padding: 10px 15px;
   display: flex;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   justify-content: space-between;
   align-items: center;
 }
@@ -3074,7 +3090,6 @@ input::file-selector-button {
   background-color: var(--body_bg);
   min-height: 70px;
   padding: 15px;
-  margin-bottom: 10px;
 }
 .single-review:last-child {
   margin-bottom: 0px;
@@ -4563,7 +4578,7 @@ td button + button {
   padding: 60px 0px;
 }
 .promise-box-sec {
-  background-color: var(--primary_color);
+  background-color: var(--secondary_hover);
   color: #fff;
   padding: 30px;
 }
@@ -4576,9 +4591,10 @@ td button + button {
 .promise-btns a {
   display: inline-block;
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 50px;
   padding: 10px 30px;
   border: 1px solid #ffffff;
+  color: var(--secondary_hover);
 }
 .promise-btns a:hover {
   background-color: transparent;
@@ -5053,9 +5069,23 @@ span.required {
   background: var(--primary_color);
   position: relative;
   z-index: 1;
+  background-image: url("../../public//bg-section-forecast.jpg");
+  background-size: cover;
+  background-position: center;
+}
+.footer .top-content::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    background-color: var(--primary_color);
+    opacity: .7;
 }
 .footer .top-content * {
   color: #fff;
+  position: relative;
 }
 .footer .top-content h2,
 .footer-menu h3 {
@@ -5806,17 +5836,13 @@ video:-moz-full-screen {
     opacity: 1;
     visibility: visible;
   }
+  .profile_with_contact_slider-inner {gap: 20px;}
+  .profile_with_contact_slider .about_us {
+    max-width: calc(100% - 310px);
+}
   .user-dashboard-profile img {
     width: 50px;
     height: 50px;
-  }
-  .profile_with_contact .image {
-    max-width: 33.33333333%;
-    flex: 0 0 33.33333333%;
-  }
-  .profile_with_contact .content {
-    flex: 0 0 66.66666667%;
-    max-width: 66.66666667%;
   }
   .admin-popup-main .admin-popup-outer-inner {
     max-width: 100%;
@@ -5885,6 +5911,11 @@ video:-moz-full-screen {
     grid-template-columns: repeat(2, 1fr);
   }
   .search-box-top-btn input {min-width: unset;}
+  .profile_with_contact_slider .rating-head h2 {font-size: 20px;}
+  .rating_star {gap: 10px;}
+  .ratting-review {gap: 10px; flex-wrap: wrap;}
+  .status_bar_ratting {flex:0 0 100%;}
+  .similar-conslt-reviews-sec {grid-template-columns: repeat(2, 1fr);}
 }
 @media (max-width: 767px) {
   h1,
@@ -5923,16 +5954,10 @@ video:-moz-full-screen {
     margin-left: 0;
   }
   .profile_with_contact {
-    flex-direction: column;
-    align-items: normal;
-    gap: 30px;
-    text-align: center;
-  }
-  .profile_with_contact .image,
-  .profile_with_contact .content {
-    flex: 0 0 100%;
     max-width: 100%;
+    flex: 0 0 100%;
   }
+  .profile_with_contact_slider .about_us {max-width: 100%; margin: 30px 0px 0px;}
   .astrologer_name,
   .profile_with_contact .skills,
   .profile_with_contact .talk-to-language,
@@ -6032,6 +6057,7 @@ video:-moz-full-screen {
   .search-box-top-btn {
     width: 100%;
     margin: 10px 0px 0px;
+
   }
   .search-box-filed {
 	  width: calc(100% - 40px);
@@ -6298,6 +6324,7 @@ video:-moz-full-screen {
   .call-link {flex-wrap: wrap;}
   .show-room-join {padding: 50px 0px 0px; flex-wrap: wrap; gap: 30px;}
   .left-show-room, .right-show-room {max-width: 100%;}
+
 }
 @media (max-width: 639px) {
   .four-col .row {
@@ -6305,6 +6332,7 @@ video:-moz-full-screen {
     gap: 20px;
   }
   .astrology_seciton .row {grid-template-columns: repeat(1, 1fr);}
+  .similar-conslt-reviews-sec {grid-template-columns: repeat(1, 1fr); gap: 10px;}
 }
 @media (max-width: 574px) {
   .chat-left-logo {

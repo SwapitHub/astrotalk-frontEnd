@@ -527,25 +527,15 @@ export const AstrologerDetail = ({ astrologerData }) => {
             )}
 
             <div className="about_us">
+            <div className="about_us-content">
               <h2>About me</h2>
               <p>{astrologerData.Description}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* <!--- rating review --> */}
-
-      <section className="rating_review">
-        <div className="container">
-          <div className="rating_review-inner">
-            <div className="row">
-              <div className="left_col">
+              </div>
+              <div className="rating-row">
                 <div className="rating_col">
+                  <div className="rating-head">
                   <h2>Rating & Reviews</h2>
-
-                  <div className="review">
-                    <div className="rating_star">
+                  <div className="rating_star">
                       <div className="ratting_number">
                         {astrologerData?.averageRating}
                       </div>
@@ -557,6 +547,8 @@ export const AstrologerDetail = ({ astrologerData }) => {
                         <span>{astrologerData?.totalOrders} total </span>
                       </div>
                     </div>
+                  </div>
+                  <div className="review">
                     <div className="ratting-review">
                       {Object.entries(ratings)
                         .sort((a, b) => b[0] - a[0])
@@ -594,6 +586,19 @@ export const AstrologerDetail = ({ astrologerData }) => {
                   </div>
                 </div>
               </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* <!--- rating review --> */}
+
+      <section className="rating_review">
+        <div className="container">
+          <div className="rating_review-inner">
+            <div className="row">
+              
               <AstrologerReview
                 astrologerData={astrologerData}
                 renderStars={renderStars}
