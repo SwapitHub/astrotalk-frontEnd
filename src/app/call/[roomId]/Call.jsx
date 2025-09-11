@@ -33,7 +33,7 @@ const Call = () => {
   const [remoteMicStatus, setRemoteMicStatus] = useState({});
   const [getSocketId, setGetSocketId] = useState(null);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
-  const [showJoinRoom, setShowJoinRoom] = useState(true);
+  const [showJoinRoom, setShowJoinRoom] = useState(false);
   const [getUserCall, setGetUserCall] = useState();
   const [loader, setLoder] = useState(false)
   const [roomIdShow, setRoomIdShow] = useState(
