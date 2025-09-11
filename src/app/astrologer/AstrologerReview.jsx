@@ -52,6 +52,7 @@ const AstrologerReview = ({ astrologerData, renderStars}) => {
                 return (
                   <>
                     <div className="single-review">
+                      <div className="profile-stars-outer">
                       <div className="profile-image-name">
                         <div className="picture_profile">
                           <img src="" alt="" />
@@ -64,6 +65,7 @@ const AstrologerReview = ({ astrologerData, renderStars}) => {
                         <ul class="stars">
                           <li>{renderStars(item?.rating)}</li>
                         </ul>
+                      </div>
                       </div>
                       <div className="review-content">
                         <p>{item.review}</p>
@@ -80,6 +82,7 @@ const AstrologerReview = ({ astrologerData, renderStars}) => {
                 return (
                   <>
                     <div className="single-review">
+                      <div className="profile-stars-outer">
                       <div className="profile-image-name">
                         <div className="picture_profile">
                           <img src="" alt="" />
@@ -92,6 +95,7 @@ const AstrologerReview = ({ astrologerData, renderStars}) => {
                         <ul class="stars">
                           <li>{renderStars(item?.rating)}</li>
                         </ul>
+                      </div>
                       </div>
                       {/* <div className="review-content">
                                 <p>{item.review}</p>

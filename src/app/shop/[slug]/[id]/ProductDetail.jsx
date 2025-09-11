@@ -265,6 +265,7 @@ const ProductDetail = ({ productDetailData }) => {
               <h2>Customer Testimonials</h2>
               <div className="reviews-sec">
                 <div className="single-review">
+                  <div className="profile-stars-outer">
                   <div className="profile-image-name">
                     <div className="picture_profile">
                       <img alt="" />
@@ -333,6 +334,7 @@ const ProductDetail = ({ productDetailData }) => {
                         </svg>
                       </li>
                     </ul>
+                  </div>
                   </div>
                   <div className="review-content">
                     <p>Just Loved it amazing quality</p>

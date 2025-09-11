@@ -4,6 +4,7 @@ import useCustomGetApi from "@/app/hook/CustomHookGetApi";
 import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
+import { MdDelete, MdEditSquare } from "react-icons/md";
 
 const SeminarRegistration = () => {
   const [formData, setFormData] = useState({
@@ -180,7 +181,7 @@ const SeminarRegistration = () => {
     }
   };
   return (
-    <div>
+    <div className="seminar-reg-outer">
       <h2>Astrologer Seminar Invitation Form</h2>
       <div className="admin-form-box">
         <form onSubmit={handleSubmit} noValidate>
@@ -436,12 +437,12 @@ const SeminarRegistration = () => {
                       />
                     </td>
                     <td>
-                      <button onClick={() => handleEdit(item)}>Edit</button>
+                      <button onClick={() => handleEdit(item)}><MdEditSquare /></button>
                       <button
                         style={{ marginLeft: 8 }}
                         onClick={() => handleDelete(item._id)}
                       >
-                        Delete
+                       <MdDelete />
                       </button>
                     </td>
                   </tr>
