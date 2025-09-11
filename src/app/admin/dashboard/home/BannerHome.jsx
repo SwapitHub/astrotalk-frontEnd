@@ -1,4 +1,5 @@
 "use client";
+
 import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
@@ -7,9 +8,12 @@ import { toast } from "react-toastify";
 const BannerHome = () => {
   const [bannerHomeListData, setBannerHomeListData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const fileInputRef = useRef(null);
-  console.log(bannerHomeListData);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editingId, setEditingId] = useState(null);
 
+  const fileInputRef = useRef(null);
+
+  // Fetch all banners
   const fetchBannerHomeList = async () => {
     try {
       setLoading(true);
@@ -19,7 +23,7 @@ const BannerHome = () => {
       setBannerHomeListData(response.data);
     } catch (error) {
       console.error("Fetch bannerHome list error:", error);
-      toast.error("Failed to fetch bannerHome.", { position: "top-right" });
+      toast.error("Failed to fetch banners.", { position: "top-right" });
     } finally {
       setLoading(false);
     }
@@ -29,7 +33,8 @@ const BannerHome = () => {
     fetchBannerHomeList();
   }, []);
 
-  const handleSubmitAddBannerHome = async () => {
+  // Add or Update banner
+  const handleBannerSubmit = async () => {
     setLoading(true);
 
     const imageInput = document.getElementById("banner_image");
@@ -44,10 +49,8 @@ const BannerHome = () => {
     const banner_btn_link = bannerBtnLink?.value;
     const banner_btn_name = bannerBtnName?.value;
 
-    if (!file || !heading || !description || !banner_btn_link || !banner_btn_name) {
-      toast.error("Please fill all fields and select an image", {
-        position: "top-right",
-      });
+    if (!heading || !description || !banner_btn_link || !banner_btn_name) {
+      toast.error("Please fill all fields", { position: "top-right" });
       setLoading(false);
       return;
     }
@@ -57,46 +60,65 @@ const BannerHome = () => {
     formData.append("banner_desc", description);
     formData.append("banner_btn_link", banner_btn_link);
     formData.append("banner_btn_name", banner_btn_name);
-    formData.append("image", file);
+
+    if (file) {
+      formData.append("image", file);
+    }
 
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/post-banner-home`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+      if (isEditMode && editingId) {
+        formData.append("id", editingId);
+
+        const response = await axios.put(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/put-banner-home`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          toast.success("Banner updated successfully!", {
+            position: "top-right",
+          });
         }
-      );
+      } else {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/post-banner-home`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
 
-      if (response.data?.message === "success") {
-        toast.success("Banner added successfully!", { position: "top-right" });
-
-        // Reset inputs
-        imageInput.value = "";
-        headingInput.value = "";
-        descInput.value = "";
-        bannerBtnLink.value = "";
-        bannerBtnName.value = "";
-
-        fetchBannerHomeList();
+        if (response.data?.message === "success") {
+          toast.success("Banner added successfully!", {
+            position: "top-right",
+          });
+        }
       }
+
+      // Reset form and reload
+      resetForm();
+      fetchBannerHomeList();
     } catch (error) {
-      console.error("Upload error:", error);
-      toast.error("Image not uploaded. Please try again", {
-        position: "top-right",
-      });
+      console.error("Banner submit error:", error);
+      toast.error("Something went wrong", { position: "top-right" });
     } finally {
       setLoading(false);
     }
   };
 
-  const deleteBannerHome = async (id) => {
+  // Delete banner
+  const deleteBannerHome = async (cloudinary_id) => {
     setLoading(true);
     try {
       const res = await axios.delete(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/delete-bannerHome/?cloudinary_id=${id}`
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/delete-bannerHome/?cloudinary_id=${cloudinary_id}`
       );
 
       if (res.status === 200) {
@@ -114,15 +136,44 @@ const BannerHome = () => {
     }
   };
 
+  // Edit banner
+  const handleEdit = (item) => {
+    setIsEditMode(true);
+    setEditingId(item._id);
+
+    document.getElementById("banner_heading").value = item.banner_heading || "";
+    document.getElementById("banner_desc").value = item.banner_desc || "";
+    document.getElementById("banner_btn_name").value = item.banner_btn_name || "";
+    document.getElementById("banner_btn_link").value = item.banner_btn_link || "";
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+
+    toast.info("Edit mode activated", { position: "top-right" });
+  };
+
+  // Reset form
+  const resetForm = () => {
+    setIsEditMode(false);
+    setEditingId(null);
+
+    document.getElementById("banner_heading").value = "";
+    document.getElementById("banner_desc").value = "";
+    document.getElementById("banner_btn_name").value = "";
+    document.getElementById("banner_btn_link").value = "";
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
   return (
     <div className="AddLanguage gallery-main banner-home">
       <div className="language-add-data">
-        <h2>Create New Banner</h2>
+        <h2>{isEditMode ? "Update Banner" : "Create New Banner"}</h2>
         <div className="admin-form-box">
           <div className="form-field">
             <div className="label-content"><label>Choose Image:</label></div>
             <input
-            className="common-input-filed"
+              className="common-input-filed"
               type="file"
               id="banner_image"
               accept="image/*"
@@ -132,7 +183,7 @@ const BannerHome = () => {
           <div className="form-field">
             <div className="label-content"><label>Heading Text:</label></div>
             <input
-             className="common-input-filed"
+              className="common-input-filed"
               type="text"
               id="banner_heading"
               placeholder="Enter heading"
@@ -142,7 +193,7 @@ const BannerHome = () => {
           <div className="form-field">
             <div className="label-content"><label>Button Name:</label></div>
             <input
-            className="common-input-filed"
+              className="common-input-filed"
               type="text"
               id="banner_btn_name"
               placeholder="Enter btn name"
@@ -151,7 +202,7 @@ const BannerHome = () => {
           <div className="form-field">
             <div className="label-content"><label>Button Link:</label></div>
             <input
-            className="common-input-filed"
+              className="common-input-filed"
               type="text"
               id="banner_btn_link"
               placeholder="Enter btn Link"
@@ -160,15 +211,26 @@ const BannerHome = () => {
           <div className="form-field">
             <div className="label-content"><label>Description:</label></div>
             <input
-            className="common-input-filed"
+              className="common-input-filed"
               type="text"
               id="banner_desc"
               placeholder="Enter description"
             />
           </div>
-        <button onClick={handleSubmitAddBannerHome}>Add Banner</button>
-        </div>
 
+          <button onClick={handleBannerSubmit}>
+            {isEditMode ? "Update Banner" : "Add Banner"}
+          </button>
+
+          {isEditMode && (
+            <button
+              style={{ marginLeft: "10px", backgroundColor: "#999" }}
+              onClick={resetForm}
+            >
+              Cancel Edit
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="language-list">
@@ -187,17 +249,17 @@ const BannerHome = () => {
                     <span className="btn-link">{item?.banner_btn_link}</span>
                   </span>
                   <button
-                  onClick={() =>
-                    deleteBannerHome(item?.singleImages?.cloudinary_id)
-                  }
-                >
-                  Remove
-                </button>
+                    onClick={() =>
+                      deleteBannerHome(item?.singleImages?.cloudinary_id)
+                    }
+                  >
+                    Remove
+                  </button>
+                  <button onClick={() => handleEdit(item)}>Edit</button>
                 </span>
                 <span className="banner-img">
-                <img src={item?.singleImages?.img_url} alt="banner" />
+                  <img src={item?.singleImages?.img_url} alt="banner" />
                 </span>
-                
               </li>
             ))}
           </ul>

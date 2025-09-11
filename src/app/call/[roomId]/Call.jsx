@@ -3,17 +3,14 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 
-import RecordingScreen from "@/app/component/RecordingScreen";
-import ScreenShare from "@/app/component/ScreenShare";
+import Loader from "@/app/component/Loader";
+import Link from "next/link";
 import { AiOutlineAudio, AiOutlineAudioMuted } from "react-icons/ai";
-import { IoSettingsOutline } from "react-icons/io5";
 import {
-  MdCallEnd,
   MdOutlineVideocam,
-  MdOutlineVideocamOff,
+  MdOutlineVideocamOff
 } from "react-icons/md";
 import secureLocalStorage from "react-secure-storage";
-import Loader from "@/app/component/Loader";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, { autoConnect: false });
 
@@ -23,6 +20,8 @@ const Call = () => {
   const [myId, setMyId] = useState("");
   const [remoteUsers, setRemoteUsers] = useState({}); // socketId -> MediaStream
   const pcsd = useRef({}); // keep peer connections in a ref so they persist
+  const param = useParams()
+
 
   const localVideoRef = useRef(null);
   const localStream = useRef(null);
@@ -156,29 +155,7 @@ const Call = () => {
   };
 
   // END CALL FUNCTION
-  const endCall = () => {
-    // 1. Stop local tracks (turn off camera & mic)
-    if (localStream.current) {
-      localStream.current.getTracks().forEach((track) => track.stop());
-      localStream.current = null;
-    }
-
-    // 2. Close all peer connections
-    Object.values(pcsd.current).forEach((pc) => pc.close());
-    pcsd.current = {};
-
-    // 3. Tell server you left
-    socket.emit("leave-room", { roomId, socketId: myId });
-
-    // 4. Clear UI state
-    setRemoteUsers({});
-    setMyId("");
-
-    // Optionally disconnect socket
-    socket.disconnect();
-
-    window.location.href = "/";
-  };
+ 
 
   const toggleAudio = () => {
     const audioTrack = localStream.current?.getAudioTracks()[0];
@@ -210,19 +187,7 @@ const Call = () => {
     }));
   });
 
-  const videoRef = useRef(null);
 
-  const toggleFullScreen = () => {
-    if (videoRef.current) {
-      if (!document.fullscreenElement) {
-        videoRef.current.requestFullscreen().catch((err) => {
-          console.error(`Fullscreen error: ${err.message}`);
-        });
-      } else {
-        document.exitFullscreen();
-      }
-    }
-  };
 
   useEffect(() => {
     socket.on("join-user-call-new-notification", ({ roomId }) => {
@@ -232,9 +197,8 @@ const Call = () => {
 
     socket.on("accept-join-user-call-new-notification", ({ roomId }) => {
       console.log("User asked to join call for room:", roomId.roomId);
-      setShowJoinRoom(true)
-      setLoder(false)
-      setGetUserCall()
+      router.push(`/LiveCall/${param.roomId}`)
+
     });
 
     return () => {
@@ -251,22 +215,10 @@ const Call = () => {
     });
   };
 
-  const handleAdmitUser = () => {
-    setGetUserCall()
+ 
 
-    socket.emit("accept-join-user-call", {
-      roomId,
-    });
-  }
 
-    useEffect(() => {
-    if (showJoinRoom) {
-      document.body.classList.add("show-user-room");
-    } else {
-      document.body.classList.remove("show-user-room");
-    }
-  }, [showJoinRoom]);
-  
+
   return (
     <main>
       {
@@ -274,193 +226,47 @@ const Call = () => {
         <Loader />
       }
       <div className="container">
-        {!showJoinRoom ? (
-          <div className="show-room-join">
-            <div className="left-show-room">
-              <div className="live-video">
-                <video ref={localVideoRef} autoPlay muted playsInline />
-                
-              </div>
 
-              <div className="video_call_controls-join">
-                <div className="video_call_row">
-                  <div className="v-cntrl" onClick={toggleAudio}>
-                    {" "}
-                    {voiceMedia ? <AiOutlineAudio /> : <AiOutlineAudioMuted />}
-                  </div>
-                  <div className="v-cntrl" onClick={toggleVideo}>
-                    {" "}
-                    {videoMedia ? (
-                      <MdOutlineVideocam />
-                    ) : (
-                      <MdOutlineVideocamOff />
-                    )}
-                  </div>
+        <div className="show-room-join">
+          <div className="left-show-room">
+            <div className="live-video">
+              <video ref={localVideoRef} autoPlay muted playsInline />
+
+            </div>
+
+            <div className="video_call_controls-join">
+              <div className="video_call_row">
+                <div className="v-cntrl" onClick={toggleAudio}>
+                  {" "}
+                  {voiceMedia ? <AiOutlineAudio /> : <AiOutlineAudioMuted />}
                 </div>
-              </div>
-            </div>
-
-            <div className="right-show-room">
-              <h2>Ready to join</h2>
-
-              {roomIdShow == roomId ? (
-                <>
-                  {getUserCall ? <p>another user wait on room</p> : <p>No one else is here</p>}
-
-                  <button onClick={() => setShowJoinRoom(true)}>Join Now</button>
-                </>
-              ) : (
-                <button onClick={handleAskToJoin}>Ask to join</button>
-              )}
-            </div>
-          </div>
-        ) : (
-          <div className="video_call_seciton">
-            {
-              getUserCall &&
-              <div className="admit-view-popup">
-                <p>Some one join call</p>
-                <button onClick={handleAdmitUser}>Admit</button>
-                <button onClick={() => { setGetUserCall() }}>Cancel</button>
-
-              </div>
-            }
-            <div className="container">
-              <div className="video_call_innner">
-                <div className="video-chat-row">
-                  <div className="video_col">
-                    <div className="video_row">
-                      <div
-                        className={`col main-video ${getSocketId == null ? "user-screen-share" : ""
-                          }`}
-                      >
-                        <div className="icons">
-                          <div className="mic">
-                            {" "}
-                            {voiceMedia ? (
-                              <AiOutlineAudio />
-                            ) : (
-                              <AiOutlineAudioMuted />
-                            )}
-                          </div>{" "}
-                        </div>{" "}
-                        <div className="placeholder_img">
-                          {/* My video main videos*/}
-                          <video
-                            ref={localVideoRef}
-                            autoPlay
-                            muted
-                            playsInline
-                          />
-                        </div>
-                      </div>
-                      {/* remote videos other user videos*/}
-                      {Object.entries(remoteUsers).map(([id, stream]) => (
-
-                        <div key={id}
-                          className={`col ${id === getSocketId ? "screen-share" : ""
-                            }`}
-                        >
-                          <div className="icons">
-                            <span
-                              className="full-screen"
-                              onClick={toggleFullScreen}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="feather feather-maximize-2"
-                              >
-                                <polyline points="15 3 21 3 21 9"></polyline>
-                                <polyline points="9 21 3 21 3 15"></polyline>
-                                <line x1="21" y1="3" x2="14" y2="10"></line>
-                                <line x1="3" y1="21" x2="10" y2="14"></line>
-                              </svg>
-                            </span>
-                            <div className="mic">
-                              {remoteMicStatus[id] === false ? (
-                                <AiOutlineAudioMuted />
-                              ) : (
-                                <AiOutlineAudio />
-                              )}
-                            </div>
-                          </div>
-
-                          <div className="placeholder_img">
-                            <video
-                              key={id}
-                              autoPlay
-                              playsInline
-                              muted={remoteMicStatus[id] === false}
-                              ref={(videoEl) => {
-                                if (videoEl && !videoEl.srcObject) {
-                                  videoEl.srcObject = stream;
-                                  videoRef.current = videoEl; // Save the reference
-                                }
-                              }}
-                            />
-                          </div>
-                        </div>
-
-                      ))}
-                    </div>
-                    <div className="video_call_controls">
-                      <div className="video_call_row">
-                        <div className="v-cntrl" onClick={toggleAudio}>
-                          {" "}
-                          {voiceMedia ? (
-                            <AiOutlineAudio />
-                          ) : (
-                            <AiOutlineAudioMuted />
-                          )}
-                        </div>
-                        <div className="v-cntrl" onClick={toggleVideo}>
-                          {" "}
-                          {videoMedia ? (
-                            <MdOutlineVideocam />
-                          ) : (
-                            <MdOutlineVideocamOff />
-                          )}
-                        </div>
-                        <div className="v-cntrl">
-                          <ScreenShare
-                            pcsd={pcsd}
-                            socket={socket}
-                            localStream={localStream}
-                            localVideoRef={localVideoRef}
-                            roomId={roomId}
-                            myId={myId}
-                            setGetSocketId={setGetSocketId}
-                            setIsScreenSharing={setIsScreenSharing}
-                            isScreenSharing={isScreenSharing}
-                          />
-                        </div>
-                        <div className="v-cntrl">
-                          <RecordingScreen />
-                        </div>
-
-                        <div className="v-cntrl">
-                          <IoSettingsOutline />
-                        </div>
-                        <div className="v-cntrl call-end" onClick={endCall}>
-                          <MdCallEnd />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="chat_col"></div>
+                <div className="v-cntrl" onClick={toggleVideo}>
+                  {" "}
+                  {videoMedia ? (
+                    <MdOutlineVideocam />
+                  ) : (
+                    <MdOutlineVideocamOff />
+                  )}
                 </div>
               </div>
             </div>
           </div>
-        )}
+
+          <div className="right-show-room">
+            <h2>Ready to join</h2>
+
+            {roomIdShow == roomId ? (
+              <>
+                {getUserCall ? <p>another user wait on room</p> : <p>No one else is here</p>}
+
+                <Link href={`/LiveCall/${param.roomId}`}>Join Now</Link>
+              </>
+            ) : (
+              <button onClick={handleAskToJoin}>Ask to join</button>
+            )}
+          </div>
+        </div>
+
       </div>
     </main>
   );
