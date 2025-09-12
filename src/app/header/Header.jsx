@@ -22,8 +22,10 @@ const Header = () => {
   const [hideProfilePopup, setHideProfilePopup] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
   const [userIcon, setUserIcon] = useState(false);
+  const [userLoginIcon, setUserLoginIcon] = useState(false);
 
-setUserIcon
+  setUserLoginIcon
+  setUserIcon
   const [admin_id, setAdmin_id] = useState(() => Cookies.get("admin_id"));
 
   // console.log(astrologerPhone,astroDetailData);
@@ -146,8 +148,8 @@ setUserIcon
   return (
     <>
       {parts[1] == "admin" ||
-      parts[1] == "astrologer" ||
-      (parts[1] == "chat-with-astrologer" && parts[2] == "astrologer") ? (
+        parts[1] == "astrologer" ||
+        (parts[1] == "chat-with-astrologer" && parts[2] == "astrologer") ? (
         ""
       ) : (
         <header className="header">
@@ -228,7 +230,15 @@ setUserIcon
                           <span onClick={handleOtpPop}>Astrologer Login</span>
                         </li>
                         <li>
-                          <Link href="/signup"> Astrologer Registration</Link>
+                          <Link href="/signup"
+                            onClick={() => {
+                              setIsLoading(true);
+                              setTimeout(() => {
+                                setIsLoading(false);
+                              }, 2000);
+                              setToggleMobile(false);
+                            }}
+                          > Astrologer Registration</Link>
                         </li>
                       </ul>
                     </SlideToggle>
@@ -291,10 +301,10 @@ setUserIcon
                 <div className="header-right-profil-icon">
                   <div className="user-dashboard-profile ctm-text-end">
                     <div className="user-dashboard-profile-main-pro">
-                      <Link href="#" title="dashboard">
+                      <Link href="#" title="dashboard" onClick={() => { setUserLoginIcon(!userLoginIcon) }}>
                         <FaUser />
                       </Link>
-                      <div className="user-dashboard-profile-menu">
+                      <div className={`user-dashboard-profile-menu ${userLoginIcon ? "open" : ""}`}>
                         <div className="user-inner-dashbord-pic">
                           <Link href="#" title="Profile">
                             <FaUser />
@@ -355,10 +365,10 @@ setUserIcon
               ) : (
                 <>
                   <div className="header-user">
-                    <div className="header-user-icon"onClick={()=>{setUserIcon(!userIcon)}}>
+                    <div className="header-user-icon" onClick={() => { setUserIcon(!userIcon) }}>
                       <FaUser />
                     </div>
-                    <div className={`header-user-drop-down ${userIcon ? "open":""}`}>
+                    <div className={`header-user-drop-down ${userIcon ? "open" : ""}`}>
                       <ul>
                         <li>
                           <Link href="/free-chat/start">

@@ -481,6 +481,11 @@ const AstroMallShopProduct = () => {
               type="number"
               id="Starting_price"
               className="common-input-filed"
+              onKeyDown={(e) => {
+                  if (e.key === "-" || e.key === "e") {
+                    e.preventDefault();
+                  }
+                }}
             />
           </div>
         ) : (
@@ -493,6 +498,11 @@ const AstroMallShopProduct = () => {
                 type="number"
                 id="actual_price"
                 className="common-input-filed"
+                onKeyDown={(e) => {
+                  if (e.key === "-" || e.key === "e") {
+                    e.preventDefault();
+                  }
+                }}
               />
             </div>
             <div className="discount-price">
@@ -503,6 +513,11 @@ const AstroMallShopProduct = () => {
                 type="number"
                 id="discount_price"
                 className="common-input-filed"
+                onKeyDown={(e) => {
+                  if (e.key === "-" || e.key === "e") {
+                    e.preventDefault();
+                  }
+                }}
               />
             </div>
           </div>

@@ -74,6 +74,11 @@ const Denomination = () => {
               placeholder="enter amount"
               id="amount"
               className="common-input-filed"
+              onKeyDown={(e) => {
+                  if (e.key === "-" || e.key === "e") {
+                    e.preventDefault();
+                  }
+                }}
             />
           </div>
 
@@ -86,6 +91,11 @@ const Denomination = () => {
               placeholder="enter extra amount"
               id="extra-amount"
               className="common-input-filed"
+              onKeyDown={(e) => {
+                  if (e.key === "-" || e.key === "e") {
+                    e.preventDefault();
+                  }
+                }}
             />
           </div>
 

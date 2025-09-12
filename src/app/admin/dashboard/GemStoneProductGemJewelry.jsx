@@ -193,7 +193,11 @@ const GemStoneProductGemJewelry = () => {
           <div className="label-content">
             <label>Price</label>
           </div>
-          <input class="common-input-filed" id="gem_price" type="number" />
+          <input class="common-input-filed" id="gem_price" type="number" onKeyDown={(e) => {
+                  if (e.key === "-" || e.key === "e") {
+                    e.preventDefault();
+                  }
+                }}/>
         </div>
         <div class="form-field">
           <div class="label-content">
