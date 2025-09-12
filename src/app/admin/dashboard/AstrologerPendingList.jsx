@@ -132,14 +132,7 @@ function AstrologerPendingList() {
                           item.email
                         )
                       }
-                      style={{
-                        backgroundColor: item.astroStatus ? "green" : "orange",
-                        color: "white",
-                        padding: "4px 10px",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                      }}
+                     
                     >
                       {item.astroStatus ? "Active" : "Confirm"}
                     </button>

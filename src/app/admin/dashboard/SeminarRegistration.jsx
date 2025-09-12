@@ -36,6 +36,7 @@ const SeminarRegistration = () => {
     "Health Astrology",
   ];
   const handleEdit = (seminar) => {
+     window.scrollTo(0, 0);
     setFormData({
       name: seminar.name,
       topic: seminar.seminar_topic,

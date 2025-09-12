@@ -11,7 +11,7 @@ h3 {font-size: 36px;}
 .container {max-width: 1180px; padding: 0 20px; margin: 0 auto;}
 img {max-width: 100%; vertical-align: bottom;}
 a {text-decoration: none; transition: all 0.3s; color: var(--primary_color);}
-p:empty {display: none;}
+p:empty, .single-summary:empty {display: none;}
 li {list-style: none;}
 :focus {outline: none;}
 button, .product-right-btn a {cursor: pointer; transition: all 0.3s; font-family: var(--secondary_font); padding: 12px 40px 10px; background-color: var(--primary_color); border-radius: 50px; color: #fff; border: 1px solid var(--primary_color); font-size: 16px; display: inline-block; text-transform: capitalize;}
@@ -38,24 +38,24 @@ nav.navbar > ul > li > a {color: #ffffff;}
 nav.navbar > ul > li > span {cursor: pointer; color: #ffffff;}
 nav.navbar ul li a:hover, nav.navbar ul li span:hover {color: var(--primary_color);}
 .header-left-logo img {max-width: 130px;}
-.header .inner-header-sec button, .notification-box a, .button-outer button {display: inline-block; border: 1px solid var(--body_content_color); background-color: var(--body_content_color); color: var(--primary_color); padding: 8px 20px; border-radius: 50px; font-size: 14px;}
+.notification-box a, .button-outer button {display: inline-block; border: 1px solid var(--body_content_color); background-color: var(--body_content_color); color: var(--primary_color); padding: 8px 20px; border-radius: 50px; font-size: 14px;}
 .header button:hover {background-color: transparent; color: var(--body_content_color);}
 .header .mobile-toggle {display: none;}
 .header .mobile-toggle span {display: block; width: 24px; height: 2px; background-color: #ffffff; margin: 4px 0px;}
 .header-user-icon img {max-width: 40px;}
 .header-user, .has-submenu {position: relative; cursor: pointer;}
 .header-user {padding: 40px 0px 40px 40px;}
-.header-user-drop-down, .submenu {position: absolute; z-index: 1; background-color: var(--secondary_color); padding: 20px; left: 50%; transform: translateX(-50%); transition: all 0.3s; width: max-content; top: 100%;}
+.header-user-drop-down, .submenu {position: absolute; z-index: 1; background-color: var(--secondary_color); padding: 20px; left: 50%; transform: translateX(-50%); transition: all 0.3s; width: max-content; top: 100%; box-shadow: 0px 5px 15px rgba(0, 0, 0, .7);}
 .header-user-drop-down {right: 0; left: auto; transform: none;}
 @media (min-width: 992px) {
  .header-user-drop-down, .submenu {opacity: 0; visibility: hidden;}
 .header-user:hover .header-user-drop-down, li.has-submenu:hover .submenu { opacity: 1; visibility: visible;}
 }
-.header-user-icon svg {font-size: 20px; vertical-align: middle;}
+.header-user-icon svg, .user-dashboard-profile-main-pro svg {font-size: 20px; vertical-align: middle;}
 .submenu a, .header-user-drop-down a {color: #ffffff;}
 .header-user-drop-down a:hover {color: var(--primary_color);}
 ul.submenu > li:not(:last-child), .header-user-drop-down ul li:not(:last-child) {margin: 0 0 10px;}
-.has-submenu > span::before {content: ""; position: absolute; width: 100%; height: 100%; left: 0; top: 0; z-index: 1;}
+.has-submenu > span::before {content: ""; position: absolute; width: 100%; height: 41px; left: 0; top: 0; z-index: 1;}
 .has-submenu > span::after {content: ""; width: 6px; height: 6px; border-right: 2px solid; border-bottom: 2px solid; transform: rotate(45deg); display: inline-block; margin: 0px 0px 3px 8px;}
 /*  Chat Section */
 .chat-top-header {padding: 20px 0px 0px; background-color: transparent; z-index: 1; width: 100%; left: 0; overflow: hidden;}
@@ -128,8 +128,9 @@ ul.submenu > li:not(:last-child), .header-user-drop-down ul li:not(:last-child) 
 .filter-button i {font-size: 14px; color: #232323;  margin-right: 5px; display: inline-block;}
 .heading-button span {font-size: 30px; font-weight: 700;}
 .search-button-filed button i {color: #fff;}
-.free-chat-btn a {vertical-align: middle;}
-.talk-to-astrologer-left-content {display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin: 0 0 20px;}
+.free-chat-btn a {vertical-align: middle; border-bottom: 1px solid;}
+.talk-to-astrologer-left-content {display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin: 0 0 20px; gap: 20px;}
+.free-chat-btn {flex-grow: 1; text-align: right;}
 .talk-to-astrologer-right-content {background-color: var(--secondary_color); padding: 20px;}
 .search-box-top-btn {display: flex; justify-content: flex-end; flex-grow: 1; gap: 15px;}
 .dashboard-right-content .filter-button.search-box-top-btn {margin: 0px 0px 20px; width: auto; display: inline-flex; align-items: center; gap: 15px; justify-content: unset;}
@@ -162,11 +163,12 @@ ul.submenu > li:not(:last-child), .header-user-drop-down ul li:not(:last-child) 
 /* Recharge Popup */
 .main-recharge-popup {margin: 0 auto; text-align: center; display: flex; justify-content: center; background: var(--secondary_color); max-width: 400px; align-items: center; padding: 15px 20px 24px; border-top: 4px solid var(--primary_color);}
 .recharge-popup .button button {color: #313131; border: 1px solid #919191; padding: 5px 20px; font-size: 14px; text-decoration: none; transition: all 0.3s ease-in-out; cursor: pointer; background-color: initial; margin-right: 10px; margin-top: 15px; min-width: 92px;}
-.all-list-talk-to-astrologer {margin-top: 30px; grid-template-columns: repeat(3, 1fr); gap: 20px;}
+.all-list-talk-to-astrologer {margin-top: 30px; gap: 20px;}
 .recharge-popup h3 {font-size: 30px;}
 @media (min-width: 768px) {
-  .all-list-talk-to-astrologer {display: grid;}
+  .all-list-talk-to-astrologer { display: flex; flex-wrap: wrap;}
 }
+.inner-astrologer-detail {max-width: calc(100%/3 - 13.33333px); flex: 0 0 100%;}
 .inner-astrologer-detail > a, .inner-astrologer-detail > .main-anchor {display: flex; padding: 14px; width: 100%; position: relative; height: 100%; text-align: center; overflow: hidden; background-color: var(--secondary_color); flex-direction: column;}
 .star-banner {background-color: var(--primary_color); color: #fff; position: absolute; font-size: 12px; padding: 4px 33px; transform: rotate(-43deg); left: -33px; top: 12px;}
 .astrologer-list-center {padding-top: 10px; flex-grow: 1; display: flex; flex-direction: column;}
@@ -291,9 +293,9 @@ p.error {display: block; width: 100%; margin: 7px 0px 0px;}
 .ctm-span-define {font-weight: 500; font-size: 20px;}
 /* dashboard */
 .user-dashboard-profile img {width: 70px; height: 70px; text-align: right; margin-left: auto; border-radius: 50%; object-fit: cover; object-position: top;}
-.user-dashboard-profile-menu {min-width: 300px; max-width: 300px; margin-left: auto; text-align: center; position: absolute; right: 0; top: 100%; background-color: var(--secondary_color); display: none; border-top: 7px solid var(--primary_color); z-index: 111;}
+.user-dashboard-profile-menu {min-width: 300px; max-width: 300px; margin-left: auto; text-align: center; position: absolute; right: 0; top: 100%; background-color: var(--secondary_color); display: none; border-top: 7px solid var(--primary_color); z-index: 111; box-shadow: 0px 5px 15px rgba(0, 0, 0, .7);}
 .hide-profile-popup-onload .user-dashboard-profile-menu {display: none !important;}
-.user-dashboard-profile-main-pro:hover > .user-dashboard-profile-menu {display: block; transition: 0.3s ease-in-out;}
+@media (min-width: 992px) {.user-dashboard-profile-main-pro:hover > .user-dashboard-profile-menu {display: block; transition: 0.3s ease-in-out;}}
 .user-inner-dashbord-content h5 {font-size: 24px; margin: 10px 0 0px;}
 .user-inner-dashbord-content a {pointer-events: none;}
 .user-inner-dashbord-pic {padding: 20px; border-bottom: 1px solid rgba(255, 255, 255, .2);}
@@ -333,7 +335,7 @@ section.all-notifications-sec-bg {margin-top: 50px; margin-bottom: 50px;}
 .delate-all-btn a {border: 1px solid #ff0000; background-color: #ff0000; color: #ffffff;}
 .delate-all-btn a:hover {background-color: #ff0000; border: 1px solid #ff0000; color: #fff;}
 .my-walleavailable-balance-text p, .my-walleavailable-balance-text p span {color: #28ba51;}
-.wallet-ctm-tab-menu ul {display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;}
+.wallet-ctm-tab-menu ul {display: flex; flex-wrap: wrap; gap: 10px;}
 .my-wallet-sec-heading-content {text-align: center;}
 .my-wallet-sec-heading-content h1 {font-size: 48px;}
 /* table */
@@ -2109,6 +2111,9 @@ td button + button {
 .booked_selected_items .close {
   position: static;
 }
+.name {
+    font-weight: 600;
+}
 
 .product-images-left-inner {
   display: flex;
@@ -2147,7 +2152,6 @@ td button + button {
 /* Payment Checkout  */
 .payment-checkout-inner {
   border: 2px solid var(--primary_color);
-  border-radius: 8px;
 }
 .summary-heading {
   text-align: center;
@@ -2167,7 +2171,7 @@ td button + button {
   border: 0px;
   border-bottom: 2px solid var(--body_bg);
   padding: 10px;
-  width: 50%;
+  width: 33.3333%;
   text-align: center;
 }
 .cart_table table td h6 {
@@ -2199,7 +2203,6 @@ td button + button {
 .single-payment-method {
   text-align: center;
   background-color: var(--secondary_color);
-  border-radius: 8px;
   padding: 20px 10px;
   box-sizing: border-box;
   display: flex;
@@ -2459,6 +2462,24 @@ span.required {
   border-radius: 8px;
   padding: 50px;
 }
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+ 
+  #print-area,
+  #print-area * {
+    visibility: visible !important;
+  }
+ 
+  #print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    color: #000;
+  }
+}
 .print-receipt {
   text-align: right;
 }
@@ -2473,7 +2494,9 @@ span.required {
   cursor: pointer;
 }
 .success-top-content {
-  margin: 20px 0px 0px;
+  margin: 20px 0px 30px;
+  border-bottom: 1px solid #ccc;
+  padding: 0px 0px 30px;
 }
 .success-top-content > :not(.success-order-details) {
   text-align: center;
@@ -2482,10 +2505,10 @@ span.required {
   margin: 0 0 10px;
   font-size: 36px;
 }
-.success-order-details {
-  margin: 30px 0px 0px;
-  border-top: 1px solid #ccc;
-  padding: 30px 0px 0px;
+.details-img-outer {
+	display: flex;
+	justify-content: space-between;
+  gap: 30px;
 }
 .success-order-details h3 {
   font-size: 20px;
@@ -2494,11 +2517,7 @@ span.required {
 .success-order-details ul li:not(:last-child) {
   margin: 0 0 10px;
 }
-.success-img {
-  margin: 30px 0px 0px;
-}
 .success-img img {
-  border-radius: 10px;
   height: 300px;
   object-fit: cover;
 }
@@ -2702,23 +2721,6 @@ span.required {
   animation: rotation 20s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
-}
-@media print {
-  body * {
-    visibility: hidden !important;
-  }
- 
-  #print-area,
-  #print-area * {
-    visibility: visible !important;
-  }
- 
-  #print-area {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-  }
 }
 @keyframes rotation {
   0% {
@@ -3225,6 +3227,7 @@ table td button:not(.delete-btn) {
     padding: 38px 0px 40px 40px;
     margin-right: 40px;
 }
+.user-dashboard-profile-main-pro { padding: 38px 0px 40px 40px; margin-right: 10px;}
   .seminar-banner-row .left_col h1 strong {
     font-size: 80px;
   }
@@ -3245,9 +3248,9 @@ table td button:not(.delete-btn) {
   .astrologer {
     padding-block: 60px;
   }
-  .all-list-talk-to-astrologer {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .inner-astrologer-detail {
+    max-width: calc(100%/2 - 10px);
+}
   .inner-talk-to-astrologer {
     row-gap: 15px;
   }
@@ -3333,7 +3336,7 @@ table td button:not(.delete-btn) {
     background-color: var(--secondary_color);
     left: 0;
     width: 100%;
-    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, .7);
     padding: 15px 0px;
   }
   nav.navbar ul {
@@ -3345,7 +3348,6 @@ table td button:not(.delete-btn) {
     display: block;
     cursor: pointer;
   }
-  .header .inner-header-sec button,
   .header-right-profil-icon {
     margin-right: 45px;
   }
@@ -3367,6 +3369,7 @@ table td button:not(.delete-btn) {
     visibility: visible;
     border-left: 3px solid var(--primary_color);
     margin: 20px 0px 0;
+    box-shadow: none;
   }
   .profile_with_contact_slider-inner {gap: 20px;}
   .profile_with_contact_slider .about_us {
@@ -3448,6 +3451,7 @@ table td button:not(.delete-btn) {
   .ratting-review {gap: 10px; flex-wrap: wrap;}
   .status_bar_ratting {flex:0 0 100%;}
   .similar-conslt-reviews-sec, .reviews-sec {grid-template-columns: repeat(2, 1fr);}
+  .user-dashboard-profile-menu.open {display: block;}
 }
 @media (max-width: 767px) {
   body {
@@ -3459,7 +3463,6 @@ table td button:not(.delete-btn) {
     line-height: 42px;
   }
   /* Header Section */
-  .header .inner-header-sec button,
   .header-right-profil-icon {
     margin-right: 30px;
   }
@@ -3527,6 +3530,7 @@ table td button:not(.delete-btn) {
   .about_astrologer p span {
     font-size: 12px;
   }
+  .inner-astrologer-detail {max-width: 100%;}
   .inner-astrologer-detail:not(:last-child) {
     margin: 0 0 20px;
   }
@@ -3601,6 +3605,7 @@ table td button:not(.delete-btn) {
   .talk-to-astrologer-left-content {
     justify-content: center;
     flex-direction: column;
+    gap: 10px;
   }
   .sort-right {
     gap: 20px;
@@ -3648,7 +3653,7 @@ table td button:not(.delete-btn) {
   }
   .card-body-right {
     padding-left: 0px;
-    padding-top: 10px;
+    padding-top: 20px;
   }
   .cart_table table td h6 {
     font-size: 14px;
@@ -3874,7 +3879,9 @@ table td button:not(.delete-btn) {
   .footer .top-content h2, .footer-menu h3 {margin: 0 0 9px;}
   .banner .left-col {text-align: center;}
   .change-password .product-type-main.form-field {margin: 0 0 20px;}
-  .inner-my-wallet-sec {flex-wrap: wrap;}
+  .inner-my-wallet-sec, .details-img-outer {flex-wrap: wrap;}
+  .print-receipt {text-align: center;}
+  .summary-heading h3 {font-size: 24px;}
 }
 @media (max-width: 639px) {
   .four-col .row {
@@ -3903,7 +3910,7 @@ table td button:not(.delete-btn) {
   }
   .send-otp .number--continious-popup,
   .enter-otp {
-    padding: 0 20px 0px;
+    padding: 0 20px 30px;
   }
   .inner-popular-recharge-sec {
     width: calc(100% / 2 - 10px);

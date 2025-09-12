@@ -240,7 +240,7 @@ const GemStoneProductGemJewelry = () => {
         )}
       </div>
       <div className="language-list">
-        <h2>Show astro mall producte list</h2>
+        <h2>Show astro mall product list</h2>
         {loading ? (
           <Loader />
         ) : (

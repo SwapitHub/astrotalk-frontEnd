@@ -281,7 +281,7 @@ const AstroMallShops = () => {
         )}
       </div>
       <div className="language-list">
-        <h2>Show astro mall shope list</h2>
+        <h2>Show astro mall shop list</h2>
         {loading ? (
           <Loader />
         ) : (

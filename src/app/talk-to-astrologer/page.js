@@ -8,7 +8,7 @@ function CallButton() {
   const handleCall = async () => {
     setStatus('Calling...');
     try {
-      const res = await axios.post('http://localhost:8080/make-call');
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/make-call`);
       if (res.data.success) {
         setStatus('Call initiated! Check your phone.');
       } else {
