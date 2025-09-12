@@ -41,7 +41,7 @@ textarea {min-height: 100px; resize: none;}
 .ctm-align-items-center {align-items: center;}
 .ctm-align-items-baseline {align-self: baseline;}
 /*  Header Section */
-.header {position: relative; z-index: 2; background: var(--body_bg); border-bottom: 1px solid var(--secondary_hover);}
+.header {position: relative; z-index: 99; background: var(--body_bg); border-bottom: 1px solid var(--secondary_hover);}
 nav.navbar {flex-grow: 1;}
 nav.navbar > ul {justify-content: flex-end; display: flex;}
 nav.navbar > ul > li {padding: 40px 20px;}
@@ -64,603 +64,121 @@ nav.navbar ul li a:hover, nav.navbar ul li span:hover {color: var(--primary_colo
 .header-user-drop-down a:hover {color: var(--primary_color);}
 ul.submenu > li:not(:last-child), .header-user-drop-down ul li:not(:last-child) {margin: 0 0 10px;}
 /*  Chat Section */
-.chat-top-header {
-  padding: 20px 0px 0px;
-  background-color: transparent;
-  z-index: 1;
-  width: 100%;
-  left: 0;
-  overflow: hidden;
-}
-.chat-container {
-  display: flex;
-  flex-direction: column-reverse;
-  overflow-y: auto;
-  padding: 10px;
-  scroll-behavior: smooth;
-}
-.chat-message {
-  background-color: #f1f1f1;
-  margin: 5px 0;
-  padding: 10px;
-  border-radius: 8px;
-  color: white;
-}
-.chat-top-header-main {
-  border-radius: 10px;
-  position: relative;
-}
-.inner-chat-top-header {
-  background-color: var(--primary_color);
-  padding: 10px 20px;
-  border-radius: 10px 10px 0 0;
-  width: 100%;
-  z-index: 1;
-}
-.header-chat-content * {
-  color: #ffffff;
-}
-.header-chat-content h4 {
-  font-size: 16px;
-}
-.header-chat-content p {
-  font-size: 14px;
-}
-.chat-right-end-btn button {
-  color: var(--primary_color);
-  border-radius: 5px;
-  border: 1px solid #ffffff;
-  padding: 8px 14px;
-  background-color: #fff;
-  font-size: 14px;
-  cursor: pointer;
-}
-.chat-right-end-btn button:hover {
-  background-color: transparent;
-  color: #fff;
-  border-color: #ffffff;
-}
-.header-chat-logo a img {
-  height: 48px;
-  width: 48px;
-  border-radius: 100%;
-  object-fit: cover;
-  object-position: center top;
-}
-.header-chat-logo,
-.header-chat-content {
-  max-width: max-content;
-}
-.uder-and-astro-chat-bg {
-  background-image: url(/astro-bg-img.webp);
-  background-repeat: repeat;
-  background-size: auto;
-  height: calc(100vh - 230px);
-  overflow: auto;
-  padding: 20px 0;
-}
-.inner-uder-and-astro-chat {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 20px;
-  width: 100%;
-}
-.inner-uder-and-astro-chat > div:last-child {
-  margin-bottom: 30px;
-}
+.chat-top-header {padding: 20px 0px 0px; background-color: transparent; z-index: 1; width: 100%; left: 0; overflow: hidden;}
+.chat-container {display: flex; flex-direction: column-reverse; overflow-y: auto; padding: 10px; scroll-behavior: smooth;}
+.chat-message {background-color: #f1f1f1; margin: 5px 0; padding: 10px; border-radius: 8px; color: white;}
+.chat-top-header-main {position: relative;}
+.inner-chat-top-header {background-color: var(--primary_color); padding: 10px 20px; width: 100%; z-index: 1;}
+.header-chat-content * {color: #ffffff;}
+.header-chat-content h4 {font-size: 16px;}
+.header-chat-content p {font-size: 14px;}
+.header-chat-content h2 {font-size: 24px;}
+.chat-right-end-btn button {color: var(--primary_color); border: 1px solid #ffffff; padding: 10px 25px 7px; background-color: #fff; font-size: 14px; cursor: pointer;}
+.chat-right-end-btn button:hover {background-color: transparent; color: #fff; border-color: #ffffff;}
+.header-chat-logo a img {height: 48px; width: 48px; border-radius: 100%; object-fit: cover; object-position: center top;}
+.header-chat-logo, .header-chat-content {max-width: max-content;}
+.uder-and-astro-chat-bg {background-image: url(/astro-bg-img.webp);background-repeat: repeat; background-size: auto; height: calc(100vh - 230px); overflow: auto; padding: 20px 0;}
+.inner-uder-and-astro-chat {max-width: 1000px; margin: 0 auto; padding: 0 20px; width: 100%;}
+.inner-uder-and-astro-chat > div:last-child {margin-bottom: 30px;}
 /* Custom Scrollbar for Webkit Browsers (Chrome, Edge, Safari) */
-.uder-and-astro-chat-bg::-webkit-scrollbar {
-  width: 8px; /* Width of the scrollbar */
-}
-.uder-and-astro-chat-bg::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Light background */
-  border-radius: 10px;
-}
-.uder-and-astro-chat-bg::-webkit-scrollbar-thumb {
-  background: linear-gradient(45deg, #ddd, #ddd); /* Gradient color */
-  border-radius: 10px;
-}
-.uder-and-astro-chat-bg::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(45deg, #ddd, #ddd); /* Darker on hover */
-}
+.uder-and-astro-chat-bg::-webkit-scrollbar {width: 8px; /* Width of the scrollbar */}
+.uder-and-astro-chat-bg::-webkit-scrollbar-track {background: #f1f1f1; /* Light background */ border-radius: 10px;}
+.uder-and-astro-chat-bg::-webkit-scrollbar-thumb {background: linear-gradient(45deg, #ddd, #ddd); /* Gradient color */ border-radius: 10px;}
+.uder-and-astro-chat-bg::-webkit-scrollbar-thumb:hover {background: linear-gradient(45deg, #ddd, #ddd); /* Darker on hover */}
 /* Custom Scrollbar for Firefox */
-.uder-and-astro-chat-bgchat-container {
-  scrollbar-width: thin;
-  scrollbar-color: #ddd #ddd;
-}
+.uder-and-astro-chat-bgchat-container {scrollbar-width: thin; scrollbar-color: #ddd #ddd;}
 /*  Sent Button Bottom  */
-.send-input-button {
-  background-color: #f0f0f0;
-  padding: 14px 20px;
-  gap: 10px;
-  width: calc(100% - 2px);
-  bottom: 0px;
-  border-radius: 0 0 10px 10px;
-  max-width: 1140px;
-  margin: 0 auto !important;
-  left: 0;
-  right: 0;
-}
-.astrologer-chat .send-input-button {
-  bottom: 10px;
-}
-.chat-input-box-main {
-  width: 100%;
-}
-.chat-button {
-  width: 5%;
-  text-align: right;
-}
-.chat-button button {
-  background: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  color: #959b9d;
-  font-size: 22px;
-}
-.chat-search-input-box input {
-  border: none;
-  background: transparent;
-  height: 100%;
-  font-size: 14px;
-  color: #959b9d;
-  outline: none;
-  width: 100%;
-}
-.chat-search-input-box {
-  width: calc(90% - 20px);
-}
-.link-filed-section {
-  width: 10%;
-  text-align: right;
-}
-.chat-search-input-box input::placeholder {
-  font-size: 14px;
-  color: #959b9d;
-}
-.link-filed-section ul {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: flex-end;
-}
-.link-filed-section ul li a {
-  width: 16px;
-  height: 16px;
-  display: flex;
-  align-items: center;
-  color: #959b9d;
-}
+.send-input-button {background-color: var(--secondary_hover); padding: 14px 20px; width: calc(100% - 2px); max-width: 1140px; margin: 0 auto !important;}
+.astrologer-chat .send-input-button {bottom: 10px;}
+.chat-input-box-main {width: 100%;}
+.chat-button { width: 5%; text-align: right;}
+.chat-button button {background: transparent; border: none; outline: none; cursor: pointer; color: #959b9d; font-size: 22px;}
+.chat-search-input-box input {border: none; background: transparent; height: 100%; font-size: 14px; color: #959b9d; outline: none; width: 100%;}
+.chat-search-input-box {width: calc(90% - 20px);}
+.link-filed-section {width: 10%; text-align: right;}
+.chat-search-input-box input::placeholder {font-size: 14px; color: #959b9d;}
+.link-filed-section ul {display: flex; align-items: center; flex-wrap: wrap; gap: 20px; justify-content: flex-end;}
+.link-filed-section ul li a {width: 16px; height: 16px; display: flex; align-items: center; color: #959b9d;}
 /*  Inner Chats  */
-.astro-chat {
-  background-color: #ffffff;
-  padding: 10px 14px;
-  border-radius: 10px;
-  max-width: 500px;
-  margin-top: 20px;
-}
-.user-chat {
-  background-color: #ffffe4;
-  padding: 10px 14px;
-  border-radius: 10px;
-  text-align: right;
-  max-width: 500px;
-  margin-left: auto;
-  margin-top: 30px;
-}
-.user-chat + .user-cha {
-  margin-top: 10px;
-}
-.astro-chat p,
-.user-chat p {
-  font-size: 14px;
-  text-align: start;
-  color: #eb3535;
-}
-.time-box {
-  text-align: right;
-}
-.time-box span {
-  font-size: 13px;
-  margin-top: 5px;
-}
+.astro-chat {background-color: #ffffff; padding: 10px 14px; border-radius: 10px; max-width: 500px; margin-top: 20px;}
+.user-chat {background-color: #ffffe4; padding: 10px 14px; border-radius: 10px; text-align: right; max-width: 500px; margin-left: auto; margin-top: 30px;}
+.user-chat + .user-cha {margin-top: 10px;}
+.astro-chat p, .user-chat p {font-size: 14px; text-align: start; color: #eb3535;}
+.time-box {text-align: right;}
+.time-box span {font-size: 13px; margin-top: 5px;}
 /*  Inner Chats End Here  */
-.recharge-now-section ul li p {
-  color: #616161;
-  font-size: 14px;
-}
-.recharge-now-section ul {
-  margin-left: 100px;
-}
-.chat-box {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-}
-.incoming,
-.outgoing {
-  align-self: flex-start;
-  background-color: #fff;
-  border-radius: 8px;
-  max-width: 65%;
-  box-shadow: 0 1px 0.5px #00000021;
-  padding: 5px 20px 1px 15px;
-  margin-bottom: 15px;
-  position: relative;
-}
-.outgoing {
-  align-self: flex-end;
-  background-color: #ffffe4;
-}
-.message.outgoing p,
-.message.incoming p {
-  font-size: 13px;
-  margin-bottom: 2px;
-  word-break: break-word;
-  color: #616161;
-}
-.chat-input {
-  position: relative;
-  width: 100%;
-}
-.chat-input input {
-  width: 100%;
-  padding: 0px 96px 0px 20px;
-  border: none;
-  border-radius: 50px;
-  height: 59px;
-  outline: none;
-  font-family: inherit;
-}
-.chat-input button {
-  padding: 9px 20px;
-  cursor: pointer;
-  border-radius: 50px;
-  position: absolute;
-  right: 11px;
-  top: 8.5px;
-}
+.recharge-now-section ul li p {color: #616161; font-size: 14px;}
+.recharge-now-section ul {margin-left: 100px;}
+.chat-box {flex: 1;overflow-y: auto; padding: 10px; display: flex;flex-direction: column;}
+.incoming, .outgoing {align-self: flex-start; background-color: #fff; border-radius: 8px; max-width: 65%; box-shadow: 0 1px 0.5px #00000021; padding: 5px 20px 1px 15px; margin-bottom: 15px; position: relative;}
+.outgoing {align-self: flex-end; background-color: #ffffe4;}
+.message.outgoing p, .message.incoming p { font-size: 13px; margin-bottom: 2px; word-break: break-word; color: #616161;}
+.chat-input {position: relative; width: 100%;}
+.chat-input input {width: 100%; padding: 0px 96px 0px 20px; border: none; border-radius: 50px; height: 59px; outline: none; font-family: inherit;}
+.chat-input button { padding: 9px 20px; cursor: pointer; border-radius: 50px; position: absolute; right: 11px; top: 8.5px;}
 /* Notification popup  */
-.notification-astro {
-  position: fixed;
-  right: 20px;
-  top: 20px;
-  z-index: 9;
-}
-.notification-box {
-  background-color: var(--primary_color);
-  color: white;
-  padding: 15px;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  min-width: 300px;
-}
-.notification-box > h4 {
-  text-align: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-  padding: 0 0 10px;
-  margin: 0 0 10px;
-}
-.notification-box > p {
-  font-size: 14px;
-  margin: 0 0 5px;
-}
-.notification-box a {
-  border-color: #ffffff;
-  color: #ffffff;
-  margin-left: 5px;
-  background-color: transparent;
-}
-.button-outer {
-  border-top: 1px solid rgba(255, 255, 255, 0.5);
-  padding: 14px 0px 0px;
-  margin: 10px 0px 0px;
-}
+.notification-astro {position: fixed; right: 20px; top: 20px; z-index: 9;}
+.notification-box {background-color: var(--primary_color); color: white; padding: 15px; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); z-index: 1000; min-width: 300px;}
+.notification-box > h4 {text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.5); padding: 0 0 10px; margin: 0 0 10px;}
+.notification-box > p {font-size: 14px; margin: 0 0 5px;}
+.notification-box a {border-color: #ffffff; color: #ffffff; margin-left: 5px; background-color: transparent;}
+.button-outer {border-top: 1px solid rgba(255, 255, 255, 0.5); padding: 14px 0px 0px; margin: 10px 0px 0px;}
 /*  Thank You Section  */
-.astrologer-registration-bg {
-  padding: 50px 0;
-}
-.logo-astrologer-registration img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
-}
-.logo-astrologer-registration {
-  margin-top: 30px;
-  position: relative;
-  text-align: center;
-}
-.logo-astrologer-registration::after {
-  content: "";
-  background-color: #ccc;
-  width: 100%;
-  height: 1px;
-  left: 0;
-  margin: 0 auto;
-  position: absolute;
-  top: 26px;
-  z-index: 1;
-}
-.astrologer-thanks-section-bg {
-  max-width: 1024px;
-  margin: 0 auto;
-  background: #fff;
-  padding: 30px 20px;
-  border-radius: 10px;
-  margin-top: 20px;
-  box-shadow: 0 5px 12px #00000047;
-}
-.inner-thanks-section {
-  text-align: center;
-}
-.thanks-section-content {
-  margin-top: 30px;
-}
-.thanks-section-content p {
-  font-size: 16px;
-}
-.thanks-section-content p + p {
-  margin-top: 30px;
-}
+.astrologer-registration-bg {padding: 50px 0;}
+.logo-astrologer-registration img {width: 50px; height: 50px; border-radius: 50%; margin: 0 auto; position: relative; z-index: 2;}
+.logo-astrologer-registration {margin-top: 30px; position: relative; text-align: center;}
+.logo-astrologer-registration::after {content: "";background-color: #ccc; width: 100%; height: 1px; left: 0; margin: 0 auto; position: absolute; top: 26px; z-index: 1;}
+.astrologer-thanks-section-bg {max-width: 1024px; margin: 0 auto; background: #fff; padding: 30px 20px; border-radius: 10px; margin-top: 20px; box-shadow: 0 5px 12px #00000047;}
+.inner-thanks-section { text-align: center;}
+.thanks-section-content {margin-top: 30px;}
+.thanks-section-content p {font-size: 16px;}
+.thanks-section-content p + p {margin-top: 30px;}
 /*  Talk to Astrologer Section  */
-.talk-to-astrologer-bg {
-  padding: 50px 0;
-  position: relative;
-}
-.recharge-button {
-  background-color: var(--primary_color);
-  border: 1px solid var(--primary_color);
-  color: #fff;
-  padding: 9px 30px;
-  font-size: 14px;
-  display: inline-block;
-  text-align: center;
-  border-radius: 50px;
-}
-.filter-button button {
-  color: var(--body_content_color);
-  width: max-content;
-  border: 1px solid var(--body_content_color);
-  padding: 9px 30px;
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  font-size: 14px;
-  appearance: none;
-  background-color: transparent;
-  font-family: inherit;
-}
-.filter-button button:hover {
-  background-color: var(--body_content_color);
-  border: 1px solid var(--body_content_color);
-  color: var(--primary_color);
-}
-.filter-button i {
-  font-size: 14px;
-  color: #232323;
-  margin-right: 5px;
-  display: inline-block;
-}
-.heading-button span {
-  font-size: 30px;
-  font-weight: 700;
-}
-.search-button-filed button i {
-  color: #fff;
-}
-.free-chat-btn a {
-  vertical-align: middle;
-}
-.talk-to-astrologer-left-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  margin: 0 0 20px;
-}
-.talk-to-astrologer-right-content {
-    background-color: var(--secondary_color);
-    padding: 20px;
-}
-.search-box-top-btn {
-  display: flex;
-  justify-content: flex-end;
-  flex-grow: 1;
-  gap: 15px;
-}
-.dashboard-right-content .filter-button.search-box-top-btn {
-  margin: 0px 0px 20px;
-  width: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 15px;
-  justify-content: unset;
-}
-.dashboard-right-content .search-box-top-btn {
-  justify-content: flex-start;
-  align-items: center;
-  margin: 0 0 20px;
-  gap: 5px;
-}
-.dashboard-right-content .search-box-filed {
-  max-width: max-content;
-  width: auto;
-}
-.dashboard-right-content .search-box-top-btn input {
-  min-width: 250px;
-}
-.search-box-top-btn input {
-  border: none;
-  height: 40px;
-  outline: none;
-  font-size: 15px;
-  font-family: inherit;
-  background-color: transparent;
-  border-bottom: 1px solid #ffffff;
-  min-width: 300px;
-  color: #ffffff;
-}
-.search-box-top-btn input::placeholder {
-  color: #ffffff;
-}
-.search-help-text {
-    margin-left: 15px;
-}
-.talk-to-astrologer-wrap > p {
-  text-align: center;
-  margin: 40px 0px 0px;
-}
-.search-button-filed button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0px;
-  width: 40px;
-  height: 40px;
-}
-.inner-talk-to-astrologer-right-content {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-.search-button-filed input::placeholder {
-  color: #232323 !important;
-  font-size: 16px;
-}
-.inner-form-filed-sec.full {
-  width: 100%;
-}
-.inner-form-filed-sec {
-  width: calc(100% / 2 - 20px);
-  position: relative;
-}
-.registration-heading .astrologer-call-button-ctm {
-  position: inherit;
-}
-.inner-form-filed-sec textarea {
-  border-radius: 5px;
-  width: 100%;
-  color: #232323;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: normal;
-  outline-style: none;
-  padding: 10px;
-  box-shadow: none !important;
-  background: transparent !important;
-  border: 1px solid #d9d9d9;
-  height: 100px;
-}
-.outer-home-dashboard ul {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-.outer-home-dashboard ul li {
-  display: block;
-  padding: 30px;
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  color: var(--body_content_color);
-  font-size: 16px;
-  cursor: pointer;
-  background-color: var(--secondary_color);
-  transition: all 0.3s;
-}
-.outer-home-dashboard ul li:hover {
-  background-color: var(--secondary_hover);
-}
-.outer-home-dashboard ul li > span:not(.inner-text) {
-  width: 50px;
-  height: 50px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--primary_color);
-  border-radius: 50%;
-}
-.outer-home-dashboard ul li > span:not(.inner-text) svg {
-  color: #fff;
-  width: 26px;
-  height: 26px;
-}
-.outer-home-dashboard .number {
-  display: block;
-  font-size: 26px;
-  font-weight: 500;
-  line-height: 1;
-  margin: 5px 0px 0px;
-}
-.home-dashboard-heading {
-  margin: 0 0 20px;
-}
-.dashboard-right-content .home-dashboard-heading h2 {
-  margin: 0 0 5px;
-}
-.astro-dashboard-heading-btns-outer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0 0 15px;
-}
-.astro-dashboard-heading-btns-outer .home-dashboard-heading {
-  margin: 0px;
-}
-.astro-dashboard-heading-btns-outer
-  .inner-astrologer-registration
-  .astrologer-main-dashboard-btn {
-  margin: 0px;
-}
-.astrologer-main-dashboard-btn a svg {
-  vertical-align: middle;
-  width: 23px;
-  height: 23px;
-}
+.talk-to-astrologer-bg {padding: 50px 0; position: relative;}
+.recharge-button {background-color: var(--primary_color); border: 1px solid var(--primary_color); color: #fff; padding: 9px 30px; font-size: 14px; display: inline-block; text-align: center; border-radius: 50px;}
+.filter-button button {color: var(--body_content_color); width: max-content; border: 1px solid var(--body_content_color); padding: 9px 30px; display: flex; align-items: center; gap: 3px; font-size: 14px; appearance: none; background-color: transparent; font-family: inherit;}
+.filter-button button:hover {background-color: var(--body_content_color); border: 1px solid var(--body_content_color); color: var(--primary_color);}
+.filter-button i {font-size: 14px; color: #232323;  margin-right: 5px; display: inline-block;}
+.heading-button span {font-size: 30px; font-weight: 700;}
+.search-button-filed button i {color: #fff;}
+.free-chat-btn a {vertical-align: middle;}
+.talk-to-astrologer-left-content {display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin: 0 0 20px;}
+.talk-to-astrologer-right-content {background-color: var(--secondary_color); padding: 20px;}
+.search-box-top-btn {display: flex; justify-content: flex-end; flex-grow: 1; gap: 15px;}
+.dashboard-right-content .filter-button.search-box-top-btn {margin: 0px 0px 20px; width: auto; display: inline-flex; align-items: center; gap: 15px; justify-content: unset;}
+.dashboard-right-content .search-box-top-btn {justify-content: flex-start; align-items: center; margin: 0 0 20px; gap: 5px;}
+.dashboard-right-content .search-box-filed {max-width: max-content; width: auto;}
+.dashboard-right-content .search-box-top-btn input {min-width: 250px;}
+.search-box-top-btn input {border: none; height: 40px; outline: none; font-size: 15px; font-family: inherit; background-color: transparent; border-bottom: 1px solid #ffffff; min-width: 300px; color: #ffffff;}
+.search-box-top-btn input::placeholder {color: #ffffff;}
+.search-help-text {margin-left: 15px;}
+.talk-to-astrologer-wrap > p {text-align: center; margin: 40px 0px 0px;}
+.search-button-filed button {display: flex; justify-content: center; align-items: center; padding: 0px; width: 40px; height: 40px;}
+.inner-talk-to-astrologer-right-content {display: flex; gap: 10px; align-items: center;}
+.search-button-filed input::placeholder {color: #232323 !important; font-size: 16px;}
+.inner-form-filed-sec.full {width: 100%;}
+.inner-form-filed-sec {width: calc(100% / 2 - 20px); position: relative;}
+.registration-heading .astrologer-call-button-ctm {position: inherit;}
+.inner-form-filed-sec textarea { width: 100%; background-color: var(--body_bg); font-weight: 400; font-size: 16px; line-height: normal; outline-style: none; padding: 10px; height: 100px; border: 0px; color: #ffffff; font-family: inherit;}
+.outer-home-dashboard ul {display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;}
+.outer-home-dashboard ul li {display: block; padding: 30px; display: flex; gap: 20px; align-items: center; color: var(--body_content_color); font-size: 16px; cursor: pointer; background-color: var(--secondary_color); transition: all 0.3s;}
+.outer-home-dashboard ul li:hover {background-color: var(--secondary_hover);}
+.outer-home-dashboard ul li > span:not(.inner-text) {width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; background-color: var(--primary_color); border-radius: 50%;}
+.outer-home-dashboard ul li > span:not(.inner-text) svg {color: #fff; width: 26px; height: 26px;}
+.outer-home-dashboard .number {display: block; font-size: 26px; font-weight: 500; line-height: 1; margin: 5px 0px 0px;}
+.home-dashboard-heading {margin: 0 0 20px;}
+.dashboard-right-content .home-dashboard-heading h2 {margin: 0 0 5px;}
+.astro-dashboard-heading-btns-outer {display: flex; justify-content: space-between; align-items: center; margin: 0 0 15px;}
+.astro-dashboard-heading-btns-outer .home-dashboard-heading {margin: 0px;}
+.astro-dashboard-heading-btns-outer .inner-astrologer-registration .astrologer-main-dashboard-btn {margin: 0px;}
+.astrologer-main-dashboard-btn a svg {vertical-align: middle; width: 23px; height: 23px;}
 /* Recharge Popup */
-.main-recharge-popup {
-  margin: 0 auto;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  background: var(--secondary_color);
-  max-width: 400px;
-  align-items: center;
-  padding: 15px 20px 24px;
-  border-top: 4px solid var(--primary_color);
-}
-.recharge-popup .button button {
-  color: #313131;
-  border: 1px solid #919191;
-  border-radius: 5px;
-  padding: 5px 20px;
-  font-size: 14px;
-  text-decoration: none;
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
-  background-color: initial;
-  margin-right: 10px;
-  margin-top: 15px;
-  min-width: 92px;
-}
-
-.all-list-talk-to-astrologer {
-  margin-top: 30px;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
+.main-recharge-popup {margin: 0 auto; text-align: center; display: flex; justify-content: center; background: var(--secondary_color); max-width: 400px; align-items: center; padding: 15px 20px 24px; border-top: 4px solid var(--primary_color);}
+.recharge-popup .button button {color: #313131; border: 1px solid #919191; padding: 5px 20px; font-size: 14px; text-decoration: none; transition: all 0.3s ease-in-out; cursor: pointer; background-color: initial; margin-right: 10px; margin-top: 15px; min-width: 92px;}
+.all-list-talk-to-astrologer {margin-top: 30px; grid-template-columns: repeat(3, 1fr); gap: 20px;}
+.recharge-popup h3 {font-size: 30px;}
 @media (min-width: 768px) {
-  .all-list-talk-to-astrologer {
-    display: grid;
-  }
+  .all-list-talk-to-astrologer {display: grid;}
 }
 .inner-astrologer-detail > a,
 .inner-astrologer-detail > .main-anchor {
@@ -892,7 +410,7 @@ h1,
   line-height: normal;
   padding: 10px 15px;
   font-family: inherit;
-  height: 42px;
+  height: 50px;
 }
 .man-input-filed-sec input::placeholder,
 input#fname::placeholder,
@@ -991,6 +509,7 @@ ul.check-box-drop-worn {
   right: 0;
   align-items: center;
   justify-content: center;
+  background-color: var(--secondary_hover);
 }
 .mobile-close-sidebar span {
   display: block;
@@ -1034,7 +553,7 @@ ul.check-box-drop-worn {
   padding: 20px 0px;
 }
 .left-sidebar-logo img {
-  max-width: 100px;
+  max-width: 130px;
   margin: 0 auto;
   display: block;
 }
@@ -1045,7 +564,7 @@ ul.check-box-drop-worn {
 }
 .dashboard-list > ul > li {
   display: block;
-  border-bottom: 1px solid #464646;
+  border-bottom: 1px solid var(--body_bg);
 }
 .dashboard-list > ul > li > span > label {
   position: relative;
@@ -1223,7 +742,7 @@ p.error {
   width: 100%;
   margin: 7px 0px 0px;
 }
-.seo-meta-data-manager .admin-form-box {
+.seo-meta-data-manager .admin-form-box, .seminar-reg-outer .admin-form-box {
     margin: 0 0 30px;
 }
 /*  Send OTP popup */
@@ -1316,7 +835,7 @@ p.error {
   background: transparent;
   border-bottom: 1px solid #d9d9d9;
   border: 1px solid #d9d9d9;
-  height: 40px;
+  height: 50px;
 }
 .send-otp span.close-icon.back {
   left: 10px;
@@ -1442,12 +961,10 @@ p.error {
   position: relative;
   max-width: max-content;
   margin-left: auto;
-  padding-block: 30px;
-
+  padding-block: 40px;
 }
-.user-dashboard-profile-main-pro > a svg {
+.user-dashboard-profile-main-pro > a {
   color: #ffffff;
-  font-size: 27px;
 }
 /*  Notifications Section */
 .banner-notifications-bg {
@@ -1504,6 +1021,7 @@ section.all-notifications-sec-bg {
   display: inline-block;
   width: 100%;
   text-align: center;
+  background-color: transparent;
 }
 .wallet-ctm-tab-menu ul li button:hover,
 .wallet-ctm-tab-menu ul li a:hover {
@@ -1526,14 +1044,12 @@ section.all-notifications-sec-bg {
   display: block;
 }
 .wallet-transactions-tabs {
-  margin-top: 20px;
-  margin-bottom: 50px;
+  padding: 70px 0px 0px;
 }
 .my-wallet-recharge-button {
-  background-color: #fff;
-  color: #28ba51;
+  background-color: #28ba51;
+  color: #ffffff;
   padding: 10px 40px;
-  border-radius: 5px;
   font-size: 16px;
   display: inline-block;
   border: 1px solid #28ba51;
@@ -1547,7 +1063,8 @@ section.all-notifications-sec-bg {
 }
 .delate-all-btn a {
   border: 1px solid #ff0000;
-  color: #ff0000;
+  background-color: #ff0000;
+  color: #ffffff;
 }
 .delate-all-btn a:hover {
   background-color: #ff0000;
@@ -1558,12 +1075,16 @@ section.all-notifications-sec-bg {
 .my-walleavailable-balance-text p span {
   color: #28ba51;
 }
-.wallet-ctm-tab-menu ul li + li {
-  margin-left: 14px;
+.wallet-ctm-tab-menu ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
 }
 .my-wallet-sec-heading-content {
   text-align: center;
-  margin-top: 30px;
+}
+.my-wallet-sec-heading-content h1 {
+	font-size: 48px;
 }
 /* table */
 .my-wallet-table-sec table {
@@ -1686,24 +1207,19 @@ td {
 }
 .share-with-frnds-chat a,
 .share-with-frnds-chat button {
-  display: flex;
-  flex-wrap: wrap;
-  row-gap: 10px;
-  max-width: max-content;
-  padding: 5px 10px;
-  border-radius: 5px;
-  border: 1px solid #e1dddd;
-  background-color: transparent;
+  padding: 9px 30px 7px;
 }
 .share-with-frnds-chat a img,
 .share-with-frnds-chat button img {
   max-width: 20px;
   margin-right: 10px;
   object-fit: contain;
+  vertical-align: middle;
 }
 .history-delete-button-ctm svg {
   fill: var(--primary_color);
-  font-size: 16px;
+  font-size: 24px;
+  vertical-align: middle;
 }
 .order-id-sec ul li p,
 .date-and-tine-sec p,
@@ -1711,9 +1227,13 @@ td {
 .call-rate-text p,
 .duration-history-text p,
 .share-with-frnds-chat p span {
-  color: #616161;
   padding: 3px 0;
   word-break: break-word;
+}
+.order-id-sec {
+	background-color: var(--secondary_hover);
+	padding: 10px 0px 10px 10px;
+	margin: 0 0 15px;
 }
 .order-id-sec ul {
   position: relative;
@@ -1722,21 +1242,37 @@ td {
   align-items: center;
   flex-wrap: wrap;
 }
-.outer-order-list-data {
-  display: flex;
-  justify-content: space-between;
-}
 .inner-order-list-data {
-  width: calc(100% - 100px);
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 5px;
 }
-.outer-hide-div-img-text {
-  width: 80px;
-  text-align: center;
+.inner-order-list-data > * {
+	padding: 5px 20px;
+	background-color: var(--body_bg);
+}
+.inner-order-list-data > * * {
+	font-size: 14px;
+}
+.hide-div-img-text {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	border-top: 1px solid var(--secondary_hover);
+	justify-content: center;
+	margin: 20px 0px 10px;
+	padding: 20px 0px;
+	border-bottom: 1px solid var(--secondary_hover);
+}
+.hide-div-img-text img {
+	max-width: 80px;
+	aspect-ratio: 1 / 1;
+	border-radius: 50%;
+	object-fit: cover;
 }
 .chat-astrologer-name-sec h5 {
   font-size: 18px;
   font-weight: 600;
-  color: #232323;
   margin: 5px 0;
 }
 .ctm-chat-with-astrologer {
@@ -1751,8 +1287,8 @@ td {
   padding-inline: 0px;
 }
 .inner-ctm-chat-with-astrologer {
-  width: calc(100% / 3 - 9.3333333px);
-  background-color: #fff;
+  width: calc(100% / 2 - 7px);
+  background-color: var(--secondary_color);
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -1766,19 +1302,16 @@ td {
 .inner-ctm-chat-with-astrologer-top a {
   width: 100%;
   height: 100%;
+  display: inline-block;
+  color: #ffffff;
 }
 .help-ctm-ctm {
-  padding: 4px 14px;
+  padding: 4px 14px 2px;
   background-color: var(--primary_color);
-  border-radius: 5px;
   color: #fff;
   border: 1px solid var(--primary_color);
   font-size: 14px;
   display: inline-block;
-}
-.help-ctm-ctm:hover {
-  background-color: #fff;
-  color: var(--primary_color);
 }
 .history-delete-button-ctm {
   text-align: right;
@@ -1850,7 +1383,7 @@ body.user-recharge:before {
   margin: 0 auto;
 }
 .order-id-sec > ul > li:first-child {
-  width: calc(70% - 20px);
+  width: calc(100% - 90px);
 }
 .order-id-sec > ul > li.help-list-button-ctm {
   text-align: center;
@@ -1907,7 +1440,7 @@ body.user-recharge:before {
   outline-style: none;
   padding: 10px;
   border: 1px solid #d9d9d9;
-  height: 40px;
+  height: 50px;
   font-family: inherit;
 }
 .admin-popup-main .admin-detail-popup button {
@@ -1950,7 +1483,7 @@ body.user-recharge:before {
 .Denomination-form input {
   border: 1px solid #cecece;
   padding: 0 10px;
-  height: 40px;
+  height: 50px;
   font-size: 14px;
   color: #000;
   line-height: normal;
@@ -1983,7 +1516,7 @@ body.user-recharge:before {
   text-align: center;
 }
 .Denomination .language-list ul button {
-  margin: 14px 0px 0px;
+  margin: 14px auto 0px;
 }
 .Denomination .language-list .popular-recharge-sec {
   margin: 0px;
@@ -2010,6 +1543,7 @@ body.user-recharge:before {
   margin-top: 10px;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
 }
 .gallery-main .language-add-data > label {
   margin: 0 0 10px;
@@ -2018,6 +1552,7 @@ body.user-recharge:before {
 .gallery-main .language-list ul li {
   justify-content: unset;
   gap: 20px;
+  align-items: flex-start;
 }
 .gallery-main .language-list ul li img {
   width: 100px;
@@ -2460,7 +1995,8 @@ span.star {
 .loading-user-filter-popup,
 .delete-chat-popup,
 .share-open-popup,
-.ring-opened, .user-seminar-opened {
+.ring-opened, .user-seminar-opened,
+.live-link-popup {
   position: relative;
   overflow: hidden;
 }
@@ -2500,6 +2036,10 @@ span.star {
   overflow: hidden;
   overflow-y: auto;
   max-height: 100vh;
+  border-top: 4px solid var(--primary_color);
+}
+.addon-popup-outer {
+  border-top: 0px;
 }
 .sort-user-filter-popup .sort-modal,
 .multi-user-filter-popup .filter-modal,
@@ -2764,12 +2304,6 @@ input::file-selector-button {
   padding: 7px 24px;
   font-family: inherit;
 }
-.astrologer-registration-form textarea {
-  background-color: #ffffff !important;
-  border: 0px;
-  resize: none;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3) !important;
-}
 .man-input-filed-sec > *:not(.error) {
   position: relative;
   padding-left: 25px;
@@ -2901,6 +2435,7 @@ input::file-selector-button {
   box-sizing: border-box;
   max-height: 100vh;
   overflow-y: auto;
+  border-top: 4px solid var(--primary_color);
 }
 .loading-user-filter-popup .countdown-outer {
   display: block;
@@ -2918,9 +2453,8 @@ input::file-selector-button {
   background-color: var(--secondary_color);
   z-index: 9;
   padding: 50px;
-  border-radius: 10px;
   text-align: center;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+  border-top: 4px solid var(--primary_color);
 }
 .rating-popup-opened {
   position: relative;
@@ -2943,9 +2477,11 @@ input::file-selector-button {
   height: 100px;
   padding: 15px 20px;
   resize: none;
-  border: 1px solid #ddd;
   box-sizing: border-box;
   font-family: inherit;
+  background-color: var(--body_bg);
+  border: 0;
+  color: #fff;
 }
 .rating-popup-form {
   margin: 15px 0px 0px;
@@ -3233,7 +2769,7 @@ h2.review-heading {
   padding: 0px 15px;
   margin: 0;
   background-color: var(--secondary_color);
-  border-radius: 8px;
+  background-color: var(--secondary_hover);
 }
 .page-main-header .main-header-right svg {
   stroke: #ffffff;
@@ -3511,69 +3047,25 @@ h2.review-heading {
   li:nth-last-child(2) {
   padding-bottom: 10px;
 }
-.page-main-header
-  .main-header-right
-  .nav-right
-  .profile-dropdown
-  li:last-child {
-  border-top: 1px solid #eff0f1;
+.page-main-header .main-header-right .nav-right .profile-dropdown li:last-child {
+  border-top: 1px solid rgba(255, 255, 255, .5);
 }
-.page-main-header
-  .main-header-right
-  .nav-right
-  .profile-dropdown
-  li:first-child {
-  padding-top: 0;
-}
+.page-main-header .main-header-right .nav-right .profile-dropdown li:first-child {padding-top: 0;}
 .page-main-header .main-header-right .nav-right .profile-dropdown li:hover a {
   color: var(--primary_color);
   -webkit-transition: 0.3s;
   transition: 0.3s;
 }
-.page-main-header
-  .main-header-right
-  .nav-right
-  .profile-dropdown
-  li:hover
-  a
-  svg {
+.page-main-header .main-header-right .nav-right .profile-dropdown li:hover a svg {
   color: var(--primary_color) !important;
 }
-.page-main-header
-  .main-header-right
-  .nav-right
-  .profile-dropdown
-  li:hover
-  a
-  svg
-  path,
-.page-main-header
-  .main-header-right
-  .nav-right
-  .profile-dropdown
-  li:hover
-  a
-  svg
-  line,
-.page-main-header
-  .main-header-right
-  .nav-right
-  .profile-dropdown
-  li:hover
-  a
-  svg
-  polyline,
-.page-main-header
-  .main-header-right
-  .nav-right
-  .profile-dropdown
-  li
-  button:hover {
+.page-main-header .main-header-right .nav-right .profile-dropdown li:hover a svg path, .page-main-header .main-header-right .nav-right .profile-dropdown li:hover a svg line,
+.page-main-header .main-header-right .nav-right .profile-dropdown li:hover a svg polyline, .page-main-header .main-header-right .nav-right .profile-dropdown li button:hover {
   color: var(--primary_color) !important;
 }
 .page-main-header .main-header-right .nav-right .profile-dropdown li a,
 .page-main-header .main-header-right .nav-right .profile-dropdown li button {
-  color: #313131;
+  color: #ffffff;
   display: flex;
   align-items: center;
 }
@@ -3586,15 +3078,10 @@ h2.review-heading {
 }
 .page-main-header .main-header-right .nav-right .profile-dropdown li svg {
   margin-right: 10px;
-  color: var(--primary_color);
+  color: var(--body_content_color);
 }
-.page-main-header
-  .main-header-right
-  .nav-right
-  .profile-dropdown
-  li.mobile-no
-  svg {
-  fill: var(--primary_color);
+.page-main-header .main-header-right .nav-right .profile-dropdown li.mobile-no svg {
+  fill: var(--body_content_color);
 }
 .profile-dropdown li.name,
 .profile-dropdown li.mobile-no {
@@ -3716,11 +3203,10 @@ td button + button {
   top: 50px;
   position: absolute;
   z-index: 10;
-  background-color: #fff;
+  background-color: var(--secondary_hover);
   transition: all linear 0.3s;
   min-width: 160px;
   text-align: left;
-  box-shadow: 0px 1px 2px 0px #cacaca;
   transform: translateY(30px);
   right: 0;
   opacity: 0;
@@ -4125,18 +3611,27 @@ td button + button {
   gap: 5px;
 }
 .copy a, .link-url {
-  font-size: 9px;
+  font-size: 10px;
   border: 0;
   color: var(--primary_color);
-  padding: 5px 10px;
   border-radius: 50px;
   background-color: var(--body_bg);
+  padding: 5px 70px 5px 10px;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 2;
 }
 .Clipboard-icon-outer {
   position: relative;
 }
 .Clipboard-icon {
-  cursor: pointer;
+	cursor: pointer;
+	position: absolute;
+	right: 20px;
+	top: -10px;
 }
 .clipboard-text,
 .clipboard-text + span {
@@ -4182,6 +3677,7 @@ td button + button {
   display: flex;
   justify-content: space-between;
   align-content: center;
+  align-items: center;
 }
 .inner-astrologer-registration {
   text-align: center;
@@ -4241,7 +3737,7 @@ td button + button {
 }
 /* Astromall  */
 .astromall-sec-outer {
-  padding: 70px 0px;
+  padding: 70px 0px 0px;
 }
 .heading-box {
   text-align: center;
@@ -4258,6 +3754,7 @@ td button + button {
   display: inline-flex;
   justify-content: center;
   position: relative;
+  gap: 10px;
 }
 .astromall-search input {
   border: 0px;
@@ -4338,7 +3835,7 @@ td button + button {
   background-color: var(--secondary_color);
 }
 .product-name {
-    color: var(--primar_color);
+    color: var(--primary_color);
     font-weight: 600;
     font-size: 20px;
     margin: 0 0 5px;
@@ -4517,7 +4014,6 @@ td button + button {
   flex: 1;
   text-align: center;
   background-color:var(--secondary_color);
-  border-radius: 8px;
   padding: 20px;
   cursor: pointer;
 }
@@ -4534,18 +4030,23 @@ td button + button {
 }
 .product-right-dropdown select {
   height: 45px;
-  border: 1px solid;
-  border-radius: 8px;
   padding: 0px 20px;
   font-family: inherit;
+  background-color: var(--secondary_color);
+  color: #fff;
+  border: 0px;
 }
 .ring-size-text input {
   height: 45px;
-  border: 1px solid;
-  border-radius: 8px;
+  border: 0px solid;
   padding: 0 20px;
   font-family: inherit;
   width: max-content;
+  background-color: var(--secondary_color);
+  color: #fff;
+}
+.ring-size-text input::placeholder {
+  color: #ffffff;
 }
 .product-right-btn {
   margin: 20px 0px 0px;
@@ -4625,7 +4126,6 @@ td button + button {
   background-color: rgb(191 37 84 / 15%);
   border: 2px solid var(--primary_color);
   margin: 20px 0px 0px;
-  border-radius: 8px;
   overflow: hidden;
   max-width: 350px;
   display: inline-flex;
@@ -4871,11 +4371,12 @@ td button + button {
 }
 .single-service-right input {
   height: 35px;
-  border: 1px solid var(--body_content_color);
-  border-radius: 5px;
   max-width: 120px;
   padding: 0px 15px;
   font-family: inherit;
+  background-color: var(--body_bg);
+  border: 0px;
+  color: var(--body_content_color);
 }
 .spiritual-services-outer > button {
   margin: 20px 0px 0px;
@@ -4932,6 +4433,7 @@ span.required {
   padding: 24px;
   width: 570px;
   position: relative;
+  border-top: 4px solid var(--primary_color);
 }
 .addon-popup-outer h2 {
   text-align: center;
@@ -4962,7 +4464,6 @@ span.required {
   overflow-y: auto;
 }
 .addon-large-img {
-  border-radius: 10px;
   border: 2px solid var(--primary_color);
   overflow: hidden;
   padding: 10px;
@@ -4982,7 +4483,6 @@ span.required {
 }
 .single-popup-addon {
   background-color: var(--body_bg);
-  border-radius: 8px;
   padding: 10px;
   cursor: pointer;
   text-align: center;
@@ -5465,7 +4965,6 @@ font-size: 36px;
   padding-bottom: 0px !important;
 }
 .faq-answer {
-  display: none;
   padding: 10px 0;
 }
 .faq-item.active .faq-answer {
@@ -5521,7 +5020,7 @@ p.data-not-found {
 }
 td select {
   padding: 3px 25px 3px 10px;
-  border-radius: 5px;
+  border-radius: 50px;
   background-position: calc(100% - 14px) calc(1em - 4px), calc(100% - 9px) calc(1em - 4px), calc(100% - 2.5em) 0.5em;
   background-color: var(--secondary_hover);
   color: #fff;
@@ -5545,10 +5044,10 @@ td select {
 }
 .addon-popup-outer span.close {
   position: absolute;
-  right: 0px;
-  top: 0;
-  width: 40px;
-  height: 40px;
+  right: 10px;
+  top: 10px;
+  width: 35px;
+  height: 35px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -5630,6 +5129,25 @@ video:-moz-full-screen {
     padding: 70px 0px 0px;
     text-align: center;
 }
+.meeting-popup-content h3 {
+    font-size: 30px;
+    margin: 0 0 10px;
+}
+.meeting-link-copy-outer {
+    margin: 20px 0px 0px;
+    display: inline-flex;
+    position: relative;
+}
+.copy-icon {
+    position: absolute;
+    right: 8px;
+    top: 4px;
+    gap: 2px !important;
+}
+.copy-icon small {
+  font-size: 11px;
+  color: #ffffff !important;
+}
 .meeting-sec button {
     margin: 30px 0px 0px;
 }
@@ -5648,7 +5166,7 @@ video:-moz-full-screen {
     color: #ffffff;
     min-width: 300px;
 }
-.call-link input::placeholder {
+.call-link input::placeholder, .single-service-right input::placeholder {
   color: #ffffff;
 }
  .meeting-link {max-width: 540px;}
@@ -5676,13 +5194,27 @@ video:-moz-full-screen {
   vertical-align: bottom;
   max-width: 100%;
 }
-
 .video_call_controls-join {
     position: absolute;
     bottom: 0;
     width: 100%;
     left: 0;
     background-color: rgb(44 21 76 / 55%);
+}
+
+.edit-delete-btn button {
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: auto !important;
+    padding: 0px !important;
+}
+table td button:not(.delete-btn) {
+    padding: 8px 20px 6px;
+    min-width: 98px;
 }
 
 /* ================== @ media css start here ================== */
@@ -5834,9 +5366,11 @@ video:-moz-full-screen {
   ul.submenu {
     position: static;
     transform: none;
-    padding: 20px 20px 0px;
+    padding: 0px 20px ;
     opacity: 1;
     visibility: visible;
+    border-left: 3px solid var(--primary_color);
+    margin: 20px 0px 0;
   }
   .profile_with_contact_slider-inner {gap: 20px;}
   .profile_with_contact_slider .about_us {
@@ -5899,7 +5433,7 @@ video:-moz-full-screen {
     border-bottom: 0px solid #cfcfcf;
   }
   .AddLanguage .language-list {
-    padding: 20px 0px 0px;
+    padding: 30px 0px 0px;
   }
   .AddAdminCommissions-puja.AddLanguage {
     margin: 39px 0px 0px;
@@ -5917,11 +5451,14 @@ video:-moz-full-screen {
   .rating_star {gap: 10px;}
   .ratting-review {gap: 10px; flex-wrap: wrap;}
   .status_bar_ratting {flex:0 0 100%;}
-  .similar-conslt-reviews-sec {grid-template-columns: repeat(2, 1fr);}
+  .similar-conslt-reviews-sec, .reviews-sec {grid-template-columns: repeat(2, 1fr);}
 }
 @media (max-width: 767px) {
+  body {
+    font-size: 14px;
+  }
   h1,
-  .common-h1-heading {
+  .common-h1-heading, .my-wallet-sec-heading-content h1 {
     font-size: 36px;
     line-height: 42px;
   }
@@ -6048,10 +5585,10 @@ video:-moz-full-screen {
     min-width: 340px;
     max-width: calc(100% - 30px);
   }
-  .inner-talk-to-astrologer-right-content > *:not(.search-box-top-btn) {
+  .inner-talk-to-astrologer-right-content > *:not(.search-box-top-btn):not(.my-wallet-recharge-btm) {
     width: calc(100% / 3 - 6.666667px);
   }
-  .inner-talk-to-astrologer-right-content > *:not(.search-box-top-btn) > * {
+  .inner-talk-to-astrologer-right-content > *:not(.search-box-top-btn):not(.my-wallet-recharge-btm) > * {
     width: 100%;
     padding-inline: 0;
     justify-content: center;
@@ -6077,7 +5614,7 @@ video:-moz-full-screen {
     gap: 20px;
   }
   .astromall-sec-outer {
-    padding: 50px 0px;
+    padding: 50px 0px 0px;
   }
   .astromall-slider-outer {
     padding: 0 0 50px;
@@ -6316,6 +5853,8 @@ video:-moz-full-screen {
   }
   .seminar_date_location {
     margin-top: 34px;
+    position: relative;
+    z-index: 1;
   }
   .banner-main::after {background-size: cover; height: 110px;}
   .seminar_wrapper {padding: 60px 20px 30px;}
@@ -6326,7 +5865,15 @@ video:-moz-full-screen {
   .call-link {flex-wrap: wrap;}
   .show-room-join {padding: 50px 0px 0px; flex-wrap: wrap; gap: 30px;}
   .left-show-room, .right-show-room {max-width: 100%;}
-
+  .admin-wallet-inner button, .pagination-outer button {padding: 8px 20px 6px; min-width: 101px;}
+  .dashboard-right-content .search-box-top-btn {flex-wrap: wrap; gap: 10px;}
+  .search-help-text {margin-left: 0;}
+  .language-list ul li .footer-product-detail {width: 100%; margin: 0 0 15px;}
+  .banner-home .language-list ul li:not(:last-child), .AddFooter .language-list ul li:not(:last-child) {margin-bottom: 30px;}
+  .products-details-outer h1 {font-size: 30px;}
+  .product-faqs-outer h3 {font-size: 24px;}
+  .footer .top-content h2, .footer-menu h3 {margin: 0 0 9px;}
+  .banner .left-col {text-align: center;}
 }
 @media (max-width: 639px) {
   .four-col .row {
@@ -6335,6 +5882,10 @@ video:-moz-full-screen {
   }
   .astrology_seciton .row {grid-template-columns: repeat(1, 1fr);}
   .similar-conslt-reviews-sec {grid-template-columns: repeat(1, 1fr); gap: 10px;}
+  .meeting-link {max-width: calc(100% - 30px); min-width: calc(100% - 30px);}
+  .meeting-popup-content h3 {font-size: 24px; line-height: normal;}
+  .copy a, .link-url {padding: 3px 70px 3px 10px;}
+  .close-icon, .close {right: 10px; top: 10px;}
 }
 @media (max-width: 574px) {
   .chat-left-logo {
@@ -6358,6 +5909,7 @@ video:-moz-full-screen {
   }
   .sharePopUp {
     min-width: calc(100% - 30px);
+    max-width: calc(100% - 30px);
   }
   .sharePopUp > h3 {
     font-size: 18px;
@@ -6382,6 +5934,9 @@ video:-moz-full-screen {
   .user-seminar-form {
     min-width: calc(100% - 30px);
   }
+.inner-order-list-data {
+  grid-template-columns: repeat(1, 1fr);
+}
 }
 @media (max-width: 479px) {
   .call-link input {
@@ -6391,6 +5946,9 @@ video:-moz-full-screen {
   .call-link button {
     width: 100%;
     margin: 15px 0px 0px;
+  }
+  .banner-home .language-list ul li .banner-content {
+    max-width: 100%;
   }
 }
 @media (max-width: 370px) {

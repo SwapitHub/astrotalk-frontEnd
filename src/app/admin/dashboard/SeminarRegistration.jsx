@@ -437,6 +437,7 @@ const SeminarRegistration = () => {
                       />
                     </td>
                     <td>
+                      <div className="edit-delete-btn">
                       <button onClick={() => handleEdit(item)}><MdEditSquare /></button>
                       <button
                         style={{ marginLeft: 8 }}
@@ -444,6 +445,7 @@ const SeminarRegistration = () => {
                       >
                        <MdDelete />
                       </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

@@ -26,7 +26,6 @@ const ProductDetail = ({ productDetailData }) => {
   const [decodedHtmlDescription, setDecodedHtmlDescription] = useState("");
 
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
-  console.log(params, "params");
 
   const discountPrice =
     productDetailData?.actual_price - productDetailData?.discount_price;
@@ -141,6 +140,7 @@ const ProductDetail = ({ productDetailData }) => {
         gemStoneJewelryData={gemStoneJewelryData}
         gemstoneData={gemstoneData}
         setGemstoneData={setGemstoneData}
+        viewAllBtn={viewAllBtn}
       />
 
       {otpPopUpDisplay && (

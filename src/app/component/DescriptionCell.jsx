@@ -14,7 +14,7 @@ function DescriptionCell({ description, totalWord }) {
           onClick={() => setShowFull(!showFull)}
           style={{ color: "var(--primary_color)", cursor: "pointer"}}
         >
-          {showFull ? "Show less" : "... Show more"}
+          {showFull ? "... Show less" : "... Show more"}
         </span>
       )}
     </>

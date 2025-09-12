@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-const RingGemstonePopUp = ({ setViewAllBtn, gemStoneJewelryData, gemstoneData, setGemstoneData }) => {
-console.log(gemstoneData);
+const RingGemstonePopUp = ({viewAllBtn, setViewAllBtn, gemStoneJewelryData, gemstoneData, setGemstoneData }) => {
+console.log(viewAllBtn);
 
   // useEffect(() => {
   //   if (gemStoneJewelryData && gemStoneJewelryData.length > 0) {
@@ -17,6 +17,9 @@ console.log(gemstoneData);
           </span>
           <h2>Please select addons</h2>
           <div className="popup-addons-sec">
+            {
+              gemstoneData?._id && 
+           
             <div className="popup-addons-left">
               <div className="addon-large-img">
                 <img src={gemstoneData?.astroGemstoneJewelryImg} alt={gemstoneData?.name} />
@@ -26,6 +29,7 @@ console.log(gemstoneData);
                 <div className="product-price">₹ {gemstoneData?.actual_price}</div>
               </div>
             </div>
+             }
             <div className="popup-addons-right">
               <div className="popup-addons-listing">
                 {gemStoneJewelryData?.map((item, index) => (

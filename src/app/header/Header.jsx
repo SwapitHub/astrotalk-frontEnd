@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import OtpData from "../component/OtpData";
 import UserOtpLoginData from "../component/UserOtpLoginData";
 import { FaUser } from "react-icons/fa";
+import SlideToggle from "../component/SlideToggle";
 
 const Header = () => {
   const router = useRouter();
@@ -19,7 +20,10 @@ const Header = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [toggleMobile, setToggleMobile] = useState(false);
   const [hideProfilePopup, setHideProfilePopup] = useState(false);
+  const [openFaq, setOpenFaq] = useState(null);
+  const [userIcon, setUserIcon] = useState(false);
 
+setUserIcon
   const [admin_id, setAdmin_id] = useState(() => Cookies.get("admin_id"));
 
   // console.log(astrologerPhone,astroDetailData);
@@ -205,19 +209,29 @@ const Header = () => {
                     </Link>
                   </li>
                   <li className="has-submenu">
-                    <span>Astrologer</span>
-                    <ul className="submenu">
-                      <li>
-                        <OtpData
-                          setOtpPopUpDisplayAstro={setOtpPopUpDisplayAstro}
-                          otpPopUpDisplayAstro={otpPopUpDisplayAstro}
-                        />
-                        <span onClick={handleOtpPop}>Astrologer Login</span>
-                      </li>
-                      <li>
-                        <Link href="/signup"> Astrologer Registration</Link>
-                      </li>
-                    </ul>
+                    <span
+                      onClick={() =>
+                        setOpenFaq(
+                          openFaq == "Astrologer" ? null : "Astrologer"
+                        )
+                      }
+                    >
+                      Astrologer
+                    </span>
+                    <SlideToggle isOpen={openFaq == "Astrologer"}>
+                      <ul className="submenu">
+                        <li>
+                          <OtpData
+                            setOtpPopUpDisplayAstro={setOtpPopUpDisplayAstro}
+                            otpPopUpDisplayAstro={otpPopUpDisplayAstro}
+                          />
+                          <span onClick={handleOtpPop}>Astrologer Login</span>
+                        </li>
+                        <li>
+                          <Link href="/signup"> Astrologer Registration</Link>
+                        </li>
+                      </ul>
+                    </SlideToggle>
                   </li>
                   {/* <li>
                     <Link
@@ -341,10 +355,10 @@ const Header = () => {
               ) : (
                 <>
                   <div className="header-user">
-                    <div className="header-user-icon">
+                    <div className="header-user-icon"onClick={()=>{setUserIcon(!userIcon)}}>
                       <FaUser />
                     </div>
-                    <div className="header-user-drop-down">
+                    <div className={`header-user-drop-down ${userIcon ? "open":""}`}>
                       <ul>
                         <li>
                           <Link href="/free-chat/start">

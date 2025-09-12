@@ -3,6 +3,7 @@
 import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { MdDelete, MdEditSquare } from "react-icons/md";
 import { toast } from "react-toastify";
 
 const BannerHome = () => {
@@ -248,14 +249,16 @@ const BannerHome = () => {
                     <span className="btn-text">{item?.banner_btn_name}</span>
                     <span className="btn-link">{item?.banner_btn_link}</span>
                   </span>
+                   <div className="edit-delete-btn">
                   <button
                     onClick={() =>
                       deleteBannerHome(item?.singleImages?.cloudinary_id)
                     }
                   >
-                    Remove
+                    <MdDelete />
                   </button>
-                  <button onClick={() => handleEdit(item)}>Edit</button>
+                  <button onClick={() => handleEdit(item)}><MdEditSquare /></button>
+                  </div>
                 </span>
                 <span className="banner-img">
                   <img src={item?.singleImages?.img_url} alt="banner" />
