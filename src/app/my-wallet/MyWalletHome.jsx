@@ -45,7 +45,7 @@ const MyWalletHome = () => {
                     }`}
                     onClick={() => setTransactionBtn("WalletAstroMall")}
                   >
-                    Wallet Transaction Astro Puja
+                    Wallet Transaction Astrologer Puja
                   </button>
                 </li>
 
@@ -57,7 +57,7 @@ const MyWalletHome = () => {
                     }`}
                     onClick={() => setTransactionBtn("WalletAstroProduct")}
                   >
-                    Wallet Transaction Astro Product
+                    Wallet Transaction Shop Product
                   </button>
                 </li>
               </ul>

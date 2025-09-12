@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Loader from "@/app/component/Loader";
-import { toast } from "react-toastify";
-import DescriptionCell from "@/app/component/DescriptionCell";
+import ShowLessShowMore from "@/app/component/ShowLessShowMore";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { MdDelete, MdEditSquare } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const SeoMetaData = () => {
   const [message, setMessage] = useState("");
@@ -277,13 +277,13 @@ const SeoMetaData = () => {
                       {item.meta_title}
                     </td>
                     <td>
-                      <DescriptionCell
+                      <ShowLessShowMore
                         description={item.meta_description}
                         totalWord={20}
                       />
                     </td>
                     <td>
-                      <DescriptionCell
+                      <ShowLessShowMore
                         description={item.keywords}
                         totalWord={10}
                       />

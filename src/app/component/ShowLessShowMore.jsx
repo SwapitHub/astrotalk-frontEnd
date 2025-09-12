@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function DescriptionCell({ description, totalWord }) {
+function ShowLessShowMore({ description, totalWord }) {
   const [showFull, setShowFull] = useState(false);
 
   const words = description?.split(' ') || [];
@@ -14,11 +14,11 @@ function DescriptionCell({ description, totalWord }) {
           onClick={() => setShowFull(!showFull)}
           style={{ color: "var(--primary_color)", cursor: "pointer"}}
         >
-          {showFull ? "... Show less" : "... Show more"}
+          {showFull ? "  Show less" : "... Show more"}
         </span>
       )}
     </>
   );
 }
 
-export default DescriptionCell;
+export default ShowLessShowMore;

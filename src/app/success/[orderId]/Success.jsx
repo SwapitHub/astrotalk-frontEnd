@@ -6,7 +6,6 @@ import React, { useEffect, useState } from "react";
 const Success = () => {
   const params = useParams();
   const [orderDetailData, setOrderDetailData] = useState();
-  console.log(orderDetailData);
 
   useEffect(() => {
     const handleOrderDetail = async () => {
@@ -14,7 +13,6 @@ const Success = () => {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/shop-order-list-detail/${params?.orderId}`
         );
-        console.log(response);
 
         setOrderDetailData(response.data.data);
       } catch (err) {
@@ -35,12 +33,16 @@ const Success = () => {
           <div className="print-receipt">
             <button onClick={handlePrint}>Print Receipt</button>
           </div>
+          <div id="print-area">
           <div className="success-top-content">
             <h2>Thank You for Your Order!</h2>
             <p>
               Your order has been successfully placed, and we’re thrilled to be
               part of your love story!
             </p>
+          
+          </div>
+          <div className="details-img-outer">
             <div className="success-order-details">
               <h3>Order Details :</h3>
               <ul>
@@ -100,12 +102,13 @@ const Success = () => {
                 </li>
               </ul>
             </div>
-          </div>
           <div className="success-img">
             <img
               src={orderDetailData?.productImg}
               alt={orderDetailData?.name}
             />
+          </div>
+          </div>
           </div>
         </div>
       </div>

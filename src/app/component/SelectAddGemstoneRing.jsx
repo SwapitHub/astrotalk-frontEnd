@@ -86,14 +86,16 @@ useEffect(() => {
       {gemstoneData && (
         <div className="booked_selected_items">
           <div>
-            <div>
+            <div className="booked_selected_items-img">
               <img
                 src={gemstoneData?.astroGemstoneJewelryImg}
                 alt={gemstoneData?.name}
               />
             </div>
-            <div className="name">{gemstoneData?.name}</div>
-            <div className="price">₹ {gemstoneData?.actual_price}</div>
+            <div className="booked_selected_items-content">
+              <div className="name">{gemstoneData?.name}</div>
+              <div className="price">₹ {gemstoneData?.actual_price}</div>
+            </div>
           </div>
           <span className="close" onClick={()=> setGemstoneData()}>X</span>
         </div>

@@ -17,14 +17,14 @@ const AstroMallHistory = () => {
                     Chat
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     href="/order-history/report"
                     className="wallet-ctm-tab-a"
                   >
                     Report
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     href="/order-history/astro-mall"

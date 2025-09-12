@@ -1,9 +1,8 @@
-import DescriptionCell from "@/app/component/DescriptionCell";
 import Loader from "@/app/component/Loader";
+import ShowLessShowMore from "@/app/component/ShowLessShowMore";
 import useCustomGetApi from "@/app/hook/CustomHookGetApi";
 import axios from "axios";
-import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
 import { MdDelete, MdEditSquare } from "react-icons/md";
 
 const SeminarRegistration = () => {
@@ -431,7 +430,7 @@ const SeminarRegistration = () => {
                       {item?.time_of_seminar} , {item?.date_of_seminar}
                     </td>
                     <td>
-                      <DescriptionCell
+                      <ShowLessShowMore
                         description={item.seminar_detail}
                         totalWord={10}
                       />

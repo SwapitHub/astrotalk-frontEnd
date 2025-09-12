@@ -443,7 +443,7 @@ console.log(astrologer, "astrologer.name");
                   <h4>User</h4>
                   <p>
                     <span>
-                      Balance {minutes}:{seconds < 10 ? `0${seconds}` : seconds}{" "}
+                      Duration: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}{" "}
                     </span>
                   </p>
                   {/* <p>Chat in progress from </p> */}

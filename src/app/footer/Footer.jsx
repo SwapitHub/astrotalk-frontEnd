@@ -175,7 +175,7 @@ const Footer = () => {
           {/* <!---- Footer Menus ---> */}
           <div className="copyright">
             <p>
-              Copyright © 2025 Astrotalk (Powered by Swap It Hub). All Rights
+              Copyright © 2025 Wedding Byte (Powered by Swap It Hub). All Rights
               Reserved
             </p>
           </div>

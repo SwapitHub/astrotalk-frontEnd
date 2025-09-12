@@ -43,13 +43,8 @@ const AdminHome = () => {
   const router = useRouter();
   const admin_id = Cookies.get("admin_id");
   const { updateButton, setUpdateButton } = useGlobalContext();
-  const [astroListToggle, setAstroListToggle] = useState(false);
-  const [adminWalletToggle, setAdminWalletToggle] = useState(false);
-  const [adminShopWalletToggle, setAdminShopWalletToggle] = useState(false);
-  const [adminHomeContentToggle, setAdminHomeContentToggle] = useState(false);
-  const [adminSideSettingToggle, setAdminSideSettingToggle] = useState(false);
-  const [astroShopeList, setAstroShopeList] = useState(false);
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
+  const [openFaq, setOpenFaq] = useState(null);
 
   useEffect(() => {
     if (!admin_id) {
@@ -73,6 +68,9 @@ const AdminHome = () => {
       document.body.classList.remove(className);
     }
   }, [toggleSlideMobile]);
+const handleToggleSection = (sectionName) => {
+  setOpenFaq(prev => prev === sectionName ? null : sectionName);
+};
 
   return (
     <main className="main-content">
@@ -120,7 +118,8 @@ const AdminHome = () => {
                         href="#"
                         onClick={(e) => {
                           e.preventDefault();
-                          setAstroListToggle(!astroListToggle);
+                          handleToggleSection("AstrologerLists");
+
                         }}
                       >
                         <PiUserListDuotone />
@@ -129,7 +128,7 @@ const AdminHome = () => {
                           <MdOutlineKeyboardArrowRight />
                         </span>
                       </a>
-                      <SlideToggle isOpen={astroListToggle}>
+                      <SlideToggle isOpen={openFaq == "AstrologerLists"}>
                         <ul>
                           <li
                             className={
@@ -179,7 +178,8 @@ const AdminHome = () => {
                         href="#"
                         onClick={(e) => {
                           e.preventDefault();
-                          setAdminWalletToggle(!adminWalletToggle);
+                          handleToggleSection("ChattingWallet");
+
                         }}
                       >
                         <CiWallet />
@@ -188,7 +188,7 @@ const AdminHome = () => {
                           <MdOutlineKeyboardArrowRight />
                         </span>
                       </a>
-                      <SlideToggle isOpen={adminWalletToggle}>
+                      <SlideToggle isOpen={openFaq == "ChattingWallet"}>
                         <ul>
                           <li
                             className={updateButton === "admin" ? "active" : ""}
@@ -251,7 +251,8 @@ const AdminHome = () => {
                         href="#"
                         onClick={(e) => {
                           e.preventDefault();
-                          setAdminShopWalletToggle(!adminShopWalletToggle);
+                          handleToggleSection("ShoppingWallet");
+
                         }}
                       >
                         <CiWallet />
@@ -260,7 +261,7 @@ const AdminHome = () => {
                           <MdOutlineKeyboardArrowRight />
                         </span>
                       </a>
-                      <SlideToggle isOpen={adminShopWalletToggle}>
+                      <SlideToggle isOpen={openFaq=="ShoppingWallet"}>
                         <ul>
                           <li
                             className={
@@ -328,7 +329,8 @@ const AdminHome = () => {
                         href="#"
                         onClick={(e) => {
                           e.preventDefault();
-                          setAdminHomeContentToggle(!adminHomeContentToggle);
+                          handleToggleSection("HomeContent");
+
                         }}
                       >
                         <IoIosHome />
@@ -338,7 +340,7 @@ const AdminHome = () => {
                           <MdOutlineKeyboardArrowRight />
                         </span>
                       </a>
-                      <SlideToggle isOpen={adminHomeContentToggle}>
+                      <SlideToggle isOpen={openFaq == "HomeContent"}>
                         <ul>
                           <li
                             className={
@@ -395,7 +397,8 @@ const AdminHome = () => {
                         href="#"
                         onClick={(e) => {
                           e.preventDefault();
-                          setAdminSideSettingToggle(!adminSideSettingToggle);
+                          handleToggleSection("SiteSettings");
+
                         }}
                       >
                         <CiSettings />
@@ -404,7 +407,7 @@ const AdminHome = () => {
                           <MdOutlineKeyboardArrowRight />
                         </span>
                       </a>
-                      <SlideToggle isOpen={adminSideSettingToggle}>
+                      <SlideToggle isOpen={openFaq=="SiteSettings"}>
                         <ul>
                           <li
                             className={
@@ -534,7 +537,8 @@ const AdminHome = () => {
                         href="#"
                         onClick={(e) => {
                           e.preventDefault();
-                          setAstroShopeList(!astroShopeList);
+
+                          handleToggleSection("AstromallShop");
                         }}
                       >
                         <FaShoppingBag />
@@ -543,7 +547,7 @@ const AdminHome = () => {
                           <MdOutlineKeyboardArrowRight />
                         </span>
                       </a>
-                      <SlideToggle isOpen={astroShopeList}>
+                      <SlideToggle isOpen={openFaq=="AstromallShop"}>
                         <ul>
                           <li
                             className={
