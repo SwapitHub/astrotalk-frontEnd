@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import Loader from "@/app/component/Loader";
 
 const ProductDetail = ({ productDetailData }) => {
+
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
@@ -92,7 +93,7 @@ const ProductDetail = ({ productDetailData }) => {
       ring_size = "";
     }
 
-    if (!productDetailData?.starting_price) {
+    if (productDetailData?.shop_product_type == "gemstone_product" || productDetailData?.shop_product_type == "another_product") {
       try {
         const res = await axios.put(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-any-field-astro-shope-product/${productDetailData?._id}`,
@@ -109,7 +110,7 @@ const ProductDetail = ({ productDetailData }) => {
       } catch (error) {
         console.error("Error updating ring size", error);
       }
-    } else {
+    } else if (productDetailData?.shop_product_type == "astrologer_puja") {
       router.push(`/shop/${params?.slug}/${params?.id}/consultant`);
     }
   };
@@ -124,7 +125,7 @@ const ProductDetail = ({ productDetailData }) => {
     }
   }, [productDetailData]);
 
-  
+
   useEffect(() => {
     if (productDetailData?.description) {
       const decoded = he.decode(productDetailData?.description);

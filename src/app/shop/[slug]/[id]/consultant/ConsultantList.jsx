@@ -149,6 +149,7 @@ const ConsultantList = () => {
                           <span key={index}>{lan}</span>
                         ))}
                       </div>
+                      <div className="time-exp-outer">
                       <div className="exp-year-sec">
                         <p>
                           Exp:{" "}
@@ -169,12 +170,13 @@ const ConsultantList = () => {
                             .map((service) => service?.service_price)}
                         </p>
                       </div>
+                      </div>
                     </div>
                     <div className="astrologer-list-right">
                       <div className="Verified-Sticker-icon">
                         <img
                           alt="Verified Sticker"
-                          src="./Verified-Sticker.png"
+                          src="/Verified-Sticker.png"
                         />
                       </div>
                       <div className="astrologer-call-button-ctm">

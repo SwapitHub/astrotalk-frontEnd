@@ -17,7 +17,6 @@ const OrderReview = () => {
   const [serviceName, setServiceName] = useState();
   const [productDetailData, setProductDetailData] = useState();
   const [addressDetailData, setAddressDetailData] = useState();
-console.log(astrologer);
 
   const { data: pujaCommission } = CustomHookCommission({
     fetchUrl: `${process.env.NEXT_PUBLIC_WEBSITE_URL}/add-AdminCommission-puja-astrologer`,
