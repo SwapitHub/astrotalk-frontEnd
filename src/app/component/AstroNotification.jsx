@@ -105,11 +105,10 @@ const AstroNotification = ({ astrologerPhone, astroDetailData }) => {
       }
     });
 
-    // Clean up when component unmounts or astrologerPhone changes
     return () => {
       socket.off("new-notification");
     };
-  }, [astrologerPhone]); // Ensure useEffect runs when astrologerPhone changes
+  }, [astrologerPhone]); 
 
   // Handle the update and status change of the astrologer
   const onChangeId = async (astrologerId, userId) => {

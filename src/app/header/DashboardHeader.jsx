@@ -10,6 +10,7 @@ import ProfilePopUp from "../component/ProfilePopUp";
 const DashboardHeader = ({ setToggleSlideMobile }) => {
   const [toggleSlide, setToggleSlide] = useState(false);
   const [astroDetailData, setAstroDetailData] = useState();
+console.log(astroDetailData,"astroDetailData");
 
   const [astrologerPhone, setAstrologerPhone] = useState();
 

@@ -160,9 +160,10 @@ ul.submenu > li:not(:last-child), .header-user-drop-down ul li:not(:last-child) 
 .astro-dashboard-heading-btns-outer .home-dashboard-heading {margin: 0px;}
 .astro-dashboard-heading-btns-outer .inner-astrologer-registration .astrologer-main-dashboard-btn {margin: 0px;}
 .astrologer-main-dashboard-btn a svg {vertical-align: middle; width: 23px; height: 23px;}
+.astrologer-profile svg { font-size: 50px;}
 /* Recharge Popup */
 .main-recharge-popup {margin: 0 auto; text-align: center; display: flex; justify-content: center; background: var(--secondary_color); max-width: 400px; align-items: center; padding: 15px 20px 24px; border-top: 4px solid var(--primary_color);}
-.recharge-popup .button button {color: #313131; border: 1px solid #919191; padding: 5px 20px; font-size: 14px; text-decoration: none; transition: all 0.3s ease-in-out; cursor: pointer; background-color: initial; margin-right: 10px; margin-top: 15px; min-width: 92px;}
+.recharge-popup .button button {color: #fff; border: 1px solid #919191; padding: 5px 20px; font-size: 14px; text-decoration: none; transition: all 0.3s ease-in-out; cursor: pointer; background-color: initial; margin-right: 10px; margin-top: 15px; min-width: 92px;}
 .all-list-talk-to-astrologer {margin-top: 30px; gap: 20px;}
 .recharge-popup h3 {font-size: 30px;}
 @media (min-width: 768px) {

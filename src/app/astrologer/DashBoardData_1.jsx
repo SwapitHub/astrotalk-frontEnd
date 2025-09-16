@@ -12,8 +12,6 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
   const [isOnline, setIsOnline] = useState();
   const [sessionValue, setSessionValue] = useState();
- console.log(astrologerData.profileStatus,isOnline);
-console.log("sessionValue",astrologerData.mobileNumber);
 
   useEffect(() => {
     if (isOnline) {
@@ -30,7 +28,7 @@ console.log("sessionValue",astrologerData.mobileNumber);
       setIsOnline(astrologerData.profileStatus);
       setSessionValue(sessionPhone)
     }
-    
+
   }, [astrologerData.mobileNumber]);
 
   const updateAstrologerStatus = useCallback(
@@ -94,91 +92,100 @@ console.log("sessionValue",astrologerData.mobileNumber);
   }, [isOnline, updateAstrologerStatus]);
 
   return (
-    <section className="astrologer-registration-bg">      
-        <div className="astro-dashboard-heading-btns-outer">
-          <div className="home-dashboard-heading">
-            <h2>Dashboard</h2>
-            <p>Astrotalk Panel</p>
-          </div>
-          <div className="inner-astrologer-registration">
-            <div className="registration-heading">
-              {/* <div className="image-dash">
+    <section className="astrologer-registration-bg">
+      <div className="astro-dashboard-heading-btns-outer">
+        <div className="home-dashboard-heading">
+          <h2>Dashboard</h2>
+          <p>Astrotalk Panel</p>
+        </div>
+        <div className="astro-deatil">
+          <span>
+            Astrologer Name : {astrologerData?.name}
+          </span>
+          {"   "}
+          <span>Astrologer Charges : {astrologerData?.charges}</span>
+          {"   "}
+          <span>Totale Balance : ₹{Math.round(astrologerData?.totalAvailableBalance)}</span>
+        </div>
+        <div className="inner-astrologer-registration">
+          <div className="registration-heading">
+            {/* <div className="image-dash">
               <img
                 src="https://d1gcna0o0ldu5v.cloudfront.net/fit-in/320x410/assets/images/login_banner.webp"
                 alt=""
               />
             </div> */}
-              <div className="astrologer-main-dashboard-btn">
-                <a
-                  href={
-                    astrologerData.chatStatus
-                      ? `/chat-with-astrologer/astrologer/${astrologerData._id}`
-                      : "#"
-                  }
-                >
-                  <span>
-                    <IoIosArrowRoundBack />
-                  </span>{" "}
-                  Back To The Chat Page
-                </a>
-                <button onClick={toggleOnlineStatus}>
-                  {isOnline ? "Go Offline" : "Go Online"}
-                </button>
-              </div>
+            <div className="astrologer-main-dashboard-btn">
+              <a
+                href={
+                  astrologerData.chatStatus
+                    ? `/chat-with-astrologer/astrologer/${astrologerData._id}`
+                    : "#"
+                }
+              >
+                <span>
+                  <IoIosArrowRoundBack />
+                </span>{" "}
+                Back To The Chat Page
+              </a>
+              <button onClick={toggleOnlineStatus}>
+                {isOnline ? "Go Offline" : "Go Online"}
+              </button>
             </div>
           </div>
         </div>
-        <div className="outer-home-dashboard">
-          <div className="inner-home-dashboard">
-            <ul>
-              <li onClick={() => setUpdateButton(2)}>
-                
-                  <span>
-                    <ImProfile />
-                  </span>
-                  <div className="inner-text">
-                    <span> Profile</span>
-                    {/* <span>123</span> */}
-                  </div>
-              
-              </li>
-              <li onClick={() => setUpdateButton(3)}>
-                
-                  <span>
-                    <IoWalletSharp />
-                  </span>
-                  <div className="inner-text">
-                    <span> Wallet</span>
-                    {/* <span>123</span> */}
-                  </div>
-                
-              </li>
-              <li onClick={() => setUpdateButton(5)}>
-                
-                  <span>
-                    <MdOutlinePreview />
-                  </span>
-                  <div className="inner-text">
-                    <span> Review</span>
-                    {/* <span>123</span> */}
-                  </div>
-              
-              </li>
-              <li onClick={() => setUpdateButton(4)}>
-                
-                  <span>
-                    <TfiGallery />
-                  </span>
-                  <div className="inner-text">
-                    <span> Gallery</span>
-                    {/* <span>123</span> */}
-                  </div>
-                
-              </li>
-            </ul>
-          </div>
+      </div>
+      <div className="outer-home-dashboard">
+        <div className="inner-home-dashboard">
+          <ul>
+            <li onClick={() => setUpdateButton(2)}>
+
+              <span>
+                <ImProfile />
+              </span>
+              <div className="inner-text">
+                <span> Profile</span>
+                {/* <span>123</span> */}
+              </div>
+
+            </li>
+            <li onClick={() => setUpdateButton(3)}>
+
+              <span>
+                <IoWalletSharp />
+              </span>
+              <div className="inner-text">
+                <span> Wallet</span>
+                {/* <span>123</span> */}
+              </div>
+
+            </li>
+            <li onClick={() => setUpdateButton(5)}>
+
+              <span>
+                <MdOutlinePreview />
+              </span>
+              <div className="inner-text">
+                <span> Review</span>
+                {/* <span>123</span> */}
+              </div>
+
+            </li>
+            <li onClick={() => setUpdateButton(4)}>
+
+              <span>
+                <TfiGallery />
+              </span>
+              <div className="inner-text">
+                <span> Gallery</span>
+                {/* <span>123</span> */}
+              </div>
+
+            </li>
+          </ul>
         </div>
-     
+      </div>
+
     </section>
   );
 };

@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import RequestPopUp from "../component/RequestPopUp";
 import Cookies from "js-cookie";
 import useDebounce from "../hook/useDebounce";
+import { FaRegCircleUser } from "react-icons/fa6";
 
 // const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
@@ -282,33 +283,26 @@ const ChatWithAstrologer = ({
   };
 
   useEffect(() => {
-    // Listen for success event from the server
     socket.on("userId-to-astrologer-success", (data) => {
-      // console.log("userId and astrologerId saved successfully:", data);
     });
 
-    // Listen for error event from the server
     socket.on("userId-to-astrologer-error", (error) => {
       console.error("Error saving userId and astrologerId:", error);
-      // You can update the UI or show an error message here
     });
 
     return () => {
-      // Clean up event listeners
       socket.off("userId-to-astrologer-success");
       socket.off("userId-to-astrologer-error");
     };
   }, []);
 
   useEffect(() => {
-    // Remove all related classes first
     document.body.classList.remove(
       "sort-user-filter-popup",
       "multi-user-filter-popup",
       "loading-user-filter-popup"
     );
 
-    // Add the correct one based on the current status
     if (sortFilterStatus) {
       document.body.classList.add("sort-user-filter-popup");
     } else if (multiFilterStatus) {
@@ -642,10 +636,12 @@ const ChatWithAstrologer = ({
 
                             <div className="astrologer-list-left">
                               <div className="astrologer-profile">
-                                <img
-                                  src={`${item?.profileImage}`}
-                                  alt={item?.name}
-                                />
+                                {
+                                  <img
+                                    src={`${item?.profileImage}`}
+                                    alt={item?.name}
+                                  /> || <FaRegCircleUser />
+                                }
                               </div>
                               <div className="five-star-rating">
                                 <ul className="stars">
@@ -801,10 +797,13 @@ const ChatWithAstrologer = ({
 
                         <div className="astrologer-list-left">
                           <div className="astrologer-profile">
-                            <img
-                              src={`${item?.profileImage}`}
-                              alt={item?.name}
-                            />
+                            {
+                              <img
+                                src={`${item?.profileImage}`}
+                                alt={item?.name}
+                              /> || <FaRegCircleUser />
+                            }
+
                           </div>
                           <div className="five-star-rating">
                             <ul className="stars">

@@ -46,6 +46,7 @@ const UserList = ({setUserListData}) => {
               <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Mobile Number</th>
                 <th>Gender</th>
                 <th>Date Of Birth</th>
               </tr>
@@ -55,6 +56,7 @@ const UserList = ({setUserListData}) => {
                 <tr key={item._id}>
                   <td>{item._id}</td>
                   <td>{item.name}</td>
+                  <td>{item?.phone}</td>
                   <td>{item.gender}</td>
                   <td>{item.dateOfBirth}</td>
                 </tr>
