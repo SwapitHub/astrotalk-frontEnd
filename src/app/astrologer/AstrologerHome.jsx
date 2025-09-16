@@ -21,6 +21,7 @@ import AstrologerWallet from "./AstrologerWallet";
 import DashBoardData_1 from "./DashBoardData_1";
 import SpiritualServices from "./SpiritualServices";
 import { AstroDocument } from "./AstroDocument";
+import PaymentWithdrawal from "./PaymentWithdrawal";
 
 const AstrologerHome = () => {
   const { updateButton, setUpdateButton } = useGlobalContext();
@@ -246,6 +247,19 @@ const AstrologerHome = () => {
                         <span className="list-text">Wallet Puja Order</span>
                       </a>
                     </li>
+                       <li className={updateButton === "PaymentWithdrawal" ? "active" : ""}>
+                      <a
+                        href="#"
+                        title="menu"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setUpdateButton("PaymentWithdrawal");
+                        }}
+                      >
+                        <CiWallet />
+                        <span className="list-text">Payment Withdrawal</span>
+                      </a>
+                    </li>
                     <li className={updateButton === "spiritual-services" ? "active" : ""}>
                       <a
                         href="#"
@@ -341,6 +355,7 @@ const AstrologerHome = () => {
                   />
                 )}
                 {updateButton == 3 && <AstrologerWallet />}
+                {updateButton == "PaymentWithdrawal" && <PaymentWithdrawal/>}
                 {updateButton == "spiritual-services" && <SpiritualServices />}
                 {updateButton == 4 && (
                   <AstrologerGallery astrologerData={astrologerData} />

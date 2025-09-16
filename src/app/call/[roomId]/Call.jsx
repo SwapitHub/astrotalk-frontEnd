@@ -6,10 +6,7 @@ import { io } from "socket.io-client";
 import Loader from "@/app/component/Loader";
 import Link from "next/link";
 import { AiOutlineAudio, AiOutlineAudioMuted } from "react-icons/ai";
-import {
-  MdOutlineVideocam,
-  MdOutlineVideocamOff
-} from "react-icons/md";
+import { MdOutlineVideocam, MdOutlineVideocamOff } from "react-icons/md";
 import secureLocalStorage from "react-secure-storage";
 
 const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, { autoConnect: false });
@@ -20,8 +17,7 @@ const Call = () => {
   const [myId, setMyId] = useState("");
   const [remoteUsers, setRemoteUsers] = useState({}); // socketId -> MediaStream
   const pcsd = useRef({}); // keep peer connections in a ref so they persist
-  const param = useParams()
-
+  const param = useParams();
 
   const localVideoRef = useRef(null);
   const localStream = useRef(null);
@@ -34,7 +30,7 @@ const Call = () => {
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [showJoinRoom, setShowJoinRoom] = useState(false);
   const [getUserCall, setGetUserCall] = useState();
-  const [loader, setLoder] = useState(false)
+  const [loader, setLoder] = useState(false);
   const [roomIdShow, setRoomIdShow] = useState(
     secureLocalStorage.getItem("roomId")
   );
@@ -155,7 +151,6 @@ const Call = () => {
   };
 
   // END CALL FUNCTION
- 
 
   const toggleAudio = () => {
     const audioTrack = localStream.current?.getAudioTracks()[0];
@@ -187,51 +182,38 @@ const Call = () => {
     }));
   });
 
-
-
   useEffect(() => {
     socket.on("join-user-call-new-notification", ({ roomId }) => {
       console.log("User asked to join call for room:", roomId.roomId);
-      setGetUserCall(roomId.roomId)
+      setGetUserCall(roomId.roomId);
     });
 
     socket.on("accept-join-user-call-new-notification", ({ roomId }) => {
       console.log("User asked to join call for room:", roomId.roomId);
-      router.push(`/LiveCall/${param.roomId}`)
-
+      router.push(`/LiveCall/${param.roomId}`);
     });
 
     return () => {
       socket.off("join-user-call-new-notification");
       socket.off("accept-join-user-call-new-notification");
-
     };
   }, [socket]);
 
   const handleAskToJoin = () => {
-    setLoder(true)
+    setLoder(true);
     socket.emit("join-user-call", {
       roomId,
     });
   };
 
- 
-
-
-
   return (
     <main>
-      {
-        loader &&
-        <Loader />
-      }
+      {loader && <Loader />}
       <div className="container">
-
         <div className="show-room-join">
           <div className="left-show-room">
             <div className="live-video">
               <video ref={localVideoRef} autoPlay muted playsInline />
-
             </div>
 
             <div className="video_call_controls-join">
@@ -257,7 +239,11 @@ const Call = () => {
 
             {roomIdShow == roomId ? (
               <>
-                {getUserCall ? <p>another user wait on room</p> : <p>No one else is here</p>}
+                {getUserCall ? (
+                  <p>another user wait on room</p>
+                ) : (
+                  <p>No one else is here</p>
+                )}
 
                 <Link href={`/LiveCall/${param.roomId}`}>Join Now</Link>
               </>
@@ -266,7 +252,6 @@ const Call = () => {
             )}
           </div>
         </div>
-
       </div>
     </main>
   );

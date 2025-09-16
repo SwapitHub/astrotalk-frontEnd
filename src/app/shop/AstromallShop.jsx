@@ -1,40 +1,16 @@
 "use client";
-import axios from "axios";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
+import { useState } from "react";
 import "slick-carousel/slick/slick-theme.css";
-import TopSellingSlider from "../component/TopSellingSlider";
+import "slick-carousel/slick/slick.css";
 import NewlyLaunceSlider from "../component/NewlyLaunceSlider";
 import SearchProductSuggestion from "../component/SearchProductSuggestion";
+import TopSellingSlider from "../component/TopSellingSlider";
 
 const AstromallShop = ({topSellingSlider,NewlyLaunchedSlider, shopListData}) => {
-  // const [shopListData, setShopListData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  // useEffect(() => {
-  //   const getAstroShopData = async () => {
-  //     try {
-  //       const res = await axios.get(
-  //         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-list`
-  //       );
-  //       setShopListData(res.data.data);
-  //     } catch (error) {
-  //       console.log("API error", error);
-  //     }
-  //   };
-  //   getAstroShopData();
-  // }, []);
+ 
 
-  const sliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 700,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    autoplay: false,
-    autoplaySpeed: 2000,
-  };
   return (
     <main>
       <section className="astromall-sec-outer">

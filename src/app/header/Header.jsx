@@ -168,7 +168,7 @@ const Header = () => {
             <div className="inner-header-sec ctm-flex-row ctm-align-items-center ctm-justify-content-between">
               <div className="header-left-logo">
                 <Link href="/" title="WeddingByte">
-                  <img src="/logo.png" alt="WeddingByte" />
+                  <img src="/logo-main.png" alt="WeddingByte" />
                 </Link>
               </div>
 
@@ -210,6 +210,54 @@ const Header = () => {
                       Chat with Astrologer
                     </Link>
                   </li>
+                  
+                  {/* <li>
+                    <Link
+                      href="/talk-to-astrologer"
+                      onClick={() => {
+                        setIsLoading(true);
+                        setTimeout(() => {
+                          setIsLoading(false);
+                        }, 2000);
+                        setToggleMobile(false);
+                      }}
+                    >
+                      Talk to Astrologer
+                    </Link>
+                  </li> */}
+                  {/* <li>
+                    <Link
+                      href="/call"
+                      onClick={() => {
+                        setIsLoading(true);
+                        setTimeout(() => {
+                          setIsLoading(false);
+                        }, 2000);
+                        setToggleMobile(false);
+                      }}
+                    >
+                      Add Call
+                    </Link>
+                  </li> */}
+                  {/* <li>
+                    <span onClick={handleOtpPop}>
+                      Login Astrologer Dashboard
+                    </span>
+                  </li> */}
+                  <li>
+                    <Link
+                      href={`${"/shop"}`}
+                      onClick={() => {
+                        setIsLoading(true);
+                        setTimeout(() => {
+                          setIsLoading(false);
+                        }, 2000);
+                        setToggleMobile(false);
+                      }}
+                    >
+                      Astromall Shop
+                    </Link>
+                  </li>
                   <li className="has-submenu">
                     <span
                       onClick={() =>
@@ -242,53 +290,6 @@ const Header = () => {
                         </li>
                       </ul>
                     </SlideToggle>
-                  </li>
-                  {/* <li>
-                    <Link
-                      href="/talk-to-astrologer"
-                      onClick={() => {
-                        setIsLoading(true);
-                        setTimeout(() => {
-                          setIsLoading(false);
-                        }, 2000);
-                        setToggleMobile(false);
-                      }}
-                    >
-                      Talk to Astrologer
-                    </Link>
-                  </li> */}
-                  <li>
-                    <Link
-                      href="/call"
-                      onClick={() => {
-                        setIsLoading(true);
-                        setTimeout(() => {
-                          setIsLoading(false);
-                        }, 2000);
-                        setToggleMobile(false);
-                      }}
-                    >
-                      Add Call
-                    </Link>
-                  </li>
-                  {/* <li>
-                    <span onClick={handleOtpPop}>
-                      Login Astrologer Dashboard
-                    </span>
-                  </li> */}
-                  <li>
-                    <Link
-                      href={`${"/shop"}`}
-                      onClick={() => {
-                        setIsLoading(true);
-                        setTimeout(() => {
-                          setIsLoading(false);
-                        }, 2000);
-                        setToggleMobile(false);
-                      }}
-                    >
-                      Shop
-                    </Link>
                   </li>
 
                   {/* <li>
