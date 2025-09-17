@@ -24,10 +24,9 @@ import { AstroDocument } from "./AstroDocument";
 import PaymentWithdrawal from "./PaymentWithdrawal";
 
 const AstrologerHome = () => {
-  const { updateButton, setUpdateButton } = useGlobalContext();
-  console.log(updateButton, "updateButtonGlobal");
-  const [astrologerPhone, setAstrologerPhone] = useState([]);
   const router = useRouter();
+  const { updateButton, setUpdateButton } = useGlobalContext();
+  const [astrologerPhone, setAstrologerPhone] = useState([]);
   // const [updateButton, setUpdateButton] = useState(updateButtonGlobal);
   const [successMessageProfile, setSuccessMessageProfile] = useState();
   const [astrologerData, setAstrologerData] = useState("");

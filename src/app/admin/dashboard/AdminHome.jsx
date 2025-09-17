@@ -37,7 +37,8 @@ import SeoMetaData from "./SeoMetaData";
 import Cookies from "js-cookie";
 import AdminHeader from "@/app/header/AdminHeader";
 import SeminarRegistration from "./SeminarRegistration";
-
+import PaymentWithdrawRequest from "./PaymentWithdrawRequest";
+import { GiPayMoney } from "react-icons/gi";
 
 const AdminHome = () => {
   const router = useRouter();
@@ -105,6 +106,20 @@ const handleToggleSection = (sectionName) => {
                       >
                         <MdOutlineDashboard />
                         <span className="list-text">Dashboard</span>
+                      </a>
+                    </li>
+                    
+                    <li className={updateButton === "PaymentWithdrawRequest" ? "active" : ""}>
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setUpdateButton("PaymentWithdrawRequest");
+                          setToggleSlideMobile(false);
+                        }}
+                      >
+                        <GiPayMoney />
+                        <span className="list-text">Payment Withdraw Request</span>
                       </a>
                     </li>
                     <li
@@ -656,6 +671,10 @@ const handleToggleSection = (sectionName) => {
               <div className="dashboard-right-content">
                 {updateButton === 1 && (
                   <AdminDashBoardData setUpdateButton={setUpdateButton} />
+                )}
+                
+                {updateButton === "PaymentWithdrawRequest" && (
+                  <PaymentWithdrawRequest setUpdateButton={setUpdateButton} />
                 )}
                 {updateButton === "active" && <AstroLogerList />}
                 {updateButton === "pending" && <AstrologerPendingList />}

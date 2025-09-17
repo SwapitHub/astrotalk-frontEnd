@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 
 const PaymentWithdrawal = () => {
+  const astrologerPhone = Cookies.get("astrologer-phone")
+  console.log(astrologerPhone);
+  
   const [form, setForm] = useState({
     name: "",
     upiId: "",
@@ -10,7 +14,8 @@ const PaymentWithdrawal = () => {
     bankName: "",
     accountNumber: "",
     ifscCode: "",
-    adminEmail: ""
+    adminEmail: "",
+    astrologerPhone
   });
 
   const [errors, setErrors] = useState({});
@@ -20,7 +25,7 @@ const PaymentWithdrawal = () => {
   // Fetch all entries
   const fetchWithdrawals = async () => {
     try {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-all-payment-withdrawal`);
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-detail-payment-withdrawal/${astrologerPhone}`);
       setWithdrawals(res.data);
     } catch (err) {
       console.error("Failed to fetch withdrawals:", err.message);
@@ -60,6 +65,7 @@ const PaymentWithdrawal = () => {
       bankName: "",
       accountNumber: "",
       ifscCode: "",
+      adminEmail: "",
     });
     setEditingId(null);
     setErrors({});
