@@ -30,12 +30,13 @@ const ProfilePopUp = ({ astroDetailData }) => {
 
       if (response.data.message == "Success") {
         Cookies.remove("astrologer-phone");
+        sessionStorage.clear(); // Clear entire session storage
+        localStorage.clear();
         router.push("/");
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       }
-      console.log("Astrologer status updated:", response.data);
       // update order history
       const updateList = await axios.put(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
@@ -44,7 +45,6 @@ const ProfilePopUp = ({ astroDetailData }) => {
           profileStatus: false,
         }
       );
-      console.log("update order history", updateList);
     } catch (error) {
       console.error(
         "Failed to update astrologer status:",

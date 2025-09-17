@@ -44,7 +44,7 @@ const AstrologerProfile = ({
     if(!astrologerPhone) return;
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerPhone}`
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile-detail/${astrologerPhone}`
       )
       .then((res) => {
         setAstroUpdateDetail(res.data);

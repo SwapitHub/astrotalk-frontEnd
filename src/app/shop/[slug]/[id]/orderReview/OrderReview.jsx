@@ -60,7 +60,7 @@ const OrderReview = () => {
 
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologer_id}`
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile-detail/${astrologer_id}`
         );
         const result = await response.json();
         setAstrologer(result);

@@ -56,18 +56,19 @@ const AstrologerHome = () => {
     }
   }, [astrologerData]);
 
-  useEffect(() => {
-    axios
-      .get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerPhone}`
-      )
-      .then((response) => {
-        setAstrologerData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [astrologerPhone]);
+useEffect(() => {
+  if (!astrologerPhone) return;
+
+  axios
+    .get(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile-detail/${astrologerPhone}`)
+    .then((response) => {
+      setAstrologerData(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}, [astrologerPhone]);  
+
   // useEffect(() => {
   //   if (updateButton !== 2 && successMessageProfile.message !== "success") {
   //     toast.warning("please complete the profile", {

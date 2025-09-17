@@ -12,9 +12,11 @@ const UserRecharge = ({ setShowRecharge, astroMobileNum }) => {
   };
 
   useEffect(() => {
+    if(!astroMobileNum) return
+
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astroMobileNum}`
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile-detail/${astroMobileNum}`
       )
       .then((res) => {
         setAstroData(res.data);

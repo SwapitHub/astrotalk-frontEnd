@@ -36,7 +36,7 @@ console.log(astroDetailData,"astroDetailData");
     const fetchAstroDetailData = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerPhone}`
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile-detail/${astrologerPhone}`
         );
         setAstroDetailData(response?.data);
         console.log("astroDetailData", response);
