@@ -10,7 +10,7 @@ const PaymentWithdrawal = () => {
     bankName: "",
     accountNumber: "",
     ifscCode: "",
-    email: ""
+    adminEmail: ""
   });
 
   const [errors, setErrors] = useState({});
@@ -45,7 +45,7 @@ const PaymentWithdrawal = () => {
     if (!form.bankName) newErrors.bankName = "Bank Name is required";
     if (!form.accountNumber) newErrors.accountNumber = "Account Number is required";
     if (!form.ifscCode) newErrors.ifscCode = "IFSC Code is required";
-    if (!form.email) newErrors.email = "Email is required";
+    if (!form.adminEmail) newErrors.adminEmail = "adminEmail is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -154,9 +154,9 @@ const PaymentWithdrawal = () => {
         </div>
 
         <div className="form-group">
-          <label>Admin Email</label>
-          <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="Enter admin email" />
-          {errors.ifscCode && <p className="error">{errors.email}</p>}
+          <label>Admin adminEmail</label>
+          <input type="email" name="adminEmail" value={form.adminEmail} onChange={handleChange} placeholder="Enter admin adminEmail" />
+          {errors.ifscCode && <p className="error">{errors.adminEmail}</p>}
         </div>
 
         <div className="form-actions">
