@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Loader from "@/app/component/Loader";
 
 const PaymentWithdrawRequest = () => {
   const [withdrawals, setWithdrawals] = useState([]);
@@ -7,7 +8,7 @@ const PaymentWithdrawRequest = () => {
 console.log(withdrawals,"withdrawals");
 
   const [page, setPage] = useState(1);
-  const limit = 1;
+  const limit = 3;
 
   const [totalPages, setTotalPages] = useState(1);
 
@@ -57,7 +58,7 @@ console.log(res);
       <h1>Withdrawal Requests</h1>
 
       {loading ? (
-        <p>Loading...</p>
+        <Loader/>
       ) : (
         <>
           <table border="1" cellPadding="10" style={{ width: "100%", textAlign: "left" }}>
@@ -99,7 +100,7 @@ console.log(res);
                           </button>
                         </>
                       ) : (
-                        <span>Completed</span>
+                        <span>{w.status}</span>
                       )}
                     </td>
                   </tr>

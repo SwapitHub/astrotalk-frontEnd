@@ -184,6 +184,7 @@ const PaymentWithdrawal = () => {
             <th>Bank</th>
             <th>Account #</th>
             <th>IFSC</th>
+            <th>Date and time</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -201,10 +202,12 @@ const PaymentWithdrawal = () => {
                 <td>{w.bankName}</td>
                 <td>{w.accountNumber}</td>
                 <td>{w.ifscCode}</td>
-                <td>
+                 <td>{new Date(w.createdAt).toLocaleString()}</td>
+                <th>{w.status}</th>
+                {/* <td>
                   <button onClick={() => handleEdit(w)}>Edit</button>
                   <button onClick={() => handleDelete(w._id)}>Delete</button>
-                </td>
+                </td> */}
               </tr>
             ))
           )}
