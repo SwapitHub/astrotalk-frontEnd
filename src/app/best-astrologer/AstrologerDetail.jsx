@@ -42,6 +42,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
   const [astroMobileNum, setAstroMobileNum] = useState();
   const [astrologerId, setAstrologerId] = useState();
   const [galleryData, setGalleryData] = useState([]);
+console.log(astrologerData);
 
   const [userData, setUserData] = useState();
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
@@ -312,7 +313,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
                       <IoHome />
                     </span>
                   </Link>
-                  <span className="text">{astrologerData.name}'s Profile</span>
+                  <span className="text">{astrologerData?.name}'s Profile</span>
                 </li>
               </ul>
             </div>
@@ -335,7 +336,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
               </div>
               <div className="content">
                 <div className="astrologer_name">
-                  <h1>{astrologerData.name}</h1>
+                  <h1>{astrologerData?.name}</h1>
                   <div className="icon">
                     {/* <img src="./Images/check.webp" /> */}
                   </div>

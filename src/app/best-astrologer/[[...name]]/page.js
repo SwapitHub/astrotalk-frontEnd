@@ -6,7 +6,7 @@ import { AstrologerDetail } from "../AstrologerDetail";
 const fetchAstrologerDetailData = async (name) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${decodeURIComponent(name)}`,
+      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile-detail/${decodeURIComponent(name)}`,
       {
         cache: "no-store",
       }
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }) {
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${decodeURIComponent(name)}`,
+      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile-detail/${decodeURIComponent(name)}`,
       {
         next: { revalidate: 60 },
       }
