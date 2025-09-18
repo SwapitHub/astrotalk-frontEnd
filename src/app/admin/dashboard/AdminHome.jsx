@@ -22,7 +22,7 @@ import { CiSettings, CiWallet } from "react-icons/ci";
 import { TfiGallery } from "react-icons/tfi";
 import { IoIosHome, IoMdLogOut } from "react-icons/io";
 import { TbBrandDenodo } from "react-icons/tb";
-import { FaHeadSideCough, FaShoppingBag } from "react-icons/fa";
+import { FaBlog, FaHeadSideCough, FaShoppingBag } from "react-icons/fa";
 import ChangePassword from "./ChangePassword";
 import { useGlobalContext } from "@/context/HomeContext";
 import AstroMallShops from "./AstroMallShops";
@@ -39,6 +39,9 @@ import AdminHeader from "@/app/header/AdminHeader";
 import SeminarRegistration from "./SeminarRegistration";
 import PaymentWithdrawRequest from "./PaymentWithdrawRequest";
 import { GiPayMoney } from "react-icons/gi";
+import AddBlogsCategory from "./blogs/AddBlogsCategory";
+import AddBlogs from "./blogs/AddBlogs";
+import AllBlogs from "./blogs/AllBlogs";
 
 const AdminHome = () => {
   const router = useRouter();
@@ -642,7 +645,93 @@ const handleToggleSection = (sectionName) => {
                       </SlideToggle>
                     </li>
 
-                   
+                   <li
+                      className={
+                        updateButton === "AllBlogs" || 
+                        updateButton === "AddBlogs" || 
+                        updateButton === "AddBlogsCategory" 
+                         ? "active" : ""}
+                    >
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+
+                          handleToggleSection("Blogs");
+                        }}
+                      >
+                        <FaBlog />
+                        <span className="list-text">Blogs</span>
+                        <span className="list-arrow">
+                          <MdOutlineKeyboardArrowRight />
+                        </span>
+                      </a>
+                      <SlideToggle isOpen={openFaq=="Blogs"}>
+                        <ul>
+                          <li
+                            className={
+                              updateButton === "AllBlogs" ? "active" : ""
+                            }
+                          >
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setUpdateButton("AllBlogs");
+                                setToggleSlideMobile(false);
+                              }}
+                            >
+                              <span className="list-text">All Blogs</span>
+                            </a>
+                          </li>
+
+                          <li
+                            className={
+                              updateButton === "AddBlogs"
+                                ? "active"
+                                : ""
+                            }
+                          >
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setUpdateButton("AddBlogs");
+                                setToggleSlideMobile(false);
+                              }}
+                            >
+                              <span className="list-text">
+                                Add Blogs
+                              </span>
+                            </a>
+                          </li>
+
+                          <li
+                            className={
+                              updateButton === "AddBlogsCategory"
+                                ? "active"
+                                : ""
+                            }
+                          >
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setUpdateButton("AddBlogsCategory");
+                                setToggleSlideMobile(false);
+                              }}
+                            >
+                              <span className="list-text">
+                                Add Blogs Category
+                              </span>
+                            </a>
+                          </li>
+                          
+                        </ul>
+                      </SlideToggle>
+                    </li>
+
+
                     <li className={updateButton === 7 ? "active" : ""}>
                       <a
                         href="#"
@@ -656,6 +745,7 @@ const handleToggleSection = (sectionName) => {
                         <span className="list-text">User List</span>
                       </a>
                     </li>
+
                     <li>
                       {admin_id && (
                         <span onClick={handleAdminLogOut}>
@@ -687,6 +777,10 @@ const handleToggleSection = (sectionName) => {
                 {updateButton === "astroShopProduct" && (
                   <AstroMallShopProduct />
                 )}
+                {updateButton === "AddBlogsCategory" && <AddBlogsCategory />}
+                {updateButton === "AddBlogs" && <AddBlogs />}
+                {updateButton === "AllBlogs" && <AllBlogs />}
+
                 {updateButton === "language" && <AddLanguage />}
                 {updateButton === "profession" && <AddProfession />}
                 {updateButton === "ChatCommission" && <ChatCommission />}

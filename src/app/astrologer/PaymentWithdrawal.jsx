@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-
+import Loader from "../component/Loader";
 
 const PaymentWithdrawal = () => {
-  const astrologerPhone = Cookies.get("astrologer-phone")
+  const astrologerPhone = Cookies.get("astrologer-phone");
   console.log(astrologerPhone);
-  
+
   const [form, setForm] = useState({
     name: "",
     upiId: "",
@@ -22,19 +22,39 @@ const PaymentWithdrawal = () => {
   const [withdrawals, setWithdrawals] = useState([]);
   const [editingId, setEditingId] = useState(null);
 
-  // Fetch all entries
-  const fetchWithdrawals = async () => {
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [hasPrevPage, setHasPrevPage] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  // Fetch withdrawals with pagination
+  const fetchWithdrawals = async (page = 1) => {
+    setLoading(true);
     try {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-detail-payment-withdrawal/${astrologerPhone}`);
-      setWithdrawals(res.data);
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-detail-payment-withdrawal/${astrologerPhone}?page=${page}&limit=2`
+      );
+      const { data, currentPage, totalPages, totalItems, hasNextPage, hasPrevPage } = res.data;
+      setWithdrawals(data);
+      setCurrentPage(currentPage);
+      setTotalPages(totalPages);
+      setTotalItems(totalItems);
+      setHasNextPage(hasNextPage);
+      setHasPrevPage(hasPrevPage);
     } catch (err) {
       console.error("Failed to fetch withdrawals:", err.message);
+    }
+    finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchWithdrawals();
-  }, []);
+    fetchWithdrawals(currentPage);
+  }, [currentPage]);
 
   // Input change handler
   const handleChange = (e) => {
@@ -83,7 +103,7 @@ const PaymentWithdrawal = () => {
       } else {
         await axios.post(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/post-payment-withdrawal`, form);
       }
-      fetchWithdrawals();
+      fetchWithdrawals(currentPage);
       resetForm();
     } catch (err) {
       console.error("Submission error:", err.message);
@@ -109,14 +129,30 @@ const PaymentWithdrawal = () => {
     if (!window.confirm("Are you sure you want to delete this entry?")) return;
     try {
       await axios.delete(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/delete-payment-withdrawal/${id}`);
-      fetchWithdrawals();
+      fetchWithdrawals(currentPage);
     } catch (err) {
       console.error("Deletion error:", err.message);
     }
   };
 
+  const handleNextPage = () => {
+    if (hasNextPage && !loading) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (hasPrevPage && !loading) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+
+
   return (
     <div className="container">
+      {
+        loading && <Loader />
+      }
       <h1>Payment Withdrawal</h1>
 
       {/* === Form === */}
@@ -162,15 +198,13 @@ const PaymentWithdrawal = () => {
         <div className="form-group">
           <label>Admin adminEmail</label>
           <input type="email" name="adminEmail" value={form.adminEmail} onChange={handleChange} placeholder="Enter admin adminEmail" />
-          {errors.ifscCode && <p className="error">{errors.adminEmail}</p>}
+          {errors.adminEmail && <p className="error">{errors.adminEmail}</p>}
         </div>
 
         <div className="form-actions">
           <button type="submit">{editingId ? "Update" : "Submit"}</button>
           {editingId && <button type="button" onClick={resetForm}>Cancel</button>}
         </div>
-
-
       </form>
 
       {/* === Table === */}
@@ -189,12 +223,12 @@ const PaymentWithdrawal = () => {
           </tr>
         </thead>
         <tbody>
-          {withdrawals.length === 0 ? (
+          {withdrawals?.length === 0 ? (
             <tr>
               <td colSpan="7">No entries found.</td>
             </tr>
           ) : (
-            withdrawals.map((w) => (
+            withdrawals?.map((w) => (
               <tr key={w._id}>
                 <td>{w.name}</td>
                 <td>{w.upiId}</td>
@@ -202,18 +236,27 @@ const PaymentWithdrawal = () => {
                 <td>{w.bankName}</td>
                 <td>{w.accountNumber}</td>
                 <td>{w.ifscCode}</td>
-                 <td>{new Date(w.createdAt).toLocaleString()}</td>
+                <td>{new Date(w.createdAt).toLocaleString()}</td>
                 <th>{w.status}</th>
-                {/* <td>
-                  <button onClick={() => handleEdit(w)}>Edit</button>
-                  <button onClick={() => handleDelete(w._id)}>Delete</button>
-                </td> */}
               </tr>
             ))
           )}
         </tbody>
       </table>
 
+      {/* === Pagination Controls === */}
+      {/* === Pagination Controls === */}
+      <div className="pagination">
+        <button onClick={handlePrevPage} disabled={!hasPrevPage || loading}>
+          {loading && hasPrevPage ? "Loading..." : "Previous"}
+        </button>
+
+        <span>Page {currentPage} of {totalPages}</span>
+
+        <button onClick={handleNextPage} disabled={!hasNextPage || loading}>
+          {loading && hasNextPage ? "Loading..." : "Next"}
+        </button>
+      </div>
 
     </div>
   );
