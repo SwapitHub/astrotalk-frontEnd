@@ -101,6 +101,9 @@ const Footer = () => {
                     <li>
                       <Link href="/chat-with-astrologer">chat now</Link>
                     </li>
+                    <li>
+                      <Link href="/astrology-blog">Blogs</Link>
+                    </li>
                   </ul>
                 </div>
               </div>

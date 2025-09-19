@@ -4,6 +4,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import useDebounce from "../hook/useDebounce";
+import Loader from "../component/Loader";
 
 const API = process.env.NEXT_PUBLIC_WEBSITE_URL;
 
@@ -12,6 +13,7 @@ const AstrologyBlog = () => {
   const [blogs, setBlogs] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState("");
   const [search, setSearch] = useState("");
+  const [loader, setLoader] = useState(false);
   const [pagination, setPagination] = useState({
     currentPage: 1,
     totalPages: 1,
@@ -32,6 +34,7 @@ const AstrologyBlog = () => {
   };
 
   const fetchBlogs = async (page = 1, limit = 3) => {
+    setLoader(true);
     try {
       const params = {
         page,
@@ -46,6 +49,8 @@ const AstrologyBlog = () => {
       setPagination(res.data.pagination);
     } catch (err) {
       console.error("Failed to fetch blogs:", err);
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -53,17 +58,16 @@ const AstrologyBlog = () => {
     fetchCategories();
   }, []);
 
-const debouncedSearch = useDebounce(search, 1000); // Search triggers 5 sec after typing
+  const debouncedSearch = useDebounce(search, 1000); // Search triggers 5 sec after typing
 
-useEffect(() => {
-  // Reset page when category or debounced search changes
-  setPagination((prev) => ({ ...prev, currentPage: 1 }));
-}, [categoryFilter, debouncedSearch]);
+  useEffect(() => {
+    // Reset page when category or debounced search changes
+    setPagination((prev) => ({ ...prev, currentPage: 1 }));
+  }, [categoryFilter, debouncedSearch]);
 
-useEffect(() => {
-  fetchBlogs(pagination.currentPage); // Called only after debounce
-}, [pagination.currentPage, categoryFilter, debouncedSearch]);
-
+  useEffect(() => {
+    fetchBlogs(pagination.currentPage); // Called only after debounce
+  }, [pagination.currentPage, categoryFilter, debouncedSearch]);
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= pagination.totalPages) {
@@ -133,6 +137,8 @@ useEffect(() => {
         {/* Blogs Table */}
         <div className="category-list">
           <h2>All Blogs</h2>
+          {loader && <Loader />}
+
           {blogs.length > 0 ? (
             blogs.map((blog) => (
               <Link
