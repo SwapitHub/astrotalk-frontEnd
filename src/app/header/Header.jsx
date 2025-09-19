@@ -258,6 +258,20 @@ const Header = () => {
                       Astromall Shop
                     </Link>
                   </li>
+                  <li>
+                    <Link
+                      href={`${"/astrology-blog"}`}
+                      onClick={() => {
+                        setIsLoading(true);
+                        setTimeout(() => {
+                          setIsLoading(false);
+                        }, 2000);
+                        setToggleMobile(false);
+                      }}
+                    >
+                      Blogs
+                    </Link>
+                  </li>
                   <li className="has-submenu">
                     <span
                       onClick={() =>

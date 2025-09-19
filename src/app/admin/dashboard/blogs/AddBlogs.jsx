@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SummernoteEditor from "@/app/component/SummernoteEditor";
+import Loader from "@/app/component/Loader";
 
 const API = process.env.NEXT_PUBLIC_WEBSITE_URL;
 
@@ -11,18 +12,24 @@ const AddBlogs = () => {
     shortDescription: "",
     content: "",
     author: "Admin",
-    tags: "",
-    coverImage: null, // This will hold the File object now
+    coverImage: null,
     category: "",
   });
-  console.log(form, "form");
 
   const [categories, setCategories] = useState([]);
   const [blogs, setBlogs] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState("");
+  const [loader, setLoader] = useState(false)
 
-  // Fetch categories
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    hasNextPage: false,
+    hasPrevPage: false,
+    totalBlogs: 0,
+  });
+
   const fetchCategories = async () => {
     try {
       const res = await axios.get(`${API}/get-all-category-blogs`);
@@ -32,13 +39,13 @@ const AddBlogs = () => {
     }
   };
 
-  // Fetch blogs
-  const fetchBlogs = async () => {
+  const fetchBlogs = async (page = 1, limit = 1) => {
     try {
-      const res = await axios.get(`${API}/get-add-blogs-all`);
+      const res = await axios.get(`${API}/get-add-blogs-all`, {
+        params: { page, limit },
+      });
       setBlogs(res.data.blogs);
-      console.log(res);
-      
+      setPagination(res.data.pagination);
     } catch (err) {
       console.error("Fetch blogs failed:", err);
     }
@@ -46,16 +53,14 @@ const AddBlogs = () => {
 
   useEffect(() => {
     fetchCategories();
-    fetchBlogs();
-  }, []);
+    fetchBlogs(pagination.currentPage);
+  }, [pagination.currentPage]);
 
-  // Handle text input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle file input change for coverImage
   const handleFileChange = (e) => {
     setForm((prev) => ({
       ...prev,
@@ -63,17 +68,15 @@ const AddBlogs = () => {
     }));
   };
 
-  // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+setLoader(true)
     if (!form.title || !form.content) {
       return setError("Title and content are required.");
     }
 
     try {
       const formData = new FormData();
-
       formData.append("title", form.title);
       formData.append("slug", form.slug);
       formData.append("shortDescription", form.shortDescription);
@@ -81,41 +84,27 @@ const AddBlogs = () => {
       formData.append("author", form.author);
       formData.append("category", form.category);
 
-      // Tags - send as JSON string if backend expects array
-      const tagsArray = form.tags
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter(Boolean);
-      formData.append("tags", JSON.stringify(tagsArray));
-
-      // Append image file if available
       if (form.coverImage) {
         formData.append("image", form.coverImage);
       }
 
       if (editingId) {
-        await axios.put(
-          `${API}/put-add-blogs-update/${editingId}`,
-          formData,
-          {
-            headers: { "Content-Type": "multipart/form-data" },
-          }
-        );
+        await axios.put(`${API}/put-add-blogs-update/${editingId}`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
       } else {
         await axios.post(`${API}/post-add-blogs`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
       }
 
-      fetchBlogs();
-      // Reset form after submit
+      fetchBlogs(pagination.currentPage);
       setForm({
         title: "",
         slug: "",
         shortDescription: "",
         content: "",
         author: "Admin",
-        tags: "",
         coverImage: null,
         category: "",
       });
@@ -124,13 +113,12 @@ const AddBlogs = () => {
     } catch (err) {
       console.error("Error submitting blog:", err);
       setError(err.response?.data?.error || "Submission failed.");
+    }finally{
+      setLoader(false)
     }
   };
 
-  // Edit blog - populate form with existing blog data
   const handleEdit = (blog) => {
-    console.log(blog);
-    
     setEditingId(blog._id);
     setForm({
       title: blog.title,
@@ -138,25 +126,29 @@ const AddBlogs = () => {
       shortDescription: blog.shortDescription,
       content: blog.content,
       author: blog.author || "Admin",
-      tags: blog.tags.join(", "),
-      coverImage: null, // For edit, user can upload new image if desired
+      coverImage: blog.coverImage,
       category: blog.category || "",
     });
   };
 
-  // Delete blog
   const handleDelete = async (id) => {
-
     try {
       await axios.delete(`${API}/delete-add-blogs/${id}`);
-      fetchBlogs();
+      fetchBlogs(pagination.currentPage);
     } catch (err) {
       console.error("Delete failed:", err);
     }
   };
 
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= pagination.totalPages) {
+      setPagination((prev) => ({ ...prev, currentPage: newPage }));
+    }
+  };
+
   return (
     <div style={{ padding: "2rem" }}>
+      {loader && <Loader/>}
       <h2>{editingId ? "Edit Blog" : "Add New Blog"}</h2>
 
       <form onSubmit={handleSubmit} style={{ marginBottom: "2rem" }}>
@@ -170,7 +162,6 @@ const AddBlogs = () => {
         />
         <br />
         <label>Slug</label>
-
         <input
           name="slug"
           placeholder="Slug (optional)"
@@ -179,7 +170,6 @@ const AddBlogs = () => {
         />
         <br />
         <label>Short Description</label>
-
         <input
           name="shortDescription"
           placeholder="Short Description"
@@ -188,26 +178,16 @@ const AddBlogs = () => {
         />
         <br />
         <label>Content</label>
-
         <SummernoteEditor
           value={form.content}
           onChange={(content) => setForm((prev) => ({ ...prev, content }))}
         />
         <br />
         <label>Author</label>
-
         <input
           name="author"
           placeholder="Author"
           value={form.author}
-          onChange={handleChange}
-        />
-        <br />
-
-        <input
-          name="tags"
-          placeholder="Tags (comma-separated)"
-          value={form.tags}
           onChange={handleChange}
         />
         <br />
@@ -219,6 +199,7 @@ const AddBlogs = () => {
           onChange={handleFileChange}
           key={form.coverImage ? form.coverImage.name : "file-input"}
         />
+        <img src={form?.coverImage} alt="" />
         <br />
         <label>Select Category</label>
         <select
@@ -250,7 +231,6 @@ const AddBlogs = () => {
                 shortDescription: "",
                 content: "",
                 author: "Admin",
-                tags: "",
                 coverImage: null,
                 category: "",
               });
@@ -268,31 +248,64 @@ const AddBlogs = () => {
           <tr>
             <th>Title</th>
             <th>Slug</th>
-            <th>Tags</th>
             <th>Category</th>
+            <th>Cover Image</th>
             <th>Created</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {blogs.map((blog) => (
-            <tr key={blog._id}>
-              <td>{blog.title}</td>
-              <td>{blog.slug}</td>
-              <td>{blog.tags.join(", ")}</td>
-              <td>
-                {categories.find((cat) => cat._id === blog.category)?.name ||
-                  "N/A"}
-              </td>
-              <td>{new Date(blog.createdAt).toLocaleString()}</td>
-              <td>
-                <button onClick={() => handleEdit(blog)}>Edit</button>
-                <button onClick={() => handleDelete(blog._id)}>Delete</button>
-              </td>
+          {blogs.length > 0 ? (
+            blogs.map((blog) => (
+              <tr key={blog._id}>
+                <td>{blog.title}</td>
+                <td>{blog.slug}</td>
+                <td>
+                  {categories.find((cat) => cat._id === blog.category)?.name ||
+                    "N/A"}
+                </td>
+                <td>
+                  {blog.coverImage && (
+                    <img
+                      src={blog.coverImage}
+                      alt="cover"
+                      style={{ width: "100px", height: "60px", objectFit: "cover" }}
+                    />
+                  )}
+                </td>
+                <td>{new Date(blog.createdAt).toLocaleString()}</td>
+                <td>
+                  <button onClick={() => handleEdit(blog)}>Edit</button>
+                  <button onClick={() => handleDelete(blog._id)}>Delete</button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6">No blogs found.</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
+
+      {/* Pagination Controls */}
+      <div style={{ marginTop: "1rem" }}>
+        <button
+          disabled={!pagination.hasPrevPage}
+          onClick={() => handlePageChange(pagination.currentPage - 1)}
+        >
+          Previous
+        </button>
+        <span style={{ margin: "0 10px" }}>
+          Page {pagination.currentPage} of {pagination.totalPages}
+        </span>
+        <button
+          disabled={!pagination.hasNextPage}
+          onClick={() => handlePageChange(pagination.currentPage + 1)}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
