@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import useDebounce from "../hook/useDebounce";
 import Loader from "../component/Loader";
+import { FaSearch } from "react-icons/fa";
 
 const API = process.env.NEXT_PUBLIC_WEBSITE_URL;
 
@@ -58,7 +59,7 @@ const AstrologyBlog = () => {
     fetchCategories();
   }, []);
 
-  const debouncedSearch = useDebounce(search, 1000); // Search triggers 5 sec after typing
+  const debouncedSearch = useDebounce(search, 1000); 
 
   useEffect(() => {
     // Reset page when category or debounced search changes
@@ -66,7 +67,7 @@ const AstrologyBlog = () => {
   }, [categoryFilter, debouncedSearch]);
 
   useEffect(() => {
-    fetchBlogs(pagination.currentPage); // Called only after debounce
+    fetchBlogs(pagination.currentPage); 
   }, [pagination.currentPage, categoryFilter, debouncedSearch]);
 
   const handlePageChange = (newPage) => {
@@ -83,7 +84,7 @@ const AstrologyBlog = () => {
           <div className="astrology-category">
             <strong>Filter by Category:</strong>
             <div className="filter-tabs-outer">
-              <div className={`filter-tab ${ categoryFilter === "" ? "" : "active"}`} onClick={() => {
+              <div className={`filter-tab ${ categoryFilter === "" ? "active" : ""}`} onClick={() => {
                   setCategoryFilter("");
                   setPagination((prev) => ({ ...prev, currentPage: 1 }));
                 }}
@@ -93,7 +94,7 @@ const AstrologyBlog = () => {
               {categories.map((item) => (
                 <div
                   key={item._id}
-                 className={`filter-tab ${ categoryFilter === "" ? "" : "active"}`}
+                 className={`filter-tab ${ categoryFilter === item._id ? "active" : ""}`}
                   onClick={() => {
                     setCategoryFilter(item._id);
                     setPagination((prev) => ({ ...prev, currentPage: 1 }));
@@ -106,9 +107,15 @@ const AstrologyBlog = () => {
           </div>
 
           {/* Search Input */}
-          <div className="search-blogs" style={{ marginBottom: "1rem" }}>
+          
+
+          {/* Blogs Table */}
+          <div className="category-list">
+            <div className="head-search-outer">
+            <h2>All Blogs</h2>
+            <div className="search-box-top-btn" style={{ marginBottom: "1rem" }}>
+              <div className="search-box-filed">
             <input
-             className="common-input-filed"
               type="text"
               placeholder="Search by title..."
               value={search}
@@ -117,11 +124,15 @@ const AstrologyBlog = () => {
                 setPagination((prev) => ({ ...prev, currentPage: 1 }));
               }}
             />
-          </div>
+            </div>
+            <div class="search-button-filed">
+              <button type="submit">
+                <FaSearch/>
+                </button>
+                </div>
 
-          {/* Blogs Table */}
-          <div className="category-list">
-            <h2>All Blogs</h2>
+          </div>
+          </div>
           <div className="posts-listing">
 
             {loader && <Loader />}

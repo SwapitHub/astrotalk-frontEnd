@@ -12,7 +12,7 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
   const [isOnline, setIsOnline] = useState();
   const [sessionValue, setSessionValue] = useState();
-console.log("astrologerData",astrologerData);
+  console.log("astrologerData", astrologerData);
 
   useEffect(() => {
     if (isOnline) {
@@ -129,15 +129,15 @@ console.log("astrologerData",astrologerData);
         </div>
       </div>
       <div className="astro-detail">
-          <div className="astrologer-name">
-            <span>Astrologer Name:</span> {astrologerData?.name}
-          </div>
-          <div className="astrologer-charges">
-            <span>Astrologer Charges:</span> {astrologerData?.charges}
-          </div>
-          <div className="astrologer-bal">
-            <span>Total Balance:</span> ₹{Math.round(astrologerData?.totalAvailableBalance)}
-          </div>
+        <div className="astrologer-name">
+          <span>Astrologer Name:</span> <span className="value">{astrologerData?.name}</span>
+        </div>
+        <div className="astrologer-charges">
+          <span>Astrologer Charges:</span> <span className="value">{astrologerData?.charges}</span>
+        </div>
+        <div className="astrologer-bal">
+          <span>Total Balance:</span> <span className="value">₹{Math.round(astrologerData?.totalAvailableBalance)}</span>
+        </div>
       </div>
       <div className="outer-home-dashboard">
         <div className="inner-home-dashboard">
