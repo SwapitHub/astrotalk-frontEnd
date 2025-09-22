@@ -259,7 +259,7 @@ span.list-text {flex-grow: 1;}
 .dashboard-right-content table th, .dashboard-right-content table td {min-width: 130px; max-width: 260px;}
 .dashboard-right-content table th:last-child, .dashboard-right-content table td:last-child {min-width: 180px;}
 .dashboard-right-content td img {max-width: 100px; border-radius: 8px;}
-.dashboard-right-content h2 {margin: 0 0 15px; font-size: 24px;}
+.dashboard-right-content h2 {margin: 0 0 15px; font-size: 30px; line-height: 36px;}
 .dashboard-right-content {padding: 20px 27px 30px; margin-left: 255px; flex-grow: 1; margin-top: 100px; transition: all 0.3s; position: relative;}
 .slider-opened .dashboard-right-content {margin-left: 0px;}
 .dashborad-right-content-inner {display: flex; flex-wrap: wrap; gap: 30px;}
@@ -842,9 +842,9 @@ td button + button {margin-left: 5px;}
 .heading-box {text-align: center;}
 .heading-box h1 {margin: 0 0 10px;}
 .astromall-wrapper {margin: 30px 0px 0px; text-align: center;}
-.astromall-search {text-align: center; display: inline-flex; justify-content: center; position: relative; gap: 10px;}
-.astromall-search input {border: 0px; border-bottom: 1px solid var(--body_content_color); height: 40px; font-size: 14px; font-family: inherit; min-width: 300px; background-color: transparent; color: var(--body_content_color);}
-.astromall-search input::placeholder {color: var(--body_content_color);}
+.astromall-search, .search-blogs {text-align: center; display: inline-flex; justify-content: center; position: relative; gap: 10px;}
+.astromall-search input, .search-blogs input {border: 0px; border-bottom: 1px solid var(--body_content_color); height: 40px; font-size: 14px; font-family: inherit; min-width: 300px; background-color: transparent; color: var(--body_content_color);}
+.astromall-search input::placeholder, .search-blogs input::placeholder {color: var(--body_content_color);}
 .astromall-search button {padding: 0; width: 40px; height: 40px; display: inline-flex; justify-content: center; align-items: center;}
 .suggestion-dropdown {position: absolute; z-index: 9; width: 100%; top: 100%; background-color: var(--secondary_color); padding: 20px;}
 .suggestion-dropdown li {display: flex; align-items: center; gap: 10px; text-align: left; margin-bottom: 10px;}
@@ -1145,6 +1145,41 @@ video:-moz-full-screen {width: 100vw; height: 100vh; object-fit: cover; backgrou
 .edit-delete-btn button {padding: 0; width: 40px; height: 40px; display: inline-flex; justify-content: center; align-items: center; min-width: auto !important; padding: 0px !important;}
 table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
 .note-editor.note-frame, .note-editor.note-airframe {border: 0px !important;}
+.withdrawal-request-outer h1, .dashboard-right-content h1 {font-size: 30px;}
+.bottom-table {margin: 40px 0px 0px;}
+.pagination {display: flex; align-items: center; margin: 30px 0px 0px; justify-content: center; gap: 25px;}
+.admin-form-box h2 {font-size: 24px;}
+.astro-detail {padding: 40px 100px; background-image: url(/_next/static/media/bg-section-forecast.8f843a55.jpg); background-size: cover; text-align: center; position: relative; display: flex; justify-content: space-between; margin: 0 0 20px; background-position: bottom;}
+.astro-detail::before {content: ""; position: absolute; width: 100%; height: 100%; left: 0; top: 0; background-color: var(--secondary_hover); opacity: .7;}
+.astro-detail > * {color: #fff; position: relative;}
+.astro-detail > * span.value {font-weight: 600; display: block; font-size: 24px; margin: 5px 0px 0px;}
+.astrology-blog {padding: 80px 0px 0px;}
+.astrology-category {display: flex; gap: 20px;  align-items: center;}
+.filter-tabs-outer {display: flex; flex-wrap: wrap; gap: 10px;}
+.filter-tab {display: inline-block; cursor: pointer; padding: 10px 25px; border: 1px solid var(--primary_color); border-radius: 30px; font-size: 14px; color: var(--primary_color); transition: all 0.3s;}
+.filter-tab.active, .filter-tab:hover {background-color: var(--primary_color); color: var(--body_bg);}
+.posts-listing {display: flex; flex-wrap: wrap; gap: 15px; position: relative;}
+.posts-listing .loader {position: absolute; width: 100%; height: 100%; z-index: 9; left: 0; top: 0; background-color: var(--body_bg); min-height: unset;}
+.posts-listing > *:not(.pagination):not(.loader) {max-width: calc(100%/3 - 10px); flex: 0 0 100%; color: var(--body_content_color); background-color: var(--light_bg);}
+.posts-listing .pagination {max-width: 100%; flex: 0 0 100%;}
+.post-content > p { -webkit-line-clamp: 2; display: -webkit-box; -webkit-box-orient: vertical; margin-bottom: 0; text-overflow: ellipsis; overflow: hidden;}
+.post-img {position: relative; padding-bottom: 56.25%;}
+.post-img img {position: absolute; width: 100%; height: 100%; object-fit: cover; left: 0; top: 0;}
+.post-content {padding: 25px;  display: flex; flex-direction: column-reverse;}
+.name-date {margin: 0 0 15px;}
+.name-date p {opacity: .6; font-size: 14px;}
+.name-date > p:first-child {color: var(--primary_color); font-weight: 600; font-size: 20px;  font-family: var(--secondary_font); line-height: 28px; opacity: 1;}
+.blogs-detail-outer {padding: 80px 0px 0px;}
+.blogs-detail {max-width: 800px; margin: 0 auto;}
+.blogs-detail .name-date > p:first-child {font-size: 30px; line-height: 1.3; margin: 0 0 10px;}
+.blog-featured-img {margin: 0 0 30px;}
+.blog-featured-img img {width: 100%;}
+.blog-post-content {margin: 30px 0px 0px;}
+.head-search-outer {display: flex; align-items: center; flex-wrap: wrap; gap: 10px 0px; margin: 0 0 20px; justify-content: space-between; background-color: var(--light_bg); padding: 20px;}
+.category-list {margin: 30px 0px 0px;}
+.head-search-outer h2, .head-search-outer h1 {font-size: 36px;}
+.head-search-outer .search-box-top-btn {margin: 0px !important;}
+.posts-listing > p {text-align: center; max-width: 100% !important; background-color: transparent !important;}
 /* ================== @ media css start here ================== */
 @media (max-width: 1600px) {
   .outer-home-dashboard ul {grid-template-columns: repeat(3, 1fr);}
@@ -1180,6 +1215,7 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
   .main-doc {gap: 10px;}
   .astrology_seciton .row {grid-template-columns: repeat(2, 1fr); gap: 70px 25px;}
   .seminar-banner-row .right_col {max-width: 32%;}
+  .astro-detail {padding: 40px 50px;}
 }
 @media screen and (min-width: 768px) and (max-width: 991px) {
   .container {max-width: 750px; margin-inline: auto; padding: 0;}
@@ -1227,6 +1263,10 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
   .status_bar_ratting {flex:0 0 100%;}
   .similar-conslt-reviews-sec, .reviews-sec {grid-template-columns: repeat(2, 1fr);}
   .user-dashboard-profile-menu.open {display: block;}
+  .posts-listing > *:not(.pagination) {max-width: calc(100%/2 - 7.5px);}
+  .astro-detail {padding: 30px 20px;}
+  .astro-detail > * {font-size: 14px;}
+.inner-astrologer-registration .astrologer-main-dashboard-btn {justify-content: flex-end; gap: 10px 20px; flex-wrap: wrap;}
 }
 @media (max-width: 767px) {
   body {font-size: 14px;}
@@ -1237,7 +1277,7 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
   .page-main-header {margin-left: 0px; width: 100%;}
   .dashboard-left-dashboard {transform: translateX(-255px); z-index: 11;}
   .slider-opened .dashboard-left-dashboard, .slider-opened-mobile .dashboard-left-dashboard {transform: translateX(0px);}
-  .dashboard-right-content {margin-left: 0;}
+  .dashboard-right-content {margin-left: 0; padding-inline: 15px;}
   .profile_with_contact {max-width: 100%; flex: 0 0 100%;}
   .profile_with_contact_slider .about_us {max-width: 100%; margin: 30px 0px 0px;}
   .astrologer_name, .profile_with_contact .skills, .profile_with_contact .talk-to-language, .profile_with_contact .lang-outer {justify-content: center;}
@@ -1271,7 +1311,6 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
   .search-box-top-btn input {width: 100%;}
   .talk-to-astrologer-left-content {justify-content: center; flex-direction: column; gap: 10px;}
   .sort-right {gap: 20px;}
-  .astro-dashboard-heading-btns-outer {flex-wrap: wrap; gap: 20px;}
   .astromall-sec-outer {padding: 50px 0px 0px;}
   .astromall-sec-outer:not(:last-child) {padding-bottom: 50px;}
   .astromall-slider-outer {padding: 0 0 50px;}
@@ -1359,7 +1398,14 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
   .change-password .product-type-main.form-field {margin: 0 0 20px;}
   .inner-my-wallet-sec, .details-img-outer {flex-wrap: wrap;}
   .print-receipt {text-align: center;}
-  .summary-heading h3 {font-size: 24px;}
+  .summary-heading h3, .blogs-detail .name-date > p:first-child {font-size: 24px;}
+  .blogs-detail-outer, .astrology-blog {padding: 50px 0px 0px;}
+  .astrology-category {flex-wrap: wrap;}
+  .filter-tabs-outer {gap: 5px;}
+  .filter-tab {padding: 6px 20px;}
+  .head-search-outer h2, .head-search-outer h1 {font-size: 30px;}
+  .pagination {gap: 15px; flex-wrap: wrap;}
+  .pagination button {padding: 10px 20px 8px;}
 }
 @media (max-width: 639px) {
   .four-col .row {grid-template-columns: repeat(1, 1fr); gap: 20px;}
@@ -1369,6 +1415,8 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
   .meeting-popup-content h3 {font-size: 24px; line-height: normal;}
   .copy a, .link-url {padding: 3px 70px 3px 10px;}
   .close-icon, .close {right: 10px; top: 10px;}
+  .posts-listing > *:not(.pagination) {max-width: 100%;}
+  .astro-detail {flex-direction: column; gap: 30px 0px;}
 }
 @media (max-width: 574px) {
   .chat-left-logo {gap: 10px;}
@@ -1394,4 +1442,4 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
 }
 @media (max-width: 370px) {
   .sort-right {gap: 5px;}
-}
+} 

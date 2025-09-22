@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "@/app/component/Loader";
+import { FaCheck } from "react-icons/fa";
+import { ImCross } from "react-icons/im";
 
 const PaymentWithdrawRequest = () => {
   const [withdrawals, setWithdrawals] = useState([]);
   const [loading, setLoading] = useState(false);
-console.log(withdrawals,"withdrawals");
 
   const [page, setPage] = useState(1);
   const limit = 3;
@@ -18,7 +19,7 @@ console.log(withdrawals,"withdrawals");
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-all-payment-withdrawal?page=${page}&limit=${limit}`
       );
-console.log(res);
+      console.log(res);
 
       setWithdrawals(res.data.data || []);
       setTotalPages(res.data.totalPages || 1);
@@ -58,58 +59,74 @@ console.log(res);
       <h1>Withdrawal Requests</h1>
 
       {loading ? (
-        <Loader/>
+        <Loader />
       ) : (
         <>
-        <div className="outer-table">
-          <table border="1" cellPadding="10" style={{ width: "100%", textAlign: "left" }}>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>UPI</th>
-                <th>Holder</th>
-                <th>Bank</th>
-                <th>Account</th>
-                <th>IFSC</th>
-                <th>Status</th>
-                <th>Requested At</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {withdrawals.length === 0 ? (
-                <tr><td colSpan="9">No withdrawal requests.</td></tr>
-              ) : (
-                withdrawals.map((w) => (
-                  <tr key={w._id}>
-                    <td>{w.name}</td>
-                    <td>{w.upiId}</td>
-                    <td>{w.holderName}</td>
-                    <td>{w.bankName}</td>
-                    <td>{w.accountNumber}</td>
-                    <td>{w.ifscCode}</td>
-                    <td style={{ textTransform: "capitalize" }}>{w.status}</td>
-                    <td>{new Date(w.createdAt).toLocaleString()}</td>
-                    <td>
-                      {w.status === "pending" ? (
-                        <>
-                          <button onClick={() => handleStatusChange(w._id, "approved")}>
-                            Approve
-                          </button>
-                          <button onClick={() => handleStatusChange(w._id, "rejected")}>
-                            Reject
-                          </button>
-                        </>
-                      ) : (
-                        <span>{w.status}</span>
-                      )}
-                    </td>
+          <div className="outer-table">
+            <table
+              border="1"
+              cellPadding="10"
+              style={{ width: "100%", textAlign: "left" }}
+            >
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>UPI</th>
+                  <th>Holder</th>
+                  <th>Bank</th>
+                  <th>Account</th>
+                  <th>IFSC</th>
+                  <th>Status</th>
+                  <th>Requested At</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {withdrawals.length === 0 ? (
+                  <tr>
+                    <td colSpan="9">No withdrawal requests.</td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-</div>
+                ) : (
+                  withdrawals.map((w) => (
+                    <tr key={w._id}>
+                      <td>{w.name}</td>
+                      <td>{w.upiId}</td>
+                      <td>{w.holderName}</td>
+                      <td>{w.bankName}</td>
+                      <td>{w.accountNumber}</td>
+                      <td>{w.ifscCode}</td>
+                      <td style={{ textTransform: "capitalize" }}>
+                        {w.status}
+                      </td>
+                      <td>{new Date(w.createdAt).toLocaleString()}</td>
+                      <td>
+                        {w.status === "pending" ? (
+                          <div className="edit-delete-btn">
+                            <button
+                              onClick={() =>
+                                handleStatusChange(w._id, "approved")
+                              }
+                            >
+                             <FaCheck />
+                            </button>
+                            <button
+                              onClick={() =>
+                                handleStatusChange(w._id, "rejected")
+                              }
+                            >
+                              <ImCross />
+                            </button>
+                          </div>
+                        ) : (
+                          <span style={{ textTransform: "capitalize" }}>{w.status}</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
           {/* Pagination Controls */}
           <div style={{ marginTop: "20px", textAlign: "center" }}>
             <button onClick={goToPrevPage} disabled={page <= 1}>

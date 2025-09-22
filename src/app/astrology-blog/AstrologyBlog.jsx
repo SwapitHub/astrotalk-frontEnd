@@ -59,7 +59,7 @@ const AstrologyBlog = () => {
     fetchCategories();
   }, []);
 
-  const debouncedSearch = useDebounce(search, 1000); 
+  const debouncedSearch = useDebounce(search, 1000);
 
   useEffect(() => {
     // Reset page when category or debounced search changes
@@ -67,7 +67,7 @@ const AstrologyBlog = () => {
   }, [categoryFilter, debouncedSearch]);
 
   useEffect(() => {
-    fetchBlogs(pagination.currentPage); 
+    fetchBlogs(pagination.currentPage);
   }, [pagination.currentPage, categoryFilter, debouncedSearch]);
 
   const handlePageChange = (newPage) => {
@@ -84,7 +84,11 @@ const AstrologyBlog = () => {
           <div className="astrology-category">
             <strong>Filter by Category:</strong>
             <div className="filter-tabs-outer">
-              <div className={`filter-tab ${ categoryFilter === "" ? "active" : ""}`} onClick={() => {
+              <div
+                className={`filter-tab ${
+                  categoryFilter === "" ? "active" : ""
+                }`}
+                onClick={() => {
                   setCategoryFilter("");
                   setPagination((prev) => ({ ...prev, currentPage: 1 }));
                 }}
@@ -94,7 +98,9 @@ const AstrologyBlog = () => {
               {categories.map((item) => (
                 <div
                   key={item._id}
-                 className={`filter-tab ${ categoryFilter === item._id ? "active" : ""}`}
+                  className={`filter-tab ${
+                    categoryFilter === item._id ? "active" : ""
+                  }`}
                   onClick={() => {
                     setCategoryFilter(item._id);
                     setPagination((prev) => ({ ...prev, currentPage: 1 }));
@@ -107,78 +113,78 @@ const AstrologyBlog = () => {
           </div>
 
           {/* Search Input */}
-          
 
           {/* Blogs Table */}
           <div className="category-list">
             <div className="head-search-outer">
-            <h2>All Blogs</h2>
-            <div className="search-box-top-btn" style={{ marginBottom: "1rem" }}>
-              <div className="search-box-filed">
-            <input
-              type="text"
-              placeholder="Search by title..."
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setPagination((prev) => ({ ...prev, currentPage: 1 }));
-              }}
-            />
-            </div>
-            <div class="search-button-filed">
-              <button type="submit">
-                <FaSearch/>
-                </button>
+              <h1>All Blogs</h1>
+              <div
+                className="search-box-top-btn"
+                style={{ marginBottom: "1rem" }}
+              >
+                <div className="search-box-filed">
+                  <input
+                    type="text"
+                    placeholder="Search by title..."
+                    value={search}
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                      setPagination((prev) => ({ ...prev, currentPage: 1 }));
+                    }}
+                  />
                 </div>
-
-          </div>
-          </div>
-          <div className="posts-listing">
-
-            {loader && <Loader />}
-
-            {blogs.length > 0 ? (
-              blogs.map((blog) => (
-                <Link
-                  href={`/astrology-blog/${blog?.slug}`}
-                  key={blog._id}
-                  className="inner-list"
-                >
-                  <div className="post-img">
-                  <img src={blog?.coverImage} alt="" />
-                  </div>
-                  <div className="post-content">
-                  <p>{blog?.shortDescription}</p>
-                  <div className="name-date">
-                    <p>{blog?.title}</p>
-                    <p>{new Date(blog.createdAt).toLocaleString()}</p>
-                  </div>
-                  </div>
-                </Link>
-              ))
-            ) : (
-              <p>Data not found</p>
-            )}
-
-            {/* Pagination Controls */}
-            <div className="pagination">
-              <button
-                onClick={() => handlePageChange(pagination.currentPage - 1)}
-                disabled={!pagination.hasPrevPage}
-              >
-                Previous
-              </button>
-              <span>
-                Page {pagination.currentPage} of {pagination.totalPages}
-              </span>
-              <button
-                onClick={() => handlePageChange(pagination.currentPage + 1)}
-                disabled={!pagination.hasNextPage}
-              >
-                Next
-              </button>
+                <div class="search-button-filed">
+                  <button type="submit">
+                    <FaSearch />
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
+            <div className="posts-listing">
+              {loader && <Loader />}
+
+              {blogs.length > 0 ? (
+                blogs.map((blog) => (
+                  <Link
+                    href={`/astrology-blog/${blog?.slug}`}
+                    key={blog._id}
+                    className="inner-list"
+                  >
+                    <div className="post-img">
+                      <img src={blog?.coverImage} alt="" />
+                    </div>
+                    <div className="post-content">
+                      <p>{blog?.shortDescription}</p>
+                      <div className="name-date">
+                        <p>{blog?.title}</p>
+                        <p>{new Date(blog.createdAt).toLocaleString()}</p>
+                      </div>
+                    </div>
+                  </Link>
+                ))
+              ) : (
+                <p>Data not found</p>
+              )}
+
+              {/* Pagination Controls */}
+              <div className="pagination">
+                <button
+                  onClick={() => handlePageChange(pagination.currentPage - 1)}
+                  disabled={!pagination.hasPrevPage}
+                >
+                  Previous
+                </button>
+                <span>
+                  Page {pagination.currentPage} of {pagination.totalPages}
+                </span>
+                <button
+                  onClick={() => handlePageChange(pagination.currentPage + 1)}
+                  disabled={!pagination.hasNextPage}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
