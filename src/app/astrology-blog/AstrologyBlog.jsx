@@ -76,107 +76,98 @@ const AstrologyBlog = () => {
   };
 
   return (
-    <div className="container" style={{ padding: "2rem" }}>
-      <div className="astrology-blog">
-        {/* Categories Filter */}
-        <div className="astrology-category" style={{ marginBottom: "1rem" }}>
-          <strong>Filter by Category:</strong>
-          <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
-            <div
-              style={{
-                padding: "0.5rem 1rem",
-                cursor: "pointer",
-                backgroundColor: categoryFilter === "" ? "#0070f3" : "#eee",
-                color: categoryFilter === "" ? "white" : "black",
-                borderRadius: "4px",
-                userSelect: "none",
-              }}
-              onClick={() => {
-                setCategoryFilter("");
-                setPagination((prev) => ({ ...prev, currentPage: 1 }));
-              }}
-            >
-              All Categories
-            </div>
-            {categories.map((item) => (
-              <div
-                key={item._id}
-                style={{
-                  padding: "0.5rem 1rem",
-                  cursor: "pointer",
-                  backgroundColor:
-                    categoryFilter === item._id ? "#0070f3" : "#eee",
-                  color: categoryFilter === item._id ? "white" : "black",
-                  borderRadius: "4px",
-                  userSelect: "none",
-                }}
-                onClick={() => {
-                  setCategoryFilter(item._id);
+    <div className="astrology-blog">
+      <div className="container">
+        <div className="astrology-blog-inner">
+          {/* Categories Filter */}
+          <div className="astrology-category">
+            <strong>Filter by Category:</strong>
+            <div className="filter-tabs-outer">
+              <div className={`filter-tab ${ categoryFilter === "" ? "" : "active"}`} onClick={() => {
+                  setCategoryFilter("");
                   setPagination((prev) => ({ ...prev, currentPage: 1 }));
                 }}
               >
-                {item.name}
+                All Categories
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Search Input */}
-        <div className="search-blogs" style={{ marginBottom: "1rem" }}>
-          <input
-            type="text"
-            placeholder="Search by title..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setPagination((prev) => ({ ...prev, currentPage: 1 }));
-            }}
-          />
-        </div>
-
-        {/* Blogs Table */}
-        <div className="category-list">
-          <h2>All Blogs</h2>
-          {loader && <Loader />}
-
-          {blogs.length > 0 ? (
-            blogs.map((blog) => (
-              <Link
-                href={`/astrology-blog/${blog?.slug}`}
-                key={blog._id}
-                className="inner-list"
-              >
-                <img src={blog?.coverImage} alt="" />
-                <p>{blog?.shortDescription}</p>
-                <div className="name-date">
-                  <p>{blog?.title}</p>
-                  <p>{new Date(blog.createdAt).toLocaleString()}</p>
+              {categories.map((item) => (
+                <div
+                  key={item._id}
+                 className={`filter-tab ${ categoryFilter === "" ? "" : "active"}`}
+                  onClick={() => {
+                    setCategoryFilter(item._id);
+                    setPagination((prev) => ({ ...prev, currentPage: 1 }));
+                  }}
+                >
+                  {item.name}
                 </div>
-              </Link>
-            ))
-          ) : (
-            <p>Data not found</p>
-          )}
+              ))}
+            </div>
+          </div>
 
-          {/* Pagination Controls */}
-          <div style={{ marginTop: "1rem", textAlign: "center" }}>
-            <button
-              onClick={() => handlePageChange(pagination.currentPage - 1)}
-              disabled={!pagination.hasPrevPage}
-              style={{ marginRight: "10px" }}
-            >
-              Previous
-            </button>
-            <span>
-              Page {pagination.currentPage} of {pagination.totalPages}
-            </span>
-            <button
-              onClick={() => handlePageChange(pagination.currentPage + 1)}
-              disabled={!pagination.hasNextPage}
-              style={{ marginLeft: "10px" }}
-            >
-              Next
-            </button>
+          {/* Search Input */}
+          <div className="search-blogs" style={{ marginBottom: "1rem" }}>
+            <input
+             className="common-input-filed"
+              type="text"
+              placeholder="Search by title..."
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPagination((prev) => ({ ...prev, currentPage: 1 }));
+              }}
+            />
+          </div>
+
+          {/* Blogs Table */}
+          <div className="category-list">
+            <h2>All Blogs</h2>
+          <div className="posts-listing">
+
+            {loader && <Loader />}
+
+            {blogs.length > 0 ? (
+              blogs.map((blog) => (
+                <Link
+                  href={`/astrology-blog/${blog?.slug}`}
+                  key={blog._id}
+                  className="inner-list"
+                >
+                  <div className="post-img">
+                  <img src={blog?.coverImage} alt="" />
+                  </div>
+                  <div className="post-content">
+                  <p>{blog?.shortDescription}</p>
+                  <div className="name-date">
+                    <p>{blog?.title}</p>
+                    <p>{new Date(blog.createdAt).toLocaleString()}</p>
+                  </div>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <p>Data not found</p>
+            )}
+
+            {/* Pagination Controls */}
+            <div className="pagination">
+              <button
+                onClick={() => handlePageChange(pagination.currentPage - 1)}
+                disabled={!pagination.hasPrevPage}
+              >
+                Previous
+              </button>
+              <span>
+                Page {pagination.currentPage} of {pagination.totalPages}
+              </span>
+              <button
+                onClick={() => handlePageChange(pagination.currentPage + 1)}
+                disabled={!pagination.hasNextPage}
+              >
+                Next
+              </button>
+            </div>
+          </div>
           </div>
         </div>
       </div>

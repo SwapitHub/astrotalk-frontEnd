@@ -2,16 +2,21 @@ import React from "react";
 
 const DetailAstrologyBlog = ({ blogsDetailData }) => {
   return (
+  <div className="blogs-detail-outer">
     <div className="container">
       <div className="blogs-detail">
+        <div className="blog-featured-img">
         <img src={blogsDetailData?.coverImage} alt={blogsDetailData?.name} />
+        </div>
         <div className="name-date">
           <p>{blogsDetailData?.title}</p>
           {new Date(blogsDetailData?.createdAt).toLocaleString()}
-          <p></p>
         </div>
-        <div dangerouslySetInnerHTML={{ __html: blogsDetailData?.content }} />
+        <div className="blog-post-content">
+          <div dangerouslySetInnerHTML={{ __html: blogsDetailData?.content }} />
+        </div>
       </div>
+    </div>
     </div>
   );
 };

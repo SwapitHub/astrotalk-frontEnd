@@ -308,10 +308,12 @@ const AddBlogs = () => {
                   </td>
                   <td>{new Date(blog.createdAt).toLocaleString()}</td>
                   <td>
+                    <div className="edit-delete-btn">
                     <button onClick={() => handleEdit(blog)}><FaEdit/></button>
                     <button onClick={() => handleDelete(blog._id)}>
                       <RiDeleteBin7Fill/>
                     </button>
+                    </div>
                   </td>
                 </tr>
               ))
