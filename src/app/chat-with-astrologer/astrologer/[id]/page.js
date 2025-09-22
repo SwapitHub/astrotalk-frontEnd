@@ -3,7 +3,7 @@ import Chatting from "../Chatting";
 const fetchChatAstrologerData = async (astrologerId) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerId}`,
+      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile-detail/${astrologerId}`,
       {
         cache: "no-store",
       }
@@ -41,10 +41,15 @@ const fetchAdminCommissionData = async () => {
 };
 
 const ChattingServer = async (props) => {
-  const { id } = await props.params;
+  const { id } = props.params; // Get the ID from params
+
+  if (!id) {
+    return <div>Error: ID is missing</div>; // Handle case where ID is not provided
+  }
 
   const astrologer = await fetchChatAstrologerData(id);
   const AdminCommissionData = await fetchAdminCommissionData();
+console.log(astrologer,"id============");
 
   return (
     <>

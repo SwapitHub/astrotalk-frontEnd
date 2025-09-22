@@ -99,15 +99,7 @@ console.log("astrologerData",astrologerData);
           <h2>Dashboard</h2>
           <p>Astrotalk Panel</p>
         </div>
-        <div className="astro-deatil">
-          <span>
-            Astrologer Name : {astrologerData?.name}
-          </span>
-          {"   "}
-          <span>Astrologer Charges : {astrologerData?.charges}</span>
-          {"   "}
-          <span>Totale Balance : ₹{Math.round(astrologerData?.totalAvailableBalance)}</span>
-        </div>
+
         <div className="inner-astrologer-registration">
           <div className="registration-heading">
             {/* <div className="image-dash">
@@ -135,6 +127,17 @@ console.log("astrologerData",astrologerData);
             </div>
           </div>
         </div>
+      </div>
+      <div className="astro-detail">
+          <div className="astrologer-name">
+            <span>Astrologer Name:</span> {astrologerData?.name}
+          </div>
+          <div className="astrologer-charges">
+            <span>Astrologer Charges:</span> {astrologerData?.charges}
+          </div>
+          <div className="astrologer-bal">
+            <span>Total Balance:</span> ₹{Math.round(astrologerData?.totalAvailableBalance)}
+          </div>
       </div>
       <div className="outer-home-dashboard">
         <div className="inner-home-dashboard">

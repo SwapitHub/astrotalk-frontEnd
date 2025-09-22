@@ -185,7 +185,7 @@ console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
     const fetchAstrologerData = () => {
       axios
         .get(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerId}`
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile-detail/${astrologerId}`
         )
         .then((response) => {
           setAstrologerData(response.data);

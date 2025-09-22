@@ -15,7 +15,7 @@ const PaymentWithdrawal = () => {
     accountNumber: "",
     ifscCode: "",
     adminEmail: "",
-    astrologerPhone
+    astrologerPhone,
   });
 
   const [errors, setErrors] = useState({});
@@ -37,7 +37,14 @@ const PaymentWithdrawal = () => {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-detail-payment-withdrawal/${astrologerPhone}?page=${page}&limit=2`
       );
-      const { data, currentPage, totalPages, totalItems, hasNextPage, hasPrevPage } = res.data;
+      const {
+        data,
+        currentPage,
+        totalPages,
+        totalItems,
+        hasNextPage,
+        hasPrevPage,
+      } = res.data;
       setWithdrawals(data);
       setCurrentPage(currentPage);
       setTotalPages(totalPages);
@@ -46,8 +53,7 @@ const PaymentWithdrawal = () => {
       setHasPrevPage(hasPrevPage);
     } catch (err) {
       console.error("Failed to fetch withdrawals:", err.message);
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -68,7 +74,8 @@ const PaymentWithdrawal = () => {
     if (!form.upiId) newErrors.upiId = "UPI ID is required";
     if (!form.holderName) newErrors.holderName = "Holder Name is required";
     if (!form.bankName) newErrors.bankName = "Bank Name is required";
-    if (!form.accountNumber) newErrors.accountNumber = "Account Number is required";
+    if (!form.accountNumber)
+      newErrors.accountNumber = "Account Number is required";
     if (!form.ifscCode) newErrors.ifscCode = "IFSC Code is required";
     if (!form.adminEmail) newErrors.adminEmail = "adminEmail is required";
 
@@ -99,9 +106,15 @@ const PaymentWithdrawal = () => {
 
     try {
       if (editingId) {
-        await axios.put(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/put-payment-withdrawal/${editingId}`, form);
+        await axios.put(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/put-payment-withdrawal/${editingId}`,
+          form
+        );
       } else {
-        await axios.post(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/post-payment-withdrawal`, form);
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/post-payment-withdrawal`,
+          form
+        );
       }
       fetchWithdrawals(currentPage);
       resetForm();
@@ -128,7 +141,9 @@ const PaymentWithdrawal = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this entry?")) return;
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/delete-payment-withdrawal/${id}`);
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/delete-payment-withdrawal/${id}`
+      );
       fetchWithdrawals(currentPage);
     } catch (err) {
       console.error("Deletion error:", err.message);
@@ -147,103 +162,160 @@ const PaymentWithdrawal = () => {
     }
   };
 
-
   return (
-    <div className="container">
-      {
-        loading && <Loader />
-      }
+    <div className="payment-withdrawal-outer">
+      {loading && <Loader />}
       <h1>Payment Withdrawal</h1>
 
       {/* === Form === */}
+      <div className="admin-form-box">
       <form onSubmit={handleSubmit} className="form">
         <h2>{editingId ? "Edit Details" : "Enter Details"}</h2>
-
-        <div className="form-group">
-          <label>Name (UPI)</label>
-          <input type="text" name="name" value={form.name} onChange={handleChange} />
+        <div className="form-field">
+          <div className="label-content">
+            <label>Name (UPI)</label>
+          </div>
+          <input className="common-input-filed"
+            type="text"
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+          />
           {errors.name && <p className="error">{errors.name}</p>}
         </div>
 
-        <div className="form-group">
+        <div className="form-field">
+          <div className="label-content">
           <label>UPI ID</label>
-          <input type="text" name="upiId" value={form.upiId} onChange={handleChange} />
+          </div>
+          <input className="common-input-filed"
+            type="text"
+            name="upiId"
+            value={form.upiId}
+            onChange={handleChange}
+          />
           {errors.upiId && <p className="error">{errors.upiId}</p>}
         </div>
 
-        <div className="form-group">
+       <div className="form-field">
+          <div className="label-content">
           <label>Account Holder Name</label>
-          <input type="text" name="holderName" value={form.holderName} onChange={handleChange} />
+          </div>
+          <input className="common-input-filed"
+            type="text"
+            name="holderName"
+            value={form.holderName}
+            onChange={handleChange}
+          />
           {errors.holderName && <p className="error">{errors.holderName}</p>}
         </div>
 
-        <div className="form-group">
+        <div className="form-field">
+          <div className="label-content">
           <label>Bank Name</label>
-          <input type="text" name="bankName" value={form.bankName} onChange={handleChange} />
+          </div>
+          <input className="common-input-filed"
+            type="text"
+            name="bankName"
+            value={form.bankName}
+            onChange={handleChange}
+          />
           {errors.bankName && <p className="error">{errors.bankName}</p>}
         </div>
 
-        <div className="form-group">
+        <div className="form-field">
+          <div className="label-content">
           <label>Account Number</label>
-          <input type="text" name="accountNumber" value={form.accountNumber} onChange={handleChange} />
-          {errors.accountNumber && <p className="error">{errors.accountNumber}</p>}
+          </div>
+          <input className="common-input-filed"
+            type="text"
+            name="accountNumber"
+            value={form.accountNumber}
+            onChange={handleChange}
+          />
+          {errors.accountNumber && (
+            <p className="error">{errors.accountNumber}</p>
+          )}
         </div>
 
-        <div className="form-group">
+        <div className="form-field">
+          <div className="label-content">
           <label>IFSC Code</label>
-          <input type="text" name="ifscCode" value={form.ifscCode} onChange={handleChange} />
+          </div>
+          <input className="common-input-filed"
+            type="text"
+            name="ifscCode"
+            value={form.ifscCode}
+            onChange={handleChange}
+          />
           {errors.ifscCode && <p className="error">{errors.ifscCode}</p>}
         </div>
 
-        <div className="form-group">
+        <div className="form-field">
+          <div className="label-content">
           <label>Admin adminEmail</label>
-          <input type="email" name="adminEmail" value={form.adminEmail} onChange={handleChange} placeholder="Enter admin adminEmail" />
+          </div>
+          <input className="common-input-filed"
+            type="email"
+            name="adminEmail"
+            value={form.adminEmail}
+            onChange={handleChange}
+            placeholder="Enter admin adminEmail"
+          />
           {errors.adminEmail && <p className="error">{errors.adminEmail}</p>}
         </div>
 
         <div className="form-actions">
           <button type="submit">{editingId ? "Update" : "Submit"}</button>
-          {editingId && <button type="button" onClick={resetForm}>Cancel</button>}
+          {editingId && (
+            <button type="button" onClick={resetForm}>
+              Cancel
+            </button>
+          )}
         </div>
       </form>
+      </div>
 
       {/* === Table === */}
+      <div className="bottom-table">
       <h2>All Withdrawals</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>UPI ID</th>
-            <th>Holder</th>
-            <th>Bank</th>
-            <th>Account #</th>
-            <th>IFSC</th>
-            <th>Date and time</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {withdrawals?.length === 0 ? (
+      <div className="outer-table">
+        <table>
+          <thead>
             <tr>
-              <td colSpan="7">No entries found.</td>
+              <th>Name</th>
+              <th>UPI ID</th>
+              <th>Holder</th>
+              <th>Bank</th>
+              <th>Account #</th>
+              <th>IFSC</th>
+              <th>Date and time</th>
+              <th>Actions</th>
             </tr>
-          ) : (
-            withdrawals?.map((w) => (
-              <tr key={w._id}>
-                <td>{w.name}</td>
-                <td>{w.upiId}</td>
-                <td>{w.holderName}</td>
-                <td>{w.bankName}</td>
-                <td>{w.accountNumber}</td>
-                <td>{w.ifscCode}</td>
-                <td>{new Date(w.createdAt).toLocaleString()}</td>
-                <th>{w.status}</th>
+          </thead>
+          <tbody>
+            {withdrawals?.length === 0 ? (
+              <tr>
+                <td colSpan="7">No entries found.</td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-
+            ) : (
+              withdrawals?.map((w) => (
+                <tr key={w._id}>
+                  <td>{w.name}</td>
+                  <td>{w.upiId}</td>
+                  <td>{w.holderName}</td>
+                  <td>{w.bankName}</td>
+                  <td>{w.accountNumber}</td>
+                  <td>{w.ifscCode}</td>
+                  <td>{new Date(w.createdAt).toLocaleString()}</td>
+                  <td>{w.status}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+      </div>
       {/* === Pagination Controls === */}
       {/* === Pagination Controls === */}
       <div className="pagination">
@@ -251,13 +323,14 @@ const PaymentWithdrawal = () => {
           {loading && hasPrevPage ? "Loading..." : "Previous"}
         </button>
 
-        <span>Page {currentPage} of {totalPages}</span>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
 
         <button onClick={handleNextPage} disabled={!hasNextPage || loading}>
           {loading && hasNextPage ? "Loading..." : "Next"}
         </button>
       </div>
-
     </div>
   );
 };

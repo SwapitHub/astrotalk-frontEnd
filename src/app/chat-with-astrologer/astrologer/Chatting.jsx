@@ -21,6 +21,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   const segments = pathname.split("/").filter(Boolean);
   const chatAstro_1 = segments[0];
   const chatAstro_2 = segments[1];
+  console.log(astrologer,"astrologer");
   
   const astrologerPhone = Cookies.get("astrologer-phone");
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
@@ -137,7 +138,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   useEffect(() => {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile/${astrologerPhone}`
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile-detail/${astrologerPhone}`
       )
       .then((response) => {
         setAstrologerData(response.data);
@@ -219,6 +220,8 @@ POB: ${showUserData?.placeOfBorn}<br/>`,
         members: [userIds, astrologerId],
       };
       // Emit the message to the server
+      console.log(newMessage);
+      
       socket.emit("sendMessage", newMessage);
       setMessage("");
       scrollToBottom();
@@ -281,7 +284,7 @@ console.log(astrologer, "astrologer.name");
     clearInterval(intervalRef.current);
     try {
       const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-status-by-mobile/${astrologerData.mobileNumber}`,
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-status-by-mobile/${astrologerPhone}`,
         {
           chatStatus: false,
         }

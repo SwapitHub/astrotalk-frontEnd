@@ -54,13 +54,14 @@ console.log(res);
   };
 
   return (
-    <div className="container">
+    <div className="withdrawal-request-outer">
       <h1>Withdrawal Requests</h1>
 
       {loading ? (
         <Loader/>
       ) : (
         <>
+        <div className="outer-table">
           <table border="1" cellPadding="10" style={{ width: "100%", textAlign: "left" }}>
             <thead>
               <tr>
@@ -108,7 +109,7 @@ console.log(res);
               )}
             </tbody>
           </table>
-
+</div>
           {/* Pagination Controls */}
           <div style={{ marginTop: "20px", textAlign: "center" }}>
             <button onClick={goToPrevPage} disabled={page <= 1}>

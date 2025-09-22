@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SummernoteEditor from "@/app/component/SummernoteEditor";
 import Loader from "@/app/component/Loader";
+import { FaEdit } from "react-icons/fa";
+import { RiDeleteBin7Fill } from "react-icons/ri";
 
 const API = process.env.NEXT_PUBLIC_WEBSITE_URL;
 
@@ -20,7 +22,7 @@ const AddBlogs = () => {
   const [blogs, setBlogs] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState("");
-  const [loader, setLoader] = useState(false)
+  const [loader, setLoader] = useState(false);
 
   const [pagination, setPagination] = useState({
     currentPage: 1,
@@ -70,7 +72,7 @@ const AddBlogs = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-setLoader(true)
+    setLoader(true);
     if (!form.title || !form.content) {
       return setError("Title and content are required.");
     }
@@ -113,8 +115,8 @@ setLoader(true)
     } catch (err) {
       console.error("Error submitting blog:", err);
       setError(err.response?.data?.error || "Submission failed.");
-    }finally{
-      setLoader(false)
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -147,156 +149,190 @@ setLoader(true)
   };
 
   return (
-    <div style={{ padding: "2rem" }}>
-      {loader && <Loader/>}
+    <div className="add-blogs-outer-admin">
+      {loader && <Loader />}
       <h2>{editingId ? "Edit Blog" : "Add New Blog"}</h2>
+      <div className="admin-form-box">
+        <form onSubmit={handleSubmit} style={{ marginBottom: "2rem" }}>
+          <div className="form-field">
+            <div className="label-content">
+              <label>Title</label>
+            </div>
+            <input
+              className="common-input-filed"
+              name="title"
+              placeholder="Title"
+              value={form.title}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-field">
+            <div className="label-content">
+              <label>Slug</label>
+            </div>
+            <input
+              className="common-input-filed"
+              name="slug"
+              placeholder="Slug (optional)"
+              value={form.slug}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-field">
+            <div className="label-content">
+              <label>Short Description</label>
+            </div>
+            <input
+              className="common-input-filed"
+              name="shortDescription"
+              placeholder="Short Description"
+              value={form.shortDescription}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-field">
+            <div className="label-content">
+              <label>Content</label>
+            </div>
+            <SummernoteEditor
+              value={form.content}
+              onChange={(content) => setForm((prev) => ({ ...prev, content }))}
+            />
+          </div>
+          <div className="form-field">
+            <div className="label-content">
+              <label>Author</label>
+            </div>
+            <input
+              className="common-input-filed"
+              name="author"
+              placeholder="Author"
+              value={form.author}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-field">
+            <div className="label-content">
+              <label>Cover Image</label>
+            </div>
+            <input
+              className="common-input-filed"
+              type="file"
+              name="coverImage"
+              accept="image/*"
+              onChange={handleFileChange}
+              key={form.coverImage ? form.coverImage.name : "file-input"}
+            />
+            <img src={form?.coverImage} alt="" />
+          </div>
+          <div className="form-field">
+            <div className="label-content">
+              <label>Select Category</label>
+            </div>
+            <select
+              className="common-input-filed"
+              name="category"
+              value={form.category}
+              onChange={handleChange}
+              required
+            >
+              <option value="">-- Select Category --</option>
+              {categories.map((cat) => (
+                <option key={cat._id} value={cat._id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <form onSubmit={handleSubmit} style={{ marginBottom: "2rem" }}>
-        <label>Title</label>
-        <input
-          name="title"
-          placeholder="Title"
-          value={form.title}
-          onChange={handleChange}
-          required
-        />
-        <br />
-        <label>Slug</label>
-        <input
-          name="slug"
-          placeholder="Slug (optional)"
-          value={form.slug}
-          onChange={handleChange}
-        />
-        <br />
-        <label>Short Description</label>
-        <input
-          name="shortDescription"
-          placeholder="Short Description"
-          value={form.shortDescription}
-          onChange={handleChange}
-        />
-        <br />
-        <label>Content</label>
-        <SummernoteEditor
-          value={form.content}
-          onChange={(content) => setForm((prev) => ({ ...prev, content }))}
-        />
-        <br />
-        <label>Author</label>
-        <input
-          name="author"
-          placeholder="Author"
-          value={form.author}
-          onChange={handleChange}
-        />
-        <br />
-        <label>Cover Image</label>
-        <input
-          type="file"
-          name="coverImage"
-          accept="image/*"
-          onChange={handleFileChange}
-          key={form.coverImage ? form.coverImage.name : "file-input"}
-        />
-        <img src={form?.coverImage} alt="" />
-        <br />
-        <label>Select Category</label>
-        <select
-          name="category"
-          value={form.category}
-          onChange={handleChange}
-          required
-        >
-          <option value="">-- Select Category --</option>
-          {categories.map((cat) => (
-            <option key={cat._id} value={cat._id}>
-              {cat.name}
-            </option>
-          ))}
-        </select>
-        <br />
-
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
-        <button type="submit">{editingId ? "Update" : "Create"} Blog</button>
-        {editingId && (
-          <button
-            type="button"
-            onClick={() => {
-              setEditingId(null);
-              setForm({
-                title: "",
-                slug: "",
-                shortDescription: "",
-                content: "",
-                author: "Admin",
-                coverImage: null,
-                category: "",
-              });
-              setError("");
-            }}
-          >
-            Cancel
-          </button>
-        )}
-      </form>
-
-      <h2>All Blogs</h2>
-      <table border="1" cellPadding="10">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Slug</th>
-            <th>Category</th>
-            <th>Cover Image</th>
-            <th>Created</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {blogs.length > 0 ? (
-            blogs.map((blog) => (
-              <tr key={blog._id}>
-                <td>{blog.title}</td>
-                <td>{blog.slug}</td>
-                <td>
-                  {categories.find((cat) => cat._id === blog.category)?.name ||
-                    "N/A"}
-                </td>
-                <td>
-                  {blog.coverImage && (
-                    <img
-                      src={blog.coverImage}
-                      alt="cover"
-                      style={{ width: "100px", height: "60px", objectFit: "cover" }}
-                    />
-                  )}
-                </td>
-                <td>{new Date(blog.createdAt).toLocaleString()}</td>
-                <td>
-                  <button onClick={() => handleEdit(blog)}>Edit</button>
-                  <button onClick={() => handleDelete(blog._id)}>Delete</button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="6">No blogs found.</td>
-            </tr>
+          <button type="submit">{editingId ? "Update" : "Create"} Blog</button>
+          {editingId && (
+            <button
+              type="button"
+              onClick={() => {
+                setEditingId(null);
+                setForm({
+                  title: "",
+                  slug: "",
+                  shortDescription: "",
+                  content: "",
+                  author: "Admin",
+                  coverImage: null,
+                  category: "",
+                });
+                setError("");
+              }}
+            >
+              Cancel
+            </button>
           )}
-        </tbody>
-      </table>
+        </form>
+      </div>
+      <div className="bottom-table">
+        <h2>All Blogs</h2>
+        <table border="1" cellPadding="10">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Slug</th>
+              <th>Category</th>
+              <th>Cover Image</th>
+              <th>Created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {blogs.length > 0 ? (
+              blogs.map((blog) => (
+                <tr key={blog._id}>
+                  <td>{blog.title}</td>
+                  <td>{blog.slug}</td>
+                  <td>
+                    {categories.find((cat) => cat._id === blog.category)
+                      ?.name || "N/A"}
+                  </td>
+                  <td>
+                    {blog.coverImage && (
+                      <img
+                        src={blog.coverImage}
+                        alt="cover"
+                        style={{
+                          width: "100px",
+                          height: "60px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    )}
+                  </td>
+                  <td>{new Date(blog.createdAt).toLocaleString()}</td>
+                  <td>
+                    <button onClick={() => handleEdit(blog)}><FaEdit/></button>
+                    <button onClick={() => handleDelete(blog._id)}>
+                      <RiDeleteBin7Fill/>
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6">No blogs found.</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
 
       {/* Pagination Controls */}
-      <div style={{ marginTop: "1rem" }}>
+      <div className="pagination">
         <button
           disabled={!pagination.hasPrevPage}
           onClick={() => handlePageChange(pagination.currentPage - 1)}
         >
           Previous
         </button>
-        <span style={{ margin: "0 10px" }}>
+        <span>
           Page {pagination.currentPage} of {pagination.totalPages}
         </span>
         <button

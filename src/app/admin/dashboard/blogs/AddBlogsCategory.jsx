@@ -82,8 +82,8 @@ const AddBlogsCategory = () => {
   }, []);
 
   return (
-    <div className="AddBlogsCategory">
-      <div className="BlogsCategory-add-data">
+    <div className="AddBlogsCategory AddLanguage">
+      <div className="language-add-data">
         <h2>Add a New BlogsCategory</h2>
         <div className="admin-form-box">
           <div className="form-field">
@@ -101,7 +101,7 @@ const AddBlogsCategory = () => {
         </div>
       </div>
 
-      <div className="BlogsCategory-list">
+      <div className="language-list">
         <h2>Available Blog Categories</h2>
         {loading ? (
           <Loader />
