@@ -48,6 +48,7 @@ const Footer = () => {
                 Health over call, chat, query or report.
               </p>
             </div>
+            
             {/* <!---- Footer Menus ---> */}
             <div className="footer-menu">
               <div className="footer-col">

@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=El+Messiri:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 /* Global CSS  */
 
+
 :root {--primary_color: #f15b20; --secondary_color: #934900;  --secondary_hover: #542875; --body_bg: #ffffff; --light_bg: #fdeae3; --body_content_color: #000000; --heading_color: #121212; --primary_font: "Poppins", serif; --secondary_font: "El Messiri", serif;}
 body {font-family: var(--primary_font); color: var(--body_content_color); font-size: 16px; background-color: var(--body_bg);}
 * {box-sizing: border-box; margin: 0; padding: 0;}
