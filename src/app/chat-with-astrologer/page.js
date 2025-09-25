@@ -25,10 +25,7 @@ const fetchChatAstrologerListData = async () => {
 const fetchChatLanguageData = async () => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/add-Language-astrologer`,
-      {
-        cache: "no-store",
-      }
+      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/add-Language-astrologer`
     );
 
     if (!response.ok) {
@@ -45,10 +42,7 @@ const fetchChatLanguageData = async () => {
 const fetchAdminSkillsData = async () => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/add-Profession-astrologer`,
-      {
-        cache: "no-store",
-      }
+      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/add-Profession-astrologer`
     );
 
     if (!response.ok) {
@@ -64,10 +58,7 @@ const fetchAdminSkillsData = async () => {
 
 export async function generateMetadata() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-seo-meta-by-slug/chat-with-astrologer`,
-    {
-      next: { revalidate: 60 },
-    }
+    `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-seo-meta-by-slug/chat-with-astrologer`
   );
 
   if (!res.ok) {
