@@ -33,7 +33,7 @@ const AstrologerBanner = () => {
                 <PiHandsPrayingThin />
               </div>
               <div className="col-text">
-                <h3> Book A Pooja</h3>
+                <h3>Book a Pooja Online</h3>
               </div>
             </div>
           </Link>
@@ -43,20 +43,20 @@ const AstrologerBanner = () => {
                 <PiChatCircleDotsLight />
               </div>
               <div className="col-text">
-                <h3>Chat with Astrologer</h3>
+                <h3>Chat with an Astrologer</h3>
               </div>
             </div>
           </Link>
-          <Link href="/talk-to-astrologer">
+          {/* <Link href="/talk-to-astrologer">
             <div className="col">
               <div className="icon">
                 <PiPhoneCallLight />
               </div>
               <div className="col-text">
-                <h3>Talk to Astrologer</h3>
+                <h3>Talk to an Astrologer</h3>
               </div>
             </div>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </section>

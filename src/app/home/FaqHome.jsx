@@ -8,20 +8,30 @@ const FaqHome = () => {
   const faqs = [
     {
       id: 1,
-      question: "What is your return policy?",
+      question: "Q1. How can I consult an astrologer on Astrowb?",
       answer:
-        "We offer a 30-day return window with full refund, no questions asked.",
+        " You can choose your preferred astrologer from our verified list and connect instantly through chat or call.",
     },
     {
       id: 2,
-      question: "How long does shipping take?",
+      question: "Q2. Are the astrologers on your platform certified?",
       answer:
-        "Standard shipping takes 5–7 business days. Express options are available. Standard shipping takes 5–7 business days. Express options are available. Standard shipping takes 5–7 business days. Express options are available.",
+        " Yes, all our astrologers are carefully verified and have years of professional experience in astrology, tarot, numerology, or Vastu.",
     },
     {
       id: 3,
-      question: "Do you ship internationally?",
-      answer: "Yes, we ship worldwide! Rates and times vary by region.",
+      question: "Q3. What kind of questions can I ask during a consultation?",
+      answer: " You can ask about love, marriage, career, finances, health, education, family, or any area of life where you seek clarity.",
+    },
+     {
+      id: 4,
+      question: "Q4. Will my conversation remain private?",
+      answer: "  Absolutely. We maintain 100% confidentiality for all chats, calls, and reports shared on our platform.",
+    },
+     {
+      id: 5,
+      question: "Q5. Can I get a Kundli or horoscope report?",
+      answer: "  Yes, our astrologers provide detailed Kundli analysis and customized reports with remedies and future predictions.",
     },
   ];
 

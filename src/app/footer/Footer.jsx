@@ -38,18 +38,13 @@ const Footer = () => {
           <div className="container">
             {/* <!---- Footer Top Content ---> */}
             <div className="top-content">
-              <h2>About Astrotalk</h2>
+              <h2>About Astrowb</h2>
               <p>
-                Astrotalk is the best astrology website for online Astrology
-                predictions. Talk to Astrologer on call and get answers to all
-                your worries by seeing the future life through Astrology Kundli
-                Predictions from the best Astrologers from India. Get best
-                future predictions related to Marriage, love life, Career or
-                Health over call, chat, query or report.
+                Astrowb is your trusted platform for accurate, personalized astrology guidance. Connect with expert astrologers through call or chat for insights on love, marriage, career, finances, or health. Whether you prefer instant consultations, detailed reports, or practical remedies, Astrowb provides reliable and confidential support for every life decision.
               </p>
             </div>
 
-            
+
             {/* <!---- Footer Menus ---> */}
             <div className="footer-menu">
               <div className="footer-col">
