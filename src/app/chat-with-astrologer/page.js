@@ -1,4 +1,5 @@
 import ChatWithAstrologer from "./ChatAstrologerHome";
+export const dynamic = 'force-dynamic';
 
 const fetchChatAstrologerListData = async () => {
   try {
