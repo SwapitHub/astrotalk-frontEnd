@@ -85,6 +85,7 @@ export default async function HomePage() {
   const NewlyLaunchedSlider = await fetchNewlyLaunchedSlider(); 
   const NewlySeminarList = await fetchNewlySeminarList(); 
 
+console.log(homeBannerData,"homeBannerData");
 
   return <Home  homeBannerData={homeBannerData} topSellingSlider={topSellingSlider?.data} NewlyLaunchedSlider={NewlyLaunchedSlider?.data} NewlySeminarList={NewlySeminarList?.data[0]}/>; 
 }
