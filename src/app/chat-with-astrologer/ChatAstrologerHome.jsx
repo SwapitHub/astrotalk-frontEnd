@@ -521,7 +521,7 @@ const ChatWithAstrologer = ({
             <div className="inner-talk-to-astrologer">
               <div className="talk-to-astrologer-left-content">
                 <div className="heading-button">
-                  <span>Talk to Astrologer</span>
+                  <span>Chat with Astrologer</span>
                 </div>
                 {userData?.freeChatStatus == true && (
                   <div className="free-chat-btn">
