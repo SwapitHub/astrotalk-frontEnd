@@ -7,9 +7,11 @@ import secureLocalStorage from "react-secure-storage";
 import io from "socket.io-client";
 
 // Initialize socket connection
-const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
+const socket = io("https://astro.weddingbyte.com", {
+  path: "/api/socket.io/",   // 🔹 same path देना ज़रूरी
   transports: ["websocket"],
   reconnection: true,
+  withCredentials: true,
 });
 
 const AstroNotification = ({ astrologerPhone, astroDetailData }) => {

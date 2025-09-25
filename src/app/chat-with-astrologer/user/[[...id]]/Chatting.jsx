@@ -11,9 +11,11 @@ import RatingPopUp from "@/app/component/RatingPopUp";
 import { useRouter, useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
 
-const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
+const socket = io("https://astro.weddingbyte.com", {
+  path: "/api/socket.io/",   // 🔹 same path देना ज़रूरी
   transports: ["websocket"],
   reconnection: true,
+  withCredentials: true,
 });
 
 export default function Chatting(AdminCommissionData) {
