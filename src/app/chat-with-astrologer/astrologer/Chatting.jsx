@@ -10,11 +10,9 @@ import EndChatPopUp from "@/app/component/EndChatPopUp";
 import { usePathname, useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
-const socket = io("https://astro.weddingbyte.com", {
-  path: "/api/socket.io/",   // 🔹 same path देना ज़रूरी
+const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
   transports: ["websocket"],
   reconnection: true,
-  withCredentials: true,
 });
 
 export default function Chatting({ astrologer, AdminCommissionData }) {
