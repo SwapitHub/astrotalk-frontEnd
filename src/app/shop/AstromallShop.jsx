@@ -17,8 +17,8 @@ const AstromallShop = ({topSellingSlider,NewlyLaunchedSlider, shopListData}) => 
         <div className="container">
           <div className="astromall-sec-inner">
             <div className="heading-box">
-              <h1 className="common-h1-heading">Astromall Shop</h1>
-              <p>Shop Best Online Astrology Products And Services</p>
+              <h1 className="common-h1-heading">Shop the Universe</h1>
+              <p>Unlock the power of astrology with our handpicked products and services.</p>
             </div>
             <div className="astromall-wrapper">
               <div className="astromall-search">

@@ -1070,9 +1070,9 @@ span.required {color: red;}
 .faq-answer.active {display: block;}
 .four-col {position: relative;}
 .four-col.section-spacing {padding: 0px 0px 80px;}
-.four-col .row {display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 30px;}
+.four-col .row {display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 30px;}
 .four-col .row > a {color: var(--body_content_color); position: relative;}
-.four-col .row .col {padding: 30px 20px; text-align: center; border: 1px solid var(--light_bg); position: relative; height: 100%;}
+.four-col .row .col {padding: 50px 20px; text-align: center; border: 1px solid var(--light_bg); position: relative; height: 100%;}
 .four-col .row .col h3 {font-size: 20px;}
 .four-col .row > a::before, .four-col .row > a::after, .four-col .row > a .col::before, .four-col .row > a .col::after {border-color: var(--primary_color); border-style: solid; content: ""; height: 10px; position: absolute; transition: all .4s ease-in-out; width: 10px; z-index: 1;}
 .four-col .row > a::before {border-width: 1px 0 0 1px; left: 0; top: 0;}

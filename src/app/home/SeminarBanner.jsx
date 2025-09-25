@@ -43,7 +43,7 @@ const SeminarBanner = ({ NewlySeminarList }) => {
               </div>
               <div class="seminar_btn">
                 <button onClick={() =>handleBookSeat()}>
-                  Book your seat today
+                  Reserve Your Spot
                 </button>
               </div>
               <div class="seminar_date_location">

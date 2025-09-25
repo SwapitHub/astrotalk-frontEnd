@@ -40,10 +40,14 @@ const Footer = () => {
             <div className="top-content">
               <h2>About Astrowb</h2>
               <p>
-                Astrowb is your trusted platform for accurate, personalized astrology guidance. Connect with expert astrologers through call or chat for insights on love, marriage, career, finances, or health. Whether you prefer instant consultations, detailed reports, or practical remedies, Astrowb provides reliable and confidential support for every life decision.
+                Astrowb is your trusted platform for accurate, personalized
+                astrology guidance. Connect with expert astrologers through call
+                or chat for insights on love, marriage, career, finances, or
+                health. Whether you prefer instant consultations, detailed
+                reports, or practical remedies, Astrowb provides reliable and
+                confidential support for every life decision.
               </p>
             </div>
-
 
             {/* <!---- Footer Menus ---> */}
             <div className="footer-menu">
@@ -62,8 +66,9 @@ const Footer = () => {
                 <div className="discript_text-link">
                   <Link href="/chat-with-astrologer">
                     {" "}
-                    <span className="icon"></span>We are available 24x7 on chat
-                    support <span className="footer-btn">click to start chat</span>{" "}
+                    <span className="icon"></span>Chat with Us Anytime, Anywhere
+                    — We’re Available 24/7
+                    <span className="footer-btn">click to start chat</span>{" "}
                   </Link>
                 </div>
                 <div className="email-wrapper">
@@ -93,7 +98,7 @@ const Footer = () => {
                   <h3>Important Links</h3>
                   <ul>
                     <li>
-                      <Link href="/shop">Astromall</Link>
+                      <Link href="/shop">Astrowb Shop</Link>
                     </li>
                     <li>
                       <Link href="/chat-with-astrologer">chat now</Link>
