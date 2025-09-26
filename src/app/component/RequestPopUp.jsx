@@ -3,10 +3,12 @@ import secureLocalStorage from "react-secure-storage";
 import io from "socket.io-client";
 
 // Initialize socket connection
-const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
+const socket = io(process.env.NEXT_PUBLIC_BASE_URL, {
+  path: "/api/socket.io",
   transports: ["websocket"],
-  reconnection: true,
+  withCredentials: true,
 });
+
 
 const RequestPopUp = ({ setIsLoadingRequest }) => {
   const [timer, setTimer] = useState(1);

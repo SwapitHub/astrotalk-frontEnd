@@ -9,7 +9,12 @@ import { AiOutlineAudio, AiOutlineAudioMuted } from "react-icons/ai";
 import { MdOutlineVideocam, MdOutlineVideocamOff } from "react-icons/md";
 import secureLocalStorage from "react-secure-storage";
 
-const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, { autoConnect: false });
+const socket = io(process.env.NEXT_PUBLIC_BASE_URL, {
+  path: "/api/socket.io",
+  transports: ["websocket"],
+  withCredentials: true,
+  autoConnect: false,
+});
 
 const Call = () => {
   const router = useRouter();

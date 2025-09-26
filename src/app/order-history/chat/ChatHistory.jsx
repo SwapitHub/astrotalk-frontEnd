@@ -18,7 +18,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import secureLocalStorage from "react-secure-storage";
 import io from "socket.io-client";
 
-const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
+const socket = io(process.env.NEXT_PUBLIC_BASE_URL, {
+   path: "/api/socket.io",
   withCredentials: true,
   reconnection: true,
   reconnectionAttempts: 5,

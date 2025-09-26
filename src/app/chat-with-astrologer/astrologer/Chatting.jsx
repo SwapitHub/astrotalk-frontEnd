@@ -10,10 +10,12 @@ import EndChatPopUp from "@/app/component/EndChatPopUp";
 import { usePathname, useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
-const socket = io(process.env.NEXT_PUBLIC_WEBSITE_URL, {
+const socket = io(process.env.NEXT_PUBLIC_BASE_URL, {
+  path: "/api/socket.io",
   transports: ["websocket"],
-  reconnection: true,
+  withCredentials: true,
 });
+
 
 export default function Chatting({ astrologer, AdminCommissionData }) {
   const router = useRouter();
