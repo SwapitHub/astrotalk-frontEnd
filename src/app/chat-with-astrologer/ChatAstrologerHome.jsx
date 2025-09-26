@@ -18,17 +18,29 @@ import useDebounce from "../hook/useDebounce";
 import { FaRegCircleUser } from "react-icons/fa6";
 
 // const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
-const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
+const socket = io("https://astro.weddingbyte.com", {
+  path: "/api/socket.io",
+  transports: ["websocket"], // allow only websocket
   withCredentials: true,
   reconnection: true,
   reconnectionAttempts: 5,
   reconnectionDelay: 1000,
   reconnectionDelayMax: 5000,
   timeout: 20000,
-  transports: ["websocket"],
   autoConnect: true,
-  forceNew: true,
 });
+
+
+
+
+socket.on("connect", () => {
+  console.log("Connected to server:", socket.id);
+});
+
+socket.on("message", (data) => {
+  console.log("Received from server:", data);
+});
+
 
 const ChatWithAstrologer = ({
   languageListData,

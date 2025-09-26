@@ -145,7 +145,7 @@ function AdminWallet({ updateButton }) {
                   <td>{item._id}</td>
                   <td>{item.name}</td>
                   <td>₹ {Math.round(item.availableBalance)}</td>
-                  <td>₹ {item.transactionAmount}</td>
+                  <td> {item.transactionAmount}</td>
                   <td>{item.description}</td>
                   <td>{new Date(item.createdAt).toLocaleString()}</td>
                 </tr>

@@ -274,7 +274,7 @@ const handleToggleSection = (sectionName) => {
                         }}
                       >
                         <CiWallet />
-                        <span className="list-text">Shopping Wallet </span>
+                        <span className="list-text">Order Detail </span>
                         <span className="list-arrow">
                           <MdOutlineKeyboardArrowRight />
                         </span>
@@ -294,7 +294,7 @@ const handleToggleSection = (sectionName) => {
                                 setToggleSlideMobile(false);
                               }}
                             >
-                              Shop Puja
+                              Shop puja order
                             </a>
                           </li>
                           <li
@@ -312,7 +312,7 @@ const handleToggleSection = (sectionName) => {
                                 setToggleSlideMobile(false);
                               }}
                             >
-                              Shop Product
+                              Shop product order
                             </a>
                           </li>
                           {/* <li
