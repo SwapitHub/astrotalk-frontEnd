@@ -43,7 +43,7 @@ const WalletPriceList = () => {
       userData();
     }
   }, [userMobile]);
-  console.log(userData, userMobile);
+ 
 
   return (
     <section className="add-money-wallet-bg">
