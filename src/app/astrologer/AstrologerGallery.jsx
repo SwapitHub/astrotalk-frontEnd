@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import Loader from "../component/Loader";
+import Image from "next/image";
 
 const AstrologerGallery = ({ astrologerData }) => {
   const [galleryListData, setGalleryListData] = useState([]);
@@ -125,8 +126,17 @@ const AstrologerGallery = ({ astrologerData }) => {
           <ul>
             {galleryListData[0]?.multipleImages?.map((item) => (
               <li key={item._id}>
-                
-                <img src={`${process.env.NEXT_PUBLIC_WEBSITE_URL}${item?.img_url}`} alt="Astro image" />
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_WEBSITE_URL}${item?.img_url}`}
+                  alt="Astro image"
+                  width={400}
+                  height={300}
+                  style={{ objectFit: "cover" }}
+                />
+                <img
+                  src={`${process.env.NEXT_PUBLIC_WEBSITE_URL}${item?.img_url}`}
+                  alt="Astro image"
+                />
                 <button onClick={() => deleteGallery(item?.cloudinary_id)}>
                   Remove
                 </button>

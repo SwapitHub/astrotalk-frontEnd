@@ -251,7 +251,7 @@ const GemStoneProductGemJewelry = () => {
                   <div className="single-item" key={index}>
                     <div className="details-outer">
                       <div className="product-img">
-                        <img src={item?.astroGemstoneJewelryImg} alt="" />
+                        <img src={process.env.NEXT_PUBLIC_WEBSITE_URL+item?.astroGemstoneJewelryImg} alt="" />
                       </div>
 
                       <div className="details-cont">

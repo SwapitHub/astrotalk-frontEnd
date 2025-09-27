@@ -1,13 +1,9 @@
 // next.config.mjs
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    domains: ["astro.weddingbyte.com", "localhost"], // development ke liye
+  },
+};
 
-export default {
-    async rewrites() {
-      return [
-        {
-          source: '/api/:path*', // Match API requests
-          destination: 'https://astrotalk-backend.onrender.com/:path*', // Forward to your backend
-        },
-      ];
-    },
-  };
-  
+export default nextConfig;

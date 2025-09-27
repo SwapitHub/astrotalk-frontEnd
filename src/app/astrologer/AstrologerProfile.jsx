@@ -331,10 +331,11 @@ console.log(astroUpdateDetail);
           <div className="user-profile-pick-main">
             <div className="user-profile-pick">
               <a href="#" title="">
+
                 <img
                   src={
                     astroUpdateDetail?.profileImage
-                      ? astroUpdateDetail?.profileImage
+                      ? process.env.NEXT_PUBLIC_WEBSITE_URL + astroUpdateDetail?.profileImage
                       : "./user-icon-image.png"
                   }
                   alt="user-icon"
