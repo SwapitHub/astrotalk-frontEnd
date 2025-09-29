@@ -1,10 +1,13 @@
 "use client";
 import Loader from "@/app/component/Loader";
 import axios from "axios";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { MdDelete } from "react-icons/md";
+import { FaEdit, FaSearch } from "react-icons/fa";
+import { MdDelete, MdPreview } from "react-icons/md";
 import secureLocalStorage from "react-secure-storage";
+import AstroDetail from "./AstroDetail";
 
 function AstrologerPendingList() {
   const [pendingData, setPendingData] = useState([]);
@@ -13,7 +16,8 @@ function AstrologerPendingList() {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
   const [loading, setLoading] = useState(false);
-
+ const [addActiveClass, setAddActiveClass] = useState(false);
+  const [astroMobileNumber, setAstroMobileNumber] = useState();
   const fetchAstrologers = async (pageNumber) => {
     try {
       setLoading(true);
@@ -86,38 +90,90 @@ function AstrologerPendingList() {
       console.log("API error", err.response || err.message);
     }
   };
-
+  useEffect(() => {
+    if (addActiveClass) {
+      document.body.classList.add("astro-detail-admin-popup");
+    } else {
+      document.body.classList.remove("astro-detail-admin-popup");
+    }
+  }, [addActiveClass]);
   return (
     <>
+      <AstroDetail astroMobileNumber={astroMobileNumber} setAddActiveClass={setAddActiveClass}/>
+    
       {loading ? (
         <Loader />
       ) : (
         <div className="outer-table">
+          <div className="search-box-top-btn">
+            <div className="search-box-filed">
+              <input
+                type="search"
+                id="astrologer-search"
+                name="astrologer-search"
+                placeholder="Search name or mobile..."
+                aria-label="Search wallet transactions"
+              />
+            </div>
+            <div className="search-button-filed">
+              <button type="button">
+                <FaSearch />
+              </button>
+            </div>
+          </div>
           <table border="1" cellPadding="8" style={{ marginBottom: "20px" }}>
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Name</th>
                 <th>Mobile Number</th>
+                <th>Date Registration</th>
+                <th>Rate per minute</th>
                 <th>Aadhar Card</th>
                 <th>Certificate</th>
-                <th>Action</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>
               {pendingData.map((item) => (
                 <tr key={item._id}>
-                  <td>{item._id}</td>
                   <td>{item.name}</td>
                   <td>{item?.mobileNumber}</td>
+                  <td>{new Date(item.createdAt).toLocaleString()}</td>
+                  <td>{item?.charges || 0 }</td>
                   <td>
-                    <Link href={`${item?.aadhaarCard}`} target="_blank">
-                      <img src={item?.aadhaarCard} alt={item.name} />
+                    <Link
+                      href={`${
+                        process.env.NEXT_PUBLIC_WEBSITE_URL + item?.aadhaarCard
+                      }`}
+                      target="_blank"
+                    >
+                      <Image
+                        width={100}
+                        height={100}
+                        src={
+                          process.env.NEXT_PUBLIC_WEBSITE_URL +
+                          item?.aadhaarCard
+                        }
+                        alt="user-icon"
+                      />
                     </Link>
                   </td>
                   <td>
-                    <Link href={`${item?.certificate}`} target="_blank">
-                      <img src={item?.certificate} alt={item.name} />
+                    <Link
+                      href={`${
+                        process.env.NEXT_PUBLIC_WEBSITE_URL + item?.certificate
+                      }`}
+                      target="_blank"
+                    >
+                      <Image
+                        width={100}
+                        height={100}
+                        src={
+                          process.env.NEXT_PUBLIC_WEBSITE_URL +
+                          item?.certificate
+                        }
+                        alt="user-icon"
+                      />
                     </Link>
                   </td>
 
@@ -132,11 +188,18 @@ function AstrologerPendingList() {
                           item.email
                         )
                       }
-                     
                     >
                       {item.astroStatus ? "Active" : "Confirm"}
                     </button>
-
+                    <button className="delete-btn"   onClick={() => {
+                        setAddActiveClass(true);
+                        setAstroMobileNumber(item.mobileNumber)
+                      }}>
+                      <MdPreview />
+                    </button>
+                    <button className="delete-btn">
+                      <FaEdit />
+                    </button>
                     <button
                       className="delete-btn"
                       onClick={() => {

@@ -129,14 +129,14 @@ const AstrologerGallery = ({ astrologerData }) => {
                 <Image
                   src={`${process.env.NEXT_PUBLIC_WEBSITE_URL}${item?.img_url}`}
                   alt="Astro image"
-                  width={400}
-                  height={300}
+                  width={100}
+                  height={100}
                   style={{ objectFit: "cover" }}
                 />
-                <img
+                {/* <img
                   src={`${process.env.NEXT_PUBLIC_WEBSITE_URL}${item?.img_url}`}
                   alt="Astro image"
-                />
+                /> */}
                 <button onClick={() => deleteGallery(item?.cloudinary_id)}>
                   Remove
                 </button>

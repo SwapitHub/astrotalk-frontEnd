@@ -6,11 +6,12 @@ import { useEffect, useState } from "react";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import AstroNotification from "../component/AstroNotification";
 import ProfilePopUp from "../component/ProfilePopUp";
+import Image from "next/image";
 
 const DashboardHeader = ({ setToggleSlideMobile }) => {
   const [toggleSlide, setToggleSlide] = useState(false);
   const [astroDetailData, setAstroDetailData] = useState();
-console.log(astroDetailData,"astroDetailData");
+  console.log(astroDetailData, "astroDetailData");
 
   const [astrologerPhone, setAstrologerPhone] = useState();
 
@@ -200,10 +201,19 @@ console.log(astroDetailData,"astroDetailData");
               onClick={() => setUserMobile((prev) => !prev)}
             >
               <div className="media">
-                <img
-                  src={`${astroDetailData?.profileImage}`}
-                  alt="user-profile"
-                />
+                {astroDetailData?.profileImage ? (
+                  <Image
+                    width={50}
+                    height={50}
+                    src={
+                      process.env.NEXT_PUBLIC_WEBSITE_URL +
+                      astroDetailData?.profileImage
+                    }
+                    alt="user-icon"
+                  />
+                ) : (
+                  <img src="./user-icon-image.png"></img>
+                )}
 
                 <div className="dotted-animation">
                   <span className="animate-circle"></span>

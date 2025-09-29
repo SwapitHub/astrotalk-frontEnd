@@ -7,6 +7,7 @@ import { validateAstrologerForm } from "../component/FormValidation";
 import secureLocalStorage from "react-secure-storage";
 import Cookies from "js-cookie";
 import Loader from "../component/Loader";
+import Image from "next/image";
 
 const AstrologerProfile = ({
   setSuccessMessageProfile,
@@ -41,7 +42,7 @@ const AstrologerProfile = ({
   }, []);
 
   useEffect(() => {
-    if(!astrologerPhone) return;
+    if (!astrologerPhone) return;
     axios
       .get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile-detail/${astrologerPhone}`
@@ -56,7 +57,7 @@ const AstrologerProfile = ({
   }, [astrologerPhone]);
 
   useEffect(() => {
-    if(!astrologerPhone) return;
+    if (!astrologerPhone) return;
     axios
       .get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-detail/${astrologerPhone}`
@@ -140,13 +141,13 @@ const AstrologerProfile = ({
       if (response.data.message === "success") {
         //======= agr hm ise start krte hai to new astrologer login ni hoga.========
 
-        // const updateList = await axios.put(
-        //   `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
-        //   {
-        //     mobileNumber: astrologerPhone,
-        //     profileStatus: true,
-        //   }
-        // );
+        const updateList = await axios.put(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/put-any-field-astrologer-registration/${astrologerPhone}`,
+          {
+            name: astroUpdateDetail?.name,
+            charges: astroUpdateDetail?.charges,
+          }
+        );
 
         // Reset only needed fields
         ["Experience", "Charges", "description", "image"].forEach((id) => {
@@ -212,6 +213,8 @@ const AstrologerProfile = ({
 
   const handleBusinessProfileUpdate = async (mobileNumber) => {
     const formData = new FormData();
+    console.log(formData, "formData");
+
     setLoader(true);
     // Basic fields
     const selectedGender =
@@ -263,10 +266,19 @@ const AstrologerProfile = ({
           },
         }
       );
+      console.log(response.data);
+
       if (response.data.message == "success") {
         toast.success("Profile Completed Successfully", {
           position: "top-right",
         });
+        const updateList = await axios.put(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/put-any-field-astrologer-registration/${astrologerPhone}`,
+          {
+            name: response.data.updatedProfile?.name,
+            charges: response.data.updatedProfile?.charges,
+          }
+        );
 
         window.location.reload();
       }
@@ -275,9 +287,8 @@ const AstrologerProfile = ({
       // Show success toast or UI update here
     } catch (err) {
       console.error("Update failed:", err);
-    }finally{
-    setLoader(false);
-
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -313,7 +324,7 @@ const AstrologerProfile = ({
       setEditLanguages((prev) => prev.filter((item) => item !== value));
     }
   };
-console.log(astroUpdateDetail);
+  console.log(astroUpdateDetail);
 
   return (
     <>
@@ -331,15 +342,20 @@ console.log(astroUpdateDetail);
           <div className="user-profile-pick-main">
             <div className="user-profile-pick">
               <a href="#" title="">
+                {astroUpdateDetail?.profileImage ? (
+                  <Image
+                    width={100}
+                    height={100}
+                    src={
+                      process.env.NEXT_PUBLIC_WEBSITE_URL +
+                      astroUpdateDetail?.profileImage
+                    }
+                    alt="user-icon"
+                  />
+                ) : (
+                  <img src="./user-icon-image.png"></img>
+                )}
 
-                <img
-                  src={
-                    astroUpdateDetail?.profileImage
-                      ? process.env.NEXT_PUBLIC_WEBSITE_URL + astroUpdateDetail?.profileImage
-                      : "./user-icon-image.png"
-                  }
-                  alt="user-icon"
-                />
                 <span>
                   <i className="fa-solid fa-ellipsis-vertical"></i>
                 </span>
@@ -614,7 +630,7 @@ console.log(astroUpdateDetail);
 
           <div className="reg-sumbit-button">
             {astroUpdateDetail?.completeProfile == true ? (
-             <button
+              <button
                 type="button"
                 onClick={() => {
                   handleBusinessProfileUpdate(registrationDetail?.mobileNumber);
@@ -623,10 +639,9 @@ console.log(astroUpdateDetail);
                 Update Profile
               </button>
             ) : (
-               <button type="button" onClick={handleBusinessProfile}>
+              <button type="button" onClick={handleBusinessProfile}>
                 Submit
               </button>
-              
             )}
           </div>
         </form>

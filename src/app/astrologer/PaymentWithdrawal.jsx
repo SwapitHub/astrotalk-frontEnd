@@ -5,7 +5,6 @@ import Loader from "../component/Loader";
 
 const PaymentWithdrawal = () => {
   const astrologerPhone = Cookies.get("astrologer-phone");
-  console.log(astrologerPhone);
 
   const [form, setForm] = useState({
     name: "",
@@ -14,6 +13,10 @@ const PaymentWithdrawal = () => {
     bankName: "",
     accountNumber: "",
     ifscCode: "",
+    totalACBalance: "",
+    balanceRemaining: "",
+    remarks: "",
+    AstrologerEmail: "",
     adminEmail: "",
     astrologerPhone,
   });
@@ -22,7 +25,7 @@ const PaymentWithdrawal = () => {
   const [withdrawals, setWithdrawals] = useState([]);
   const [editingId, setEditingId] = useState(null);
 
-  // Pagination state
+  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
@@ -30,12 +33,12 @@ const PaymentWithdrawal = () => {
   const [hasPrevPage, setHasPrevPage] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Fetch withdrawals with pagination
+  // Fetch withdrawals
   const fetchWithdrawals = async (page = 1) => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-detail-payment-withdrawal/${astrologerPhone}?page=${page}&limit=2`
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-detail-payment-withdrawal/${astrologerPhone}?page=${page}&limit=3`
       );
       const {
         data,
@@ -45,6 +48,7 @@ const PaymentWithdrawal = () => {
         hasNextPage,
         hasPrevPage,
       } = res.data;
+
       setWithdrawals(data);
       setCurrentPage(currentPage);
       setTotalPages(totalPages);
@@ -62,12 +66,12 @@ const PaymentWithdrawal = () => {
     fetchWithdrawals(currentPage);
   }, [currentPage]);
 
-  // Input change handler
+  // Handle input
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Form validation
+  // Validate form
   const validateForm = () => {
     const newErrors = {};
     if (!form.name) newErrors.name = "Name is required";
@@ -77,7 +81,12 @@ const PaymentWithdrawal = () => {
     if (!form.accountNumber)
       newErrors.accountNumber = "Account Number is required";
     if (!form.ifscCode) newErrors.ifscCode = "IFSC Code is required";
-    if (!form.adminEmail) newErrors.adminEmail = "adminEmail is required";
+    if (!form.adminEmail) newErrors.adminEmail = "Admin Email is required";
+    if (!form.AstrologerEmail) newErrors.AstrologerEmail = "Astrologer Email is required";
+    if (!form.balanceRemaining)
+      newErrors.balanceRemaining = "Remaining balance is required";
+    if (!form.totalACBalance)
+      newErrors.totalACBalance = "Total AC Balance is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -92,7 +101,12 @@ const PaymentWithdrawal = () => {
       bankName: "",
       accountNumber: "",
       ifscCode: "",
+      totalACBalance: "",
+      balanceRemaining: "",
+      remarks: "",
+      AstrologerEmail: "",
       adminEmail: "",
+      astrologerPhone,
     });
     setEditingId(null);
     setErrors({});
@@ -103,7 +117,7 @@ const PaymentWithdrawal = () => {
     e.preventDefault();
 
     if (!validateForm()) return;
-
+    setLoading(true);
     try {
       if (editingId) {
         await axios.put(
@@ -120,46 +134,17 @@ const PaymentWithdrawal = () => {
       resetForm();
     } catch (err) {
       console.error("Submission error:", err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Edit
-  const handleEdit = (item) => {
-    setEditingId(item._id);
-    setForm({
-      name: item.name,
-      upiId: item.upiId,
-      holderName: item.holderName,
-      bankName: item.bankName,
-      accountNumber: item.accountNumber,
-      ifscCode: item.ifscCode,
-    });
-    setErrors({});
-  };
-
-  // Delete
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this entry?")) return;
-    try {
-      await axios.delete(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/delete-payment-withdrawal/${id}`
-      );
-      fetchWithdrawals(currentPage);
-    } catch (err) {
-      console.error("Deletion error:", err.message);
-    }
-  };
-
+  // Pagination handlers
   const handleNextPage = () => {
-    if (hasNextPage && !loading) {
-      setCurrentPage((prev) => prev + 1);
-    }
+    if (hasNextPage && !loading) setCurrentPage((prev) => prev + 1);
   };
-
   const handlePrevPage = () => {
-    if (hasPrevPage && !loading) {
-      setCurrentPage((prev) => prev - 1);
-    }
+    if (hasPrevPage && !loading) setCurrentPage((prev) => prev - 1);
   };
 
   return (
@@ -169,164 +154,227 @@ const PaymentWithdrawal = () => {
 
       {/* === Form === */}
       <div className="admin-form-box">
-      <form onSubmit={handleSubmit} className="form">
-        <h2>{editingId ? "Edit Details" : "Enter Details"}</h2>
-        <div className="form-field">
-          <div className="label-content">
-            <label>Name (UPI)</label>
-          </div>
-          <input className="common-input-filed"
-            type="text"
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-          />
-          {errors.name && <p className="error">{errors.name}</p>}
-        </div>
+        <form onSubmit={handleSubmit} className="form">
+          <div className="UPI-details">
+            <h2>UPI Details</h2>
+            <div className="form-field">
+              <label>Name user (UPI)</label>
+              <input
+                className="common-input-filed"
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+              />
+              {errors.name && <p className="error">{errors.name}</p>}
+            </div>
 
-        <div className="form-field">
-          <div className="label-content">
-          <label>UPI ID</label>
+            <div className="form-field">
+              <label>UPI ID</label>
+              <input
+                className="common-input-filed"
+                type="text"
+                name="upiId"
+                value={form.upiId}
+                onChange={handleChange}
+              />
+              {errors.upiId && <p className="error">{errors.upiId}</p>}
+            </div>
           </div>
-          <input className="common-input-filed"
-            type="text"
-            name="upiId"
-            value={form.upiId}
-            onChange={handleChange}
-          />
-          {errors.upiId && <p className="error">{errors.upiId}</p>}
-        </div>
 
-       <div className="form-field">
-          <div className="label-content">
-          <label>Account Holder Name</label>
+          <div className="Account-detail">
+            <h2>Account Details</h2>
+
+            <div className="form-field">
+              <label>Account Holder Name</label>
+              <input
+                className="common-input-filed"
+                type="text"
+                name="holderName"
+                value={form.holderName}
+                onChange={handleChange}
+              />
+              {errors.holderName && (
+                <p className="error">{errors.holderName}</p>
+              )}
+            </div>
+
+            <div className="form-field">
+              <label>Bank Name</label>
+              <input
+                className="common-input-filed"
+                type="text"
+                name="bankName"
+                value={form.bankName}
+                onChange={handleChange}
+              />
+              {errors.bankName && <p className="error">{errors.bankName}</p>}
+            </div>
+
+            <div className="form-field">
+              <label>Account Number</label>
+              <input
+                className="common-input-filed"
+                type="text"
+                name="accountNumber"
+                value={form.accountNumber}
+                onChange={handleChange}
+              />
+              {errors.accountNumber && (
+                <p className="error">{errors.accountNumber}</p>
+              )}
+            </div>
+
+            <div className="form-field">
+              <label>Total AC Balance</label>
+              <input
+                className="common-input-filed"
+                type="number"
+                name="totalACBalance"
+                value={form.totalACBalance}
+                onChange={handleChange}
+              />
+              {errors.totalACBalance && (
+                <p className="error">{errors.totalACBalance}</p>
+              )}
+            </div>
+
+            <div className="form-field">
+              <label>Remaining Balance</label>
+              <input
+                className="common-input-filed"
+                type="number"
+                name="balanceRemaining"
+                value={form.balanceRemaining}
+                onChange={handleChange}
+              />
+              {errors.totalACBalance && (
+                <p className="error">{errors.balanceRemaining}</p>
+              )}
+            </div>
+
+            <div className="form-field">
+              <label>IFSC Code</label>
+              <input
+                className="common-input-filed"
+                type="text"
+                name="ifscCode"
+                value={form.ifscCode}
+                onChange={handleChange}
+              />
+              {errors.ifscCode && <p className="error">{errors.ifscCode}</p>}
+            </div>
+
+            <div className="form-field">
+              <label>Your Email</label>
+              <input
+                className="common-input-filed"
+                type="email"
+                name="AstrologerEmail"
+                value={form.AstrologerEmail}
+                onChange={handleChange}
+                placeholder="Enter your Email"
+              />
+              {errors.adminEmail && <p className="error">{errors.AstrologerEmail}</p>}
+            </div>
+
+            <div className="form-field">
+              <label>Admin Email</label>
+              <input
+                className="common-input-filed"
+                type="email"
+                name="adminEmail"
+                value={form.adminEmail}
+                onChange={handleChange}
+                placeholder="Enter admin Email"
+              />
+              {errors.adminEmail && (
+                <p className="error">{errors.adminEmail}</p>
+              )}
+            </div>
+
+            <div className="form-field">
+              <label>Remarks</label>
+              <input
+                className="common-input-filed"
+                type="text"
+                name="remarks"
+                value={form.remarks}
+                onChange={handleChange}
+              />
+            </div>
           </div>
-          <input className="common-input-filed"
-            type="text"
-            name="holderName"
-            value={form.holderName}
-            onChange={handleChange}
-          />
-          {errors.holderName && <p className="error">{errors.holderName}</p>}
-        </div>
 
-        <div className="form-field">
-          <div className="label-content">
-          <label>Bank Name</label>
+          <div className="form-actions">
+            <button type="submit">{editingId ? "Update" : "Submit"}</button>
+            {editingId && (
+              <button type="button" onClick={resetForm}>
+                Cancel
+              </button>
+            )}
           </div>
-          <input className="common-input-filed"
-            type="text"
-            name="bankName"
-            value={form.bankName}
-            onChange={handleChange}
-          />
-          {errors.bankName && <p className="error">{errors.bankName}</p>}
-        </div>
-
-        <div className="form-field">
-          <div className="label-content">
-          <label>Account Number</label>
-          </div>
-          <input className="common-input-filed"
-            type="text"
-            name="accountNumber"
-            value={form.accountNumber}
-            onChange={handleChange}
-          />
-          {errors.accountNumber && (
-            <p className="error">{errors.accountNumber}</p>
-          )}
-        </div>
-
-        <div className="form-field">
-          <div className="label-content">
-          <label>IFSC Code</label>
-          </div>
-          <input className="common-input-filed"
-            type="text"
-            name="ifscCode"
-            value={form.ifscCode}
-            onChange={handleChange}
-          />
-          {errors.ifscCode && <p className="error">{errors.ifscCode}</p>}
-        </div>
-
-        <div className="form-field">
-          <div className="label-content">
-          <label>Admin adminEmail</label>
-          </div>
-          <input className="common-input-filed"
-            type="email"
-            name="adminEmail"
-            value={form.adminEmail}
-            onChange={handleChange}
-            placeholder="Enter admin adminEmail"
-          />
-          {errors.adminEmail && <p className="error">{errors.adminEmail}</p>}
-        </div>
-
-        <div className="form-actions">
-          <button type="submit">{editingId ? "Update" : "Submit"}</button>
-          {editingId && (
-            <button type="button" onClick={resetForm}>
-              Cancel
-            </button>
-          )}
-        </div>
-      </form>
+        </form>
       </div>
 
       {/* === Table === */}
       <div className="bottom-table">
-      <h2>All Withdrawals</h2>
-      <div className="outer-table">
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>UPI ID</th>
-              <th>Holder</th>
-              <th>Bank</th>
-              <th>Account #</th>
-              <th>IFSC</th>
-              <th>Date and time</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {withdrawals?.length === 0 ? (
+        <h2>All Withdrawals</h2>
+        <div className="outer-table">
+          <table>
+            <thead>
               <tr>
-                <td colSpan="7">No entries found.</td>
+                <th>Name</th>
+                <th>UPI ID</th>
+                <th>Holder Name</th>
+                <th>Bank</th>
+                <th>Account No</th>
+                <th>Total Balance</th>
+                <th>Remaining Balance</th>
+                <th>IFSC</th>
+                <th>Astrologer Email</th>
+                <th>Admin Email</th>
+                <th>Remarks</th>
+                <th>Date</th>
+                <th>WithDraw Request Status</th>
               </tr>
-            ) : (
-              withdrawals?.map((w) => (
-                <tr key={w._id}>
-                  <td>{w.name}</td>
-                  <td>{w.upiId}</td>
-                  <td>{w.holderName}</td>
-                  <td>{w.bankName}</td>
-                  <td>{w.accountNumber}</td>
-                  <td>{w.ifscCode}</td>
-                  <td>{new Date(w.createdAt).toLocaleString()}</td>
-                  <td>{w.status}</td>
+            </thead>
+            <tbody>
+              {withdrawals?.length === 0 ? (
+                <tr>
+                  <td colSpan="13">No entries found.</td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                withdrawals?.map((w) => (
+                  <tr key={w._id}>
+                    <td>{w.name}</td>
+                    <td>{w.upiId}</td>
+                    <td>{w.holderName}</td>
+                    <td>{w.bankName}</td>
+                    <td>{w.accountNumber}</td>
+                    <td>{w.totalACBalance}</td>
+                    <td>{w.balanceRemaining}</td>
+                    <td>{w.ifscCode}</td>
+                    <td>{w.AstrologerEmail}</td>
+                    <td>{w.adminEmail}</td>
+                    <td>{w.remarks}</td>
+                    <td>{new Date(w.createdAt).toLocaleString()}</td>
+                    <td>{w.status}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-      </div>
-      {/* === Pagination Controls === */}
-      {/* === Pagination Controls === */}
+
+      {/* === Pagination === */}
       <div className="pagination">
         <button onClick={handlePrevPage} disabled={!hasPrevPage || loading}>
           {loading && hasPrevPage ? "Loading..." : "Previous"}
         </button>
-
         <span>
           Page {currentPage} of {totalPages}
         </span>
-
         <button onClick={handleNextPage} disabled={!hasNextPage || loading}>
           {loading && hasNextPage ? "Loading..." : "Next"}
         </button>

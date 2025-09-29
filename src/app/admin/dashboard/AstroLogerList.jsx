@@ -2,7 +2,10 @@
 import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { FaEdit, FaSearch } from "react-icons/fa";
+import { MdDelete, MdPreview } from "react-icons/md";
 import secureLocalStorage from "react-secure-storage";
+import AstroDetail from "./AstroDetail";
 
 function AstroLogerList() {
   const [pendingData, setPendingData] = useState([]);
@@ -11,6 +14,8 @@ function AstroLogerList() {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [addActiveClass, setAddActiveClass] = useState(false);
+  const [astroMobileNumber, setAstroMobileNumber] = useState();
 
   const fetchAstrologers = async (pageNumber) => {
     setLoading(true);
@@ -51,27 +56,54 @@ function AstroLogerList() {
     }
   };
 
+  useEffect(() => {
+    if (addActiveClass) {
+      document.body.classList.add("astro-detail-admin-popup");
+    } else {
+      document.body.classList.remove("astro-detail-admin-popup");
+    }
+  }, [addActiveClass]);
+  
   return (
     <>
+      <AstroDetail astroMobileNumber={astroMobileNumber} setAddActiveClass={setAddActiveClass}/>
       {loading ? (
         <Loader />
       ) : (
         <div className="outer-table">
+          <div className="search-box-top-btn">
+            <div className="search-box-filed">
+              <input
+                type="search"
+                id="astrologer-search"
+                name="astrologer-search"
+                placeholder="Search name or mobile..."
+                aria-label="Search wallet transactions"
+              />
+            </div>
+            <div className="search-button-filed">
+              <button type="button">
+                <FaSearch />
+              </button>
+            </div>
+          </div>
           <table border="1" cellPadding="8" style={{ marginBottom: "20px" }}>
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Name</th>
-                <th>Phone Number</th>
+                <th>Mobile Number</th>
+                <th>Date Registration</th>
+                <th>Rate per minute</th>
                 <th>Status</th>
               </tr>
             </thead>
             <tbody>
               {pendingData?.map((item) => (
                 <tr key={item._id}>
-                  <td>{item._id}</td>
                   <td>{item.name}</td>
                   <td>{item.mobileNumber}</td>
+                  <td>{new Date(item.createdAt).toLocaleString()}</td>
+                  <td>{item?.charges || 0} </td>
                   <td>
                     <button
                       onClick={() =>
@@ -82,6 +114,21 @@ function AstroLogerList() {
                       }
                     >
                       {item?.blockUnblockAstro ? "Unblock" : "Block"}
+                    </button>
+                    <button
+                      className="delete-btn"
+                      onClick={() => {
+                        setAddActiveClass(true);
+                        setAstroMobileNumber(item.mobileNumber)
+                      }}
+                    >
+                      <MdPreview />
+                    </button>
+                    <button className="delete-btn">
+                      <FaEdit />
+                    </button>
+                    <button className="delete-btn">
+                      <MdDelete />
                     </button>
                   </td>
                 </tr>

@@ -1,25 +1,29 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "@/app/component/Loader";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaSearch } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
+import { toast } from "react-toastify";
+import useDebounce from "@/app/hook/useDebounce";
 
 const PaymentWithdrawRequest = () => {
+  
   const [withdrawals, setWithdrawals] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const [page, setPage] = useState(1);
   const limit = 3;
 
   const [totalPages, setTotalPages] = useState(1);
 
-  const fetchWithdrawals = async () => {
+  const fetchWithdrawals = async (search = "") => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-all-payment-withdrawal?page=${page}&limit=${limit}`
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-all-payment-withdrawal?page=${page}&limit=${limit}&search=${search}`
       );
-      console.log(res);
 
       setWithdrawals(res.data.data || []);
       setTotalPages(res.data.totalPages || 1);
@@ -30,9 +34,14 @@ const PaymentWithdrawRequest = () => {
     }
   };
 
+
   useEffect(() => {
-    fetchWithdrawals();
-  }, [page]); // refetch when page changes
+    fetchWithdrawals(debouncedSearchTerm);
+  }, [page, debouncedSearchTerm]);
+
+  useEffect(() => {
+    setPage(1); 
+  }, [debouncedSearchTerm]);
 
   const handleStatusChange = async (id, newStatus) => {
     try {
@@ -40,9 +49,12 @@ const PaymentWithdrawRequest = () => {
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/put-payment-withdrawal/${id}`,
         { status: newStatus }
       );
-      fetchWithdrawals(); // refresh current page
+      fetchWithdrawals();
     } catch (err) {
       console.error("Failed to update status:", err);
+      toast.error("Astrologer Email is requeued", {
+        position: "top-right",
+      });
     }
   };
 
@@ -63,6 +75,24 @@ const PaymentWithdrawRequest = () => {
       ) : (
         <>
           <div className="outer-table">
+            <div className="search-box-top-btn">
+              <div className="search-box-filed">
+                <input
+                  type="search"
+                  placeholder="Search name or mobile..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+              <div className="search-button-filed">
+                <button
+                  type="button"
+                  onClick={() => fetchWithdrawals(searchTerm)}
+                >
+                  <FaSearch />
+                </button>
+              </div>
+            </div>
             <table
               border="1"
               cellPadding="10"
@@ -71,13 +101,16 @@ const PaymentWithdrawRequest = () => {
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>UPI</th>
-                  <th>Holder</th>
-                  <th>Bank</th>
-                  <th>Account</th>
-                  <th>IFSC</th>
-                  <th>Status</th>
-                  <th>Requested At</th>
+                  <th>UPI id</th>
+                  <th>Account Number</th>
+                  <th>Bank Name</th>
+                  <th>Total AC Balance</th>
+                  <th>Remarks</th>
+                  <th>Balance Remaining</th>
+                  <th>IFSC code</th>
+                  <th>WithDraw Request Status</th>
+                  <th>Astrologer Email id</th>
+                  <th>Date</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -91,13 +124,14 @@ const PaymentWithdrawRequest = () => {
                     <tr key={w._id}>
                       <td>{w.name}</td>
                       <td>{w.upiId}</td>
-                      <td>{w.holderName}</td>
-                      <td>{w.bankName}</td>
                       <td>{w.accountNumber}</td>
+                      <td>{w.bankName}</td>
+                      <td>{w.totalACBalance}</td>
+                      <td>{w.remarks}</td>
+                      <td>{w.balanceRemaining}</td>
                       <td>{w.ifscCode}</td>
-                      <td style={{ textTransform: "capitalize" }}>
-                        {w.status}
-                      </td>
+                      <td>{w.status}</td>
+                      <td>{w.AstrologerEmail}</td>
                       <td>{new Date(w.createdAt).toLocaleString()}</td>
                       <td>
                         {w.status === "pending" ? (
@@ -107,7 +141,7 @@ const PaymentWithdrawRequest = () => {
                                 handleStatusChange(w._id, "approved")
                               }
                             >
-                             <FaCheck />
+                              <FaCheck />
                             </button>
                             <button
                               onClick={() =>
@@ -118,7 +152,9 @@ const PaymentWithdrawRequest = () => {
                             </button>
                           </div>
                         ) : (
-                          <span style={{ textTransform: "capitalize" }}>{w.status}</span>
+                          <span style={{ textTransform: "capitalize" }}>
+                            {w.status}
+                          </span>
                         )}
                       </td>
                     </tr>

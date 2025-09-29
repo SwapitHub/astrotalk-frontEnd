@@ -74,7 +74,7 @@ const Footer = () => {
                 <div className="email-wrapper">
                   <Link href="mailto:contact@astrotalk.com">
                     <HiOutlineMail />
-                    <span>Email ID:</span>contact@Astrowb.com
+                    <span>Email ID:</span>contact@astrowb.com
                   </Link>
                 </div>
                 {/* <div className="footer-social">
