@@ -146,6 +146,7 @@ const AstrologerProfile = ({
           {
             name: astroUpdateDetail?.name,
             charges: astroUpdateDetail?.charges,
+            completeProfile: true
           }
         );
 
@@ -277,6 +278,7 @@ const AstrologerProfile = ({
           {
             name: response.data.updatedProfile?.name,
             charges: response.data.updatedProfile?.charges,
+            completeProfile: true
           }
         );
 

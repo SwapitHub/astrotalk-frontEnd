@@ -1,47 +1,43 @@
 "use client";
-import { useEffect, useState } from "react";
+import SlideToggle from "@/app/component/SlideToggle";
+import AdminHeader from "@/app/header/AdminHeader";
+import { useGlobalContext } from "@/context/HomeContext";
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import secureLocalStorage from "react-secure-storage";
-import AdminDashBoardData from "./AdminDashBoardData";
-import AdminWallet from "./AdminWallet";
-import AstroLogerList from "./AstroLogerList";
-import AstrologerPendingList from "./AstrologerPendingList";
-import Denomination from "./Denomination";
-import UserList from "./UserList";
-import AddLanguage from "./AddLanguage";
-import AddProfession from "./AddProfession";
-import ChatCommission from "./ChatCommission";
+import { useEffect, useState } from "react";
+import { CiSettings, CiWallet } from "react-icons/ci";
+import { FaBlog, FaShoppingBag } from "react-icons/fa";
+import { GiPayMoney } from "react-icons/gi";
+import { IoIosHome, IoMdLogOut } from "react-icons/io";
 import {
   MdOutlineDashboard,
   MdOutlineKeyboardArrowRight,
-  MdOutlinePreview,
 } from "react-icons/md";
-import SlideToggle from "@/app/component/SlideToggle";
 import { PiUserListDuotone } from "react-icons/pi";
-import { CiSettings, CiWallet } from "react-icons/ci";
-import { TfiGallery } from "react-icons/tfi";
-import { IoIosHome, IoMdLogOut } from "react-icons/io";
-import { TbBrandDenodo } from "react-icons/tb";
-import { FaBlog, FaHeadSideCough, FaShoppingBag } from "react-icons/fa";
-import ChangePassword from "./ChangePassword";
-import { useGlobalContext } from "@/context/HomeContext";
-import AstroMallShops from "./AstroMallShops";
-import AstroMallShopProduct from "./AstroMallShopProduct";
-import GemStoneProductGemJewelry from "./GemStoneProductGemJewelry";
-import AddSpiritualServices from "./AddSpiritualServices";
-import AdminShopWallet from "./AdminShopPujaWallet";
+import secureLocalStorage from "react-secure-storage";
+import AddLanguage from "./AddLanguage";
+import AddProfession from "./AddProfession";
+import AdminDashBoardData from "./AdminDashBoardData";
 import AdminShopProductWallet from "./AdminShopProductWallet";
+import AdminShopWallet from "./AdminShopPujaWallet";
+import AdminWallet from "./AdminWallet";
+import AstroLogerList from "./astrologerData/AstroLogerList";
+import AstrologerPendingList from "./astrologerData/AstrologerPendingList";
+import AstroMallShopProduct from "./astrologerData/AstroMallShopProduct";
+import AstroMallShops from "./astrologerData/AstroMallShops";
+import AddBlogs from "./blogs/AddBlogs";
+import AddBlogsCategory from "./blogs/AddBlogsCategory";
+import AllBlogs from "./blogs/AllBlogs";
+import ChangePassword from "./ChangePassword";
+import ChatCommission from "./ChatCommission";
+import Denomination from "./Denomination";
+import GemStoneProductGemJewelry from "./GemStoneProductGemJewelry";
 import AddFooter from "./home/AddFooter";
 import BannerHome from "./home/BannerHome";
-import SeoMetaData from "./SeoMetaData";
-import Cookies from "js-cookie";
-import AdminHeader from "@/app/header/AdminHeader";
-import SeminarRegistration from "./SeminarRegistration";
 import PaymentWithdrawRequest from "./PaymentWithdrawRequest";
-import { GiPayMoney } from "react-icons/gi";
-import AddBlogsCategory from "./blogs/AddBlogsCategory";
-import AddBlogs from "./blogs/AddBlogs";
-import AllBlogs from "./blogs/AllBlogs";
+import SeminarRegistration from "./SeminarRegistration";
+import SeoMetaData from "./SeoMetaData";
+import UserList from "./UserList";
 
 const AdminHome = () => {
   const router = useRouter();
@@ -72,9 +68,9 @@ const AdminHome = () => {
       document.body.classList.remove(className);
     }
   }, [toggleSlideMobile]);
-const handleToggleSection = (sectionName) => {
-  setOpenFaq(prev => prev === sectionName ? null : sectionName);
-};
+  const handleToggleSection = (sectionName) => {
+    setOpenFaq((prev) => (prev === sectionName ? null : sectionName));
+  };
 
   return (
     <main className="main-content">
@@ -111,8 +107,14 @@ const handleToggleSection = (sectionName) => {
                         <span className="list-text">Dashboard</span>
                       </a>
                     </li>
-                    
-                    <li className={updateButton === "PaymentWithdrawRequest" ? "active" : ""}>
+
+                    <li
+                      className={
+                        updateButton === "PaymentWithdrawRequest"
+                          ? "active"
+                          : ""
+                      }
+                    >
                       <a
                         href="#"
                         onClick={(e) => {
@@ -122,7 +124,9 @@ const handleToggleSection = (sectionName) => {
                         }}
                       >
                         <GiPayMoney />
-                        <span className="list-text">Payment Withdraw Request</span>
+                        <span className="list-text">
+                          Payment Withdraw Request
+                        </span>
                       </a>
                     </li>
                     <li
@@ -137,7 +141,6 @@ const handleToggleSection = (sectionName) => {
                         onClick={(e) => {
                           e.preventDefault();
                           handleToggleSection("AstrologerLists");
-
                         }}
                       >
                         <PiUserListDuotone />
@@ -197,7 +200,6 @@ const handleToggleSection = (sectionName) => {
                         onClick={(e) => {
                           e.preventDefault();
                           handleToggleSection("ChattingWallet");
-
                         }}
                       >
                         <CiWallet />
@@ -270,7 +272,6 @@ const handleToggleSection = (sectionName) => {
                         onClick={(e) => {
                           e.preventDefault();
                           handleToggleSection("ShoppingWallet");
-
                         }}
                       >
                         <CiWallet />
@@ -279,7 +280,7 @@ const handleToggleSection = (sectionName) => {
                           <MdOutlineKeyboardArrowRight />
                         </span>
                       </a>
-                      <SlideToggle isOpen={openFaq=="ShoppingWallet"}>
+                      <SlideToggle isOpen={openFaq == "ShoppingWallet"}>
                         <ul>
                           <li
                             className={
@@ -348,7 +349,6 @@ const handleToggleSection = (sectionName) => {
                         onClick={(e) => {
                           e.preventDefault();
                           handleToggleSection("HomeContent");
-
                         }}
                       >
                         <IoIosHome />
@@ -396,8 +396,6 @@ const handleToggleSection = (sectionName) => {
                       </SlideToggle>
                     </li>
 
-                    
-
                     <li
                       className={
                         updateButton === "language" ||
@@ -406,7 +404,7 @@ const handleToggleSection = (sectionName) => {
                         updateButton === "changePassword" ||
                         updateButton === "Denomination" ||
                         updateButton === "seminar" ||
-                        updateButton === "seoMetaData" 
+                        updateButton === "seoMetaData"
                           ? "active"
                           : ""
                       }
@@ -416,7 +414,6 @@ const handleToggleSection = (sectionName) => {
                         onClick={(e) => {
                           e.preventDefault();
                           handleToggleSection("SiteSettings");
-
                         }}
                       >
                         <CiSettings />
@@ -425,7 +422,7 @@ const handleToggleSection = (sectionName) => {
                           <MdOutlineKeyboardArrowRight />
                         </span>
                       </a>
-                      <SlideToggle isOpen={openFaq=="SiteSettings"}>
+                      <SlideToggle isOpen={openFaq == "SiteSettings"}>
                         <ul>
                           <li
                             className={
@@ -470,7 +467,6 @@ const handleToggleSection = (sectionName) => {
                                 e.preventDefault();
                                 setUpdateButton("Denomination");
                                 setToggleSlideMobile(false);
-                                
                               }}
                             >
                               Denomination Amount
@@ -546,10 +542,12 @@ const handleToggleSection = (sectionName) => {
 
                     <li
                       className={
-                        updateButton === "astroShop" || 
-                        updateButton === "astroShopProduct" || 
-                        updateButton === "astroShopGemJewelry" 
-                         ? "active" : ""}
+                        updateButton === "astroShop" ||
+                        updateButton === "astroShopProduct" ||
+                        updateButton === "astroShopGemJewelry"
+                          ? "active"
+                          : ""
+                      }
                     >
                       <a
                         href="#"
@@ -565,7 +563,7 @@ const handleToggleSection = (sectionName) => {
                           <MdOutlineKeyboardArrowRight />
                         </span>
                       </a>
-                      <SlideToggle isOpen={openFaq=="AstromallShop"}>
+                      <SlideToggle isOpen={openFaq == "AstromallShop"}>
                         <ul>
                           <li
                             className={
@@ -645,12 +643,14 @@ const handleToggleSection = (sectionName) => {
                       </SlideToggle>
                     </li>
 
-                   <li
+                    <li
                       className={
-                        updateButton === "AllBlogs" || 
-                        updateButton === "AddBlogs" || 
-                        updateButton === "AddBlogsCategory" 
-                         ? "active" : ""}
+                        updateButton === "AllBlogs" ||
+                        updateButton === "AddBlogs" ||
+                        updateButton === "AddBlogsCategory"
+                          ? "active"
+                          : ""
+                      }
                     >
                       <a
                         href="#"
@@ -666,7 +666,7 @@ const handleToggleSection = (sectionName) => {
                           <MdOutlineKeyboardArrowRight />
                         </span>
                       </a>
-                      <SlideToggle isOpen={openFaq=="Blogs"}>
+                      <SlideToggle isOpen={openFaq == "Blogs"}>
                         <ul>
                           <li
                             className={
@@ -687,9 +687,7 @@ const handleToggleSection = (sectionName) => {
 
                           <li
                             className={
-                              updateButton === "AddBlogs"
-                                ? "active"
-                                : ""
+                              updateButton === "AddBlogs" ? "active" : ""
                             }
                           >
                             <a
@@ -700,9 +698,7 @@ const handleToggleSection = (sectionName) => {
                                 setToggleSlideMobile(false);
                               }}
                             >
-                              <span className="list-text">
-                                Add Blogs
-                              </span>
+                              <span className="list-text">Add Blogs</span>
                             </a>
                           </li>
 
@@ -726,11 +722,9 @@ const handleToggleSection = (sectionName) => {
                               </span>
                             </a>
                           </li>
-                          
                         </ul>
                       </SlideToggle>
                     </li>
-
 
                     <li className={updateButton === 7 ? "active" : ""}>
                       <a
@@ -762,7 +756,7 @@ const handleToggleSection = (sectionName) => {
                 {updateButton === 1 && (
                   <AdminDashBoardData setUpdateButton={setUpdateButton} />
                 )}
-                
+
                 {updateButton === "PaymentWithdrawRequest" && (
                   <PaymentWithdrawRequest setUpdateButton={setUpdateButton} />
                 )}
@@ -790,7 +784,6 @@ const handleToggleSection = (sectionName) => {
                 {updateButton === "seoMetaData" && <SeoMetaData />}
                 {updateButton === "seminar" && <SeminarRegistration />}
 
-                
                 {["user", "astrologer", "admin"].includes(updateButton) && (
                   <AdminWallet updateButton={updateButton} />
                 )}

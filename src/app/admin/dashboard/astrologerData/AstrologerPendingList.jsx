@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { FaEdit, FaSearch } from "react-icons/fa";
 import { MdDelete, MdPreview } from "react-icons/md";
 import secureLocalStorage from "react-secure-storage";
-import AstroDetail from "./AstroDetail";
+import AstroDetail from "./AstroDetailView";
 
 function AstrologerPendingList() {
   const [pendingData, setPendingData] = useState([]);
@@ -16,7 +16,7 @@ function AstrologerPendingList() {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
   const [loading, setLoading] = useState(false);
- const [addActiveClass, setAddActiveClass] = useState(false);
+  const [addActiveClass, setAddActiveClass] = useState(false);
   const [astroMobileNumber, setAstroMobileNumber] = useState();
   const fetchAstrologers = async (pageNumber) => {
     try {
@@ -79,8 +79,11 @@ function AstrologerPendingList() {
 
   const deleteAstrologer = async (mobile) => {
     try {
-      const result = await axios.delete(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/delete-astrologer-list/${mobile}`
+      const result = await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/put-any-field-astrologer-registration/${mobile}`,
+        {
+          deleteAstroLoger: true,
+        }
       );
 
       if (result.status === 200) {
@@ -99,8 +102,8 @@ function AstrologerPendingList() {
   }, [addActiveClass]);
   return (
     <>
-      <AstroDetail astroMobileNumber={astroMobileNumber} setAddActiveClass={setAddActiveClass}/>
-    
+      {/* <AstroDetail astroMobileNumber={astroMobileNumber} setAddActiveClass={setAddActiveClass}/> */}
+
       {loading ? (
         <Loader />
       ) : (
@@ -134,83 +137,91 @@ function AstrologerPendingList() {
               </tr>
             </thead>
             <tbody>
-              {pendingData.map((item) => (
-                <tr key={item._id}>
-                  <td>{item.name}</td>
-                  <td>{item?.mobileNumber}</td>
-                  <td>{new Date(item.createdAt).toLocaleString()}</td>
-                  <td>{item?.charges || 0 }</td>
-                  <td>
-                    <Link
-                      href={`${
-                        process.env.NEXT_PUBLIC_WEBSITE_URL + item?.aadhaarCard
-                      }`}
-                      target="_blank"
-                    >
-                      <Image
-                        width={100}
-                        height={100}
-                        src={
-                          process.env.NEXT_PUBLIC_WEBSITE_URL +
-                          item?.aadhaarCard
-                        }
-                        alt="user-icon"
-                      />
-                    </Link>
-                  </td>
-                  <td>
-                    <Link
-                      href={`${
-                        process.env.NEXT_PUBLIC_WEBSITE_URL + item?.certificate
-                      }`}
-                      target="_blank"
-                    >
-                      <Image
-                        width={100}
-                        height={100}
-                        src={
-                          process.env.NEXT_PUBLIC_WEBSITE_URL +
-                          item?.certificate
-                        }
-                        alt="user-icon"
-                      />
-                    </Link>
-                  </td>
+              {pendingData.map(
+                (item) =>
+                  item.deleteAstroLoger == false && (
+                    <tr key={item._id}>
+                      <td>{item.name}</td>
+                      <td>{item?.mobileNumber}</td>
+                      <td>{new Date(item.createdAt).toLocaleString()}</td>
+                      <td>{item?.charges || 0}</td>
+                      <td>
+                        <Link
+                          href={`${
+                            process.env.NEXT_PUBLIC_WEBSITE_URL +
+                            item?.aadhaarCard
+                          }`}
+                          target="_blank"
+                        >
+                          <Image
+                            width={100}
+                            height={100}
+                            src={
+                              process.env.NEXT_PUBLIC_WEBSITE_URL +
+                              item?.aadhaarCard
+                            }
+                            alt="user-icon"
+                          />
+                        </Link>
+                      </td>
+                      <td>
+                        <Link
+                          href={`${
+                            process.env.NEXT_PUBLIC_WEBSITE_URL +
+                            item?.certificate
+                          }`}
+                          target="_blank"
+                        >
+                          <Image
+                            width={100}
+                            height={100}
+                            src={
+                              process.env.NEXT_PUBLIC_WEBSITE_URL +
+                              item?.certificate
+                            }
+                            alt="user-icon"
+                          />
+                        </Link>
+                      </td>
 
-                  <td>
-                    <button
-                      onClick={() =>
-                        updateAstrologerStatus(
-                          item._id,
-                          true,
-                          item.name,
-                          item.mobileNumber,
-                          item.email
-                        )
-                      }
-                    >
-                      {item.astroStatus ? "Active" : "Confirm"}
-                    </button>
-                    <button className="delete-btn"   onClick={() => {
-                        setAddActiveClass(true);
-                        setAstroMobileNumber(item.mobileNumber)
-                      }}>
-                      <MdPreview />
-                    </button>
-                    <button className="delete-btn">
-                      <FaEdit />
-                    </button>
-                    <button
-                      className="delete-btn"
-                      onClick={() => {
-                        deleteAstrologer(item.mobileNumber);
-                      }}
-                    >
-                      <MdDelete />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                      <td>
+                        <button
+                          onClick={() =>
+                            updateAstrologerStatus(
+                              item._id,
+                              true,
+                              item.name,
+                              item.mobileNumber,
+                              item.email
+                            )
+                          }
+                        >
+                          {item.astroStatus ? "Active" : "Confirm"}
+                        </button>
+                        <button
+                          className="delete-btn"
+                          onClick={() => {
+                            setAddActiveClass(true);
+                            setAstroMobileNumber(item.mobileNumber);
+                          }}
+                        >
+                          <MdPreview />
+                        </button>
+                        <button className="delete-btn">
+                          <FaEdit />
+                        </button>
+                        <button
+                          className="delete-btn"
+                          onClick={() => {
+                            deleteAstrologer(item.mobileNumber);
+                          }}
+                        >
+                          <MdDelete />
+                        </button>
+                      </td>
+                    </tr>
+                  )
+              )}
             </tbody>
           </table>
         </div>
