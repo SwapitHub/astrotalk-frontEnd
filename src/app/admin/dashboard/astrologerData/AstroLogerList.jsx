@@ -11,7 +11,7 @@ import useDebounce from "@/app/hook/useDebounce";
 
 function AstroLogerList() {
   const [searchQuery, setSearchQuery] = useState("");
-  const debouncedSearch = useDebounce(searchQuery, 500);
+  const debouncedSearch = useDebounce(searchQuery, 1000);
 
   const [pendingData, setPendingData] = useState([]);
   const [page, setPage] = useState(1);

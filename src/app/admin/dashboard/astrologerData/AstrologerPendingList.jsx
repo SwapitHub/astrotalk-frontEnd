@@ -8,8 +8,12 @@ import { FaEdit, FaSearch } from "react-icons/fa";
 import { MdDelete, MdPreview } from "react-icons/md";
 import secureLocalStorage from "react-secure-storage";
 import AstroDetail from "./AstroDetailView";
+import AstroDetailEdit from "./AstroDetailEdit";
+import useDebounce from "@/app/hook/useDebounce";
 
 function AstrologerPendingList() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const debouncedSearch = useDebounce(searchQuery, 1000);
   const [pendingData, setPendingData] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -18,24 +22,30 @@ function AstrologerPendingList() {
   const [loading, setLoading] = useState(false);
   const [addActiveClass, setAddActiveClass] = useState(false);
   const [astroMobileNumber, setAstroMobileNumber] = useState();
-  const fetchAstrologers = async (pageNumber) => {
+  const [addActiveClassEdit, setAddActiveClassEdit] = useState(false);
+  const [checkCompleteProfile, setCheckCompleteProfile] = useState();
+
+  const fetchAstrologers = async (pageNumber = 1, search = "") => {
+    setLoading(true);
     try {
-      setLoading(true);
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-list?astroStatus=false&page=${pageNumber}&limit=5`
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-list`,
+        {
+          params: {
+            astroStatus: false,
+            page: pageNumber,
+            limit: 5,
+            search: search,
+          },
+        }
       );
-      console.log(res.data.totalAstrologers);
 
       setPendingData(res.data.astrologers);
-
+      secureLocalStorage.setItem("totalAstroActive", res.data.totalAstrologers);
       setPage(res.data.page);
       setTotalPages(res.data.totalPages);
       setHasNextPage(res.data.hasNextPage);
       setHasPrevPage(res.data.hasPrevPage);
-      secureLocalStorage.setItem(
-        "totalAstroPending",
-        res.data.totalAstrologers
-      );
     } catch (err) {
       console.log("Fetch astrologers error:", err);
     } finally {
@@ -44,8 +54,8 @@ function AstrologerPendingList() {
   };
 
   useEffect(() => {
-    fetchAstrologers(page);
-  }, [page]);
+    fetchAstrologers(page, debouncedSearch);
+  }, [page, debouncedSearch]);
 
   const updateAstrologerStatus = async (id, newStatus, name, mobile, email) => {
     try {
@@ -93,6 +103,7 @@ function AstrologerPendingList() {
       console.log("API error", err.response || err.message);
     }
   };
+
   useEffect(() => {
     if (addActiveClass) {
       document.body.classList.add("astro-detail-admin-popup");
@@ -100,9 +111,29 @@ function AstrologerPendingList() {
       document.body.classList.remove("astro-detail-admin-popup");
     }
   }, [addActiveClass]);
+
+  useEffect(() => {
+    if (addActiveClassEdit) {
+      document.body.classList.add("astro-detail-admin-edit-popup");
+    } else {
+      document.body.classList.remove("astro-detail-admin-edit-popup");
+    }
+  }, [addActiveClassEdit]);
+  
   return (
     <>
-      {/* <AstroDetail astroMobileNumber={astroMobileNumber} setAddActiveClass={setAddActiveClass}/> */}
+      <AstroDetailEdit
+        astroMobileNumber={astroMobileNumber}
+        setAddActiveClassEdit={setAddActiveClassEdit}
+        setLoading={setLoading}
+        checkCompleteProfile={checkCompleteProfile}
+      />
+      <AstroDetail
+        astroMobileNumber={astroMobileNumber}
+        setAddActiveClass={setAddActiveClass}
+        setLoading={setLoading}
+        checkCompleteProfile={checkCompleteProfile}
+      />
 
       {loading ? (
         <Loader />
@@ -116,6 +147,11 @@ function AstrologerPendingList() {
                 name="astrologer-search"
                 placeholder="Search name or mobile..."
                 aria-label="Search wallet transactions"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setPage(1); // reset to first page on new search
+                }}
               />
             </div>
             <div className="search-button-filed">
@@ -203,11 +239,19 @@ function AstrologerPendingList() {
                           onClick={() => {
                             setAddActiveClass(true);
                             setAstroMobileNumber(item.mobileNumber);
+                            setCheckCompleteProfile(item?.completeProfile);
                           }}
                         >
                           <MdPreview />
                         </button>
-                        <button className="delete-btn">
+                        <button
+                          className="delete-btn"
+                          onClick={() => {
+                            setAddActiveClassEdit(true);
+                            setAstroMobileNumber(item.mobileNumber);
+                            setCheckCompleteProfile(item?.completeProfile);
+                          }}
+                        >
                           <FaEdit />
                         </button>
                         <button

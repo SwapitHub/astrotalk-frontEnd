@@ -1,9 +1,11 @@
 import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete, MdPreview } from "react-icons/md";
 import secureLocalStorage from "react-secure-storage";
 
-const UserList = ({setUserListData}) => {
+const UserList = ({ setUserListData }) => {
   const [userMainData, setUserMainData] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -11,14 +13,13 @@ const UserList = ({setUserListData}) => {
   const [hasPrevPage, setHasPrevPage] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  
   const fetchUsers = async (pageNumber) => {
     setLoading(true);
     try {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login?page=${pageNumber}&limit=5`
-      );  
-     secureLocalStorage.setItem("totalUsersList",res.data.totalUsers)
+      );
+      secureLocalStorage.setItem("totalUsersList", res.data.totalUsers);
       setUserMainData(res.data.users);
       setPage(res.data.page);
       setTotalPages(res.data.totalPages);
@@ -44,21 +45,33 @@ const UserList = ({setUserListData}) => {
           <table border="1">
             <thead>
               <tr>
-                <th>ID</th>
+                {/* <th>ID</th> */}
                 <th>Name</th>
                 <th>Mobile Number</th>
                 <th>Gender</th>
                 <th>Date Of Birth</th>
+                <th>status</th>
               </tr>
             </thead>
             <tbody>
               {userMainData.map((item) => (
                 <tr key={item._id}>
-                  <td>{item._id}</td>
+                  {/* <td>{item._id}</td> */}
                   <td>{item.name}</td>
                   <td>{item?.phone}</td>
                   <td>{item.gender}</td>
                   <td>{item.dateOfBirth}</td>
+                  <td>
+                    <button className="delete-btn">
+                      <MdPreview />
+                    </button>
+                    <button className="delete-btn">
+                      <FaEdit />
+                    </button>
+                    <button className="delete-btn">
+                      <MdDelete />
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

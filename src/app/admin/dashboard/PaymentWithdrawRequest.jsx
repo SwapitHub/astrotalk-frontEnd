@@ -11,7 +11,7 @@ const PaymentWithdrawRequest = () => {
   const [withdrawals, setWithdrawals] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
   const [page, setPage] = useState(1);
   const limit = 3;
