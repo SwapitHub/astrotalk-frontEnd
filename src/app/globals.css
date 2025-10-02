@@ -1182,12 +1182,12 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
 .head-search-outer h2, .head-search-outer h1 {font-size: 36px;}
 .head-search-outer .search-box-top-btn {margin: 0px !important;}
 .posts-listing > p {text-align: center; max-width: 100% !important; background-color: transparent !important;}
-.astro-detail-main, .astrologer-profile-edit-table {position: absolute; width: calc(100% - 54px); height: 100%; background-color: var(--body_bg); opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 9; padding: 70px 0px 0px;}
-.astro-detail-admin-popup .astro-detail-main, .astro-detail-admin-edit-popup .astrologer-profile-edit-table {opacity: 1; visibility: visible;}
+.astro-detail-main, .astrologer-profile-edit-table, .astro-detail-main-view {position: absolute; width: calc(100% - 54px); height: 100%; background-color: var(--body_bg); opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 9; padding: 70px 0px 0px;}
+.astro-detail-admin-popup .astro-detail-main, .astro-detail-admin-edit-popup .astrologer-profile-edit-table, .wallet-view-popup .astro-detail-main-view {opacity: 1; visibility: visible;}
 .img-data-outer {display: flex; align-items: center; gap: 50px;}
 .data-astrologer p {font-weight: normal;}
 .data-astrologer p strong {font-weight: 700;}
-.astro-detail-main .close, .astrologer-profile-edit-table .close {opacity: 1; font-size: 0; right: 0px;}
+.astro-detail-main .close, .astrologer-profile-edit-table .close, .astro-detail-main-view .close {opacity: 1; font-size: 0; right: 0px;}
 /* ================== @ media css start here ================== */
 @media (max-width: 1600px) {
   .outer-home-dashboard ul {grid-template-columns: repeat(3, 1fr);}

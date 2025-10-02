@@ -62,6 +62,7 @@ const UserList = ({ setUserListData }) => {
                   <td>{item.gender}</td>
                   <td>{item.dateOfBirth}</td>
                   <td>
+                    <button>Block</button>
                     <button className="delete-btn">
                       <MdPreview />
                     </button>
