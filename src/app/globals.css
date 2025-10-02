@@ -1187,6 +1187,7 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
 .img-data-outer {display: flex; align-items: center; gap: 50px;}
 .data-astrologer p {font-weight: normal;}
 .data-astrologer p strong {font-weight: 700;}
+
 .astro-detail-main .close, .astrologer-profile-edit-table .close, .astro-detail-main-view .close {opacity: 1; font-size: 0; right: 0px;}
 /* ================== @ media css start here ================== */
 @media (max-width: 1600px) {
