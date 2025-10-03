@@ -8,6 +8,7 @@ const AstroDetailEdit = ({
   setAddActiveClassEdit,
   setLoading,
   checkCompleteProfile,
+  fetchAstrologers,
 }) => {
   const [astroUpdateDetail, setAstroUpdateDetail] = useState({});
   const [professionsList, setProfessionsList] = useState([]);
@@ -159,7 +160,8 @@ const AstroDetailEdit = ({
       );
       if (res.data.message === "success") {
         toast.success("Profile updated successfully");
-        window.location.reload();
+        fetchAstrologers();
+        setAddActiveClassEdit(false);
       }
     } catch (err) {
       console.error("Update failed:", err);
@@ -168,51 +170,52 @@ const AstroDetailEdit = ({
     }
   };
 
-const handleRegelationUpdate = async () => {
-  const formData = new FormData();
+  const handleRegelationUpdate = async () => {
+    const formData = new FormData();
 
-  // Text Fields
-  formData.append("name", astroRegelationFormData.name || "");
-  formData.append("email", astroRegelationFormData.email || "");
-  formData.append("gender", astroRegelationFormData.gender || "");
-  formData.append("deviceUse", astroRegelationFormData.deviceUse || "");
-  formData.append("dateOfBirth", astroRegelationFormData.dateOfBirth || "");
+    // Text Fields
+    formData.append("name", astroRegelationFormData.name || "");
+    formData.append("email", astroRegelationFormData.email || "");
+    formData.append("gender", astroRegelationFormData.gender || "");
+    formData.append("deviceUse", astroRegelationFormData.deviceUse || "");
+    formData.append("dateOfBirth", astroRegelationFormData.dateOfBirth || "");
 
-  // Languages as array
-  astroRegelationFormData.languages.forEach(lang => {
-    formData.append("languages[]", lang);
-  });
+    // Languages as array
+    astroRegelationFormData.languages.forEach((lang) => {
+      formData.append("languages[]", lang);
+    });
 
-  // File uploads
-  if (aadhaarFile) {
-    formData.append("aadhaarCard", aadhaarFile, aadhaarFile.name);
-  }
-  if (certificateFile) {
-    formData.append("certificate", certificateFile, certificateFile.name);
-  }
-
-  // Debugging - print all fields
-  for (let [key, value] of formData.entries()) {
-    console.log(key, value);
-  }
-console.log(formData,"formData");
-
-  try {
-    const res = await axios.put(
-      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/put-any-field-astrologer-registration/${astroMobileNumber}`,
-      formData,
-      { headers: { "Content-Type": "multipart/form-data" } }
-    );
-
-    if (res.data.message === "success") {
-      toast.success("Regulation profile updated");
-      astrologerRegelationDetail(astroMobileNumber);
+    // File uploads
+    if (aadhaarFile) {
+      formData.append("aadhaarCard", aadhaarFile, aadhaarFile.name);
     }
-  } catch (err) {
-    console.error("Regulation update failed:", err);
-  }
-};
+    if (certificateFile) {
+      formData.append("certificate", certificateFile, certificateFile.name);
+    }
 
+    // Debugging - print all fields
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+    console.log(formData, "formData");
+
+    try {
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/put-any-field-astrologer-registration/${astroMobileNumber}`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      if (res.data.message === "success") {
+        toast.success("Regulation profile updated");
+        astrologerRegelationDetail(astroMobileNumber);
+        fetchAstrologers();
+        setAddActiveClassEdit(false);
+      }
+    } catch (err) {
+      console.error("Regulation update failed:", err);
+    }
+  };
 
   return (
     <div className="astrologer-profile-edit-table">
@@ -220,294 +223,316 @@ console.log(formData,"formData");
         X
       </span>
       <h2>Astrologer Profile (Editable)</h2>
-      <div className="outer-table">
-        {checkCompleteProfile ? (
-          <table className="profile-table" border="1" cellPadding="10">
-            <thead>
-              <tr>
-                <th>Upload Image</th>
-                <th>Name</th>
-                <th>Experience</th>
-                <th>Charges</th>
-                <th>Gender</th>
-                <th>Country</th>
-                <th>Languages</th>
-                <th>Professions</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  {astroUpdateDetail?.profileImage ? (
-                    <Image
-                      width={100}
-                      height={100}
-                      src={
-                        process.env.NEXT_PUBLIC_WEBSITE_URL +
-                        astroUpdateDetail?.profileImage
-                      }
-                      alt="user-icon"
-                    />
-                  ) : (
-                    <img src="./user-icon-image.png" />
-                  )}
-                  <input type="file" id="image" name="image" />
-                </td>
-                <td>
-                  <input
+
+      {checkCompleteProfile ? (
+        <div className="profile-table">
+          <div className="inner-profile-table">
+            <div className="common-profile">
+              <div className="common-img">Upload Image</div>
+              <div className="input-outer">
+                {astroUpdateDetail?.profileImage ? (
+                  <Image
+                    width={100}
+                    height={100}
+                    src={
+                      process.env.NEXT_PUBLIC_WEBSITE_URL +
+                      astroUpdateDetail?.profileImage
+                    }
+                    alt="user-icon"
+                  />
+                ) : (
+                  <img src="./user-icon-image.png" />
+                )}
+                <input type="file" id="image" name="image" />
+              </div>
+            </div>
+            <div className="common-profile">
+              <div className="name">Name</div>
+              <div className="input-outer">
+                <input
                   className="common-input-filed"
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+            <div className="common-profile">
+              <div className="Experience">Experience</div>
+              <div className="input-outer">
+                <input
+                  className="common-input-filed"
+                  type="text"
+                  name="experience"
+                  value={formData.experience}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+            <div className="common-profile">
+              <div className="Charges">Charges</div>
+
+              <div className="input-outer">
+                <input
+                  className="common-input-filed"
+                  type="text"
+                  name="charges"
+                  value={formData.charges}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <div className="common-profile">
+              <div className="gender">Gender</div>
+
+              <div className="man-input-filed-sec input-outer">
+                {["Male", "Female", "Other"].map((g) => (
+                  <label key={g}>
+                    <input
+                      type="radio"
+                      name="gender"
+                      value={g}
+                      checked={formData.gender === g}
+                      onChange={handleChange}
+                    />
+                    <label>{g}</label>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="common-profile">
+              <div className="country">Country</div>
+
+              <div className="man-input-filed-sec input-outer">
+                {["India", "Outside_India"].map((c) => (
+                  <label key={c}>
+                    <input
+                      type="radio"
+                      name="country"
+                      value={c}
+                      checked={formData.country === c}
+                      onChange={handleChange}
+                    />
+                    <label>{c === "India" ? "India" : "Outside India"}</label>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="common-profile">
+              <div className="language">Languages</div>
+
+              <div className="man-input-filed-sec input-outer">
+                {languageListData.map((lang) => (
+                  <label key={lang._id}>
+                    <input
+                      type="checkbox"
+                      name="languages"
+                      value={lang.languages}
+                      checked={formData.languages.includes(lang.languages)}
+                      onChange={(e) => handleCheckboxChange(e, "languages")}
+                    />
+                    <span>
+                      {lang.languages}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="common-profile">
+              <div className="profession">Professions</div>
+              <div className="input-outer man-input-filed-sec">
+                {professionsList.map((prof) => (
+                  <label key={prof._id}>
+                    <input
+                      type="checkbox"
+                      name="professions"
+                      value={prof.professions}
+                      checked={formData.professions.includes(prof.professions)}
+                      onChange={(e) => handleCheckboxChange(e, "professions")}
+                    />
+                    <span>
+
+                    {prof.professions}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="common-profile">
+              <div className="description">Description</div>
+              <div className="input-outer">
+                <textarea
+                  className="common-input-filed"
+                  name="description"
+                  rows="4"
+                  cols="30"
+                  value={formData.description}
+                  onChange={handleChange}
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <>
+          <h2>
+            {!astroRegelationDetail?.completeProfile &&
+              "Astrologer Profile is not completed"}
+          </h2>
+          <div className="profile-table">
+            <div className="inner-profile-table">
+              <div className="common-profile">
+                <div className="name">Name</div>
+                <div className="input-outer">
+                  <input
+                    className="common-input-filed"
                     type="text"
                     name="name"
-                    value={formData.name}
-                    onChange={handleChange}
+                    value={astroRegelationFormData.name}
+                    onChange={handleRegelationInputChange}
                   />
-                </td>
-                <td>
+                </div>
+              </div>
+              <div className="common-profile">
+                <div className="email">Email</div>
+                <div className="input-outer">
                   <input
-                  className="common-input-filed"
-
-                    type="text"
-                    name="experience"
-                    value={formData.experience}
-                    onChange={handleChange}
+                    className="common-input-filed"
+                    type="email"
+                    name="email"
+                    value={astroRegelationFormData.email}
+                    onChange={handleRegelationInputChange}
                   />
-                </td>
-                <td>
+                </div>
+              </div>
+              <div className="common-profile">
+                <div className="device-use">DeviceUse</div>
+                <div className="input-outer">
                   <input
-                  className="common-input-filed"
-
+                    className="common-input-filed"
                     type="text"
-                    name="charges"
-                    value={formData.charges}
-                    onChange={handleChange}
+                    name="deviceUse"
+                    value={astroRegelationFormData.deviceUse}
+                    onChange={handleRegelationInputChange}
                   />
-                </td>
-                <td>
-                  <div className="man-input-filed-sec">
+                </div>
+              </div>
+              <div className="common-profile">
+                <div className="mobile">MobileNumber</div>
+                <div className="input-outer">
+                  {astroRegelationDetail?.mobileNumber}
+                </div>
+              </div>
+              <div className="common-profile">
+                <div className="gender">Gender</div>
+
+                <div className="man-input-filed-sec input-outer">
                   {["Male", "Female", "Other"].map((g) => (
                     <label key={g}>
                       <input
                         type="radio"
                         name="gender"
                         value={g}
-                        checked={formData.gender === g}
-                        onChange={handleChange}
+                        checked={astroRegelationFormData.gender === g}
+                        onChange={handleRegelationInputChange}
                       />
                       <label>{g}</label>
                     </label>
                   ))}
-                  </div>
-                </td>
-                <td>
-                  <div className="man-input-filed-sec">
-                  {["India", "Outside_India"].map((c) => (
-                    <label key={c}>
-                      <input
-                        type="radio"
-                        name="country"
-                        value={c}
-                        checked={formData.country === c}
-                        onChange={handleChange}
-                      />
-                      <label>{c === "India" ? "India" : "Outside India"}</label>
-                    </label>
-                  ))}
-                  </div>
-                </td>
-                <td>
+                </div>
+              </div>
+              <div className="common-profile">
+                <div className="language">Language</div>
+                <div className="man-input-filed-sec input-outer">
                   {languageListData.map((lang) => (
                     <label key={lang._id}>
                       <input
                         type="checkbox"
                         name="languages"
                         value={lang.languages}
-                        checked={formData.languages.includes(lang.languages)}
-                        onChange={(e) => handleCheckboxChange(e, "languages")}
-                      />
-                      {lang.languages}
-                    </label>
-                  ))}
-                </td>
-                <td>
-                  {professionsList.map((prof) => (
-                    <label key={prof._id}>
-                      <input
-                        type="checkbox"
-                        name="professions"
-                        value={prof.professions}
-                        checked={formData.professions.includes(
-                          prof.professions
+                        checked={astroRegelationFormData.languages.includes(
+                          lang.languages
                         )}
-                        onChange={(e) => handleCheckboxChange(e, "professions")}
+                        onChange={handleRegelationCheckboxChange}
                       />
-                      {prof.professions}
+                      <span>{lang.languages}</span>
                     </label>
                   ))}
-                </td>
-                <td>
-                  <textarea
-                    name="description"
-                    rows="4"
-                    cols="30"
-                    value={formData.description}
-                    onChange={handleChange}
-                  ></textarea>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        ) : (
-          <>
-            <h2>
-              {!astroRegelationDetail?.completeProfile &&
-                "Astrologer Profile is not completed"}
-            </h2>
-            <table border="1" cellPadding="8" style={{ marginBottom: "20px" }}>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>DeviceUse</th>
-                  <th>MobileNumber</th>
-                  <th>Gender</th>
-                  <th>Language</th>
-                  <th>DateOfBirth</th>
-                  <th>AadhaarCard</th>
-                  <th>Certificate</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <input
-                  className="common-input-filed"
-
-                      type="text"
-                      name="name"
-                      value={astroRegelationFormData.name}
-                      onChange={handleRegelationInputChange}
-                    />
-                  </td>
-                  <td>
-                    <input
-                  className="common-input-filed"
-
-                      type="email"
-                      name="email"
-                      value={astroRegelationFormData.email}
-                      onChange={handleRegelationInputChange}
-                    />
-                  </td>
-                  <td>
-                    <input
-                  className="common-input-filed"
-
-                      type="text"
-                      name="deviceUse"
-                      value={astroRegelationFormData.deviceUse}
-                      onChange={handleRegelationInputChange}
-                    />
-                  </td>
-                  <td>{astroRegelationDetail?.mobileNumber}</td>
-                  <td>
-                    <div className="man-input-filed-sec">
-                    {["Male", "Female", "Other"].map((g) => (
-                      <label key={g}>
-                        <input
-                          type="radio"
-                          name="gender"
-                          value={g}
-                          checked={astroRegelationFormData.gender === g}
-                          onChange={handleRegelationInputChange}
-                        />
-                        <label>
-
-                        {g}
-                        </label>
-                      </label>
-                    ))}
-                    </div>
-                  </td>
-                  <td>
-                    <div className="man-input-filed-sec">
-                    {languageListData.map((lang) => (
-                      <label key={lang._id}>
-                        <input
-                          type="checkbox"
-                          name="languages"
-                          value={lang.languages}
-                          checked={astroRegelationFormData.languages.includes(
-                            lang.languages
-                          )}
-                          onChange={handleRegelationCheckboxChange}
-                        />
-                        <span>{lang.languages}</span>
-                      </label>
-                    ))}
-                    </div>
-                  </td>
-                  <td>
-                    <input
+                </div>
+              </div>
+              <div className="common-profile">
+                <div className="date-of-birth">DateOfBirth</div>
+                <div className="input-outer">
+                  <input
                     className="common-input-filed"
-                      type="date"
-                      name="dateOfBirth"
-                      value={astroRegelationFormData.dateOfBirth}
-                      onChange={handleRegelationInputChange}
+                    type="date"
+                    name="dateOfBirth"
+                    value={astroRegelationFormData.dateOfBirth}
+                    onChange={handleRegelationInputChange}
+                  />
+                </div>
+              </div>
+              <div className="common-profile">
+                <div className="adhar-card">AadhaarCard</div>
+                <div className="input-outer">
+                  {astroRegelationDetail?.aadhaarCard ? (
+                    <Image
+                      width={100}
+                      height={100}
+                      src={
+                        process.env.NEXT_PUBLIC_WEBSITE_URL +
+                        astroRegelationDetail?.aadhaarCard
+                      }
+                      alt="aadhaar"
                     />
-                  </td>
-                  <td>
-                    {astroRegelationDetail?.aadhaarCard ? (
-                      <Image
-                        width={100}
-                        height={100}
-                        src={
-                          process.env.NEXT_PUBLIC_WEBSITE_URL +
-                          astroRegelationDetail?.aadhaarCard
-                        }
-                        alt="aadhaar"
-                      />
-                    ) : (
-                      <img src="./user-icon-image.png" />
-                    )}
-                    <input
-                      type="file"
-                      id="aadhaar"
-                      name="aadhaar"
-                      onChange={(e) => setAadhaarFile(e.target.files[0])}
+                  ) : (
+                    <img src="./user-icon-image.png" />
+                  )}
+                  <input
+                    type="file"
+                    id="aadhaar"
+                    name="aadhaar"
+                    onChange={(e) => setAadhaarFile(e.target.files[0])}
+                  />
+                </div>
+              </div>
+              <div className="common-profile">
+                <div className="certificate">Certificate</div>
+                <div className="input-outer">
+                  {astroRegelationDetail?.certificate ? (
+                    <Image
+                      width={100}
+                      height={100}
+                      src={
+                        process.env.NEXT_PUBLIC_WEBSITE_URL +
+                        astroRegelationDetail?.certificate
+                      }
+                      alt="certificate"
                     />
-                  </td>
+                  ) : (
+                    <img src="./user-icon-image.png" />
+                  )}
+                  <input
+                    type="file"
+                    id="certificate"
+                    name="certificate"
+                    onChange={(e) => setCertificateFile(e.target.files[0])}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <button onClick={handleRegelationUpdate}>
+            Update Regulation Profile
+          </button>
+        </>
+      )}
 
-                  <td>
-                    {astroRegelationDetail?.certificate ? (
-                      <Image
-                        width={100}
-                        height={100}
-                        src={
-                          process.env.NEXT_PUBLIC_WEBSITE_URL +
-                          astroRegelationDetail?.certificate
-                        }
-                        alt="certificate"
-                      />
-                    ) : (
-                      <img src="./user-icon-image.png" />
-                    )}
-                    <input
-                      type="file"
-                      id="certificate"
-                      name="certificate"
-                      onChange={(e) => setCertificateFile(e.target.files[0])}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <button onClick={handleRegelationUpdate}>
-              Update Regulation Profile
-            </button>
-          </>
-        )}
-      </div>
       {checkCompleteProfile && (
         <button onClick={handleUpdate}>Update Business Profile</button>
       )}

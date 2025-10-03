@@ -4,8 +4,9 @@ import axios from "axios";
 import React, { useEffect, useState, useCallback } from "react";
 import { FaEdit, FaSearch } from "react-icons/fa";
 import debounce from "lodash.debounce";
-import { MdDelete, MdPreview } from "react-icons/md";
+import { MdDelete, MdOutlineRemoveRedEye } from "react-icons/md";
 import WalletView from "./WalletView";
+import WalletEdit from "./WalletEdit";
 
 function UserAdminWallet() {
   const [walletAdminData, setWalletAdminData] = useState([]);
@@ -15,6 +16,7 @@ function UserAdminWallet() {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [addActiveClass, setAddActiveClass] = useState();
+  const [addActiveClassEdit, setAddActiveClassEdit] = useState(false);
   const [mobileNumber, setMobileNumber] = useState();
 
   // Debounce search input
@@ -81,14 +83,29 @@ function UserAdminWallet() {
     }
   }, [addActiveClass]);
 
+  useEffect(() => {
+    if (addActiveClassEdit) {
+      document.body.classList.add("wallet-edit-popup");
+    } else {
+      document.body.classList.remove("wallet-edit-popup");
+    }
+  }, [addActiveClassEdit]);
+
   return (
     <>
-        <WalletView
+      <WalletEdit
+        userMobile={mobileNumber}
+        setAddActiveClassEdit={setAddActiveClassEdit}
+        fetchTransactions={fetchTransactions}
+        setLoading={setLoading}
+      />
+      <WalletView
         mobileNumber={mobileNumber}
         setAddActiveClass={setAddActiveClass}
         setLoading={setLoading}
       />
-      <div className="admin-wallet-main">      
+      <div className="admin-wallet-main">
+        <h1>User Wallet List</h1>
         <div className="search-box-top-btn">
           <div className="search-box-filed">
             <input
@@ -139,15 +156,14 @@ function UserAdminWallet() {
                               setMobileNumber(user.phone);
                             }}
                           >
-                            <MdPreview />
+                            <MdOutlineRemoveRedEye />
                           </button>
                           <button
                             className="delete-btn"
-                            // onClick={() => {
-                            //   setAddActiveClassEdit(true);
-                            //   setAstroMobileNumber(item.mobileNumber);
-                            //   setCheckCompleteProfile(item?.completeProfile);
-                            // }}
+                            onClick={() => {
+                              setAddActiveClassEdit(true);
+                              setMobileNumber(user.phone);
+                            }}
                           >
                             <FaEdit />
                           </button>

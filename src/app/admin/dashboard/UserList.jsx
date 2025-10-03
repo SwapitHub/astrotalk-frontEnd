@@ -2,7 +2,7 @@ import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
-import { MdDelete, MdPreview } from "react-icons/md";
+import { MdDelete, MdOutlineRemoveRedEye } from "react-icons/md";
 import secureLocalStorage from "react-secure-storage";
 
 const UserList = ({ setUserListData }) => {
@@ -64,7 +64,7 @@ const UserList = ({ setUserListData }) => {
                   <td>
                     <button>Block</button>
                     <button className="delete-btn">
-                      <MdPreview />
+                     <MdOutlineRemoveRedEye />
                     </button>
                     <button className="delete-btn">
                       <FaEdit />

@@ -3,13 +3,16 @@ import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaEdit, FaSearch } from "react-icons/fa";
-import { MdDelete, MdPreview } from "react-icons/md";
+import { MdDelete, MdOutlineRemoveRedEye } from "react-icons/md";
 import secureLocalStorage from "react-secure-storage";
 import AstroDetail from "./AstroDetailView";
 import AstroDetailEdit from "./AstroDetailEdit";
 import useDebounce from "@/app/hook/useDebounce";
+import DeletePopUp from "@/app/component/DeletePopUp";
 
 function AstroLogerList() {
+  let showNameData = "Astrologer";
+
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearch = useDebounce(searchQuery, 1000);
 
@@ -24,6 +27,12 @@ function AstroLogerList() {
 
   const [astroMobileNumber, setAstroMobileNumber] = useState();
   const [checkCompleteProfile, setCheckCompleteProfile] = useState();
+  const [showDelete, setShowDelete] = useState(false);
+  const [deletePermanently, setDeletePermanently] = useState(false);
+  const [astroToDelete, setAstroToDelete] = useState({
+    id: null,
+    mobile: null,
+  });
 
   const fetchAstrologers = async (pageNumber = 1, search = "") => {
     setLoading(true);
@@ -72,22 +81,37 @@ function AstroLogerList() {
       );
     }
   };
-  const deleteAstrologer = async (mobile) => {
+
+  const deleteAstrologer = async () => {
+    if (!astroToDelete.mobile || !astroToDelete.id) return;
+
     try {
+      // Step 1: Delete astrologer
       const result = await axios.put(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/put-any-field-astrologer-registration/${mobile}`,
-        {
-          deleteAstroLoger: true,
-        }
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/put-any-field-astrologer-registration/${astroToDelete.mobile}`,
+        { deleteAstroLoger: true }
       );
 
       if (result.status === 200) {
-        fetchAstrologers();
+        // Step 2: Also block astrologer by ID
+        await updateBlockUnblockAstro(astroToDelete.id, true); // 👈 passing ID and true
+        await fetchAstrologers(page); // refresh list
       }
     } catch (err) {
-      console.log("API error", err.response || err.message);
+      console.error("Delete error:", err.response || err.message);
+    } finally {
+      setShowDelete(false);
+      setDeletePermanently(false);
+      setAstroToDelete({ id: null, mobile: null });
     }
   };
+
+  useEffect(() => {
+    if (deletePermanently && astroToDelete.mobile && astroToDelete.id) {
+      deleteAstrologer();
+    }
+  }, [deletePermanently]);
+
   useEffect(() => {
     if (addActiveClass) {
       document.body.classList.add("astro-detail-admin-popup");
@@ -105,11 +129,19 @@ function AstroLogerList() {
   }, [addActiveClassEdit]);
   return (
     <>
+      {showDelete && (
+        <DeletePopUp
+          setShowDelete={setShowDelete}
+          setDeletePermanently={setDeletePermanently}
+          showNameData={showNameData}
+        />
+      )}
       <AstroDetailEdit
         astroMobileNumber={astroMobileNumber}
         setAddActiveClassEdit={setAddActiveClassEdit}
         setLoading={setLoading}
         checkCompleteProfile={checkCompleteProfile}
+        fetchAstrologers={fetchAstrologers}
       />
       <AstroDetail
         astroMobileNumber={astroMobileNumber}
@@ -121,25 +153,28 @@ function AstroLogerList() {
         <Loader />
       ) : (
         <>
-          <div className="search-box-top-btn">
-            <div className="search-box-filed">
-              <input
-                type="search"
-                id="astrologer-search"
-                name="astrologer-search"
-                placeholder="Search name or mobile..."
-                aria-label="Search wallet transactions"
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setPage(1); // reset to first page on new search
-                }}
-              />
-            </div>
-            <div className="search-button-filed">
-              <button type="button">
-                <FaSearch />
-              </button>
+          <div className="main-pending-list">
+            <h1>Astrologer Active List</h1>
+            <div className="search-box-top-btn">
+              <div className="search-box-filed">
+                <input
+                  type="search"
+                  id="astrologer-search"
+                  name="astrologer-search"
+                  placeholder="Search name or mobile..."
+                  aria-label="Search wallet transactions"
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setPage(1); // reset to first page on new search
+                  }}
+                />
+              </div>
+              <div className="search-button-filed">
+                <button type="button">
+                  <FaSearch />
+                </button>
+              </div>
             </div>
           </div>
           <div className="outer-table">
@@ -181,7 +216,7 @@ function AstroLogerList() {
                               setCheckCompleteProfile(item?.completeProfile);
                             }}
                           >
-                            <MdPreview />
+                            <MdOutlineRemoveRedEye />
                           </button>
                           <button
                             className="delete-btn"
@@ -196,7 +231,11 @@ function AstroLogerList() {
                           <button
                             className="delete-btn"
                             onClick={() => {
-                              deleteAstrologer(item.mobileNumber);
+                              setAstroToDelete({
+                                id: item._id,
+                                mobile: item.mobileNumber,
+                              }); 
+                              setShowDelete(true);
                             }}
                           >
                             <MdDelete />

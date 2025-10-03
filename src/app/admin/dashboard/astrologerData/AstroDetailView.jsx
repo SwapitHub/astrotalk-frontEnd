@@ -1,6 +1,7 @@
 import ShowLessShowMore from "@/app/component/ShowLessShowMore";
 import axios from "axios";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
 
@@ -106,122 +107,163 @@ const AstroDetail = ({
       >
         X
       </span>
-      <div className="outer-table">
-        {checkCompleteProfile ? (
-          <table border="1" cellPadding="8" style={{ marginBottom: "20px" }}>
-            <thead>
-              <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>mobileNumber</th>
-                <th>Experience</th>
-                <th>Charges</th>
-                <th>Total orders</th>
-                <th>Languages</th>
-                <th>Professions</th>
-                <th>Spiritual Services</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  {astroDetailData?.profileImage ? (
-                    <Image
-                      width={100}
-                      height={100}
-                      src={
-                        process.env.NEXT_PUBLIC_WEBSITE_URL +
-                        astroDetailData?.profileImage
-                      }
-                      alt="user-icon"
-                    />
-                  ) : (
-                    <img src="./user-icon-image.png"></img>
-                  )}
-                </td>
-                <td>{astroDetailData?.name}</td>
-                <td>{astroDetailData?.mobileNumber}</td>
-                <td>{astroDetailData?.experience}</td>
-                <td>{astroDetailData?.charges}</td>
-                <td>{astroDetailData?.totalOrders}</td>
-                <td>
-                  <div className="skills">
-                    {astroDetailData?.languages.map((item) => (
-                      <>
-                        <span>{item}</span>
-                      </>
-                    ))}
-                  </div>
-                </td>
-                <td>
-                  {" "}
-                  <div className="skills">
-                    {astroDetailData?.professions.map((item) => (
-                      <span>{item}</span>
-                    ))}
-                  </div>
-                </td>
-                <td>
-                  {astroDetailData?.spiritual_services.map((item) => (
-                    <div className="puja-detail">
-                      <p>
-                        Puja Name: <span>{item?.shop_name}</span>{" "}
-                      </p>
-                      <p>
-                        Service Price: <span>{item?.service_price}</span>{" "}
-                      </p>
-                    </div>
-                  ))}
-                </td>
-                <td>
-                  <ShowLessShowMore
-                    description={astroDetailData?.Description}
-                    totalWord={10}
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        ) : (
-          <>
-            <h2>
-              {!astroRegelationDetail?.completeProfile &&
-                "Astrologer Profile is not completed"}
-            </h2>
 
-            <table border="1" cellPadding="8" style={{ marginBottom: "20px" }}>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>DeviceUse</th>
-                  <th>MobileNumber</th>
-                  <th>Gender</th>
-                  <th>Language</th>
-                  <th>DateOfBirth</th>
-                  <th>AdharaCard</th>
-                  <th>Certificate</th>
-                  <th>Charges</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{astroRegelationDetail?.name}</td>
-                  <td>{astroRegelationDetail?.email}</td>
-                  <td>{astroRegelationDetail?.deviceUse}</td>
-                  <td>{astroRegelationDetail?.mobileNumber}</td>
-                  <td>{astroRegelationDetail?.gender}</td>
-                  <td>
-                    {astroRegelationDetail?.languages.map((item) => (
-                      <>
-                        <span>{item}</span>
-                      </>
-                    ))}
-                  </td>
-                  <td>{astroRegelationDetail?.dateOfBirth}</td>
-                  <td>
-                    {astroRegelationDetail?.aadhaarCard ? (
+      {checkCompleteProfile ? (
+        <div className="profile-table">
+          <div className="inner-profile-table">
+            <div className="common-profile">
+              <div className="img">Image</div>
+              <div className="input-outer">
+                {astroDetailData?.profileImage ? (
+                  <Image
+                    width={100}
+                    height={100}
+                    src={
+                      process.env.NEXT_PUBLIC_WEBSITE_URL +
+                      astroDetailData?.profileImage
+                    }
+                    alt="user-icon"
+                  />
+                ) : (
+                  <img src="./user-icon-image.png"></img>
+                )}
+              </div>
+            </div>
+            <div className="common-profile">
+              <div className="name">Name</div>
+              <div className="input-outer">{astroDetailData?.name}</div>
+            </div>
+            <div className="common-profile">
+              <div className="mobile">mobileNumber</div>
+
+              <div className="input-outer">{astroDetailData?.mobileNumber}</div>
+            </div>
+            <div className="common-profile">
+              <div className="experience">Experience</div>
+
+              <div className="input-outer">{astroDetailData?.experience}</div>
+            </div>
+            <div className="common-profile">
+              <div className="charge">Charges</div>
+
+              <div className="input-outer">{astroDetailData?.charges}</div>
+            </div>
+            <div className="common-profile">
+              <div className="total-order">Total orders</div>
+
+              <div className="input-outer">{astroDetailData?.totalOrders}</div>
+            </div>
+            <div className="common-profile">
+              <div className="language">Languages</div>
+
+              <div className="skills input-outer">
+                {astroDetailData?.languages.map((item) => (
+                  <>
+                    <span>{item}</span>
+                  </>
+                ))}
+              </div>
+            </div>
+            <div className="common-profile">
+              <div className="professions">Professions</div>{" "}
+              <div className="skills input-outer">
+                {astroDetailData?.professions.map((item) => (
+                  <span>{item}</span>
+                ))}
+              </div>
+            </div>
+            <div className="common-profile">
+              <div className="spiritual">Spiritual Services</div>
+
+              <div className="input-outer">
+                {astroDetailData?.spiritual_services.map((item) => (
+                  <div className="puja-detail">
+                    <p>
+                      Puja Name: <span>{item?.shop_name}</span>{" "}
+                    </p>
+                    <p>
+                      Service Price: <span>{item?.service_price}</span>{" "}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="common-profile">
+              <div className="description">Description</div>
+
+              <div className="input-outer">
+                <ShowLessShowMore
+                  description={astroDetailData?.Description}
+                  totalWord={10}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <>
+          <h2>
+            {!astroRegelationDetail?.completeProfile &&
+              "Astrologer Profile is not completed"}
+          </h2>
+
+          <div className="profile-table">
+            <div className="inner-profile-table">
+              <div className="common-profile">
+                <div className="name">Name</div>
+                <div className="input-outer">{astroRegelationDetail?.name}</div>
+              </div>
+              <div className="common-profile">
+                <div className="email">Email</div>
+                <div className="input-outer">
+                  {astroRegelationDetail?.email}
+                </div>
+              </div>
+              <div className="common-profile">
+                <div className="deviceUse">DeviceUse</div>
+                <div className="input-outer">
+                  {astroRegelationDetail?.deviceUse}
+                </div>
+              </div>
+              <div className="common-profile">
+                <div className="mobile">MobileNumber</div>
+                <div className="input-outer">
+                  {astroRegelationDetail?.mobileNumber}
+                </div>
+              </div>
+              <div className="common-profile">
+                <div className="gender">Gender</div>
+                <div className="input-outer">
+                  {astroRegelationDetail?.gender}
+                </div>
+              </div>
+              <div className="common-profile">
+                <div className="language">Language</div>
+                <div className="input-outer">
+                  {astroRegelationDetail?.languages.map((item) => (
+                    <>
+                      <span>{item}</span>
+                    </>
+                  ))}
+                </div>
+              </div>
+              <div className="common-profile">
+                <div className="date-of-birth">DateOfBirth</div>
+                <div className="input-outer">
+                  {astroRegelationDetail?.dateOfBirth}
+                </div>
+              </div>
+              <div className="common-profile">
+                <div className="adharcard">AdharaCard</div>
+                <div className="input-outer">
+                  {astroRegelationDetail?.aadhaarCard ? (
+                    <Link
+                      href={`${
+                        process.env.NEXT_PUBLIC_WEBSITE_URL +
+                        astroRegelationDetail?.aadhaarCard
+                      }`}
+                      target="_blank"
+                    >
                       <Image
                         width={100}
                         height={100}
@@ -231,12 +273,23 @@ const AstroDetail = ({
                         }
                         alt="user-icon"
                       />
-                    ) : (
-                      <img src="./user-icon-image.png"></img>
-                    )}
-                  </td>
-                  <td>
-                    {astroRegelationDetail?.certificate ? (
+                    </Link>
+                  ) : (
+                    <img src="./user-icon-image.png"></img>
+                  )}
+                </div>
+              </div>
+              <div className="common-profile">
+                <div className="certificate">Certificate</div>
+                <div className="input-outer">
+                  {astroRegelationDetail?.certificate ? (
+                    <Link
+                      href={`${
+                        process.env.NEXT_PUBLIC_WEBSITE_URL +
+                        astroRegelationDetail?.certificate
+                      }`}
+                      target="_blank"
+                    >
                       <Image
                         width={100}
                         height={100}
@@ -246,17 +299,20 @@ const AstroDetail = ({
                         }
                         alt="user-icon"
                       />
-                    ) : (
-                      <img src="./user-icon-image.png"></img>
-                    )}
-                  </td>
-                  <td>0</td>
-                </tr>
-              </tbody>
-            </table>
-          </>
-        )}
-      </div>
+                    </Link>
+                  ) : (
+                    <img src="./user-icon-image.png"></img>
+                  )}
+                </div>
+              </div>
+              <div className="common-profile">
+                <div className="charge">Charges</div>
+                <div className="input-outer">0</div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

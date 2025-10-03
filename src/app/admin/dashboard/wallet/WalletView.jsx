@@ -87,36 +87,47 @@ const WalletView = ({
       </h2>
 
       {/* User Table */}
-      <div className="outer-table">
-        <table border="1" cellPadding="8" style={{ marginBottom: "20px" }}>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Mobile Number</th>
-              <th>Available Balance</th>
-              <th>DateOfBirth</th>
-              <th>Gender</th>
-              <th>Language</th>
-              <th>Place Of Born</th>
-              <th>Date and Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{astroDetailData?.name}</td>
-              <td>{astroDetailData?.phone}</td>
-              <td>₹ {astroDetailData?.totalAmount}</td>
-              <td>{astroDetailData?.dateOfBirth}</td>
-              <td>{astroDetailData?.gender}</td>
-              <td>{astroDetailData?.language}</td>
-              <td>{astroDetailData?.placeOfBorn}</td>
-              <td>
-                {astroDetailData?.createdAt &&
-                  new Date(astroDetailData?.createdAt).toLocaleString()}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+
+      <div className="profile-table">
+        <div className="inner-profile-table">
+          <div className="common-profile">
+            <div className="name">Name</div>
+            <div className="input-outer">{astroDetailData?.name}</div>
+          </div>
+          <div className="common-profile">
+            <div className="mobile">Mobile Number</div>
+            <div className="input-outer">{astroDetailData?.phone}</div>
+          </div>
+          <div className="common-profile">
+            <div className="balance">AvaiLable Balance</div>
+            <div className="input-outer">₹ {astroDetailData?.totalAmount}</div>
+          </div>
+          <div className="common-profile">
+            <div className="date-of-birth">DateOfBirth</div>
+            <div className="input-outer">₹ {astroDetailData?.dateOfBirth}</div>
+          </div>
+          <div className="common-profile">
+            <div className="gender">gender</div>
+            <div className="input-outer">₹ {astroDetailData?.gender}</div>
+          </div>
+          <div className="common-profile">
+            <div className="language">language</div>
+            <div className="input-outer">₹ {astroDetailData?.language}</div>
+          </div>
+          <div className="common-profile">
+            <div className="placeOfBorn">place Of Born</div>
+            <div className="input-outer">{astroDetailData?.placeOfBorn}</div>
+          </div>
+          <div className="common-profile">
+            <div className="date-time">Date and Time</div>
+            <div className="input-outer">
+              {" "}
+              {astroDetailData?.createdAt &&
+                new Date(astroDetailData?.createdAt).toLocaleString()}
+            </div>
+          </div>
+         
+        </div>
       </div>
 
       {/* Toggle Transactions */}
@@ -138,7 +149,7 @@ const WalletView = ({
           </h2>
 
           {/* Search Box */}
-          <input
+          {/* <input
             type="search"
             placeholder="Search transaction id / type / status..."
             aria-label="Search wallet transactions"
@@ -147,15 +158,16 @@ const WalletView = ({
               setSearchQuery(e.target.value);
               setPagination((prev) => ({ ...prev, page: 1 })); // reset to page 1 on search
             }}
-          />
+          /> */}
 
           <div className="outer-table">
             <table border="1" cellPadding="8">
               <thead>
                 <tr>
-                  <th>Transaction ID</th>
+                  {/* <th>Transaction ID</th> */}
                   <th>Name</th>
-                  <th>Available Balance</th> <th>Transaction Amount</th>
+                  <th>Available Balance</th>
+                  <th>Transaction Amount</th>
                   <th>Description</th>
                   <th>Date</th>
                 </tr>
@@ -164,7 +176,7 @@ const WalletView = ({
                 <tbody>
                   {transactions.map((tx) => (
                     <tr key={tx._id}>
-                      <td>trnastion id</td>
+                      {/* <td>{tx?._id}</td> */}
                       <td>{tx.name}</td> <td>₹ {tx.availableBalance}</td>{" "}
                       <td>₹ {tx.transactionAmount}</td>{" "}
                       <td>{tx.description}</td>{" "}
