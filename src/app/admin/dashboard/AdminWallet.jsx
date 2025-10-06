@@ -131,7 +131,6 @@ function AdminWallet({ updateButton }) {
           <table border="1">
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Name</th>
                 <th>Available Balance</th>
                 <th>Transaction Amount</th>
@@ -142,7 +141,6 @@ function AdminWallet({ updateButton }) {
             <tbody>
               {walletAdminData?.map((item) => (
                 <tr key={item._id}>
-                  <td>{item._id}</td>
                   <td>{item.name}</td>
                   <td>₹ {Math.round(item.availableBalance)}</td>
                   <td> {item.transactionAmount}</td>

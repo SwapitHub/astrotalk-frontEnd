@@ -39,6 +39,7 @@ import SeminarRegistration from "./SeminarRegistration";
 import SeoMetaData from "./SeoMetaData";
 import UserList from "./UserList";
 import UserAdminWallet from "./wallet/UserAdminWallet";
+import AstrologerAdminWallet from "./wallet/AstrologerAdminWallet";
 
 const AdminHome = () => {
   const router = useRouter();
@@ -785,9 +786,10 @@ const AdminHome = () => {
                 {updateButton === "seoMetaData" && <SeoMetaData />}
                 {updateButton === "seminar" && <SeminarRegistration />}
                 {updateButton === "user" && <UserAdminWallet />}
+                {updateButton === "astrologer" && <AstrologerAdminWallet />}
 
 
-                {[ "astrologer", "admin"].includes(updateButton) && (
+                {[  "admin"].includes(updateButton) && (
                   <AdminWallet updateButton={updateButton} />
                 )}
                 {["shop-user", "shop-admin"].includes(updateButton) && (

@@ -5,12 +5,13 @@ import React, { useEffect, useState, useCallback } from "react";
 import { FaEdit, FaSearch } from "react-icons/fa";
 import debounce from "lodash.debounce";
 import { MdDelete, MdOutlineRemoveRedEye } from "react-icons/md";
-import WalletView from "./WalletViewUser";
-import WalletEdit from "./WalletEditUser";
 import DeletePopUp from "@/app/component/DeletePopUp";
+import Image from "next/image";
+import WalletView from "./WalletViewAstro";
+import WalletEditAstro from "./WalletEditAstro";
 
-function UserAdminWallet() {
-  let showNameData = "User";
+function AstrologerAdminWallet() {
+  let showNameData = "Astrologer";
 
   const [walletAdminData, setWalletAdminData] = useState([]);
   const [searchName, setSearchName] = useState("");
@@ -45,7 +46,7 @@ function UserAdminWallet() {
       setLoading(true);
 
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/get-all-users-with-wallet`,
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/get-all-astrologer-with-wallet`,
         {
           params: {
             page: currentPage,
@@ -66,40 +67,43 @@ function UserAdminWallet() {
     }
   };
 
- const updateBlockUnblockUser = async (phone) => {
-  try {
-    setLoading(true); 
+  const updateBlockUnblockUser = async (phone) => {
+    try {
+      setLoading(true);
 
-    const response = await axios.put(
-      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${phone}`,
-      {
-        blockUser: true, 
-        deleteUser: true 
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-business-profile/${phone}`,
+        {
+          blockUnblockAstro: true,
+          deleteAstroLoger: true,
+        }
+      );
+
+      if (response?.data.message == "Success") {
+        fetchTransactions(); // Refresh the data after the action
+        setDeletePermanently(false);
+
+        console.log(`User ${phone} has been blocked and deleted successfully.`);
+      } else {
+        console.error("Failed to block and delete user.");
       }
-    );
-
-    if (response?.data.message === "success") {
-      fetchTransactions(); // Refresh the data after the action
-    setDeletePermanently(false)
-
-      console.log(`User ${phone} has been blocked and deleted successfully.`);
-    } else {
-      console.error("Failed to block and delete user.");
+    } catch (error) {
+      console.error(
+        "Error blocking and deleting user:",
+        error.response?.data?.error || error.message
+      );
+    } finally {
+      setLoading(false); // Set loading state to false when done
     }
-  } catch (error) {
-    console.error("Error blocking and deleting user:", error.response?.data?.error || error.message);
-  } finally {
-    setLoading(false); // Set loading state to false when done
-  }
-};
+  };
 
-console.log(userToDelete , deletePermanently,"ewewew");
+  console.log(userToDelete, deletePermanently, "ewewew");
 
   useEffect(() => {
-   if (userToDelete && deletePermanently) {
-    updateBlockUnblockUser(userToDelete);  
-  }
-  }, [deletePermanently,userToDelete]);
+    if (userToDelete && deletePermanently) {
+      updateBlockUnblockUser(userToDelete);
+    }
+  }, [deletePermanently, userToDelete]);
 
   useEffect(() => {
     fetchTransactions();
@@ -141,19 +145,24 @@ console.log(userToDelete , deletePermanently,"ewewew");
           showNameData={showNameData}
         />
       )}
-      <WalletEdit
-        userMobile={mobileNumber}
-        setAddActiveClassEdit={setAddActiveClassEdit}
-        fetchTransactions={fetchTransactions}
-        setLoading={setLoading}
-      />
-      <WalletView
-        mobileNumber={mobileNumber}
-        setAddActiveClass={setAddActiveClass}
-        setLoading={setLoading}
-      />
+      {mobileNumber && (
+        <WalletEditAstro
+          mobileNumber={mobileNumber}
+          setAddActiveClassEdit={setAddActiveClassEdit}
+          fetchTransactions={fetchTransactions}
+          setLoading={setLoading}
+        />
+      )}
+      {mobileNumber && (
+        <WalletView
+          mobileNumber={mobileNumber}
+          setAddActiveClass={setAddActiveClass}
+          setLoading={setLoading}
+        />
+      )}
+
       <div className="admin-wallet-main">
-        <h1>User Wallet List</h1>
+        <h1>Astrologer Wallet List</h1>
         <div className="search-box-top-btn">
           <div className="search-box-filed">
             <input
@@ -180,10 +189,13 @@ console.log(userToDelete , deletePermanently,"ewewew");
             <table border="1">
               <thead>
                 <tr>
+                  <th>Image</th>
                   <th>Name</th>
                   <th>Mobile</th>
+                  <th>Charges</th>
                   <th>Total Amount</th>
-                  <th>Date & Time</th>
+                  <th>Experience</th>
+                  {/* <th>Date & Time</th> */}
                   <th>Status</th>
                 </tr>
               </thead>
@@ -192,20 +204,38 @@ console.log(userToDelete , deletePermanently,"ewewew");
                   walletAdminData.map((user) => {
                     return (
                       <>
-                        {!user?.deleteUser && (
+                        {!user?.deleteAstroLoger && (
                           <tr key={user._id}>
-                            <td>{user.name}</td>
-                            <td>{user.phone}</td>
-                            <td>₹ {user.totalAmount}</td>
                             <td>
-                              {new Date(user?.createdAt).toLocaleString()}
+                              {" "}
+                              <Image
+                                width={100}
+                                height={100}
+                                src={
+                                  user?.profileImage
+                                    ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                                      user?.profileImage
+                                    : "/user-icon-image.png"
+                                }
+                                alt="user-icon"
+                              />
                             </td>
+                            <td>{user.name}</td>
+                            <td>{user.mobileNumber}</td>
+                            <td>₹ {user.charges}</td>
+                            <td>
+                              ₹ {Math.round(user.totalAvailableBalance) || 0}
+                            </td>
+                            <td>{user.experience} year</td>
+                            {/* <td>
+                              {new Date(user?.createdAt).toLocaleString()}
+                            </td> */}
                             <td>
                               <button
                                 className="delete-btn"
                                 onClick={() => {
                                   setAddActiveClass(true);
-                                  setMobileNumber(user.phone);
+                                  setMobileNumber(user.mobileNumber);
                                 }}
                               >
                                 <MdOutlineRemoveRedEye />
@@ -214,7 +244,7 @@ console.log(userToDelete , deletePermanently,"ewewew");
                                 className="delete-btn"
                                 onClick={() => {
                                   setAddActiveClassEdit(true);
-                                  setMobileNumber(user.phone);
+                                  setMobileNumber(user.mobileNumber);
                                 }}
                               >
                                 <FaEdit />
@@ -222,7 +252,7 @@ console.log(userToDelete , deletePermanently,"ewewew");
                               <button
                                 className="delete-btn"
                                 onClick={() => {
-                                  setUserToDelete(user?.phone);
+                                  setUserToDelete(user?.mobileNumber);
                                   setShowDelete(true);
                                 }}
                               >
@@ -272,4 +302,4 @@ console.log(userToDelete , deletePermanently,"ewewew");
   );
 }
 
-export default UserAdminWallet;
+export default AstrologerAdminWallet;

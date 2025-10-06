@@ -1,6 +1,7 @@
 "use client";
 import useDebounce from "@/app/hook/useDebounce";
 import axios from "axios";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 const WalletView = ({
@@ -8,10 +9,14 @@ const WalletView = ({
   setAddActiveClass,
   setLoading,
 }) => {
+  console.log(mobileNumber, "mobileNumber");
+
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearch = useDebounce(searchQuery, 800);
 
   const [astroDetailData, setAstroDetail] = useState(null);
+  console.log(astroDetailData);
+
   const [transactions, setTransactions] = useState([]);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -22,29 +27,16 @@ const WalletView = ({
   });
 
   const [chatStatusRecord, setChatStatusRecord] = useState(false);
-
-  // ✅ Fetch user details only once
-  const fetchUserDetail = async (mobileNumber) => {
+  const fetchUserWalletDetails = async () => {
     try {
+      setLoading(true);
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/get-all-users-with-wallet-detail/${mobileNumber}?page=1&limit=${pagination.limit}`
-      );
-      setAstroDetail(res.data?.user || null);
-    } catch (err) {
-      console.error("Astrologer detail not found:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // ✅ Fetch only transactions (with pagination + search)
-  const fetchTransactions = async () => {
-    try {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/get-all-users-with-wallet-detail/${mobileNumber}?page=${pagination.page}&limit=${pagination.limit}&search=${debouncedSearch}`
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/get-all-astrologer-with-wallet-detail/${mobileNumber}?page=${pagination.page}&limit=${pagination.limit}&search=${debouncedSearch}`
       );
 
+      setAstroDetail(res.data?.astrologer || null);
       setTransactions(res.data?.transactions || []);
+
       setPagination((prev) => ({
         ...prev,
         page: res.data?.pagination?.page || 1,
@@ -53,23 +45,17 @@ const WalletView = ({
         hasPrevPage: res.data?.pagination?.hasPrevPage || false,
       }));
     } catch (err) {
-      console.error("Error fetching transactions:", err);
+      console.error("Error fetching user wallet details:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Load user details once
   useEffect(() => {
     if (mobileNumber) {
-      fetchUserDetail(mobileNumber);
+      fetchUserWalletDetails(mobileNumber);
     }
-  }, [mobileNumber]);
-
-  // Load transactions on page/search change
-  useEffect(() => {
-    if (mobileNumber && chatStatusRecord) {
-      fetchTransactions();
-    }
-  }, [pagination.page, debouncedSearch, chatStatusRecord]);
+  }, [mobileNumber, pagination.page, debouncedSearch]);
 
   return (
     <div className="astro-detail-main-view">
@@ -83,7 +69,7 @@ const WalletView = ({
       </span>
 
       <h2 style={{ textAlign: "center", marginBottom: "10px" }}>
-        User Details
+        Astrologer Details And Wallet Transition List
       </h2>
 
       {/* User Table */}
@@ -91,33 +77,85 @@ const WalletView = ({
       <div className="profile-table">
         <div className="inner-profile-table">
           <div className="common-profile">
+            <div className="name">Image</div>
+            <div className="input-outer">
+              <Image
+                width={100}
+                height={100}
+                src={astroDetailData?.profileImage?
+                  process.env.NEXT_PUBLIC_WEBSITE_URL +
+                  astroDetailData?.profileImage:`/user-icon-image.png`
+                }
+                alt="user-icon"
+              />
+            </div>
+          </div>
+          <div className="common-profile">
             <div className="name">Name</div>
             <div className="input-outer">{astroDetailData?.name}</div>
           </div>
           <div className="common-profile">
             <div className="mobile">Mobile Number</div>
-            <div className="input-outer">{astroDetailData?.phone}</div>
+            <div className="input-outer">{astroDetailData?.mobileNumber}</div>
           </div>
           <div className="common-profile">
             <div className="balance">AvaiLable Balance</div>
-            <div className="input-outer">₹ {astroDetailData?.totalAmount}</div>
+            <div className="input-outer">
+              ₹ {astroDetailData?.totalAvailableBalance || 0}
+            </div>
           </div>
           <div className="common-profile">
-            <div className="date-of-birth">DateOfBirth</div>
-            <div className="input-outer">₹ {astroDetailData?.dateOfBirth}</div>
+            <div className="date-of-birth">Experience</div>
+            <div className="input-outer"> {astroDetailData?.experience}</div>
+          </div>
+          <div className="common-profile">
+            <div className="date-of-birth">Charges</div>
+            <div className="input-outer"> {astroDetailData?.charges}</div>
+          </div>
+          <div className="common-profile">
+            <div className="date-of-birth">Country</div>
+            <div className="input-outer"> {astroDetailData?.country}</div>
           </div>
           <div className="common-profile">
             <div className="gender">gender</div>
-            <div className="input-outer">₹ {astroDetailData?.gender}</div>
+            <div className="input-outer"> {astroDetailData?.gender}</div>
+          </div>
+          <div className="common-profile">
+            <div className="gender">topAstrologer</div>
+            <div className="input-outer"> {astroDetailData?.topAstrologer}</div>
           </div>
           <div className="common-profile">
             <div className="language">language</div>
-            <div className="input-outer">₹ {astroDetailData?.language}</div>
+            <div className="input-outer">
+              {" "}
+              {astroDetailData?.languages.map((item) => {
+                return item;
+              })}
+            </div>
           </div>
           <div className="common-profile">
-            <div className="placeOfBorn">place Of Born</div>
-            <div className="input-outer">{astroDetailData?.placeOfBorn}</div>
+            <div className="language">professions</div>
+            <div className="input-outer">
+              {" "}
+              {astroDetailData?.professions.map((item) => {
+                return item;
+              })}
+            </div>
           </div>
+          <div className="common-profile">
+            <div className="language">spiritual_services</div>
+            <div className="input-outer">
+              {" "}
+              {astroDetailData?.spiritual_services.map((item) => (
+                <div key={item?._id}>
+                  <p>Name: {item?.shop_slug}</p>
+
+                  <p>Price: {item?.service_price}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="common-profile">
             <div className="date-time">Date and Time</div>
             <div className="input-outer">
@@ -126,7 +164,10 @@ const WalletView = ({
                 new Date(astroDetailData?.createdAt).toLocaleString()}
             </div>
           </div>
-         
+          <div className="common-profile">
+            <div className="placeOfBorn">Description</div>
+            <div className="input-outer">{astroDetailData?.Description}</div>
+          </div>
         </div>
       </div>
 
@@ -145,7 +186,7 @@ const WalletView = ({
       {chatStatusRecord && (
         <div className="chat-record">
           <h2 style={{ textAlign: "center", margin: "20px 0" }}>
-            User Wallet Transactions
+            Astrologer Wallet Transactions
           </h2>
 
           {/* Search Box */}
@@ -178,8 +219,7 @@ const WalletView = ({
                     <tr key={tx._id}>
                       {/* <td>{tx?._id}</td> */}
                       <td>{tx.name}</td> <td>₹ {tx.availableBalance}</td>{" "}
-                      <td>₹ {tx.transactionAmount}</td>{" "}
-                      <td>{tx.description}</td>{" "}
+                      <td> {tx.transactionAmount}</td> <td>{tx.description}</td>{" "}
                       <td>{new Date(tx.createdAt).toLocaleString()}</td>
                     </tr>
                   ))}

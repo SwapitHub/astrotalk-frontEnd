@@ -110,13 +110,13 @@ function UserOtpLoginData({ setOtpPopUpDisplay }) {
           // userLoginRes.data.user.freeChatStatus==true ? `/chat-with-astrologer/user/${userLoginRes.data.user._id}`:
           if (userLoginRes.status === 200 || userLoginRes.status === 201) {
             setOtpPopUpDisplay(false);
-            Cookies.set("userIds", userLoginRes.data.user._id , {
-               expires: 3650,
+            Cookies.set("userIds", userLoginRes.data.user._id, {
+              expires: 3650,
               secure: true,
               sameSite: "Strict",
             });
-            Cookies.set("userMobile", phone , {
-               expires: 3650,
+            Cookies.set("userMobile", phone, {
+              expires: 3650,
               secure: true,
               sameSite: "Strict",
             });
@@ -148,13 +148,13 @@ function UserOtpLoginData({ setOtpPopUpDisplay }) {
 
           if (response.data.message == "success") {
             setOtpPopUpDisplay(false);
-            Cookies.set("userIds", response.data.user._id , {
-               expires: 3650,
+            Cookies.set("userIds", response.data.user._id, {
+              expires: 3650,
               secure: true,
               sameSite: "Strict",
             });
-            Cookies.set("userMobile", phone , {
-               expires: 3650,
+            Cookies.set("userMobile", phone, {
+              expires: 3650,
               secure: true,
               sameSite: "Strict",
             });

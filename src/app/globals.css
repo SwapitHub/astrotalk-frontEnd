@@ -148,7 +148,7 @@ ul.submenu > li:not(:last-child), .header-user-drop-down ul li:not(:last-child) 
 .inner-form-filed-sec.full {width: 100%;}
 .inner-form-filed-sec {width: calc(100% / 2 - 20px); position: relative;}
 .registration-heading .astrologer-call-button-ctm {position: inherit;}
-.inner-form-filed-sec textarea { width: 100%; background-color: var(--body_bg); font-weight: 400; font-size: 16px; line-height: normal; outline-style: none; padding: 10px; height: 100px; border: 0px; color: #ffffff; font-family: inherit;}
+.inner-form-filed-sec textarea { width: 100%; background-color: var(--body_bg); font-weight: 400; font-size: 16px; line-height: normal; outline-style: none; padding: 10px; height: 100px; border: 0px; color: var(--body_content_color); font-family: inherit;}
 .outer-home-dashboard ul {display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;}
 .outer-home-dashboard ul li {display: block; padding: 30px; display: flex; gap: 20px; align-items: center; color: var(--body_content_color); font-size: 16px; cursor: pointer; background-color: var(--light_bg); transition: all 0.3s;}
 .outer-home-dashboard ul li:hover {background-color: var(--secondary_hover); color: #ffffff;}
@@ -164,7 +164,8 @@ ul.submenu > li:not(:last-child), .header-user-drop-down ul li:not(:last-child) 
 .astrologer-profile svg { font-size: 50px;}
 /* Recharge Popup */
 .main-recharge-popup {margin: 0 auto; text-align: center; display: flex; justify-content: center; background: #ffffff; max-width: 400px; align-items: center; padding: 15px 20px 24px; border-top: 4px solid var(--primary_color);}
-.recharge-popup .button button {color: var(--body_content_color); border: 1px solid var(--body_content_color); padding: 5px 20px; font-size: 14px; text-decoration: none; transition: all 0.3s ease-in-out; cursor: pointer; background-color: initial; margin-right: 10px; margin-top: 15px; min-width: 92px;}
+.recharge-popup .button button {color: var(--primary_color); border: 1px solid var(--primary_color); padding: 5px 20px; font-size: 14px; text-decoration: none; transition: all 0.3s ease-in-out; cursor: pointer; background-color: initial; margin-right: 10px; margin-top: 15px; min-width: 92px;}
+.recharge-popup .button button:last-child {background-color: var(--primary_color); color: #ffffff;}
 .all-list-talk-to-astrologer {margin-top: 30px; gap: 20px;}
 .recharge-popup h3 {font-size: 30px;}
 @media (min-width: 768px) {
@@ -257,7 +258,7 @@ span.list-text {flex-grow: 1;}
 .dashboard-list ul li ul li a:hover {opacity: 1;}
 .dashboard-list ul li ul li a::before {content: ""; position: absolute; width: 4px; height: 4px; background-color: #fff; border-radius: 50%; left: 20px;}
 .dashboard-right-content table th, .dashboard-right-content table td {min-width: 130px; max-width: 260px;}
-.dashboard-right-content table th:last-child, .dashboard-right-content table td:last-child {min-width: 180px;}
+.dashboard-right-content table th:last-child, .dashboard-right-content table td:last-child {min-width: 240px;}
 .dashboard-right-content td img {max-width: 100px; border-radius: 8px;}
 .dashboard-right-content h2 {margin: 0 0 15px; font-size: 30px; line-height: 36px;}
 .dashboard-right-content {padding: 20px 27px 30px; margin-left: 255px; flex-grow: 1; margin-top: 100px; transition: all 0.3s; position: relative;}
@@ -1196,6 +1197,8 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
 .astro-detail-main .skills span, .astrologer-profile-edit-table .skills span {font-size: 14px;}
 .input-outer img {border-radius: 5px; margin-right: 10px;}
 .profile-table + button {margin: 30px 0px;}
+.parent-recharge-popups {width: 100%; height: 100%; position: fixed; left: 0; top: 0; z-index: 99; background-color: rgba(0, 0, 0, .6); display: flex; align-items: center;}
+.wallet-edit-popup .astrologer-registration-form {margin: 0;}
 /* ================== @ media css start here ================== */
 @media (max-width: 1600px) {
   .outer-home-dashboard ul {grid-template-columns: repeat(3, 1fr);}
@@ -1283,7 +1286,10 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
   .posts-listing > *:not(.pagination) {max-width: calc(100%/2 - 7.5px);}
   .astro-detail {padding: 30px 20px;}
   .astro-detail > * {font-size: 14px;}
-.inner-astrologer-registration .astrologer-main-dashboard-btn {justify-content: flex-end; gap: 10px 20px; flex-wrap: wrap;}
+  .inner-astrologer-registration .astrologer-main-dashboard-btn {justify-content: flex-end; gap: 10px 20px; flex-wrap: wrap;}
+  .common-profile {flex-direction: column;}
+  .common-profile > *:last-child {padding: 20px 0px;}
+  .common-profile > *:first-child {border-left: 4px solid var(--primary_color); border-bottom: 0px;}
 }
 @media (max-width: 767px) {
   body {font-size: 14px;}
@@ -1423,6 +1429,7 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
   .head-search-outer h2, .head-search-outer h1 {font-size: 30px;}
   .pagination {gap: 15px; flex-wrap: wrap;}
   .pagination button {padding: 10px 20px 8px;}
+  .astro-detail-main, .astrologer-profile-edit-table, .astro-detail-main-view, .wallet-edit-main {width: calc(100% - 30px);}
 }
 @media (max-width: 639px) {
   .four-col .row {grid-template-columns: repeat(1, 1fr); gap: 20px;}
@@ -1456,6 +1463,7 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
   .call-link input {height: 40px; min-width: 100%;}
   .call-link button {width: 100%; margin: 15px 0px 0px;}
   .banner-home .language-list ul li .banner-content {max-width: 100%;}
+  .main-recharge-popup {max-width: calc(100% - 30px);}
 }
 @media (max-width: 370px) {
   .sort-right {gap: 5px;}
