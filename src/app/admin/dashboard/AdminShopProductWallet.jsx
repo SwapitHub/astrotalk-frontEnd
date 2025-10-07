@@ -100,6 +100,8 @@ function AdminShopProductWallet({ updateButton }) {
 
   return (
     <div className="admin-wallet-main">
+      <h1>Shop Product Order List</h1>
+
       <div className="search-box-top-btn">
         <div className="search-box-filed">
           <input
@@ -129,9 +131,10 @@ function AdminShopProductWallet({ updateButton }) {
           <table border="1">
             <thead>
               <tr>
+                <th>Product Order Id</th>
+                <th>User Name</th>
                 <th>User Mobile</th>
                 <th>User Status</th>
-                <th>User Name</th>
                 <th>Transaction Amount</th>
                 <th>GST</th>
                 <th>Product Name</th>
@@ -140,16 +143,16 @@ function AdminShopProductWallet({ updateButton }) {
                 <th>Product type (ring size)</th>
                 <th>Gemstone Product Amount</th>
                 <th>Product</th>
-                <th>Product Order Number</th>
                 <th>Product Order Status</th>
               </tr>
             </thead>
             <tbody>
               {walletAdminData?.map((item) => (
                 <tr key={item._id}>
+                  <td>{item?.order_id}</td>
+                  <td>{item.addresses[0]?.name}</td>
                   <td>{item.userMobile}</td>
                   <td>{item.status}</td>
-                  <td>{item.addresses[0]?.name}</td>
                   <td>
                     ₹{" "}
                     {Math.round(item.totalAmount) +
@@ -172,7 +175,6 @@ function AdminShopProductWallet({ updateButton }) {
                   <td>
                     <img src={item?.productImg} alt={item?.name} />
                   </td>
-                  <td>{item?.order_id}</td>
                   <td>
                     <select
                       value={

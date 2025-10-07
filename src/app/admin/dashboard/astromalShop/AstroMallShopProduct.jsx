@@ -4,6 +4,7 @@ import SummernoteEditor from "@/app/component/SummernoteEditor";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
 import { RiDeleteBin7Fill } from "react-icons/ri";
 import { toast } from "react-toastify";
 
@@ -19,7 +20,7 @@ const AstroMallShopProduct = () => {
   const [shopId, setShopId] = useState();
   const [showImage, setShowImage] = useState();
   const [astrShopDetailData, setAstrShopDetailData] = useState("");
-
+  const [toggleAstroCategory, setToggleAstroCategory] = useState(false);
 
   useEffect(() => {
     if (!shopId) return;
@@ -173,7 +174,9 @@ const AstroMallShopProduct = () => {
       document.getElementById("top_selling").checked = false;
       document.getElementById("newlyLaunched").checked = false;
       setContent("");
-      setDescriptionContent("")
+      setDescriptionContent("");
+      setToggleAstroCategory(false);
+
       const radios = document.querySelectorAll('input[name="product_type"]');
       radios.forEach((radio) => (radio.checked = false));
 
@@ -194,49 +197,57 @@ const AstroMallShopProduct = () => {
   };
 
   const handleEditProduct = (product) => {
-    document.getElementById("name_product").value = product.name;
-    document.getElementById("meta_description").value = product.meta_description;
-    document.getElementById("meta_title").value = product.meta_title;
-    document.getElementById("meta_keywords").value = product.meta_keyword;
-    document.getElementById("slug_product").value = product.slug;
-    document.getElementById("offer_name").value = product.offer_name;
-    document.getElementById("shop_id").value = product.shop_id;
-    document.getElementById("top_selling").checked = product.top_selling;
-    document.getElementById("newlyLaunched").checked = product.newlyLaunched;
+    setToggleAstroCategory(true);
 
-    setShowImage(product);
-
-    setContent(product?.detail_information);
-    setDescriptionContent(product?.description)
-
-    const selectedRadio = document.querySelector(`input[name="product_type"][id="${product.shop_product_type}"]`);
-    if (selectedRadio) {
-      selectedRadio.checked = true;  // Select the corresponding radio button
-    }
-
-    // First determine discount or not
-    const isDiscountProduct = !!(
-      product.actual_price && product.discount_price
-    );
-    setShopListSingleData(isDiscountProduct);
-    setShopId(product.shop_id);
-
-    // Delay price setting so that inputs get mounted
     setTimeout(() => {
-      const startingPriceInput = document.getElementById("Starting_price");
-      if (startingPriceInput)
-        startingPriceInput.value = product.starting_price || "";
+      document.getElementById("name_product").value = product.name;
+      document.getElementById("meta_description").value =
+        product.meta_description;
+      document.getElementById("meta_title").value = product.meta_title;
+      document.getElementById("meta_keywords").value = product.meta_keyword;
+      document.getElementById("slug_product").value = product.slug;
+      document.getElementById("offer_name").value = product.offer_name;
+      document.getElementById("shop_id").value = product.shop_id;
+      document.getElementById("top_selling").checked = product.top_selling;
+      document.getElementById("newlyLaunched").checked = product.newlyLaunched;
 
-      const actualPriceInput = document.getElementById("actual_price");
-      if (actualPriceInput) actualPriceInput.value = product.actual_price || "";
+      setShowImage(product);
 
-      const discountPriceInput = document.getElementById("discount_price");
-      if (discountPriceInput)
-        discountPriceInput.value = product.discount_price || "";
-    }, 0); // next tick after render
+      setContent(product?.detail_information);
+      setDescriptionContent(product?.description);
 
-    setEditMode(true);
-    setEditProductId(product._id);
+      const selectedRadio = document.querySelector(
+        `input[name="product_type"][id="${product.shop_product_type}"]`
+      );
+      if (selectedRadio) {
+        selectedRadio.checked = true; // Select the corresponding radio button
+      }
+
+      // First determine discount or not
+      const isDiscountProduct = !!(
+        product.actual_price && product.discount_price
+      );
+      setShopListSingleData(isDiscountProduct);
+      setShopId(product.shop_id);
+
+      // Delay price setting so that inputs get mounted
+      setTimeout(() => {
+        const startingPriceInput = document.getElementById("Starting_price");
+        if (startingPriceInput)
+          startingPriceInput.value = product.starting_price || "";
+
+        const actualPriceInput = document.getElementById("actual_price");
+        if (actualPriceInput)
+          actualPriceInput.value = product.actual_price || "";
+
+        const discountPriceInput = document.getElementById("discount_price");
+        if (discountPriceInput)
+          discountPriceInput.value = product.discount_price || "";
+      }, 0); // next tick after render
+
+      setEditMode(true);
+      setEditProductId(product._id);
+    }, 1000);
   };
 
   const handleUpdate = async () => {
@@ -261,7 +272,6 @@ const AstroMallShopProduct = () => {
     const selectedProductTypeId = document.querySelector(
       'input[name="product_type"]:checked'
     )?.id;
-
 
     const data = new FormData();
     data.append("name", name);
@@ -316,7 +326,7 @@ const AstroMallShopProduct = () => {
         setShowImage("");
         setContent("");
         setDescriptionContent("");
-
+        setToggleAstroCategory(false);
         const radios = document.querySelectorAll('input[name="product_type"]');
         radios.forEach((radio) => (radio.checked = false));
 
@@ -382,253 +392,288 @@ const AstroMallShopProduct = () => {
 
   return (
     <div className="AddLanguage AstroMallShops-admin">
-      <div className="change-password">
-        <div className="form-field">
-          <div className="label-content">
-            <label>Upload image</label>
-          </div>
-          <input
-            type="file"
-            id="astroMallProductImg"
-            name="astroMallProductImg"
-            accept="image/*"
-            className="common-input-filed"
-          />
-          {showImage && (
-            <div className="banner-img">
-              <img src={showImage?.astroMallProductImg} alt="banner img" />
-            </div>
-          )}
-        </div>
-        <div className="form-field">
-          <div className="label-content">
-            <label>Upload multiple images</label>
-          </div>
-          <input
-            type="file"
-            id="astroMallImages"
-            name="astroMallImages"
-            accept="image/*"
-            multiple
-            className="common-input-filed"
-          />
-
-          {showImage?.images?.length > 0 && (
-            <div className="tabbing-img">
-              {showImage?.images.map((item) => (
-                <div className="tab-img">
-                  <span
-                    onClick={() => deleteProductImgInner(item?._id, showImage)}
-                  >
-                    <RiDeleteBin7Fill />
-                  </span>
-                  <img src={item?.url} />
+      {toggleAstroCategory && (
+        <div className="change-password-popup">
+          <div className="change-password">
+            <span
+              className="close-icon"
+              onClick={() => setToggleAstroCategory(false)}
+            >
+              <IoClose />
+            </span>
+            <div className="form-field">
+              <div className="label-content">
+                <label>Upload image</label>
+              </div>
+              <input
+                type="file"
+                id="astroMallProductImg"
+                name="astroMallProductImg"
+                accept="image/*"
+                className="common-input-filed"
+              />
+              {showImage && (
+                <div className="banner-img">
+                  <img src={showImage?.astroMallProductImg} alt="banner img" />
                 </div>
-              ))}
+              )}
             </div>
-          )}
-        </div>
-        <div className="form-field">
-          <div className="label-content">
-            <label>Please choose a shop</label>
-          </div>
-          <select
-            className="common-input-filed"
-            value={shopId || ''}
-            id="shop_id"
-            onChange={(e) => {
-              const selectedShop = shopListData.find(
-                (item) => item._id === e.target.value
-              );
-              setShopListSingleData(selectedShop?.discount_product || false);
-              setShopId(e.target.value);
-            }}
-          >
-            <option value="">-- Select Shop --</option>
-            {shopListData?.map((item, index) => (
-              <option key={item._id} value={item._id}>
-                {item.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="form-field">
-          <div className="label-content">
-            <label>Name</label>
-          </div>
-          <input class="common-input-filed" id="name_product" type="text" />
-        </div>
-        <div className="form-field">
-          <div className="label-content remove-astrict">
-            <label>Slug</label>
-          </div>
-          <input class="common-input-filed" id="slug_product" type="text" />
-        </div>
-
-        <div className="form-field">
-          <div className="label-content">
-            <label>Offer name</label>
-          </div>
-          <input id="offer_name" class="common-input-filed" type="text" />
-        </div>
-        {!shopListSingleData ? (
-          <div className="form-field">
-            <div className="label-content">
-              <label>Starting Price</label>
-            </div>
-            <input
-              type="number"
-              id="Starting_price"
-              className="common-input-filed"
-              onKeyDown={(e) => {
-                  if (e.key === "-" || e.key === "e") {
-                    e.preventDefault();
-                  }
-                }}
-            />
-          </div>
-        ) : (
-          <div className="form-field">
-            <div className="actual-price">
+            <div className="form-field">
               <div className="label-content">
-                <label>Actual Price</label>
+                <label>Upload multiple images</label>
               </div>
               <input
-                type="number"
-                id="actual_price"
+                type="file"
+                id="astroMallImages"
+                name="astroMallImages"
+                accept="image/*"
+                multiple
                 className="common-input-filed"
-                onKeyDown={(e) => {
-                  if (e.key === "-" || e.key === "e") {
-                    e.preventDefault();
-                  }
+              />
+
+              {showImage?.images?.length > 0 && (
+                <div className="tabbing-img">
+                  {showImage?.images.map((item) => (
+                    <div className="tab-img">
+                      <span
+                        onClick={() =>
+                          deleteProductImgInner(item?._id, showImage)
+                        }
+                      >
+                        <RiDeleteBin7Fill />
+                      </span>
+                      <img src={item?.url} />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="form-field">
+              <div className="label-content">
+                <label>Please choose a shop</label>
+              </div>
+              <select
+                className="common-input-filed"
+                value={shopId || ""}
+                id="shop_id"
+                onChange={(e) => {
+                  const selectedShop = shopListData.find(
+                    (item) => item._id === e.target.value
+                  );
+                  setShopListSingleData(
+                    selectedShop?.discount_product || false
+                  );
+                  setShopId(e.target.value);
                 }}
+              >
+                <option value="">-- Select Shop --</option>
+                {shopListData?.map((item, index) => (
+                  <option key={item._id} value={item._id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="form-field">
+              <div className="label-content">
+                <label>Name</label>
+              </div>
+              <input class="common-input-filed" id="name_product" type="text" />
+            </div>
+            <div className="form-field">
+              <div className="label-content remove-astrict">
+                <label>Slug</label>
+              </div>
+              <input class="common-input-filed" id="slug_product" type="text" />
+            </div>
+
+            <div className="form-field">
+              <div className="label-content">
+                <label>Offer name</label>
+              </div>
+              <input id="offer_name" class="common-input-filed" type="text" />
+            </div>
+            {!shopListSingleData ? (
+              <div className="form-field">
+                <div className="label-content">
+                  <label>Starting Price</label>
+                </div>
+                <input
+                  type="number"
+                  id="Starting_price"
+                  className="common-input-filed"
+                  onKeyDown={(e) => {
+                    if (e.key === "-" || e.key === "e") {
+                      e.preventDefault();
+                    }
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="form-field">
+                <div className="actual-price">
+                  <div className="label-content">
+                    <label>Actual Price</label>
+                  </div>
+                  <input
+                    type="number"
+                    id="actual_price"
+                    className="common-input-filed"
+                    onKeyDown={(e) => {
+                      if (e.key === "-" || e.key === "e") {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
+                </div>
+                <div className="discount-price">
+                  <div className="label-content">
+                    <label>Discount Price</label>
+                  </div>
+                  <input
+                    type="number"
+                    id="discount_price"
+                    className="common-input-filed"
+                    onKeyDown={(e) => {
+                      if (e.key === "-" || e.key === "e") {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+            <div className="product-type-main form-field">
+              <div className="label-content">
+                <label>Product Type</label>
+              </div>
+              <div className="man-input-filed-sec">
+                <div className="inner-radio">
+                  <input
+                    type="radio"
+                    id="astrologer_puja"
+                    name="product_type"
+                    className="common-input-filed"
+                  />
+                  <label>Astrologer Puja</label>
+                </div>
+                <div className="inner-radio">
+                  <input
+                    type="radio"
+                    id="gemstone_product"
+                    name="product_type"
+                    className="common-input-filed"
+                  />
+                  <label>Gemstone Product</label>
+                </div>
+                <div className="inner-radio">
+                  <input
+                    type="radio"
+                    id="another_product"
+                    name="product_type"
+                    className="common-input-filed"
+                  />
+                  <label>Another Product</label>
+                </div>
+              </div>
+            </div>
+
+            <div className="form-field">
+              <div className="remove-astrict label-content">
+                <label>Description</label>
+              </div>
+              <SummernoteEditor
+                value={descriptionContent}
+                onChange={setDescriptionContent}
               />
             </div>
-            <div className="discount-price">
+            <div className="product-detail form-field">
+              <div className="remove-astrict label-content">
+                <label>Product Detail</label>
+              </div>
+              <SummernoteEditor value={content} onChange={setContent} />
+            </div>
+
+            <div className="form-field man-input-filed-sec">
+              <label className="remove-astrict label-content top-selling field-checkbox">
+                <input type="checkbox" id="top_selling" />
+                <span>Can you move this product to the Top Selling group?</span>
+              </label>
+            </div>
+            <div className="form-field man-input-filed-sec">
+              <label className="remove-astrict label-content top-selling field-checkbox">
+                <input type="checkbox" id="newlyLaunched" />
+                <span>
+                  Can you move this product to the Top NEWLY LAUNCHED?
+                </span>
+              </label>
+            </div>
+            <div className="form-field">
               <div className="label-content">
-                <label>Discount Price</label>
+                <label>Meta Title</label>
               </div>
               <input
-                type="number"
-                id="discount_price"
+                type="text"
+                name="meta_title"
+                id="meta_title"
+                placeholder="Meta title for SEO"
                 className="common-input-filed"
-                onKeyDown={(e) => {
-                  if (e.key === "-" || e.key === "e") {
-                    e.preventDefault();
-                  }
-                }}
               />
             </div>
-          </div>
-        )}
-        <div className="product-type-main form-field">
-          <div className="label-content">
-            <label>Product Type</label>
-          </div>
-          <div className="man-input-filed-sec">
-            <div className="inner-radio">
+
+            <div className="form-field">
+              <div className="label-content">
+                <label>Meta Description</label>
+              </div>
+              <textarea
+                name="meta_description"
+                id="meta_description"
+                placeholder="Meta description for SEO"
+                className="common-input-filed"
+              />
+            </div>
+
+            <div className="form-field">
+              <div className="label-content">
+                <label>Keywords (comma separated)</label>
+              </div>
               <input
-                type="radio"
-                id="astrologer_puja"
-                name="product_type"
+                type="text"
+                name="keywords"
+                id="meta_keywords"
+                placeholder="keywords, separated, by, commas"
                 className="common-input-filed"
               />
-              <label>Astrologer Puja</label>
             </div>
-            <div className="inner-radio">
-              <input
-                type="radio"
-                id="gemstone_product"
-                name="product_type"
-                className="common-input-filed"
-              />
-              <label>Gemstone Product</label>
-            </div>
-            <div className="inner-radio">
-              <input
-                type="radio"
-                id="another_product"
-                name="product_type"
-                className="common-input-filed"
-              />
-              <label>Another Product</label>
-            </div>
+            {editMode ? (
+              <button onClick={handleUpdate}>Update</button>
+            ) : (
+              <button onClick={handleSubmit}>Submit</button>
+            )}
           </div>
         </div>
-
-        <div className="form-field">
-          <div className="remove-astrict label-content">
-            <label>Description</label>
-          </div>
-          <SummernoteEditor value={descriptionContent} onChange={setDescriptionContent} />
-
-        </div>
-        <div className="product-detail form-field">
-          <div className="remove-astrict label-content">
-            <label>Product Detail</label>
-          </div>
-          <SummernoteEditor value={content} onChange={setContent} />
-        </div>
-
-        <div className="form-field man-input-filed-sec">
-          <label className="remove-astrict label-content top-selling field-checkbox">
-            <input type="checkbox" id="top_selling" />
-            <span>Can you move this product to the Top Selling group?</span>
-          </label>
-        </div>
-        <div className="form-field man-input-filed-sec">
-          <label className="remove-astrict label-content top-selling field-checkbox">
-            <input type="checkbox" id="newlyLaunched" />
-            <span>Can you move this product to the Top NEWLY LAUNCHED?</span>
-          </label>
-        </div>
-        <div className="form-field">
-          <div className="label-content">
-            <label>Meta Title</label>
-          </div>
-          <input
-            type="text"
-            name="meta_title"
-            id="meta_title"
-            placeholder="Meta title for SEO"
-            className="common-input-filed"
-          />
-        </div>
-
-        <div className="form-field">
-          <div className="label-content">
-            <label>Meta Description</label>
-          </div>
-          <textarea
-            name="meta_description"
-            id="meta_description"
-            placeholder="Meta description for SEO"
-            className="common-input-filed"
-
-          />
-        </div>
-
-        <div className="form-field">
-          <div className="label-content">
-            <label>Keywords (comma separated)</label>
-          </div>
-          <input
-            type="text"
-            name="keywords"
-            id="meta_keywords"
-            placeholder="keywords, separated, by, commas"
-            className="common-input-filed"
-          />
-        </div>
-        {editMode ? (
-          <button onClick={handleUpdate}>Update</button>
-        ) : (
-          <button onClick={handleSubmit}>Submit</button>
-        )}
-      </div>
+      )}
       <div className="language-list">
         <h2>Show astro mall product list</h2>
+        <div className="search-category-btn">
+          <button
+            onClick={() => {
+              setToggleAstroCategory(true);
+            }}
+          >
+            Add Astro Shop Category
+          </button>
+          <div className="search-box-filed">
+            <input
+              type="search"
+              id="astrologer-search"
+              name="astrologer-search"
+              placeholder="Search name or mobile..."
+              aria-label="Search wallet transactions"
+            />
+          </div>
+        </div>
         {loading ? (
           <Loader />
         ) : (

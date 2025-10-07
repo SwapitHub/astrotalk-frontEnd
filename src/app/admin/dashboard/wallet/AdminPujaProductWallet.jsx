@@ -5,8 +5,9 @@ import React, { useEffect, useState, useCallback } from "react";
 import { FaSearch } from "react-icons/fa";
 import debounce from "lodash.debounce";
 
-function AdminShopWallet() {
+function AdminPujaProductWallet() {
   const [walletAdminData, setWalletAdminData] = useState([]);
+  const [totalAdminCommission, setTotalAdminCommission] = useState();
   const [searchName, setSearchName] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -44,7 +45,7 @@ function AdminShopWallet() {
       );
 
       const { orders, pagination } = res.data;
-
+      setTotalAdminCommission(res.data?.totalAdminCommission);
       setWalletAdminData(orders);
       setTotalPages(pagination.totalPages || 0);
     } catch (err) {
@@ -89,7 +90,7 @@ function AdminShopWallet() {
 
   return (
     <div className="admin-wallet-main">
-      <h1> puja Order List</h1>
+        <h1>Admin Puja Commission Wallet List</h1>
       {/* 🔍 Search Bar */}
       <div className="search-box-top-btn">
         <div className="search-box-filed">
@@ -106,8 +107,11 @@ function AdminShopWallet() {
             <FaSearch />
           </button>
         </div>
-        <div className="search-help-text">
+        {/* <div className="search-help-text">
           <p>Search product based on product id</p>
+        </div> */}
+         <div className="search-help-text">
+          <p>Admin Puja total commission Amount : ₹ {totalAdminCommission}</p>
         </div>
       </div>
 
@@ -121,16 +125,13 @@ function AdminShopWallet() {
               <tr>
                 <th>Puja Order id</th>
                 <th>Order place by name</th>
-                <th>Order place by Mobile</th>
                 <th>Astrologer Name</th>
-                <th>Astrologer mobile</th>
                 <th>Puja Name</th>
                 <th>Total Amount Puja</th>
                 <th>Admin Commission</th>
-                <th>GST</th>
-                <th>Product img</th>
+                <th>Puja GST</th>
+                <th>Puja img</th>
                 <th>Date and Time</th>
-                <th>Product Order Status</th>
               </tr>
             </thead>
             <tbody>
@@ -139,9 +140,7 @@ function AdminShopWallet() {
                   <tr key={item._id}>
                     <td>{item.order_id}</td>
                     <td>use name</td>
-                    <td>{item.userMobile}</td>
                     <td>{item?.astrologerName}</td>
-                    <td>{item?.astrologerPhone}</td>
                     <td>{item?.productName}</td>
                     <td>₹ {item?.totalAmount}</td>
                     <td>₹ {item?.adminCommission}</td>
@@ -150,34 +149,6 @@ function AdminShopWallet() {
                       <img src={item?.productImg} alt={item?.name} />
                     </td>
                     <td>{new Date(item.createdAt).toLocaleString()}</td>
-
-                    <td>
-                      <select
-                        value={
-                          !item?.product_order_status
-                            ? "processing"
-                            : item?.product_order_complete
-                            ? "completed"
-                            : "dispatched"
-                        }
-                        onChange={(e) => {
-                          const selected = e.target.value;
-
-                          if (selected === "processing") {
-                            updateOrderStatus(item?.order_id, false, false);
-                          } else if (selected === "dispatched") {
-                            updateOrderStatus(item?.order_id, true, false);
-                          } else if (selected === "completed") {
-                            updateOrderStatus(item?.order_id, true, true);
-                          }
-                        }}
-                        disabled={loading}
-                      >
-                        <option value="processing">Processing</option>
-                        <option value="dispatched">Dispatched</option>
-                        <option value="completed">Completed</option>
-                      </select>
-                    </td>
                   </tr>
                 ))
               ) : (
@@ -210,4 +181,4 @@ function AdminShopWallet() {
   );
 }
 
-export default AdminShopWallet;
+export default AdminPujaProductWallet;

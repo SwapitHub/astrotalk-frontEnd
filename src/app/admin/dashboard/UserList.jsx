@@ -42,6 +42,15 @@ const UserList = ({ setUserListData }) => {
         <Loader />
       ) : (
         <div className="outer-table">
+          <div className="search-box-filed">
+            <input
+              type="search"
+              id="astrologer-search"
+              name="astrologer-search"
+              placeholder="Search name or mobile..."
+              aria-label="Search wallet transactions"
+            />
+          </div>
           <table border="1">
             <thead>
               <tr>
@@ -62,9 +71,10 @@ const UserList = ({ setUserListData }) => {
                   <td>{item.gender}</td>
                   <td>{item.dateOfBirth}</td>
                   <td>
+                    <button>View order detail</button>
                     <button>Block</button>
                     <button className="delete-btn">
-                     <MdOutlineRemoveRedEye />
+                      <MdOutlineRemoveRedEye />
                     </button>
                     <button className="delete-btn">
                       <FaEdit />

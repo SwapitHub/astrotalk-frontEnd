@@ -5,6 +5,7 @@ import TextEditor from "@/app/component/TextEditor";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
 import { RiDeleteBin7Fill } from "react-icons/ri";
 import { toast } from "react-toastify";
 
@@ -14,6 +15,7 @@ const AstroMallShops = () => {
   const [editMode, setEditMode] = useState(false);
   const [editShopId, setEditShopId] = useState(null);
   const [shopContent, setShopContent] = useState("");
+  const [toggleAstroCategory, setToggleAstroCategory] = useState(false);
 
   const getAstroShopData = async () => {
     try {
@@ -115,18 +117,21 @@ const AstroMallShops = () => {
   };
 
   const handleEditShop = (shop) => {
-    document.getElementById("name_shop").value = shop.name;
-    document.getElementById("slug_shop").value = shop.slug;
-    document.getElementById("offer_title").value = shop.offer_title;
-    document.getElementById("offer_name").value = shop.offer_name;
-    document.getElementById("description").value = shop.description;
-    document.getElementById("offer_checkbox").checked = shop.discount_product;
-    document.getElementById("Jewelry_product_gem").checked =
-      shop.Jewelry_product_gem;
-    setShopContent(shop?.detail_shop_information);
+    setToggleAstroCategory(true);
+    setTimeout(() => {
+      document.getElementById("name_shop").value = shop.name;
+      document.getElementById("slug_shop").value = shop.slug;
+      document.getElementById("offer_title").value = shop.offer_title;
+      document.getElementById("offer_name").value = shop.offer_name;
+      document.getElementById("description").value = shop.description;
+      document.getElementById("offer_checkbox").checked = shop.discount_product;
+      document.getElementById("Jewelry_product_gem").checked =
+        shop.Jewelry_product_gem;
+      setShopContent(shop?.detail_shop_information);
 
-    setEditMode(true);
-    setEditShopId(shop._id);
+      setEditMode(true);
+      setEditShopId(shop._id);
+    }, 1000);
   };
 
   const handleUpdateShop = async () => {
@@ -166,7 +171,7 @@ const AstroMallShops = () => {
         toast.success("Updated Successfully", { position: "top-right" });
         setEditMode(false);
         setEditShopId(null);
-
+        setToggleAstroCategory(false);
         await getAstroShopData(); // refresh list
 
         // Clear inputs
@@ -207,81 +212,112 @@ const AstroMallShops = () => {
 
   return (
     <div className="AddLanguage AstroMallShops-admin">
-      <div className="change-password">
-        <div className="form-field">
-          <div className="label-content">
-            <label>Upload image</label>
-          </div>
-          <input
-            type="file"
-            id="astroMallImg"
-            accept="image/*"
-            className="common-input-filed"
-          />
-        </div>
-        <div className="form-field">
-          <div className="label-content">
-            <label>Name</label>
-          </div>
-          <input class="common-input-filed" id="name_shop" type="text" />
-        </div>
-        <div className="form-field">
-          <div className="label-content remove-astrict">
-            <label>Slug</label>
-          </div>
-          <input class="common-input-filed" id="slug_shop" type="text" />
-        </div>
-        <div className="form-field">
-          <div className="label-content">
-            <label>Offer title</label>
-          </div>
-          <input class="common-input-filed" id="offer_title" type="text" />
-        </div>
-        <div className="form-field">
-          <div className="label-content">
-            <label>Offer name</label>
-          </div>
-          <input id="offer_name" class="common-input-filed" type="text" />
-        </div>
-
-        <div className="form-field">
-          <div className="remove-astrict label-content">
-            <label>Description</label>
-          </div>
-          <textarea id="description" className="common-input-filed" />
-        </div>
-
-        <div className="shop-detail form-field">
-          <div className="label-content">
-          <label>Shop Detail</label>
-          </div>
-          
-          <SummernoteEditor value={shopContent} onChange={setShopContent} />
-        </div>
-        <div className="form-field man-input-filed-sec">
-          <label className="remove-astrict label-content field-checkbox">
-            <input id="offer_checkbox" type="checkbox" />
-            <span>Do you want to offer discounts on items in your shop?</span>
-          </label>
-        </div>
-
-        <div className="form-field man-input-filed-sec">
-          <label className="remove-astrict label-content field-checkbox">
-            <input id="Jewelry_product_gem" type="checkbox" />
-            <span>
-              Are you adding a Spiritual Jewelry Product in the "Gemstone"
-              category?
+      {toggleAstroCategory && (
+        <div className="change-password-popup">
+          <div className="change-password">
+            <span
+              className="close-icon"
+              onClick={() => setToggleAstroCategory(false)}
+            >
+              <IoClose />
             </span>
-          </label>
+            <div className="form-field">
+              <div className="label-content">
+                <label>Upload image</label>
+              </div>
+              <input
+                type="file"
+                id="astroMallImg"
+                accept="image/*"
+                className="common-input-filed"
+              />
+            </div>
+            <div className="form-field">
+              <div className="label-content">
+                <label>Name</label>
+              </div>
+              <input class="common-input-filed" id="name_shop" type="text" />
+            </div>
+            <div className="form-field">
+              <div className="label-content remove-astrict">
+                <label>Slug</label>
+              </div>
+              <input class="common-input-filed" id="slug_shop" type="text" />
+            </div>
+            <div className="form-field">
+              <div className="label-content">
+                <label>Offer title</label>
+              </div>
+              <input class="common-input-filed" id="offer_title" type="text" />
+            </div>
+            <div className="form-field">
+              <div className="label-content">
+                <label>Offer name</label>
+              </div>
+              <input id="offer_name" class="common-input-filed" type="text" />
+            </div>
+
+            <div className="form-field">
+              <div className="remove-astrict label-content">
+                <label>Description</label>
+              </div>
+              <textarea id="description" className="common-input-filed" />
+            </div>
+
+            <div className="shop-detail form-field">
+              <div className="label-content">
+                <label>Shop Detail</label>
+              </div>
+
+              <SummernoteEditor value={shopContent} onChange={setShopContent} />
+            </div>
+            <div className="form-field man-input-filed-sec">
+              <label className="remove-astrict label-content field-checkbox">
+                <input id="offer_checkbox" type="checkbox" />
+                <span>
+                  Do you want to offer discounts on items in your shop?
+                </span>
+              </label>
+            </div>
+
+            <div className="form-field man-input-filed-sec">
+              <label className="remove-astrict label-content field-checkbox">
+                <input id="Jewelry_product_gem" type="checkbox" />
+                <span>
+                  Are you adding a Spiritual Jewelry Product in the "Gemstone"
+                  category?
+                </span>
+              </label>
+            </div>
+            {editMode ? (
+              <button onClick={handleUpdateShop}>Update</button>
+            ) : (
+              <button onClick={handleSubmit}>Submit</button>
+            )}
+          </div>
         </div>
-        {editMode ? (
-          <button onClick={handleUpdateShop}>Update</button>
-        ) : (
-          <button onClick={handleSubmit}>Submit</button>
-        )}
-      </div>
+      )}
       <div className="language-list">
-        <h2>Show astro mall shop list</h2>
+          <h2>Show astro mall shop list</h2>
+        <div className="search-category-btn">
+
+          <button
+            onClick={() => {
+              setToggleAstroCategory(true);
+            }}
+          >
+            Add Astro Shop Category
+          </button>
+          <div className="search-box-filed">
+            <input
+              type="search"
+              id="astrologer-search"
+              name="astrologer-search"
+              placeholder="Search name or mobile..."
+              aria-label="Search wallet transactions"
+            />
+          </div>
+        </div>
         {loading ? (
           <Loader />
         ) : (

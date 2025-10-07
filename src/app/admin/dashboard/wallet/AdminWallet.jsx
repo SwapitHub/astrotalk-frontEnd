@@ -94,16 +94,8 @@ function AdminWallet({ updateButton }) {
 
   return (
     <div className="admin-wallet-main">
-      {updateButton === "admin" && (
-        <>
-          <div className="available-balance">
-            <p>
-              <strong>Available Balance: </strong>
-              <span>₹ {Math.round(totalAvailableBalance)}</span>
-            </p>
-          </div>
-        </>
-      )}
+      <h1>Admin Chatting Commission Wallet List</h1>
+    
 
       <div className="search-box-top-btn">
         <div className="search-box-filed">
@@ -122,6 +114,17 @@ function AdminWallet({ updateButton }) {
             <FaSearch />
           </button>
         </div>
+
+          {updateButton === "admin" && (
+        <>
+          <div className="available-balance">
+            <p>
+              <strong>Available Balance: </strong>
+              <span>₹ {Math.round(totalAvailableBalance)}</span>
+            </p>
+          </div>
+        </>
+      )}
       </div>
 
       {loading ? (

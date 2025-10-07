@@ -15,31 +15,32 @@ import {
 } from "react-icons/md";
 import { PiUserListDuotone } from "react-icons/pi";
 import secureLocalStorage from "react-secure-storage";
-import AddLanguage from "./AddLanguage";
-import AddProfession from "./AddProfession";
+import AddLanguage from "./siteSettings/AddLanguage";
+import AddProfession from "./siteSettings/AddProfession";
 import AdminDashBoardData from "./AdminDashBoardData";
 import AdminShopProductWallet from "./AdminShopProductWallet";
 import AdminShopWallet from "./AdminShopPujaWallet";
-import AdminWallet from "./AdminWallet";
+import AdminWallet from "./wallet/AdminWallet";
 import AstroLogerList from "./astrologerData/AstroLogerList";
 import AstrologerPendingList from "./astrologerData/AstrologerPendingList";
-import AstroMallShopProduct from "./astrologerData/AstroMallShopProduct";
-import AstroMallShops from "./astrologerData/AstroMallShops";
+import AstroMallShopProduct from "./astromalShop/AstroMallShopProduct";
+import AstroMallShops from "./astromalShop/AstroMallShops";
 import AddBlogs from "./blogs/AddBlogs";
 import AddBlogsCategory from "./blogs/AddBlogsCategory";
 import AllBlogs from "./blogs/AllBlogs";
-import ChangePassword from "./ChangePassword";
-import ChatCommission from "./ChatCommission";
-import Denomination from "./Denomination";
-import GemStoneProductGemJewelry from "./GemStoneProductGemJewelry";
+import ChangePassword from "./siteSettings/ChangePassword";
+import ChatCommission from "./siteSettings/ChatCommission";
+import Denomination from "./siteSettings/Denomination";
+import GemStoneProductGemJewelry from "./astromalShop/GemStoneProductGemJewelry";
 import AddFooter from "./home/AddFooter";
 import BannerHome from "./home/BannerHome";
 import PaymentWithdrawRequest from "./PaymentWithdrawRequest";
-import SeminarRegistration from "./SeminarRegistration";
-import SeoMetaData from "./SeoMetaData";
+import SeminarRegistration from "./siteSettings/SeminarRegistration";
+import SeoMetaData from "./siteSettings/SeoMetaData";
 import UserList from "./UserList";
 import UserAdminWallet from "./wallet/UserAdminWallet";
 import AstrologerAdminWallet from "./wallet/AstrologerAdminWallet";
+import AdminPujaProductWallet from "./wallet/AdminPujaProductWallet";
 
 const AdminHome = () => {
   const router = useRouter();
@@ -318,22 +319,22 @@ const AdminHome = () => {
                               Shop product order
                             </a>
                           </li>
-                          {/* <li
+                          <li
                             className={
-                              updateButton === "shop-user" ? "active" : ""
+                              updateButton === "PujaProductWallet" ? "active" : ""
                             }
                           >
                             <a
                               href="#"
                               onClick={(e) => {
                                 e.preventDefault();
-                                setUpdateButton("shop-user");
+                                setUpdateButton("PujaProductWallet");
                                 setToggleSlideMobile(false);
                               }}
                             >
-                              Shop User
+                              Admin Puja  Wallet
                             </a>
-                          </li> */}
+                          </li>
                         </ul>
                       </SlideToggle>
                     </li>
@@ -787,9 +788,9 @@ const AdminHome = () => {
                 {updateButton === "seminar" && <SeminarRegistration />}
                 {updateButton === "user" && <UserAdminWallet />}
                 {updateButton === "astrologer" && <AstrologerAdminWallet />}
+                {updateButton === "PujaProductWallet" && <AdminPujaProductWallet />}
 
-
-                {[  "admin"].includes(updateButton) && (
+                {["admin"].includes(updateButton) && (
                   <AdminWallet updateButton={updateButton} />
                 )}
                 {["shop-user", "shop-admin"].includes(updateButton) && (

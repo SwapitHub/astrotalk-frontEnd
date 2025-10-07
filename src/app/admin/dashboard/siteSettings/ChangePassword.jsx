@@ -42,6 +42,7 @@ const ChangePassword = () => {
 
   return (
     <div className="change-password">
+      <h1>Change Admin Dashboard Password</h1>
       <div className="form-field">
         <div className="label-content">
           <label>Old Password</label>

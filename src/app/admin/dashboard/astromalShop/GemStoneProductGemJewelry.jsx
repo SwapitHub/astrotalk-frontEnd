@@ -3,6 +3,7 @@ import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
 import { RiDeleteBin7Fill } from "react-icons/ri";
 import { toast } from "react-toastify";
 
@@ -14,7 +15,7 @@ const GemStoneProductGemJewelry = () => {
   const [editProductId, setEditProductId] = useState(null);
   const [shopListSingleData, setShopListSingleData] = useState(false);
   const [message, setMessage] = useState("");
-
+  const [toggleAstroCategory, setToggleAstroCategory] = useState(false);
 
   console.log(shopListSingleData, "shopListSingleData");
 
@@ -54,8 +55,7 @@ const GemStoneProductGemJewelry = () => {
     );
 
     if (!image || !name || !gemPrice || !productType) {
-      
-      return setMessage("All Fields Are Required !");;
+      return setMessage("All Fields Are Required !");
     }
 
     const data = new FormData();
@@ -73,7 +73,8 @@ const GemStoneProductGemJewelry = () => {
       if (res?.status == 201) {
         toast.success("Added Successfully", { position: "top-right" });
         fetchProductList();
-        setMessage("")
+        setMessage("");
+        setToggleAstroCategory(false);
       }
       document.getElementById("gem_name").value = "";
       document.getElementById("astroGemstoneJewelryImg").value = "";
@@ -90,23 +91,27 @@ const GemStoneProductGemJewelry = () => {
   };
 
   const handleEditProduct = (product) => {
-    // Set input values
-    document.getElementById("gem_name").value = product.name;
-    document.getElementById("gem_price").value = product.actual_price;
+    setToggleAstroCategory(true);
 
-    // Set radio button based on productType value
-    if (product.productType) {
-      const radioToCheck = document.querySelector(
-        `input[name="product_type"][value="${product.productType}"]`
-      );
-      if (radioToCheck) {
-        radioToCheck.checked = true;
+    setTimeout(() => {
+      // Set input values
+      document.getElementById("gem_name").value = product.name;
+      document.getElementById("gem_price").value = product.actual_price;
+
+      // Set radio button based on productType value
+      if (product.productType) {
+        const radioToCheck = document.querySelector(
+          `input[name="product_type"][value="${product.productType}"]`
+        );
+        if (radioToCheck) {
+          radioToCheck.checked = true;
+        }
       }
-    }
 
-    // Set edit state
-    setEditMode(true);
-    setEditProductId(product._id);
+      // Set edit state
+      setEditMode(true);
+      setEditProductId(product._id);
+    }, 1000);
   };
 
   const handleUpdate = async () => {
@@ -133,6 +138,8 @@ const GemStoneProductGemJewelry = () => {
         toast.success("Updated Successfully", { position: "top-right" });
         setEditMode(false);
         setEditProductId(null);
+        setToggleAstroCategory(false);
+
         fetchProductList();
         document.getElementById("gem_name").value = "";
         document.getElementById("gem_price").value = "";
@@ -169,78 +176,108 @@ const GemStoneProductGemJewelry = () => {
 
   return (
     <div className="AddLanguage AstroMallShops-admin">
-      <div className="change-password">
-        <div className="form-field">
-          <div className="label-content">
-            <label>Upload image</label>
-          </div>
-          <input
-            type="file"
-            id="astroGemstoneJewelryImg"
-            accept="image/*"
-            className="common-input-filed"
-          />
-        </div>
+      {toggleAstroCategory && (
+        <div className="change-password-popup">
+          <div className="change-password">
+            <span
+              className="close-icon"
+              onClick={() => setToggleAstroCategory(false)}
+            >
+              <IoClose />
+            </span>
+            <div className="form-field">
+              <div className="label-content">
+                <label>Upload image</label>
+              </div>
+              <input
+                type="file"
+                id="astroGemstoneJewelryImg"
+                accept="image/*"
+                className="common-input-filed"
+              />
+            </div>
 
-        <div className="form-field">
-          <div className="label-content">
-            <label>Name</label>
-          </div>
-          <input class="common-input-filed" id="gem_name" type="text" />
-        </div>
+            <div className="form-field">
+              <div className="label-content">
+                <label>Name</label>
+              </div>
+              <input class="common-input-filed" id="gem_name" type="text" />
+            </div>
 
-        <div className="form-field">
-          <div className="label-content">
-            <label>Price</label>
-          </div>
-          <input class="common-input-filed" id="gem_price" type="number" onKeyDown={(e) => {
+            <div className="form-field">
+              <div className="label-content">
+                <label>Price</label>
+              </div>
+              <input
+                class="common-input-filed"
+                id="gem_price"
+                type="number"
+                onKeyDown={(e) => {
                   if (e.key === "-" || e.key === "e") {
                     e.preventDefault();
                   }
-                }}/>
-        </div>
-        <div class="form-field">
-          <div class="label-content">
-            <label>Product Type</label>
-          </div>
-          <div class="man-input-filed-sec">
-            <div class="inner-radio">
-             <input
-              className="common-input-field"
-              type="radio"
-              name="product_type"
-              value="Ring"
-              id="gem_ring"
-            />
-              <label>Ring</label>
+                }}
+              />
             </div>
-            <div class="inner-radio">
-              <input
-              className="common-input-field"
-              type="radio"
-              name="product_type"
-              value="Pendant"
-              id="gem_pendant"
-            />
-              <label>Pendant</label>
+            <div class="form-field">
+              <div class="label-content">
+                <label>Product Type</label>
+              </div>
+              <div class="man-input-filed-sec">
+                <div class="inner-radio">
+                  <input
+                    className="common-input-field"
+                    type="radio"
+                    name="product_type"
+                    value="Ring"
+                    id="gem_ring"
+                  />
+                  <label>Ring</label>
+                </div>
+                <div class="inner-radio">
+                  <input
+                    className="common-input-field"
+                    type="radio"
+                    name="product_type"
+                    value="Pendant"
+                    id="gem_pendant"
+                  />
+                  <label>Pendant</label>
+                </div>
+              </div>
             </div>
+
+            {editMode ? (
+              <button onClick={handleUpdate}>Update</button>
+            ) : (
+              <>
+                <button onClick={handleSubmit}>Submit</button>
+                <p className="error-msg">{message}</p>
+              </>
+            )}
           </div>
         </div>
-      
-
-        {editMode ? (
-          <button onClick={handleUpdate}>Update</button>
-        ) : (
-          <>
-          <button onClick={handleSubmit}>Submit</button>
-        <p className="error-msg">{message}</p>
-
-          </>
-          
-        )}
-      </div>
+      )}
       <div className="language-list">
-        <h2>Show astro mall product list</h2>
+        <h2> shop gemstone product jewelry</h2>
+        <div className="search-category-btn">
+          <button
+            onClick={() => {
+              setToggleAstroCategory(true);
+            }}
+          >
+            Add Astro gemstone Category
+          </button>
+          <div className="search-box-filed">
+            <input
+              type="search"
+              id="astrologer-search"
+              name="astrologer-search"
+              placeholder="Search name or mobile..."
+              aria-label="Search wallet transactions"
+            />
+          </div>
+        </div>
         {loading ? (
           <Loader />
         ) : (
@@ -251,7 +288,13 @@ const GemStoneProductGemJewelry = () => {
                   <div className="single-item" key={index}>
                     <div className="details-outer">
                       <div className="product-img">
-                        <img src={process.env.NEXT_PUBLIC_WEBSITE_URL+item?.astroGemstoneJewelryImg} alt="" />
+                        <img
+                          src={
+                            process.env.NEXT_PUBLIC_WEBSITE_URL +
+                            item?.astroGemstoneJewelryImg
+                          }
+                          alt=""
+                        />
                       </div>
 
                       <div className="details-cont">
