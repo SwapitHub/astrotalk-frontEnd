@@ -27,7 +27,7 @@ import AstroMallShopProduct from "./astromalShop/AstroMallShopProduct";
 import AstroMallShops from "./astromalShop/AstroMallShops";
 import AddBlogs from "./blogs/AddBlogs";
 import AddBlogsCategory from "./blogs/AddBlogsCategory";
-import AllBlogs from "./blogs/AllBlogs";
+
 import ChangePassword from "./siteSettings/ChangePassword";
 import ChatCommission from "./siteSettings/ChatCommission";
 import Denomination from "./siteSettings/Denomination";
@@ -581,7 +581,7 @@ const AdminHome = () => {
                                 setToggleSlideMobile(false);
                               }}
                             >
-                              <span className="list-text">Add Astro Shop</span>
+                              <span className="list-text">Astro Shop</span>
                             </a>
                           </li>
 
@@ -601,7 +601,7 @@ const AdminHome = () => {
                               }}
                             >
                               <span className="list-text">
-                                Add Astro Shop Product
+                               Astro Shop Product
                               </span>
                             </a>
                           </li>
@@ -622,7 +622,7 @@ const AdminHome = () => {
                               }}
                             >
                               <span className="list-text">
-                                Add GemStone Product Jewelry
+                                Gemstone product execration
                               </span>
                             </a>
                           </li>
@@ -671,22 +671,7 @@ const AdminHome = () => {
                       </a>
                       <SlideToggle isOpen={openFaq == "Blogs"}>
                         <ul>
-                          <li
-                            className={
-                              updateButton === "AllBlogs" ? "active" : ""
-                            }
-                          >
-                            <a
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setUpdateButton("AllBlogs");
-                                setToggleSlideMobile(false);
-                              }}
-                            >
-                              <span className="list-text">All Blogs</span>
-                            </a>
-                          </li>
+                          
 
                           <li
                             className={
@@ -776,7 +761,7 @@ const AdminHome = () => {
                 )}
                 {updateButton === "AddBlogsCategory" && <AddBlogsCategory />}
                 {updateButton === "AddBlogs" && <AddBlogs />}
-                {updateButton === "AllBlogs" && <AllBlogs />}
+                
 
                 {updateButton === "language" && <AddLanguage />}
                 {updateButton === "profession" && <AddProfession />}

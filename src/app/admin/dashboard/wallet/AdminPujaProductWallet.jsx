@@ -111,7 +111,7 @@ function AdminPujaProductWallet() {
           <p>Search product based on product id</p>
         </div> */}
          <div className="search-help-text">
-          <p>Admin Puja total commission Amount : ₹ {totalAdminCommission}</p>
+          <p>Admin Puja total commission Amount : ₹ {totalAdminCommission || 0}</p>
         </div>
       </div>
 

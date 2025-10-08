@@ -95,7 +95,6 @@ function AdminWallet({ updateButton }) {
   return (
     <div className="admin-wallet-main">
       <h1>Admin Chatting Commission Wallet List</h1>
-    
 
       <div className="search-box-top-btn">
         <div className="search-box-filed">
@@ -115,16 +114,16 @@ function AdminWallet({ updateButton }) {
           </button>
         </div>
 
-          {updateButton === "admin" && (
-        <>
-          <div className="available-balance">
-            <p>
-              <strong>Available Balance: </strong>
-              <span>₹ {Math.round(totalAvailableBalance)}</span>
-            </p>
-          </div>
-        </>
-      )}
+        {updateButton === "admin" && (
+          <>
+            <div className="available-balance">
+              <p>
+                <strong>Available Balance: </strong>
+                <span>₹ {Math.round(totalAvailableBalance) || 0}</span>
+              </p>
+            </div>
+          </>
+        )}
       </div>
 
       {loading ? (
@@ -134,9 +133,8 @@ function AdminWallet({ updateButton }) {
           <table border="1">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Available Balance</th>
-                <th>Transaction Amount</th>
+                <th>Admin Available Balance</th>
+                <th>Admin get Amount with astrologer</th>
                 <th>Description</th>
                 <th>Date and Time</th>
               </tr>
@@ -144,7 +142,6 @@ function AdminWallet({ updateButton }) {
             <tbody>
               {walletAdminData?.map((item) => (
                 <tr key={item._id}>
-                  <td>{item.name}</td>
                   <td>₹ {Math.round(item.availableBalance)}</td>
                   <td> {item.transactionAmount}</td>
                   <td>{item.description}</td>

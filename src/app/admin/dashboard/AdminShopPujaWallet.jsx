@@ -106,9 +106,7 @@ function AdminShopWallet() {
             <FaSearch />
           </button>
         </div>
-        <div className="search-help-text">
-          <p>Search product based on product id</p>
-        </div>
+        
       </div>
 
       {/* 🌀 Loader or Table */}

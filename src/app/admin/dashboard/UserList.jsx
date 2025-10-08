@@ -1,7 +1,7 @@
 import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaSearch } from "react-icons/fa";
 import { MdDelete, MdOutlineRemoveRedEye } from "react-icons/md";
 import secureLocalStorage from "react-secure-storage";
 
@@ -42,14 +42,21 @@ const UserList = ({ setUserListData }) => {
         <Loader />
       ) : (
         <div className="outer-table">
-          <div className="search-box-filed">
-            <input
-              type="search"
-              id="astrologer-search"
-              name="astrologer-search"
-              placeholder="Search name or mobile..."
-              aria-label="Search wallet transactions"
-            />
+          <div className="search-box-top-btn">
+            <div className="search-box-filed">
+              <input
+                type="search"
+                id="astrologer-search"
+                name="astrologer-search"
+                placeholder="Search name or mobile..."
+                aria-label="Search wallet transactions"
+              />
+            </div>
+            <div className="search-button-filed">
+              <button type="button">
+                <FaSearch />
+              </button>
+            </div>
           </div>
           <table border="1">
             <thead>
@@ -70,8 +77,8 @@ const UserList = ({ setUserListData }) => {
                   <td>{item?.phone}</td>
                   <td>{item.gender}</td>
                   <td>{item.dateOfBirth}</td>
+                  
                   <td>
-                    <button>View order detail</button>
                     <button>Block</button>
                     <button className="delete-btn">
                       <MdOutlineRemoveRedEye />

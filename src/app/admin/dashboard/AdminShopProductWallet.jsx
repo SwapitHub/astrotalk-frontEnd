@@ -119,9 +119,7 @@ function AdminShopProductWallet({ updateButton }) {
             <FaSearch />
           </button>
         </div>
-        <div className="search-help-text">
-          <p>Search product based on product id</p>
-        </div>
+        
       </div>
 
       {loading ? (

@@ -2,35 +2,77 @@
 import Loader from "@/app/component/Loader";
 import SummernoteEditor from "@/app/component/SummernoteEditor";
 import TextEditor from "@/app/component/TextEditor";
+import useDebounce from "@/app/hook/useDebounce";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaSearch } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { RiDeleteBin7Fill } from "react-icons/ri";
 import { toast } from "react-toastify";
 
 const AstroMallShops = () => {
-  const [loading, setLoading] = useState(false);
   const [shopListData, setShopListData] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [editShopId, setEditShopId] = useState(null);
   const [shopContent, setShopContent] = useState("");
   const [toggleAstroCategory, setToggleAstroCategory] = useState(false);
 
-  const getAstroShopData = async () => {
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(4);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const debouncedSearch = useDebounce(search, 1000);
+
+  const fetchShopItems = async () => {
+    setLoading(true);
+    setError(null);
+
     try {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-list`
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-list`,
+        {
+          params: {
+            page,
+            limit,
+            search: debouncedSearch,
+          },
+        }
       );
-      setShopListData(res.data.data);
-    } catch (error) {
-      console.log("API error", error);
+
+      const { data, pagination } = response.data;
+      setShopListData(data);
+      setTotalPages(pagination.totalPages);
+    } catch (err) {
+      setError("Failed to fetch shop items");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    getAstroShopData();
-  }, []);
+    fetchShopItems();
+  }, [page, limit, debouncedSearch]);
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    setPage(1);
+  };
+
+  // Handle page change
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setPage(newPage);
+    }
+  };
+
+  // Handle limit change
+  const handleLimitChange = (e) => {
+    setLimit(Number(e.target.value));
+    setPage(1); // Reset to first page when limit changes
+  };
 
   const handleSubmit = async () => {
     const name = document.getElementById("name_shop").value;
@@ -216,7 +258,7 @@ const AstroMallShops = () => {
         <div className="change-password-popup">
           <div className="change-password">
             <span
-              className="close-icon"
+              className="close"
               onClick={() => setToggleAstroCategory(false)}
             >
               <IoClose />
@@ -298,9 +340,8 @@ const AstroMallShops = () => {
         </div>
       )}
       <div className="language-list">
-          <h2>Show astro mall shop list</h2>
+        <h2>Show astro mall shop list</h2>
         <div className="search-category-btn">
-
           <button
             onClick={() => {
               setToggleAstroCategory(true);
@@ -308,14 +349,21 @@ const AstroMallShops = () => {
           >
             Add Astro Shop Category
           </button>
-          <div className="search-box-filed">
-            <input
-              type="search"
-              id="astrologer-search"
-              name="astrologer-search"
-              placeholder="Search name or mobile..."
-              aria-label="Search wallet transactions"
-            />
+          <div className="search-box-top-btn">
+            <div className="search-box-filed">
+              <input
+                type="search"
+                placeholder="Search name..."
+                aria-label="Search wallet transactions"
+                value={search}
+                onChange={handleSearchChange}
+              />
+            </div>
+            <div className="search-button-filed">
+              <button type="button">
+                <FaSearch />
+              </button>
+            </div>
           </div>
         </div>
         {loading ? (
@@ -360,6 +408,23 @@ const AstroMallShops = () => {
             })}
           </div>
         )}
+        <div className="pagination">
+          <button
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page <= 1}
+          >
+            Previous
+          </button>
+          <span>
+            Page {page} of {totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page >= totalPages}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );

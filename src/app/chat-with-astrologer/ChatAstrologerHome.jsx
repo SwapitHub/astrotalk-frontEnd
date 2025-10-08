@@ -16,6 +16,7 @@ import RequestPopUp from "../component/RequestPopUp";
 import Cookies from "js-cookie";
 import useDebounce from "../hook/useDebounce";
 import { FaRegCircleUser } from "react-icons/fa6";
+import Image from "next/image";
 
 // const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
 const socket = io(process.env.NEXT_PUBLIC_BASE_URL, {
@@ -126,9 +127,11 @@ const ChatWithAstrologer = ({
     let limit = 3;
     try {
       const response = await axios.get(`
-        ${process.env.NEXT_PUBLIC_WEBSITE_URL
-        }/astrologer-businessProfile?name=${debouncedSearchName}&sortby=${sortFilterCharges || ""
-        }&page=${currentPage}&limit=${limit}&languages=${findLanguageListData}&professions=${findSkillsListData}&gender=${genderData}&country=${countryData}&minAverageRating=${averageRating}&profileStatus=true
+        ${
+          process.env.NEXT_PUBLIC_WEBSITE_URL
+        }/astrologer-businessProfile?name=${debouncedSearchName}&sortby=${
+        sortFilterCharges || ""
+      }&page=${currentPage}&limit=${limit}&languages=${findLanguageListData}&professions=${findSkillsListData}&gender=${genderData}&country=${countryData}&minAverageRating=${averageRating}&profileStatus=true
       `);
 
       const profiles = response.data.profiles;
@@ -182,7 +185,7 @@ const ChatWithAstrologer = ({
     const handleScroll = () => {
       if (
         window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 400 &&
+          document.body.offsetHeight - 400 &&
         hasMore &&
         !isFetchingMore &&
         !isLoading
@@ -284,8 +287,7 @@ const ChatWithAstrologer = ({
   };
 
   useEffect(() => {
-    socket.on("userId-to-astrologer-success", (data) => {
-    });
+    socket.on("userId-to-astrologer-success", (data) => {});
 
     socket.on("userId-to-astrologer-error", (error) => {
       console.error("Error saving userId and astrologerId:", error);
@@ -549,10 +551,11 @@ const ChatWithAstrologer = ({
                 <div className="inner-talk-to-astrologer-right-content">
                   <div className="recharge-btm">
                     <Link
-                      href={`${!userMobile || !userIds
-                        ? "#"
-                        : `/add-wallet-money/price-list`
-                        }`}
+                      href={`${
+                        !userMobile || !userIds
+                          ? "#"
+                          : `/add-wallet-money/price-list`
+                      }`}
                       title="Recharge"
                       className="recharge-button"
                       onClick={() => {
@@ -628,21 +631,26 @@ const ChatWithAstrologer = ({
                                 {item.topAstrologer == "celebrity"
                                   ? "Celebrity"
                                   : item.topAstrologer == "rising_star"
-                                    ? "Rising Star"
-                                    : item.topAstrologer == "top_choice"
-                                      ? "Top Choice"
-                                      : ""}
+                                  ? "Rising Star"
+                                  : item.topAstrologer == "top_choice"
+                                  ? "Top Choice"
+                                  : ""}
                               </div>
                             )}
 
                             <div className="astrologer-list-left">
                               <div className="astrologer-profile">
-                                {
-                                  <img
-                                    src={`${item?.profileImage}`}
-                                    alt={item?.name}
-                                  /> || <FaRegCircleUser />
-                                }
+                                <Image
+                                  width={100}
+                                  height={100}
+                                  src={
+                                    item?.profileImage
+                                      ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                                        item?.profileImage
+                                      : "/user-icon-image.png"
+                                  }
+                                  alt="certificate"
+                                />
                               </div>
                               <div className="five-star-rating">
                                 <ul className="stars">
@@ -684,7 +692,10 @@ const ChatWithAstrologer = ({
                                       {/* <span className="ctm-carly-breaks">
                                 {item.minute}
                               </span> */}
-                                      <span className="ctm-carly-breaks">/</span> min
+                                      <span className="ctm-carly-breaks">
+                                        /
+                                      </span>{" "}
+                                      min
                                     </span>
                                   </p>
                                 </div>
@@ -748,9 +759,9 @@ const ChatWithAstrologer = ({
                                         ? `/chat-with-astrologer/user/${userIds}`
                                         : "#"
                                     }
-                                  // onClick={() =>
-                                  //   onChangeId(item._id, item.mobileNumber)
-                                  // }
+                                    // onClick={() =>
+                                    //   onChangeId(item._id, item.mobileNumber)
+                                    // }
                                   >
                                     Chat
                                   </Link>
@@ -789,22 +800,26 @@ const ChatWithAstrologer = ({
                             {item.topAstrologer == "celebrity"
                               ? "Celebrity"
                               : item.topAstrologer == "rising_star"
-                                ? "Rising Star"
-                                : item.topAstrologer == "top_choice"
-                                  ? "Top Choice"
-                                  : ""}
+                              ? "Rising Star"
+                              : item.topAstrologer == "top_choice"
+                              ? "Top Choice"
+                              : ""}
                           </div>
                         )}
 
                         <div className="astrologer-list-left">
                           <div className="astrologer-profile">
-                            {
-                              <img
-                                src={`${item?.profileImage}`}
-                                alt={item?.name}
-                              /> || <FaRegCircleUser />
-                            }
-
+                            <Image
+                              width={100}
+                              height={100}
+                              src={
+                                item?.profileImage
+                                  ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                                    item?.profileImage
+                                  : `/user-icon-image.png`
+                              }
+                              alt="certificate"
+                            />
                           </div>
                           <div className="five-star-rating">
                             <ul className="stars">
@@ -846,7 +861,8 @@ const ChatWithAstrologer = ({
                                   {/* <span className="ctm-carly-breaks">
                                 {item.minute}
                               </span> */}
-                                  <span className="ctm-carly-breaks">/</span> min
+                                  <span className="ctm-carly-breaks">/</span>{" "}
+                                  min
                                 </span>
                               </p>
                             </div>
@@ -910,9 +926,9 @@ const ChatWithAstrologer = ({
                                     ? `/chat-with-astrologer/user/${userIds}`
                                     : "#"
                                 }
-                              // onClick={() =>
-                              //   onChangeId(item._id, item.mobileNumber)
-                              // }
+                                // onClick={() =>
+                                //   onChangeId(item._id, item.mobileNumber)
+                                // }
                               >
                                 Chat
                               </Link>

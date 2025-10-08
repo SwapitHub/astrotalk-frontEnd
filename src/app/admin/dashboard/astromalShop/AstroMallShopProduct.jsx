@@ -1,9 +1,10 @@
 "use client";
 import Loader from "@/app/component/Loader";
 import SummernoteEditor from "@/app/component/SummernoteEditor";
+import useDebounce from "@/app/hook/useDebounce";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaSearch } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { RiDeleteBin7Fill } from "react-icons/ri";
 import { toast } from "react-toastify";
@@ -21,6 +22,15 @@ const AstroMallShopProduct = () => {
   const [showImage, setShowImage] = useState();
   const [astrShopDetailData, setAstrShopDetailData] = useState("");
   const [toggleAstroCategory, setToggleAstroCategory] = useState(false);
+
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(4);
+  const [totalPages, setTotalPages] = useState(1);
+  const [error, setError] = useState(null);
+
+  const debouncedSearch = useDebounce(search, 1000);
+  console.log(debouncedSearch);
 
   useEffect(() => {
     if (!shopId) return;
@@ -42,13 +52,43 @@ const AstroMallShopProduct = () => {
   }, [shopId]);
 
   const fetchProductList = async () => {
+    setLoading(true);
+    setError(null);
+
     try {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-product`
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-product`,
+        {
+          params: {
+            page,
+            limit,
+            search: debouncedSearch,
+          },
+        }
       );
-      setProductListData(res.data.data);
-    } catch (error) {
-      toast.error("Product data not found", { position: "top-right" });
+
+      const { data, pagination } = response.data;
+      setProductListData(data);
+      setTotalPages(pagination.totalPages);
+    } catch (err) {
+      setError("Failed to fetch product items.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProductList();
+  }, [page, limit, debouncedSearch]);
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    setPage(1);
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setPage(newPage);
     }
   };
 
@@ -396,7 +436,7 @@ const AstroMallShopProduct = () => {
         <div className="change-password-popup">
           <div className="change-password">
             <span
-              className="close-icon"
+              className="close"
               onClick={() => setToggleAstroCategory(false)}
             >
               <IoClose />
@@ -664,14 +704,23 @@ const AstroMallShopProduct = () => {
           >
             Add Astro Shop Category
           </button>
-          <div className="search-box-filed">
-            <input
-              type="search"
-              id="astrologer-search"
-              name="astrologer-search"
-              placeholder="Search name or mobile..."
-              aria-label="Search wallet transactions"
-            />
+          <div className="search-box-top-btn">
+            <div className="search-box-filed">
+              <input
+                type="search"
+                id="astrologer-search"
+                name="astrologer-search"
+                placeholder="Search name..."
+                aria-label="Search wallet transactions"
+                value={search}
+                onChange={handleSearchChange}
+              />
+            </div>
+            <div className="search-button-filed">
+              <button type="button">
+                <FaSearch />
+              </button>
+            </div>
           </div>
         </div>
         {loading ? (
@@ -730,6 +779,23 @@ const AstroMallShopProduct = () => {
             })}
           </div>
         )}
+        <div className="pagination">
+          <button
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page <= 1}
+          >
+            Previous
+          </button>
+          <span>
+            Page {page} of {totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page >= totalPages}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -140,6 +140,7 @@ ul.submenu > li:not(:last-child), .header-user-drop-down ul li:not(:last-child) 
 .dashboard-right-content .search-box-top-btn input {min-width: 250px;}
 .search-box-top-btn input {border: none; height: 40px; outline: none; font-size: 15px; font-family: inherit; background-color: transparent; border-bottom: 1px solid var(--body_content_color); min-width: 300px; color: var(--body_content_color);}
 .search-box-top-btn input::placeholder {color: var(--body_content_color);}
+.search-box-top-btn .available-balance {margin: 0 0 0px 10px;}
 .search-help-text {margin-left: 15px;}
 .talk-to-astrologer-wrap > p {text-align: center; margin: 40px 0px 0px;}
 .search-button-filed button {display: flex; justify-content: center; align-items: center; padding: 0px; width: 40px; height: 40px;}
@@ -613,7 +614,7 @@ input::file-selector-button {background-color: transparent; border: 1px solid va
 .send-otp .left-col-resend p span {color: var(--primary_color);}
 .man-input-filed-sec.send-otp > p {width: 100%; color: green;}
 .talk-to-total-orders {text-align: center;}
-.close-icon, .close {position: absolute; right: 20px; top: 20px;}
+.close-icon, .close {position: absolute; right: 20px; top: 20px; opacity: 1 !important;}
 .close-icon button, .close {font-size: 0px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; padding: 0px; background-color: var(--primary_color); border-radius: 50%; cursor: pointer;}
 .close-icon button::before, .close-icon button::after, .close::before, .close::after {content: ""; position: absolute; width: 2px; height: 13px; background-color: #ffffff; transform: rotate(45deg);}
 .close-icon button::after, .close::after {transform: rotate(-45deg);}
@@ -865,7 +866,8 @@ td button + button {margin-left: 5px;}
 .astromall-slider-outer .heading-sec {text-align: center;}
 .astromall-slider-outer:last-child {padding-bottom: 0px;}
 .AstroMallShops-admin {align-items: flex-start;}
-.AstroMallShops-admin .change-password {position: sticky; top: 120px; min-width: 500px; max-height: calc(100vh - 120px); overflow-y: auto; max-width: 500px;}
+.AstroMallShops-admin .change-password, .change-password-popup .change-password {position: sticky; top: 120px; min-width: 500px; max-height: calc(100vh - 120px); overflow-y: auto; max-width: 500px;}
+.change-password-popup .change-password {max-height: calc(100vh - 40px);}
 .AstroMallShops-admin .language-list {width: auto; flex-grow: 1;}
 .astro-mall-btn {position: absolute; right: 10px; top: 10px; display: flex; gap: 5px;}
 .astro-mall-btn button {padding: 5px 0px 0px !important; width: 30px; height: 30px;}
@@ -873,7 +875,7 @@ td button + button {margin-left: 5px;}
 .AstroMallShops-admin {flex-wrap: unset;}
 .AstroMallShops-admin .details-cont {min-height: auto;}
 .AstroMallShops-admin .astromall-listing {margin: 20px 0px 0px;}
-.AstroMallShops-admin .astromall-listing > * {background-color: var(--secondary_color);}
+.AstroMallShops-admin .astromall-listing > * {background-color: var(--secondary_color); min-width: 0px;}
 .astromall-slider-outer .slider-sec {margin: 30px 0px 0px;}
 .astromall-slider-outer .slick-track {display: flex;}
 .astromall-slider-outer .slick-list {margin: 0px -10px;}
@@ -1183,8 +1185,8 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
 .head-search-outer h2, .head-search-outer h1 {font-size: 36px;}
 .head-search-outer .search-box-top-btn {margin: 0px !important;}
 .posts-listing > p {text-align: center; max-width: 100% !important; background-color: transparent !important;}
-.astro-detail-main, .astrologer-profile-edit-table, .astro-detail-main-view, .wallet-edit-main {position: absolute; width: calc(100% - 54px); height: 100%; background-color: var(--body_bg); opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 9; padding: 70px 0px 0px;}
-.astro-detail-admin-popup .astro-detail-main, .astro-detail-admin-edit-popup .astrologer-profile-edit-table, .wallet-view-popup .astro-detail-main-view, .wallet-edit-popup .wallet-edit-main  {opacity: 1; visibility: visible;}
+.astro-detail-main, .astrologer-profile-edit-table, .astro-detail-main-view, .wallet-edit-main {position: absolute; width: calc(100% - 54px); height: 100%; background-color: var(--body_bg); opacity: 0; visibility: hidden; display: none; transition: all 0.3s; z-index: 9; padding: 70px 0px 0px;}
+.astro-detail-admin-popup .astro-detail-main, .astro-detail-admin-edit-popup .astrologer-profile-edit-table, .wallet-view-popup .astro-detail-main-view, .wallet-edit-popup .wallet-edit-main  {opacity: 1; visibility: visible; display: block;}
 .img-data-outer {display: flex; align-items: center; gap: 50px;}
 .data-astrologer p {font-weight: normal;}
 .data-astrologer p strong {font-weight: 700;}
@@ -1200,6 +1202,9 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
 .parent-recharge-popups, .change-password-popup {width: 100%; height: 100%; position: fixed; left: 0; top: 0; z-index: 99; background-color: rgba(0, 0, 0, .6); display: flex; align-items: center; justify-content: center;}
 .wallet-edit-popup .astrologer-registration-form {margin: 0;}
 .change-password-popup .change-password {top: auto;}
+.search-category-btn {display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 20px; margin: 0 0 30px;}
+.search-category-btn .search-box-top-btn {margin: 0; flex-grow: unset;}
+.change-password .admin-form-box {background-color: transparent; padding: 0px;}
 /* ================== @ media css start here ================== */
 @media (max-width: 1600px) {
   .outer-home-dashboard ul {grid-template-columns: repeat(3, 1fr);}
@@ -1208,6 +1213,7 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
 @media (max-width: 1279px) {
 .astromall-slider-outer .slick-arrow.slick-prev {left: 0px;}
 .astromall-slider-outer .slick-arrow.slick-next {right: 0px;}
+.AstroMallShops-admin .astromall-listing {grid-template-columns: repeat(3, 1fr);}
 }
 @media (max-width: 1199px) {
   .header-user {padding: 38px 0px 40px 40px; margin-right: 40px;}
@@ -1228,7 +1234,8 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
   .outer-home-dashboard ul {grid-template-columns: repeat(2, 1fr);}
   .AstroMallShops-admin {flex-wrap: wrap;}
   .AstroMallShops-admin .change-password {position: static; min-width: 100%;}
-  .AstroMallShops-admin .language-list {margin: 40px 0px 0px; padding: 0px;}
+  .AstroMallShops-admin .language-list:not(:first-child) {margin: 40px 0px 0px;}
+  .AstroMallShops-admin .language-list {padding: 0px;}
   .product-add-ons-listing > * {padding: 15px;}
   .order-listing {grid-template-columns: repeat(3, 1fr);}
   .banner .left-col {flex: 0 0 58%; max-width: 58%;}
@@ -1237,6 +1244,7 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
   .astrology_seciton .row {grid-template-columns: repeat(2, 1fr); gap: 70px 25px;}
   .seminar-banner-row .right_col {max-width: 32%;}
   .astro-detail {padding: 40px 50px;}
+  .AstroMallShops-admin .astromall-listing {grid-template-columns: repeat(2 , 1fr);}
 }
 @media screen and (min-width: 768px) and (max-width: 991px) {
   .container {max-width: 750px; margin-inline: auto; padding: 0;}
@@ -1273,7 +1281,7 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
   .four-col .row {grid-template-columns: repeat(2, 1fr); gap: 40px;}
   .AddLanguage .language-add-data, .AddLanguage .language-list {width: 100%;}
   .AddLanguage .language-add-data {padding: 0px 0 0px; border-right: 0px; border-bottom: 0px solid #cfcfcf;}
-  .AddLanguage .language-list {padding: 30px 0px 0px;}
+  .AddLanguage .language-list:not(:first-child) {padding: 30px 0px 0px;}
   .AddAdminCommissions-puja.AddLanguage {margin: 39px 0px 0px; border-top: 1px solid #cfcfcf;}
   .main-doc {gap: 10px; grid-template-columns: repeat(2, 1fr);}
   .video_row {grid-template-columns: repeat(2, 1fr);}
@@ -1291,6 +1299,7 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
   .common-profile {flex-direction: column;}
   .common-profile > *:last-child {padding: 20px 0px;}
   .common-profile > *:first-child {border-left: 4px solid var(--primary_color); border-bottom: 0px;}
+  .astromall-listing {gap: 20px;}
 }
 @media (max-width: 767px) {
   body {font-size: 14px;}
@@ -1431,6 +1440,7 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
   .pagination {gap: 15px; flex-wrap: wrap;}
   .pagination button {padding: 10px 20px 8px;}
   .astro-detail-main, .astrologer-profile-edit-table, .astro-detail-main-view, .wallet-edit-main {width: calc(100% - 30px);}
+  .search-box-top-btn .available-balance {margin: 0 0 0px 0px;}
 }
 @media (max-width: 639px) {
   .four-col .row {grid-template-columns: repeat(1, 1fr); gap: 20px;}
@@ -1457,7 +1467,7 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
   .video_call_controls, .ring-size-text {width: 100%;}
   .product-main-size {flex-wrap: wrap;}
   .ring-size-text input {width: 225px;}
-  .user-seminar-form {min-width: calc(100% - 30px);}
+  .user-seminar-form, .AstroMallShops-admin .change-password, .change-password-popup .change-password {min-width: calc(100% - 30px);}
   .inner-order-list-data {grid-template-columns: repeat(1, 1fr);}
 }
 @media (max-width: 479px) {

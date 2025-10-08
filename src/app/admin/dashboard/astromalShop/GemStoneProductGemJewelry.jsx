@@ -2,7 +2,7 @@
 import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaSearch } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { RiDeleteBin7Fill } from "react-icons/ri";
 import { toast } from "react-toastify";
@@ -180,7 +180,7 @@ const GemStoneProductGemJewelry = () => {
         <div className="change-password-popup">
           <div className="change-password">
             <span
-              className="close-icon"
+              className="close"
               onClick={() => setToggleAstroCategory(false)}
             >
               <IoClose />
@@ -259,7 +259,7 @@ const GemStoneProductGemJewelry = () => {
         </div>
       )}
       <div className="language-list">
-        <h2> shop gemstone product jewelry</h2>
+        <h2> Shop gemstone product jewelry</h2>
         <div className="search-category-btn">
           <button
             onClick={() => {
@@ -268,15 +268,6 @@ const GemStoneProductGemJewelry = () => {
           >
             Add Astro gemstone Category
           </button>
-          <div className="search-box-filed">
-            <input
-              type="search"
-              id="astrologer-search"
-              name="astrologer-search"
-              placeholder="Search name or mobile..."
-              aria-label="Search wallet transactions"
-            />
-          </div>
         </div>
         {loading ? (
           <Loader />
