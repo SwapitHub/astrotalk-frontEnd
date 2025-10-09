@@ -134,7 +134,7 @@ function AdminWallet({ updateButton }) {
             <thead>
               <tr>
                 <th>Admin Available Balance</th>
-                <th>Admin get Amount with astrologer</th>
+                <th>Admin get Commission with astrologer</th>
                 <th>Description</th>
                 <th>Date and Time</th>
               </tr>

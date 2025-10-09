@@ -30,6 +30,7 @@ function AstrologerPendingList() {
   const [showDelete, setShowDelete] = useState(false);
   const [deletePermanently, setDeletePermanently] = useState(false);
   const [astroToDeleteMObile, setAstroToDeleteMObile] = useState();
+  
   const fetchAstrologers = async (pageNumber = 1, search = "") => {
     setLoading(true);
     try {
@@ -155,6 +156,8 @@ function AstrologerPendingList() {
         setAddActiveClass={setAddActiveClass}
         setLoading={setLoading}
         checkCompleteProfile={checkCompleteProfile}
+        fetchAstrologers={fetchAstrologers}
+
       />
 
       {loading ? (
@@ -199,7 +202,7 @@ function AstrologerPendingList() {
               <tbody>
                 {pendingData.map(
                   (item) =>
-                    item.deleteAstroLoger == false && (
+                    
                       <tr key={item._id}>
                         <td>{item.name}</td>
                         <td>{item?.mobileNumber}</td>
@@ -289,7 +292,7 @@ function AstrologerPendingList() {
                           </button>
                         </td>
                       </tr>
-                    )
+                    
                 )}
               </tbody>
             </table>

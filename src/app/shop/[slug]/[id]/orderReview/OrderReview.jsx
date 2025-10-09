@@ -22,6 +22,7 @@ const OrderReview = () => {
     fetchUrl: `${process.env.NEXT_PUBLIC_WEBSITE_URL}/add-AdminCommission-puja-astrologer`,
   });
 
+  
   useEffect(() => {
     const handleAddressDetail = async () => {
       try {
@@ -94,7 +95,6 @@ const OrderReview = () => {
   const totalFinalPrice = Math.round(priceNumber + totalGstPrice);
   const adminCommission =
     (pujaCommission[0]?.AdminCommissionsPuja * servicePrice) / 100;
-  console.log(adminCommission);
 
   return (
     <>

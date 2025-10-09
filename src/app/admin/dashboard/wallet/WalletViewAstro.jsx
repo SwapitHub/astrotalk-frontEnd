@@ -9,7 +9,7 @@ const WalletView = ({
   setAddActiveClass,
   setLoading,
 }) => {
-  console.log(mobileNumber, "mobileNumber");
+  console.log(mobileNumber, "mobileNumber-12");
 
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearch = useDebounce(searchQuery, 800);
@@ -206,7 +206,7 @@ const WalletView = ({
               <thead>
                 <tr>
                   {/* <th>Transaction ID</th> */}
-                  <th>Name</th>
+                  <th>Astrologer Name</th>
                   <th>Available Balance</th>
                   <th>Transaction Amount</th>
                   <th>Description</th>

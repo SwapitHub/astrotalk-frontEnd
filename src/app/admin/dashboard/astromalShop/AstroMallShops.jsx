@@ -4,6 +4,7 @@ import SummernoteEditor from "@/app/component/SummernoteEditor";
 import TextEditor from "@/app/component/TextEditor";
 import useDebounce from "@/app/hook/useDebounce";
 import axios from "axios";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaEdit, FaSearch } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
@@ -68,12 +69,6 @@ const AstroMallShops = () => {
     }
   };
 
-  // Handle limit change
-  const handleLimitChange = (e) => {
-    setLimit(Number(e.target.value));
-    setPage(1); // Reset to first page when limit changes
-  };
-
   const handleSubmit = async () => {
     const name = document.getElementById("name_shop").value;
     let slug = document.getElementById("slug_shop").value;
@@ -127,7 +122,8 @@ const AstroMallShops = () => {
         toast.success("Added list Successfully", {
           position: "top-right",
         });
-        getAstroShopData();
+        fetchShopItems();
+        setToggleAstroCategory(false);
       }
 
       // clear input fields
@@ -213,8 +209,8 @@ const AstroMallShops = () => {
         toast.success("Updated Successfully", { position: "top-right" });
         setEditMode(false);
         setEditShopId(null);
-        setToggleAstroCategory(false);
-        await getAstroShopData(); // refresh list
+        await fetchShopItems();
+; // refresh list
 
         // Clear inputs
         document.getElementById("name_shop").value = "";
@@ -226,6 +222,7 @@ const AstroMallShops = () => {
         document.getElementById("offer_checkbox").checked = false;
         document.getElementById("Jewelry_product_gem").checked = false;
         setShopContent("");
+        setToggleAstroCategory(false);
       }
     } catch (err) {
       console.error("Update error:", err);
@@ -242,11 +239,11 @@ const AstroMallShops = () => {
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/delete-astro-shope/${deleteId}`
       );
       if (response.status == 200) {
-        getAstroShopData();
+         await fetchShopItems();
+         toast.success("Removed successfully", { position: "top-right" });
       }
     } catch (err) {
       console.log("delete API error", err);
-      toast.error("Delete Failed", { position: "top-right" });
     } finally {
       setLoading(false);
     }
@@ -347,7 +344,7 @@ const AstroMallShops = () => {
               setToggleAstroCategory(true);
             }}
           >
-            Add Astro Shop Category
+            Add Astro Shop
           </button>
           <div className="search-box-top-btn">
             <div className="search-box-filed">
@@ -379,6 +376,17 @@ const AstroMallShops = () => {
                     </div>
                     <div className="details-outer">
                       <div className="product-img">
+                        {/* <Image
+                          width={100}
+                          height={100}
+                          src={
+                            item?.astroMallImg
+                              ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                                item?.astroMallImg
+                              : "./user-icon-image.png"
+                          }
+                          alt="user-icon"
+                        /> */}
                         <img src={item?.astroMallImg} alt="" />
                       </div>
                       <div className="details-cont">

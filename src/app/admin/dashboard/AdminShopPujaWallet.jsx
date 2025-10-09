@@ -136,7 +136,7 @@ function AdminShopWallet() {
                 walletAdminData.map((item) => (
                   <tr key={item._id}>
                     <td>{item.order_id}</td>
-                    <td>use name</td>
+                    <td>{item?.userName}</td>
                     <td>{item.userMobile}</td>
                     <td>{item?.astrologerName}</td>
                     <td>{item?.astrologerPhone}</td>

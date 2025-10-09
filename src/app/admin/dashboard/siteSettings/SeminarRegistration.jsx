@@ -2,6 +2,7 @@ import Loader from "@/app/component/Loader";
 import ShowLessShowMore from "@/app/component/ShowLessShowMore";
 import useCustomGetApi from "@/app/hook/CustomHookGetApi";
 import axios from "axios";
+import Image from "next/image";
 import { useState } from "react";
 import { MdDelete, MdEditSquare } from "react-icons/md";
 
@@ -36,7 +37,7 @@ const SeminarRegistration = () => {
     "Health Astrology",
   ];
   const handleEdit = (seminar) => {
-     window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
     setFormData({
       name: seminar.name,
       topic: seminar.seminar_topic,
@@ -294,6 +295,9 @@ const SeminarRegistration = () => {
               name="phone"
               onChange={handleChange}
               value={formData?.phone}
+              onInput={(e) => {
+                e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
+              }}
             />
             {errors.phone && (
               <span style={{ color: "red" }}>{errors.phone}</span>
@@ -301,10 +305,7 @@ const SeminarRegistration = () => {
           </div>
           <div className="form-field">
             <div className="label-content">
-              <label>
-                Add Seminar Link:{" "}
-                (Zoom / Google Meet)
-              </label>
+              <label>Add Seminar Link: (Zoom / Google Meet)</label>
             </div>
             <input
               className="common-input-filed"
@@ -314,7 +315,7 @@ const SeminarRegistration = () => {
               value={formData?.seminar_link}
               placeholder="Add here seminar link"
             />
-            {errors.phone && (
+            {errors.seminar_link && (
               <span style={{ color: "red" }}>{errors.seminar_link}</span>
             )}
           </div>
@@ -340,14 +341,15 @@ const SeminarRegistration = () => {
             {/* {console.log(formData?.image.name )
             } */}
             {formData?.image && (
-              <img
+              <Image
+                width={100}
+                height={100}
                 src={
                   formData?.image?.name
-                    ? URL.createObjectURL(formData?.image)
-                    : formData?.image
+                    ? process.env.NEXT_PUBLIC_WEBSITE_URL + URL.createObjectURL(formData?.image)
+                    : process.env.NEXT_PUBLIC_WEBSITE_URL + formData?.image
                 }
-                alt="Preview"
-                style={{ maxWidth: "100px", marginTop: "10px" }}
+                alt="user-icon"
               />
             )}
           </div>
@@ -366,11 +368,9 @@ const SeminarRegistration = () => {
             {loading
               ? "Submitting..."
               : editMode
-                ? "Update Seminar"
-                : "Send Invitation"}
+              ? "Update Seminar"
+              : "Send Invitation"}
           </button>
-
-
         </form>
       </div>
 
@@ -389,44 +389,32 @@ const SeminarRegistration = () => {
             >
               <thead>
                 <tr>
-                  <th>
-                    Astrologer Img
-                  </th>
-                  <th>
-                    Astrologer Name
-                  </th>
-                  <th>
-                    Astrologer Mobile
-                  </th>
-                  <th>
-                    Astrologer seminar topic
-                  </th>
-                  <th>
-                    Astrologer Time and Date
-                  </th>
-                  <th>
-                    Astrologer Detail
-                  </th>
-                  <th>
-                    Seminar Status
-                  </th>
+                  <th>Astrologer Img</th>
+                  <th>Astrologer Name</th>
+                  <th>Astrologer Mobile</th>
+                  <th>Astrologer seminar topic</th>
+                  <th>Astrologer Time and Date</th>
+                  <th>Astrologer Detail</th>
+                  <th>Seminar Status</th>
                 </tr>
               </thead>
               <tbody>
                 {seminarData?.data.map((item) => (
                   <tr key={item._id}>
                     <td>
-                      <img src={item?.singleImages?.img_url} alt="" />
+                      <Image
+                        width={100}
+                        height={100}
+                        src={
+                          process.env.NEXT_PUBLIC_WEBSITE_URL +
+                          item?.singleImages?.img_url
+                        }
+                        alt="user-icon"
+                      />
                     </td>
-                    <td>
-                      {item.name}
-                    </td>
-                    <td>
-                      {item.mobile_number}
-                    </td>
-                    <td>
-                      {item.seminar_topic}
-                    </td>
+                    <td>{item.name}</td>
+                    <td>{item.mobile_number}</td>
+                    <td>{item.seminar_topic}</td>
                     <td>
                       {item?.time_of_seminar} , {item?.date_of_seminar}
                     </td>
@@ -438,13 +426,15 @@ const SeminarRegistration = () => {
                     </td>
                     <td>
                       <div className="edit-delete-btn">
-                      <button onClick={() => handleEdit(item)}><MdEditSquare /></button>
-                      <button
-                        style={{ marginLeft: 8 }}
-                        onClick={() => handleDelete(item._id)}
-                      >
-                       <MdDelete />
-                      </button>
+                        <button onClick={() => handleEdit(item)}>
+                          <MdEditSquare />
+                        </button>
+                        <button
+                          style={{ marginLeft: 8 }}
+                          onClick={() => handleDelete(item._id)}
+                        >
+                          <MdDelete />
+                        </button>
                       </div>
                     </td>
                   </tr>

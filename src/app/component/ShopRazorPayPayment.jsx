@@ -25,10 +25,29 @@ const ShopRazorPayPayment = ({
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [userMobile, setUserMobile] = useState(false);
+  const [userData, setUserData] = useState();
+console.log(userData, userMobile);
 
   useEffect(() => {
-    const userMobiles = Math.round(Cookies.get("userMobile"));
-    setUserMobile(userMobiles);
+    const mobileFromCookie = Cookies.get("userMobile");
+
+    if (mobileFromCookie) {
+      const parsedMobile = parseInt(mobileFromCookie, 10); // Safer than Math.round
+      setUserMobile(parsedMobile);
+
+      const fetchUserData = async () => {
+        try {
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${parsedMobile}`
+          );
+          setUserData(response.data.data);
+        } catch (err) {
+          console.error("Error fetching user detail:", err);
+        }
+      };
+
+      fetchUserData();
+    }
   }, []);
 
   const handlePayment = async () => {
@@ -59,6 +78,7 @@ const ShopRazorPayPayment = ({
           totalAmount: totalAmount,
           currency: "INR",
           userMobile: Math.round(userMobile),
+          userName: userData?.name,
           astrologerName,
           astrologerPhone,
           productName: productDetailData?.name,

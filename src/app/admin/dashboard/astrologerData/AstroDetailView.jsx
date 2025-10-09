@@ -4,12 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
+import WalletView from "../wallet/WalletViewAstro";
 
 const AstroDetail = ({
   astroMobileNumber,
   setAddActiveClass,
   setLoading,
   checkCompleteProfile,
+  
 }) => {
   const [astroDetailData, setAstroDetail] = useState();
   const [astroRegelationDetail, setAstroRegelationDetail] = useState();
@@ -99,7 +101,23 @@ const AstroDetail = ({
 
   return (
     <div className="astro-detail-main">
-      <span
+     
+
+      {checkCompleteProfile ? (
+        <div className="profile-table">
+          <div className="inner-profile-table">
+            <>
+              <WalletView
+                mobileNumber={astroMobileNumber}
+                setAddActiveClass={setAddActiveClass}
+                setLoading={setLoading}
+              />
+            </>
+          </div>
+        </div>
+      ) : (
+        <>
+         <span
         className="close"
         onClick={() => {
           setAddActiveClass(false);
@@ -107,101 +125,6 @@ const AstroDetail = ({
       >
         X
       </span>
-
-      {checkCompleteProfile ? (
-        <div className="profile-table">
-          <div className="inner-profile-table">
-            <div className="common-profile">
-              <div className="img">Image</div>
-              <div className="input-outer">
-                {astroDetailData?.profileImage ? (
-                  <Image
-                    width={100}
-                    height={100}
-                    src={
-                      process.env.NEXT_PUBLIC_WEBSITE_URL +
-                      astroDetailData?.profileImage
-                    }
-                    alt="user-icon"
-                  />
-                ) : (
-                  <img src="./user-icon-image.png"></img>
-                )}
-              </div>
-            </div>
-            <div className="common-profile">
-              <div className="name">Name</div>
-              <div className="input-outer">{astroDetailData?.name}</div>
-            </div>
-            <div className="common-profile">
-              <div className="mobile">mobileNumber</div>
-
-              <div className="input-outer">{astroDetailData?.mobileNumber}</div>
-            </div>
-            <div className="common-profile">
-              <div className="experience">Experience</div>
-
-              <div className="input-outer">{astroDetailData?.experience}</div>
-            </div>
-            <div className="common-profile">
-              <div className="charge">Charges</div>
-
-              <div className="input-outer">{astroDetailData?.charges}</div>
-            </div>
-            <div className="common-profile">
-              <div className="total-order">Total orders</div>
-
-              <div className="input-outer">{astroDetailData?.totalOrders}</div>
-            </div>
-            <div className="common-profile">
-              <div className="language">Languages</div>
-
-              <div className="skills input-outer">
-                {astroDetailData?.languages.map((item) => (
-                  <>
-                    <span>{item}</span>
-                  </>
-                ))}
-              </div>
-            </div>
-            <div className="common-profile">
-              <div className="professions">Professions</div>{" "}
-              <div className="skills input-outer">
-                {astroDetailData?.professions.map((item) => (
-                  <span>{item}</span>
-                ))}
-              </div>
-            </div>
-            <div className="common-profile">
-              <div className="spiritual">Spiritual Services</div>
-
-              <div className="input-outer">
-                {astroDetailData?.spiritual_services.map((item) => (
-                  <div className="puja-detail">
-                    <p>
-                      Puja Name: <span>{item?.shop_name}</span>{" "}
-                    </p>
-                    <p>
-                      Service Price: <span>{item?.service_price}</span>{" "}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="common-profile">
-              <div className="description">Description</div>
-
-              <div className="input-outer">
-                <ShowLessShowMore
-                  description={astroDetailData?.Description}
-                  totalWord={10}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <>
           <h2>
             {!astroRegelationDetail?.completeProfile &&
               "Astrologer Profile is not completed"}

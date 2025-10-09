@@ -460,7 +460,7 @@ span.banner-heading, .footer-product-name {font-weight: 600; font-size: 18px; ma
 .profile_with_contact::before {content: ""; position: absolute; width: 100%; height: 100%; left: 0; top: 0; background-color: var(--secondary_hover); opacity: .7;}
 .profile_with_contact > * {position: relative;}
 .profile_with_contact_slider {padding: 90px 0px 25px;}
-.profile_with_contact_slider-inner {display: flex; justify-content: space-between; gap: 50px; flex-wrap: wrap; align-items: flex-start;}
+.profile_with_contact_slider-inner {display: flex; justify-content: space-between; gap: 50px; align-items: flex-start;}
 .slider-outer {order: 3; max-width: 100%; flex: 0 0 100%;}
 .slider-outer .astro-img {padding: 0px 10px;}
 .profile_with_contact .image img {box-shadow: 0px -3px 20px rgba(0, 0, 0, .2); width: 100px; height: 100px; object-fit: cover; object-position: center; border-radius: 50%; display: block;}
@@ -1191,6 +1191,12 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
 .data-astrologer p {font-weight: normal;}
 .data-astrologer p strong {font-weight: 700;}
 .astro-detail-main .close, .astrologer-profile-edit-table .close, .astro-detail-main-view .close, .wallet-edit-main .close{opacity: 1; font-size: 0; right: 0px;}
+body.astro-detail-admin-popup .astro-detail-main-view {
+    display: block;
+    z-index: inherit;
+    visibility: visible;
+    opacity: 1;
+}
 .common-profile {display: flex;}
 .common-profile > * {display: flex; align-items: center; font-size: 14px;}
 .common-profile > *:first-child {background-color: #f2f2f2; min-width: 200px; padding: 20px; border-bottom: 1px solid #ffffff; font-weight: 500;}
@@ -1441,6 +1447,7 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
   .pagination button {padding: 10px 20px 8px;}
   .astro-detail-main, .astrologer-profile-edit-table, .astro-detail-main-view, .wallet-edit-main {width: calc(100% - 30px);}
   .search-box-top-btn .available-balance {margin: 0 0 0px 0px;}
+  .profile_with_contact_slider-inner {flex-wrap: wrap;}
 }
 @media (max-width: 639px) {
   .four-col .row {grid-template-columns: repeat(1, 1fr); gap: 20px;}

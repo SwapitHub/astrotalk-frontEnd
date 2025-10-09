@@ -2,6 +2,7 @@
 
 import Loader from "@/app/component/Loader";
 import axios from "axios";
+import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { MdDelete, MdEditSquare } from "react-icons/md";
 import { toast } from "react-toastify";
@@ -144,8 +145,10 @@ const BannerHome = () => {
 
     document.getElementById("banner_heading").value = item.banner_heading || "";
     document.getElementById("banner_desc").value = item.banner_desc || "";
-    document.getElementById("banner_btn_name").value = item.banner_btn_name || "";
-    document.getElementById("banner_btn_link").value = item.banner_btn_link || "";
+    document.getElementById("banner_btn_name").value =
+      item.banner_btn_name || "";
+    document.getElementById("banner_btn_link").value =
+      item.banner_btn_link || "";
 
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -172,7 +175,9 @@ const BannerHome = () => {
         <h2>{isEditMode ? "Update Banner" : "Create New Banner"}</h2>
         <div className="admin-form-box">
           <div className="form-field">
-            <div className="label-content"><label>Choose Image:</label></div>
+            <div className="label-content">
+              <label>Choose Image:</label>
+            </div>
             <input
               className="common-input-filed"
               type="file"
@@ -182,7 +187,9 @@ const BannerHome = () => {
             />
           </div>
           <div className="form-field">
-            <div className="label-content"><label>Heading Text:</label></div>
+            <div className="label-content">
+              <label>Heading Text:</label>
+            </div>
             <input
               className="common-input-filed"
               type="text"
@@ -192,7 +199,9 @@ const BannerHome = () => {
           </div>
 
           <div className="form-field">
-            <div className="label-content"><label>Button Name:</label></div>
+            <div className="label-content">
+              <label>Button Name:</label>
+            </div>
             <input
               className="common-input-filed"
               type="text"
@@ -201,7 +210,9 @@ const BannerHome = () => {
             />
           </div>
           <div className="form-field">
-            <div className="label-content"><label>Button Link:</label></div>
+            <div className="label-content">
+              <label>Button Link:</label>
+            </div>
             <input
               className="common-input-filed"
               type="text"
@@ -210,7 +221,9 @@ const BannerHome = () => {
             />
           </div>
           <div className="form-field">
-            <div className="label-content"><label>Description:</label></div>
+            <div className="label-content">
+              <label>Description:</label>
+            </div>
             <input
               className="common-input-filed"
               type="text"
@@ -249,19 +262,30 @@ const BannerHome = () => {
                     <span className="btn-text">{item?.banner_btn_name}</span>
                     <span className="btn-link">{item?.banner_btn_link}</span>
                   </span>
-                   <div className="edit-delete-btn">
-                  <button
-                    onClick={() =>
-                      deleteBannerHome(item?.singleImages?.cloudinary_id)
-                    }
-                  >
-                    <MdDelete />
-                  </button>
-                  <button onClick={() => handleEdit(item)}><MdEditSquare /></button>
+                  <div className="edit-delete-btn">
+                    <button
+                      onClick={() =>
+                        deleteBannerHome(item?.singleImages?.cloudinary_id)
+                      }
+                    >
+                      <MdDelete />
+                    </button>
+                    <button onClick={() => handleEdit(item)}>
+                      <MdEditSquare />
+                    </button>
                   </div>
                 </span>
                 <span className="banner-img">
-                  <img src={item?.singleImages?.img_url} alt="banner" />
+                  <Image
+                    width={100}
+                    height={100}
+                    src={
+                      process.env.NEXT_PUBLIC_WEBSITE_URL +
+                      item?.singleImages?.img_url
+                    }
+                    alt="user-icon"
+                  />
+                  {/* <img src={item?.singleImages?.img_url} alt="banner" /> */}
                 </span>
               </li>
             ))}

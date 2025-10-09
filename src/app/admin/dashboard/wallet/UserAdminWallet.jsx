@@ -192,7 +192,7 @@ console.log(userToDelete , deletePermanently,"ewewew");
                   walletAdminData.map((user) => {
                     return (
                       <>
-                        {!user?.deleteUser && (
+                        {
                           <tr key={user._id}>
                             <td>{user.name}</td>
                             <td>{user.phone}</td>
@@ -230,7 +230,7 @@ console.log(userToDelete , deletePermanently,"ewewew");
                               </button>
                             </td>
                           </tr>
-                        )}
+                        }
                       </>
                     );
                   })

@@ -21,6 +21,7 @@ import RequestPopUp from "../component/RequestPopUp";
 import { useRouter } from "next/navigation";
 import AstrologerReview from "../astrologer/AstrologerReview";
 import Cookies from "js-cookie";
+import Image from "next/image";
 
 const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
   withCredentials: true,
@@ -42,7 +43,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
   const [astroMobileNum, setAstroMobileNum] = useState();
   const [astrologerId, setAstrologerId] = useState();
   const [galleryData, setGalleryData] = useState([]);
-console.log(astrologerData);
+  console.log(astrologerData);
 
   const [userData, setUserData] = useState();
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
@@ -328,7 +329,17 @@ console.log(astrologerData);
             <div className="profile_with_contact">
               <div className="image">
                 <div className="img">
-                  <img src={`${astrologerData?.profileImage}`} />
+                  <Image
+                    width={100}
+                    height={100}
+                    src={
+                      astrologerData?.profileImage
+                        ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                          astrologerData?.profileImage
+                        : "/user-icon-image.png"
+                    }
+                    alt="certificate"
+                  />
                 </div>
                 {/* <button type="button" className="follow-button">
                   Follow
@@ -528,15 +539,15 @@ console.log(astrologerData);
             )}
 
             <div className="about_us">
-            <div className="about_us-content">
-              <h2>About me</h2>
-              <p>{astrologerData.Description}</p>
+              <div className="about_us-content">
+                <h2>About me</h2>
+                <p>{astrologerData.Description}</p>
               </div>
               <div className="rating-row">
                 <div className="rating_col">
                   <div className="rating-head">
-                  <h2>Rating & Reviews</h2>
-                  <div className="rating_star">
+                    <h2>Rating & Reviews</h2>
+                    <div className="rating_star">
                       <div className="ratting_number">
                         {astrologerData?.averageRating}
                       </div>
@@ -587,7 +598,6 @@ console.log(astrologerData);
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -599,7 +609,6 @@ console.log(astrologerData);
         <div className="container">
           <div className="rating_review-inner">
             <div className="row">
-              
               <AstrologerReview
                 astrologerData={astrologerData}
                 renderStars={renderStars}

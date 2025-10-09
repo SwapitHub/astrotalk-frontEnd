@@ -614,10 +614,12 @@ const ChatWithAstrologer = ({
             {isLoading && <Loader />}
             {error && <p className="error">Error fetching data</p>}
 
+            {console.log(showAstrologer)}
             {/* Show nothing by default (showAstrologer === null) */}
             {showAstrologer === null ? null : showAstrologer?.length > 0 ? (
               <div className="all-list-talk-to-astrologer">
                 {showAstrologer?.map((item) => {
+                  
                   return (
                     <>
                       {item.profileStatus == true && (

@@ -189,61 +189,58 @@ function AstroLogerList() {
                 </tr>
               </thead>
               <tbody>
-                {pendingData?.map(
-                  (item) =>
-                    item?.deleteAstroLoger == false && (
-                      <tr key={item._id}>
-                        <td>{item.name}</td>
-                        <td>{item.mobileNumber}</td>
-                        <td>{new Date(item.createdAt).toLocaleString()}</td>
-                        <td>{item?.charges || 0} </td>
-                        <td>
-                          <button
-                            onClick={() =>
-                              updateBlockUnblockAstro(
-                                item._id,
-                                item?.blockUnblockAstro ? false : true
-                              )
-                            }
-                          >
-                            {item?.blockUnblockAstro ? "Unblock" : "Block"}
-                          </button>
-                          <button
-                            className="delete-btn"
-                            onClick={() => {
-                              setAddActiveClass(true);
-                              setAstroMobileNumber(item.mobileNumber);
-                              setCheckCompleteProfile(item?.completeProfile);
-                            }}
-                          >
-                            <MdOutlineRemoveRedEye />
-                          </button>
-                          <button
-                            className="delete-btn"
-                            onClick={() => {
-                              setAddActiveClassEdit(true);
-                              setAstroMobileNumber(item.mobileNumber);
-                              setCheckCompleteProfile(item?.completeProfile);
-                            }}
-                          >
-                            <FaEdit />
-                          </button>
-                          <button
-                            className="delete-btn"
-                            onClick={() => {
-                              setAstroToDelete({
-                                id: item._id,
-                                mobile: item.mobileNumber,
-                              }); 
-                              setShowDelete(true);
-                            }}
-                          >
-                            <MdDelete />
-                          </button>
-                        </td>
-                      </tr>
-                    )
-                )}
+                {pendingData?.map((item) => (
+                  <tr key={item._id}>
+                    <td>{item.name}</td>
+                    <td>{item.mobileNumber}</td>
+                    <td>{new Date(item.createdAt).toLocaleString()}</td>
+                    <td>{item?.charges || 0} </td>
+                    <td>
+                      <button
+                        onClick={() =>
+                          updateBlockUnblockAstro(
+                            item._id,
+                            item?.blockUnblockAstro ? false : true
+                          )
+                        }
+                      >
+                        {item?.blockUnblockAstro ? "Unblock" : "Block"}
+                      </button>
+                      <button
+                        className="delete-btn"
+                        onClick={() => {
+                          setAddActiveClass(true);
+                          setAstroMobileNumber(item.mobileNumber);
+                          setCheckCompleteProfile(item?.completeProfile);
+                        }}
+                      >
+                        <MdOutlineRemoveRedEye />
+                      </button>
+                      <button
+                        className="delete-btn"
+                        onClick={() => {
+                          setAddActiveClassEdit(true);
+                          setAstroMobileNumber(item.mobileNumber);
+                          setCheckCompleteProfile(item?.completeProfile);
+                        }}
+                      >
+                        <FaEdit />
+                      </button>
+                      <button
+                        className="delete-btn"
+                        onClick={() => {
+                          setAstroToDelete({
+                            id: item._id,
+                            mobile: item.mobileNumber,
+                          });
+                          setShowDelete(true);
+                        }}
+                      >
+                        <MdDelete />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

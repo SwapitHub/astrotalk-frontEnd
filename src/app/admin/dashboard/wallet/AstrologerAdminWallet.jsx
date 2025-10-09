@@ -204,7 +204,7 @@ function AstrologerAdminWallet() {
                   walletAdminData.map((user) => {
                     return (
                       <>
-                        {!user?.deleteAstroLoger && (
+                        
                           <tr key={user._id}>
                             <td>
                               {" "}
@@ -260,7 +260,7 @@ function AstrologerAdminWallet() {
                               </button>
                             </td>
                           </tr>
-                        )}
+                        
                       </>
                     );
                   })
