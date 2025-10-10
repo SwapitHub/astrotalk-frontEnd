@@ -32,6 +32,7 @@ const AstrologerHome = () => {
   const [astrologerData, setAstrologerData] = useState("");
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
   const [registrationDetail, setRegistrationDetail] = useState();
+console.log(astrologerData,"astrologerData");
 
   useEffect(() => {
     if (!astrologerPhone) {

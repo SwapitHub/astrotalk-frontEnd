@@ -136,7 +136,7 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
           <span>Astrologer Charges:</span> <span className="value">{astrologerData?.charges}</span>
         </div>
         <div className="astrologer-bal">
-          <span>Total Balance:</span> <span className="value">₹{Math.round(astrologerData?.totalAvailableBalance)}</span>
+          <span>Total Balance:</span> <span className="value">₹{Math.round(astrologerData?.totalAvailableBalance)|| 0}</span>
         </div>
       </div>
       <div className="outer-home-dashboard">

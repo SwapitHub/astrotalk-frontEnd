@@ -8,18 +8,19 @@ import { MdDelete, MdOutlineRemoveRedEye } from "react-icons/md";
 import secureLocalStorage from "react-secure-storage";
 import WalletView from "./wallet/WalletViewUser";
 import WalletEdit from "./wallet/WalletEditUser";
+import BlockUnblock from "@/app/component/BlockUnblock";
 
 const UserList = () => {
+  let showNameData = "User";
+
   const [userMainData, setUserMainData] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearch = useDebounce(searchQuery, 500);
-
   const [showDelete, setShowDelete] = useState(false);
   const [deletePermanently, setDeletePermanently] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
@@ -27,7 +28,10 @@ const UserList = () => {
   const [mobileNumber, setMobileNumber] = useState();
   const [addActiveClassEdit, setAddActiveClassEdit] = useState(false);
 
-  let showNameData = "User List";
+  const [showBlockUnblock, setShowBlockUnblock] = useState(false);
+  const [blockUnblockPermanently, setBlockUnblockPermanently] = useState();
+  const [updateBlockUnblock, setUpdateBlockUnblock] = useState();
+  const [blockUnblock, setBlockUnblock] = useState();
 
   // 🚀 Fetch user data with pagination & search
   const fetchUsers = async (pageNumber) => {
@@ -57,7 +61,7 @@ const UserList = () => {
   // 🧱 Update block/unblock user
   const updateBlockUnblockUser = async (id, status) => {
     try {
-      const response = await axios.put(
+      await axios.put(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${id}`,
         { blockUser: status }
       );
@@ -88,6 +92,13 @@ const UserList = () => {
   }, [deletePermanently]);
 
   useEffect(() => {
+    if (blockUnblock?.id && blockUnblockPermanently) {
+      updateBlockUnblockUser(blockUnblock.id, blockUnblock.blockUser);
+      setBlockUnblockPermanently(false); // reset after action
+    }
+  }, [blockUnblockPermanently]);
+
+  useEffect(() => {
     if (addActiveClass) {
       document.body.classList.add("wallet-view-popup");
     } else {
@@ -95,13 +106,13 @@ const UserList = () => {
     }
   }, [addActiveClass]);
 
-    useEffect(() => {
-      if (addActiveClassEdit) {
-        document.body.classList.add("wallet-edit-popup");
-      } else {
-        document.body.classList.remove("wallet-edit-popup");
-      }
-    }, [addActiveClassEdit]);
+  useEffect(() => {
+    if (addActiveClassEdit) {
+      document.body.classList.add("wallet-edit-popup");
+    } else {
+      document.body.classList.remove("wallet-edit-popup");
+    }
+  }, [addActiveClassEdit]);
   return (
     <>
       {/* 🔔 Delete confirmation popup */}
@@ -110,6 +121,15 @@ const UserList = () => {
           setShowDelete={setShowDelete}
           setDeletePermanently={setDeletePermanently}
           showNameData={showNameData}
+        />
+      )}
+      {showBlockUnblock && (
+        <BlockUnblock
+          setShowBlockUnblock={setShowBlockUnblock}
+          setBlockUnblockPermanently={setBlockUnblockPermanently}
+          showNameData={showNameData}
+          updateBlockUnblock={updateBlockUnblock}
+          
         />
       )}
       {mobileNumber && (
@@ -175,9 +195,14 @@ const UserList = () => {
                   <td>
                     {/* 🔘 Block/Unblock */}
                     <button
-                      onClick={() =>
-                        updateBlockUnblockUser(item._id, !item.blockUser)
-                      }
+                      onClick={() => {
+                        setBlockUnblock({
+                          id: item._id,
+                          blockUser: !item.blockUser, 
+                        });
+                        setUpdateBlockUnblock(!item.blockUser); 
+                        setShowBlockUnblock(true);
+                      }}
                     >
                       {item.blockUser ? "Unblock" : "Block"}
                     </button>

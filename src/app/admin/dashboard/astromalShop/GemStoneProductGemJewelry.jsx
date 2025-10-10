@@ -1,4 +1,5 @@
 "use client";
+import DeletePopUp from "@/app/component/DeletePopUp";
 import Loader from "@/app/component/Loader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -8,6 +9,8 @@ import { RiDeleteBin7Fill } from "react-icons/ri";
 import { toast } from "react-toastify";
 
 const GemStoneProductGemJewelry = () => {
+  let showNameData = "GemStone Jewelry";
+
   const [loading, setLoading] = useState(false);
   const [shopListData, setShopListData] = useState([]);
   const [productListData, setProductListData] = useState([]);
@@ -16,8 +19,9 @@ const GemStoneProductGemJewelry = () => {
   const [shopListSingleData, setShopListSingleData] = useState(false);
   const [message, setMessage] = useState("");
   const [toggleAstroCategory, setToggleAstroCategory] = useState(false);
-
-  console.log(shopListSingleData, "shopListSingleData");
+  const [showDelete, setShowDelete] = useState(false);
+  const [deletePermanently, setDeletePermanently] = useState(false);
+  const [astroToDelete, setAstroToDelete] = useState();
 
   const fetchProductList = async () => {
     try {
@@ -171,10 +175,26 @@ const GemStoneProductGemJewelry = () => {
       toast.error("Delete Failed", { position: "top-right" });
     } finally {
       setLoading(false);
+      setShowDelete(false);
+      setDeletePermanently(false);
+      setAstroToDelete();
     }
   };
-
+ useEffect(() => {
+    if (deletePermanently && astroToDelete) {
+      handleDeleteProduct(astroToDelete);
+    }
+  }, [deletePermanently]);
   return (
+    <>
+     {showDelete && (
+        <DeletePopUp
+          setShowDelete={setShowDelete}
+          setDeletePermanently={setDeletePermanently}
+          showNameData={showNameData}
+        />
+      )}
+    
     <div className="AddLanguage AstroMallShops-admin">
       {toggleAstroCategory && (
         <div className="change-password-popup">
@@ -295,9 +315,10 @@ const GemStoneProductGemJewelry = () => {
 
                       <div className="astro-mall-btn">
                         <button
-                          onClick={() => {
-                            handleDeleteProduct(item._id);
-                          }}
+                         onClick={() => {
+                              setAstroToDelete(item._id);
+                              setShowDelete(true);
+                            }}
                         >
                           <RiDeleteBin7Fill />
                         </button>
@@ -318,6 +339,7 @@ const GemStoneProductGemJewelry = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

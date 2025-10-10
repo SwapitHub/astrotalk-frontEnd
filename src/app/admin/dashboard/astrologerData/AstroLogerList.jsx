@@ -9,6 +9,7 @@ import AstroDetail from "./AstroDetailView";
 import AstroDetailEdit from "./AstroDetailEdit";
 import useDebounce from "@/app/hook/useDebounce";
 import DeletePopUp from "@/app/component/DeletePopUp";
+import BlockUnblock from "@/app/component/BlockUnblock";
 
 function AstroLogerList() {
   let showNameData = "Astrologer";
@@ -24,7 +25,6 @@ function AstroLogerList() {
   const [loading, setLoading] = useState(false);
   const [addActiveClass, setAddActiveClass] = useState(false);
   const [addActiveClassEdit, setAddActiveClassEdit] = useState(false);
-
   const [astroMobileNumber, setAstroMobileNumber] = useState();
   const [checkCompleteProfile, setCheckCompleteProfile] = useState();
   const [showDelete, setShowDelete] = useState(false);
@@ -34,6 +34,10 @@ function AstroLogerList() {
     mobile: null,
   });
 
+  const [showBlockUnblock, setShowBlockUnblock] = useState(false);
+  const [blockUnblockPermanently, setBlockUnblockPermanently] = useState();
+  const [updateBlockUnblock, setUpdateBlockUnblock] = useState();
+  const [blockUnblock, setBlockUnblock] = useState();
   const fetchAstrologers = async (pageNumber = 1, search = "") => {
     setLoading(true);
     try {
@@ -113,6 +117,13 @@ function AstroLogerList() {
   }, [deletePermanently]);
 
   useEffect(() => {
+    if (blockUnblock?.id && blockUnblockPermanently) {
+      updateBlockUnblockAstro(blockUnblock.id, blockUnblock.blockUser);
+      setBlockUnblockPermanently(false); // reset after action
+    }
+  }, [blockUnblockPermanently]);
+
+  useEffect(() => {
     if (addActiveClass) {
       document.body.classList.add("astro-detail-admin-popup");
     } else {
@@ -134,6 +145,14 @@ function AstroLogerList() {
           setShowDelete={setShowDelete}
           setDeletePermanently={setDeletePermanently}
           showNameData={showNameData}
+        />
+      )}
+      {showBlockUnblock && (
+        <BlockUnblock
+          setShowBlockUnblock={setShowBlockUnblock}
+          setBlockUnblockPermanently={setBlockUnblockPermanently}
+          showNameData={showNameData}
+          updateBlockUnblock={updateBlockUnblock}
         />
       )}
       <AstroDetailEdit
@@ -197,12 +216,16 @@ function AstroLogerList() {
                     <td>{item?.charges || 0} </td>
                     <td>
                       <button
-                        onClick={() =>
-                          updateBlockUnblockAstro(
-                            item._id,
+                        onClick={() => {
+                          setBlockUnblock({
+                            id: item._id,
+                            blockUser: item?.blockUnblockAstro ? false : true,
+                          });
+                          setUpdateBlockUnblock(
                             item?.blockUnblockAstro ? false : true
-                          )
-                        }
+                          );
+                          setShowBlockUnblock(true);
+                        }}
                       >
                         {item?.blockUnblockAstro ? "Unblock" : "Block"}
                       </button>

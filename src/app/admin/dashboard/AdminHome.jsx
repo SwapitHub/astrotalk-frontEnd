@@ -41,6 +41,8 @@ import UserList from "./UserList";
 import UserAdminWallet from "./wallet/UserAdminWallet";
 import AstrologerAdminWallet from "./wallet/AstrologerAdminWallet";
 import AdminPujaProductWallet from "./wallet/AdminPujaProductWallet";
+import ApprovalPanel from "./astrologerData/ApprovalPanel";
+import ActiveList from "./astrologerData/ActiveList";
 
 const AdminHome = () => {
   const router = useRouter();
@@ -134,7 +136,7 @@ const AdminHome = () => {
                     </li>
                     <li
                       className={`${
-                        updateButton === "active" || updateButton === "pending"
+                        updateButton === "activeList" || updateButton === "approvalPanel"
                           ? "active"
                           : ""
                       }`}
@@ -156,34 +158,34 @@ const AdminHome = () => {
                         <ul>
                           <li
                             className={
-                              updateButton === "active" ? "active" : ""
+                              updateButton === "activeList" ? "active" : ""
                             }
                           >
                             <a
                               href="#"
                               onClick={(e) => {
                                 e.preventDefault();
-                                setUpdateButton("active");
+                                setUpdateButton("activeList");
                                 setToggleSlideMobile(false);
                               }}
                             >
-                              Active
+                              Active List
                             </a>
                           </li>
                           <li
                             className={
-                              updateButton === "pending" ? "active" : ""
+                              updateButton === "approvalPanel" ? "active" : ""
                             }
                           >
                             <a
                               href="#"
                               onClick={(e) => {
                                 e.preventDefault();
-                                setUpdateButton("pending");
+                                setUpdateButton("approvalPanel");
                                 setToggleSlideMobile(false);
                               }}
                             >
-                              Pending
+                              Approval Panel
                             </a>
                           </li>
                         </ul>
@@ -321,7 +323,9 @@ const AdminHome = () => {
                           </li>
                           <li
                             className={
-                              updateButton === "PujaProductWallet" ? "active" : ""
+                              updateButton === "PujaProductWallet"
+                                ? "active"
+                                : ""
                             }
                           >
                             <a
@@ -332,7 +336,7 @@ const AdminHome = () => {
                                 setToggleSlideMobile(false);
                               }}
                             >
-                              Admin Puja  Wallet
+                              Admin Puja Wallet
                             </a>
                           </li>
                         </ul>
@@ -601,7 +605,7 @@ const AdminHome = () => {
                               }}
                             >
                               <span className="list-text">
-                               Astro Shop Product
+                                Astro Shop Product
                               </span>
                             </a>
                           </li>
@@ -671,8 +675,6 @@ const AdminHome = () => {
                       </a>
                       <SlideToggle isOpen={openFaq == "Blogs"}>
                         <ul>
-                          
-
                           <li
                             className={
                               updateButton === "AddBlogs" ? "active" : ""
@@ -748,8 +750,8 @@ const AdminHome = () => {
                 {updateButton === "PaymentWithdrawRequest" && (
                   <PaymentWithdrawRequest setUpdateButton={setUpdateButton} />
                 )}
-                {updateButton === "active" && <AstroLogerList />}
-                {updateButton === "pending" && <AstrologerPendingList />}
+                {updateButton === "activeList" && <ActiveList />}
+                {updateButton === "approvalPanel" && <ApprovalPanel />}
                 {updateButton === 7 && <UserList />}
                 {updateButton === "Denomination" && <Denomination />}
                 {updateButton === "astroShop" && <AstroMallShops />}
@@ -761,7 +763,6 @@ const AdminHome = () => {
                 )}
                 {updateButton === "AddBlogsCategory" && <AddBlogsCategory />}
                 {updateButton === "AddBlogs" && <AddBlogs />}
-                
 
                 {updateButton === "language" && <AddLanguage />}
                 {updateButton === "profession" && <AddProfession />}
@@ -773,7 +774,9 @@ const AdminHome = () => {
                 {updateButton === "seminar" && <SeminarRegistration />}
                 {updateButton === "user" && <UserAdminWallet />}
                 {updateButton === "astrologer" && <AstrologerAdminWallet />}
-                {updateButton === "PujaProductWallet" && <AdminPujaProductWallet />}
+                {updateButton === "PujaProductWallet" && (
+                  <AdminPujaProductWallet />
+                )}
 
                 {["admin"].includes(updateButton) && (
                   <AdminWallet updateButton={updateButton} />

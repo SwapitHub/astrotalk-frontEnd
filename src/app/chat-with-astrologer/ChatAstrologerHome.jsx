@@ -622,7 +622,7 @@ const ChatWithAstrologer = ({
                   
                   return (
                     <>
-                      {item.profileStatus == true && (
+                     
                         <div className="inner-astrologer-detail">
                           <Link
                             href={`/best-astrologer/${item?.name}`}
@@ -773,7 +773,7 @@ const ChatWithAstrologer = ({
                             </div>
                           </Link>
                         </div>
-                      )}
+                     
                     </>
                   );
                 })}
@@ -791,7 +791,7 @@ const ChatWithAstrologer = ({
             {chatAstrologerLit?.map((item) => {
               return (
                 <>
-                  {item.profileStatus == true && (
+                 
                     <div className="inner-astrologer-detail">
                       <Link
                         href={`/best-astrologer/${item?.name}`}
@@ -940,7 +940,7 @@ const ChatWithAstrologer = ({
                         </div>
                       </Link>
                     </div>
-                  )}
+                 
                 </>
               );
             })}
