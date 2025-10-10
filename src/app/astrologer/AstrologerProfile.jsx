@@ -146,7 +146,7 @@ const AstrologerProfile = ({
           {
             name: astroUpdateDetail?.name,
             charges: astroUpdateDetail?.charges,
-            completeProfile: true
+            completeProfile: true,
           }
         );
 
@@ -278,14 +278,16 @@ const AstrologerProfile = ({
           {
             name: response.data.updatedProfile?.name,
             charges: response.data.updatedProfile?.charges,
-            completeProfile: true
+            completeProfile: true,
           }
         );
 
-        window.location.reload();
+        if (updateList.status == 200) {
+          window.location.reload();
+        }
+        console.log("Profile update response:", updateList);
       }
 
-      console.log("Profile update response:", response.data);
       // Show success toast or UI update here
     } catch (err) {
       console.error("Update failed:", err);
