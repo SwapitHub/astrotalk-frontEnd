@@ -10,6 +10,7 @@ import EndChatPopUp from "@/app/component/EndChatPopUp";
 import RatingPopUp from "@/app/component/RatingPopUp";
 import { useRouter, useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
+import Image from "next/image";
 
 const socket = io(process.env.NEXT_PUBLIC_BASE_URL, {
   path: "/api/socket.io",
@@ -25,8 +26,8 @@ export default function Chatting(AdminCommissionData) {
   const [showUserData, setShowUserData] = useState();
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [timeLeft, setTimeLeft] = useState(null);
- const [actualChargeUserChat, setActualChargeUserChat] = useState();
-console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
+  const [actualChargeUserChat, setActualChargeUserChat] = useState();
+  console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
 
   const [showEndChat, setShowEndChat] = useState(false);
   const [showRating, setShowRating] = useState(false);
@@ -45,45 +46,40 @@ console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
     useState(() => Cookies.get("AstrologerNotificationStatus"));
   const mobileRef = useRef(null);
 
+  useEffect(() => {
+    if (showUserData?.freeChatStatus === true) {
+      setActualChargeUserChat(0);
+    }
+  }, [showUserData?.freeChatStatus]);
+
+  // typing logic start here
+  const [isTyping, setIsTyping] = useState(false);
+  console.log(isTyping, "isTyping");
 
   useEffect(() => {
-  if (showUserData?.freeChatStatus === true) {
-    setActualChargeUserChat(0);
-  }
-}, [showUserData?.freeChatStatus]);
+    if (!socket) return;
 
-
-
-// typing logic start here
-    const [isTyping, setIsTyping] = useState(false);
-    console.log(isTyping, "isTyping");
-  
-    useEffect(() => {
-      if (!socket) return;
-  
-      const handleTyping = (data) => {
-        if (data.userId !== userIds) {
-          setIsTyping(true);
-          setTimeout(() => setIsTyping(false), 2000);
-        }
-      };
-  
-      socket.on("typing", handleTyping);
-  
-      return () => {
-        socket.off("typing", handleTyping);
-      };
-    }, [socket, userIds]);
-  
-  
-     const handleTyping = () => {
-      socket.emit("typing", {
-        sender: showUserData?._id,
-        receiverId: astrologerId,
-      });
+    const handleTyping = (data) => {
+      if (data.userId !== userIds) {
+        setIsTyping(true);
+        setTimeout(() => setIsTyping(false), 2000);
+      }
     };
-    // typing logic end here
 
+    socket.on("typing", handleTyping);
+
+    return () => {
+      socket.off("typing", handleTyping);
+    };
+  }, [socket, userIds]);
+
+  const handleTyping = () => {
+    socket.emit("typing", {
+      sender: showUserData?._id,
+      receiverId: astrologerId,
+    });
+  };
+  // typing logic end here
 
   useEffect(() => {
     if (
@@ -124,9 +120,7 @@ console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
       mobileRef.current = astrologerData.mobileNumber;
     }
 
-    const storedNotification = Cookies.get(
-      "AstrologerNotificationStatus"
-    );
+    const storedNotification = Cookies.get("AstrologerNotificationStatus");
     if (storedNotification) {
       setAstrologerNotificationStatus(storedNotification);
     }
@@ -137,10 +131,10 @@ console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
 
     const handleNewNotification = (data) => {
       console.log("Received data:", data.astrologerData);
-      Cookies.set("astrologerId", data.astrologerData?._id , {
-         expires: 3650,
-              secure: true,
-              sameSite: "Strict",
+      Cookies.set("astrologerId", data.astrologerData?._id, {
+        expires: 3650,
+        secure: true,
+        sameSite: "Strict",
       });
       setAstrologerId(data.astrologerData?._id);
       console.log(data.astrologerData?._id);
@@ -157,10 +151,7 @@ console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
         // Ensure state actually changes
         setAstrologerNotificationStatus((prevStatus) => {
           if (prevStatus !== newStatus) {
-            Cookies.set(
-              "AstrologerNotificationStatus",
-              newStatus
-            );
+            Cookies.set("AstrologerNotificationStatus", newStatus);
             return newStatus;
           }
           return prevStatus;
@@ -290,30 +281,29 @@ console.log(showUserData?.freeChatStatus === true, actualChargeUserChat);
       });
   }, [userMobile]);
 
- 
-  
-console.log(timeLeft, showUserData?.freeChatStatus === true);
+  console.log(timeLeft, showUserData?.freeChatStatus === true);
 
   // Automatically end chat after 120 seconds (when timer hits 0) for free chat
   useEffect(() => {
     if (timeLeft === 120 && showUserData?.freeChatStatus === true) {
       console.log("actualChargeUserChat============");
-      
+
       endChatStatus();
     }
   }, [timeLeft, showUserData?.freeChatStatus]);
 
-
   const endChatStatus = async () => {
-
     if (actualChargeUserChat == undefined) return;
 
-    if (showUserData?.freeChatStatus == true || showUserData?.chatStatus == true) {
+    if (
+      showUserData?.freeChatStatus == true ||
+      showUserData?.chatStatus == true
+    ) {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${userMobile}`,
         {
           freeChatStatus: false,
-          chatStatus: false
+          chatStatus: false,
         }
       );
       console.log("response", response.data);
@@ -509,14 +499,23 @@ console.log(timeLeft, showUserData?.freeChatStatus === true);
               <div className="chat-left-logo ctm-flex-row ctm-align-items-center">
                 <div className="header-chat-logo">
                   <a href="#" title="header-logo">
-                    <img src={`${astrologerData.profileImage}`} alt="Chat" />
+                    <Image
+                      width={100}
+                      height={100}
+                      src={
+                        process.env.NEXT_PUBLIC_WEBSITE_URL +
+                          astrologerData.profileImage || "/user-icon-image.png"
+                      }
+                      alt="certificate"
+                    />
                   </a>
                 </div>
                 <div className="header-chat-content">
                   <h4>Astrologer</h4>
                   <p>
                     <span>
-                      Duration: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}{" "}
+                      Duration: {minutes}:
+                      {seconds < 10 ? `0${seconds}` : seconds}{" "}
                     </span>
                   </p>
                   {/* <p>Chat in progress from </p> */}
@@ -545,10 +544,10 @@ console.log(timeLeft, showUserData?.freeChatStatus === true);
                      }`}
                     >
                       {/* <h4>{msg.user}</h4> */}
-                       <p
-      className="chat-message"
-      dangerouslySetInnerHTML={{ __html: msg.message }}
-      ></p>
+                      <p
+                        className="chat-message"
+                        dangerouslySetInnerHTML={{ __html: msg.message }}
+                      ></p>
                       <p>{msg.time}</p>
                     </div>
                   ))}
@@ -568,7 +567,7 @@ console.log(timeLeft, showUserData?.freeChatStatus === true);
                       // onChange={(e) => setMessage(e.target.value)}
                       onChange={(e) => {
                         setMessage(e.target.value);
-                        handleTyping(); 
+                        handleTyping();
                       }}
                       onKeyDown={handleKeyDown}
                     />

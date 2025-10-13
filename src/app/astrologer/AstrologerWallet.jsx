@@ -73,8 +73,8 @@ function AstrologerWallet() {
                   <tr key={item._id}>
                     <td>{item._id}</td>
                     <td>{item.userName || "N/A"}</td>
-                    <td>{Math.round(item.availableBalance)}</td>
-                    <td>{item.transactionAmount}</td>
+                    <td>₹ {Math.round(item.availableBalance)}</td>
+                    <td>₹ {item.transactionAmount}</td>
                     <td>{item.description || "No Description"}</td>
                     <td>{new Date(item.createdAt).toLocaleString()}</td>
                   </tr>

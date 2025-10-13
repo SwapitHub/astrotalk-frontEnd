@@ -138,39 +138,41 @@ const AstrologerProfile = ({
         { headers: { "Content-Type": "multipart/form-data" } }
       );
 
-      if (response.data.message === "success") {
+      if (response.data.message == "success") {
         //======= agr hm ise start krte hai to new astrologer login ni hoga.========
 
-        const updateList = await axios.put(
+        const innerRes = await axios.put(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/put-any-field-astrologer-registration/${astrologerPhone}`,
           {
-            name: astroUpdateDetail?.name,
-            charges: astroUpdateDetail?.charges,
+            name: response.data.BusinessProfileData?.name,
+            charges: response.data.BusinessProfileData?.charges,
             completeProfile: true,
           }
         );
+        if (innerRes.status == 200) {
+          // Reset only needed fields
+          ["Experience", "Charges", "description", "image"].forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) el.value = "";
+          });
 
-        // Reset only needed fields
-        ["Experience", "Charges", "description", "image"].forEach((id) => {
-          const el = document.getElementById(id);
-          if (el) el.value = "";
-        });
+          // Uncheck checkboxes
+          ["profession", "languages"].forEach((name) => {
+            document
+              .querySelectorAll(`input[name="${name}"]`)
+              .forEach((el) => (el.checked = false));
+          });
 
-        // Uncheck checkboxes
-        ["profession", "languages"].forEach((name) => {
-          document
-            .querySelectorAll(`input[name="${name}"]`)
-            .forEach((el) => (el.checked = false));
-        });
+          setSuccessMessageProfile(response.data);
+          secureLocalStorage.setItem("astrLoginStatus", "0");
 
-        setSuccessMessageProfile(response.data);
-        secureLocalStorage.setItem("astrLoginStatus", "0");
-
-        toast.success("Profile Completed Successfully", {
-          position: "top-right",
-        });
-
-        window.location.reload();
+          toast.success("Profile Completed Successfully", {
+            position: "top-right",
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        }
       }
 
       console.log("Registration successful:", response.data);

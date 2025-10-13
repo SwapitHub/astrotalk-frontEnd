@@ -163,10 +163,10 @@ function AstrologerPendingList() {
       {loading ? (
         <Loader />
       ) : (
+        <>
         <div className="main-pending-list">
           <h1>Astrologer Pending List</h1>
-          <div className="outer-table">
-            <div className="search-box-top-btn">
+          <div className="search-box-top-btn">
               <div className="search-box-filed">
                 <input
                   type="search"
@@ -187,6 +187,9 @@ function AstrologerPendingList() {
                 </button>
               </div>
             </div>
+            </div>
+          <div className="outer-table">
+            
             <table border="1" cellPadding="8" style={{ marginBottom: "20px" }}>
               <thead>
                 <tr>
@@ -297,7 +300,7 @@ function AstrologerPendingList() {
               </tbody>
             </table>
           </div>
-        </div>
+        </>
       )}
       {totalPages > 0 ? (
         <div className="admin-wallet-inner">

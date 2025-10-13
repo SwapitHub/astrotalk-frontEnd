@@ -18,7 +18,7 @@ button, .product-right-btn a {cursor: pointer; transition: all 0.3s; font-family
 button:hover, .product-right-btn a:hover {background-color: transparent; color: var(--primary_color);}
 .slick-slide {outline: none !important;}
 select {appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--body_content_color) 50%), linear-gradient(135deg, var(--body_content_color) 50%, transparent 50%), linear-gradient(to right, #ffffff00, #ffffff00); background-position: calc(100% - 20px) calc(1em + 6px), calc(100% - 15px) calc(1em + 6px), calc(100% - 2.5em) 0.5em; background-size: 5px 5px, 5px 5px, 1px 1.5em; background-repeat: no-repeat;}
-.loader {min-height: 450px; text-align: center; display: flex; align-items: center; justify-content: center; background-image: url("../../public/loader-new.gif"); background-position: center; background-repeat: no-repeat; background-size: 70px; background-color: transparent; font-size: 0px;}
+.loader {min-height: 450px; text-align: center; display: flex; align-items: center; justify-content: center; background-image: url("../../public/loader-new.gif"); background-position: center; background-repeat: no-repeat; background-size: 45px; background-color: transparent; font-size: 0px;}
 .product-detail-main .loader, .dashboard-right-content .loader {width: 100%; min-height: 100vh; position: fixed; bottom: 0px; background-color: var(--body_bg); z-index: 10;}
 .dashboard-right-content .loader {position: absolute; left: 0px; top: 0px;}
 .loader + .all-list-talk-to-astrologer {display: none;}
@@ -462,7 +462,7 @@ span.banner-heading, .footer-product-name {font-weight: 600; font-size: 18px; ma
 .profile_with_contact::before {content: ""; position: absolute; width: 100%; height: 100%; left: 0; top: 0; background-color: var(--secondary_hover); opacity: .7;}
 .profile_with_contact > * {position: relative;}
 .profile_with_contact_slider {padding: 90px 0px 25px;}
-.profile_with_contact_slider-inner {display: flex; justify-content: space-between; gap: 50px; align-items: flex-start; flex-wrap: wrap;}
+.profile_with_contact_slider-inner {display: flex; justify-content: space-between; gap: 50px 20px; align-items: flex-start; flex-wrap: wrap;}
 .slider-outer {order: 3; max-width: 100%; flex: 0 0 100%;}
 .slider-outer .astro-img {padding: 0px 10px;}
 .profile_with_contact .image img {box-shadow: 0px -3px 20px rgba(0, 0, 0, .2); width: 100px; height: 100px; object-fit: cover; object-position: center; border-radius: 50%; display: block;}
@@ -687,7 +687,7 @@ h2.review-heading {margin: 0 0 15px; font-weight: 600; font-size: 18px;}
 .page-main-header .main-header-right .nav-right > ul > li:first-child .search-form .form-group input:focus {outline-color: transparent;}
 .page-main-header .main-header-right .nav-right > ul > li:first-child .search-form .form-group:before {position: absolute; content: ""; width: 1px; height: 25px; background: #e8ebf2; left: 51px; top: 9px;}
 .page-main-header .main-header-right .nav-right > ul > li:first-child .search-form .form-group:after {position: absolute; content: "\f002"; font-family: FontAwesome; top: 11px; left: 22px; color: #8e8e8e;}
-.page-main-header .main-header-right .nav-right > ul > li:last-child {border-left: none !important; padding-right: 0;}
+.page-main-header .main-header-right .nav-right > ul > li:last-child {border-left: none !important; padding-inline: 0;}
 .page-main-header .main-header-right .nav-right > ul > li:nth-child(5) {padding-right: 0;}
 .page-main-header .main-header-right .nav-right > ul > li h6 {margin: 4px 0px; color: var(--primary_color); font-size: 14px; font-weight: 400;}
 .page-main-header .main-header-right .nav-right > ul > li h6 ul {left: inherit; right: -10px; width: 130px;}
@@ -1187,18 +1187,13 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
 .head-search-outer h2, .head-search-outer h1 {font-size: 36px;}
 .head-search-outer .search-box-top-btn {margin: 0px !important;}
 .posts-listing > p {text-align: center; max-width: 100% !important; background-color: transparent !important;}
-.astro-detail-main, .astrologer-profile-edit-table, .astro-detail-main-view, .wallet-edit-main {position: absolute; width: calc(100% - 54px); height: 100%; background-color: var(--body_bg); opacity: 0; visibility: hidden; display: none; transition: all 0.3s; z-index: 9; padding: 70px 0px 0px;}
+.astro-detail-main, .astrologer-profile-edit-table, .astro-detail-main-view, .wallet-edit-main {position: absolute; width: calc(100% - 54px); height: 100%; background-color: var(--body_bg); opacity: 0; visibility: hidden; display: none; transition: all 0.3s; z-index: 9; padding: 20px 0px 0px;}
 .astro-detail-admin-popup .astro-detail-main, .astro-detail-admin-edit-popup .astrologer-profile-edit-table, .wallet-view-popup .astro-detail-main-view, .wallet-edit-popup .wallet-edit-main  {opacity: 1; visibility: visible; display: block;}
 .img-data-outer {display: flex; align-items: center; gap: 50px;}
 .data-astrologer p {font-weight: normal;}
 .data-astrologer p strong {font-weight: 700;}
-.astro-detail-main .close, .astrologer-profile-edit-table .close, .astro-detail-main-view .close, .wallet-edit-main .close{opacity: 1; font-size: 0; right: 0px;}
-body.astro-detail-admin-popup .astro-detail-main-view {
-    display: block;
-    z-index: inherit;
-    visibility: visible;
-    opacity: 1;
-}
+.astro-detail-main .close, .astrologer-profile-edit-table .close, .astro-detail-main-view .close, .wallet-edit-main .close {opacity: 1; font-size: 0; right: 0px; top: 20px;}
+body.astro-detail-admin-popup .astro-detail-main-view {display: block; z-index: inherit;  visibility: visible;  opacity: 1;}
 .common-profile {display: flex;}
 .common-profile > * {display: flex; align-items: center; font-size: 14px;}
 .common-profile > *:first-child {background-color: #f2f2f2; min-width: 200px; padding: 20px; border-bottom: 1px solid #ffffff; font-weight: 500;}
@@ -1210,9 +1205,17 @@ body.astro-detail-admin-popup .astro-detail-main-view {
 .parent-recharge-popups, .change-password-popup {width: 100%; height: 100%; position: fixed; left: 0; top: 0; z-index: 99; background-color: rgba(0, 0, 0, .6); display: flex; align-items: center; justify-content: center;}
 .wallet-edit-popup .astrologer-registration-form {margin: 0;}
 .change-password-popup .change-password {top: auto;}
-.search-category-btn {display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 20px; margin: 0 0 30px;}
-.search-category-btn .search-box-top-btn {margin: 0; flex-grow: unset;}
+.search-category-btn, .main-pending-list {display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 20px; margin: 0 0 30px;}
+.search-category-btn .search-box-top-btn, .main-pending-list .search-box-top-btn {margin: 0; flex-grow: unset;}
+.main-pending-list {margin: 30px 0px;}
+.main-pending-list > h1 {margin: 0px;}
 .change-password .admin-form-box {background-color: transparent; padding: 0px;}
+.inner-btn {background-color: var(--light_bg); padding: 20px; display: flex; justify-content: center; gap: 15px;}
+.inner-btn button {color: var(--primary_color); background-color: transparent; padding: 9px 30px 7px;}
+.inner-btn button.active, .inner-btn button:hover {background-color: var(--primary_color); color: #ffffff;}
+.main-pending-list h1:not(:last-child) {margin-bottom: 0px;}
+.chat-record .input-outer, .outer-total-count .input-outer {display: flex; gap: 10px; margin: 0 0 10px;}
+.chat-record .input-outer .balance, .outer-total-count .input-outer .balance {font-weight: 600;}
 /* ================== @ media css start here ================== */
 @media (max-width: 1600px) {
   .outer-home-dashboard ul {grid-template-columns: repeat(3, 1fr);}

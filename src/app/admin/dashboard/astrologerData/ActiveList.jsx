@@ -33,7 +33,6 @@ function ActiveList() {
   const [deletePermanently, setDeletePermanently] = useState(false);
   const [totalCount, setTotalCount] = useState();
 
-
   const [astroToDelete, setAstroToDelete] = useState({
     id: null,
     mobile: null,
@@ -58,7 +57,7 @@ function ActiveList() {
       const data = res.data;
 
       setPendingData(data.profiles || []);
-      setTotalCount(data.total)
+      setTotalCount(data.total);
 
       setPage(data.currentPage);
       setTotalPages(data.totalPages);
@@ -78,67 +77,72 @@ function ActiveList() {
 
   // ✅ Update block/unblock status
   const updateBlockUnblockAstro = async (mobileNumber, status) => {
-    
     try {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-business-profile/${mobileNumber}`,
-        { 
-            blockUnblockAstro: status ,
-            profileStatus: false,
-            deleteAstroLoger: true
-        
+        {
+          blockUnblockAstro: status,
+          profileStatus: false,
+          deleteAstroLoger: true,
         }
       );
       fetchAstrologers(page);
     } catch (error) {
-      console.error("Block/unblock failed:", error.response?.data || error.message);
+      console.error(
+        "Block/unblock failed:",
+        error.response?.data || error.message
+      );
     }
   };
 
   // ✅ Delete astrologer
-const deleteAstrologer = async () => {
-  if (!astroToDelete.mobile || !astroToDelete.id) return;
+  const deleteAstrologer = async () => {
+    if (!astroToDelete.mobile || !astroToDelete.id) return;
 
-  setLoading(true);
+    setLoading(true);
 
-  try {
-    // Step 1: Delete astrologer
-    const response = await axios.put(
-      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-business-profile/${astroToDelete.mobile}`,
-      {
-        deleteAstroLoger: true,
-        profileStatus: false,
-      }
-    );
-
-    if (response.status === 200) {
-      // Step 2: Additional delete action if necessary
-      const result = await axios.put(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/put-any-field-astrologer-registration/${astroToDelete.mobile}`,
-        { deleteAstroLoger: true }
+    try {
+      // Step 1: Delete astrologer
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-business-profile/${astroToDelete.mobile}`,
+        {
+          deleteAstroLoger: true,
+          profileStatus: false,
+        }
       );
 
-      if (result.status === 200) {
-        // Refresh the astrologer list after successful deletion
-        await fetchAstrologers(page);
+      if (response.status === 200) {
+        // Step 2: Additional delete action if necessary
+        const result = await axios.put(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/put-any-field-astrologer-registration/${astroToDelete.mobile}`,
+          { deleteAstroLoger: true }
+        );
+
+        if (result.status === 200) {
+          // Refresh the astrologer list after successful deletion
+          await fetchAstrologers(page);
+        } else {
+          console.error("Failed to update astrologer status:", result);
+        }
       } else {
-        console.error("Failed to update astrologer status:", result);
+        console.error(
+          "Unexpected response during business profile update:",
+          response
+        );
       }
-    } else {
-      console.error("Unexpected response during business profile update:", response);
+    } catch (err) {
+      console.error(
+        "Error during astrologer deletion:",
+        err.response?.data || err.message
+      );
+    } finally {
+      // Reset state after process completion
+      setShowDelete(false);
+      setDeletePermanently(false);
+      setAstroToDelete({ id: null, mobile: null });
+      setLoading(false);
     }
-  } catch (err) {
-    console.error("Error during astrologer deletion:", err.response?.data || err.message);
-  } finally {
-    // Reset state after process completion
-    setShowDelete(false);
-    setDeletePermanently(false);
-    setAstroToDelete({ id: null, mobile: null });
-    setLoading(false);
-  }
-};
-
-
+  };
 
   useEffect(() => {
     if (deletePermanently && astroToDelete.mobile && astroToDelete.id) {
@@ -151,7 +155,10 @@ const deleteAstrologer = async () => {
   }, [addActiveClass]);
 
   useEffect(() => {
-    document.body.classList.toggle("astro-detail-admin-edit-popup", addActiveClassEdit);
+    document.body.classList.toggle(
+      "astro-detail-admin-edit-popup",
+      addActiveClassEdit
+    );
   }, [addActiveClassEdit]);
 
   return (
@@ -184,10 +191,15 @@ const deleteAstrologer = async () => {
       ) : (
         <>
           <div className="main-pending-list">
-            <h1>Astrologer Active List</h1>
             <div className="outer-total-count">
-                <div className="list-total">Total active Astrologer : {totalCount}</div>
-            
+              <h1>Astrologer Active List</h1>
+              <div className="input-outer">
+                <div className="balance">Total active Astrologer : </div>
+                <div className="input-inner">
+                  ₹ {Math.round(totalCount) || 0}
+                </div>
+              </div>
+            </div>
             <div className="search-box-top-btn">
               <div className="search-box-filed">
                 <input
@@ -205,7 +217,6 @@ const deleteAstrologer = async () => {
                   <FaSearch />
                 </button>
               </div>
-            </div>
             </div>
           </div>
 

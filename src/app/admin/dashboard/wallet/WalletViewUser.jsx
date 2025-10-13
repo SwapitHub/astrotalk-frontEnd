@@ -129,7 +129,7 @@ const WalletView = ({
           </h2>
           <div className="input-outer">
             <div className="balance">AvaiLable Balance</div>
-            <div className="input-outer">₹ {Math.round(astroDetailData?.totalAmount) || 0}</div>
+            <div className="input-inner">₹ {Math.round(astroDetailData?.totalAmount) || 0}</div>
           </div>
           {/* Search Box */}
           {/* <input

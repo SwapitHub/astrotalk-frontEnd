@@ -8,16 +8,16 @@ const ApprovalPanel = () => {
 
   return (
     <>
-      <div className={`astrologer-list-filter inner-btn ${approvalStatus == "confirm"?"active":""}`}>
+      <div className={`astrologer-list-filter inner-btn`}>
        
-        <button
+        <button className={`${approvalStatus == "confirm"?"active":""}`}
           onClick={() => {
             setApprovalStatus("confirm");
           }}
         >
           Confirm
         </button>
-         <button
+         <button className={`${approvalStatus == "confirm"?"":"active"}`}
           onClick={() => {
             setApprovalStatus("pending");
           }}

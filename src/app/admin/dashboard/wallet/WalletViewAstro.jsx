@@ -108,7 +108,7 @@ const WalletView = ({ mobileNumber, setAddActiveClass, setLoading }) => {
           </div>
           <div className="common-profile">
             <div className="date-of-birth">Charges</div>
-            <div className="input-outer"> {astroDetailData?.charges}</div>
+            <div className="input-outer">₹ {astroDetailData?.charges}</div>
           </div>
           <div className="common-profile">
             <div className="date-of-birth">Country</div>
@@ -188,7 +188,7 @@ const WalletView = ({ mobileNumber, setAddActiveClass, setLoading }) => {
           </h2>
           <div className="input-outer">
             <div className="balance">AvaiLable Balance</div>
-            <div className="input-outer">
+            <div className="input-inner">
               ₹ {Math.round(astroDetailData?.totalAvailableBalance) || 0}
             </div>
           </div>
