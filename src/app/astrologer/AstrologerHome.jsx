@@ -32,7 +32,7 @@ const AstrologerHome = () => {
   const [astrologerData, setAstrologerData] = useState("");
   const [toggleSlideMobile, setToggleSlideMobile] = useState(false);
   const [registrationDetail, setRegistrationDetail] = useState();
-console.log(astrologerData,"astrologerData");
+  console.log(astrologerData, "astrologerData");
 
   useEffect(() => {
     if (!astrologerPhone) {
@@ -56,18 +56,20 @@ console.log(astrologerData,"astrologerData");
     }
   }, [astrologerData]);
 
-useEffect(() => {
-  if (!astrologerPhone) return;
+  useEffect(() => {
+    if (!astrologerPhone) return;
 
-  axios
-    .get(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile-detail/${astrologerPhone}`)
-    .then((response) => {
-      setAstrologerData(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}, [astrologerPhone]);  
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/astrologer-businessProfile-detail/${astrologerPhone}`
+      )
+      .then((response) => {
+        setAstrologerData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [astrologerPhone]);
 
   // useEffect(() => {
   //   if (updateButton !== 2 && successMessageProfile.message !== "success") {
@@ -235,7 +237,9 @@ useEffect(() => {
                       </a>
                     </li>
 
-                    <li className={updateButton === "WalletPuja" ? "active" : ""}>
+                    <li
+                      className={updateButton === "WalletPuja" ? "active" : ""}
+                    >
                       <a
                         href="#"
                         title="menu"
@@ -248,7 +252,11 @@ useEffect(() => {
                         <span className="list-text">Wallet Puja Order</span>
                       </a>
                     </li>
-                       <li className={updateButton === "PaymentWithdrawal" ? "active" : ""}>
+                    <li
+                      className={
+                        updateButton === "PaymentWithdrawal" ? "active" : ""
+                      }
+                    >
                       <a
                         href="#"
                         title="menu"
@@ -261,7 +269,11 @@ useEffect(() => {
                         <span className="list-text">Payment Withdrawal</span>
                       </a>
                     </li>
-                    <li className={updateButton === "spiritual-services" ? "active" : ""}>
+                    <li
+                      className={
+                        updateButton === "spiritual-services" ? "active" : ""
+                      }
+                    >
                       <a
                         href="#"
                         title="menu"
@@ -356,7 +368,7 @@ useEffect(() => {
                   />
                 )}
                 {updateButton == 3 && <AstrologerWallet />}
-                {updateButton == "PaymentWithdrawal" && <PaymentWithdrawal/>}
+                {updateButton == "PaymentWithdrawal" && <PaymentWithdrawal />}
                 {updateButton == "spiritual-services" && <SpiritualServices />}
                 {updateButton == 4 && (
                   <AstrologerGallery astrologerData={astrologerData} />
@@ -366,12 +378,10 @@ useEffect(() => {
                     astrologerData={astrologerData}
                     renderStars={renderStars}
                   />
-                )}  
-                
+                )}
+
                 {updateButton == 6 && (
-                  <AstroDocument
-                   registrationDetail={registrationDetail}
-                  />
+                  <AstroDocument registrationDetail={registrationDetail} />
                 )}
 
                 {updateButton == "WalletPuja" && (

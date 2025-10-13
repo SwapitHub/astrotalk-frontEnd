@@ -12,6 +12,7 @@ const ProfilePopUp = ({ astroDetailData }) => {
   const router = useRouter();
   const { setUpdateButton } = useGlobalContext();
   const [astrologerPhone, setAstrologerPhone] = useState();
+  console.log(astroDetailData, "astroDetailData");
 
   useEffect(() => {
     const astrologerPhones = Cookies.get("astrologer-phone");
@@ -26,9 +27,16 @@ const ProfilePopUp = ({ astroDetailData }) => {
           profileStatus: false,
         }
       );
-      console.log(response);
 
       if (response.data.message == "Success") {
+        // update order history
+        await axios.put(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
+          {
+            mobileNumber: astrologerPhone,
+            profileStatus: false,
+          }
+        );
         Cookies.remove("astrologer-phone");
         sessionStorage.clear(); // Clear entire session storage
         localStorage.clear();
@@ -37,14 +45,6 @@ const ProfilePopUp = ({ astroDetailData }) => {
           window.location.reload();
         }, 2000);
       }
-      // update order history
-      const updateList = await axios.put(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
-        {
-          mobileNumber: astrologerPhone,
-          profileStatus: false,
-        }
-      );
     } catch (error) {
       console.error(
         "Failed to update astrologer status:",
@@ -52,6 +52,15 @@ const ProfilePopUp = ({ astroDetailData }) => {
       );
     }
   };
+
+  useEffect(() => {
+    if (
+      astroDetailData?.blockUnblockAstro == true ||
+      astroDetailData?.deleteAstroLoger == true
+    ) {
+      astroLogerLogout();
+    }
+  }, [astroDetailData]);
 
   const openProfile = () => {
     setUpdateButton(2);

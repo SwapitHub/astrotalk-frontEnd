@@ -72,15 +72,41 @@ function AstroLogerList() {
 
   const updateBlockUnblockAstro = async (id, status) => {
     try {
-      const response = await axios.put(
+      // Step 1: Block or unblock astrologer based on status
+      const blockUnblockResponse = await axios.put(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-astro-status/${id}`,
         { blockUnblockAstro: status }
       );
-      fetchAstrologers(page);
-      console.log(response, "response");
+      console.log(blockUnblockResponse.data, "blockUnblockResponse");
+      if (blockUnblockResponse.status === 200) {
+        // Step 2: Update business profile status (delete/restore)
+        const businessProfileResponse = await axios.put(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-business-profile/${blockUnblockResponse.data.astrologer?.mobileNumber}`,
+          {
+            deleteAstroLoger: status,
+            blockUnblockAstro: status,
+            profileStatus: false,
+          }
+        );
+
+        if (businessProfileResponse.status === 200) {
+          // Refresh the astrologer list after successful update
+          await fetchAstrologers(page);
+        } else {
+          console.error(
+            "Failed to update business profile status:",
+            businessProfileResponse
+          );
+        }
+      } else {
+        console.error(
+          "Failed to update block/unblock status:",
+          blockUnblockResponse
+        );
+      }
     } catch (error) {
       console.error(
-        "Failed to update blockUnblockAstro status:",
+        "Failed to update block/unblock status:",
         error.response?.data?.error || error.message
       );
     }

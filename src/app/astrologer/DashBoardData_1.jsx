@@ -25,20 +25,33 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
   // ✅ Load from sessionStorage only on client
   useEffect(() => {
     const sessionPhone = sessionStorage.getItem("session-astrologer-phone");
-    if (sessionPhone === astrologerData.mobileNumber) {
-      setIsOnline(astrologerData.profileStatus);
-      setSessionValue(sessionPhone)
-    }
+    const isSameUser = sessionPhone === astrologerData?.mobileNumber;
+    const isBlocked = astrologerData?.blockUnblockAstro === true;
+    const isDeleted = astrologerData?.deleteAstroLoger === true;
+    console.log(isSameUser && (!isBlocked || !isDeleted));
 
+    if (isSameUser && (!isBlocked || !isDeleted)) {
+      setIsOnline(astrologerData.profileStatus);
+      setSessionValue(sessionPhone);
+    }
   }, [astrologerData.mobileNumber]);
 
   const updateAstrologerStatus = useCallback(
     async (status) => {
       try {
-        await axios.put(
+        const response = await axios.put(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-status-by-mobile/${astrologerData.mobileNumber}`,
           { profileStatus: status }
         );
+        if (
+          response.data.updatedProfile?.deleteAstroLoger ||
+          response.data.updatedProfile?.blockUnblockAstro
+        ) {
+          setTimeout(() => {
+            window.location.reload();
+            router.push("/");
+          }, 1000);
+        }
 
         await axios.put(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
@@ -130,20 +143,24 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
       </div>
       <div className="astro-detail">
         <div className="astrologer-name">
-          <span>Astrologer Name:</span> <span className="value">{astrologerData?.name}</span>
+          <span>Astrologer Name:</span>{" "}
+          <span className="value">{astrologerData?.name}</span>
         </div>
         <div className="astrologer-charges">
-          <span>Astrologer Charges:</span> <span className="value">{astrologerData?.charges}</span>
+          <span>Astrologer Charges:</span>{" "}
+          <span className="value">{astrologerData?.charges}</span>
         </div>
         <div className="astrologer-bal">
-          <span>Total Balance:</span> <span className="value">₹{Math.round(astrologerData?.totalAvailableBalance)|| 0}</span>
+          <span>Total Balance:</span>{" "}
+          <span className="value">
+            ₹{Math.round(astrologerData?.totalAvailableBalance) || 0}
+          </span>
         </div>
       </div>
       <div className="outer-home-dashboard">
         <div className="inner-home-dashboard">
           <ul>
             <li onClick={() => setUpdateButton(2)}>
-
               <span>
                 <ImProfile />
               </span>
@@ -151,10 +168,8 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
                 <span> Profile</span>
                 {/* <span>123</span> */}
               </div>
-
             </li>
             <li onClick={() => setUpdateButton(3)}>
-
               <span>
                 <IoWalletSharp />
               </span>
@@ -162,10 +177,8 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
                 <span> Wallet</span>
                 {/* <span>123</span> */}
               </div>
-
             </li>
             <li onClick={() => setUpdateButton(5)}>
-
               <span>
                 <MdOutlinePreview />
               </span>
@@ -173,10 +186,8 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
                 <span> Review</span>
                 {/* <span>123</span> */}
               </div>
-
             </li>
             <li onClick={() => setUpdateButton(4)}>
-
               <span>
                 <TfiGallery />
               </span>
@@ -184,12 +195,10 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
                 <span> Gallery</span>
                 {/* <span>123</span> */}
               </div>
-
             </li>
           </ul>
         </div>
       </div>
-
     </section>
   );
 };

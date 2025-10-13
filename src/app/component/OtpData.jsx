@@ -14,77 +14,61 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
   const [message, setMessage] = useState("");
   const [timeOtpMessage, setTimeOtpMessage] = useState("");
 
-  const [pendingData, setPendingData] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-list?astroStatus=true`
-      )
-      .then((response) => {
-        setPendingData(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+const sendOtp = async () => {
+  try {
+    let astroData = null;
 
-  const sendOtp = async () => {
+    // Step 1: Try to get astrologer details
     try {
-      // Step 1: Check if mobile number exists
       const responseMatch = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-detail/${phone}`
       );
-      console.log( responseMatch?.data?.data?.blockUnblockAstro, "responseMatch");
+      astroData = responseMatch?.data?.data;
 
-      // Step 2: If match found, send OTP
-      if (
-        responseMatch?.data?.success &&
-        responseMatch?.data?.data?.blockUnblockAstro == false ||  responseMatch?.data?.data?.blockUnblockAstro==undefined 
-      ) {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/send-otp`,
-          {
-            phone: phone,
-          }
-        );
+      console.log(astroData, "Astrologer data");
 
-        setOtpSent(true);
-        let countdown = 60;
-        setTimeOtpMessage(countdown);
-
-        const timer = setInterval(() => {
-          countdown -= 1;
-          setTimeOtpMessage(countdown);
-
-          if (countdown <= 0) {
-            clearInterval(timer);
-          }
-        }, 1000);
-
-        setMessage(response.data.message);
-      } else {
-        setMessage("Mobile number not found");
-
-        toast.warn(
-          "You have been blocked. Please contact the administrator for assistance",
-          {
-            position: "top-right",
-          }
-        );
+      // Step 2: Check block status
+      if (astroData?.blockUnblockAstro === true || astroData?.deleteAstroLoger==true) {
+        setMessage("Your account has been blocked. Please contact support.");
+        return;
       }
-    } catch (error) {
-      if (error.response?.status == 404) {
-        setMessage("Mobile number not registered");
-        toast.error("Mobile number not registered", {
-          position: "top-right",
-        });
-      } else {
-        setMessage("Error sending OTP");
-      }
-      console.log(error);
+    } catch (err) {
+      console.log("Astrologer not found or error:", err);
     }
-  };
+
+    // Step 3: Send OTP regardless of previous account status (new or unblocked user)
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/send-otp`,
+      {
+        phone: phone,
+      }
+    );
+
+    setOtpSent(true);
+    let countdown = 60;
+    setTimeOtpMessage(countdown); // Initialize countdown
+
+    const timer = setInterval(() => {
+      countdown -= 1;
+      setTimeOtpMessage(countdown);
+
+      if (countdown <= 0) {
+        clearInterval(timer);
+      }
+    }, 1000);
+
+    setMessage(response.data.message);
+  } catch (error) {
+    if (error.response?.status === 404) {
+      setMessage("Mobile number not registered");
+    } else {
+      setMessage("Error sending OTP");
+    }
+    console.log(error);
+  }
+};
+
 
   const verifyOtp = async () => {
     try {
@@ -109,7 +93,7 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
         sessionStorage.setItem("session-astrologer-phone", phone);
         try {
           const response = await axios.put(
-            `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-astro-status-by-mobile/${phone}`,
+            `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-business-profile/${phone}`,
             {
               profileStatus: true,
               chatStatus: false,
@@ -123,12 +107,12 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
               profileStatus: true,
             }
           );
-          console.log("update order history", updateList);
+          console.log("update order history", response);
 
           if (response.data.message == "Success") {
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
+            // setTimeout(() => {
+            //   window.location.reload();
+            // }, 2000);
           }
           console.log("Astrologer status updated:", response.data);
         } catch (error) {

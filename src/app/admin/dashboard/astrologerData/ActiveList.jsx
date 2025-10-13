@@ -96,36 +96,48 @@ function ActiveList() {
   };
 
   // ✅ Delete astrologer
- const deleteAstrologer = async () => {
+const deleteAstrologer = async () => {
   if (!astroToDelete.mobile || !astroToDelete.id) return;
 
   setLoading(true);
 
   try {
+    // Step 1: Delete astrologer
     const response = await axios.put(
       `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-business-profile/${astroToDelete.mobile}`,
       {
         deleteAstroLoger: true,
-        blockUnblockAstro: true,
         profileStatus: false,
       }
     );
 
     if (response.status === 200) {
-      console.log("Astrologer deleted successfully.");
-      await fetchAstrologers(page); // Refresh the list
+      // Step 2: Additional delete action if necessary
+      const result = await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/put-any-field-astrologer-registration/${astroToDelete.mobile}`,
+        { deleteAstroLoger: true }
+      );
+
+      if (result.status === 200) {
+        // Refresh the astrologer list after successful deletion
+        await fetchAstrologers(page);
+      } else {
+        console.error("Failed to update astrologer status:", result);
+      }
     } else {
-      console.error("Unexpected response:", response);
+      console.error("Unexpected response during business profile update:", response);
     }
   } catch (err) {
-    console.error("Delete error:", err.response?.data || err.message);
+    console.error("Error during astrologer deletion:", err.response?.data || err.message);
   } finally {
+    // Reset state after process completion
     setShowDelete(false);
     setDeletePermanently(false);
     setAstroToDelete({ id: null, mobile: null });
     setLoading(false);
   }
 };
+
 
 
   useEffect(() => {

@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=El+Messiri:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 /* Global CSS  */
 
-:root {--primary_color: #bf2554; --secondary_color: #2c154c; --secondary_dark: #0b001a; --secondary_hover: #542875; --body_bg: #ffffff; --light_bg: #ededed; --body_content_color: #000000; --heading_color: #121212; --primary_font: "Poppins", serif; --secondary_font: "El Messiri", serif;}
+:root {--primary_color: #775a97; --secondary_color: #2c154c; --secondary_dark: #0b001a; --secondary_hover: #542875; --body_bg: #ffffff; --light_bg: #ededed; --body_content_color: #000000; --heading_color: #121212; --primary_font: "Poppins", serif; --secondary_font: "El Messiri", serif;}
 body {font-family: var(--primary_font); color: var(--body_content_color); font-size: 16px; background-color: var(--body_bg);}
 * {box-sizing: border-box; margin: 0; padding: 0;}
 h1, h2, h3 {font-family: var(--secondary_font);}
@@ -152,9 +152,11 @@ ul.submenu > li:not(:last-child), .header-user-drop-down ul li:not(:last-child) 
 .inner-form-filed-sec textarea { width: 100%; background-color: var(--body_bg); font-weight: 400; font-size: 16px; line-height: normal; outline-style: none; padding: 10px; height: 100px; border: 0px; color: var(--body_content_color); font-family: inherit;}
 .outer-home-dashboard ul {display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;}
 .outer-home-dashboard ul li {display: block; padding: 30px; display: flex; gap: 20px; align-items: center; color: var(--body_content_color); font-size: 16px; cursor: pointer; background-color: var(--light_bg); transition: all 0.3s;}
-.outer-home-dashboard ul li:hover {background-color: var(--secondary_hover); color: #ffffff;}
+.outer-home-dashboard ul li:hover {background-color: var(--primary_color); color: #ffffff;}
 .outer-home-dashboard ul li > span:not(.inner-text) {width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; background-color: var(--primary_color); border-radius: 50%;}
+.outer-home-dashboard ul li:hover > span:not(.inner-text) {background-color: #ffffff;}
 .outer-home-dashboard ul li > span:not(.inner-text) svg {color: #fff; width: 26px; height: 26px;}
+.outer-home-dashboard ul li:hover > span:not(.inner-text) svg {color: var(--primary_color);}
 .outer-home-dashboard .number {display: block; font-size: 26px; font-weight: 500; line-height: 1; margin: 5px 0px 0px;}
 .home-dashboard-heading {margin: 0 0 20px;}
 .dashboard-right-content .home-dashboard-heading h2 {margin: 0 0 5px;}
@@ -185,12 +187,11 @@ ul.submenu > li:not(:last-child), .header-user-drop-down ul li:not(:last-child) 
 .talk-to-language {margin: 5px 0 30px;}
 .talk-to-time-sec p {color: var(--primary_color); font-size: 16px; font-weight: 600;}
 .astrologer-call-button-ctm button, .astrologer-call-button-ctm-detail a, .astrologer-call-button-ctm a {color: #ffffff; border: 1px solid var(--primary_color); border-radius: 50px; cursor: pointer; text-align: center; display: inline-block; background-color: var(--primary_color); padding: 10px 15px; width: 100%; font-size: 14px; text-transform: capitalize;}
-.astrologer-call-button-ctm.chatStatus-false a {color: #ffffff; background-color: var(--secondary_hover); border: 1px solid var(--secondary_hover); cursor: pointer; font-size: 14px;}
+.astrologer-call-button-ctm.chatStatus-false a {font-size: 14px;}
 .astrologer-call-button-ctm.chatStatus-false span:not(.icon) {color: var(--primary_color); font-size: 12px; line-height: 1.2; display: inline-block; margin: 7px 0px 0px;}
 .inner-astrologer-detail .astrologer-call-button-ctm.chatStatus-false span:not(.icon) {text-align: center;}
-.astrologer-call-button-ctm.chatStatus-false a:hover {background-color: var(--primary_color); color: #fff; border-color: var(--primary_color);}
 .Verified-Sticker-icon {text-align: right; position: absolute; right: 14px; top: 14px;}
-.Verified-Sticker-icon img {max-width: 18px; vertical-align: top;}
+.Verified-Sticker-icon img {max-width: 18px; vertical-align: top; filter: brightness(0) saturate(100%) invert(40%) sepia(13%) saturate(1707%) hue-rotate(226deg) brightness(91%) contrast(84%);}
 .five-star-rating ul {display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; margin-top: 5px;}
 .five-star-rating ul li {max-width: max-content;}
 .five-star-rating ul li svg, .stars li svg {width: 14px; fill: goldenrod; stroke: goldenrod; vertical-align: middle;}
@@ -359,12 +360,12 @@ section.add-money-wallet-bg {margin: 50px 0;}
 .Walle-amount span {font-size: 18px; font-weight: 700; margin-top: 10px;}
 .inner-add-money-wallet {text-align: center;}
 .popular-recharge-sec {display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 30px;}
-.inner-popular-recharge-sec {width: calc(100% / 6 - 17px); background-color: var(--secondary_color); text-align: center; position: relative; overflow: hidden;}
-.popular-recharge-sec .extra-discount {background-color: var(--secondary_hover); padding: 10px;}
+.inner-popular-recharge-sec {width: calc(100% / 6 - 17px); background-color: var(--light_bg); text-align: center; position: relative; overflow: hidden;}
+.popular-recharge-sec .extra-discount {background-color: var(--primary_color); padding: 10px;}
 .popular-recharge-sec .extra-discount span {color: #ffffff; font-size: 13px;}
 .popular-amount {padding: 35px 10px 20px 10px;}
-.popular-amount span {font-size: 16px;}
-.inner-popular-recharge-sec a {width: 100%; height: 100%; display: inline-block; color: #ffffff;}
+.popular-amount span {font-size: 16px; color: var(--body_content_color);}
+.inner-popular-recharge-sec a {width: 100%; height: 100%; display: inline-block; color: var(--body_content_color);}
 .most-popular-tag {position: absolute; top: 10px; left: -25px; transform: rotate(-45deg);}
 .most-popular-tag span {background-color: var(--primary_color); padding: 3px 10px; color: #fff; font-size: 9px; display: inline-block;	width: 95px;}
 table, th, td {border: 1px solid rgba(0, 0, 0, .3); border-collapse: collapse;}
@@ -408,13 +409,14 @@ body.user-recharge::before {content: ""; width: 100%; position: absolute; backgr
 .admin-popup-main {min-height: 100vh; display: flex; align-items: center; justify-content: center;}
 .admin-popup-main .man-input-filed-sec {max-width: 480px; margin: 0 auto; position: relative; border-radius: 10px; box-shadow: 0 0 20px 1px #666; background-color: #fff; overflow: hidden; padding: 20px; width: 100%;}
 .admin-popup-main .admin-detail-popup label:first-child {margin-top: 0;}
-.admin-popup-main .admin-detail-popup label {font-size: 15px; margin-bottom: 10px; margin-top: 10px; padding: 5px 0; display: inline-block;}
+.admin-popup-main .admin-detail-popup label {font-size: 15px; margin-bottom: 10px; margin-top: 10px; padding: 5px 0; display: inline-block; color: #ffffff;}
 .admin-popup-main .admin-detail-popup input {width: 100%; color: var(--body_content_color); font-weight: 400; font-size: 15px; line-height: normal; outline-style: none; padding: 10px; border: 0px; height: 50px; font-family: inherit; background-color: #ffffff !important;}
-.admin-popup-main .admin-detail-popup button {background-color: var(--primary_color); color: #fff; width: 100%; padding: 10px 20px;}
+.admin-popup-main .admin-detail-popup button {background-color: var(--primary_color); color: #fff; width: 100%; padding: 10px 20px; border: 1px solid #ffffff;}
+.admin-popup-main .admin-detail-popup button:hover {background-color: #ffffff; color: var(--primary_color);}
 .admin-detail-popup {  display: flex;}
-.admin-banner {background-color: var(--secondary_hover); text-align: center; padding: 50px; color: #fff; display: flex; flex-direction: column; justify-content: center;}
+.admin-banner {background-color: var(--light_bg); text-align: center; padding: 50px; display: flex; flex-direction: column; justify-content: center;}
 .admin-login-logo img {max-width: 170px;}
-.admin-login-form {padding: 70px; background-color: var(--light_bg); display: flex; flex-direction: column; justify-content: center;}
+.admin-login-form {padding: 70px; background-color: var(--primary_color); display: flex; flex-direction: column; justify-content: center;}
 .admin-login-left-content {margin: 20px 0px 0px;}
 .admin-login-left-content h1 {font-size: 30px; margin: 0 0 5px;}
 /* 26-march-2025 */
@@ -460,7 +462,7 @@ span.banner-heading, .footer-product-name {font-weight: 600; font-size: 18px; ma
 .profile_with_contact::before {content: ""; position: absolute; width: 100%; height: 100%; left: 0; top: 0; background-color: var(--secondary_hover); opacity: .7;}
 .profile_with_contact > * {position: relative;}
 .profile_with_contact_slider {padding: 90px 0px 25px;}
-.profile_with_contact_slider-inner {display: flex; justify-content: space-between; gap: 50px; align-items: flex-start;}
+.profile_with_contact_slider-inner {display: flex; justify-content: space-between; gap: 50px; align-items: flex-start; flex-wrap: wrap;}
 .slider-outer {order: 3; max-width: 100%; flex: 0 0 100%;}
 .slider-outer .astro-img {padding: 0px 10px;}
 .profile_with_contact .image img {box-shadow: 0px -3px 20px rgba(0, 0, 0, .2); width: 100px; height: 100px; object-fit: cover; object-position: center; border-radius: 50%; display: block;}
@@ -575,7 +577,6 @@ li.active > a {opacity: 1 !important;}
 .outer-payment table tr:last-child td {font-weight: 700; background-color: #eee;}
 .payment-coupon h2 {font-size: 18px; font-weight: normal;}
 .payment-coupon button {background-color: var(--primary_color); border: 0; color: #fff; border-radius: 30px; display: inline-block; padding: 8px 20px; font-size: 15px; line-height: normal; appearance: none; margin: 20px 0px 0px; transition: all 0.3s;}
-.payment-coupon button:hover {background-color: #2f2f2f;}
 /* Manage Profile */
 select.common-input-filed {background-image: linear-gradient(45deg, transparent 50%, #ffffff 50%), linear-gradient(135deg, #ffffff 50%, transparent 50%), linear-gradient(to right, #cccccc00, #cccccc00); background-position: calc(100% - 20px) calc(1em + 6px), calc(100% - 15px) calc(1em + 6px), calc(100% - 2.5em) 0.5em; background-size: 5px 5px, 5px 5px, 1px 1.5em; background-repeat: no-repeat; appearance: none;}
 input[type="file"] {border: 0; padding-inline: 0; padding: 0; background: transparent;}
@@ -762,7 +763,7 @@ td button + button {margin-left: 5px;}
 .video_call_row .v-cntrl {width: 50px; height: 50px; background: var(--secondary_color); border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 20px; color: #fff;}
 .v-cntrl.call-end {background: #ea4335;}
 .seminar-bannner {padding: 80px 0 80px; border-radius: 34px; overflow: hidden;}
-.seminar_wrapper {background: linear-gradient(124deg, #bf2554 52%, #bf2554eb 40%); overflow: hidden; padding: 60px; position: relative;}
+.seminar_wrapper {background: linear-gradient(124deg, var(--primary_color) 52%, #775a97eb 40%); overflow: hidden; padding: 60px; position: relative;}
 .seminar-banner-row .new {position: absolute; background: #fea701; width: 174px; top: 22px; left: -50px; padding-block: 9px; display: inline-block; font-weight: bold; font-size: 16px; padding: 5px 15px; text-align: center; text-transform: uppercase; animation: moveAndHighlight 1s infinite; transform: rotate(-45deg);}
 @keyframes moveAndHighlight {
   0% {background-color: #f03a2d; color: #fff;}
@@ -858,8 +859,8 @@ td button + button {margin-left: 5px;}
 .astromall-listing > *, .astromall-listing > * a {position: relative;}
 .product-img {position: relative; padding-bottom: 100%;}
 .product-img img {width: 100%; height: 100%; position: absolute; left: 0; top: 0; object-fit: cover;}
-.details-cont {padding: 30px 20px; min-height: 156px; background-color: var(--secondary_color);}
-.product-name {color: var(--primary_color); font-weight: 600; font-size: 20px; margin: 0 0 5px; font-family: var(--secondary_font);}
+.details-cont {padding: 30px 20px; min-height: 156px; background-color: var(--primary_color);}
+.product-name {color: #ffffff; font-weight: 600; font-size: 20px; margin: 0 0 5px; font-family: var(--secondary_font); line-height: 26px;}
 .details-cont p {font-size: 14px; -webkit-line-clamp: 3; display: -webkit-box; -webkit-box-orient: vertical; color: #eee; margin-bottom: 0; text-overflow: ellipsis; overflow: hidden;}
 .sales-tag {position: absolute; top: 10px; z-index: 1; left: 0; background-color: var(--primary_color); color: #fff; padding: 5px 10px 3px; width: max-content; max-width: calc(100% - 80px); font-size: 13px;}
 .astromall-slider-outer {padding: 0 0 70px;}
@@ -871,11 +872,10 @@ td button + button {margin-left: 5px;}
 .AstroMallShops-admin .language-list {width: auto; flex-grow: 1;}
 .astro-mall-btn {position: absolute; right: 10px; top: 10px; display: flex; gap: 5px;}
 .astro-mall-btn button {padding: 5px 0px 0px !important; width: 30px; height: 30px;}
-.product-name {color: var(--primary_color);}
 .AstroMallShops-admin {flex-wrap: unset;}
 .AstroMallShops-admin .details-cont {min-height: auto;}
 .AstroMallShops-admin .astromall-listing {margin: 20px 0px 0px;}
-.AstroMallShops-admin .astromall-listing > * {background-color: var(--secondary_color); min-width: 0px;}
+.AstroMallShops-admin .astromall-listing > * {background-color: var(--primary_color); min-width: 0px;}
 .astromall-slider-outer .slider-sec {margin: 30px 0px 0px;}
 .astromall-slider-outer .slick-track {display: flex;}
 .astromall-slider-outer .slick-list {margin: 0px -10px;}
@@ -915,7 +915,7 @@ td button + button {margin-left: 5px;}
 .single-faq ul, .product-faqs-outer ul {padding-left: 20px;}
 .single-faq ul li, .product-faqs-outer ul li {list-style-type: disc;}
 .product-testimonial-left-right-outer {padding: 60px 0px;}
-.promise-box-sec {background-color: var(--secondary_hover); color: #fff; padding: 30px;}
+.promise-box-sec {background-color: var(--primary_color); color: #fff; padding: 30px;}
 .promise-btns {display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0px 0px;}
 .promise-btns a {display: inline-block; background-color: #fff; border-radius: 50px; padding: 10px 30px; border: 1px solid #ffffff; color: var(--secondary_hover);}
 .promise-btns a:hover {background-color: transparent; color: #ffffff;}
@@ -923,7 +923,7 @@ td button + button {margin-left: 5px;}
 .slide-content p {font-weight: 500; font-size: 16px;}
 .single-slide a {display: inline-block; width: 100%; height: 100%; vertical-align: bottom; background-color: var(--light_bg); color: var(--body_content_color);}
 .add-on-img img {max-height: 45px;}
-.booked_selected_items {background-color: rgb(191 37 84 / 15%); border: 2px solid var(--primary_color); margin: 20px 0px 0px; overflow: hidden; max-width: 350px; display: inline-flex; padding: 15px; gap: 20px; align-items: center;}
+.booked_selected_items {background-color: rgb(119 90 151 / 16%); border: 2px solid var(--primary_color); margin: 20px 0px 0px; overflow: hidden; max-width: 350px; display: inline-flex; padding: 15px; gap: 20px; align-items: center;}
 .booked_selected_items > * {display: flex; align-items: center; gap: 15px;}
 .booked_selected_items img {max-width: 60px;}
 .booked_selected_items .close {position: static;}
@@ -1072,6 +1072,7 @@ span.required {color: red;}
 .banner .btn-wrapper .btn {background-color: var(--primary_color); border: 1px solid var(--primary_color); color: #fff; border-radius: 50px; padding: 12px 40px 10px; font-size: 16px; display: inline-block; text-align: center; text-decoration: none; text-transform: capitalize; font-family: var(--secondary_font);}
 .banner .btn-wrapper .btn:hover {background-color: #fff; color: var(--primary_color); border-color: #ffffff;}
 .banner-main .slick-slider {position: static;}
+.banner-main .slick-slider > .slick-list {position: relative; z-index: 1;}
 .faq-answer.active {display: block;}
 .four-col {position: relative;}
 .four-col.section-spacing {padding: 0px 0px 80px;}
@@ -1090,11 +1091,11 @@ span.required {color: red;}
 .astrology_seciton::before {content: ""; position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; background-color: var(--secondary_color); opacity: .8;}
 .astrology_seciton h2 {color: #ffffff;}
 .astro-inner {position: relative;}
-.astrology_seciton .col {background: var(--secondary_color); position: relative; padding: 80px 30px 30px; transition: all 0.3s;}
-.astrology_seciton .col:hover, .single-slide a:hover, .faq-item:hover, .faq-item.open {background-color: var(--secondary_hover); color: #ffffff;}
+.astrology_seciton .col {background: var(--primary_color); position: relative; padding: 80px 30px 30px; transition: all 0.3s;}
+.astrology_seciton .col:hover, .single-slide a:hover {background-color: var(--primary_color); color: #ffffff;}
 .astrology_seciton .row .col::before {counter-increment: my-sec-counter; content: counter(my-sec-counter); position: absolute; width: 90px; height: 90px; background: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; top: -41px; left: 50%; transform: translateX(-50%); font-size: 45px; color: var(--primary_color);}
 .astrology_seciton .col a {text-decoration: none;}
-.astrology_seciton .content-wrap h3 { margin: 0 0 16px; font-size: 24px;}
+.astrology_seciton .content-wrap h3 { margin: 0 0 16px; font-size: 24px; color: #ffffff; line-height: 30px;}
 .astrology_seciton .content-wrap p {color: #fff;}
 .astrology_seciton .row {display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; counter-reset: my-sec-counter; margin: 80px 0px 0px;}
 .counter_seciton {padding: 70px 0; text-align: center; background-color: var(--light_bg);}
@@ -1108,7 +1109,8 @@ span.required {color: red;}
 .faq-answer {padding: 10px 0;}
 .faq-item.active .faq-answer {display: block;}
 .faq-question {cursor: pointer; font-weight: 600; padding: 10px 0; font-size: 18px;}
-.faq-item {background: var(--secondary_color); padding: 17px 50px 17px 30px; position: relative; transition: all 0.3s; color: #ffffff;}
+.faq-item {background: var(--primary_color); padding: 17px 50px 17px 30px; position: relative; transition: all 0.3s; color: #ffffff;}
+.faq-item:hover,  .faq-item.open {background: var(--secondary_color);}
 .faq-section .faq-item + .faq-item {margin-top: 12px;}
 .faq-section .icon {display: block; position: absolute; width: 25px; height: 25px; top: 27px; right: 30px;}
 .faq-section .icon::after {content: ""; position: absolute; width: 100%; height: 3px; background: #ffffff; top: 50%; transform: translateY(-50%);}
@@ -1155,7 +1157,7 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
 .pagination {display: flex; align-items: center; margin: 30px 0px 0px; justify-content: center; gap: 25px;}
 .admin-form-box h2 {font-size: 24px;}
 .astro-detail {padding: 40px 100px; background-image: url(/_next/static/media/bg-section-forecast.8f843a55.jpg); background-size: cover; text-align: center; position: relative; display: flex; justify-content: space-between; margin: 0 0 20px; background-position: bottom;}
-.astro-detail::before {content: ""; position: absolute; width: 100%; height: 100%; left: 0; top: 0; background-color: var(--secondary_hover); opacity: .7;}
+.astro-detail::before {content: ""; position: absolute; width: 100%; height: 100%; left: 0; top: 0; background-color: var(--primary_color); opacity: .7;}
 .astro-detail > * {color: #fff; position: relative;}
 .astro-detail > * span.value {font-weight: 600; display: block; font-size: 24px; margin: 5px 0px 0px;}
 .astrology-blog {padding: 80px 0px 0px;}
@@ -1447,7 +1449,6 @@ body.astro-detail-admin-popup .astro-detail-main-view {
   .pagination button {padding: 10px 20px 8px;}
   .astro-detail-main, .astrologer-profile-edit-table, .astro-detail-main-view, .wallet-edit-main {width: calc(100% - 30px);}
   .search-box-top-btn .available-balance {margin: 0 0 0px 0px;}
-  .profile_with_contact_slider-inner {flex-wrap: wrap;}
 }
 @media (max-width: 639px) {
   .four-col .row {grid-template-columns: repeat(1, 1fr); gap: 20px;}

@@ -14,19 +14,44 @@ function UserOtpLoginData({ setOtpPopUpDisplay }) {
   const [userLoginData, setUserLoginData] = useState();
   const router = useRouter();
 
-  useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login`)
-      .then((response) => {
-        setUserLoginData(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${phone}`
+  //     )
+  //     .then((response) => {
+  //       setUserLoginData(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }, []);
 
   const sendOtp = async () => {
     try {
+      let userData = null;
+
+      // Step 1: Try to get user details
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-login-detail/${phone}`
+        );
+        userData = res?.data?.data;
+
+        // Step 2: Block/Delete check
+        if (userData?.blockUser === true) {
+          setMessage("Your account has been blocked. Please contact support.");
+          return;
+        }
+
+        if (userData?.deleteUser === true) {
+          setMessage("Your account has been deleted. Please contact support.");
+          return;
+        }
+      } catch (err) {
+        // If API fails (user not found / error), treat as new phone
+        console.log("User not found or error:", err);
+      }
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/send-otp`,
         {

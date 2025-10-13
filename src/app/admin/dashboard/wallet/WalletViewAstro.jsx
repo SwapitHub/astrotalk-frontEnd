@@ -4,11 +4,7 @@ import axios from "axios";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-const WalletView = ({
-  mobileNumber = "8578554445",
-  setAddActiveClass,
-  setLoading,
-}) => {
+const WalletView = ({ mobileNumber, setAddActiveClass, setLoading }) => {
   console.log(mobileNumber, "mobileNumber-12");
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -82,9 +78,11 @@ const WalletView = ({
               <Image
                 width={100}
                 height={100}
-                src={astroDetailData?.profileImage?
-                  process.env.NEXT_PUBLIC_WEBSITE_URL +
-                  astroDetailData?.profileImage:`/user-icon-image.png`
+                src={
+                  astroDetailData?.profileImage
+                    ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                      astroDetailData?.profileImage
+                    : `/user-icon-image.png`
                 }
                 alt="user-icon"
               />
@@ -101,7 +99,7 @@ const WalletView = ({
           <div className="common-profile">
             <div className="balance">AvaiLable Balance</div>
             <div className="input-outer">
-              ₹ {astroDetailData?.totalAvailableBalance || 0}
+              ₹ {Math.round(astroDetailData?.totalAvailableBalance) || 0}
             </div>
           </div>
           <div className="common-profile">
@@ -188,6 +186,12 @@ const WalletView = ({
           <h2 style={{ textAlign: "center", margin: "20px 0" }}>
             Astrologer Wallet Transactions
           </h2>
+          <div className="input-outer">
+            <div className="balance">AvaiLable Balance</div>
+            <div className="input-outer">
+              ₹ {Math.round(astroDetailData?.totalAvailableBalance) || 0}
+            </div>
+          </div>
 
           {/* Search Box */}
           {/* <input
@@ -207,7 +211,7 @@ const WalletView = ({
                 <tr>
                   {/* <th>Transaction ID</th> */}
                   <th>Astrologer Name</th>
-                  <th>Available Balance</th>
+                  {/* <th>Available Balance</th> */}
                   <th>Transaction Amount</th>
                   <th>Description</th>
                   <th>Date</th>
@@ -218,7 +222,8 @@ const WalletView = ({
                   {transactions.map((tx) => (
                     <tr key={tx._id}>
                       {/* <td>{tx?._id}</td> */}
-                      <td>{tx.name}</td> <td>₹ {tx.availableBalance}</td>{" "}
+                      <td>{tx.name}</td>{" "}
+                      {/* <td>₹ {Math.round(tx.availableBalance)}</td>{" "} */}
                       <td> {tx.transactionAmount}</td> <td>{tx.description}</td>{" "}
                       <td>{new Date(tx.createdAt).toLocaleString()}</td>
                     </tr>

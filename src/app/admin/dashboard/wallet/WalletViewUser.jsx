@@ -127,7 +127,10 @@ const WalletView = ({
           <h2 style={{ textAlign: "center", margin: "20px 0" }}>
             User Wallet Transactions
           </h2>
-
+          <div className="input-outer">
+            <div className="balance">AvaiLable Balance</div>
+            <div className="input-outer">₹ {Math.round(astroDetailData?.totalAmount) || 0}</div>
+          </div>
           {/* Search Box */}
           {/* <input
             type="search"
@@ -158,7 +161,8 @@ const WalletView = ({
                     <tr key={tx._id}>
                       {/* <td>{tx?._id}</td> */}
                       <td>{tx.name}</td> <td>₹ {tx.availableBalance}</td>{" "}
-                      <td> {tx.transactionAmount}</td> <td>{tx.description}</td>{" "}
+                      <td> ₹ {tx.transactionAmount}</td>{" "}
+                      <td>{tx.description}</td>{" "}
                       <td>{new Date(tx.createdAt).toLocaleString()}</td>
                     </tr>
                   ))}
