@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import DOMPurify from "dompurify";
 import he from "he";
+import Image from "next/image";
 
 const AstroMallProduct = ({ astrShopDetailData }) => {
   const params = useParams();
@@ -55,7 +56,6 @@ const AstroMallProduct = ({ astrShopDetailData }) => {
 
   return (
     <main>
-
       <section className="astromall-sec-outer">
         <div className="container">
           <div className="astromall-sec-inner">
@@ -91,17 +91,26 @@ const AstroMallProduct = ({ astrShopDetailData }) => {
                   return (
                     <div className="single-item" key={index}>
                       <Link
-                        href={`/shop/${params.slug}/${item?.slug}${astrShopDetailData.Jewelry_product_gem
+                        href={`/shop/${params.slug}/${item?.slug}${
+                          astrShopDetailData.Jewelry_product_gem
                             ? `?gemstone=true`
                             : ""
-                          }`}
+                        }`}
                       >
                         <div className="sales-tag">
                           <span>Book Now</span>
                         </div>
                         <div className="details-outer">
                           <div className="product-img">
-                            <img src={item?.astroMallProductImg} alt="" />
+                            <Image
+                              width={100}
+                              height={100}
+                              src={
+                                process.env.NEXT_PUBLIC_WEBSITE_URL +
+                                item?.astroMallProductImg
+                               || "/user-icon-image.png"}
+                              alt="user-icon"
+                            />
                           </div>
 
                           {item?.discount_price ? (
@@ -128,7 +137,6 @@ const AstroMallProduct = ({ astrShopDetailData }) => {
                             </div>
                           )}
                         </div>
-
                       </Link>
                     </div>
                   );

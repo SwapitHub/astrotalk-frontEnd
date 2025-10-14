@@ -3,6 +3,7 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import ShopIdGetGlobal from "../../ShopIdGetGlobal";
 import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
 
 const ConsultantList = () => {
   const route = useRouter();
@@ -11,7 +12,6 @@ const ConsultantList = () => {
   const [astrologerServiceListData, setAstrologerServiceListData] = useState(
     []
   );
-  
 
   const handleGetAstrologer = async () => {
     try {
@@ -40,8 +40,12 @@ const ConsultantList = () => {
       <div className="breadcrumb container">
         <ul>
           <li>
-            <Link href={`/shop/${params?.slug}`}>{params?.slug.replace(/-/g," ")}</Link>
-            <Link href={`/shop/${params?.slug}/${params?.id}`}>{params?.slug.replace(/-/g," ")}</Link>
+            <Link href={`/shop/${params?.slug}`}>
+              {params?.slug.replace(/-/g, " ")}
+            </Link>
+            <Link href={`/shop/${params?.slug}/${params?.id}`}>
+              {params?.slug.replace(/-/g, " ")}
+            </Link>
             <span className="text">Consultant List</span>
           </li>
         </ul>
@@ -62,7 +66,15 @@ const ConsultantList = () => {
                     <div className="star-banner">Celebrity</div>
                     <div className="astrologer-list-left">
                       <div className="astrologer-profile">
-                        <img alt={item?.name} src={item?.profileImage} />
+                        <Image
+                          width={100}
+                          height={100}
+                          src={
+                            process.env.NEXT_PUBLIC_WEBSITE_URL +
+                              item?.profileImage || "/user-icon-image.png"
+                          }
+                          alt="user-icon"
+                        />
                       </div>
                       <div className="five-star-rating">
                         <ul className="stars">
@@ -150,26 +162,26 @@ const ConsultantList = () => {
                         ))}
                       </div>
                       <div className="time-exp-outer">
-                      <div className="exp-year-sec">
-                        <p>
-                          Exp:{" "}
-                          <span className="ctm-carly-breaks">
-                            {item?.experience}
-                          </span>{" "}
-                          Years
-                        </p>
-                      </div>
-                      <div className="talk-to-time-sec">
-                        <p>
-                          ₹
-                          {item.spiritual_services
-                            .filter(
-                              (service) =>
-                                service?.shop_id === astrShopDetailData?._id
-                            )
-                            .map((service) => service?.service_price)}
-                        </p>
-                      </div>
+                        <div className="exp-year-sec">
+                          <p>
+                            Exp:{" "}
+                            <span className="ctm-carly-breaks">
+                              {item?.experience}
+                            </span>{" "}
+                            Years
+                          </p>
+                        </div>
+                        <div className="talk-to-time-sec">
+                          <p>
+                            ₹
+                            {item.spiritual_services
+                              .filter(
+                                (service) =>
+                                  service?.shop_id === astrShopDetailData?._id
+                              )
+                              .map((service) => service?.service_price)}
+                          </p>
+                        </div>
                       </div>
                     </div>
                     <div className="astrologer-list-right">

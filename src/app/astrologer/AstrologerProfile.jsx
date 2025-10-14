@@ -177,13 +177,10 @@ const AstrologerProfile = ({
 
       console.log("Registration successful:", response.data);
     } catch (error) {
-      console.error(
-        "Error in registration:",
-        error.response?.data?.message || error.message
-      );
-      // toast.error("Profile not Completed", {
-      //   position: "top-right",
-      // });
+      console.error("Error in registration:", error.response.data.error);
+      toast.error(error.response.data.error, {
+        position: "top-right",
+      });
     }
   };
 

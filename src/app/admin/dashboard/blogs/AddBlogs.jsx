@@ -6,6 +6,8 @@ import { FaEdit, FaSearch } from "react-icons/fa";
 import { RiDeleteBin7Fill } from "react-icons/ri";
 import { IoClose } from "react-icons/io5";
 import useDebounce from "@/app/hook/useDebounce";
+import DeletePopUp from "@/app/component/DeletePopUp";
+import Image from "next/image";
 
 const API = process.env.NEXT_PUBLIC_WEBSITE_URL;
 
@@ -20,6 +22,8 @@ const AddBlogs = () => {
     category: "",
   });
 
+  let showNameData = "Blog";
+
   const [categories, setCategories] = useState([]);
   const [blogs, setBlogs] = useState([]);
   const [search, setSearch] = useState("");
@@ -27,6 +31,10 @@ const AddBlogs = () => {
   const [error, setError] = useState("");
   const [loader, setLoader] = useState(false);
   const [toggleAstroCategory, setToggleAstroCategory] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+  const [deletePermanently, setDeletePermanently] = useState(false);
+  const [astroToDelete, setAstroToDelete] = useState();
+
   const debouncedSearch = useDebounce(search, 1000);
 
   const [pagination, setPagination] = useState({
@@ -46,10 +54,15 @@ const AddBlogs = () => {
     }
   };
 
-  const fetchBlogs = async (page = 1, limit = 2, searchQuery = "") => {
+  const fetchBlogs = async (
+    page = 1,
+    limit = 2,
+    searchQuery = "",
+    deleteStatus = false
+  ) => {
     try {
       const res = await axios.get(`${API}/get-add-blogs-all`, {
-        params: { page, limit, search: searchQuery },
+        params: { page, limit, search: searchQuery, deleteStatus },
       });
       setBlogs(res.data.blogs);
       setPagination(res.data.pagination);
@@ -93,6 +106,8 @@ const AddBlogs = () => {
       formData.append("content", form.content);
       formData.append("author", form.author);
       formData.append("category", form.category);
+      console.log(formData);
+      console.log(form, "form");
 
       if (form.coverImage) {
         formData.append("image", form.coverImage);
@@ -145,14 +160,25 @@ const AddBlogs = () => {
     }, 1000);
   };
 
-  const handleDelete = async (id) => {
+  console.log(deletePermanently, astroToDelete);
+
+  const handleDelete = async (astroToDelete) => {
     try {
-      await axios.delete(`${API}/delete-add-blogs/${id}`);
-      fetchBlogs(pagination.currentPage);
+      await axios.delete(`${API}/delete-add-blogs/${astroToDelete}`);
+      setBlogs((prev) => prev.filter((blog) => blog._id !== astroToDelete));
+      fetchBlogs();
     } catch (err) {
       console.error("Delete failed:", err);
     }
   };
+  useEffect(() => {
+    if (deletePermanently && astroToDelete) {
+      handleDelete(astroToDelete);
+      setShowDelete(false);
+      setDeletePermanently(false);
+      setAstroToDelete(null);
+    }
+  }, [deletePermanently]);
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= pagination.totalPages) {
@@ -161,251 +187,275 @@ const AddBlogs = () => {
   };
 
   return (
-    <div className="add-blogs-outer-admin">
-      {loader && <Loader />}
-      {toggleAstroCategory && (
-        <div className="change-password-popup">
-          <div className="change-password">
-            <span
-              className="close"
-              onClick={() => setToggleAstroCategory(false)}
-            >
-              <IoClose />
-            </span>
-            <h2>{editingId ? "Edit Blog" : "Add New Blog"}</h2>
-            <div className="admin-form-box">
-              <form onSubmit={handleSubmit} style={{ marginBottom: "2rem" }}>
-                <div className="form-field">
-                  <div className="label-content">
-                    <label>Title</label>
-                  </div>
-                  <input
-                    className="common-input-filed"
-                    name="title"
-                    placeholder="Title"
-                    value={form.title}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className="form-field">
-                  <div className="label-content">
-                    <label>Slug</label>
-                  </div>
-                  <input
-                    className="common-input-filed"
-                    name="slug"
-                    placeholder="Slug (optional)"
-                    value={form.slug}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="form-field">
-                  <div className="label-content">
-                    <label>Short Description</label>
-                  </div>
-                  <input
-                    className="common-input-filed"
-                    name="shortDescription"
-                    placeholder="Short Description"
-                    value={form.shortDescription}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="form-field">
-                  <div className="label-content">
-                    <label>Content</label>
-                  </div>
-                  <SummernoteEditor
-                    value={form.content}
-                    onChange={(content) =>
-                      setForm((prev) => ({ ...prev, content }))
-                    }
-                  />
-                </div>
-                <div className="form-field">
-                  <div className="label-content">
-                    <label>Author</label>
-                  </div>
-                  <input
-                    className="common-input-filed"
-                    name="author"
-                    placeholder="Author"
-                    value={form.author}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="form-field">
-                  <div className="label-content">
-                    <label>Cover Image</label>
-                  </div>
-                  <input
-                    className="common-input-filed"
-                    type="file"
-                    name="coverImage"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    key={form.coverImage ? form.coverImage.name : "file-input"}
-                  />
-                  <img src={form?.coverImage} alt="" />
-                </div>
-                <div className="form-field">
-                  <div className="label-content">
-                    <label>Select Category</label>
-                  </div>
-                  <select
-                    className="common-input-filed"
-                    name="category"
-                    value={form.category}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="">-- Select Category --</option>
-                    {categories.map((cat) => (
-                      <option key={cat._id} value={cat._id}>
-                        {cat.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                {error && <p style={{ color: "red" }}>{error}</p>}
-
-                <button type="submit">
-                  {editingId ? "Update" : "Create"} Blog
-                </button>
-                {editingId && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setEditingId(null);
-                      setForm({
-                        title: "",
-                        slug: "",
-                        shortDescription: "",
-                        content: "",
-                        author: "Admin",
-                        coverImage: null,
-                        category: "",
-                      });
-                      setError("");
-                    }}
-                  >
-                    Cancel
-                  </button>
-                )}
-              </form>
-            </div>
-          </div>
-        </div>
+    <>
+      {showDelete && (
+        <DeletePopUp
+          setShowDelete={setShowDelete}
+          setDeletePermanently={setDeletePermanently}
+          showNameData={showNameData}
+        />
       )}
 
-      <div className="bottom-table">
-        <h2>All Blogs</h2>
-        <div className="search-category-btn">
-          <button
-            onClick={() => {
-              setToggleAstroCategory(true);
-              setForm({});
-            }}
-          >
-            Add Blog
-          </button>
-          <div className="search-box-top-btn">
-            <div className="search-box-filed">
-              <input
-                type="search"
-                id="astrologer-search"
-                name="astrologer-search"
-                placeholder="Search name..."
-                aria-label="Search wallet transactions"
-                value={search}
-                onChange={handleSearchChange}
-              />
-            </div>
-            <div className="search-button-filed">
-              <button type="button">
-                <FaSearch />
-              </button>
+      <div className="add-blogs-outer-admin">
+        {loader && <Loader />}
+        {toggleAstroCategory && (
+          <div className="change-password-popup">
+            <div className="change-password">
+              <span
+                className="close"
+                onClick={() => setToggleAstroCategory(false)}
+              >
+                <IoClose />
+              </span>
+              <h2>{editingId ? "Edit Blog" : "Add New Blog"}</h2>
+              <div className="admin-form-box">
+                <form onSubmit={handleSubmit} style={{ marginBottom: "2rem" }}>
+                  <div className="form-field">
+                    <div className="label-content">
+                      <label>Title</label>
+                    </div>
+                    <input
+                      className="common-input-filed"
+                      name="title"
+                      placeholder="Title"
+                      value={form.title}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="form-field">
+                    <div className="label-content">
+                      <label>Slug</label>
+                    </div>
+                    <input
+                      className="common-input-filed"
+                      name="slug"
+                      placeholder="Slug (optional)"
+                      value={form.slug}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="form-field">
+                    <div className="label-content">
+                      <label>Short Description</label>
+                    </div>
+                    <input
+                      className="common-input-filed"
+                      name="shortDescription"
+                      placeholder="Short Description"
+                      value={form.shortDescription}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="form-field">
+                    <div className="label-content">
+                      <label>Content</label>
+                    </div>
+                    <SummernoteEditor
+                      value={form.content}
+                      onChange={(content) =>
+                        setForm((prev) => ({ ...prev, content }))
+                      }
+                    />
+                  </div>
+                  <div className="form-field">
+                    <div className="label-content">
+                      <label>Author</label>
+                    </div>
+                    <input
+                      className="common-input-filed"
+                      name="author"
+                      placeholder="Author"
+                      value={form.author}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="form-field">
+                    <div className="label-content">
+                      <label>Cover Image</label>
+                    </div>
+                    <input
+                      className="common-input-filed"
+                      type="file"
+                      name="coverImage"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      key={
+                        form.coverImage ? form.coverImage.name : "file-input"
+                      }
+                    />
+                    <Image
+                      width={100}
+                      height={100}
+                      src={
+                        process.env.NEXT_PUBLIC_WEBSITE_URL + form?.coverImage
+                      }
+                      alt="user-icon"
+                    />
+                  </div>
+                  <div className="form-field">
+                    <div className="label-content">
+                      <label>Select Category</label>
+                    </div>
+                    <select
+                      className="common-input-filed"
+                      name="category"
+                      value={form.category}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="">-- Select Category --</option>
+                      {categories.map((cat) => (
+                        <option key={cat._id} value={cat._id}>
+                          {cat.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {error && <p style={{ color: "red" }}>{error}</p>}
+
+                  <button type="submit">
+                    {editingId ? "Update" : "Create"} Blog
+                  </button>
+                  {editingId && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingId(null);
+                        setForm({
+                          title: "",
+                          slug: "",
+                          shortDescription: "",
+                          content: "",
+                          author: "Admin",
+                          coverImage: null,
+                          category: "",
+                        });
+                        setError("");
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  )}
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="outer-table">
-          <table border="1" cellPadding="10">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Slug</th>
-                <th>Category</th>
-                <th>Cover Image</th>
-                <th>Created</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {blogs.length > 0 ? (
-                blogs.map((blog) => (
-                  <tr key={blog._id}>
-                    <td>{blog.title}</td>
-                    <td>{blog.slug}</td>
-                    <td>
-                      {categories.find((cat) => cat._id === blog.category)
-                        ?.name || "N/A"}
-                    </td>
-                    <td>
-                      {blog.coverImage && (
-                        <img
-                          src={blog.coverImage}
-                          alt="cover"
-                          style={{
-                            width: "100px",
-                            height: "60px",
-                            objectFit: "cover",
-                          }}
-                        />
-                      )}
-                    </td>
-                    <td>{new Date(blog.createdAt).toLocaleString()}</td>
-                    <td>
-                      <div className="edit-delete-btn">
-                        <button onClick={() => handleEdit(blog)}>
-                          <FaEdit />
-                        </button>
-                        <button onClick={() => handleDelete(blog._id)}>
-                          <RiDeleteBin7Fill />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="6">No blogs found.</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
+        )}
 
-      {/* Pagination Controls */}
-      <div className="pagination">
-        <button
-          disabled={!pagination.hasPrevPage}
-          onClick={() => handlePageChange(pagination.currentPage - 1)}
-        >
-          Previous
-        </button>
-        <span>
-          Page {pagination.currentPage} of {pagination.totalPages}
-        </span>
-        <button
-          disabled={!pagination.hasNextPage}
-          onClick={() => handlePageChange(pagination.currentPage + 1)}
-        >
-          Next
-        </button>
+        <div className="bottom-table">
+          <h2>All Blogs</h2>
+          <div className="search-category-btn">
+            <button
+              onClick={() => {
+                setToggleAstroCategory(true);
+                setForm({});
+              }}
+            >
+              Add Blog
+            </button>
+            <div className="search-box-top-btn">
+              <div className="search-box-filed">
+                <input
+                  type="search"
+                  id="astrologer-search"
+                  name="astrologer-search"
+                  placeholder="Search name..."
+                  aria-label="Search wallet transactions"
+                  value={search}
+                  onChange={handleSearchChange}
+                />
+              </div>
+              <div className="search-button-filed">
+                <button type="button">
+                  <FaSearch />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="outer-table">
+            <table border="1" cellPadding="10">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Slug</th>
+                  <th>Category</th>
+                  <th>Cover Image</th>
+                  <th>Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {blogs.length > 0 ? (
+                  blogs.map((blog) => (
+                    <tr key={blog._id}>
+                      <td>{blog.title}</td>
+                      <td>{blog.slug}</td>
+                      <td>
+                        {categories.find((cat) => cat._id === blog.category)
+                          ?.name || "N/A"}
+                      </td>
+                      <td>
+                        {blog.coverImage && (
+                          <Image
+                            width={100}
+                            height={100}
+                            src={
+                              process.env.NEXT_PUBLIC_WEBSITE_URL +
+                              blog.coverImage
+                            }
+                            alt="user-icon"
+                          />
+                        )}
+                      </td>
+                      <td>{new Date(blog.createdAt).toLocaleString()}</td>
+                      <td>
+                        <div className="edit-delete-btn">
+                          <button onClick={() => handleEdit(blog)}>
+                            <FaEdit />
+                          </button>
+                          <button
+                            onClick={() => {
+                              setAstroToDelete(blog._id);
+                              setShowDelete(true);
+                            }}
+                          >
+                            <RiDeleteBin7Fill />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="6">No blogs found.</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="pagination">
+          <button
+            disabled={!pagination.hasPrevPage}
+            onClick={() => handlePageChange(pagination.currentPage - 1)}
+          >
+            Previous
+          </button>
+          <span>
+            Page {pagination.currentPage} of {pagination.totalPages}
+          </span>
+          <button
+            disabled={!pagination.hasNextPage}
+            onClick={() => handlePageChange(pagination.currentPage + 1)}
+          >
+            Next
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

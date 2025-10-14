@@ -6,10 +6,14 @@ import "slick-carousel/slick/slick.css";
 import NewlyLaunceSlider from "../component/NewlyLaunceSlider";
 import SearchProductSuggestion from "../component/SearchProductSuggestion";
 import TopSellingSlider from "../component/TopSellingSlider";
+import Image from "next/image";
 
-const AstromallShop = ({topSellingSlider,NewlyLaunchedSlider, shopListData}) => {
+const AstromallShop = ({
+  topSellingSlider,
+  NewlyLaunchedSlider,
+  shopListData,
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
- 
 
   return (
     <main>
@@ -18,7 +22,10 @@ const AstromallShop = ({topSellingSlider,NewlyLaunchedSlider, shopListData}) => 
           <div className="astromall-sec-inner">
             <div className="heading-box">
               <h1 className="common-h1-heading">Shop the Universe</h1>
-              <p>Unlock the power of astrology with our handpicked products and services.</p>
+              <p>
+                Unlock the power of astrology with our handpicked products and
+                services.
+              </p>
             </div>
             <div className="astromall-wrapper">
               <div className="astromall-search">
@@ -48,13 +55,23 @@ const AstromallShop = ({topSellingSlider,NewlyLaunchedSlider, shopListData}) => 
                 {shopListData.map((item, index) => {
                   return (
                     <div className="single-item" key={index}>
-                      <Link href={`shop/${item?.slug}`}>
+                      <Link href={`/shop/${item?.slug}`}>
                         <div className="sales-tag">
                           <span>{item?.offer_title}</span>
                         </div>
                         <div className="details-outer">
                           <div className="product-img">
-                            <img src={item?.astroMallImg} alt="" />
+                            <Image
+                              width={100}
+                              height={100}
+                              src={
+                                item?.astroMallImg
+                                  ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                                    item?.astroMallImg
+                                  : "./user-icon-image.png"
+                              }
+                              alt="user-icon"
+                            />
                           </div>
                           <div className="details-cont">
                             <div className="product-name">
@@ -72,8 +89,8 @@ const AstromallShop = ({topSellingSlider,NewlyLaunchedSlider, shopListData}) => 
           </div>
         </div>
       </section>
-      <TopSellingSlider topSellingSlider={topSellingSlider}/>
-      <NewlyLaunceSlider NewlyLaunchedSlider={NewlyLaunchedSlider}/>
+      <TopSellingSlider topSellingSlider={topSellingSlider} />
+      <NewlyLaunceSlider NewlyLaunchedSlider={NewlyLaunchedSlider} />
     </main>
   );
 };

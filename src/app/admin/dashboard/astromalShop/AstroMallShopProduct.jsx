@@ -4,6 +4,7 @@ import Loader from "@/app/component/Loader";
 import SummernoteEditor from "@/app/component/SummernoteEditor";
 import useDebounce from "@/app/hook/useDebounce";
 import axios from "axios";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaEdit, FaSearch } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
@@ -476,9 +477,16 @@ const AstroMallShopProduct = () => {
                 />
                 {showImage && (
                   <div className="banner-img">
-                    <img
-                      src={showImage?.astroMallProductImg}
-                      alt="banner img"
+                    <Image
+                      width={100}
+                      height={100}
+                      src={
+                        showImage?.astroMallProductImg
+                          ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                            showImage?.astroMallProductImg
+                          : "./user-icon-image.png"
+                      }
+                      alt="user-icon"
                     />
                   </div>
                 )}
@@ -507,7 +515,16 @@ const AstroMallShopProduct = () => {
                         >
                           <RiDeleteBin7Fill />
                         </span>
-                        <img src={item?.url} />
+                        <Image
+                          width={100}
+                          height={100}
+                          src={
+                            item?.url
+                              ? process.env.NEXT_PUBLIC_WEBSITE_URL + item?.url
+                              : "./user-icon-image.png"
+                          }
+                          alt="user-icon"
+                        />
                       </div>
                     ))}
                   </div>
@@ -771,7 +788,17 @@ const AstroMallShopProduct = () => {
                       </div>
                       <div className="details-outer">
                         <div className="product-img">
-                          <img src={item?.astroMallProductImg} alt="" />
+                          <Image
+                            width={100}
+                            height={100}
+                            src={
+                              item?.astroMallProductImg
+                                ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                                  item?.astroMallProductImg
+                                : "./user-icon-image.png"
+                            }
+                            alt="user-icon"
+                          />
                         </div>
                         {item?.discount_price ? (
                           <div className="details-cont">

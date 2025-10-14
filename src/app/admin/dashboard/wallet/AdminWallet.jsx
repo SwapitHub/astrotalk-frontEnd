@@ -64,7 +64,7 @@ function AdminWallet({ updateButton }) {
       setTotalPages(Math.ceil(res.data.totalTransactions / 5));
       setHasNextPage(res.data.hasNextPage);
       setHasPrevPage(res.data.hasPrevPage);
-      setTotalAvailableBalance(res.data.availableBalance);
+      setTotalAvailableBalance(res.data.totalAmount);
     } catch (err) {
       console.log(err, "admin wallet api error");
     } finally {
@@ -133,7 +133,7 @@ function AdminWallet({ updateButton }) {
           <table border="1">
             <thead>
               <tr>
-                <th>Admin Available Balance</th>
+                {/* <th>Admin Available Balance</th> */}
                 <th>Admin get Commission with astrologer</th>
                 <th>Description</th>
                 <th>Date and Time</th>
@@ -142,7 +142,7 @@ function AdminWallet({ updateButton }) {
             <tbody>
               {walletAdminData?.map((item) => (
                 <tr key={item._id}>
-                  <td>₹ {Math.round(item.availableBalance)}</td>
+                  {/* <td>₹ {Math.round(item.availableBalance)}</td> */}
                   <td>₹ {item.transactionAmount}</td>
                   <td>{item.description}</td>
                   <td>{new Date(item.createdAt).toLocaleString()}</td>

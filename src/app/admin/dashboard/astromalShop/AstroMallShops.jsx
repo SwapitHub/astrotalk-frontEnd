@@ -403,7 +403,7 @@ const AstroMallShops = () => {
                       </div>
                       <div className="details-outer">
                         <div className="product-img">
-                          {/* <Image
+                          <Image
                           width={100}
                           height={100}
                           src={
@@ -413,8 +413,8 @@ const AstroMallShops = () => {
                               : "./user-icon-image.png"
                           }
                           alt="user-icon"
-                        /> */}
-                          <img src={item?.astroMallImg} alt="" />
+                        />
+                          
                         </div>
                         <div className="details-cont">
                           <div className="product-name">{item?.offer_name}</div>

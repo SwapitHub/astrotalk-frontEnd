@@ -1,9 +1,11 @@
+import Link from "next/link";
 import React from "react";
 
 const DetailAstrologyBlog = ({ blogsDetailData }) => {
   return (
   <div className="blogs-detail-outer">
     <div className="container">
+      <Link href="/astrology-blog">Go Back</Link>
       <div className="blogs-detail">
         <div className="blog-featured-img">
         <img src={blogsDetailData?.coverImage} alt={blogsDetailData?.name} />

@@ -63,10 +63,10 @@ const Admin = () => {
           <div className="admin-detail-popup">
             <div className="admin-banner">
               <div className="admin-login-logo">
-                <img src="/logo.png" alt="" />
+                <img src="/logo-main.png" alt="" />
               </div>
               <div className="admin-login-left-content">
-                <h1>Welcome to Astrotalk</h1>
+                <h1>Welcome to Astrowb</h1>
                 <p>Lorem Ipsum content here</p>
               </div>
             </div>
