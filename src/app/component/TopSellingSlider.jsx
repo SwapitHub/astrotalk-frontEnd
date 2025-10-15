@@ -4,8 +4,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Link from "next/link";
 import axios from "axios";
+import Image from "next/image";
 
-const TopSellingSlider = ({topSellingSlider}) => {
+const TopSellingSlider = ({ topSellingSlider }) => {
   const sliderSettings = {
     dots: false,
     infinite: true,
@@ -15,7 +16,6 @@ const TopSellingSlider = ({topSellingSlider}) => {
     autoplay: false,
     autoplaySpeed: 2000,
   };
-
 
   // useEffect(() => {
   //   const handleTopSelling = async () => {
@@ -69,9 +69,25 @@ const TopSellingSlider = ({topSellingSlider}) => {
             >
               {topSellingSlider?.map((item, index) => (
                 <div className="single-slide" key={index}>
-                  <Link href={`/shop/${item?.shop_slug}/${item.slug}/${item?.shop_product_type=="gemstone_product"?`?gemstone=true`:""}`}>
+                  <Link
+                    href={`/shop/${item?.shop_slug}/${item.slug}/${
+                      item?.shop_product_type == "gemstone_product"
+                        ? `?gemstone=true`
+                        : ""
+                    }`}
+                  >
                     <div className="slide-img">
-                      <img src={item?.astroMallProductImg} alt="" />
+                      <Image
+                        width={100}
+                        height={100}
+                        src={
+                          item?.astroMallProductImg
+                            ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                              item?.astroMallProductImg
+                            : "/user-icon-image.png"
+                        }
+                        alt="user-icon"
+                      />
                     </div>
                     <div className="slide-content">
                       <p>{item?.name}</p>

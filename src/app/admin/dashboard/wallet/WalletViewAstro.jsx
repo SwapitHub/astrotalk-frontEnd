@@ -224,7 +224,7 @@ const WalletView = ({ mobileNumber, setAddActiveClass, setLoading }) => {
                       {/* <td>{tx?._id}</td> */}
                       <td>{tx.name}</td>{" "}
                       {/* <td>₹ {Math.round(tx.availableBalance)}</td>{" "} */}
-                      <td> {tx.transactionAmount}</td> <td>{tx.description}</td>{" "}
+                      <td>₹ {tx.transactionAmount}</td> <td>{tx.description}</td>{" "}
                       <td>{new Date(tx.createdAt).toLocaleString()}</td>
                     </tr>
                   ))}

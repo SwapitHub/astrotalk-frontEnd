@@ -404,17 +404,16 @@ const AstroMallShops = () => {
                       <div className="details-outer">
                         <div className="product-img">
                           <Image
-                          width={100}
-                          height={100}
-                          src={
-                            item?.astroMallImg
-                              ? process.env.NEXT_PUBLIC_WEBSITE_URL +
-                                item?.astroMallImg
-                              : "./user-icon-image.png"
-                          }
-                          alt="user-icon"
-                        />
-                          
+                            width={100}
+                            height={100}
+                            src={
+                              item?.astroMallImg
+                                ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                                  item?.astroMallImg
+                                : "/user-icon-image.png"
+                            }
+                            alt="user-icon"
+                          />
                         </div>
                         <div className="details-cont">
                           <div className="product-name">{item?.offer_name}</div>

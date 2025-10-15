@@ -526,10 +526,9 @@ const ChatWithAstrologer = ({
                 <div className="heading-button">
                   <span>Chat with Astrologer</span>
                 </div>
-                {userData?.freeChatStatus == true && (
+                {(userData?.freeChatStatus == true && !userData?.totalAmount) && (
                   <div className="free-chat-btn">
                     <Link
-                      // href="#"
                       href={`/chat-with-astrologer/user/${userIds}`}
                       onClick={handleUpdateUserDetail}
                     >

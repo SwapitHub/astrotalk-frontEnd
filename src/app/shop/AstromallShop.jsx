@@ -68,7 +68,7 @@ const AstromallShop = ({
                                 item?.astroMallImg
                                   ? process.env.NEXT_PUBLIC_WEBSITE_URL +
                                     item?.astroMallImg
-                                  : "./user-icon-image.png"
+                                  : "/user-icon-image.png"
                               }
                               alt="user-icon"
                             />

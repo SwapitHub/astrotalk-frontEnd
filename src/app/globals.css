@@ -892,6 +892,7 @@ td button + button {margin-left: 5px;}
 .AddAdminCommissions-puja.AddLanguage {padding-top: 25px;}
 .products-details-outer {padding: 40px 0px 60px;}
 .products-details-inner {display: flex; justify-content: space-between;}
+.product-images-left {max-width: 42.894%; flex: 0 0 100%;}
 .product-details-right {max-width: 57.106%; flex: 0 0 100%; padding-left: 30px;}
 .products-details-outer h1 {font-size: 36px;}
 .product-price {margin: 10px 0px 0px;}
@@ -932,6 +933,7 @@ td button + button {margin-left: 5px;}
 .slider-left-nav {max-width: 25%; flex: 0 0 100%;}
 .slider-left-nav > * {overflow: hidden; border: 2px solid var(--primary_color); margin: 0 0 10px; cursor: pointer;}
 .slider-left-nav > *:last-child {margin: 0;}
+.slider-left-nav img {width: 100%; height: auto;}
 .slider-right-img {flex-grow: 1;}
 .slider-large-img {width: 100%; height: 100%;}
 .slider-large-img img {width: 100%; height: 100%; object-fit: cover;}
@@ -1216,6 +1218,7 @@ body.astro-detail-admin-popup .astro-detail-main-view {display: block; z-index: 
 .main-pending-list h1:not(:last-child) {margin-bottom: 0px;}
 .chat-record .input-outer, .outer-total-count .input-outer {display: flex; gap: 10px; margin: 0 0 10px;}
 .chat-record .input-outer .balance, .outer-total-count .input-outer .balance {font-weight: 600;}
+.btns_chat_call {justify-content: center;}
 /* ================== @ media css start here ================== */
 @media (max-width: 1600px) {
   .outer-home-dashboard ul {grid-template-columns: repeat(3, 1fr);}
@@ -1452,6 +1455,8 @@ body.astro-detail-admin-popup .astro-detail-main-view {display: block; z-index: 
   .pagination button {padding: 10px 20px 8px;}
   .astro-detail-main, .astrologer-profile-edit-table, .astro-detail-main-view, .wallet-edit-main {width: calc(100% - 30px);}
   .search-box-top-btn .available-balance {margin: 0 0 0px 0px;}
+  .product-images-left {max-width: 100%;}
+  .breadcrumb ul li > a::after {width: 5px; height: 5px; top: 7px;}
 }
 @media (max-width: 639px) {
   .four-col .row {grid-template-columns: repeat(1, 1fr); gap: 20px;}
@@ -1463,6 +1468,7 @@ body.astro-detail-admin-popup .astro-detail-main-view {display: block; z-index: 
   .close-icon, .close {right: 10px; top: 10px;}
   .posts-listing > *:not(.pagination) {max-width: 100%;}
   .astro-detail {flex-direction: column; gap: 30px 0px;}
+  .similar-conslt-reviews-sec, .reviews-sec {grid-template-columns: repeat(1, 1fr);}
 }
 @media (max-width: 574px) {
   .chat-left-logo {gap: 10px;}

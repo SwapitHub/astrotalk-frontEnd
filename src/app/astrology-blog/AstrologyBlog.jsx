@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import useDebounce from "../hook/useDebounce";
 import Loader from "../component/Loader";
 import { FaSearch } from "react-icons/fa";
+import Image from "next/image";
 
 const API = process.env.NEXT_PUBLIC_WEBSITE_URL;
 
@@ -151,7 +152,17 @@ const AstrologyBlog = () => {
                     className="inner-list"
                   >
                     <div className="post-img">
-                      <img src={blog?.coverImage} alt="" />
+                      <Image
+                        width={100}
+                        height={100}
+                        src={
+                          blog?.coverImage
+                            ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                              blog?.coverImage
+                            : "/user-icon-image.png"
+                        }
+                        alt="user-icon"
+                      />
                     </div>
                     <div className="post-content">
                       <p>{blog?.shortDescription}</p>

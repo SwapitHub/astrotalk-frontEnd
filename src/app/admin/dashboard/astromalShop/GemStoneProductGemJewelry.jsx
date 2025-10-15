@@ -2,6 +2,7 @@
 import DeletePopUp from "@/app/component/DeletePopUp";
 import Loader from "@/app/component/Loader";
 import axios from "axios";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaEdit, FaSearch } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
@@ -180,165 +181,169 @@ const GemStoneProductGemJewelry = () => {
       setAstroToDelete();
     }
   };
- useEffect(() => {
+  useEffect(() => {
     if (deletePermanently && astroToDelete) {
       handleDeleteProduct(astroToDelete);
     }
   }, [deletePermanently]);
   return (
     <>
-     {showDelete && (
+      {showDelete && (
         <DeletePopUp
           setShowDelete={setShowDelete}
           setDeletePermanently={setDeletePermanently}
           showNameData={showNameData}
         />
       )}
-    
-    <div className="AddLanguage AstroMallShops-admin">
-      {toggleAstroCategory && (
-        <div className="change-password-popup">
-          <div className="change-password">
-            <span
-              className="close"
-              onClick={() => setToggleAstroCategory(false)}
-            >
-              <IoClose />
-            </span>
-            <div className="form-field">
-              <div className="label-content">
-                <label>Upload image</label>
-              </div>
-              <input
-                type="file"
-                id="astroGemstoneJewelryImg"
-                accept="image/*"
-                className="common-input-filed"
-              />
-            </div>
 
-            <div className="form-field">
-              <div className="label-content">
-                <label>Name</label>
-              </div>
-              <input class="common-input-filed" id="gem_name" type="text" />
-            </div>
-
-            <div className="form-field">
-              <div className="label-content">
-                <label>Price</label>
-              </div>
-              <input
-                class="common-input-filed"
-                id="gem_price"
-                type="number"
-                onKeyDown={(e) => {
-                  if (e.key === "-" || e.key === "e") {
-                    e.preventDefault();
-                  }
-                }}
-              />
-            </div>
-            <div class="form-field">
-              <div class="label-content">
-                <label>Product Type</label>
-              </div>
-              <div class="man-input-filed-sec">
-                <div class="inner-radio">
-                  <input
-                    className="common-input-field"
-                    type="radio"
-                    name="product_type"
-                    value="Ring"
-                    id="gem_ring"
-                  />
-                  <label>Ring</label>
+      <div className="AddLanguage AstroMallShops-admin">
+        {toggleAstroCategory && (
+          <div className="change-password-popup">
+            <div className="change-password">
+              <span
+                className="close"
+                onClick={() => setToggleAstroCategory(false)}
+              >
+                <IoClose />
+              </span>
+              <div className="form-field">
+                <div className="label-content">
+                  <label>Upload image</label>
                 </div>
-                <div class="inner-radio">
-                  <input
-                    className="common-input-field"
-                    type="radio"
-                    name="product_type"
-                    value="Pendant"
-                    id="gem_pendant"
-                  />
-                  <label>Pendant</label>
+                <input
+                  type="file"
+                  id="astroGemstoneJewelryImg"
+                  accept="image/*"
+                  className="common-input-filed"
+                />
+              </div>
+
+              <div className="form-field">
+                <div className="label-content">
+                  <label>Name</label>
+                </div>
+                <input class="common-input-filed" id="gem_name" type="text" />
+              </div>
+
+              <div className="form-field">
+                <div className="label-content">
+                  <label>Price</label>
+                </div>
+                <input
+                  class="common-input-filed"
+                  id="gem_price"
+                  type="number"
+                  onKeyDown={(e) => {
+                    if (e.key === "-" || e.key === "e") {
+                      e.preventDefault();
+                    }
+                  }}
+                />
+              </div>
+              <div class="form-field">
+                <div class="label-content">
+                  <label>Product Type</label>
+                </div>
+                <div class="man-input-filed-sec">
+                  <div class="inner-radio">
+                    <input
+                      className="common-input-field"
+                      type="radio"
+                      name="product_type"
+                      value="Ring"
+                      id="gem_ring"
+                    />
+                    <label>Ring</label>
+                  </div>
+                  <div class="inner-radio">
+                    <input
+                      className="common-input-field"
+                      type="radio"
+                      name="product_type"
+                      value="Pendant"
+                      id="gem_pendant"
+                    />
+                    <label>Pendant</label>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {editMode ? (
-              <button onClick={handleUpdate}>Update</button>
-            ) : (
-              <>
-                <button onClick={handleSubmit}>Submit</button>
-                <p className="error-msg">{message}</p>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-      <div className="language-list">
-        <h2> Shop gemstone product jewelry</h2>
-        <div className="search-category-btn">
-          <button
-            onClick={() => {
-              setToggleAstroCategory(true);
-            }}
-          >
-            Add Astro gemstone Category
-          </button>
-        </div>
-        {loading ? (
-          <Loader />
-        ) : (
-          <div className="astromall-listing">
-            {productListData.map((item, index) => {
-              return (
+              {editMode ? (
+                <button onClick={handleUpdate}>Update</button>
+              ) : (
                 <>
-                  <div className="single-item" key={index}>
-                    <div className="details-outer">
-                      <div className="product-img">
-                        <img
-                          src={
-                            process.env.NEXT_PUBLIC_WEBSITE_URL +
-                            item?.astroGemstoneJewelryImg
-                          }
-                          alt=""
-                        />
-                      </div>
+                  <button onClick={handleSubmit}>Submit</button>
+                  <p className="error-msg">{message}</p>
+                </>
+              )}
+            </div>
+          </div>
+        )}
+        <div className="language-list">
+          <h2> Shop gemstone product jewelry</h2>
+          <div className="search-category-btn">
+            <button
+              onClick={() => {
+                setToggleAstroCategory(true);
+              }}
+            >
+              Add Astro gemstone Category
+            </button>
+          </div>
+          {loading ? (
+            <Loader />
+          ) : (
+            <div className="astromall-listing">
+              {productListData.map((item, index) => {
+                return (
+                  <>
+                    <div className="single-item" key={index}>
+                      <div className="details-outer">
+                        <div className="product-img">
+                          <Image
+                            width={100}
+                            height={100}
+                            src={
+                              item?.astroGemstoneJewelryImg
+                                ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                                  item?.astroGemstoneJewelryImg
+                                : "/user-icon-image.png"
+                            }
+                            alt="user-icon"
+                          />
+                        </div>
 
-                      <div className="details-cont">
-                        <div className="product-name">{item?.name}</div>
-                        <p>Starting from ₹ {item?.actual_price}</p>
-                      </div>
+                        <div className="details-cont">
+                          <div className="product-name">{item?.name}</div>
+                          <p>Starting from ₹ {item?.actual_price}</p>
+                        </div>
 
-                      <div className="astro-mall-btn">
-                        <button
-                         onClick={() => {
+                        <div className="astro-mall-btn">
+                          <button
+                            onClick={() => {
                               setAstroToDelete(item._id);
                               setShowDelete(true);
                             }}
-                        >
-                          <RiDeleteBin7Fill />
-                        </button>
-                        <button
-                          onClick={() => {
-                            handleEditProduct(item);
-                          }}
-                        >
-                          <FaEdit />
-                        </button>
+                          >
+                            <RiDeleteBin7Fill />
+                          </button>
+                          <button
+                            onClick={() => {
+                              handleEditProduct(item);
+                            }}
+                          >
+                            <FaEdit />
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </>
-              );
-            })}
-          </div>
-        )}
+                  </>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
     </>
   );
 };

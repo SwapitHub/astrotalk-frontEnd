@@ -8,8 +8,11 @@ import { IoWalletSharp } from "react-icons/io5";
 import { MdOutlinePreview } from "react-icons/md";
 import { ImProfile } from "react-icons/im";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import { useRouter } from "next/navigation";
 
 const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
+    const router = useRouter();
+  
   const [isOnline, setIsOnline] = useState();
   const [sessionValue, setSessionValue] = useState();
   console.log("astrologerData", astrologerData);
