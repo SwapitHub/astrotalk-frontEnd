@@ -4,6 +4,11 @@ import axios from "axios";
 import React, { useEffect, useState, useCallback } from "react";
 import { FaSearch } from "react-icons/fa";
 import debounce from "lodash.debounce";
+import Image from "next/image";
+import ShowLessShowMore from "@/app/component/ShowLessShowMore";
+import CancelOrderPopUp from "@/app/component/CancelOrderPopUp";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
+import ViewOrderUserDetail from "@/app/component/ViewOrderUserDetail";
 
 function AdminShopProductWallet({ updateButton }) {
   const [walletAdminData, setWalletAdminData] = useState([]);
@@ -14,6 +19,12 @@ function AdminShopProductWallet({ updateButton }) {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [editDetailOrder, setEditDetailOrder] = useState(null);
+  const [showOrderViewPopUp, setShowOrderViewPopUp] = useState(false);
+  const [cancelOrder, setCancelOrder] = useState({
+    orderStatus: false,
+    order_id: null,
+  });
 
   // Debounce search input
   const debounceSearchHandler = useCallback(
@@ -99,138 +110,201 @@ function AdminShopProductWallet({ updateButton }) {
   };
 
   return (
-    <div className="admin-wallet-main">
-      <h1>Shop Product Order List</h1>
+    <>
+      {cancelOrder?.orderStatus && (
+        <CancelOrderPopUp
+          cancelOrder={cancelOrder}
+          setCancelOrder={setCancelOrder}
+          fetchTransactions={fetchTransactions}
+          setLoading={setLoading}
+        />
+      )}
+      {showOrderViewPopUp && (
+        <ViewOrderUserDetail
+          editDetailOrder={editDetailOrder}
+          setShowOrderViewPopUp={setShowOrderViewPopUp}
+          setLoading={setLoading}
+        />
+      )}
+      <div className="admin-wallet-main">
+        <h1>Shop Product Order List</h1>
 
-      <div className="search-box-top-btn">
-        <div className="search-box-filed">
-          <input
-            type="search"
-            id="astrologer-search"
-            name="astrologer-search"
-            placeholder="Search name or mobile..."
-            value={searchName}
-            onChange={handleSearchChange}
-            aria-label="Search wallet transactions"
-          />
+        <div className="search-box-top-btn">
+          <div className="search-box-filed">
+            <input
+              type="search"
+              id="astrologer-search"
+              name="astrologer-search"
+              placeholder="Search name or mobile..."
+              value={searchName}
+              onChange={handleSearchChange}
+              aria-label="Search wallet transactions"
+            />
+          </div>
+          <div className="search-button-filed">
+            <button type="button">
+              <FaSearch />
+            </button>
+          </div>
         </div>
-        <div className="search-button-filed">
-          <button type="button">
-            <FaSearch />
-          </button>
-        </div>
-        
-      </div>
 
-      {loading ? (
-        <Loader />
-      ) : (
-        <div className="outer-table">
-          <table border="1">
-            <thead>
-              <tr>
-                <th>Product Order Id</th>
-                <th>User Name</th>
-                <th>User Mobile</th>
-                <th>User Status</th>
-                <th>Transaction Amount</th>
-                <th>GST</th>
-                <th>Product Name</th>
-                <th>User Address</th>
-                <th>Date and Time</th>
-                <th>Product type (ring size)</th>
-                <th>Gemstone Product Amount</th>
-                <th>Product</th>
-                <th>Product Order Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {walletAdminData?.map((item) => (
-                <tr key={item._id}>
-                  <td>{item?.order_id}</td>
-                  <td>{item.addresses[0]?.name}</td>
-                  <td>{item.userMobile}</td>
-                  <td>{item.status}</td>
-                  <td>
-                    ₹{" "}
-                    {Math.round(item.totalAmount) +
-                      Math.round(item.gstAmount) +
-                      Math.round(item.gemStone_product_price)}
-                  </td>
-                  <td>₹ {item.gstAmount}</td>
-                  <td>{item.productName}</td>
-                  <td>
-                    City - {item.addresses[0]?.city}, State -{" "}
-                    {item.addresses[0]?.state}
-                  </td>
-                  <td>{new Date(item.createdAt).toLocaleString()}</td>
-                  <td>{item?.product_type_gem || "no size"}</td>
-                  <td>
-                    ₹{" "}
-                    {Math.round(item?.totalAmount) -
-                      Math.round(item?.gemStone_product_price)}
-                  </td>
-                  <td>
-                    <img src={item?.productImg} alt={item?.name} />
-                  </td>
-                  <td>
-                    <select
-                      value={
-                        !item?.product_order_status
-                          ? "processing"
-                          : item?.product_order_complete
-                          ? "completed"
-                          : "dispatched"
-                      }
-                      onChange={(e) => {
-                        const selected = e.target.value;
-
-                        if (selected === "processing") {
-                          updateOrderStatus(item?.order_id, false, false);
-                        } else if (selected === "dispatched") {
-                          updateOrderStatus(item?.order_id, true, false);
-                        } else if (selected === "completed") {
-                          updateOrderStatus(item?.order_id, true, true);
-                        }
-                      }}
-                      disabled={loading}
-                    >
-                      <option value="processing">Processing</option>
-                      <option value="dispatched">Dispatched</option>
-                      <option value="completed">Completed</option>
-                    </select>
-                  </td>
+        {loading ? (
+          <Loader />
+        ) : (
+          <div className="outer-table">
+            <table border="1">
+              <thead>
+                <tr>
+                  {/* <th>Product Order Id</th> */}
+                  <th>User Name</th>
+                  {/* <th>User Mobile</th> */}
+                  {/* <th>User Status</th> */}
+                  <th>Transaction Amount</th>
+                  {/* <th>GST</th> */}
+                  {/* <th>Product Name</th> */}
+                  <th>User Address</th>
+                  <th>Date and Time</th>
+                  <th>Product type (ring size)</th>
+                  <th>Gemstone Product Amount</th>
+                  {/* <th>Product</th> */}
+                  <th>Product Order Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+              </thead>
+              <tbody>
+                {walletAdminData?.map((item) => (
+                  <tr key={item._id}>
+                    {/* <td>{item?.order_id}</td> */}
+                    <td>{item.addresses[0]?.name}</td>
+                    {/* <td>{item.userMobile}</td> */}
+                    {/* <td>{item.status}</td> */}
+                    <td>
+                      ₹{" "}
+                      {Math.round(item.totalAmount) +
+                        Math.round(item.gstAmount) +
+                        Math.round(item.gemStone_product_price)}
+                    </td>
+                    {/* <td>₹ {item.gstAmount}</td> */}
+                    {/* <td>{item.productName}</td> */}
+                    <td>
+                      City - {item.addresses[0]?.city}, State -{" "}
+                      {item.addresses[0]?.state}
+                    </td>
+                    <td>{new Date(item.createdAt).toLocaleString()}</td>
+                    <td>{item?.product_type_gem || "no size"}</td>
+                    <td>
+                      ₹{" "}
+                      {Math.round(item?.totalAmount) -
+                        Math.round(item?.gemStone_product_price)}
+                    </td>
+                    {/* <td>
+                      <Image
+                        width={100}
+                        height={100}
+                        src={
+                          item?.productImg
+                            ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                              item?.productImg
+                            : "/user-icon-image.png"
+                        }
+                        alt={item?.name}
+                      />
+                    </td> */}
+                    <td>
+                      {!item?.product_cancel_order ? (
+                        <>
+                        <div className="td-btns-outer">
+                          <button 
+                        
+                            onClick={() => {
+                              setCancelOrder({
+                                orderStatus: true,
+                                order_id: item?.order_id,
+                              });
+                            }}
+                          >
+                            Cancel Order
+                          </button>
+                          <button
+                          className="delete-btn"
+                            onClick={() => {
+                              setEditDetailOrder(item);
+                              setShowOrderViewPopUp(true);
+                            }}
+                          >
+                            <MdOutlineRemoveRedEye />
+                          </button>
+                          <select
+                            value={
+                              !item?.product_order_status
+                                ? "processing"
+                                : item?.product_order_complete
+                                ? "completed"
+                                : "dispatched"
+                            }
+                            onChange={(e) => {
+                              const selected = e.target.value;
 
-      {totalPages > 0 ? (
-        <div className="admin-wallet-inner">
-          <button
-            onClick={handlePrevious}
-            disabled={!hasPrevPage || loading}
-            className={!hasPrevPage ? "disable" : ""}
-          >
-            Previous
-          </button>
-          <span>
-            Page {page} of {totalPages}
-          </span>
-          <button
-            onClick={handleNext}
-            disabled={!hasNextPage || loading}
-            className={!hasNextPage ? "disable" : ""}
-          >
-            Next
-          </button>
-        </div>
-      ) : (
-        <p className="data-not-found">Data Not Found</p>
-      )}
-    </div>
+                              if (selected === "processing") {
+                                updateOrderStatus(item?.order_id, false, false);
+                              } else if (selected === "dispatched") {
+                                updateOrderStatus(item?.order_id, true, false);
+                              } else if (selected === "completed") {
+                                updateOrderStatus(item?.order_id, true, true);
+                              }
+                            }}
+                            disabled={loading}
+                          >
+                            <option value="processing">Processing</option>
+                            <option value="dispatched">Dispatched</option>
+                            <option value="completed">Completed</option>
+                          </select>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <h4>Order Canceled</h4>
+                          <p>
+                            <span>Reason Canceled :</span>{" "}
+                            <ShowLessShowMore
+                              description={item?.product_cancel_order_reason}
+                              totalWord={10}
+                            />
+                          </p>
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {totalPages > 0 ? (
+          <div className="admin-wallet-inner">
+            <button
+              onClick={handlePrevious}
+              disabled={!hasPrevPage || loading}
+              className={!hasPrevPage ? "disable" : ""}
+            >
+              Previous
+            </button>
+            <span>
+              Page {page} of {totalPages}
+            </span>
+            <button
+              onClick={handleNext}
+              disabled={!hasNextPage || loading}
+              className={!hasNextPage ? "disable" : ""}
+            >
+              Next
+            </button>
+          </div>
+        ) : (
+          <p className="data-not-found">Data Not Found</p>
+        )}
+      </div>
+    </>
   );
 }
 

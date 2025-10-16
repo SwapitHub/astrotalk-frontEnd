@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useState } from "react";
 import { useEffect } from "react";
 
@@ -7,32 +8,31 @@ const SelectAddGemstoneRing = ({
   gemstoneData,
   setGemstoneData,
 }) => {
-useEffect(() => {
-  const selectEl = document.getElementById("ringSizeSelect");
-  const ringInputDiv = document.querySelector(".ring-size-text");
+  useEffect(() => {
+    const selectEl = document.getElementById("ringSizeSelect");
+    const ringInputDiv = document.querySelector(".ring-size-text");
 
-  function handleRingSizeChange() {
-    const selected = selectEl?.value;
-    if (selected === "I know my Ring Size") {
-      ringInputDiv.style.display = "block";
-    } else {
-      ringInputDiv.style.display = "none";
-      document.getElementById("ringSize").value = ""; // reset input
+    function handleRingSizeChange() {
+      const selected = selectEl?.value;
+      if (selected === "I know my Ring Size") {
+        ringInputDiv.style.display = "block";
+      } else {
+        ringInputDiv.style.display = "none";
+        document.getElementById("ringSize").value = ""; // reset input
+      }
     }
-  }
 
-  if (selectEl && ringInputDiv) {
-    handleRingSizeChange(); // initial state
-    selectEl.addEventListener("change", handleRingSizeChange);
-  }
-
-  return () => {
-    if (selectEl) {
-      selectEl.removeEventListener("change", handleRingSizeChange);
+    if (selectEl && ringInputDiv) {
+      handleRingSizeChange(); // initial state
+      selectEl.addEventListener("change", handleRingSizeChange);
     }
-  };
-}, [gemstoneData]); // Re-run effect when gemstoneData changes
 
+    return () => {
+      if (selectEl) {
+        selectEl.removeEventListener("change", handleRingSizeChange);
+      }
+    };
+  }, [gemstoneData]); // Re-run effect when gemstoneData changes
 
   return (
     <>
@@ -51,7 +51,17 @@ useEffect(() => {
               onClick={() => setGemstoneData(item)}
             >
               <div className="add-on-img">
-                <img src={item?.astroGemstoneJewelryImg} alt="" />
+                <Image
+                  width={100}
+                  height={100}
+                  src={
+                    item?.astroGemstoneJewelryImg
+                      ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                        item?.astroGemstoneJewelryImg
+                      : "/user-icon-image.png"
+                  }
+                  alt=""
+                />
               </div>
               <div className="add-on-details">
                 <div className="addon-name">{item?.name}</div>
@@ -87,8 +97,15 @@ useEffect(() => {
         <div className="booked_selected_items">
           <div>
             <div className="booked_selected_items-img">
-              <img
-                src={gemstoneData?.astroGemstoneJewelryImg}
+              <Image
+                width={100}
+                height={100}
+                src={
+                  gemstoneData?.astroGemstoneJewelryImg
+                    ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                      gemstoneData?.astroGemstoneJewelryImg
+                    : "/user-icon-image.png"
+                }
                 alt={gemstoneData?.name}
               />
             </div>
@@ -97,7 +114,9 @@ useEffect(() => {
               <div className="price">₹ {gemstoneData?.actual_price}</div>
             </div>
           </div>
-          <span className="close" onClick={()=> setGemstoneData()}>X</span>
+          <span className="close" onClick={() => setGemstoneData()}>
+            X
+          </span>
         </div>
       )}
     </>

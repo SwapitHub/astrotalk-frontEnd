@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -107,8 +108,15 @@ const Success = () => {
                 </ul>
               </div>
               <div className="success-img">
-                <img
-                  src={orderDetailData?.productImg}
+                <Image
+                  width={100}
+                  height={100}
+                  src={
+                    orderDetailData?.productImg
+                      ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                        orderDetailData?.productImg
+                      : "/user-icon-image.png"
+                  }
                   alt={orderDetailData?.name}
                 />
               </div>

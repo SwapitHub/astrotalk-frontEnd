@@ -151,7 +151,7 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
         </div>
         <div className="astrologer-charges">
           <span>Astrologer Charges:</span>{" "}
-          <span className="value">{astrologerData?.charges}</span>
+          <span className="value">₹ {astrologerData?.charges}</span>
         </div>
         <div className="astrologer-bal">
           <span>Total Balance:</span>{" "}

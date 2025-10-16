@@ -139,7 +139,7 @@ useEffect(()=>{
                     </td>
                     <td>
                       <span className="ctm-color-red">
-                        {item.transactionAmount}
+                        ₹ {item.transactionAmount}
                       </span>
                     </td>
                     <td>{new Date(item.createdAt).toLocaleString()}</td>

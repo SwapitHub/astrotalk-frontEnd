@@ -85,7 +85,7 @@ const MyWalletPaymentLog = () => {
                   <tr>
                     <td>Recharge</td>
                     <td>{new Date(item?.createdAt)?.toLocaleString()}</td>
-                    <td>{item?.amount}</td>
+                    <td>₹ {item?.amount}</td>
                     <td>{item?.order_id}</td>
                     <td>{item?.status}</td>
                     <td className="delete-button-icon">

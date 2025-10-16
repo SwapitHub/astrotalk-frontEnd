@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useEffect, useState, useCallback } from "react";
 import { FaSearch } from "react-icons/fa";
 import debounce from "lodash.debounce";
+import Image from "next/image";
 
 function AdminPujaProductWallet() {
   const [walletAdminData, setWalletAdminData] = useState([]);
@@ -90,7 +91,7 @@ function AdminPujaProductWallet() {
 
   return (
     <div className="admin-wallet-main">
-        <h1>Admin Puja Commission Wallet List</h1>
+      <h1>Admin Puja Commission Wallet List</h1>
       {/* 🔍 Search Bar */}
       <div className="search-box-top-btn">
         <div className="search-box-filed">
@@ -110,8 +111,10 @@ function AdminPujaProductWallet() {
         {/* <div className="search-help-text">
           <p>Search product based on product id</p>
         </div> */}
-         <div className="search-help-text">
-          <p>Admin Puja total commission Amount : ₹ {totalAdminCommission || 0}</p>
+        <div className="search-help-text">
+          <p>
+            Admin Puja total commission Amount : ₹ {totalAdminCommission || 0}
+          </p>
         </div>
       </div>
 
@@ -146,7 +149,17 @@ function AdminPujaProductWallet() {
                     <td>₹ {item?.adminCommission}</td>
                     <td>₹ {item?.gstAmount}</td>
                     <td>
-                      <img src={item?.productImg} alt={item?.name} />
+                      <Image
+                        width={100}
+                        height={100}
+                        src={
+                          item?.productImg
+                            ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                              item?.productImg
+                            : "/user-icon-image.png"
+                        }
+                        alt="certificate"
+                      />
                     </td>
                     <td>{new Date(item.createdAt).toLocaleString()}</td>
                   </tr>

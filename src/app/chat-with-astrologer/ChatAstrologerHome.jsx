@@ -374,6 +374,25 @@ const ChatWithAstrologer = ({
     }
   }, [astrologerId, isLoadingRequest]);
 
+useEffect(() => {
+  const updateUser = async () => {
+    try {
+      await axios.put(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/update-user/${userMobile}`,
+        {
+          freeChatStatus: false,
+        }
+      );
+    } catch (error) {
+      console.error("Failed to update user:", error);
+    }
+  };
+
+  if (userData?.totalAmount && userData?.freeChatStatus == true) {
+    updateUser();
+  }
+}, [userData?.totalAmount, userData?.freeChatStatus, userMobile]);
+
   // ✅ Main function that gets called on Free Chat click
   const handleUpdateUserDetail = async (e) => {
     e.preventDefault();
@@ -526,7 +545,7 @@ const ChatWithAstrologer = ({
                 <div className="heading-button">
                   <span>Chat with Astrologer</span>
                 </div>
-                {(userData?.freeChatStatus == true && !userData?.totalAmount) && (
+                {userData?.freeChatStatus == true && !userData?.totalAmount && (
                   <div className="free-chat-btn">
                     <Link
                       href={`/chat-with-astrologer/user/${userIds}`}
@@ -618,161 +637,156 @@ const ChatWithAstrologer = ({
             {showAstrologer === null ? null : showAstrologer?.length > 0 ? (
               <div className="all-list-talk-to-astrologer">
                 {showAstrologer?.map((item) => {
-                  
                   return (
                     <>
-                     
-                        <div className="inner-astrologer-detail">
-                          <Link
-                            href={`/best-astrologer/${item?.name}`}
-                            key={item.id}
-                          >
-                            {item.topAstrologer && (
-                              <div className="star-banner">
-                                {item.topAstrologer == "celebrity"
-                                  ? "Celebrity"
-                                  : item.topAstrologer == "rising_star"
-                                  ? "Rising Star"
-                                  : item.topAstrologer == "top_choice"
-                                  ? "Top Choice"
-                                  : ""}
-                              </div>
-                            )}
-
-                            <div className="astrologer-list-left">
-                              <div className="astrologer-profile">
-                                <Image
-                                  width={100}
-                                  height={100}
-                                  src={
-                                    item?.profileImage
-                                      ? process.env.NEXT_PUBLIC_WEBSITE_URL +
-                                        item?.profileImage
-                                      : "/user-icon-image.png"
-                                  }
-                                  alt="certificate"
-                                />
-                              </div>
-                              <div className="five-star-rating">
-                                <ul className="stars">
-                                  <li>{renderStars(item?.averageRating)}</li>
-                                </ul>
-                              </div>
-                              <div className="talk-to-total-orders">
-                                <p> {item?.totalOrders} orders</p>
-                              </div>
+                      <div className="inner-astrologer-detail">
+                        <Link
+                          href={`/best-astrologer/${item?.name}`}
+                          key={item.id}
+                        >
+                          {item.topAstrologer && (
+                            <div className="star-banner">
+                              {item.topAstrologer == "celebrity"
+                                ? "Celebrity"
+                                : item.topAstrologer == "rising_star"
+                                ? "Rising Star"
+                                : item.topAstrologer == "top_choice"
+                                ? "Top Choice"
+                                : ""}
                             </div>
-                            <div className="astrologer-list-center">
-                              <div className="talk-to-name-sec">
-                                <h5>{item.name}</h5>
-                                <div className="skills">
-                                  {item.professions.map((item) => {
-                                    return <span>{item}</span>;
-                                  })}
-                                </div>
-                              </div>
-                              <div className="talk-to-language">
-                                {item.languages.map((item) => {
+                          )}
+
+                          <div className="astrologer-list-left">
+                            <div className="astrologer-profile">
+                              <Image
+                                width={100}
+                                height={100}
+                                src={
+                                  item?.profileImage
+                                    ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                                      item?.profileImage
+                                    : "/user-icon-image.png"
+                                }
+                                alt="certificate"
+                              />
+                            </div>
+                            <div className="five-star-rating">
+                              <ul className="stars">
+                                <li>{renderStars(item?.averageRating)}</li>
+                              </ul>
+                            </div>
+                            <div className="talk-to-total-orders">
+                              <p> {item?.totalOrders} orders</p>
+                            </div>
+                          </div>
+                          <div className="astrologer-list-center">
+                            <div className="talk-to-name-sec">
+                              <h5>{item.name}</h5>
+                              <div className="skills">
+                                {item.professions.map((item) => {
                                   return <span>{item}</span>;
                                 })}
                               </div>
-                              <div className="time-exp-outer">
-                                <div className="exp-year-sec">
-                                  <p>
-                                    Exp:{" "}
-                                    <span className="ctm-carly-breaks">
-                                      {item.experience}
-                                    </span>{" "}
-                                    Years
-                                  </p>
-                                </div>
-                                <div className="talk-to-time-sec">
-                                  <p>
-                                    ₹ {item.charges}{" "}
-                                    <span>
-                                      {/* <span className="ctm-carly-breaks">
+                            </div>
+                            <div className="talk-to-language">
+                              {item.languages.map((item) => {
+                                return <span>{item}</span>;
+                              })}
+                            </div>
+                            <div className="time-exp-outer">
+                              <div className="exp-year-sec">
+                                <p>
+                                  Exp:{" "}
+                                  <span className="ctm-carly-breaks">
+                                    {item.experience}
+                                  </span>{" "}
+                                  Years
+                                </p>
+                              </div>
+                              <div className="talk-to-time-sec">
+                                <p>
+                                  ₹ {item.charges}{" "}
+                                  <span>
+                                    {/* <span className="ctm-carly-breaks">
                                 {item.minute}
                               </span> */}
-                                      <span className="ctm-carly-breaks">
-                                        /
-                                      </span>{" "}
-                                      min
-                                    </span>
-                                  </p>
-                                </div>
+                                    <span className="ctm-carly-breaks">/</span>{" "}
+                                    min
+                                  </span>
+                                </p>
                               </div>
                             </div>
-                            <div className="astrologer-list-right">
-                              <div className="Verified-Sticker-icon">
-                                <img
-                                  src="./Verified-Sticker.png"
-                                  alt="Verified Sticker"
-                                />
-                              </div>
+                          </div>
+                          <div className="astrologer-list-right">
+                            <div className="Verified-Sticker-icon">
+                              <img
+                                src="./Verified-Sticker.png"
+                                alt="Verified Sticker"
+                              />
+                            </div>
 
-                              {item.chatStatus == false ? (
-                                <div className="astrologer-call-button-ctm">
-                                  {!userData?.name ? (
-                                    <Link href="/free-chat/start">Chat</Link>
-                                  ) : userAmount >= item.charges * 2 ? (
-                                    <Link
-                                      href="#"
-                                      onClick={() => {
-                                        onChangeId(
-                                          item._id,
-                                          item.mobileNumber,
-                                          item.profileImage,
-                                          item.name,
-                                          item.charges,
-                                          item.experience
-                                        );
-                                      }}
-                                    >
-                                      Chat
-                                    </Link>
-                                  ) : !userMobile || !userIds ? (
-                                    <Link href="#" onClick={handelUserLogin}>
-                                      chat
-                                    </Link>
-                                  ) : (
-                                    <Link
-                                      href="#"
-                                      onClick={() =>
-                                        onChangeId(
-                                          item._id,
-                                          item.mobileNumber,
-                                          item.profileImage,
-                                          item.name,
-                                          item.charges,
-                                          item.experience
-                                        )
-                                      }
-                                    >
-                                      chat
-                                    </Link>
-                                  )}
-                                </div>
-                              ) : (
-                                <div className="astrologer-call-button-ctm chatStatus-false">
+                            {item.chatStatus == false ? (
+                              <div className="astrologer-call-button-ctm">
+                                {!userData?.name ? (
+                                  <Link href="/free-chat/start">Chat</Link>
+                                ) : userAmount >= item.charges * 2 ? (
                                   <Link
-                                    href={
-                                      userData?.chatStatus
-                                        ? `/chat-with-astrologer/user/${userIds}`
-                                        : "#"
-                                    }
-                                    // onClick={() =>
-                                    //   onChangeId(item._id, item.mobileNumber)
-                                    // }
+                                    href="#"
+                                    onClick={() => {
+                                      onChangeId(
+                                        item._id,
+                                        item.mobileNumber,
+                                        item.profileImage,
+                                        item.name,
+                                        item.charges,
+                                        item.experience
+                                      );
+                                    }}
                                   >
                                     Chat
                                   </Link>
-                                  <span>waiting 5 minutes</span>
-                                </div>
-                              )}
-                            </div>
-                          </Link>
-                        </div>
-                     
+                                ) : !userMobile || !userIds ? (
+                                  <Link href="#" onClick={handelUserLogin}>
+                                    chat
+                                  </Link>
+                                ) : (
+                                  <Link
+                                    href="#"
+                                    onClick={() =>
+                                      onChangeId(
+                                        item._id,
+                                        item.mobileNumber,
+                                        item.profileImage,
+                                        item.name,
+                                        item.charges,
+                                        item.experience
+                                      )
+                                    }
+                                  >
+                                    chat
+                                  </Link>
+                                )}
+                              </div>
+                            ) : (
+                              <div className="astrologer-call-button-ctm chatStatus-false">
+                                <Link
+                                  href={
+                                    userData?.chatStatus
+                                      ? `/chat-with-astrologer/user/${userIds}`
+                                      : "#"
+                                  }
+                                  // onClick={() =>
+                                  //   onChangeId(item._id, item.mobileNumber)
+                                  // }
+                                >
+                                  Chat
+                                </Link>
+                                <span>waiting 5 minutes</span>
+                              </div>
+                            )}
+                          </div>
+                        </Link>
+                      </div>
                     </>
                   );
                 })}
@@ -790,156 +804,150 @@ const ChatWithAstrologer = ({
             {chatAstrologerLit?.map((item) => {
               return (
                 <>
-                 
-                    <div className="inner-astrologer-detail">
-                      <Link
-                        href={`/best-astrologer/${item?.name}`}
-                        key={item.id}
-                      >
-                        {item.topAstrologer && (
-                          <div className="star-banner">
-                            {item.topAstrologer == "celebrity"
-                              ? "Celebrity"
-                              : item.topAstrologer == "rising_star"
-                              ? "Rising Star"
-                              : item.topAstrologer == "top_choice"
-                              ? "Top Choice"
-                              : ""}
-                          </div>
-                        )}
-
-                        <div className="astrologer-list-left">
-                          <div className="astrologer-profile">
-                            <Image
-                              width={100}
-                              height={100}
-                              src={
-                                item?.profileImage
-                                  ? process.env.NEXT_PUBLIC_WEBSITE_URL +
-                                    item?.profileImage
-                                  : `/user-icon-image.png`
-                              }
-                              alt="certificate"
-                            />
-                          </div>
-                          <div className="five-star-rating">
-                            <ul className="stars">
-                              <li>{renderStars(item?.averageRating)}</li>
-                            </ul>
-                          </div>
-                          <div className="talk-to-total-orders">
-                            <p> {item?.totalOrders} orders</p>
-                          </div>
+                  <div className="inner-astrologer-detail">
+                    <Link href={`/best-astrologer/${item?.name}`} key={item.id}>
+                      {item.topAstrologer && (
+                        <div className="star-banner">
+                          {item.topAstrologer == "celebrity"
+                            ? "Celebrity"
+                            : item.topAstrologer == "rising_star"
+                            ? "Rising Star"
+                            : item.topAstrologer == "top_choice"
+                            ? "Top Choice"
+                            : ""}
                         </div>
-                        <div className="astrologer-list-center">
-                          <div className="talk-to-name-sec">
-                            <h5>{item.name}</h5>
-                            <div className="skills">
-                              {item.professions.map((item) => {
-                                return <span>{item}</span>;
-                              })}
-                            </div>
-                          </div>
-                          <div className="talk-to-language">
-                            {item.languages.map((item) => {
+                      )}
+
+                      <div className="astrologer-list-left">
+                        <div className="astrologer-profile">
+                          <Image
+                            width={100}
+                            height={100}
+                            src={
+                              item?.profileImage
+                                ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                                  item?.profileImage
+                                : `/user-icon-image.png`
+                            }
+                            alt="certificate"
+                          />
+                        </div>
+                        <div className="five-star-rating">
+                          <ul className="stars">
+                            <li>{renderStars(item?.averageRating)}</li>
+                          </ul>
+                        </div>
+                        <div className="talk-to-total-orders">
+                          <p> {item?.totalOrders} orders</p>
+                        </div>
+                      </div>
+                      <div className="astrologer-list-center">
+                        <div className="talk-to-name-sec">
+                          <h5>{item.name}</h5>
+                          <div className="skills">
+                            {item.professions.map((item) => {
                               return <span>{item}</span>;
                             })}
                           </div>
-                          <div className="time-exp-outer">
-                            <div className="exp-year-sec">
-                              <p>
-                                Exp:{" "}
-                                <span className="ctm-carly-breaks">
-                                  {item.experience}
-                                </span>{" "}
-                                Years
-                              </p>
-                            </div>
-                            <div className="talk-to-time-sec">
-                              <p>
-                                ₹ {item.charges}{" "}
-                                <span>
-                                  {/* <span className="ctm-carly-breaks">
+                        </div>
+                        <div className="talk-to-language">
+                          {item.languages.map((item) => {
+                            return <span>{item}</span>;
+                          })}
+                        </div>
+                        <div className="time-exp-outer">
+                          <div className="exp-year-sec">
+                            <p>
+                              Exp:{" "}
+                              <span className="ctm-carly-breaks">
+                                {item.experience}
+                              </span>{" "}
+                              Years
+                            </p>
+                          </div>
+                          <div className="talk-to-time-sec">
+                            <p>
+                              ₹ {item.charges}{" "}
+                              <span>
+                                {/* <span className="ctm-carly-breaks">
                                 {item.minute}
                               </span> */}
-                                  <span className="ctm-carly-breaks">/</span>{" "}
-                                  min
-                                </span>
-                              </p>
-                            </div>
+                                <span className="ctm-carly-breaks">/</span> min
+                              </span>
+                            </p>
                           </div>
                         </div>
-                        <div className="astrologer-list-right">
-                          <div className="Verified-Sticker-icon">
-                            <img
-                              src="./Verified-Sticker.png"
-                              alt="Verified Sticker"
-                            />
-                          </div>
+                      </div>
+                      <div className="astrologer-list-right">
+                        <div className="Verified-Sticker-icon">
+                          <img
+                            src="./Verified-Sticker.png"
+                            alt="Verified Sticker"
+                          />
+                        </div>
 
-                          {item.chatStatus == false ? (
-                            <div className="astrologer-call-button-ctm">
-                              {!userData?.name ? (
-                                <Link href="/free-chat/start">Chat</Link>
-                              ) : userAmount >= item.charges * 2 ? (
-                                <Link
-                                  href="#"
-                                  onClick={() => {
-                                    onChangeId(
-                                      item._id,
-                                      item.mobileNumber,
-                                      item.profileImage,
-                                      item.name,
-                                      item.charges,
-                                      item.experience
-                                    );
-                                  }}
-                                >
-                                  Chat
-                                </Link>
-                              ) : !userMobile || !userIds ? (
-                                <Link href="#" onClick={handelUserLogin}>
-                                  chat
-                                </Link>
-                              ) : (
-                                <Link
-                                  href="#"
-                                  onClick={() =>
-                                    onChangeId(
-                                      item._id,
-                                      item.mobileNumber,
-                                      item.profileImage,
-                                      item.name,
-                                      item.charges,
-                                      item.experience
-                                    )
-                                  }
-                                >
-                                  chat
-                                </Link>
-                              )}
-                            </div>
-                          ) : (
-                            <div className="astrologer-call-button-ctm chatStatus-false">
+                        {item.chatStatus == false ? (
+                          <div className="astrologer-call-button-ctm">
+                            {!userData?.name ? (
+                              <Link href="/free-chat/start">Chat</Link>
+                            ) : userAmount >= item.charges * 2 ? (
                               <Link
-                                href={
-                                  userData?.chatStatus
-                                    ? `/chat-with-astrologer/user/${userIds}`
-                                    : "#"
-                                }
-                                // onClick={() =>
-                                //   onChangeId(item._id, item.mobileNumber)
-                                // }
+                                href="#"
+                                onClick={() => {
+                                  onChangeId(
+                                    item._id,
+                                    item.mobileNumber,
+                                    item.profileImage,
+                                    item.name,
+                                    item.charges,
+                                    item.experience
+                                  );
+                                }}
                               >
                                 Chat
                               </Link>
-                              <span>waiting 5 minutes</span>
-                            </div>
-                          )}
-                        </div>
-                      </Link>
-                    </div>
-                 
+                            ) : !userMobile || !userIds ? (
+                              <Link href="#" onClick={handelUserLogin}>
+                                chat
+                              </Link>
+                            ) : (
+                              <Link
+                                href="#"
+                                onClick={() =>
+                                  onChangeId(
+                                    item._id,
+                                    item.mobileNumber,
+                                    item.profileImage,
+                                    item.name,
+                                    item.charges,
+                                    item.experience
+                                  )
+                                }
+                              >
+                                chat
+                              </Link>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="astrologer-call-button-ctm chatStatus-false">
+                            <Link
+                              href={
+                                userData?.chatStatus
+                                  ? `/chat-with-astrologer/user/${userIds}`
+                                  : "#"
+                              }
+                              // onClick={() =>
+                              //   onChangeId(item._id, item.mobileNumber)
+                              // }
+                            >
+                              Chat
+                            </Link>
+                            <span>waiting 5 minutes</span>
+                          </div>
+                        )}
+                      </div>
+                    </Link>
+                  </div>
                 </>
               );
             })}
