@@ -2,6 +2,7 @@
 import useDebounce from "@/app/hook/useDebounce";
 import axios from "axios";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const WalletView = ({ mobileNumber, setAddActiveClass, setLoading }) => {
@@ -86,6 +87,54 @@ const WalletView = ({ mobileNumber, setAddActiveClass, setLoading }) => {
                 }
                 alt="user-icon"
               />
+            </div>
+          </div>
+          <div className="common-profile">
+            <div className="name">certificate</div>
+            <div className="input-outer">
+              <Link
+                href={`${
+                  process.env.NEXT_PUBLIC_WEBSITE_URL +
+                  astroDetailData?.certificate
+                }`}
+                target="_blank"
+              >
+                <Image
+                  width={100}
+                  height={100}
+                  src={
+                    astroDetailData?.certificate
+                      ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                        astroDetailData?.certificate
+                      : `/user-icon-image.png`
+                  }
+                  alt="user-icon"
+                />
+              </Link>
+            </div>
+          </div>
+          <div className="common-profile">
+            <div className="name">aadhaarCard</div>
+            <div className="input-outer">
+              <Link
+                href={`${
+                  process.env.NEXT_PUBLIC_WEBSITE_URL +
+                  astroDetailData?.aadhaarCard
+                }`}
+                target="_blank"
+              >
+                <Image
+                  width={100}
+                  height={100}
+                  src={
+                    astroDetailData?.aadhaarCard
+                      ? process.env.NEXT_PUBLIC_WEBSITE_URL +
+                        astroDetailData?.aadhaarCard
+                      : `/user-icon-image.png`
+                  }
+                  alt="user-icon"
+                />
+              </Link>
             </div>
           </div>
           <div className="common-profile">
@@ -224,7 +273,8 @@ const WalletView = ({ mobileNumber, setAddActiveClass, setLoading }) => {
                       {/* <td>{tx?._id}</td> */}
                       <td>{tx.name}</td>{" "}
                       {/* <td>₹ {Math.round(tx.availableBalance)}</td>{" "} */}
-                      <td>₹ {tx.transactionAmount}</td> <td>{tx.description}</td>{" "}
+                      <td>₹ {tx.transactionAmount}</td>{" "}
+                      <td>{tx.description}</td>{" "}
                       <td>{new Date(tx.createdAt).toLocaleString()}</td>
                     </tr>
                   ))}

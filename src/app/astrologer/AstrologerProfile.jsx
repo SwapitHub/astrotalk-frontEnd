@@ -31,6 +31,7 @@ const AstrologerProfile = ({
   const [editCountry, setEditCountry] = useState("");
   const [editGender, setEditGender] = useState("");
   const [editDescription, setEditDescription] = useState("");
+  console.log(registrationDetail);
 
   const astrologerLoginUpdate = secureLocalStorage.getItem(
     "astrologerLoginUpdate"
@@ -128,6 +129,18 @@ const AstrologerProfile = ({
     if (imageFile) {
       formData.append("image", imageFile);
     }
+    if (registrationDetail) {
+      // Append certificate if available
+      if (registrationDetail?.certificate) {
+        formData.append("certificate", registrationDetail.certificate);
+      }
+
+      // Append aadhaarCard if available
+      if (registrationDetail?.aadhaarCard) {
+        formData.append("aadhaarCard", registrationDetail.aadhaarCard);
+      }
+    }
+
     if (!document.getElementById("image").files.length) {
       errors.imagePic = "Image is required";
     }
@@ -249,6 +262,17 @@ const AstrologerProfile = ({
     // ✅ Append as JSON strings
     formData.append("languages", JSON.stringify(selectedLanguages));
     formData.append("professions", JSON.stringify(selectedProfessions));
+    if (registrationDetail) {
+      // Append certificate if available
+      if (registrationDetail?.certificate) {
+        formData.append("certificate", registrationDetail.certificate);
+      }
+
+      // Append aadhaarCard if available
+      if (registrationDetail?.aadhaarCard) {
+        formData.append("aadhaarCard", registrationDetail.aadhaarCard);
+      }
+    }
 
     // ✅ Image is optional
     const imageFile = document.getElementById("image")?.files?.[0];
@@ -281,9 +305,9 @@ const AstrologerProfile = ({
           }
         );
 
-        if (updateList.status == 200) {
-          window.location.reload();
-        }
+        // if (updateList.status == 200) {
+        //   window.location.reload();
+        // }
         console.log("Profile update response:", updateList);
       }
 
@@ -343,6 +367,30 @@ const AstrologerProfile = ({
         )}
         <form action="">
           <div className="user-profile-pick-main">
+            {" "}
+              <label>Adhar Card </label>
+
+            <div className="user-profile-pick">
+              <a href="#" title="">
+                {astroUpdateDetail?.profileImage ? (
+                  <Image
+                    width={100}
+                    height={100}
+                    src={
+                      process.env.NEXT_PUBLIC_WEBSITE_URL +
+                      astroUpdateDetail?.aadhaarCard
+                    }
+                    alt="user-icon"
+                  />
+                ) : (
+                  <img src="./user-icon-image.png"></img>
+                )}
+
+                <span>
+                  <i className="fa-solid fa-ellipsis-vertical"></i>
+                </span>
+              </a>
+            </div>
             <div className="user-profile-pick">
               <a href="#" title="">
                 {astroUpdateDetail?.profileImage ? (
@@ -352,6 +400,28 @@ const AstrologerProfile = ({
                     src={
                       process.env.NEXT_PUBLIC_WEBSITE_URL +
                       astroUpdateDetail?.profileImage
+                    }
+                    alt="user-icon"
+                  />
+                ) : (
+                  <img src="./user-icon-image.png"></img>
+                )}
+
+                <span>
+                  <i className="fa-solid fa-ellipsis-vertical"></i>
+                </span>
+              </a>
+            </div>
+             <div className="user-profile-pick">
+              <label>Certificate </label>
+              <a href="#" title="">
+                {astroUpdateDetail?.profileImage ? (
+                  <Image
+                    width={100}
+                    height={100}
+                    src={
+                      process.env.NEXT_PUBLIC_WEBSITE_URL +
+                      astroUpdateDetail?.certificate
                     }
                     alt="user-icon"
                   />

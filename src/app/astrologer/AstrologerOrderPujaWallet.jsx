@@ -9,6 +9,7 @@ import ShowLessShowMore from "../component/ShowLessShowMore";
 import CancelOrderPopUp from "../component/CancelOrderPopUp";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import ViewOrderUserDetail from "../component/ViewOrderUserDetail";
+import UserOtpLoginData from "../component/UserOtpLoginData";
 
 function AstrologerOrderPujaWallet({ astrologerData }) {
   const [walletAdminData, setWalletAdminData] = useState([]);
@@ -19,6 +20,8 @@ function AstrologerOrderPujaWallet({ astrologerData }) {
   const [loading, setLoading] = useState(false);
   const [editDetailOrder, setEditDetailOrder] = useState(null);
   const [showOrderViewPopUp, setShowOrderViewPopUp] = useState(false);
+  const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
+
   const [cancelOrder, setCancelOrder] = useState({
     orderStatus: false,
     order_id: null,
@@ -118,6 +121,12 @@ function AstrologerOrderPujaWallet({ astrologerData }) {
           setLoading={setLoading}
         />
       )}
+
+      {otpPopUpDisplay && (
+        <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
+          <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
+        </div>
+      )}
       <div className="admin-wallet-main">
         <h1>puja Order List</h1>
         {/* 🔍 Search Bar */}
@@ -196,58 +205,60 @@ function AstrologerOrderPujaWallet({ astrologerData }) {
                       <td>
                         {!item?.product_cancel_order ? (
                           <>
-                          <div className="td-btns-outer">
-                            <button
-                              onClick={() => {
-                                setCancelOrder({
-                                  orderStatus: true,
-                                  order_id: item?.order_id,
-                                });
-                              }}
-                            >
-                              Cancel Order
-                            </button>
-                            <button className="delete-btn"
-                              onClick={() => {
-                                setEditDetailOrder(item);
-                                setShowOrderViewPopUp(true);
-                              }}
-                            >
-                              <MdOutlineRemoveRedEye />
-                            </button>
-                            <select
-                              value={
-                                !item?.product_order_status
-                                  ? "processing"
-                                  : item?.product_order_complete
-                                  ? "completed"
-                                  : "dispatched"
-                              }
-                              onChange={(e) => {
-                                const selected = e.target.value;
-
-                                if (selected === "processing") {
-                                  updateOrderStatus(
-                                    item?.order_id,
-                                    false,
-                                    false
-                                  );
-                                } else if (selected === "dispatched") {
-                                  updateOrderStatus(
-                                    item?.order_id,
-                                    true,
-                                    false
-                                  );
-                                } else if (selected === "completed") {
-                                  updateOrderStatus(item?.order_id, true, true);
+                            <div className="td-btns-outer">
+                              <button
+                                onClick={() => {
+                                  setCancelOrder({
+                                    orderStatus: true,
+                                    order_id: item?.order_id,
+                                  });
+                                }}
+                              >
+                                Cancel Order
+                              </button>
+                              <button
+                                className="delete-btn"
+                                onClick={() => {
+                                  setEditDetailOrder(item);
+                                  setShowOrderViewPopUp(true);
+                                }}
+                              >
+                                <MdOutlineRemoveRedEye />
+                              </button>
+                              <select
+                                value={
+                                  !item?.product_order_status
+                                    ? "processing"
+                                    : item?.product_order_complete
+                                    ? "completed"
+                                    : "dispatched"
                                 }
-                              }}
-                              disabled={loading}
-                            >
-                              <option value="processing">Processing</option>
-                              <option value="dispatched">Dispatched</option>
-                              <option value="completed">Completed</option>
-                            </select>
+                                onChange={(e) => {
+                                  const selected = e.target.value;
+
+                                  if (selected === "processing") {
+                                    updateOrderStatus(
+                                      item?.order_id,
+                                      false,
+                                      false
+                                    );
+                                  } else if (selected === "dispatched") {
+                                    updateOrderStatus(
+                                      item?.order_id,
+                                      true,
+                                      false
+                                    );
+                                  } else if (selected === "completed") {
+                                    setOtpPopUpDisplay(true);
+                                    // updateOrderStatus(item?.order_id, true, true);
+                                  }
+                                }}
+                                disabled={loading}
+                              >
+                                <option value="processing">Processing</option>
+                                <option value="dispatched">Dispatched</option>
+                                <option value="completed">Completed</option>
+                              </select>
                             </div>
                           </>
                         ) : (
