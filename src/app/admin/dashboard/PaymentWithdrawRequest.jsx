@@ -104,12 +104,12 @@ const PaymentWithdrawRequest = () => {
                   <th>UPI id</th>
                   <th>Account Number</th>
                   <th>Bank Name</th>
-                  <th>Total AC Balance</th>
-                  <th>Remarks</th>
-                  <th>Balance Remaining</th>
+                  {/* <th>Total AC Balance</th> */}
+                  {/* <th>Remarks</th> */}
+                  {/* <th>Balance Remaining</th> */}
                   <th>IFSC code</th>
-                  <th>WithDraw Request Status</th>
-                  <th>Astrologer Email id</th>
+                  {/* <th>WithDraw Request Status</th> */}
+                  {/* <th>Astrologer Email id</th> */}
                   <th>Date</th>
                   <th>Actions</th>
                 </tr>
@@ -126,12 +126,12 @@ const PaymentWithdrawRequest = () => {
                       <td>{w.upiId}</td>
                       <td>{w.accountNumber}</td>
                       <td>{w.bankName}</td>
-                      <td>{w.totalACBalance}</td>
-                      <td>{w.remarks}</td>
-                      <td>{w.balanceRemaining}</td>
+                      {/* <td>{w.totalACBalance}</td> */}
+                      {/* <td>{w.remarks}</td> */}
+                      {/* <td>{w.balanceRemaining}</td> */}
                       <td>{w.ifscCode}</td>
-                      <td>{w.status}</td>
-                      <td>{w.AstrologerEmail}</td>
+                      {/* <td>{w.status}</td> */}
+                      {/* <td>{w.AstrologerEmail}</td> */}
                       <td>{new Date(w.createdAt).toLocaleString()}</td>
                       <td>
                         {w.status === "pending" ? (

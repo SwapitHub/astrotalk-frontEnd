@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 
-function UserOtpLoginData({ setOtpPopUpDisplay }) {
-  const [phone, setPhone] = useState("");
+function UserOtpLoginData({ setOtpPopUpDisplay, editDetailOrder }) {
+  const [phone, setPhone] = useState(editDetailOrder?editDetailOrder?.userMobile:"");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [message, setMessage] = useState("");

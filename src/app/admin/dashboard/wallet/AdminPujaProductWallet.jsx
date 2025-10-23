@@ -127,13 +127,13 @@ function AdminPujaProductWallet() {
             <thead>
               <tr>
                 <th>Puja Order id</th>
-                <th>Order place by name</th>
-                <th>Astrologer Name</th>
+                {/* <th>Order place by name</th> */}
+                {/* <th>Astrologer Name</th> */}
                 <th>Puja Name</th>
                 <th>Total Amount Puja</th>
                 <th>Admin Commission</th>
                 <th>Puja GST</th>
-                <th>Puja img</th>
+                {/* <th>Puja img</th> */}
                 <th>Date and Time</th>
               </tr>
             </thead>
@@ -142,13 +142,13 @@ function AdminPujaProductWallet() {
                 walletAdminData.map((item) => (
                   <tr key={item._id}>
                     <td>{item.order_id}</td>
-                    <td>use name</td>
-                    <td>{item?.astrologerName}</td>
+                    {/* <td>{item?.userName}</td> */}
+                    {/* <td>{item?.astrologerName}</td> */}
                     <td>{item?.productName}</td>
                     <td>₹ {item?.totalAmount}</td>
                     <td>₹ {item?.adminCommission}</td>
                     <td>₹ {item?.gstAmount}</td>
-                    <td>
+                    {/* <td>
                       <Image
                         width={100}
                         height={100}
@@ -160,7 +160,7 @@ function AdminPujaProductWallet() {
                         }
                         alt="certificate"
                       />
-                    </td>
+                    </td> */}
                     <td>{new Date(item.createdAt).toLocaleString()}</td>
                   </tr>
                 ))

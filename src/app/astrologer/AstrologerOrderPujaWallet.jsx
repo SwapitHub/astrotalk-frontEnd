@@ -10,8 +10,11 @@ import CancelOrderPopUp from "../component/CancelOrderPopUp";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import ViewOrderUserDetail from "../component/ViewOrderUserDetail";
 import UserOtpLoginData from "../component/UserOtpLoginData";
+import AcceptCompleted from "../component/AcceptCompleted";
 
 function AstrologerOrderPujaWallet({ astrologerData }) {
+  let showNameData = "AstrologerPuja";
+
   const [walletAdminData, setWalletAdminData] = useState([]);
   const [searchName, setSearchName] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -27,7 +30,10 @@ function AstrologerOrderPujaWallet({ astrologerData }) {
     order_id: null,
   });
 
-  console.log(astrologerData);
+  const [showAcceptComplete, setShowAcceptComplete] = useState(false);
+  const [AcceptCompletePermanently, setAcceptCompletePermanently] = useState();
+  const [updateAcceptComplete, setUpdateAcceptComplete] = useState();
+  const [AcceptComplete, setAcceptComplete] = useState();
 
   // Debounce search input
   const debounceSearchHandler = useCallback(
@@ -104,8 +110,35 @@ function AstrologerOrderPujaWallet({ astrologerData }) {
     }
   };
 
+  useEffect(() => {
+    if (AcceptCompletePermanently && AcceptComplete) {
+      const { order_id, actionType } = AcceptComplete;
+      if (actionType === "accept") {
+        console.log("======333333", actionType);
+
+        updateOrderStatus(order_id, true, false); // accepted but not completed
+      } else if (actionType === "complete") {
+        console.log("=====", actionType);
+
+        setOtpPopUpDisplay(true); // show OTP popup
+        // optionally mark as completed immediately:
+        updateOrderStatus(order_id, true, true);
+      }
+      setAcceptCompletePermanently(false);
+    }
+  }, [AcceptCompletePermanently]);
+  console.log(editDetailOrder, "editDetailOrder===");
+
   return (
     <>
+      {showAcceptComplete && (
+        <AcceptCompleted
+          setShowAcceptComplete={setShowAcceptComplete}
+          setAcceptCompletePermanently={setAcceptCompletePermanently}
+          showNameData={showNameData}
+          actionType={AcceptComplete?.actionType} // dynamic action
+        />
+      )}
       {cancelOrder?.orderStatus && (
         <CancelOrderPopUp
           cancelOrder={cancelOrder}
@@ -124,7 +157,10 @@ function AstrologerOrderPujaWallet({ astrologerData }) {
 
       {otpPopUpDisplay && (
         <div className={otpPopUpDisplay == true && `outer-send-otp-main`}>
-          <UserOtpLoginData setOtpPopUpDisplay={setOtpPopUpDisplay} />
+          <UserOtpLoginData
+            setOtpPopUpDisplay={setOtpPopUpDisplay}
+            editDetailOrder={editDetailOrder}
+          />
         </div>
       )}
       <div className="admin-wallet-main">
@@ -157,7 +193,7 @@ function AstrologerOrderPujaWallet({ astrologerData }) {
                 <tr>
                   {/* <th>User Mobile</th> */}
                   {/* <th>User Status</th> */}
-                  <th>Astrologer Name</th>
+                  {/* <th>Astrologer Name</th> */}
                   <th>Astrologer Balance</th>
                   <th>Transaction Amount + GST</th>
                   <th>Admin Commission</th>
@@ -174,7 +210,7 @@ function AstrologerOrderPujaWallet({ astrologerData }) {
                     <tr key={item._id}>
                       {/* <td>{item.userMobile}</td> */}
                       {/* <td>{item.status}</td> */}
-                      <td>{item.astrologerName}</td>
+                      {/* <td>{item.astrologerName}</td> */}
                       <td>
                         ₹{" "}
                         {Math.round(item.totalAmount) -
@@ -203,7 +239,10 @@ function AstrologerOrderPujaWallet({ astrologerData }) {
                         />
                       </td> */}
                       <td>
-                        {!item?.product_cancel_order ? (
+                        {item?.product_order_status &&
+                        item?.product_order_status ? (
+                          "Puja Completed"
+                        ) : !item?.product_cancel_order ? (
                           <>
                             <div className="td-btns-outer">
                               <button
@@ -214,8 +253,41 @@ function AstrologerOrderPujaWallet({ astrologerData }) {
                                   });
                                 }}
                               >
-                                Cancel Order
+                                Cancel
                               </button>
+
+                              {!item?.product_order_status ? (
+                                // Show Accept button if not yet accepted
+                                <button
+                                  onClick={() => {
+                                    setAcceptComplete({
+                                      order_id: item?.order_id,
+                                      actionType: "accept",
+                                    });
+                                    setAcceptCompletePermanently(false);
+                                    setShowAcceptComplete(true);
+                                  }}
+                                  disabled={loading}
+                                >
+                                  Accept
+                                </button>
+                              ) : (
+                                // Show Completed button if accepted
+                                <button
+                                  onClick={() => {
+                                    setAcceptComplete({
+                                      order_id: item?.order_id,
+                                      actionType: "complete",
+                                    });
+                                    setAcceptCompletePermanently(false);
+                                    setShowAcceptComplete(true);
+                                    setEditDetailOrder(item);
+                                  }}
+                                  disabled={loading}
+                                >
+                                  Completed
+                                </button>
+                              )}
                               <button
                                 className="delete-btn"
                                 onClick={() => {
@@ -225,40 +297,6 @@ function AstrologerOrderPujaWallet({ astrologerData }) {
                               >
                                 <MdOutlineRemoveRedEye />
                               </button>
-                              <select
-                                value={
-                                  !item?.product_order_status
-                                    ? "processing"
-                                    : item?.product_order_complete
-                                    ? "completed"
-                                    : "dispatched"
-                                }
-                                onChange={(e) => {
-                                  const selected = e.target.value;
-
-                                  if (selected === "processing") {
-                                    updateOrderStatus(
-                                      item?.order_id,
-                                      false,
-                                      false
-                                    );
-                                  } else if (selected === "dispatched") {
-                                    updateOrderStatus(
-                                      item?.order_id,
-                                      true,
-                                      false
-                                    );
-                                  } else if (selected === "completed") {
-                                    setOtpPopUpDisplay(true);
-                                    // updateOrderStatus(item?.order_id, true, true);
-                                  }
-                                }}
-                                disabled={loading}
-                              >
-                                <option value="processing">Processing</option>
-                                <option value="dispatched">Dispatched</option>
-                                <option value="completed">Completed</option>
-                              </select>
                             </div>
                           </>
                         ) : (

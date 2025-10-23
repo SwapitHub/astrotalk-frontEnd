@@ -24,6 +24,9 @@ const ViewOrderUserDetail = ({ editDetailOrder, setShowOrderViewPopUp }) => {
     { label: "Payment ID", value: editDetailOrder?.payment_id },
     { label: "User Name", value: editDetailOrder?.userName },
     { label: "User Mobile", value: editDetailOrder?.userMobile },
+    { label: "Astrologer Mobile", value: editDetailOrder?.astrologerPhone },
+
+
     { label: "Product Name", value: editDetailOrder?.productName },
     { label: "Product Type", value: editDetailOrder?.productType },
     { label: "Ring Size", value: editDetailOrder?.ring_size },
