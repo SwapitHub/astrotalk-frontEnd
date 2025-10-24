@@ -367,96 +367,103 @@ const AstrologerProfile = ({
         )}
         <form action="">
           <div className="user-profile-pick-main">
-            {" "}
-              <label>Adhar Card </label>
+            <div className="user-profile-picture-sec-single">
+              <div className="user-profile-pick">
+                {" "}
+                <a href="#" title="">
+                  {astroUpdateDetail?.profileImage ? (
+                    <Image
+                      width={100}
+                      height={100}
+                      src={
+                        process.env.NEXT_PUBLIC_WEBSITE_URL +
+                        astroUpdateDetail?.aadhaarCard
+                      }
+                      alt="user-icon"
+                    />
+                  ) : (
+                    <img src="./user-icon-image.png"></img>
+                  )}
 
-            <div className="user-profile-pick">
-              <a href="#" title="">
-                {astroUpdateDetail?.profileImage ? (
-                  <Image
-                    width={100}
-                    height={100}
-                    src={
-                      process.env.NEXT_PUBLIC_WEBSITE_URL +
-                      astroUpdateDetail?.aadhaarCard
-                    }
-                    alt="user-icon"
-                  />
-                ) : (
-                  <img src="./user-icon-image.png"></img>
-                )}
-
-                <span>
-                  <i className="fa-solid fa-ellipsis-vertical"></i>
-                </span>
-              </a>
-            </div>
-            <div className="user-profile-pick">
-              <a href="#" title="">
-                {astroUpdateDetail?.profileImage ? (
-                  <Image
-                    width={100}
-                    height={100}
-                    src={
-                      process.env.NEXT_PUBLIC_WEBSITE_URL +
-                      astroUpdateDetail?.profileImage
-                    }
-                    alt="user-icon"
-                  />
-                ) : (
-                  <img src="./user-icon-image.png"></img>
-                )}
-
-                <span>
-                  <i className="fa-solid fa-ellipsis-vertical"></i>
-                </span>
-              </a>
-            </div>
-             <div className="user-profile-pick">
-              <label>Certificate </label>
-              <a href="#" title="">
-                {astroUpdateDetail?.profileImage ? (
-                  <Image
-                    width={100}
-                    height={100}
-                    src={
-                      process.env.NEXT_PUBLIC_WEBSITE_URL +
-                      astroUpdateDetail?.certificate
-                    }
-                    alt="user-icon"
-                  />
-                ) : (
-                  <img src="./user-icon-image.png"></img>
-                )}
-
-                <span>
-                  <i className="fa-solid fa-ellipsis-vertical"></i>
-                </span>
-              </a>
-            </div>
-            <div className="add-profile-content">
-              <div className="inner-form-filed-sec full">
-                <div className="label-content">
-                  <label htmlFor="image">
-                    Upload Image <span>(छवि अपलोड करें)</span>
-                  </label>
-                </div>
-                <input
-                  type="file"
-                  id="image"
-                  name="image"
-                  accept=".jpg, .jpeg, .png"
-                  className="common-input-filed"
-                  onChange={() => {
-                    setErrors((prev) => {
-                      const newErrors = { ...prev };
-                      delete newErrors.imagePic;
-                      return newErrors;
-                    });
-                  }}
-                />
-                {errors.imagePic && <p className="error">{errors.imagePic}</p>}
+                  <span>
+                    <i className="fa-solid fa-ellipsis-vertical"></i>
+                  </span>
+                </a>
               </div>
+              <label>Adhar Card </label>
+            </div>
+            <div className="user-profile-picture-sec-single">
+              <div className="user-profile-pick">
+                <a href="#" title="">
+                  {astroUpdateDetail?.profileImage ? (
+                    <Image
+                      width={100}
+                      height={100}
+                      src={
+                        process.env.NEXT_PUBLIC_WEBSITE_URL +
+                        astroUpdateDetail?.profileImage
+                      }
+                      alt="user-icon"
+                    />
+                  ) : (
+                    <img src="./user-icon-image.png"></img>
+                  )}
+
+                  <span>
+                    <i className="fa-solid fa-ellipsis-vertical"></i>
+                  </span>
+                </a>
+              </div>
+              <div className="add-profile-content">
+                <div className="inner-form-filed-sec full">
+                  <div className="label-content">
+                    <label htmlFor="image">
+                      Upload Image <span>(छवि अपलोड करें)</span>
+                    </label>
+                  </div>
+                  <input
+                    type="file"
+                    id="image"
+                    name="image"
+                    accept=".jpg, .jpeg, .png"
+                    className="common-input-filed"
+                    onChange={() => {
+                      setErrors((prev) => {
+                        const newErrors = { ...prev };
+                        delete newErrors.imagePic;
+                        return newErrors;
+                      });
+                    }}
+                  />
+                  {errors.imagePic && (
+                    <p className="error">{errors.imagePic}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="user-profile-picture-sec-single">
+              <div className="user-profile-pick">
+                <a href="#" title="">
+                  {astroUpdateDetail?.profileImage ? (
+                    <Image
+                      width={100}
+                      height={100}
+                      src={
+                        process.env.NEXT_PUBLIC_WEBSITE_URL +
+                        astroUpdateDetail?.certificate
+                      }
+                      alt="user-icon"
+                    />
+                  ) : (
+                    <img src="./user-icon-image.png"></img>
+                  )}
+
+                  <span>
+                    <i className="fa-solid fa-ellipsis-vertical"></i>
+                  </span>
+                </a>
+              </div>
+              <label>Certificate </label>
             </div>
           </div>
 

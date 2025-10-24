@@ -8,6 +8,7 @@ import UserRecharge from "@/app/component/UserRechargePopUp";
 import { fetchUserLoginDetails } from "@/app/utils/api";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
@@ -19,7 +20,7 @@ import secureLocalStorage from "react-secure-storage";
 import io from "socket.io-client";
 
 const socket = io(process.env.NEXT_PUBLIC_BASE_URL, {
-   path: "/api/socket.io",
+  path: "/api/socket.io",
   withCredentials: true,
   reconnection: true,
   reconnectionAttempts: 5,
@@ -105,7 +106,7 @@ const ChatHistory = () => {
 
   const fetchAstroMessageList = useCallback(async () => {
     if (!userIds || (!hasMore && currentPage !== 1)) return;
-   let limit = 4
+    let limit = 4;
     setIsLoading(true);
     try {
       const response = await axios.get(
@@ -469,9 +470,15 @@ const ChatHistory = () => {
                                       {item.profileStatus == true && (
                                         <div className="hide-div-img-text">
                                           <div className="images">
-                                            <img
-                                              src={item?.profileImage}
-                                              alt=""
+                                            <Image
+                                              width={100}
+                                              height={100}
+                                              src={
+                                                process.env
+                                                  .NEXT_PUBLIC_WEBSITE_URL +
+                                                item?.profileImage
+                                              }
+                                              alt="user-icon"
                                             />
                                           </div>
                                           <div className="price">
@@ -592,9 +599,7 @@ const ChatHistory = () => {
                       );
                     })}
 
-                   
                     {isLoading && <Loader />}
-                   
                   </div>
                 </div>
               </div>

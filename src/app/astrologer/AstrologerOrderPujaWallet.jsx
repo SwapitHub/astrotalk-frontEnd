@@ -127,7 +127,6 @@ function AstrologerOrderPujaWallet({ astrologerData }) {
       setAcceptCompletePermanently(false);
     }
   }, [AcceptCompletePermanently]);
-  console.log(editDetailOrder, "editDetailOrder===");
 
   return (
     <>
@@ -240,7 +239,7 @@ function AstrologerOrderPujaWallet({ astrologerData }) {
                       </td> */}
                       <td>
                         {item?.product_order_status &&
-                        item?.product_order_status ? (
+                        item?.product_order_complete ? (
                           "Puja Completed"
                         ) : !item?.product_cancel_order ? (
                           <>
