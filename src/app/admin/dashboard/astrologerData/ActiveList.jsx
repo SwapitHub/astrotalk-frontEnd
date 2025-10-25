@@ -196,7 +196,7 @@ function ActiveList() {
               <div className="input-outer">
                 <div className="balance">Total active Astrologer : </div>
                 <div className="input-inner">
-                  ₹ {Math.round(totalCount) || 0}
+                   {Math.round(totalCount) || 0}
                 </div>
               </div>
             </div>
@@ -238,7 +238,7 @@ function ActiveList() {
                       <td>{item.name}</td>
                       <td>{item.mobileNumber}</td>
                       <td>{new Date(item.createdAt).toLocaleString()}</td>
-                      <td>{item?.charges || 0}</td>
+                      <td>₹ {item?.charges || 0}</td>
                       <td>
                         {/* <button
                           onClick={() =>

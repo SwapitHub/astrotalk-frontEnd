@@ -9,7 +9,7 @@ import "slick-carousel/slick/slick-theme.css";
 const Banner = ({ homeBannerData }) => {
   const sliderSettings = {
     dots: false,
-    infinite: true,
+    infinite: homeBannerData?.length > 1,
     speed: 700,
     slidesToShow: 1,
     slidesToScroll: 1,
