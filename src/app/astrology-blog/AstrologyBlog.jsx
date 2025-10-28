@@ -168,6 +168,7 @@ const AstrologyBlog = () => {
                       <p>{blog?.shortDescription}</p>
                       <div className="name-date">
                         <p>{blog?.title}</p>
+                        <p>{blog?.author}</p>
                         <p>{new Date(blog.createdAt).toLocaleString()}</p>
                       </div>
                     </div>

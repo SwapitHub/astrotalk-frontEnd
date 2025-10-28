@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Loader from "../component/Loader";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
+import ShowDetailWithdrawRequest from "../component/ShowDetailWithdrawRequest";
 
 const PaymentWithdrawal = () => {
   const astrologerPhone = Cookies.get("astrologer-phone");
@@ -24,7 +26,8 @@ const PaymentWithdrawal = () => {
   const [errors, setErrors] = useState({});
   const [withdrawals, setWithdrawals] = useState([]);
   const [editingId, setEditingId] = useState(null);
-
+ const [addActiveStatus, setAddActiveStatus] = useState(false);
+  const [withdrawDataDetail, setWithdrawDataDetail] = useState();
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -82,7 +85,8 @@ const PaymentWithdrawal = () => {
       newErrors.accountNumber = "Account Number is required";
     if (!form.ifscCode) newErrors.ifscCode = "IFSC Code is required";
     if (!form.adminEmail) newErrors.adminEmail = "Admin Email is required";
-    if (!form.AstrologerEmail) newErrors.AstrologerEmail = "Astrologer Email is required";
+    if (!form.AstrologerEmail)
+      newErrors.AstrologerEmail = "Astrologer Email is required";
     if (!form.balanceRemaining)
       newErrors.balanceRemaining = "Remaining balance is required";
     if (!form.totalACBalance)
@@ -148,6 +152,14 @@ const PaymentWithdrawal = () => {
   };
 
   return (
+    <>
+      {addActiveStatus && (
+        <ShowDetailWithdrawRequest
+          setAddActiveStatus={setAddActiveStatus}
+          withdrawDataDetail={withdrawDataDetail}
+        />
+      )}
+    
     <div className="payment-withdrawal-outer">
       {loading && <Loader />}
       <h1>Payment Withdrawal</h1>
@@ -275,7 +287,9 @@ const PaymentWithdrawal = () => {
                 onChange={handleChange}
                 placeholder="Enter your Email"
               />
-              {errors.adminEmail && <p className="error">{errors.AstrologerEmail}</p>}
+              {errors.adminEmail && (
+                <p className="error">{errors.AstrologerEmail}</p>
+              )}
             </div>
 
             <div className="form-field">
@@ -328,12 +342,6 @@ const PaymentWithdrawal = () => {
                 <th>Holder Name</th>
                 <th>Bank</th>
                 <th>Account No</th>
-                <th>Total Balance</th>
-                <th>Remaining Balance</th>
-                <th>IFSC</th>
-                <th>Astrologer Email</th>
-                <th>Admin Email</th>
-                <th>Remarks</th>
                 <th>Date</th>
                 <th>WithDraw Request Status</th>
               </tr>
@@ -351,14 +359,20 @@ const PaymentWithdrawal = () => {
                     <td>{w.holderName}</td>
                     <td>{w.bankName}</td>
                     <td>{w.accountNumber}</td>
-                    <td>{w.totalACBalance}</td>
-                    <td>{w.balanceRemaining}</td>
-                    <td>{w.ifscCode}</td>
-                    <td>{w.AstrologerEmail}</td>
-                    <td>{w.adminEmail}</td>
-                    <td>{w.remarks}</td>
                     <td>{new Date(w.createdAt).toLocaleString()}</td>
-                    <td>{w.status}</td>
+                    <td>
+                      {w.status}
+
+                      <button
+                        className="delete-btn"
+                        onClick={() => {
+                          setWithdrawDataDetail(w);
+                          setAddActiveStatus(true);
+                        }}
+                      >
+                        <MdOutlineRemoveRedEye />
+                      </button>
+                    </td>
                   </tr>
                 ))
               )}
@@ -380,6 +394,7 @@ const PaymentWithdrawal = () => {
         </button>
       </div>
     </div>
+    </>
   );
 };
 

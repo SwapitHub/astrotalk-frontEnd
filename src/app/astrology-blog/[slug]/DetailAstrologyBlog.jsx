@@ -6,8 +6,8 @@ const DetailAstrologyBlog = ({ blogsDetailData }) => {
   return (
     <div className="blogs-detail-outer">
       <div className="container">
-        <Link href="/astrology-blog">Go Back</Link>
         <div className="blogs-detail">
+          <Link href="/astrology-blog">Go Back</Link>
           <div className="blog-featured-img">
             <Image
               width={100}
@@ -23,6 +23,8 @@ const DetailAstrologyBlog = ({ blogsDetailData }) => {
           </div>
           <div className="name-date">
             <p>{blogsDetailData?.title}</p>
+            <p>{blogsDetailData?.author}</p>
+
             {new Date(blogsDetailData?.createdAt).toLocaleString()}
           </div>
           <div className="blog-post-content">
