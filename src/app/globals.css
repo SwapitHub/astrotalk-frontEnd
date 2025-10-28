@@ -858,7 +858,7 @@ td button + button {margin-left: 5px;}
 .search-product-img {max-width: 80px; border-radius: 5px; overflow: hidden;}
 .astromall-listing {margin: 50px 0px 0px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; text-align: left;}
 .astromall-listing > *, .astromall-listing > * a {position: relative;}
-.product-img {position: relative; padding-bottom: 100%;}
+.product-img {position: relative; padding-bottom: 100%; background-color: #f2f2f2;}
 .product-img img {width: 100%; height: 100%; position: absolute; left: 0; top: 0; object-fit: cover;}
 .details-cont {padding: 30px 20px; min-height: 156px; background-color: var(--primary_color);}
 .product-name {color: #ffffff; font-weight: 600; font-size: 20px; margin: 0 0 5px; font-family: var(--secondary_font); line-height: 26px;}
@@ -1193,12 +1193,11 @@ table td button:not(.delete-btn) {padding: 8px 20px 6px; min-width: 98px;}
 .posts-listing > p {text-align: center; max-width: 100% !important; background-color: transparent !important;}
 .astro-detail-main, .astrologer-profile-edit-table, .astro-detail-main-view, .wallet-edit-main {position: absolute; width: calc(100% - 54px); height: 100%; background-color: var(--body_bg); opacity: 0; visibility: hidden; display: none; transition: all 0.3s; z-index: 9; padding: 20px 0px 0px;}
 .Edit-Order-User-detail {position: absolute; width: calc(100% - 54px); height: 100%; background-color: var(--body_bg); transition: all 0.3s; z-index: 9; padding: 20px 0px 0px;}
-.astro-detail-admin-popup .astro-detail-main, .astro-detail-admin-edit-popup .astrologer-profile-edit-table, .wallet-view-popup .astro-detail-main-view, .wallet-edit-popup .wallet-edit-main  {opacity: 1; visibility: visible; display: block;}
+.astro-detail-admin-popup .astro-detail-main, .astro-detail-admin-edit-popup .astrologer-profile-edit-table, .wallet-view-popup .astro-detail-main-view, .wallet-edit-popup .wallet-edit-main, .astro-detail-admin-popup .astro-detail-main-view, .astro-detail-main-view {opacity: 1; visibility: visible; display: block;}
 .img-data-outer {display: flex; align-items: center; gap: 50px;}
 .data-astrologer p {font-weight: normal;}
 .data-astrologer p strong {font-weight: 700;}
 .astro-detail-main .close, .astrologer-profile-edit-table .close, .astro-detail-main-view .close, .wallet-edit-main .close {opacity: 1; font-size: 0; right: 0px; top: 20px;}
-body.astro-detail-admin-popup .astro-detail-main-view {display: block; z-index: inherit;  visibility: visible;  opacity: 1;}
 .common-profile {display: flex;}
 .common-profile > * {display: flex; align-items: center; font-size: 14px;}
 .common-profile > *:first-child {background-color: #f2f2f2; min-width: 200px; padding: 20px; border-bottom: 1px solid #ffffff; font-weight: 500;}
@@ -1226,11 +1225,22 @@ body.astro-detail-admin-popup .astro-detail-main-view {display: block; z-index: 
 .cancel-order-reason-inner {background-color: #fff; padding: 50px; max-width: 500px; border-top: 4px solid var(--primary_color); text-align: center; position: relative;}
 .cancel-order-reason h2 {font-size: 26px; line-height: 30px;}
 .cancel-order-reason button {margin: 20px 0px 0px;}
-span.text-before-btn {margin-right: 10px;}
+span.text-before-btn {margin-right: 10px; text-transform: capitalize;}
 .Edit-Order-User-detail h2:not(:first-child) {margin-top: 30px;}
 .td-btns-outer {display: flex; flex-wrap: wrap; justify-content: center; gap: 5px 0px; align-items: center;}
 .my-wallet-sec-transactions-tabs main.Edit-Order-User-detail {position: relative; width: 100%;}
 .my-wallet-sec-transactions-tabs main.Edit-Order-User-detail + .wallet-ctm-tab {display: none;}
+.withdrawal-request-outer:not(:first-child) {margin: 40px 0px 0px;}
+.blogs-detail > a {color: var(--body_content_color); padding: 0 0 0px 20px; display: inline-block; margin: 0 0 20px; position: relative;}
+.blogs-detail > a::before {content: ""; position: absolute; width: 6px; height: 6px; border-bottom: 2px solid; border-left: 2px solid; transform: rotate(45deg);left: 0; top: 8px;}
+.head-search-outer h1 {margin: 0;}
+.blog-back {color: var(--body_content_color); padding: 0 0 0px 20px; display: inline-block; margin: 0 0 20px; position: relative;}
+.blog-back::before {content: ""; position: absolute; width: 6px; height: 6px; border-bottom: 2px solid; border-left: 2px solid; transform: rotate(45deg);left: 0; top: 8px;}
+.head-search-outer h1 {margin: 0;}
+.blogs-detail-top {text-align: center;}
+.author {margin: 0 0 5px;}
+.name-date h2 {font-size: 24px; line-height: 30px; margin: 0 0 10px;}
+
 /* ================== @ media css start here ================== */
 @media (max-width: 1600px) {
   .outer-home-dashboard ul {grid-template-columns: repeat(3, 1fr);}

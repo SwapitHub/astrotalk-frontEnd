@@ -157,7 +157,7 @@ const PaymentWithdrawRequest = () => {
                 <thead>
                   <tr>
                     <th>Name</th>
-                    <th>UPI id</th>
+                    <th>UPI ID</th>
                     <th>Account Number</th>
                     <th>Bank Name</th>
                     {/* <th>Total AC Balance</th> */}
@@ -190,9 +190,10 @@ const PaymentWithdrawRequest = () => {
                         {/* <td>{w.AstrologerEmail}</td> */}
                         <td>{new Date(w.createdAt).toLocaleString()}</td>
                         <td>
+                          <div className="edit-delete-btn">
                           {w.status === "pending" ? (
-                            <div className="edit-delete-btn">
-                              <button
+                            <>
+                              <button className="delete-btn"
                                 onClick={() => {
                                   setSelectedUserId(w._id);
                                   setShowAccept(true);
@@ -200,7 +201,7 @@ const PaymentWithdrawRequest = () => {
                               >
                                 <FaCheck />
                               </button>
-                              <button
+                              <button className="delete-btn"
                                 onClick={() => {
                                   setSelectedUserId(w._id);
                                   setShowDelete(true);
@@ -208,9 +209,9 @@ const PaymentWithdrawRequest = () => {
                               >
                                 <ImCross />
                               </button>
-                            </div>
+                            </>
                           ) : (
-                            <span style={{ textTransform: "capitalize" }}>
+                            <span className="text-before-btn">
                               {w.status}
                             </span>
                           )}
@@ -222,6 +223,7 @@ const PaymentWithdrawRequest = () => {
                           >
                             <MdOutlineRemoveRedEye />
                           </button>
+                          </div>
                         </td>
                       </tr>
                     ))

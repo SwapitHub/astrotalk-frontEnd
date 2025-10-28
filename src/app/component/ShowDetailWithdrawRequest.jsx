@@ -5,7 +5,7 @@ const ShowDetailWithdrawRequest = ({
   withdrawDataDetail,
 }) => {
   return (
-    <div className="astro-detail-main-viewd">
+    <div className="astro-detail-main-view">
       <span
         className="close"
         onClick={() => {
@@ -34,17 +34,17 @@ const ShowDetailWithdrawRequest = ({
             </div>
           </div>
           <div className="common-profile">
-            <div className="mobile">Email id</div>
+            <div className="mobile">Email ID</div>
             <div className="input-outer">
               {withdrawDataDetail?.AstrologerEmail}
             </div>
           </div>
           <div className="common-profile">
-            <div className="mobile">admin Email id</div>
+            <div className="mobile">Admin Email ID</div>
             <div className="input-outer">{withdrawDataDetail?.adminEmail}</div>
           </div>
           <div className="common-profile">
-            <div className="mobile">UPI id</div>
+            <div className="mobile">UPI ID</div>
             <div className="input-outer">{withdrawDataDetail?.upiId}</div>
           </div>
           <div className="common-profile">

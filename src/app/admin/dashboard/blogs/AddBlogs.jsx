@@ -8,6 +8,8 @@ import { IoClose } from "react-icons/io5";
 import useDebounce from "@/app/hook/useDebounce";
 import DeletePopUp from "@/app/component/DeletePopUp";
 import Image from "next/image";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
+import BlogView from "@/app/component/BlogView";
 
 const API = process.env.NEXT_PUBLIC_WEBSITE_URL;
 
@@ -34,6 +36,8 @@ const AddBlogs = () => {
   const [showDelete, setShowDelete] = useState(false);
   const [deletePermanently, setDeletePermanently] = useState(false);
   const [astroToDelete, setAstroToDelete] = useState();
+  const [addActiveStatus, setAddActiveStatus] = useState(false);
+  const [withdrawDataDetail, setWithdrawDataDetail] = useState();
 
   const debouncedSearch = useDebounce(search, 1000);
 
@@ -195,7 +199,12 @@ const AddBlogs = () => {
           showNameData={showNameData}
         />
       )}
-
+      {addActiveStatus && (
+        <BlogView
+          setAddActiveStatus={setAddActiveStatus}
+          withdrawDataDetail={withdrawDataDetail}
+        />
+      )}
       <div className="add-blogs-outer-admin">
         {loader && <Loader />}
         {toggleAstroCategory && (
@@ -411,16 +420,25 @@ const AddBlogs = () => {
                       <td>{new Date(blog.createdAt).toLocaleString()}</td>
                       <td>
                         <div className="edit-delete-btn">
-                          <button onClick={() => handleEdit(blog)}>
+                          <button className="delete-btn" onClick={() => handleEdit(blog)}>
                             <FaEdit />
                           </button>
-                          <button
+                          <button className="delete-btn"
                             onClick={() => {
                               setAstroToDelete(blog._id);
                               setShowDelete(true);
                             }}
                           >
                             <RiDeleteBin7Fill />
+                          </button>
+                          <button
+                            className="delete-btn"
+                            onClick={() => {
+                              setWithdrawDataDetail(blog);
+                              setAddActiveStatus(true);
+                            }}
+                          >
+                            <MdOutlineRemoveRedEye />
                           </button>
                         </div>
                       </td>

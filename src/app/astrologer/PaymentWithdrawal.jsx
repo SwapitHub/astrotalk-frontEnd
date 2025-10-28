@@ -361,7 +361,8 @@ const PaymentWithdrawal = () => {
                     <td>{w.accountNumber}</td>
                     <td>{new Date(w.createdAt).toLocaleString()}</td>
                     <td>
-                      {w.status}
+                     <span className="text-before-btn">{w.status}</span>
+
 
                       <button
                         className="delete-btn"
