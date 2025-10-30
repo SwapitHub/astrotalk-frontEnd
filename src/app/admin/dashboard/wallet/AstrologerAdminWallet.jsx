@@ -19,7 +19,7 @@ function AstrologerAdminWallet() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [addActiveClass, setAddActiveClass] = useState();
+  const [addActiveClass, setAddActiveClass] = useState(false);
   const [addActiveClassEdit, setAddActiveClassEdit] = useState(false);
   const [mobileNumber, setMobileNumber] = useState();
   const [showDelete, setShowDelete] = useState(false);
@@ -145,7 +145,7 @@ function AstrologerAdminWallet() {
           showNameData={showNameData}
         />
       )}
-      {mobileNumber && (
+      {addActiveClassEdit && (
         <WalletEditAstro
           mobileNumber={mobileNumber}
           setAddActiveClassEdit={setAddActiveClassEdit}
@@ -153,7 +153,7 @@ function AstrologerAdminWallet() {
           setLoading={setLoading}
         />
       )}
-      {mobileNumber && (
+      {addActiveClass && (
         <WalletView
           mobileNumber={mobileNumber}
           setAddActiveClass={setAddActiveClass}
