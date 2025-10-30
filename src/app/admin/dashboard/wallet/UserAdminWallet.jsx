@@ -141,17 +141,22 @@ console.log(userToDelete , deletePermanently,"ewewew");
           showNameData={showNameData}
         />
       )}
-      <WalletEdit
-        userMobile={mobileNumber}
-        setAddActiveClassEdit={setAddActiveClassEdit}
-        fetchTransactions={fetchTransactions}
-        setLoading={setLoading}
-      />
-      <WalletView
-        mobileNumber={mobileNumber}
-        setAddActiveClass={setAddActiveClass}
-        setLoading={setLoading}
-      />
+      {addActiveClassEdit && (
+        <WalletEdit
+          userMobile={mobileNumber}
+          setAddActiveClassEdit={setAddActiveClassEdit}
+          fetchTransactions={fetchTransactions}
+          setLoading={setLoading}
+        />
+      )}
+
+      {addActiveClass && (
+        <WalletView
+          mobileNumber={mobileNumber}
+          setAddActiveClass={setAddActiveClass}
+          setLoading={setLoading}
+        />
+      )}
       <div className="admin-wallet-main">
         <h1>User Wallet List</h1>
         <div className="search-box-top-btn">

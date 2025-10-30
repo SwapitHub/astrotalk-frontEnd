@@ -11,8 +11,8 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import { useRouter } from "next/navigation";
 
 const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
-    const router = useRouter();
-  
+  const router = useRouter();
+
   const [isOnline, setIsOnline] = useState();
   const [sessionValue, setSessionValue] = useState();
   console.log("astrologerData", astrologerData);
@@ -113,7 +113,7 @@ const DashBoardData_1 = ({ astrologerData = {}, setUpdateButton }) => {
       <div className="astro-dashboard-heading-btns-outer">
         <div className="home-dashboard-heading">
           <h2>Dashboard</h2>
-          <p>Astrowb Panel</p>
+          <p>Astrowb Astrologer Panel</p>
         </div>
 
         <div className="inner-astrologer-registration">
