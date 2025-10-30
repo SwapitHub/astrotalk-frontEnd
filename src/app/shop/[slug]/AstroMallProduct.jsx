@@ -103,8 +103,8 @@ const AstroMallProduct = ({ astrShopDetailData }) => {
                         <div className="details-outer">
                           <div className="product-img">
                             <Image
-                              width={100}
-                              height={100}
+                              width={262}
+                              height={262}
                               src={
                                 process.env.NEXT_PUBLIC_WEBSITE_URL +
                                 item?.astroMallProductImg

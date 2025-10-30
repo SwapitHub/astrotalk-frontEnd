@@ -78,8 +78,8 @@ const TopSellingSlider = ({ topSellingSlider }) => {
                   >
                     <div className="slide-img">
                       <Image
-                        width={100}
-                        height={100}
+                        width={270}
+                        height={230}
                         src={
                           item?.astroMallProductImg
                             ? process.env.NEXT_PUBLIC_WEBSITE_URL +

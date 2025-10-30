@@ -15,8 +15,8 @@ const ThumbNellTabbing = ({ productDetailData }) => {
       <div className="slider-left-nav">
         <div onClick={() => setTabbing(productDetailData?.astroMallProductImg)}>
           <Image
-            width={100}
-            height={100}
+            width={356}
+            height={356}
             src={
               process.env.NEXT_PUBLIC_WEBSITE_URL +
                 productDetailData?.astroMallProductImg || "/user-icon-image.png"
@@ -27,8 +27,8 @@ const ThumbNellTabbing = ({ productDetailData }) => {
         {productDetailData?.images?.map((item) => (
           <div onClick={() => setTabbing(item?.url)}>
             <Image
-              width={100}
-              height={100}
+              width={356}
+            height={356}
               src={
                 process.env.NEXT_PUBLIC_WEBSITE_URL + item?.url ||
                 "/user-icon-image.png"
@@ -42,8 +42,8 @@ const ThumbNellTabbing = ({ productDetailData }) => {
       <div className="slider-right-img">
         <div className="slider-large-img">
           <Image
-            width={100}
-            height={100}
+            width={356}
+            height={356}
             src={tabbing?
               process.env.NEXT_PUBLIC_WEBSITE_URL + tabbing 
               :"/user-icon-image.png"

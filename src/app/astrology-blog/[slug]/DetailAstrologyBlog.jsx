@@ -7,11 +7,17 @@ const DetailAstrologyBlog = ({ blogsDetailData }) => {
     <div className="blogs-detail-outer">
       <div className="container">
         <div className="blogs-detail">
-          <Link href="/astrology-blog">Go Back</Link>
+          <Link className="blog-back" href="/astrology-blog">Go Back</Link>
+          <div className="name-date">
+            <p>{blogsDetailData?.title}</p>
+            <p>{blogsDetailData?.author}</p>
+
+            {new Date(blogsDetailData?.createdAt).toLocaleString()}
+          </div>
           <div className="blog-featured-img">
             <Image
-              width={100}
-              height={100}
+              width={800}
+              height={450}
               src={
                 blogsDetailData?.coverImage
                   ? process.env.NEXT_PUBLIC_WEBSITE_URL +
@@ -21,12 +27,7 @@ const DetailAstrologyBlog = ({ blogsDetailData }) => {
               alt={blogsDetailData?.name}
             />
           </div>
-          <div className="name-date">
-            <p>{blogsDetailData?.title}</p>
-            <p>{blogsDetailData?.author}</p>
-
-            {new Date(blogsDetailData?.createdAt).toLocaleString()}
-          </div>
+          
           <div className="blog-post-content">
             <div
               dangerouslySetInnerHTML={{ __html: blogsDetailData?.content }}

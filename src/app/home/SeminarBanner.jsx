@@ -91,8 +91,8 @@ const SeminarBanner = ({ NewlySeminarList }) => {
                   </div>
                   <div class="img">
                     <Image
-                      width={100}
-                      height={100}
+                      width={255}
+                      height={255}
                       src={
                         NewlySeminarList?.singleImages?.img_url
                           ? process.env.NEXT_PUBLIC_WEBSITE_URL +

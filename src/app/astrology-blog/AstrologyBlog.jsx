@@ -153,8 +153,8 @@ const AstrologyBlog = () => {
                   >
                     <div className="post-img">
                       <Image
-                        width={100}
-                        height={100}
+                        width={370}
+                        height={208}
                         src={
                           blog?.coverImage
                             ? process.env.NEXT_PUBLIC_WEBSITE_URL +
