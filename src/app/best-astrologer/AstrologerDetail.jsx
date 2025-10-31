@@ -530,7 +530,18 @@ export const AstrologerDetail = ({ astrologerData }) => {
                 >
                   {galleryData[0]?.multipleImages?.map((item) => (
                     <div className="astro-img">
-                      <img src={item?.img_url} alt="" />
+                       {item?.img_url ? (
+                        <Image
+                          width={200}
+                          height={250}
+                          src={
+                            process.env.NEXT_PUBLIC_WEBSITE_URL + item?.img_url
+                          }
+                          alt="certificate"
+                        />
+                      ) : (
+                        <img src="/user-icon-image.png" alt="" />
+                      )}
                     </div>
                   ))}
                 </Slider>

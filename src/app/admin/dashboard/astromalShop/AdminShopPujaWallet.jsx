@@ -18,7 +18,7 @@ function AdminShopWallet() {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [editDetailOrder, setEditDetailOrder] = useState(null);
-    const [showOrderViewPopUp, setShowOrderViewPopUp] = useState(false);
+  const [showOrderViewPopUp, setShowOrderViewPopUp] = useState(false);
   const [cancelOrder, setCancelOrder] = useState({
     orderStatus: false,
     order_id: null,
@@ -109,7 +109,7 @@ function AdminShopWallet() {
         />
       )}
 
-       {showOrderViewPopUp && (
+      {showOrderViewPopUp && (
         <ViewOrderUserDetail
           editDetailOrder={editDetailOrder}
           setShowOrderViewPopUp={setShowOrderViewPopUp}
@@ -187,7 +187,16 @@ function AdminShopWallet() {
                       </td> */}
                       <td>{new Date(item.createdAt).toLocaleString()}</td>
                       <td>
-                        {!item?.product_cancel_order ? (
+                        <button
+                          className="delete-btn"
+                          onClick={() => {
+                            setEditDetailOrder(item);
+                            setShowOrderViewPopUp(true);
+                          }}
+                        >
+                          <MdOutlineRemoveRedEye />
+                        </button>
+                        {/* {!item?.product_cancel_order ? (
                           <>
                             <span className="text-before-btn">
                               {item?.product_order_complete
@@ -218,7 +227,7 @@ function AdminShopWallet() {
                               />
                             </p>
                           </>
-                        )}
+                        )} */}
                       </td>
                     </tr>
                   ))

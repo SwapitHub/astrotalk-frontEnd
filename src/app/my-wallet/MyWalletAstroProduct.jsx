@@ -170,43 +170,53 @@ const MyWalletAstroProduct = () => {
                         <td>{new Date(item.createdAt).toLocaleString()}</td>
 
                         <td>
-                        
-                          {!item?.product_cancel_order ? (
+                          <button
+                            className="delete-btn"
+                            onClick={() => {
+                              setEditDetailOrder(item);
+                              setShowOrderViewPopUp(true);
+                            }}
+                          >
+                            <MdOutlineRemoveRedEye />
+                          </button>
+                          {/* {!item?.product_cancel_order ? (
                             <>
-                            <div className="td-btns-outer">
-                              <button
-                                onClick={() => {
-                                  setCancelOrder({
-                                    orderStatus: true,
-                                    order_id: item?.order_id,
-                                  });
-                                }}
-                              >
-                                Cancel Order
-                              </button>
-                              <button className="delete-btn"
-                                onClick={() => {
-                                  setEditDetailOrder(item);
-                                  setShowOrderPopUp(true);
-                                }}
-                              >
-                                <FaEdit />
-                              </button>
-                              <button className="delete-btn"
-                                onClick={() => {
-                                  setEditDetailOrder(item);
-                                  setShowOrderViewPopUp(true);
-                                }}
-                              >
-                                <MdOutlineRemoveRedEye />
-                              </button>
-                              <span>
-                                {item?.product_order_complete
-                                  ? "Completed"
-                                  : item?.product_order_status
-                                  ? "Dispatched"
-                                  : "Processing"}
-                              </span>
+                              <div className="td-btns-outer">
+                                <button
+                                  onClick={() => {
+                                    setCancelOrder({
+                                      orderStatus: true,
+                                      order_id: item?.order_id,
+                                    });
+                                  }}
+                                >
+                                  Cancel Order
+                                </button>
+                                <button
+                                  className="delete-btn"
+                                  onClick={() => {
+                                    setEditDetailOrder(item);
+                                    setShowOrderPopUp(true);
+                                  }}
+                                >
+                                  <FaEdit />
+                                </button>
+                                <button
+                                  className="delete-btn"
+                                  onClick={() => {
+                                    setEditDetailOrder(item);
+                                    setShowOrderViewPopUp(true);
+                                  }}
+                                >
+                                  <MdOutlineRemoveRedEye />
+                                </button>
+                                <span>
+                                  {item?.product_order_complete
+                                    ? "Completed"
+                                    : item?.product_order_status
+                                    ? "Dispatched"
+                                    : "Processing"}
+                                </span>
                               </div>
                             </>
                           ) : (
@@ -222,7 +232,7 @@ const MyWalletAstroProduct = () => {
                                 />
                               </p>
                             </>
-                          )}
+                          )} */}
                         </td>
                       </tr>
                     ))

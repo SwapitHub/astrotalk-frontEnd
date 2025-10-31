@@ -10,8 +10,8 @@ export const AstroDocument = ({ registrationDetail }) => {
           <h3>Aadhar Card</h3>
           <a href={registrationDetail?.aadhaarCard} target="_blank">
             <Image
-              width={100}
-              height={100}
+              width={300}
+              height={139}
               src={process.env.NEXT_PUBLIC_WEBSITE_URL + registrationDetail?.aadhaarCard || "/user-icon-image.png"}
               alt="certificate"
             />
@@ -22,8 +22,8 @@ export const AstroDocument = ({ registrationDetail }) => {
           <h3>Certificate</h3>
           <a href={registrationDetail?.certificate} target="_blank">
             <Image
-              width={100}
-              height={100}
+              width={300}
+              height={139}
               src={process.env.NEXT_PUBLIC_WEBSITE_URL + registrationDetail?.certificate || "/user-icon-image.png"}
               alt="certificate"
             />

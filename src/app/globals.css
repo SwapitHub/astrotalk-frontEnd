@@ -46,6 +46,22 @@ nav.navbar ul li a:hover, nav.navbar ul li span:hover {color: var(--primary_colo
 .header-user {padding: 40px 0px 40px 40px;}
 .header-user-drop-down, .submenu {position: absolute; z-index: 1; background-color: #ffffff; padding: 20px; left: 50%; transform: translateX(-50%); transition: all 0.3s; width: max-content; top: 100%; box-shadow: 0px 5px 25px rgba(0, 0, 0, .1);}
 .header-user-drop-down {right: 0; left: auto; transform: none;}
+.inner-admin-wallet {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+.Account-detail {
+    margin: 30px 0px 0px;
+}
+.form-actions {
+    margin: 30px 0px 0px;
+}
+.aadhar-card img {
+    width: 100%;
+    height: auto;
+}
 @media (min-width: 992px) {
  .header-user-drop-down, .submenu {opacity: 0; visibility: hidden;}
 .header-user:hover .header-user-drop-down, li.has-submenu:hover .submenu { opacity: 1; visibility: visible;}
@@ -1340,6 +1356,11 @@ span.text-before-btn {margin-right: 10px; text-transform: capitalize;}
   .user-profile-pick-main {flex-wrap: wrap; justify-content: center; gap: 20px;}
   .user-profile-picture-sec-single {order: 1;}
   .user-profile-picture-sec-single:first-child {order: 2;}
+  .inner-admin-wallet {
+		flex-direction: column-reverse;
+		align-items: flex-start;
+		margin: 0 0 20px;
+	}
 }
 @media (max-width: 767px) {
   body {font-size: 14px;}
