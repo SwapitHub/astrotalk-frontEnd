@@ -38,6 +38,9 @@ const AstroMallShopProduct = () => {
   const [error, setError] = useState(null);
   const [viewProductData, setViewProductData] = useState();
   const [viewProductStatus, setViewProductStatus] = useState(false);
+  const [actualPrice, setActualPrice] = useState("");
+  const [discountPrice, setDiscountPrice] = useState("");
+  const [startingPrice, setStartingPrice] = useState("");
 
   const debouncedSearch = useDebounce(search, 1000);
 
@@ -283,21 +286,27 @@ const AstroMallShopProduct = () => {
       );
       setShopListSingleData(isDiscountProduct);
       setShopId(product.shop_id);
+      setActualPrice(product.actual_price || "");
+      setDiscountPrice(product.discount_price || "");
+      setStartingPrice(product.starting_price || "");
 
       // Delay price setting so that inputs get mounted
-      setTimeout(() => {
-        const startingPriceInput = document.getElementById("Starting_price");
-        if (startingPriceInput)
-          startingPriceInput.value = product.starting_price || "";
+      // setTimeout(() => {
+      //   const startingPriceInput = document.getElementById("Starting_price");
+      //   if (startingPriceInput)
+      //     startingPriceInput.value = product.starting_price || "";
+      //   console.log("============starting_price", product.starting_price || "");
 
-        const actualPriceInput = document.getElementById("actual_price");
-        if (actualPriceInput)
-          actualPriceInput.value = product.actual_price || "";
+      //   const actualPriceInput = document.getElementById("actual_price");
+      //   if (actualPriceInput)
+      //     actualPriceInput.value = product.actual_price || "";
+      //   console.log("============actual_price", product.actual_price || "");
 
-        const discountPriceInput = document.getElementById("discount_price");
-        if (discountPriceInput)
-          discountPriceInput.value = product.discount_price || "";
-      }, 0); // next tick after render
+      //   const discountPriceInput = document.getElementById("discount_price");
+      //   if (discountPriceInput)
+      //     discountPriceInput.value = product.discount_price || "";
+      //   console.log("============discount_price", product.discount_price || "");
+      // }, 0); // next tick after render
 
       setEditMode(true);
       setEditProductId(product._id);
@@ -610,6 +619,8 @@ const AstroMallShopProduct = () => {
                     type="number"
                     id="Starting_price"
                     className="common-input-filed"
+                    value={startingPrice}
+                    onChange={(e) => setStartingPrice(e.target.value)}
                     onKeyDown={(e) => {
                       if (e.key === "-" || e.key === "e") {
                         e.preventDefault();
@@ -627,6 +638,8 @@ const AstroMallShopProduct = () => {
                       type="number"
                       id="actual_price"
                       className="common-input-filed"
+                      value={actualPrice}
+                      onChange={(e) => setActualPrice(e.target.value)}
                       onKeyDown={(e) => {
                         if (e.key === "-" || e.key === "e") {
                           e.preventDefault();
@@ -642,6 +655,8 @@ const AstroMallShopProduct = () => {
                       type="number"
                       id="discount_price"
                       className="common-input-filed"
+                      value={discountPrice}
+                      onChange={(e) => setDiscountPrice(e.target.value)}
                       onKeyDown={(e) => {
                         if (e.key === "-" || e.key === "e") {
                           e.preventDefault();
