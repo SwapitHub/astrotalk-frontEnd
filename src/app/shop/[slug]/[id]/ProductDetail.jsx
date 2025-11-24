@@ -14,7 +14,6 @@ import { toast } from "react-toastify";
 import Loader from "@/app/component/Loader";
 
 const ProductDetail = ({ productDetailData }) => {
-
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
@@ -27,6 +26,7 @@ const ProductDetail = ({ productDetailData }) => {
   const [decodedHtmlDescription, setDecodedHtmlDescription] = useState("");
 
   const [otpPopUpDisplay, setOtpPopUpDisplay] = useState(false);
+  console.log(productDetailData, "productDetailData");
 
   const discountPrice =
     productDetailData?.actual_price - productDetailData?.discount_price;
@@ -93,7 +93,10 @@ const ProductDetail = ({ productDetailData }) => {
       ring_size = "";
     }
 
-    if (productDetailData?.shop_product_type == "gemstone_product" || productDetailData?.shop_product_type == "another_product") {
+    if (
+      productDetailData?.shop_product_type == "gemstone_product" ||
+      productDetailData?.shop_product_type == "another_product"
+    ) {
       try {
         const res = await axios.put(
           `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-any-field-astro-shope-product/${productDetailData?._id}`,
@@ -124,7 +127,6 @@ const ProductDetail = ({ productDetailData }) => {
       setDecodedHtml(sanitizedHtml);
     }
   }, [productDetailData]);
-
 
   useEffect(() => {
     if (productDetailData?.description) {
@@ -240,13 +242,21 @@ const ProductDetail = ({ productDetailData }) => {
                 </>
               )}
               <div className="product-right-btn">
-                <button
-                  onClick={() => {
-                    handleBookNow();
-                  }}
-                >
-                  Book Now
-                </button>
+                {productDetailData?.shop_product_type == "astrologer_puja" ||
+                productDetailData?.quantity > 0 ? (
+                  <button
+                    onClick={() => {
+                      handleBookNow();
+                    }}
+                  >
+                    Book Now
+                  </button>
+                ) : (
+                  <Link className="out-of-stock" href={`/shop/${productDetailData?.shop_slug}`}>
+                    This product is currently unavailable. Kindly select an
+                    alternative item.
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -500,7 +510,7 @@ const ProductDetail = ({ productDetailData }) => {
               </div>
             </div>
             <div className="product-promises-right">
-              <h2>Astrotalk Promises</h2>
+              <h2>Astromani Promises</h2>
               <div className="promise-box-sec">
                 <p>
                   AstroMall is a one - stop shop for all your astrological

@@ -24,6 +24,9 @@ const AstrologyBlog = () => {
     totalBlogs: 0,
   });
 
+
+  console.log(blogs);
+  
   //   const debouncedSearch = useDebounce(search, 500);
 
   const fetchCategories = async () => {
@@ -167,9 +170,9 @@ const AstrologyBlog = () => {
                     <div className="post-content">
                       <p>{blog?.shortDescription}</p>
                       <div className="name-date">
-                        <p>{blog?.title}</p>
-                        <p>{blog?.author}</p>
-                        <p>{new Date(blog.createdAt).toLocaleString()}</p>
+                        <h2>{blog?.title}</h2>
+                        <p className="author">{blog?.author}</p>
+                        <p className="date">{new Date(blog.createdAt).toLocaleString()}</p>
                       </div>
                     </div>
                   </Link>

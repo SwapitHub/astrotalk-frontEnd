@@ -26,7 +26,7 @@ const ShopRazorPayPayment = ({
   const [loading, setLoading] = useState(false);
   const [userMobile, setUserMobile] = useState(false);
   const [userData, setUserData] = useState();
-console.log(userData, userMobile);
+console.log(productDetailData);
 
   useEffect(() => {
     const mobileFromCookie = Cookies.get("userMobile");
@@ -86,6 +86,7 @@ console.log(userData, userMobile);
           productImg: productDetailData?.astroMallProductImg,
           product_type_gem: productDetailData?.product_type_gem,
           address,
+          product_id: productDetailData?._id
         }
       );
       console.log(data, "data=====");

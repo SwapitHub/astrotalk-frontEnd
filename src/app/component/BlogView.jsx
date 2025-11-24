@@ -13,26 +13,26 @@ const BlogView = ({ setAddActiveStatus, withdrawDataDetail }) => {
         X
       </span>
 
-      <h2 style={{ textAlign: "center", marginBottom: "10px" }}>
-        Blog Detail
-      </h2>
+      <h2 style={{ textAlign: "center", marginBottom: "10px" }}>Blog Detail</h2>
 
       {/* User Table */}
 
       <div className="profile-table">
         <div className="inner-profile-table">
-
           <div className="common-profile blog-img">
             <div className="name"> Image</div>
-            <div className="input-outer"> <Image
-              width={100}
-              height={100}
-              src={
-                process.env.NEXT_PUBLIC_WEBSITE_URL +
-                withdrawDataDetail?.coverImage
-              }
-              alt="user-icon"
-            /></div>
+            <div className="input-outer">
+              {" "}
+              <Image
+                width={100}
+                height={100}
+                src={
+                  process.env.NEXT_PUBLIC_WEBSITE_URL +
+                  withdrawDataDetail?.coverImage
+                }
+                alt="user-icon"
+              />
+            </div>
           </div>
           <div className="common-profile">
             <div className="name"> Author</div>
@@ -69,8 +69,6 @@ const BlogView = ({ setAddActiveStatus, withdrawDataDetail }) => {
               dangerouslySetInnerHTML={{ __html: withdrawDataDetail?.content }}
             ></div>
           </div>
-
-        
         </div>
       </div>
     </div>

@@ -1,18 +1,25 @@
 "use client";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import secureLocalStorage from "react-secure-storage";
 
 function UserOtpLoginData({ setOtpPopUpDisplay, editDetailOrder }) {
-  const [phone, setPhone] = useState(editDetailOrder?editDetailOrder?.userMobile:"");
+  const router = useRouter();
+  const [phone, setPhone] = useState(
+    editDetailOrder ? editDetailOrder?.userMobile : ""
+  );
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [message, setMessage] = useState("");
   const [timeOtpMessage, setTimeOtpMessage] = useState("");
   const [userLoginData, setUserLoginData] = useState();
-  const router = useRouter();
+  const [loginEmail, setLoginEmail] = useState(false);
+  const [forgetPswShow, setForgetPswShow] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [resetEmail, setResetEmail] = useState("");
 
   // useEffect(() => {
   //   axios
@@ -200,6 +207,72 @@ function UserOtpLoginData({ setOtpPopUpDisplay, editDetailOrder }) {
     }
   };
 
+  // ------------------ EMAIL LOGIN SECTION ------------------
+  const handleLogin = async () => {
+    if (!email || !password) {
+      setMessage("Email and Password are required.");
+      return;
+    }
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-email-login`,
+        { userEmail: email, userPassword: password }
+      );
+
+      const { token, user } = response.data;
+
+      // Store JWT token securely in cookies
+      Cookies.set("userToken", token, {
+        expires: 1, // 1 day
+        secure: true,
+        sameSite: "Strict",
+      });
+      setOtpPopUpDisplay(false);
+      Cookies.set("userIds", response.data.user.id, {
+        expires: 3650,
+        secure: true,
+        sameSite: "Strict",
+      });
+      Cookies.set("userMobile", response.data.user.userMobile, {
+        expires: 3650,
+        secure: true,
+        sameSite: "Strict",
+      });
+
+      setMessage("Login successful!");
+      setOtpPopUpDisplay(false);
+      window.dispatchEvent(new Event("userMobileUpdated"));
+      router.push("/chat-with-astrologer");
+    } catch (error) {
+      console.error(error);
+      setMessage(error.response?.data?.message || "Login failed.");
+    }
+  };
+
+  const handleResetPassword = async () => {
+    if (!resetEmail) {
+      setMessage("Please enter your registered email.");
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/user-request-Password-Reset`,
+        { userEmail: resetEmail }
+      );
+
+      if (res.status === 200) {
+        setMessage("Password reset link sent to your email.");
+        setResetEmail(" ");
+      } else {
+        setMessage(res.data.message || "Error sending email.");
+      }
+    } catch (err) {
+      console.error("Reset email error:", err);
+      setMessage(err.response?.data?.message || "Server error.");
+    }
+  };
+
   return (
     <div className="send-otp">
       <div className="popup-header">
@@ -241,26 +314,143 @@ function UserOtpLoginData({ setOtpPopUpDisplay, editDetailOrder }) {
           </span>
         )}
 
-        <h1>{otpSent == false ? `Continue with Phone` : `Verify Phone`}</h1>
+        <h1>
+          {forgetPswShow
+            ? "User Reset Password"
+            : loginEmail
+            ? "User Login with Email"
+            : otpSent == false
+            ? `User Login with Phone`
+            : `Verify Phone`}
+        </h1>
       </div>
 
       {otpSent == false ? (
-        <div className="number--continious-popup">
-          <p>You will receive a 6 digit code for verification</p>
-          <input
-            type="text"
-            placeholder="Enter phone number"
-            // id="mobileNumber"
-            name="quantity"
-            onInput={(e) => {
-              e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
-            }}
-            className="common-input-filed"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-          <button onClick={sendOtp}>Send OTP</button>
-        </div>
+        <>
+          {loginEmail ? (
+            <>
+              {forgetPswShow ? (
+                <div className="number--continious-popup login-email-main">
+                  <div className="user-login-email">
+                    <span>
+                      Enter your Registred Email to reset your password.
+                    </span>
+                    <Link
+                      onClick={() => setOtpPopUpDisplay(false)}
+                      href="/free-chat/start"
+                    >
+                      Join now
+                    </Link>
+                  </div>
+
+                  <div className="form-field">
+                    <input
+                      type="email"
+                      placeholder="Email ID"
+                      className="common-input-filed"
+                      value={resetEmail}
+                      onChange={(e) => setResetEmail(e.target.value)}
+                    />
+                  </div>
+
+                  <button onClick={handleResetPassword}>Submit</button>
+
+                  <div className="forget-and-login-with-mobile-btns">
+                    <button
+                      className="text-btn"
+                      onClick={() => {
+                        setForgetPswShow(false);
+                        setLoginEmail(false);
+                      }}
+                    >
+                      Login With Mobile
+                    </button>
+                    <button
+                      className="text-btn"
+                      onClick={() => {
+                        setLoginEmail(true);
+                        setForgetPswShow(false);
+                      }}
+                    >
+                      Login With Email
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="number--continious-popup login-email-main">
+                  <div className="user-login-email">
+                    <span>Not A User Yet?</span>
+                    <Link
+                      onClick={() => setOtpPopUpDisplay(false)}
+                      href="/free-chat/start"
+                    >
+                      Join now
+                    </Link>
+                  </div>
+
+                  <div className="form-field">
+                    <input
+                      type="email"
+                      placeholder="Email ID"
+                      className="common-input-filed"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="form-field">
+                    <input
+                      type="password"
+                      placeholder="Password"
+                      className="common-input-filed login-user-email"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </div>
+
+                  <button onClick={handleLogin}>Login</button>
+
+                  <div className="forget-and-login-with-mobile-btns">
+                    <button
+                      className="text-btn"
+                      onClick={() => setForgetPswShow(true)}
+                    >
+                      Forget Password
+                    </button>
+                    <button
+                      className="text-btn"
+                      onClick={() => setLoginEmail(false)}
+                    >
+                      Login With Mobile
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="number--continious-popup">
+              <p>You will receive a 6 digit code for verification</p>
+              <input
+                type="text"
+                placeholder="Enter phone number"
+                // id="mobileNumber"
+                name="quantity"
+                onInput={(e) => {
+                  e.target.value = e.target.value
+                    .replace(/\D/g, "")
+                    .slice(0, 10);
+                }}
+                className="common-input-filed"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+              <button onClick={sendOtp}>Send OTP</button>
+              <button className="text-btn" onClick={() => setLoginEmail(true)}>
+                Login With Email
+              </button>
+            </div>
+          )}
+        </>
       ) : (
         <div className="enter-otp">
           <h2>OTP sent to +91- {phone}</h2>
@@ -293,13 +483,16 @@ function UserOtpLoginData({ setOtpPopUpDisplay, editDetailOrder }) {
           </div>
         </div>
       )}
-      <div
-        className={`popup-btm-content ${
-          message == "OTP sent successfully" ? "green" : "red"
-        }`}
-      >
-        <p>{message}</p>
-      </div>
+
+      {message && (
+        <div
+          className={`popup-btm-content ${
+            message == "OTP sent successfully" ? "green" : "red"
+          }`}
+        >
+          <p>{message}</p>
+        </div>
+      )}
     </div>
   );
 }

@@ -69,19 +69,18 @@ const WalletEdit = ({
   };
 
   return (
-    <main className="main-content wallet-edit-main">
-      <span
-        className="close"
-        onClick={() => {
-          setAddActiveClassEdit(false);
-        }}
-      >
-        X
-      </span>
-      <section className="user-update-section">
-        <div className="container">
+    <div className="wallet-edit-main">
+      <div className="wallet-edit-main-popup-inner">
+        <span
+          className="close"
+          onClick={() => {
+            setAddActiveClassEdit(false);
+          }}
+        >
+          X
+        </span>
+        <div className="user-update-section">
           <h1 className="common-h1-heading">Update User Profile</h1>
-
           <div className="profile-table">
             <div className="inner-profile-table">
               <div className="common-profile">
@@ -173,14 +172,14 @@ const WalletEdit = ({
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="reg-sumbit-button">
-            <button onClick={handleUpdate}>Edit user detail</button>
+            <div className="reg-sumbit-button">
+              <button onClick={handleUpdate}>Edit user detail</button>
+            </div>
           </div>
         </div>
-      </section>
-    </main>
+      </div>
+    </div>
   );
 };
 

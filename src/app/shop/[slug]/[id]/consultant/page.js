@@ -1,63 +1,64 @@
 import React from 'react'
 import ConsultantList from './ConsultantList'
 
-export async function generateMetadata() {
+export async function generateMetadata({ params }) {
+  const { slug } = params;
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-seo-meta-by-slug/consultant`,
-    {
-      next: { revalidate: 60 },
-    }
-  );
+  const data = await fetchShopDetail(slug);
 
-  if (!res.ok) {
-    return {
-      title: "Default Title",
-      description: "Default Description",
-    };
-  }
-
-  const data = await res.json();
+  const meta = data?.data || {};
 
   return {
-    title: data?.data?.meta_title || "Default Title",
-    description: data?.data?.meta_description || "Default Description",
-    keywords: data?.data?.meta_keyword || data?.data?.meta_title,
-
+    title: meta.meta_title || "Default Title",
+    description: meta.meta_description || "Default Description",
+    keywords: meta.meta_keyword || meta.meta_title,
     openGraph: {
-      title: data?.data?.meta_title || "Default Title",
-      description: data?.data?.meta_description || "Default Description",
+      title: meta.meta_title || "Default Title",
+      description: meta.meta_description || "Default Description",
       url: process.env.NEXT_PUBLIC_WEBSITE_URL,
-      siteName: data?.data?.meta_site_name || "Default Site Name",
+      siteName: meta.meta_site_name || "Default Site Name",
       images: [
         {
-          url:
-            data?.data?.logo ||
-            "/astrotalk-logo.webp",
+          url: meta.logo || "/astrotalk-logo.webp",
           width: 800,
           height: 600,
-          alt: data?.data?.logo_alt || "Default Image Alt",
+          alt: meta.logo_alt || "Default Image Alt",
         },
       ],
       locale: "en_US",
       type: "website",
     },
-
-    // Optional: Twitter metadata
     twitter: {
       card: "summary_large_image",
-      title: data?.data?.meta_title || "Default Title",
-      description: data?.data?.meta_description || "Default Description",
-      images: [
-        data?.data?.logo ||
-          "/astrotalk-logo.webp",
-      ],
+      title: meta.meta_title || "Default Title",
+      description: meta.meta_description || "Default Description",
+      images: [meta.logo || "/astrotalk-logo.webp"],
     },
   };
-  
 }
 
+const fetchShopDetail = async (slug) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-shope-detail/${slug}`,
+      {
+        next: { revalidate: 60 }, // Cache for 60 seconds
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch astrologer data');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching astrologer data:', error);
+    return null;
+  }
+};
+
 const ConsultantListServer = () => {
+
   return (
    <>
    <ConsultantList/>

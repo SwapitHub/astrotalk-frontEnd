@@ -4,60 +4,40 @@ import React from "react";
 import AstroMallProduct from "./AstroMallProduct";
 
 
-export async function generateMetadata({params}) {
-  const {slug} = params
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-seo-meta-by-slug/${slug}`,
-    {
-      next: { revalidate: 60 },
-    }
-  );
+export async function generateMetadata({ params }) {
+  const { slug } = params;
 
-  if (!res.ok) {
-    return {
-      title: "Default Title",
-      description: "Default Description",
-    };
-  }
+  const data = await fetchShopDetail(slug);
 
-  const data = await res.json();
+  const meta = data?.data || {};
 
   return {
-    title: data?.data?.meta_title || "Default Title",
-    description: data?.data?.meta_description || "Default Description",
-    keywords: data?.data?.meta_keyword || data?.data?.meta_title,
-
+    title: meta.meta_title || "Default Title",
+    description: meta.meta_description || "Default Description",
+    keywords: meta.meta_keyword || meta.meta_title,
     openGraph: {
-      title: data?.data?.meta_title || "Default Title",
-      description: data?.data?.meta_description || "Default Description",
+      title: meta.meta_title || "Default Title",
+      description: meta.meta_description || "Default Description",
       url: process.env.NEXT_PUBLIC_WEBSITE_URL,
-      siteName: data?.data?.meta_site_name || "Default Site Name",
+      siteName: meta.meta_site_name || "Default Site Name",
       images: [
         {
-          url:
-            data?.data?.logo ||
-            "/astrotalk-logo.webp",
+          url: meta.logo || "/astrotalk-logo.webp",
           width: 800,
           height: 600,
-          alt: data?.data?.logo_alt || "Default Image Alt",
+          alt: meta.logo_alt || "Default Image Alt",
         },
       ],
       locale: "en_US",
       type: "website",
     },
-
-    // Optional: Twitter metadata
     twitter: {
       card: "summary_large_image",
-      title: data?.data?.meta_title || "Default Title",
-      description: data?.data?.meta_description || "Default Description",
-      images: [
-        data?.data?.logo ||
-          "/astrotalk-logo.webp",
-      ],
+      title: meta.meta_title || "Default Title",
+      description: meta.meta_description || "Default Description",
+      images: [meta.logo || "/astrotalk-logo.webp"],
     },
   };
-  
 }
 
 const fetchShopDetail = async (slug) => {

@@ -109,8 +109,8 @@ const Success = () => {
               </div>
               <div className="success-img">
                 <Image
-                  width={100}
-                  height={100}
+                  width={300}
+                  height={300}
                   src={
                     orderDetailData?.productImg
                       ? process.env.NEXT_PUBLIC_WEBSITE_URL +

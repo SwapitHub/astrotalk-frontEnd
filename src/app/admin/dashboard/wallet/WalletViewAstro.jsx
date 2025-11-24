@@ -90,7 +90,7 @@ const WalletView = ({ mobileNumber, setAddActiveClass, setLoading }) => {
             </div>
           </div>
           <div className="common-profile">
-            <div className="name">certificate</div>
+            <div className="name">Certificate</div>
             <div className="input-outer">
               <Link
                 href={`${
@@ -114,7 +114,7 @@ const WalletView = ({ mobileNumber, setAddActiveClass, setLoading }) => {
             </div>
           </div>
           <div className="common-profile">
-            <div className="name">aadhaarCard</div>
+            <div className="name">AadhaarCard</div>
             <div className="input-outer">
               <Link
                 href={`${
@@ -145,8 +145,12 @@ const WalletView = ({ mobileNumber, setAddActiveClass, setLoading }) => {
             <div className="mobile">Mobile Number</div>
             <div className="input-outer">{astroDetailData?.mobileNumber}</div>
           </div>
+           <div className="common-profile">
+            <div className="email">Email</div>
+            <div className="input-outer">{astroDetailData?.email}</div>
+          </div>
           <div className="common-profile">
-            <div className="balance">AvaiLable Balance</div>
+            <div className="balance">Available Balance</div>
             <div className="input-outer">
               ₹ {Math.round(astroDetailData?.totalAvailableBalance) || 0}
             </div>
@@ -164,37 +168,37 @@ const WalletView = ({ mobileNumber, setAddActiveClass, setLoading }) => {
             <div className="input-outer"> {astroDetailData?.country}</div>
           </div>
           <div className="common-profile">
-            <div className="gender">gender</div>
+            <div className="gender">Gender</div>
             <div className="input-outer"> {astroDetailData?.gender}</div>
           </div>
           <div className="common-profile">
-            <div className="gender">topAstrologer</div>
+            <div className="gender">TopAstrologer</div>
             <div className="input-outer"> {astroDetailData?.topAstrologer}</div>
           </div>
           <div className="common-profile">
-            <div className="language">language</div>
+            <div className="language">Language</div>
             <div className="input-outer">
               {" "}
               {astroDetailData?.languages.map((item) => {
-                return item;
+                return <span>{item}</span>;
               })}
             </div>
           </div>
           <div className="common-profile">
-            <div className="language">professions</div>
+            <div className="language">Professions</div>
             <div className="input-outer">
               {" "}
               {astroDetailData?.professions.map((item) => {
-                return item;
+                return <span>{item}</span>;
               })}
             </div>
           </div>
           <div className="common-profile">
-            <div className="language">spiritual_services</div>
+            <div className="language">Spiritual Services</div>
             <div className="input-outer">
               {" "}
               {astroDetailData?.spiritual_services.map((item) => (
-                <div key={item?._id}>
+                <div key={item?._id} className={`common-item ${item?.shop_slug}`}>
                   <p>Name: {item?.shop_slug}</p>
 
                   <p>Price: {item?.service_price}</p>
@@ -204,7 +208,7 @@ const WalletView = ({ mobileNumber, setAddActiveClass, setLoading }) => {
           </div>
 
           <div className="common-profile">
-            <div className="date-time">Date and Time</div>
+            <div className="date-time">Date And Time</div>
             <div className="input-outer">
               {" "}
               {astroDetailData?.createdAt &&

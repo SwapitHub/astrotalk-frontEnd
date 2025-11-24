@@ -7,40 +7,43 @@ import Loader from "../component/Loader";
 import Cookies from "js-cookie";
 
 const MyWallet = () => {
+
   const [userData, setUserData] = useState();
   const [WalletTransactionData, setWalletTransactionData] = useState([]);
-  const [loading, setLoading] = useState(false);
+const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
   const [userPhone, setUserPhone] = useState(false);
   const [userIds, setUserIds] = useState(false);
+ 
+useEffect(()=>{
+  const userPhones = Math.round(Cookies.get("userMobile"));
+  const userId = Cookies.get("userIds")
+  setUserPhone(userPhones)
+  setUserIds(userId)
+},[])
 
-  useEffect(() => {
-    const userPhones = Math.round(Cookies.get("userMobile"));
-    const userId = Cookies.get("userIds");
-    setUserPhone(userPhones);
-    setUserIds(userId);
-  }, []);
 
   const fetchTransactions = async (pageNumber) => {
-    let limit = 4;
+    let limit=4
     try {
-      setLoading(true);
+      setLoading(true)
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/chat/WalletTransactionData?type=user&user_id=${userIds}&page=${pageNumber}&limit=${limit}`
       );
 
       setWalletTransactionData(res.data.transactions);
       setPage(res.data.page);
-      setTotalPages(Math.ceil(res.data.totalTransactions / limit));
+      setTotalPages(Math.ceil(res.data.totalTransactions / limit)); 
       setHasNextPage(res.data.hasNextPage);
       setHasPrevPage(res.data.hasPrevPage);
     } catch (err) {
       console.log(err, "admin wallet api error");
-    } finally {
-      setLoading(false);
+    }
+    finally{
+      setLoading(false)
     }
   };
 
@@ -48,7 +51,7 @@ const MyWallet = () => {
     if (userIds) {
       fetchTransactions(page);
     }
-  }, [page, userIds]);
+  }, [page,userIds]); 
 
   useEffect(() => {
     const fetchUserLoginDetail = async () => {
@@ -61,9 +64,10 @@ const MyWallet = () => {
         console.log("Error login detail api", error);
       }
     };
-    if (userPhone) {
+  if(userPhone){
+
       fetchUserLoginDetail();
-    }
+  }
   }, [userPhone]);
   return (
     <div
@@ -105,75 +109,71 @@ const MyWallet = () => {
         </div>
       </div>
       <div className="my-wallet-table-sec">
-        {loading ? (
-          <Loader />
-        ) : (
-          <div className="outer-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>Description</th>
-                  <th>Invoice</th>
-                  <th>Transaction Amount</th>
-                  <th>Date Time</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {WalletTransactionData?.map((item) => {
-                  return (
-                    <>
-                      <tr>
-                        <td>{item.description}</td>
-                        <td>
-                          <a
-                            href="#"
-                            title="Invoice"
-                            className="invoice-button-ctm"
-                          >
-                            {" "}
-                            Invoice{" "}
-                          </a>
-                        </td>
-                        <td>
-                          <span className="ctm-color-red">
-                            ₹ {item.transactionAmount}
-                          </span>
-                        </td>
-                        <td>{new Date(item.createdAt).toLocaleString()}</td>
-                        <td className="delete-button-icon">
-                          <a href="#" title="Remove">
-                            <i className="fa-solid fa-trash"></i>
-                          </a>
-                        </td>
-                      </tr>
-                    </>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
-        <div className="pagination-outer" style={{ marginTop: "10px" }}>
-          <button
-            onClick={() => setPage(page - 1)}
-            disabled={!hasPrevPage || loading}
-            className={!hasPrevPage && "disable"}
-          >
-            Previous
-          </button>
-          <span>
-            {" "}
-            Page {page} of {totalPages}{" "}
-          </span>
-          <button
-            onClick={() => setPage(page + 1)}
-            disabled={!hasNextPage || loading}
-            className={!hasNextPage && "disable"}
-          >
-            Next
-          </button>
+        {loading ?  <Loader/> : 
+        <div className="outer-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Invoice</th>
+              <th>Transaction Amount</th>
+              <th>Date Time</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {WalletTransactionData?.map((item) => {
+              return (
+                <>
+                  <tr>
+                    <td>{item.description}</td>
+                    <td>
+                      <a
+                        href="#"
+                        title="Invoice"
+                        className="invoice-button-ctm"
+                      >
+                        {" "}
+                        Invoice{" "}
+                      </a>
+                    </td>
+                    <td>
+                      <span className="ctm-color-red">
+                        ₹ {item.transactionAmount}
+                      </span>
+                    </td>
+                    <td>{new Date(item.createdAt).toLocaleString()}</td>
+                    <td className="delete-button-icon">
+                      <a href="#" title="Remove">
+                        <i className="fa-solid fa-trash"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </>
+              );
+            })}
+          </tbody>
+        </table>
         </div>
+}
+        <div className="pagination-outer" style={{ marginTop: "10px" }}>
+        <button onClick={() => setPage(page - 1)} disabled={!hasPrevPage || loading}
+          className={!hasPrevPage && "disable"}
+          
+          >
+          Previous
+        </button>
+        <span>
+          {" "}
+          Page {page} of {totalPages}{" "}
+        </span>
+        <button onClick={() => setPage(page + 1)} disabled={!hasNextPage || loading}
+          className={!hasNextPage && "disable"}
+          
+          >
+          Next
+        </button>
+      </div>
       </div>
     </div>
   );

@@ -23,17 +23,10 @@ const AdminDashBoardData = ({ setUpdateButton }) => {
       <div className="inner-home-dashboard">
         <div className="home-dashboard-heading">
           <h2>Dashboard</h2>
-          <p>Astrowb Admin Panel</p>
+          <p>Astromani Admin Panel</p>
         </div>
         <ul>
-          <li onClick={() => setUpdateButton("changePassword")}>
-            <span>
-              <RiLockPasswordLine />
-            </span>
-            <div className="inner-text">
-              <span>Change Password</span>
-            </div>
-          </li>
+         
           <li onClick={() => setUpdateButton(7)}>
             <span>
               <PiUserListDuotone />
@@ -43,15 +36,7 @@ const AdminDashBoardData = ({ setUpdateButton }) => {
               <span className="number">{totalUsersList}</span>
             </div>
           </li>
-          <li onClick={() => setUpdateButton("pending")}>
-            <span>
-              <PiUserListDuotone />
-            </span>
-            <div className="inner-text">
-              <span>AstroLoger Pending</span>
-              <span className="number">{totalAstroPending}</span>
-            </div>
-          </li>
+         
           <li onClick={() => setUpdateButton("active")}>
             <span>
               <PiUserListDuotone />

@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
@@ -13,119 +14,157 @@ const OtpData = ({ setOtpPopUpDisplayAstro, otpPopUpDisplayAstro }) => {
   const [otpSent, setOtpSent] = useState(false);
   const [message, setMessage] = useState("");
   const [timeOtpMessage, setTimeOtpMessage] = useState("");
+  const [loginEmail, setLoginEmail] = useState(false);
+  const [forgetPswShow, setForgetPswShow] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [resetEmail, setResetEmail] = useState("");
 
-
-const sendOtp = async () => {
-  try {
-    let astroData = null;
-
-    // Step 1: Try to get astrologer details
+  // -------------------- SEND OTP --------------------
+  const sendOtp = async () => {
     try {
-      const responseMatch = await axios.get(
-        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-detail/${phone}`
-      );
-      astroData = responseMatch?.data?.data;
+      let astroData = null;
 
-      console.log(astroData, "Astrologer data");
+      // Check astrologer details
+      try {
+        const responseMatch = await axios.get(
+          `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-detail/${phone}`
+        );
+        astroData = responseMatch?.data?.data;
+      } catch (err) {
+        setMessage("Your mobile number is not registered.");
+        return; // Stop — don't send OTP
+      }
 
-      // Step 2: Check block status
-      if (astroData?.blockUnblockAstro === true || astroData?.deleteAstroLoger==true) {
+      if (!astroData) {
+        setMessage("Your mobile number is not registered.");
+        return;
+      }
+
+      if (astroData?.deleteAstroLoger === true) {
+        setMessage("Your account has been deleted. Please contact support.");
+        return;
+      }
+
+      if (astroData?.blockUnblockAstro === true) {
         setMessage("Your account has been blocked. Please contact support.");
         return;
       }
-    } catch (err) {
-      console.log("Astrologer not found or error:", err);
-    }
 
-    // Step 3: Send OTP regardless of previous account status (new or unblocked user)
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/send-otp`,
-      {
-        phone: phone,
+      if (astroData?.astroStatus === false) {
+        setMessage(
+          "You can log in after your registration is approved by the admin."
+        );
+        return;
       }
-    );
 
-    setOtpSent(true);
-    let countdown = 60;
-    setTimeOtpMessage(countdown); // Initialize countdown
+      // ✅ Send OTP only for valid and approved astrologers
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/send-otp`,
+        { phone }
+      );
 
-    const timer = setInterval(() => {
-      countdown -= 1;
+      setOtpSent(true);
+      let countdown = 60;
       setTimeOtpMessage(countdown);
 
-      if (countdown <= 0) {
-        clearInterval(timer);
-      }
-    }, 1000);
+      const timer = setInterval(() => {
+        countdown -= 1;
+        setTimeOtpMessage(countdown);
+        if (countdown <= 0) clearInterval(timer);
+      }, 1000);
 
-    setMessage(response.data.message);
-  } catch (error) {
-    if (error.response?.status === 404) {
-      setMessage("Mobile number not registered");
-    } else {
-      setMessage("Error sending OTP");
+      setMessage(response.data.message || "OTP sent successfully.");
+    } catch (error) {
+      setMessage(error.response?.data?.message || "Error sending OTP.");
     }
-    console.log(error);
-  }
-};
+  };
 
-
+  // -------------------- VERIFY OTP --------------------
   const verifyOtp = async () => {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_WEBSITE_URL}/verify-otp`,
-        {
-          phone: phone,
-          otp: otp,
-        }
+        { phone, otp }
       );
-      setMessage(response.data.message);
 
-      if (response.data.success == true) {
-        router.push("/astrologer");
-        setOtpPopUpDisplayAstro(false);
-        setOtpSent(false);
+      if (response.data.success) {
         Cookies.set("astrologer-phone", phone, {
           expires: 3650,
           secure: true,
           sameSite: "Strict",
         });
-        sessionStorage.setItem("session-astrologer-phone", phone);
-        try {
-          const response = await axios.put(
-            `${process.env.NEXT_PUBLIC_WEBSITE_URL}/update-business-profile/${phone}`,
-            {
-              profileStatus: true,
-              chatStatus: false,
-            }
-          );
-          // update order history
-          const updateList = await axios.put(
-            `${process.env.NEXT_PUBLIC_WEBSITE_URL}/userId-to-astrologer-astro-list-update`,
-            {
-              mobileNumber: phone,
-              profileStatus: true,
-            }
-          );
-          console.log("update order history", response);
 
-          if (response.data.message == "Success") {
-            // setTimeout(() => {
-            //   window.location.reload();
-            // }, 2000);
-          }
-          console.log("Astrologer status updated:", response.data);
-        } catch (error) {
-          console.error(
-            "Failed to update astrologer status:",
-            error.response?.data?.error || error.message
-          );
-        }
+        // Redirect astrologer dashboard
+        router.push("/astrologer");
+        setOtpPopUpDisplayAstro(false);
+        setOtpSent(false);
+        setMessage("Login successful!");
       } else {
-        alert("mobile number not match or please registration");
+        setMessage("Invalid OTP or not registered.");
       }
     } catch (error) {
-      setMessage("Invalid OTP or login formData");
+      setMessage("Invalid OTP or server error.");
+    }
+  };
+
+  // -------------------- EMAIL LOGIN --------------------
+  const handleLogin = async () => {
+    if (!email || !password) {
+      setMessage("Email and password are required.");
+      return;
+    }
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-email-login`,
+        { email, Password: password }
+      );
+
+      const { token, astrologer } = response.data;
+
+      // Save JWT
+      Cookies.set("astroToken", token, {
+        expires: 1,
+        secure: true,
+        sameSite: "Strict",
+      });
+      Cookies.set("astroEmail", astrologer.email, {
+        expires: 3650,
+        secure: true,
+      });
+      if (response.data.success) {
+        Cookies.set("astrologer-phone", astrologer.mobileNumber, {
+          expires: 3650,
+          secure: true,
+          sameSite: "Strict",
+        });
+
+        // Redirect astrologer dashboard
+        setOtpPopUpDisplayAstro(false);
+        setOtpSent(false);
+        router.push("/astrologer");
+        setMessage("Login successful!");
+      }
+    } catch (error) {
+      setMessage(error.response?.data?.message || "Login failed.");
+    }
+  };
+
+  // -------------------- RESET PASSWORD --------------------
+  const handleResetPassword = async () => {
+    if (!resetEmail) {
+      setMessage("Please enter your registered email.");
+      return;
+    }
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/auth/astrologer-request-Password-Reset`,
+        { email: resetEmail }
+      );
+      setMessage(res.data.message || "Password reset link sent to your email.");
+      setResetEmail("");
+    } catch (err) {
+      setMessage(err.response?.data?.message || "Error sending reset email.");
     }
   };
   return (
@@ -171,27 +210,130 @@ const sendOtp = async () => {
               </span>
             )}
 
-            <h1>{otpSent == false ? `Continue with Phone` : `Verify Phone`}</h1>
+            <h1>
+              {forgetPswShow
+                ? "Astrologer Reset Password"
+                : loginEmail
+                ? "Astrologer Login with Email"
+                : otpSent == false
+                ? `Astrologer Login with Phone`
+                : `Verify Phone`}
+            </h1>
           </div>
+          {/* ------------------- PHONE LOGIN ------------------- */}
           {otpSent == false ? (
-            <div className="number--continious-popup">
-              <p>You will receive a 6 digit code for verification</p>
-              <input
-                type="text"
-                placeholder="Enter phone number"
-                // id="mobileNumber"
-                name="quantity"
-                onInput={(e) => {
-                  e.target.value = e.target.value
-                    .replace(/\D/g, "")
-                    .slice(0, 10);
-                }}
-                className="common-input-filed"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
-              <button onClick={sendOtp}>Send OTP</button>
-            </div>
+            <>
+              {loginEmail ? (
+                <>
+                  {forgetPswShow ? (
+                    <div className="number--continious-popup login-email-main">
+                      <div className="user-login-email">
+                        <span>
+                          Enter your Registred Email to reset your password.
+                        </span>
+                      </div>
+
+                      <div className="form-field">
+                        <input
+                          type="email"
+                          placeholder="Email ID"
+                          className="common-input-filed"
+                          value={resetEmail}
+                          onChange={(e) => setResetEmail(e.target.value)}
+                        />
+                      </div>
+
+                      <button onClick={handleResetPassword}>Submit</button>
+
+                      <div className="forget-and-login-with-mobile-btns">
+                        <button
+                          className="text-btn"
+                          onClick={() => {
+                            setForgetPswShow(false);
+                            setLoginEmail(false);
+                          }}
+                        >
+                          Login With Mobile
+                        </button>
+                        <button
+                          className="text-btn"
+                          onClick={() => {
+                            setLoginEmail(true);
+                            setForgetPswShow(false);
+                          }}
+                        >
+                          Login With Email
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="number--continious-popup login-email-main">
+                      <div className="form-field">
+                        <input
+                          type="email"
+                          placeholder="Email ID"
+                          className="common-input-filed"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      </div>
+
+                      <div className="form-field">
+                        <input
+                          type="password"
+                          placeholder="Password"
+                          className="common-input-filed login-user-email"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                        />
+                      </div>
+
+                      <button onClick={handleLogin}>Login</button>
+
+                      <div className="forget-and-login-with-mobile-btns">
+                        <button
+                          className="text-btn"
+                          onClick={() => setForgetPswShow(true)}
+                        >
+                          Forget Password
+                        </button>
+                        <button
+                          className="text-btn"
+                          onClick={() => setLoginEmail(false)}
+                        >
+                          Login With Mobile
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="number--continious-popup">
+                  <p>You will receive a 6 digit code for verification</p>
+                  <input
+                    type="text"
+                    placeholder="Enter phone number"
+                    // id="mobileNumber"
+                    name="quantity"
+                    onInput={(e) => {
+                      e.target.value = e.target.value
+                        .replace(/\D/g, "")
+                        .slice(0, 10);
+                    }}
+                    className="common-input-filed"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
+                  <button onClick={sendOtp}>Send OTP</button>
+                  <button
+                    className="text-btn"
+                    onClick={() => setLoginEmail(true)}
+                  >
+                    Login With Email
+                  </button>
+                </div>
+              )}
+            </>
           ) : (
             <div className="enter-otp">
               <h2>OTP sent to +91- {phone}</h2>
@@ -226,14 +368,15 @@ const sendOtp = async () => {
               </div>
             </div>
           )}
-
-          <div
-            className={`popup-btm-content ${
-              message == "OTP sent successfully" ? "green" : "red"
-            }`}
-          >
-            <p>{message}</p>
-          </div>
+          {message && (
+            <div
+              className={`popup-btm-content ${
+                message == "OTP sent successfully" ? "green" : "red"
+              }`}
+            >
+              <p>{message}</p>
+            </div>
+          )}
         </div>
       )}
     </div>

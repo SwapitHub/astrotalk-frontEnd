@@ -128,7 +128,10 @@ const Header = () => {
   }, [toggleMobile]);
 
   useEffect(() => {
-    if (userDetailData?.blockUser==true || userDetailData?.deleteUser==true) {
+    if (
+      userDetailData?.blockUser == true ||
+      userDetailData?.deleteUser == true
+    ) {
       userLogout();
     }
   }, [userDetailData]);
@@ -167,6 +170,7 @@ const Header = () => {
             setOtpPopUpDisplayAstro={setOtpPopUpDisplayAstro}
             otpPopUpDisplayAstro={otpPopUpDisplayAstro}
           />
+         
           <div className="container">
             <div className="inner-header-sec ctm-flex-row ctm-align-items-center ctm-justify-content-between">
               <div className="header-left-logo">
@@ -324,7 +328,7 @@ const Header = () => {
                   <div className="user-dashboard-profile ctm-text-end">
                     <div className="user-dashboard-profile-main-pro">
                       <Link
-                        href="#"
+                        href="/user-profile-settings"
                         title="dashboard"
                         onClick={() => {
                           setUserLoginIcon(!userLoginIcon);
@@ -338,7 +342,7 @@ const Header = () => {
                         }`}
                       >
                         <div className="user-inner-dashbord-pic">
-                          <Link href="#" title="Profile">
+                          <Link href="/user-profile-settings" title="Profile">
                             <FaUser />
                           </Link>
                           <div className="user-inner-dashbord-content">

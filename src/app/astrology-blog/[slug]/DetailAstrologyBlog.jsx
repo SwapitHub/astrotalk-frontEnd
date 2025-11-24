@@ -3,16 +3,20 @@ import Link from "next/link";
 import React from "react";
 
 const DetailAstrologyBlog = ({ blogsDetailData }) => {
+  console.log(blogsDetailData);
+  
   return (
     <div className="blogs-detail-outer">
       <div className="container">
         <div className="blogs-detail">
-          <Link className="blog-back" href="/astrology-blog">Go Back</Link>
-          <div className="name-date">
-            <p>{blogsDetailData?.title}</p>
-            <p>{blogsDetailData?.author}</p>
+          <div className="blogs-detail-top">
+            <Link className="blog-back" href="/astrology-blog">Go Back</Link>
+            <div className="name-date">
+              <h1>{blogsDetailData?.title}</h1>
+              <p className="author">{blogsDetailData?.author}</p>
 
-            {new Date(blogsDetailData?.createdAt).toLocaleString()}
+              <p className="date">{new Date(blogsDetailData?.createdAt).toLocaleString()}</p>
+            </div>
           </div>
           <div className="blog-featured-img">
             <Image

@@ -26,25 +26,25 @@ export async function generateMetadata({ params }) {
   const astrShopDetailData = await fetchShopDetail(slug);
   if (!astrShopDetailData) return;
   return {
-    title: astrShopDetailData?.data?.meta_title || "Default Title",
+    title: astrShopDetailData?.title || "Default Title",
     description:
-      astrShopDetailData?.data?.meta_description || "Default Description",
+      astrShopDetailData?.meta_description || "Default Description",
     keywords:
-      astrShopDetailData?.data?.meta_keyword ||
-      astrShopDetailData?.data?.meta_title,
+      astrShopDetailData?.meta_keyword ||
+      astrShopDetailData?.meta_title,
 
     openGraph: {
-      title: astrShopDetailData?.data?.meta_title || "Default Title",
+      title: astrShopDetailData?.meta_title || "Default Title",
       description:
-        astrShopDetailData?.data?.meta_description || "Default Description",
+        astrShopDetailData?.meta_description || "Default Description",
       url: process.env.NEXT_PUBLIC_WEBSITE_URL,
-      siteName: astrShopDetailData?.data?.meta_site_name || "Default Site Name",
+      siteName: astrShopDetailData?.meta_site_name || "Default Site Name",
       images: [
         {
-          url: astrShopDetailData?.data?.logo || "/astrotalk-logo.webp",
+          url: astrShopDetailData?.logo || "/astrotalk-logo.webp",
           width: 800,
           height: 600,
-          alt: astrShopDetailData?.data?.logo_alt || "Default Image Alt",
+          alt: astrShopDetailData?.logo_alt || "Default Image Alt",
         },
       ],
       locale: "en_US",
@@ -54,10 +54,10 @@ export async function generateMetadata({ params }) {
     // Optional: Twitter metadata
     twitter: {
       card: "summary_large_image",
-      title: astrShopDetailData?.data?.meta_title || "Default Title",
+      title: astrShopDetailData?.meta_title || "Default Title",
       description:
-        astrShopDetailData?.data?.meta_description || "Default Description",
-      images: [astrShopDetailData?.data?.logo || "/astrotalk-logo.webp"],
+        astrShopDetailData?.meta_description || "Default Description",
+      images: [astrShopDetailData?.logo || "/astrotalk-logo.webp"],
     },
   };
 }

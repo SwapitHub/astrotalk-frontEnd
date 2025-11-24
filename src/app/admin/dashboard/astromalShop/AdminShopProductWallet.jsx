@@ -211,14 +211,14 @@ function AdminShopProductWallet({ updateButton }) {
                     </td> */}
                     <td>
                       <button
-                        className="delete-btn"
-                        onClick={() => {
-                          setEditDetailOrder(item);
-                          setShowOrderViewPopUp(true);
-                        }}
-                      >
-                        <MdOutlineRemoveRedEye />
-                      </button>
+                          className="delete-btn"
+                            onClick={() => {
+                              setEditDetailOrder(item);
+                              setShowOrderViewPopUp(true);
+                            }}
+                          >
+                            <MdOutlineRemoveRedEye />
+                          </button>
                       {/* {!item?.product_cancel_order ? (
                         <>
                         <div className="td-btns-outer">

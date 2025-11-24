@@ -18,9 +18,13 @@ import useDebounce from "../hook/useDebounce";
 import { FaRegCircleUser } from "react-icons/fa6";
 import Image from "next/image";
 
-// const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`);
-const socket = io(process.env.NEXT_PUBLIC_BASE_URL, {
-  path: "/api/socket.io",
+
+const apiURL = process.env.NEXT_PUBLIC_WEBSITE_URL || "";
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL || "";
+const isLocal = apiURL.includes("localhost");
+
+const socket = io(isLocal ? apiURL : baseURL, {
+  path: isLocal ? undefined : "/api/socket.io",
   withCredentials: true,
   reconnection: true,
   reconnectionAttempts: 5,

@@ -12,8 +12,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
 import Image from "next/image";
 
-const socket = io(process.env.NEXT_PUBLIC_BASE_URL, {
-  path: "/api/socket.io",
+const apiURL = process.env.NEXT_PUBLIC_WEBSITE_URL || "";
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL || "";
+const isLocal = apiURL.includes("localhost");
+const socket = io(isLocal ? apiURL : baseURL, {
+  path: isLocal ? undefined : "/api/socket.io",
   transports: ["websocket"],
   withCredentials: true,
 });
@@ -499,15 +502,19 @@ export default function Chatting(AdminCommissionData) {
               <div className="chat-left-logo ctm-flex-row ctm-align-items-center">
                 <div className="header-chat-logo">
                   <a href="#" title="header-logo">
-                    <Image
-                      width={100}
-                      height={100}
-                      src={
-                        process.env.NEXT_PUBLIC_WEBSITE_URL +
-                          astrologerData.profileImage || "/user-icon-image.png"
-                      }
-                      alt="certificate"
-                    />
+                    {astrologerData.profileImage ? (
+                      <Image
+                        width={100}
+                        height={100}
+                        src={
+                          process.env.NEXT_PUBLIC_WEBSITE_URL +
+                          astrologerData.profileImage
+                        }
+                        alt="certificate"
+                      />
+                    ) : (
+                      <img src="/user-icon-image.png" />
+                    )}
                   </a>
                 </div>
                 <div className="header-chat-content">
@@ -522,9 +529,11 @@ export default function Chatting(AdminCommissionData) {
                   <h2>{astrologerData.name}</h2>
                 </div>
               </div>
-              <div className="chat-right-end-btn">
-                <button onClick={handleEndChatClick}>End</button>
-              </div>
+              {userParam !== "order-history" && (
+                <div className="chat-right-end-btn">
+                  <button onClick={handleEndChatClick}>End</button>
+                </div>
+              )}
             </div>
 
             <div

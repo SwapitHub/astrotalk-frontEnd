@@ -10,21 +10,23 @@ import EndChatPopUp from "@/app/component/EndChatPopUp";
 import { usePathname, useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
-const socket = io(process.env.NEXT_PUBLIC_BASE_URL, {
-  path: "/api/socket.io",
+const apiURL = process.env.NEXT_PUBLIC_WEBSITE_URL || "";
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL || "";
+const isLocal = apiURL.includes("localhost");
+const socket = io(isLocal ? apiURL : baseURL, {
+  path: isLocal ? undefined : "/api/socket.io",
   transports: ["websocket"],
   withCredentials: true,
 });
 
-
 export default function Chatting({ astrologer, AdminCommissionData }) {
   const router = useRouter();
-      const pathname = usePathname();
+  const pathname = usePathname();
   const segments = pathname.split("/").filter(Boolean);
   const chatAstro_1 = segments[0];
   const chatAstro_2 = segments[1];
-  console.log(astrologer,"astrologer");
-  
+  console.log(astrologer, "astrologer");
+
   const astrologerPhone = Cookies.get("astrologer-phone");
   const totalChatTime = Math.round(secureLocalStorage.getItem("totalChatTime"));
   const [timeLeft, setTimeLeft] = useState(null);
@@ -45,8 +47,7 @@ export default function Chatting({ astrologer, AdminCommissionData }) {
   const [astrologerNotificationStatus, setAstrologerNotificationStatus] =
     useState(() => Cookies.get("AstrologerNotificationStatus"));
 
- 
-  console.log("pathname", chatAstro_1,chatAstro_2);
+  console.log("pathname", chatAstro_1, chatAstro_2);
 
   useEffect(() => {
     if (
@@ -223,7 +224,7 @@ POB: ${showUserData?.placeOfBorn}<br/>`,
       };
       // Emit the message to the server
       console.log(newMessage);
-      
+
       socket.emit("sendMessage", newMessage);
       setMessage("");
       scrollToBottom();
@@ -244,7 +245,7 @@ POB: ${showUserData?.placeOfBorn}<br/>`,
       sendMessage();
     }
   };
-console.log(astrologer, "astrologer.name");
+  console.log(astrologer, "astrologer.name");
 
   useEffect(() => {
     setUser(astrologer?.name);
@@ -448,7 +449,8 @@ console.log(astrologer, "astrologer.name");
                   <h4>User</h4>
                   <p>
                     <span>
-                      Duration: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}{" "}
+                      Duration: {minutes}:
+                      {seconds < 10 ? `0${seconds}` : seconds}{" "}
                     </span>
                   </p>
                   {/* <p>Chat in progress from </p> */}

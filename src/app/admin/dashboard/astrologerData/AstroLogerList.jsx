@@ -239,7 +239,7 @@ function AstroLogerList() {
                     <td>{item.name}</td>
                     <td>{item.mobileNumber}</td>
                     <td>{new Date(item.createdAt).toLocaleString()}</td>
-                    <td>{item?.charges || 0} </td>
+                    <td>₹ {item?.charges || 0} </td>
                     <td>
                       <button
                         onClick={() => {

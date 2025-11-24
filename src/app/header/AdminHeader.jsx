@@ -67,7 +67,7 @@ const AdminHeader = ({ setToggleSlideMobile }) => {
   return (
     <div className="page-main-header">
       <div className="main-header-right ">
-        <div className="main-header-left d-lg-none w-auto">
+        {/* <div className="main-header-left d-lg-none w-auto">
           <div className="logo-wrapper">
             <Link href="">
               <img
@@ -77,7 +77,7 @@ const AdminHeader = ({ setToggleSlideMobile }) => {
               />
             </Link>
           </div>
-        </div>
+        </div> */}
         <div className="mobile-sidebar w-auto">
           <div className="media-body text-end switch-sm">
             <label className="switch mobile">

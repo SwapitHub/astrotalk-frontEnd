@@ -41,7 +41,6 @@ export async function generateMetadata({ params }) {
     }
 
     const data = await res.json();
-console.log("data===", data);
 
     return {
       title: `Astro ${data?.name}: ${data?.professions?.map((item) => { return item; })} Astrologer At Astrotalk.` || "Default Astrologer Title",

@@ -9,8 +9,10 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaEdit, FaSearch } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiDeleteBin7Fill } from "react-icons/ri";
 import { toast } from "react-toastify";
+import AstromallShopView from "./AstromallShopView";
 
 const AstroMallShops = () => {
   let showNameData = "Shop";
@@ -29,7 +31,8 @@ const AstroMallShops = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const [viewProductData, setViewProductData] = useState();
+  const [viewProductStatus, setViewProductStatus] = useState(false);
   const debouncedSearch = useDebounce(search, 1000);
 
   const fetchShopItems = async () => {
@@ -81,6 +84,9 @@ const AstroMallShops = () => {
     const offer_title = document.getElementById("offer_title").value;
     const offer_name = document.getElementById("offer_name").value;
     const description = document.getElementById("description").value;
+      let meta_description = document.getElementById("meta_description").value;
+    let meta_title = document.getElementById("meta_title").value;
+    let meta_keywords = document.getElementById("meta_keywords").value;
     const isDiscounted = document.getElementById("offer_checkbox").checked;
     const Jewelry_product = document.getElementById(
       "Jewelry_product_gem"
@@ -96,7 +102,9 @@ const AstroMallShops = () => {
         .replace(/-+/g, "-"); // remove duplicate hyphens
     }
 
-    if (!image || !offer_title || !offer_name || !name || !slug) {
+    if (!image || !offer_title || !offer_name || !name || !slug || !meta_description ||
+      !meta_title ||
+      !meta_keywords) {
       toast.error("please fill all field", {
         position: "top-right",
       });
@@ -114,6 +122,9 @@ const AstroMallShops = () => {
     data.append("discount_product", isDiscounted);
     data.append("Jewelry_product_gem", Jewelry_product);
     data.append("detail_shop_information", shopContent);
+    data.append("meta_description", meta_description);
+    data.append("meta_title", meta_title);
+    data.append("meta_keyword", meta_keywords);
 
     try {
       setLoading(true);
@@ -138,6 +149,9 @@ const AstroMallShops = () => {
       document.getElementById("offer_title").value = "";
       document.getElementById("offer_name").value = "";
       document.getElementById("description").value = "";
+       document.getElementById("meta_description").value = "";
+      document.getElementById("meta_title").value = "";
+      document.getElementById("meta_keywords").value = "";
       document.getElementById("offer_checkbox").checked = false;
       document.getElementById("Jewelry_product_gem").checked = false;
     } catch (err) {
@@ -164,6 +178,10 @@ const AstroMallShops = () => {
     setTimeout(() => {
       document.getElementById("name_shop").value = shop.name;
       document.getElementById("slug_shop").value = shop.slug;
+       document.getElementById("meta_description").value =
+        shop.meta_description;
+      document.getElementById("meta_title").value = shop.meta_title;
+      document.getElementById("meta_keywords").value = shop.meta_keyword;
       document.getElementById("offer_title").value = shop.offer_title;
       document.getElementById("offer_name").value = shop.offer_name;
       document.getElementById("description").value = shop.description;
@@ -185,6 +203,9 @@ const AstroMallShops = () => {
     const offer_name = document.getElementById("offer_name").value;
     const description = document.getElementById("description").value;
     const isDiscounted = document.getElementById("offer_checkbox").checked;
+      const meta_description = document.getElementById("meta_description").value;
+    const meta_title = document.getElementById("meta_title").value;
+    const meta_keywords = document.getElementById("meta_keywords").value;
     const Jewelry_product = document.getElementById(
       "Jewelry_product_gem"
     ).checked;
@@ -198,6 +219,9 @@ const AstroMallShops = () => {
     data.append("discount_product", isDiscounted);
     data.append("Jewelry_product_gem", Jewelry_product);
     data.append("detail_shop_information", shopContent);
+    data.append("meta_description", meta_description);
+    data.append("meta_title", meta_title);
+    data.append("meta_keyword", meta_keywords);
 
     if (image) {
       data.append("astroMallImg", image); // only append if new image is selected
@@ -222,6 +246,9 @@ const AstroMallShops = () => {
         document.getElementById("offer_title").value = "";
         document.getElementById("offer_name").value = "";
         document.getElementById("description").value = "";
+           document.getElementById("meta_description").value = "";
+        document.getElementById("meta_title").value = "";
+        document.getElementById("meta_keywords").value = "";
         document.getElementById("offer_checkbox").checked = false;
         document.getElementById("Jewelry_product_gem").checked = false;
         setShopContent("");
@@ -269,7 +296,12 @@ const AstroMallShops = () => {
           showNameData={showNameData}
         />
       )}
-
+  {viewProductStatus && (
+        <AstromallShopView
+          viewProductData={viewProductData}
+          setViewProductStatus={setViewProductStatus}
+        />
+      )}
       <div className="AddLanguage AstroMallShops-admin">
         {toggleAstroCategory && (
           <div className="change-password-popup">
@@ -355,6 +387,44 @@ const AstroMallShops = () => {
                   </span>
                 </label>
               </div>
+
+                <div className="form-field">
+                <div className="label-content">
+                  <label>Meta Title</label>
+                </div>
+                <input
+                  type="text"
+                  name="meta_title"
+                  id="meta_title"
+                  placeholder="Meta title for SEO"
+                  className="common-input-filed"
+                />
+              </div>
+
+              <div className="form-field">
+                <div className="label-content">
+                  <label>Meta Description</label>
+                </div>
+                <textarea
+                  name="meta_description"
+                  id="meta_description"
+                  placeholder="Meta description for SEO"
+                  className="common-input-filed"
+                />
+              </div>
+
+              <div className="form-field">
+                <div className="label-content">
+                  <label>Keywords (comma separated)</label>
+                </div>
+                <input
+                  type="text"
+                  name="keywords"
+                  id="meta_keywords"
+                  placeholder="keywords, separated, by, commas"
+                  className="common-input-filed"
+                />
+              </div>
               {editMode ? (
                 <button onClick={handleUpdateShop}>Update</button>
               ) : (
@@ -404,8 +474,8 @@ const AstroMallShops = () => {
                       <div className="details-outer">
                         <div className="product-img">
                           <Image
-                            width={100}
-                            height={100}
+                            width={233}
+                            height={233}
                             src={
                               item?.astroMallImg
                                 ? process.env.NEXT_PUBLIC_WEBSITE_URL +
@@ -436,6 +506,14 @@ const AstroMallShops = () => {
                           >
                             <FaEdit />
                           </button>
+                          <button
+                                                      onClick={() => {
+                                                        setViewProductData(item);
+                                                        setViewProductStatus(true);
+                                                      }}
+                                                    >
+                                                      <MdOutlineRemoveRedEye />
+                                                    </button>
                         </div>
                       </div>
                     </div>

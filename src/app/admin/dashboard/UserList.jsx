@@ -26,7 +26,7 @@ const UserList = () => {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [addActiveClass, setAddActiveClass] = useState();
   const [mobileNumber, setMobileNumber] = useState();
-  const [addActiveClassEdit, setAddActiveClassEdit] = useState(false);
+  const [addActiveClassEdit, setAddActiveClassEdit] = useState();
 
   const [showBlockUnblock, setShowBlockUnblock] = useState(false);
   const [blockUnblockPermanently, setBlockUnblockPermanently] = useState();
@@ -98,13 +98,13 @@ const UserList = () => {
     }
   }, [blockUnblockPermanently]);
 
-  useEffect(() => {
-    if (addActiveClass) {
-      document.body.classList.add("wallet-view-popup");
-    } else {
-      document.body.classList.remove("wallet-view-popup");
-    }
-  }, [addActiveClass]);
+  // useEffect(() => {
+  //   if (addActiveClass) {
+  //     document.body.classList.add("wallet-view-popup-list");
+  //   } else {
+  //     document.body.classList.remove("wallet-view-popup-list");
+  //   }
+  // }, [addActiveClass]);
 
   useEffect(() => {
     if (addActiveClassEdit) {
@@ -132,7 +132,7 @@ const UserList = () => {
           
         />
       )}
-      {mobileNumber && (
+      {addActiveClass && (
         <WalletView
           mobileNumber={mobileNumber}
           setAddActiveClass={setAddActiveClass}
@@ -140,7 +140,7 @@ const UserList = () => {
         />
       )}
 
-      {mobileNumber && (
+      {addActiveClassEdit && (
         <WalletEdit
           userMobile={mobileNumber}
           setAddActiveClassEdit={setAddActiveClassEdit}
@@ -154,6 +154,8 @@ const UserList = () => {
       ) : (
         <div className="outer-table">
           {/* 🔍 Search input */}
+        <h1>User  List</h1>
+
           <div className="search-box-top-btn">
             <div className="search-box-filed">
               <input

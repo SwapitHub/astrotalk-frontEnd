@@ -140,7 +140,7 @@ const WalletEditAstro = ({
 
   return (
     <>
-      <div className="astrologer-registration-form update-profile wallet-edit-main">
+      <div className="astrologer-profile-edit-table wallet-edit-main">
         <span
           className="close"
           onClick={() => {
@@ -149,60 +149,64 @@ const WalletEditAstro = ({
         >
           X
         </span>
-        <form>
-          <div className="user-profile-pick-main">
-            <div className="user-profile-pick">
-              {astroUpdateDetail?.profileImage ? (
-                <Image
-                  width={100}
-                  height={100}
-                  src={`${process.env.NEXT_PUBLIC_WEBSITE_URL}${astroUpdateDetail?.profileImage}`}
-                  alt="user-icon"
-                />
-              ) : (
-                <img src="./user-icon-image.png" alt="Default profile" />
-              )}
+        <div className="profile-table">
+          <div className="inner-profile-table">
+            <div className="common-profile">
+              <div className="common-img">Upload Image</div>
+              <div className="input-outer">
+                {astroUpdateDetail?.profileImage ? (
+                  <Image
+                    width={100}
+                    height={100}
+                    src={`${process.env.NEXT_PUBLIC_WEBSITE_URL}${astroUpdateDetail?.profileImage}`}
+                    alt="user-icon"
+                  />
+                ) : (
+                  <img src="./user-icon-image.png" alt="Default profile" />
+                )}
+                <div className="add-profile-content">
+                  <div className="inner-form-filed-sec full">
+                    <input
+                      type="file"
+                      id="image"
+                      name="image"
+                      accept=".jpg, .jpeg, .png"
+                      className="common-input-filed"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="add-profile-content">
-              <div className="inner-form-filed-sec full">
-                <label htmlFor="image">Upload Image</label>
+
+            <div className="common-profile">
+              <div className="name">Name</div>
+              <div className="input-outer">
                 <input
-                  type="file"
-                  id="image"
-                  name="image"
-                  accept=".jpg, .jpeg, .png"
+                  type="text"
+                  id="fname"
                   className="common-input-filed"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
             </div>
-          </div>
 
-          <div className="form-filed-section-bg">
-            <div className="inner-form-filed-sec">
-              <label>Name</label>
-              <input
-                type="text"
-                id="fname"
-                className="common-input-filed"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+            <div className="common-profile">
+              <div className="Experience">Experience</div>
+              <div className="input-outer">
+                <input
+                  type="text"
+                  id="Experience"
+                  className="common-input-filed"
+                  value={experience}
+                  onChange={(e) => setExperience(e.target.value)}
+                />
+              </div>
             </div>
 
-            <div className="inner-form-filed-sec">
-              <label>Experience</label>
-              <input
-                type="text"
-                id="Experience"
-                className="common-input-filed"
-                value={experience}
-                onChange={(e) => setExperience(e.target.value)}
-              />
-            </div>
-
-            <div className="inner-form-filed-sec">
-              <label>Skills</label>
-              <div className="man-input-filed-sec">
+            <div className="common-profile">
+              <div className="Skills">Skills</div>
+              <div className="man-input-filed-sec input-outer">
                 {professionsList?.map((item) => (
                   <label key={item._id}>
                     <input
@@ -218,9 +222,9 @@ const WalletEditAstro = ({
               </div>
             </div>
 
-            <div className="inner-form-filed-sec">
-              <label>Languages</label>
-              <div className="man-input-filed-sec">
+            <div className="common-profile">
+              <div className="Languages">Languages</div>
+              <div className="man-input-filed-sec input-outer">
                 {languageListData?.map((lang) => (
                   <label key={lang._id}>
                     <input
@@ -236,20 +240,22 @@ const WalletEditAstro = ({
               </div>
             </div>
 
-            <div className="inner-form-filed-sec full">
-              <label>Charges</label>
-              <input
-                type="text"
-                id="Charges"
-                className="common-input-filed"
-                value={editCharges}
-                onChange={(e) => setEditCharges(e.target.value)}
-              />
+            <div className="common-profile">
+              <div className="Charges">Charges</div>
+              <div className="input-outer">
+                <input
+                  type="text"
+                  id="Charges"
+                  className="common-input-filed"
+                  value={editCharges}
+                  onChange={(e) => setEditCharges(e.target.value)}
+                />
+              </div>
             </div>
 
-            <div className="inner-form-filed-sec">
-              <label>Country</label>
-              <div className="input-gender-sec">
+            <div className="common-profile">
+              <div className="Country">Country</div>
+              <div className="man-input-filed-sec input-outer">
                 <label>
                   <input
                     type="radio"
@@ -258,7 +264,7 @@ const WalletEditAstro = ({
                     checked={editCountry === "India"}
                     onChange={(e) => setEditCountry(e.target.value)}
                   />
-                  India
+                  <label>India</label>
                 </label>
                 <label>
                   <input
@@ -268,59 +274,66 @@ const WalletEditAstro = ({
                     checked={editCountry === "Outside_India"}
                     onChange={(e) => setEditCountry(e.target.value)}
                   />
-                  Outside India
+                  <label>Outside India</label>
                 </label>
               </div>
             </div>
 
-            <div className="inner-form-filed-sec">
-              <label>Gender</label>
-              <div className="input-gender-sec">
+            <div className="common-profile">
+              <div className="gender">Gender</div>
+              <div className="man-input-filed-sec input-outer">
                 {["Male", "Female", "Other"].map((gender) => (
-                  <label key={gender}>
-                    <input
-                      type="radio"
-                      name="gender"
-                      value={gender}
-                      checked={editGender === gender}
-                      onChange={(e) => setEditGender(e.target.value)}
-                    />
-                    {gender}
-                  </label>
+                  <>
+                    <label key={gender}>
+                      <input
+                        type="radio"
+                        name="gender"
+                        value={gender}
+                        checked={editGender === gender}
+                        onChange={(e) => setEditGender(e.target.value)}
+                      />
+                      <label>{gender}</label>
+                    </label>
+                  </>
                 ))}
               </div>
             </div>
 
-            <div className="inner-form-filed-sec full">
-              <label>Mobile Number</label>
-              <input
-                type="text"
-                id="mobileNumber"
-                value={mobileNumber}
-                className="common-input-filed"
-                readOnly
-              />
+            <div className="common-profile">
+              <div className="mobile">Mobile Number</div>
+              <div className="input-outer">
+                <input
+                  type="text"
+                  id="mobileNumber"
+                  value={mobileNumber}
+                  className="common-input-filed"
+                  readOnly
+                />
+              </div>
             </div>
 
-            <div className="inner-form-filed-sec full">
-              <label>Description</label>
-              <textarea
-                id="description"
-                value={editDescription}
-                onChange={(e) => setEditDescription(e.target.value)}
-              ></textarea>
+            <div className="common-profile">
+              <div className="Description">Description</div>
+              <div className="input-outer">
+                <textarea
+                  className="common-input-filed"
+                  id="description"
+                  value={editDescription}
+                  onChange={(e) => setEditDescription(e.target.value)}
+                ></textarea>
+              </div>
+            </div>
+
+            <div className="reg-sumbit-button">
+              <button
+                type="button"
+                onClick={() => handleBusinessProfileUpdate(mobileNumber)}
+              >
+                Update Profile
+              </button>
             </div>
           </div>
-
-          <div className="reg-sumbit-button">
-            <button
-              type="button"
-              onClick={() => handleBusinessProfileUpdate(mobileNumber)}
-            >
-              Update Profile
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
     </>
   );

@@ -301,8 +301,8 @@ const GemStoneProductGemJewelry = () => {
                       <div className="details-outer">
                         <div className="product-img">
                           <Image
-                            width={100}
-                            height={100}
+                            width={233}
+                            height={233}
                             src={
                               item?.astroGemstoneJewelryImg
                                 ? process.env.NEXT_PUBLIC_WEBSITE_URL +

@@ -363,7 +363,6 @@ const PaymentWithdrawal = () => {
                     <td>
                      <span className="text-before-btn">{w.status}</span>
 
-
                       <button
                         className="delete-btn"
                         onClick={() => {

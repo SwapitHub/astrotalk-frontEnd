@@ -105,6 +105,7 @@ const AstrologerProfile = ({
       "mobileNumber",
       document.getElementById("mobileNumber").value
     );
+    formData.append("email", document.getElementById("email").value);
     formData.append("profileStatus", true);
     formData.append("chatStatus", false);
     formData.append("freeChatStatus", false);
@@ -247,7 +248,7 @@ const AstrologerProfile = ({
       "Description",
       document.getElementById("description").value
     );
-
+    formData.append("email", document.getElementById("email").value);
     // Helper to get selected checkbox values
     const getSelectedValues = (name) => {
       return Array.from(
@@ -371,20 +372,19 @@ const AstrologerProfile = ({
               <div className="user-profile-pick">
                 {" "}
                 <a href="#" title="">
-                  {astroUpdateDetail?.profileImage ? (
+                  {registrationDetail?.aadhaarCard ? (
                     <Image
                       width={100}
                       height={100}
                       src={
                         process.env.NEXT_PUBLIC_WEBSITE_URL +
-                        astroUpdateDetail?.aadhaarCard
+                        registrationDetail?.aadhaarCard
                       }
                       alt="user-icon"
                     />
                   ) : (
                     <img src="./user-icon-image.png"></img>
                   )}
-
                   <span>
                     <i className="fa-solid fa-ellipsis-vertical"></i>
                   </span>
@@ -444,13 +444,13 @@ const AstrologerProfile = ({
             <div className="user-profile-picture-sec-single">
               <div className="user-profile-pick">
                 <a href="#" title="">
-                  {astroUpdateDetail?.profileImage ? (
+                  {registrationDetail?.certificate ? (
                     <Image
                       width={100}
                       height={100}
                       src={
                         process.env.NEXT_PUBLIC_WEBSITE_URL +
-                        astroUpdateDetail?.certificate
+                        registrationDetail?.certificate
                       }
                       alt="user-icon"
                     />
@@ -693,7 +693,24 @@ const AstrologerProfile = ({
                 <p className="error">{errors.mobileNumber}</p>
               )}
             </div>
-
+            <div className="inner-form-filed-sec full">
+              <div className="label-content">
+                <label for="Name">
+                  Email <span>(ईमेल)</span>
+                </label>
+              </div>
+              <input
+                type="text"
+                placeholder="Enter email"
+                id="email"
+                name="quantity"
+                value={registrationDetail?.email}
+                className="common-input-filed"
+              />
+              {/* {errors.mobileNumber && (
+                <p className="error">{errors.mobileNumber}</p>
+              )} */}
+            </div>
             <div className="inner-form-filed-sec full">
               <div className="label-content">
                 <label for="Name">

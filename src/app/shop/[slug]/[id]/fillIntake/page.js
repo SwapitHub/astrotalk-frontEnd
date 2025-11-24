@@ -2,42 +2,50 @@ import React from 'react'
 import FillIntake from './FillIntake'
 
 
-export async function generateMetadata() {
+const fetchShopDetail = async (id) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-astro-product-detail/${id}`,
+      {
+        next: { revalidate: 60 }, // Cache for 60 seconds
+      }
+    );
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_WEBSITE_URL}/get-seo-meta-by-slug/fillIntake`,
-    {
-      next: { revalidate: 60 },
+    if (!response.ok) {
+      throw new Error("Failed to fetch astrologer data");
     }
-  );
 
-  if (!res.ok) {
-    return {
-      title: "Default Title",
-      description: "Default Description",
-    };
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching astrologer data:", error);
+    return null;
   }
+};
 
-  const data = await res.json();
-
+export async function generateMetadata({ params }) {
+  const { id } = params;
+  const astrShopDetailData = await fetchShopDetail(id);
+  if (!astrShopDetailData) return;
   return {
-    title: data?.data?.meta_title || "Default Title",
-    description: data?.data?.meta_description || "Default Description",
-    keywords: data?.data?.meta_keyword || data?.data?.meta_title,
+    title: astrShopDetailData?.data?.meta_title || "Default Title",
+    description:
+      astrShopDetailData?.data?.meta_description || "Default Description",
+    keywords:
+      astrShopDetailData?.data?.meta_keyword ||
+      astrShopDetailData?.data?.meta_title,
 
     openGraph: {
-      title: data?.data?.meta_title || "Default Title",
-      description: data?.data?.meta_description || "Default Description",
+      title: astrShopDetailData?.data?.meta_title || "Default Title",
+      description:
+        astrShopDetailData?.data?.meta_description || "Default Description",
       url: process.env.NEXT_PUBLIC_WEBSITE_URL,
-      siteName: data?.data?.meta_site_name || "Default Site Name",
+      siteName: astrShopDetailData?.data?.meta_site_name || "Default Site Name",
       images: [
         {
-          url:
-            data?.data?.logo ||
-            "/astrotalk-logo.webp",
+          url: astrShopDetailData?.data?.logo || "/astrotalk-logo.webp",
           width: 800,
           height: 600,
-          alt: data?.data?.logo_alt || "Default Image Alt",
+          alt: astrShopDetailData?.data?.logo_alt || "Default Image Alt",
         },
       ],
       locale: "en_US",
@@ -47,15 +55,12 @@ export async function generateMetadata() {
     // Optional: Twitter metadata
     twitter: {
       card: "summary_large_image",
-      title: data?.data?.meta_title || "Default Title",
-      description: data?.data?.meta_description || "Default Description",
-      images: [
-        data?.data?.logo ||
-          "/astrotalk-logo.webp",
-      ],
+      title: astrShopDetailData?.data?.meta_title || "Default Title",
+      description:
+        astrShopDetailData?.data?.meta_description || "Default Description",
+      images: [astrShopDetailData?.data?.logo || "/astrotalk-logo.webp"],
     },
   };
-  
 }
 
 const FillIntakeServer = () => {

@@ -15,6 +15,8 @@ export const validateAstrologerForm = (formType) => {
     const skills = document.getElementById("Skills")?.value;
     const deviceUse = document.getElementById("deviceUse")?.value;
     const email = document.getElementById("emails")?.value.trim();
+    const Password = document.getElementById("Password")?.value.trim();
+
     const gender = document.querySelector(
       'input[name="gender"]:checked'
     )?.value;
@@ -60,6 +62,9 @@ export const validateAstrologerForm = (formType) => {
 
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
       errors.email = "Valid email is required";
+    }
+    if (!Password || Password.length !== 6) {
+      errors.Password = "Valid 6-digit password is required";
     }
 
     if (!mobileNumber || mobileNumber.length !== 10) {

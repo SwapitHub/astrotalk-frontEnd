@@ -23,7 +23,14 @@ import AstrologerReview from "../astrologer/AstrologerReview";
 import Cookies from "js-cookie";
 import Image from "next/image";
 
-const socket = io(`${process.env.NEXT_PUBLIC_WEBSITE_URL}`, {
+
+// Initialize socket connection
+const apiURL = process.env.NEXT_PUBLIC_WEBSITE_URL || "";
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL || "";
+const isLocal = apiURL.includes("localhost");
+
+const socket = io(isLocal ? apiURL : baseURL, {
+  path: isLocal ? undefined : "/api/socket.io",
   withCredentials: true,
   reconnection: true,
   reconnectionAttempts: 5,
@@ -530,7 +537,7 @@ export const AstrologerDetail = ({ astrologerData }) => {
                 >
                   {galleryData[0]?.multipleImages?.map((item) => (
                     <div className="astro-img">
-                       {item?.img_url ? (
+                      {item?.img_url ? (
                         <Image
                           width={200}
                           height={250}

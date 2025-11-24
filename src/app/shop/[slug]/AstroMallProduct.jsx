@@ -13,6 +13,7 @@ const AstroMallProduct = ({ astrShopDetailData }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [decodedHtml, setDecodedHtml] = useState("");
+console.log(astrShopDetailData);
 
   useEffect(() => {
     const getAstroProductData = async () => {
@@ -103,7 +104,7 @@ const AstroMallProduct = ({ astrShopDetailData }) => {
                         <div className="details-outer">
                           <div className="product-img">
                             <Image
-                              width={262}
+                             width={262}
                               height={262}
                               src={
                                 process.env.NEXT_PUBLIC_WEBSITE_URL +
@@ -146,7 +147,7 @@ const AstroMallProduct = ({ astrShopDetailData }) => {
           </div>
         </div>
       </section>
-      {console.log(decodedHtml.length > 0)}
+
       {decodedHtml !== "<p>undefined</p>" &&
         decodedHtml !== "undefined" &&
         decodedHtml.trim().length > 0 && (
