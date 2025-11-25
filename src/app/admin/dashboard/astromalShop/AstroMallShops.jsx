@@ -13,6 +13,7 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiDeleteBin7Fill } from "react-icons/ri";
 import { toast } from "react-toastify";
 import AstromallShopView from "./AstromallShopView";
+import ShowLessShowMore from "@/app/component/ShowLessShowMore";
 
 const AstroMallShops = () => {
   let showNameData = "Shop";
@@ -27,8 +28,9 @@ const AstroMallShops = () => {
   const [astroToDelete, setAstroToDelete] = useState();
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(4);
+  const [limit, setLimit] = useState(5);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [viewProductData, setViewProductData] = useState();
@@ -54,6 +56,7 @@ const AstroMallShops = () => {
       const { data, pagination } = response.data;
       setShopListData(data);
       setTotalPages(pagination.totalPages);
+      setTotalCount(pagination.totalCount);
     } catch (err) {
       setError("Failed to fetch shop items");
     } finally {
@@ -84,7 +87,7 @@ const AstroMallShops = () => {
     const offer_title = document.getElementById("offer_title").value;
     const offer_name = document.getElementById("offer_name").value;
     const description = document.getElementById("description").value;
-      let meta_description = document.getElementById("meta_description").value;
+    let meta_description = document.getElementById("meta_description").value;
     let meta_title = document.getElementById("meta_title").value;
     let meta_keywords = document.getElementById("meta_keywords").value;
     const isDiscounted = document.getElementById("offer_checkbox").checked;
@@ -102,9 +105,16 @@ const AstroMallShops = () => {
         .replace(/-+/g, "-"); // remove duplicate hyphens
     }
 
-    if (!image || !offer_title || !offer_name || !name || !slug || !meta_description ||
+    if (
+      !image ||
+      !offer_title ||
+      !offer_name ||
+      !name ||
+      !slug ||
+      !meta_description ||
       !meta_title ||
-      !meta_keywords) {
+      !meta_keywords
+    ) {
       toast.error("please fill all field", {
         position: "top-right",
       });
@@ -149,7 +159,7 @@ const AstroMallShops = () => {
       document.getElementById("offer_title").value = "";
       document.getElementById("offer_name").value = "";
       document.getElementById("description").value = "";
-       document.getElementById("meta_description").value = "";
+      document.getElementById("meta_description").value = "";
       document.getElementById("meta_title").value = "";
       document.getElementById("meta_keywords").value = "";
       document.getElementById("offer_checkbox").checked = false;
@@ -178,8 +188,7 @@ const AstroMallShops = () => {
     setTimeout(() => {
       document.getElementById("name_shop").value = shop.name;
       document.getElementById("slug_shop").value = shop.slug;
-       document.getElementById("meta_description").value =
-        shop.meta_description;
+      document.getElementById("meta_description").value = shop.meta_description;
       document.getElementById("meta_title").value = shop.meta_title;
       document.getElementById("meta_keywords").value = shop.meta_keyword;
       document.getElementById("offer_title").value = shop.offer_title;
@@ -203,7 +212,7 @@ const AstroMallShops = () => {
     const offer_name = document.getElementById("offer_name").value;
     const description = document.getElementById("description").value;
     const isDiscounted = document.getElementById("offer_checkbox").checked;
-      const meta_description = document.getElementById("meta_description").value;
+    const meta_description = document.getElementById("meta_description").value;
     const meta_title = document.getElementById("meta_title").value;
     const meta_keywords = document.getElementById("meta_keywords").value;
     const Jewelry_product = document.getElementById(
@@ -246,7 +255,7 @@ const AstroMallShops = () => {
         document.getElementById("offer_title").value = "";
         document.getElementById("offer_name").value = "";
         document.getElementById("description").value = "";
-           document.getElementById("meta_description").value = "";
+        document.getElementById("meta_description").value = "";
         document.getElementById("meta_title").value = "";
         document.getElementById("meta_keywords").value = "";
         document.getElementById("offer_checkbox").checked = false;
@@ -296,7 +305,7 @@ const AstroMallShops = () => {
           showNameData={showNameData}
         />
       )}
-  {viewProductStatus && (
+      {viewProductStatus && (
         <AstromallShopView
           viewProductData={viewProductData}
           setViewProductStatus={setViewProductStatus}
@@ -388,7 +397,7 @@ const AstroMallShops = () => {
                 </label>
               </div>
 
-                <div className="form-field">
+              <div className="form-field">
                 <div className="label-content">
                   <label>Meta Title</label>
                 </div>
@@ -434,7 +443,7 @@ const AstroMallShops = () => {
           </div>
         )}
         <div className="language-list">
-          <h2>Show astro mall shop list</h2>
+          <h2>Show astro mall shop Total list - {totalCount}</h2>
           <div className="search-category-btn">
             <button
               onClick={() => {
@@ -463,16 +472,27 @@ const AstroMallShops = () => {
           {loading ? (
             <Loader />
           ) : (
-            <div className="astromall-listing">
-              {shopListData.map((item, index) => {
-                return (
-                  <>
-                    <div className="single-item" key={index}>
-                      <div className="sales-tag">
-                        <span>{item?.offer_title}</span>
-                      </div>
-                      <div className="details-outer">
-                        <div className="product-img">
+            <div className="outer-table">
+              <table
+                border="1"
+                cellPadding="8"
+                style={{ marginBottom: "20px" }}
+              >
+                <thead>
+                  <tr>
+                    <th>Offer Name</th>
+                    <th>Shop image</th>
+                    <th>Offer Title</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {shopListData?.length > 0 ? (
+                    shopListData.map((item) => (
+                      <tr key={item._id}>
+                        <td>{item.offer_name}</td>
+                        <td>
                           <Image
                             width={233}
                             height={233}
@@ -484,22 +504,26 @@ const AstroMallShops = () => {
                             }
                             alt="user-icon"
                           />
-                        </div>
-                        <div className="details-cont">
-                          <div className="product-name">{item?.offer_name}</div>
-                          <p>{item?.description}</p>
-                        </div>
-
-                        <div className="astro-mall-btn">
+                        </td>
+                        <td>{item?.offer_title}</td>
+                        <td>
+                          <ShowLessShowMore
+                            description={item.description}
+                            totalWord={10}
+                          />
+                        </td>
+                        <td>
                           <button
+                            className="delete-btn"
                             onClick={() => {
-                              setAstroToDelete(item._id);
-                              setShowDelete(true);
+                              setViewProductData(item);
+                              setViewProductStatus(true);
                             }}
                           >
-                            <RiDeleteBin7Fill />
+                            <MdOutlineRemoveRedEye />
                           </button>
                           <button
+                            className="delete-btn"
                             onClick={() => {
                               handleEditShop(item);
                             }}
@@ -507,19 +531,26 @@ const AstroMallShops = () => {
                             <FaEdit />
                           </button>
                           <button
-                                                      onClick={() => {
-                                                        setViewProductData(item);
-                                                        setViewProductStatus(true);
-                                                      }}
-                                                    >
-                                                      <MdOutlineRemoveRedEye />
-                                                    </button>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                );
-              })}
+                            className="delete-btn"
+                            onClick={() => {
+                              setAstroToDelete(item._id);
+                              setShowDelete(true);
+                            }}
+                          >
+                            <RiDeleteBin7Fill />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5" style={{ textAlign: "center" }}>
+                        No data found
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           )}
           <div className="pagination">

@@ -68,6 +68,10 @@ const AstromalProductView = ({ viewProductData, setViewProductStatus }) => {
             <div className="input-outer">{viewProductData?.offer_name}</div>
           </div>
           <div className="common-profile">
+            <div className="deviceUse">Product Type</div>
+            <div className="input-outer">{viewProductData?.shop_product_type}</div>
+          </div>
+          <div className="common-profile">
             <div className="deviceUse">Description</div>
             <div className="input-outer">{viewProductData?.description}</div>
           </div>

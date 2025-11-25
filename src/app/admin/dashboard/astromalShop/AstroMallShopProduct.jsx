@@ -41,6 +41,7 @@ const AstroMallShopProduct = () => {
   const [actualPrice, setActualPrice] = useState("");
   const [discountPrice, setDiscountPrice] = useState("");
   const [startingPrice, setStartingPrice] = useState("");
+  const [totalCount, setTotalCount] = useState();
 
   const debouncedSearch = useDebounce(search, 1000);
 
@@ -82,6 +83,7 @@ const AstroMallShopProduct = () => {
       const { data, pagination } = response.data;
       setProductListData(data);
       setTotalPages(pagination.totalPages);
+      setTotalCount(pagination.totalCount);
     } catch (err) {
       setError("Failed to fetch product items.");
     } finally {
@@ -787,7 +789,7 @@ const AstroMallShopProduct = () => {
           </div>
         )}
         <div className="language-list">
-          <h2>Show astro mall product list</h2>
+          <h2>Show astro mall product Total list - {totalCount}</h2>
           <div className="search-category-btn">
             <button
               onClick={() => {
@@ -818,16 +820,28 @@ const AstroMallShopProduct = () => {
           {loading ? (
             <Loader />
           ) : (
-            <div className="astromall-listing">
-              {productListData.map((item, index) => {
-                return (
-                  <>
-                    <div className="single-item" key={index}>
-                      <div className="sales-tag">
-                        <span>Book Now</span>
-                      </div>
-                      <div className="details-outer">
-                        <div className="product-img">
+            <div className="outer-table">
+              <table
+                border="1"
+                cellPadding="8"
+                style={{ marginBottom: "20px" }}
+              >
+                <thead>
+                  <tr>
+                    <th>Product Name</th>
+                    <th>Product image</th>
+                    <th>Product Quantity</th>
+                    <th>Product Type</th>
+                    <th>Product Price</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {productListData?.length > 0 ? (
+                    productListData.map((item) => (
+                      <tr key={item._id}>
+                        <td>{item.name}</td>
+                        <td>
                           <Image
                             width={233}
                             height={233}
@@ -839,12 +853,11 @@ const AstroMallShopProduct = () => {
                             }
                             alt="user-icon"
                           />
-                        </div>
-                        {item?.discount_price ? (
-                          <div className="details-cont">
-                            <div className="product-name">
-                              {item?.offer_name}
-                            </div>
+                        </td>
+                        <td>{item.quantity}</td>
+                        <td>{item.shop_product_type}</td>
+                        <td>
+                          {item?.discount_price ? (
                             <p>
                               {" "}
                               ₹ {item?.discount_price}{" "}
@@ -852,33 +865,14 @@ const AstroMallShopProduct = () => {
                                 ₹ {item?.actual_price}
                               </span>
                             </p>
-                          </div>
-                        ) : (
-                          <div className="details-cont">
-                            <div className="product-name">
-                              {item?.offer_name}
-                            </div>
-                            <p>Starting from ₹ {item?.starting_price}</p>
-                          </div>
-                        )}
+                          ) : (
+                            <p>₹ {item?.starting_price}</p>
+                          )}
+                        </td>
 
-                        <div className="astro-mall-btn">
+                        <td>
                           <button
-                            onClick={() => {
-                              setAstroToDelete(item._id);
-                              setShowDelete(true);
-                            }}
-                          >
-                            <RiDeleteBin7Fill />
-                          </button>
-                          <button
-                            onClick={() => {
-                              handleEditProduct(item);
-                            }}
-                          >
-                            <FaEdit />
-                          </button>
-                          <button
+                            className="delete-btn"
                             onClick={() => {
                               setViewProductData(item);
                               setViewProductStatus(true);
@@ -886,12 +880,35 @@ const AstroMallShopProduct = () => {
                           >
                             <MdOutlineRemoveRedEye />
                           </button>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                );
-              })}
+                          <button
+                            className="delete-btn"
+                            onClick={() => {
+                              handleEditProduct(item);
+                            }}
+                          >
+                            <FaEdit />
+                          </button>
+                          <button
+                            className="delete-btn"
+                            onClick={() => {
+                              setAstroToDelete(item._id);
+                              setShowDelete(true);
+                            }}
+                          >
+                            <RiDeleteBin7Fill />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5" style={{ textAlign: "center" }}>
+                        No data found
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           )}
           <div className="pagination">

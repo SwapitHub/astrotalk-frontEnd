@@ -293,13 +293,27 @@ const GemStoneProductGemJewelry = () => {
           {loading ? (
             <Loader />
           ) : (
-            <div className="astromall-listing">
-              {productListData.map((item, index) => {
-                return (
-                  <>
-                    <div className="single-item" key={index}>
-                      <div className="details-outer">
-                        <div className="product-img">
+            <div className="outer-table">
+              <table
+                border="1"
+                cellPadding="8"
+                style={{ marginBottom: "20px" }}
+              >
+                <thead>
+                  <tr>
+                    <th>Jewelry Name</th>
+                    <th>Jewelry image</th>
+                    <th>Jewelry Price</th>
+                    <th>Jewelry ProductType</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {productListData?.length > 0 ? (
+                    productListData.map((item) => (
+                      <tr key={item._id}>
+                        <td>{item.name}</td>
+                        <td>
                           <Image
                             width={233}
                             height={233}
@@ -311,15 +325,20 @@ const GemStoneProductGemJewelry = () => {
                             }
                             alt="user-icon"
                           />
-                        </div>
-
-                        <div className="details-cont">
-                          <div className="product-name">{item?.name}</div>
-                          <p>Starting from ₹ {item?.actual_price}</p>
-                        </div>
-
-                        <div className="astro-mall-btn">
+                        </td>
+                        <td>{item?.actual_price}</td>
+                        <td>{item?.productType}</td>
+                        <td>
                           <button
+                            className="delete-btn"
+                            onClick={() => {
+                              handleEditProduct(item);
+                            }}
+                          >
+                            <FaEdit />
+                          </button>
+                          <button
+                            className="delete-btn"
                             onClick={() => {
                               setAstroToDelete(item._id);
                               setShowDelete(true);
@@ -327,19 +346,18 @@ const GemStoneProductGemJewelry = () => {
                           >
                             <RiDeleteBin7Fill />
                           </button>
-                          <button
-                            onClick={() => {
-                              handleEditProduct(item);
-                            }}
-                          >
-                            <FaEdit />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                );
-              })}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5" style={{ textAlign: "center" }}>
+                        No data found
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           )}
         </div>
