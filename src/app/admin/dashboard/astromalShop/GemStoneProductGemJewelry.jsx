@@ -326,7 +326,7 @@ const GemStoneProductGemJewelry = () => {
                             alt="user-icon"
                           />
                         </td>
-                        <td>{item?.actual_price}</td>
+                        <td>₹  {item?.actual_price}</td>
                         <td>{item?.productType}</td>
                         <td>
                           <button

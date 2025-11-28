@@ -97,6 +97,9 @@ const Header = () => {
     if (!astrologerPhone) {
       setOtpPopUpDisplayAstro(true);
     }
+    else{
+      router.push("/astrologer")
+    }
   };
 
   const userLogout = () => {
